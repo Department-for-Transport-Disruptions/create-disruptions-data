@@ -1,9 +1,17 @@
 
 enum SourceType {
+    directReport,
+    email,
+    phone,
+    ax,
+    post,
     feed,
     radio,
     tv,
     web,
+    pager,
+    text,
+    other,
 }
 
 enum Progress {
@@ -68,22 +76,26 @@ export type Repetitions = {
     DayType: DayType;
 }
 
+export type Reference = {
+    RelatedToRef: string[];
+};
+
 export type PtSituationElement = {
     CreationTime: Date;
     ParticipantRef: string;
     SituationNumber: string;
-    Version: Number;
+    Version?: Number;
     Source: Source;
     Progress: Progress;
     ValidityPeriod: Period[];
     PublicationWindow: Period;
-    MiscellaneousReason: string;
+    MiscellaneousReason?: Reason;
     Planned: boolean;
-    Reason: Reason;
     Summary: string;
-    InfoLink: InfoLink[];
-    Consequences: Consequences[]
-    Repetitions?: Repetitions[]
+    InfoLink?: InfoLink[];
+    Consequences: Consequences[];
+    Repetitions?: Repetitions[];
+    References?: Reference;
 };
 
 export type SituationExchangeDelivery = {
