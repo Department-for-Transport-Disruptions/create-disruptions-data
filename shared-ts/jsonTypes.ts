@@ -230,7 +230,11 @@ export type Repetitions = {
     DayType: DayType[];
 }
 
-export type PtSituationElement = {
+export type InfoLinks = {
+    InfoLink: InfoLink[];
+  }
+
+export type BasePtSituationElement = {
     CreationTime: Date;
     ParticipantRef: string;
     SituationNumber: string;
@@ -241,12 +245,29 @@ export type PtSituationElement = {
     ValidityPeriod: Period[];
     Repetitions?: Repetitions;
     PublicationWindow: Period;
-    ReasonType?: MiscellaneousReason | PersonnelReason | EquipmentReason | EnvironmentReason;
     Planned: boolean;
     Summary: string;
     Description: string;
-    InfoLinks?: InfoLink[];
+    InfoLinks?: InfoLinks;
 };
+
+export type MiscReasonPtSituationElement = BasePtSituationElement & {
+  MiscellaneousReason: MiscellaneousReason;
+};
+
+export type PersonnelReasonPtSituationElement = BasePtSituationElement & {
+  PersonnelReason: PersonnelReason;
+};
+
+export type EquipmentReasonPtSituationElement = BasePtSituationElement & {
+  EquipmentReason: EquipmentReason;
+};
+
+export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
+  EnvironmentReason: EnvironmentReason;
+};
+
+export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
 
 export type SituationExchangeDelivery = {
     ResponseTimestamp: Date;
