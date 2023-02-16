@@ -24,24 +24,177 @@ enum Progress {
     rejected
 }
 
-enum Reason {
-    Accident,
-    SecurityAlert,
-    Congestion,
-    RoadWorks,
-    RoadClosed,
-    BombExplosion,
-    Incident,
-    RouteDiversion,
-    StaffAbsence,
-    SignalProblem,
-    MaintenanceWork,
-    ConstructionWork,
-    Fog,
-    Ice,
-    HeavyRain,
-    WaterLogged,
-    Unknown
+enum MiscellaneousReason {
+    accident,
+    securityAlert,
+    congestion,
+    roadWorks,
+    roadClosed,
+    bombExplosion,
+    incident,
+    routeDiversion,
+    staffAbsence,
+    signalProblem,
+    maintenanceWork,
+    constructionWork,
+    fog,
+    ice,
+    heavyRain,
+    waterLogged,
+    unknown,
+    nearMiss,
+    safetyViolation,
+    signalPassedAtDanger,
+    stationOverrun,
+    trainDoor,
+    emergencyServicesCall,
+    policeRequest,
+    fireBrigadeSafetyChecks,
+    unattendedBag,
+    telephonedThreat,
+    suspectVehicle,
+    civilEmergency,
+    airRaid,
+    sabotage,
+    bombAlert,
+    attach,
+    evacuation,
+    terroristIncident,
+    gunfireOnRoadway,
+    explosion,
+    explosionHazard,
+    securityIncident,
+    fire,
+    linesideFire,
+    vandalism,
+    passengerAction,
+    staffAssault,
+    railwayCrime,
+    fatality,
+    personUnderTrain,
+    personHitByTrain,
+    personIllOnVehicle,
+    emergencyServices,
+    collision,
+    overcrowded,
+    insufficientDemand,
+    lightingFailure,
+    leaderBoardFailure,
+    serviceIndicatorFailure,
+    serviceFailure,
+    operatorCeasedTrading,
+    operatorSuspended,
+    routeBlockage,
+    personOnTheLine,
+    vehicleOnTheLine,
+    levelCrossingIncident,
+    objectOnTheLine,
+    fallenTreeOnTheLine,
+    vegetation,
+    trainStruckAnimal,
+    trainStruckObject,
+    animalOnTheLine,
+    roadworks,
+    specialEvent,
+    march,
+    procession,
+    demonstration,
+    publicDisturbance,
+    filterBlockade,
+    sightseersObstructingAccess,
+    bridgeStrike,
+    overheadObstruction,
+    undefinedProblem,
+    problemsAtBorderPost,
+    problemsAtCustomsPost,
+    problemsOnLocalRoad
+}
+
+enum PersonnelReason {
+    unknown,
+    staffSickness,
+    staffInjury,
+    contractorStaffInjury,
+    staffAbsence,
+    staffInWrongPlace,
+    staffShortage,
+    industrialAction,
+    unofficialIndustrialAction,
+    workToRule,
+    undefinedPersonnelProblem
+}
+
+enum EquipmentReason {
+    unknown,
+    pointsProblem,
+    pointsFailure,
+    signalProblem,
+    trainWarningSystemProblem,
+    trackCircuitProblem,
+    signalFailure,
+    derailment,
+    engineFailure,
+    tractionFailure,
+    breakDown,
+    technicalProblem,
+    brokenRail,
+    poorRailConditions,
+    wheelImpactLoad,
+    lackOfOperationalStock,
+    defectiveFireAlarmEquipment,
+    defectivePlatformEdgeDoors,
+    defectiveCctv,
+    defectivePublicAnnouncementSystem,
+    ticketingSystemNotAvailable,
+    repairWork,
+    constructionWork,
+    maintenanceWork,
+    emergencyEngineeringWork,
+    lateFinishToEngineeringWork,
+    powerProblem,
+    fuelProblem,
+    swingBridgeFailure,
+    escalatorFailure,
+    liftFailure,
+    gangwayProblem,
+    closedForMaintenance,
+    fuelShortage,
+    deicingWork,
+    wheelProblem,
+    luggageCarouselProblem,
+    undefinedEquipmentProblem
+}
+
+enum EnvironmentReason {
+    unknown,
+    fog,
+    roughSea,
+    heavySnowFall,
+    driftingSnow,
+    blizzardConditions,
+    heavyRain,
+    strongWinds,
+    stormConditions,
+    stormDamage,
+    tidalRestrictions,
+    highTide,
+    lowTide,
+    ice,
+    frozen,
+    hail,
+    sleet,
+    highTemperatures,
+    flooding,
+    waterlogged,
+    lowWaterLevel,
+    highWaterLevel,
+    fallenLeaves,
+    fallenTree,
+    landslide,
+    undefinedEnvironmentalProblem,
+    lightningStrike,
+    sewerOverflow,
+    grassFire
 }
 
 enum DayType {
@@ -68,13 +221,6 @@ export type InfoLink = {
     Uri: string;
 }
 
-export type Consequences = {
-    Condition: string;
-}
-
-export type Repetitions = {
-    DayType: DayType;
-}
 
 export type Reference = {
     RelatedToRef: string[];
@@ -85,17 +231,17 @@ export type PtSituationElement = {
     ParticipantRef: string;
     SituationNumber: string;
     Version?: Number;
+    References?: Reference;
     Source: Source;
     Progress: Progress;
     ValidityPeriod: Period[];
+    Repetitions?: DayType[];
     PublicationWindow: Period;
-    MiscellaneousReason?: Reason;
+    ReasonType?: MiscellaneousReason | PersonnelReason | EquipmentReason | EnvironmentReason;
     Planned: boolean;
     Summary: string;
-    InfoLink?: InfoLink[];
-    Consequences: Consequences[];
-    Repetitions?: Repetitions[];
-    References?: Reference;
+    Description: string;
+    InfoLinks?: InfoLink[];
 };
 
 export type SituationExchangeDelivery = {
