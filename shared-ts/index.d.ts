@@ -1,5 +1,4 @@
-
-enum SourceType {
+export enum SourceType {
     directReport,
     email,
     phone,
@@ -14,17 +13,17 @@ enum SourceType {
     other,
 }
 
-enum Progress {
-    draft, 
-    pendingApproval, 
-    approvedDraft, 
-    open, 
-    closing, 
-    closed, 
-    rejected
+export enum Progress {
+    draft,
+    pendingApproval,
+    approvedDraft,
+    open,
+    closing,
+    closed,
+    rejected,
 }
 
-enum MiscellaneousReason {
+export enum MiscellaneousReason {
     accident,
     securityAlert,
     congestion,
@@ -107,10 +106,10 @@ enum MiscellaneousReason {
     undefinedProblem,
     problemsAtBorderPost,
     problemsAtCustomsPost,
-    problemsOnLocalRoad
+    problemsOnLocalRoad,
 }
 
-enum PersonnelReason {
+export enum PersonnelReason {
     unknown,
     staffSickness,
     staffInjury,
@@ -121,10 +120,10 @@ enum PersonnelReason {
     industrialAction,
     unofficialIndustrialAction,
     workToRule,
-    undefinedPersonnelProblem
+    undefinedPersonnelProblem,
 }
 
-enum EquipmentReason {
+export enum EquipmentReason {
     unknown,
     pointsProblem,
     pointsFailure,
@@ -162,10 +161,10 @@ enum EquipmentReason {
     deicingWork,
     wheelProblem,
     luggageCarouselProblem,
-    undefinedEquipmentProblem
+    undefinedEquipmentProblem,
 }
 
-enum EnvironmentReason {
+export enum EnvironmentReason {
     unknown,
     fog,
     roughSea,
@@ -194,17 +193,17 @@ enum EnvironmentReason {
     undefinedEnvironmentalProblem,
     lightningStrike,
     sewerOverflow,
-    grassFire
+    grassFire,
 }
 
-enum DayType {
+export enum DayType {
     monday,
     tuesday,
     wednesday,
     thursday,
     friday,
     saturday,
-    sunday
+    sunday,
 }
 
 export type Source = {
@@ -219,8 +218,7 @@ export type Period = {
 
 export type InfoLink = {
     Uri: string;
-}
-
+};
 
 export type Reference = {
     RelatedToRef: string[];
@@ -228,17 +226,17 @@ export type Reference = {
 
 export type Repetitions = {
     DayType: DayType[];
-}
+};
 
 export type InfoLinks = {
     InfoLink: InfoLink[];
-  }
+};
 
 export type BasePtSituationElement = {
     CreationTime: Date;
     ParticipantRef: string;
     SituationNumber: string;
-    Version?: Number;
+    Version?: number;
     References?: Reference;
     Source: Source;
     Progress: Progress;
@@ -252,33 +250,37 @@ export type BasePtSituationElement = {
 };
 
 export type MiscReasonPtSituationElement = BasePtSituationElement & {
-  MiscellaneousReason: MiscellaneousReason;
+    MiscellaneousReason: MiscellaneousReason;
 };
 
 export type PersonnelReasonPtSituationElement = BasePtSituationElement & {
-  PersonnelReason: PersonnelReason;
+    PersonnelReason: PersonnelReason;
 };
 
 export type EquipmentReasonPtSituationElement = BasePtSituationElement & {
-  EquipmentReason: EquipmentReason;
+    EquipmentReason: EquipmentReason;
 };
 
 export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
-  EnvironmentReason: EnvironmentReason;
+    EnvironmentReason: EnvironmentReason;
 };
 
-export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
+export type PtSituationElement =
+    | MiscReasonPtSituationElement
+    | PersonnelReasonPtSituationElement
+    | EquipmentReasonPtSituationElement
+    | EnvironmentReasonPtSituationElement;
 
 export type SituationExchangeDelivery = {
     ResponseTimestamp: Date;
     Status?: boolean;
     ShortestPossibleCycle?: string;
     Situations: PtSituationElement[];
-}
+};
 
 export type ServiceDelivery = {
     ResponseTimestamp: Date;
     ProducerRef: string;
     ResponseMessageIdentifier: string;
     SituationExchangeDelivery: SituationExchangeDelivery;
-}
+};

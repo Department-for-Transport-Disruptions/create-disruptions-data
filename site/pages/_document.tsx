@@ -1,8 +1,8 @@
-import Header from "components/layout/Header";
-import crypto from "node:crypto";
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from "next/document";
 import { ReactElement } from "react";
 import { v4 } from "uuid";
+import crypto from "node:crypto";
+import Header from "../components/layout/Header";
 
 const generateCsp = (): { csp: string; nonce: string } => {
     const production = process.env.NODE_ENV === "production";

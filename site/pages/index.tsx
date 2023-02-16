@@ -1,5 +1,5 @@
-import Footer from "components/layout/Footer";
 import Head from "next/head";
+import Footer from "../components/layout/Footer";
 
 const Home = () => {
     return (

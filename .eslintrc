@@ -5,11 +5,13 @@
         "jest": true
     },
     "extends": [
-        "next/core-web-vitals",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "eslint-config-prettier"
+        "eslint-config-prettier",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -26,11 +28,49 @@
         "project": "./tsconfig.json"
     },
     "plugins": ["@typescript-eslint", "jest"],
+    "settings": {
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true
+            }
+        }
+    },
     "rules": {
+        "@typescript-eslint/triple-slash-reference": 0,
         "jest/no-disabled-tests": "error",
         "jest/no-identical-title": "error",
         "jest/valid-expect": "error",
         "no-console": "error",
+        "import/order": [
+            1,
+            {
+                "groups": ["external", "builtin", "internal", "sibling", "parent", "index"],
+                "pathGroups": [
+                    {
+                        "pattern": "components",
+                        "group": "internal"
+                    },
+                    {
+                        "pattern": "common",
+                        "group": "internal"
+                    },
+                    {
+                        "pattern": "routes/**",
+                        "group": "internal"
+                    },
+                    {
+                        "pattern": "assets/**",
+                        "group": "internal",
+                        "position": "after"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": ["internal"],
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ],
         "indent": [
             0,
             4,

@@ -5,6 +5,7 @@ module.exports = {
         jest: true,
     },
     extends: [
+        "next",
         "next/core-web-vitals",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
@@ -13,6 +14,9 @@ module.exports = {
         "plugin:jsx-a11y/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "eslint-config-prettier",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
     ],
     globals: {
         Atomics: "readonly",
@@ -60,6 +64,9 @@ module.exports = {
     settings: {
         react: {
             version: "detect",
+        },
+        next: {
+            rootDir: "site",
         },
     },
 };
