@@ -226,6 +226,10 @@ export type Reference = {
     RelatedToRef: string[];
 };
 
+export type Repetitions = {
+    DayType: DayType[];
+}
+
 export type PtSituationElement = {
     CreationTime: Date;
     ParticipantRef: string;
@@ -235,7 +239,7 @@ export type PtSituationElement = {
     Source: Source;
     Progress: Progress;
     ValidityPeriod: Period[];
-    Repetitions?: DayType[];
+    Repetitions?: Repetitions;
     PublicationWindow: Period;
     ReasonType?: MiscellaneousReason | PersonnelReason | EquipmentReason | EnvironmentReason;
     Planned: boolean;
