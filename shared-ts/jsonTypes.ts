@@ -1,5 +1,5 @@
 
-enum SourceType {
+export enum SourceType {
     directReport,
     email,
     phone,
@@ -14,7 +14,7 @@ enum SourceType {
     other,
 }
 
-enum Progress {
+export enum Progress {
     draft, 
     pendingApproval, 
     approvedDraft, 
@@ -24,7 +24,7 @@ enum Progress {
     rejected
 }
 
-enum MiscellaneousReason {
+export enum MiscellaneousReason {
     accident,
     securityAlert,
     congestion,
@@ -110,7 +110,7 @@ enum MiscellaneousReason {
     problemsOnLocalRoad
 }
 
-enum PersonnelReason {
+export enum PersonnelReason {
     unknown,
     staffSickness,
     staffInjury,
@@ -124,7 +124,7 @@ enum PersonnelReason {
     undefinedPersonnelProblem
 }
 
-enum EquipmentReason {
+export enum EquipmentReason {
     unknown,
     pointsProblem,
     pointsFailure,
@@ -165,7 +165,7 @@ enum EquipmentReason {
     undefinedEquipmentProblem
 }
 
-enum EnvironmentReason {
+export enum EnvironmentReason {
     unknown,
     fog,
     roughSea,
@@ -197,7 +197,7 @@ enum EnvironmentReason {
     grassFire
 }
 
-enum DayType {
+export enum DayType {
     monday,
     tuesday,
     wednesday,
@@ -213,8 +213,8 @@ export type Source = {
 };
 
 export type Period = {
-    StartTime: Date;
-    EndTime?: Date;
+    StartTime: string;
+    EndTime?: string;
 };
 
 export type InfoLink = {
@@ -235,7 +235,7 @@ export type InfoLinks = {
   }
 
 export type BasePtSituationElement = {
-    CreationTime: Date;
+    CreationTime: string;
     ParticipantRef: string;
     SituationNumber: string;
     Version?: Number;
@@ -270,14 +270,14 @@ export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
 export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
 
 export type SituationExchangeDelivery = {
-    ResponseTimestamp: Date;
+    ResponseTimestamp: string;
     Status?: boolean;
     ShortestPossibleCycle?: string;
     Situations: PtSituationElement[];
 }
 
 export type ServiceDelivery = {
-    ResponseTimestamp: Date;
+    ResponseTimestamp: string;
     ProducerRef: string;
     ResponseMessageIdentifier: string;
     SituationExchangeDelivery: SituationExchangeDelivery;
