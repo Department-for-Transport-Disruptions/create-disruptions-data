@@ -5,13 +5,17 @@ import { StackContext, use, Function } from "sst/constructs";
 import { SiteStack } from "./Site";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
-    const { disruptionsJsonBucket } = use(SiteStack);
+    const { disruptionsJsonBucket,siriSXBucket } = use(SiteStack);
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         permissions: [
             new PolicyStatement({
                 actions: ["s3:GetObject"],
                 resources: [`${disruptionsJsonBucket.bucketArn}/*`],
             }),
+            new PolicyStatement({
+                actions: ["s3:PutObject"],
+                resources: [`${siriSXBucket.bucketArn}/*`],
+            })
         ],
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,
