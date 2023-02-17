@@ -1,4 +1,3 @@
-
 export enum SourceType {
     directReport,
     email,

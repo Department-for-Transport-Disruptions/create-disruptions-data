@@ -11,7 +11,6 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         name: `cdd-siri-sx-${stack.stage}`,
     });
 
-
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         environment: {
             SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
@@ -24,7 +23,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
             new PolicyStatement({
                 actions: ["s3:PutObject"],
                 resources: [`${siriSXBucket.bucketArn}/*`],
-            })
+            }),
         ],
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,
