@@ -238,9 +238,6 @@ export type InfoLinks = {
 }
 
 export type BasePtSituationElement = {
-    //CreationTime: Pick<SituationElementRef,"CreationTime">;
-    //ParticipantRef: Pick<SituationElementRef,"ParticipantRef">;
-    //SituationNumber: Pick<SituationElementRef,"SituationNumber">;
     CreationTime: SituationElementRef['CreationTime'];
     ParticipantRef: SituationElementRef['ParticipantRef'];
     SituationNumber: SituationElementRef['SituationNumber'];
