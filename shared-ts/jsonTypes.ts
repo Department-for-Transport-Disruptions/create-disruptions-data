@@ -14,12 +14,12 @@ export enum SourceType {
 }
 
 export enum Progress {
-    draft, 
-    pendingApproval, 
-    approvedDraft, 
-    open, 
-    closing, 
-    closed, 
+    draft,
+    pendingApproval,
+    approvedDraft,
+    open,
+    closing,
+    closed,
     rejected
 }
 
@@ -255,19 +255,19 @@ export type BasePtSituationElement = {
 };
 
 export type MiscReasonPtSituationElement = BasePtSituationElement & {
-  MiscellaneousReason: MiscellaneousReason;
+    MiscellaneousReason: MiscellaneousReason;
 };
 
 export type PersonnelReasonPtSituationElement = BasePtSituationElement & {
-  PersonnelReason: PersonnelReason;
+    PersonnelReason: PersonnelReason;
 };
 
 export type EquipmentReasonPtSituationElement = BasePtSituationElement & {
-  EquipmentReason: EquipmentReason;
+    EquipmentReason: EquipmentReason;
 };
 
 export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
-  EnvironmentReason: EnvironmentReason;
+    EnvironmentReason: EnvironmentReason;
 };
 
 export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
