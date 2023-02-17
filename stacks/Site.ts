@@ -5,15 +5,10 @@ export function SiteStack({ stack }: StackContext) {
         name: `cdd-disruptions-json-${stack.stage}`,
     });
 
-    const siriSXBucket = new Bucket(stack, "SiriSXBucket", {
-        name: `cdd-siri-sx-${stack.stage}`,
-    });
-
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         environment: {
             DISRUPTIONS_JSON_BUCKET_ARN: disruptionsJsonBucket.bucketArn,
-            SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
         },
     });
 
@@ -23,7 +18,6 @@ export function SiteStack({ stack }: StackContext) {
 
     return {
         disruptionsJsonBucket,
-        siriSXBucket,
     };
 }
 

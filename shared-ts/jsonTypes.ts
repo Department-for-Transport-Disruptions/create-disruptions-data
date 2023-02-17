@@ -221,9 +221,13 @@ export type InfoLink = {
     Uri: string;
 }
 
-
+export type SituationElementRef = {
+    CreationTime: string;
+    ParticipantRef: string;
+    SituationNumber: string;
+}
 export type Reference = {
-    RelatedToRef: string[];
+    RelatedToRef: SituationElementRef[];
 };
 
 export type Repetitions = {
@@ -232,12 +236,15 @@ export type Repetitions = {
 
 export type InfoLinks = {
     InfoLink: InfoLink[];
-  }
+}
 
 export type BasePtSituationElement = {
-    CreationTime: string;
-    ParticipantRef: string;
-    SituationNumber: string;
+    //CreationTime: Pick<SituationElementRef,"CreationTime">;
+    //ParticipantRef: Pick<SituationElementRef,"ParticipantRef">;
+    //SituationNumber: Pick<SituationElementRef,"SituationNumber">;
+    CreationTime: SituationElementRef['CreationTime'];
+    ParticipantRef: SituationElementRef['ParticipantRef'];
+    SituationNumber: SituationElementRef['SituationNumber'];
     Version?: Number;
     References?: Reference;
     Source: Source;
@@ -269,11 +276,15 @@ export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
 
 export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
 
+export type Situations = {
+    PtSituationElement: PtSituationElement[];
+}
+
 export type SituationExchangeDelivery = {
     ResponseTimestamp: string;
     Status?: boolean;
     ShortestPossibleCycle?: string;
-    Situations: PtSituationElement[];
+    Situations: Situations;
 }
 
 export type ServiceDelivery = {
