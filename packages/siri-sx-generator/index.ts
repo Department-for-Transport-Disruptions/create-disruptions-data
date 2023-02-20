@@ -1,26 +1,9 @@
-import { GetObjectCommand, S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { S3Event } from "aws-lambda";
 import { toXML } from "jstoxml";
+import { getS3Client, uploadToS3 } from "util/s3Client";
 
-const s3Client = new S3Client({ region: "eu-west-2" });
-
-const uploadToS3 = async (data: string, filename: string) => {
-    const s3Client = new S3Client({ region: "eu-west-2" });
-
-    // Unique bucket name
-    const bucketName = process.env. SIRI_SX_BUCKET_ARN?.replace("arn:aws:s3:::", "") || "";
-    // Name for uploaded object
-    const keyName = filename;
-
-    const putCommand: PutObjectCommand = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: keyName,
-        Body: data,
-    });
-
-    await s3Client.send(putCommand);
-    console.log("Successfully uploaded data to " + bucketName + "/" + keyName);
-};
+const s3Client = getS3Client();
 
 export const main = async (event: S3Event): Promise<void> => {
     const bucketName = event.Records[0].s3.bucket.name || "";
@@ -43,5 +26,5 @@ export const main = async (event: S3Event): Promise<void> => {
         throw Error("Could not generate XML");
     }
 
-    await uploadToS3(xmlData, "siri-generated-xml.xml")
+    await uploadToS3(xmlData, "siri-generated-xml.xml", process.env.SIRI_SX_BUCKET_NAME)
 };

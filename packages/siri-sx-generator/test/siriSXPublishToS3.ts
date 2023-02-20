@@ -1,4 +1,5 @@
 import { SituationExchangeDelivery, SourceType, Progress, MiscellaneousReason } from "../../../shared-ts/jsonTypes";
+import { uploadToS3 } from "../util/s3Client";
 
 export const jsonData: SituationExchangeDelivery = {
     ResponseTimestamp: "2021-05-11T08:51:07.016Z",
@@ -39,3 +40,5 @@ export const jsonData: SituationExchangeDelivery = {
     },
 };
 
+// eslint-disable-next-line no-console, prettier/prettier
+uploadToS3(JSON.stringify(jsonData), "s3-upload.json", "cdd-disruptions-json-kalva1");

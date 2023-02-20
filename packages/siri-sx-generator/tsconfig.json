@@ -6,5 +6,10 @@
         "paths": {
             "@create-disruptions-data/core/*": ["../core/src/*"]
         }
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "moduleResolution": "node",
+        }
     }
 }
