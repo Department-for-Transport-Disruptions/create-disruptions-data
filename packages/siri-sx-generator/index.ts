@@ -5,8 +5,6 @@ import { toXML } from "jstoxml";
 const s3Client = new S3Client({ region: "eu-west-2" });
 
 const uploadToS3 = async (data: string, filename: string) => {
-    const s3Client = new S3Client({ region: "eu-west-2" });
-
     // Unique bucket name
     const bucketName = process.env. SIRI_SX_BUCKET_ARN?.replace("arn:aws:s3:::", "") || "";
     // Name for uploaded object
