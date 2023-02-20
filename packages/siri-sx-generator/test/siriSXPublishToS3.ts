@@ -1,4 +1,4 @@
-import { SituationExchangeDelivery, SourceType, Progress, MiscellaneousReason } from "../../../shared-ts";
+import { SituationExchangeDelivery, SourceType, Progress, MiscellaneousReason } from "../../../shared-ts/jsonTypes";
 import { uploadToS3 } from "../util/s3Client";
 
 export const jsonData: SituationExchangeDelivery = {
