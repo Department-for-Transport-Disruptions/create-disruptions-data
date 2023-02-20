@@ -6,7 +6,7 @@ const s3Client = new S3Client({ region: "eu-west-2" });
 
 const uploadToS3 = async (data: string, filename: string) => {
     // Unique bucket name
-    const bucketName = process.env. SIRI_SX_BUCKET_ARN?.replace("arn:aws:s3:::", "") || "";
+    const bucketName = process.env.SIRI_SX_BUCKET_ARN?.replace("arn:aws:s3:::", "") || "";
     // Name for uploaded object
     const keyName = filename;
 
@@ -37,9 +37,9 @@ export const main = async (event: S3Event): Promise<void> => {
 
     const xmlData = toXML(JSON.parse(data), config);
 
-    if(!xmlData){
+    if (!xmlData) {
         throw Error("Could not generate XML");
     }
 
-    await uploadToS3(xmlData, "siri-generated-xml.xml")
+    await uploadToS3(xmlData, "siri-generated-xml.xml");
 };
