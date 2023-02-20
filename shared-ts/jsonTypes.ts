@@ -14,13 +14,13 @@ export enum SourceType {
 }
 
 export enum Progress {
-    draft, 
-    pendingApproval, 
-    approvedDraft, 
-    open, 
-    closing, 
-    closed, 
-    rejected
+    draft,
+    pendingApproval,
+    approvedDraft,
+    open,
+    closing,
+    closed,
+    rejected,
 }
 
 export enum MiscellaneousReason {
@@ -106,7 +106,7 @@ export enum MiscellaneousReason {
     undefinedProblem,
     problemsAtBorderPost,
     problemsAtCustomsPost,
-    problemsOnLocalRoad
+    problemsOnLocalRoad,
 }
 
 export enum PersonnelReason {
@@ -120,7 +120,7 @@ export enum PersonnelReason {
     industrialAction,
     unofficialIndustrialAction,
     workToRule,
-    undefinedPersonnelProblem
+    undefinedPersonnelProblem,
 }
 
 export enum EquipmentReason {
@@ -161,7 +161,7 @@ export enum EquipmentReason {
     deicingWork,
     wheelProblem,
     luggageCarouselProblem,
-    undefinedEquipmentProblem
+    undefinedEquipmentProblem,
 }
 
 export enum EnvironmentReason {
@@ -193,7 +193,7 @@ export enum EnvironmentReason {
     undefinedEnvironmentalProblem,
     lightningStrike,
     sewerOverflow,
-    grassFire
+    grassFire,
 }
 
 export enum DayType {
@@ -203,7 +203,7 @@ export enum DayType {
     thursday,
     friday,
     saturday,
-    sunday
+    sunday,
 }
 
 export type Source = {
@@ -218,32 +218,29 @@ export type Period = {
 
 export type InfoLink = {
     Uri: string;
-}
+};
 
 export type SituationElementRef = {
     CreationTime: string;
     ParticipantRef: string;
     SituationNumber: string;
-}
+};
 export type Reference = {
     RelatedToRef: SituationElementRef[];
 };
 
 export type Repetitions = {
     DayType: DayType[];
-}
+};
 
 export type InfoLinks = {
     InfoLink: InfoLink[];
-}
+};
 
 export type BasePtSituationElement = {
-    //CreationTime: Pick<SituationElementRef,"CreationTime">;
-    //ParticipantRef: Pick<SituationElementRef,"ParticipantRef">;
-    //SituationNumber: Pick<SituationElementRef,"SituationNumber">;
-    CreationTime: SituationElementRef['CreationTime'];
-    ParticipantRef: SituationElementRef['ParticipantRef'];
-    SituationNumber: SituationElementRef['SituationNumber'];
+    CreationTime: SituationElementRef["CreationTime"];
+    ParticipantRef: SituationElementRef["ParticipantRef"];
+    SituationNumber: SituationElementRef["SituationNumber"];
     Version?: Number;
     References?: Reference;
     Source: Source;
@@ -258,37 +255,41 @@ export type BasePtSituationElement = {
 };
 
 export type MiscReasonPtSituationElement = BasePtSituationElement & {
-  MiscellaneousReason: MiscellaneousReason;
+    MiscellaneousReason: MiscellaneousReason;
 };
 
 export type PersonnelReasonPtSituationElement = BasePtSituationElement & {
-  PersonnelReason: PersonnelReason;
+    PersonnelReason: PersonnelReason;
 };
 
 export type EquipmentReasonPtSituationElement = BasePtSituationElement & {
-  EquipmentReason: EquipmentReason;
+    EquipmentReason: EquipmentReason;
 };
 
 export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
-  EnvironmentReason: EnvironmentReason;
+    EnvironmentReason: EnvironmentReason;
 };
 
-export type PtSituationElement = MiscReasonPtSituationElement | PersonnelReasonPtSituationElement | EquipmentReasonPtSituationElement | EnvironmentReasonPtSituationElement;
+export type PtSituationElement =
+    | MiscReasonPtSituationElement
+    | PersonnelReasonPtSituationElement
+    | EquipmentReasonPtSituationElement
+    | EnvironmentReasonPtSituationElement;
 
 export type Situations = {
     PtSituationElement: PtSituationElement[];
-}
+};
 
 export type SituationExchangeDelivery = {
     ResponseTimestamp: string;
     Status?: boolean;
     ShortestPossibleCycle?: string;
     Situations: Situations;
-}
+};
 
 export type ServiceDelivery = {
     ResponseTimestamp: string;
     ProducerRef: string;
     ResponseMessageIdentifier: string;
     SituationExchangeDelivery: SituationExchangeDelivery;
-}
+};

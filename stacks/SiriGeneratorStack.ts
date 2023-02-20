@@ -14,6 +14,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         environment: {
             SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
+            SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
         },
         permissions: [
             new PolicyStatement({

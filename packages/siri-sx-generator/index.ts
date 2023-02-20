@@ -22,7 +22,7 @@ export const main = async (event: S3Event): Promise<void> => {
 
     const xmlData = toXML(JSON.parse(data), config);
 
-    if(!xmlData){
+    if (!xmlData) {
         throw Error("Could not generate XML");
     }
 

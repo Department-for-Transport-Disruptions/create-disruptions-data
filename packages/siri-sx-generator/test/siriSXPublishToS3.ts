@@ -40,5 +40,12 @@ export const jsonData: SituationExchangeDelivery = {
     },
 };
 
+const stageName = process.argv.slice(2);
+
+if(!stageName) {
+    console.log('Please provide Serverless Stack Stage name.');
+    process.exit(0);
+}
+
 // eslint-disable-next-line no-console, prettier/prettier
-uploadToS3(JSON.stringify(jsonData), "s3-upload.json", "cdd-disruptions-json-kalva1");
+uploadToS3(JSON.stringify(jsonData), "s3-upload.json", `cdd-disruptions-json-${stageName}`);

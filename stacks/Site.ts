@@ -20,4 +20,3 @@ export function SiteStack({ stack }: StackContext) {
         disruptionsJsonBucket,
     };
 }
-
