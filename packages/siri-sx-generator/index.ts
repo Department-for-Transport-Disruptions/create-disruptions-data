@@ -6,7 +6,7 @@ const s3Client = new S3Client({ region: "eu-west-2" });
 
 const uploadToS3 = async (data: string, filename: string) => {
     // Unique bucket name
-    const bucketName = process.env.SIRI_SX_BUCKET_ARN?.replace("arn:aws:s3:::", "") || "";
+    const bucketName = process.env.SIRI_SX_BUCKET_NAME || "";
     // Name for uploaded object
     const keyName = filename;
 
