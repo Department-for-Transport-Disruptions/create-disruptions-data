@@ -1,7 +1,7 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { S3Event } from "aws-lambda";
 import { toXML } from "jstoxml";
-import { getS3Client, uploadToS3 } from "util/s3Client";
+import { getS3Client, uploadToS3 } from "./util/s3Client";
 
 const s3Client = getS3Client();
 
@@ -11,7 +11,7 @@ export const main = async (event: S3Event): Promise<void> => {
 
     const params = { Bucket: bucketName, Key: objectKey };
     const response = await s3Client.send(new GetObjectCommand(params));
-    const data = (await response.Body?.transformToString()) || "";
+    const data = await response.Body?.transformToString()
     const config = {
         indent: "    ",
     };

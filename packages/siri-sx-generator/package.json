@@ -12,12 +12,12 @@
         "@types/aws-lambda": "^8.10.110",
         "@types/jstoxml": "^2.0.2",
         "@types/node": "^18.13.0",
-        "jstoxml": "^3.2.6",
         "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.272.0",
+        "jstoxml": "^3.2.6",
         "sst": "^2.0.18"
     }
 }

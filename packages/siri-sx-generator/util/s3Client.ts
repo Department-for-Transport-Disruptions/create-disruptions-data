@@ -8,6 +8,10 @@ export const getS3Client = (): S3Client => {
 export const uploadToS3 = async (data: string, filename: string, bucketName: string | undefined) => {
     const s3Client = getS3Client();
 
+    if (!bucketName) {
+        throw Error("No bucket name provided");
+    }
+
     // Name for uploaded object
     const keyName = filename;
 
@@ -19,5 +23,5 @@ export const uploadToS3 = async (data: string, filename: string, bucketName: str
 
     await s3Client.send(putCommand);
     // eslint-disable-next-line no-console
-    console.log("Successfully uploaded data to " + bucketName + "/" + keyName);
+    console.log(`Successfully uploaded data to ${bucketName}/${keyName}`);
 };
