@@ -212,16 +212,21 @@ export type Source = {
 };
 
 export type Period = {
-    StartTime: Date;
-    EndTime?: Date;
+    StartTime: string;
+    EndTime?: string;
 };
 
 export type InfoLink = {
     Uri: string;
 };
 
+export type SituationElementRef = {
+    CreationTime: string;
+    ParticipantRef: string;
+    SituationNumber: string;
+};
 export type Reference = {
-    RelatedToRef: string[];
+    RelatedToRef: SituationElementRef[];
 };
 
 export type Repetitions = {
@@ -233,10 +238,10 @@ export type InfoLinks = {
 };
 
 export type BasePtSituationElement = {
-    CreationTime: Date;
-    ParticipantRef: string;
-    SituationNumber: string;
-    Version?: number;
+    CreationTime: SituationElementRef["CreationTime"];
+    ParticipantRef: SituationElementRef["ParticipantRef"];
+    SituationNumber: SituationElementRef["SituationNumber"];
+    Version?: Number;
     References?: Reference;
     Source: Source;
     Progress: Progress;
@@ -271,15 +276,19 @@ export type PtSituationElement =
     | EquipmentReasonPtSituationElement
     | EnvironmentReasonPtSituationElement;
 
+export type Situations = {
+    PtSituationElement: PtSituationElement[];
+};
+
 export type SituationExchangeDelivery = {
-    ResponseTimestamp: Date;
+    ResponseTimestamp: string;
     Status?: boolean;
     ShortestPossibleCycle?: string;
-    Situations: PtSituationElement[];
+    Situations: Situations;
 };
 
 export type ServiceDelivery = {
-    ResponseTimestamp: Date;
+    ResponseTimestamp: string;
     ProducerRef: string;
     ResponseMessageIdentifier: string;
     SituationExchangeDelivery: SituationExchangeDelivery;

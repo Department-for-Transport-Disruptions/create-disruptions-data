@@ -4,15 +4,20 @@
     "type": "module",
     "scripts": {
         "test": "sst bind 'vitest'",
-        "typecheck": "tsc -noEmit"
+        "typecheck": "tsc -noEmit",
+        "s3-publish-json": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  test/siriSXPublishToS3.ts"
     },
     "devDependencies": {
+        "@tsconfig/node18": "^1.0.1",
         "@types/aws-lambda": "^8.10.110",
+        "@types/jstoxml": "^2.0.2",
         "@types/node": "^18.13.0",
-        "sst": "^2.0.18"
+        "sst": "^2.0.18",
+        "ts-node": "^10.9.1"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.272.0",
+        "jstoxml": "^3.2.6",
         "sst": "^2.0.18"
     }
 }
