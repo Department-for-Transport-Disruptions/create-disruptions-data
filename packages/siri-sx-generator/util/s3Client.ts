@@ -5,15 +5,12 @@ export const getS3Client = (): S3Client => {
     return s3Client;
 };
 
-export const uploadToS3 = async (data: string, filename: string, bucketName: string | undefined) => {
+export const uploadToS3 = async (data: string, keyName: string, bucketName: string | undefined) => {
     const s3Client = getS3Client();
 
     if (!bucketName) {
         throw Error("No bucket name provided");
     }
-
-    // Name for uploaded object
-    const keyName = filename;
 
     const putCommand: PutObjectCommand = new PutObjectCommand({
         Bucket: bucketName,

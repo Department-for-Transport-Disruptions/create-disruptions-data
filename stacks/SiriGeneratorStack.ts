@@ -11,6 +11,10 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         name: `cdd-siri-sx-${stack.stage}`,
     });
 
+    const siriSXUnvalidatorBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
+        name: `cdd-siri-sx-unvalidated-${stack.stage}`,
+    });
+
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         environment: {
             SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
@@ -30,6 +34,46 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         timeout: 60,
         memorySize: 256,
     });
+
+    const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
+        environment: {
+            SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
+            SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
+            SIRI_SX_UNVALIDATED_BUCKET_ARN: siriSXUnvalidatorBucket.bucketArn,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatorBucket.bucketName,
+        },
+        permissions: [
+            new PolicyStatement({
+                actions: ["s3:GetObject"],
+                resources: [`${siriSXBucket.bucketArn}/*`],
+            }),
+            new PolicyStatement({
+                actions: ["s3:PutObject"],
+                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
+            }),
+        ],
+        handler: "packages/siri-sx-validator/index.main",
+        timeout: 60,
+        memorySize: 256,
+        runtime: "python3.9",
+        python: {
+            installCommands: [
+                "python3 -m venv venv",
+                "source venv/bin/activate",
+                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/",
+                "rm -rf venv",
+            ],
+        },
+        enableLiveDev: false,
+        copyFiles: [{ 
+            from: "packages/siri-sx-validator/xsd/",
+            to: './xsd' 
+        }]
+    });
+
     const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-generator-bucket", disruptionsJsonBucket.bucketName);
     bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriGenerator));
+
+    const validatorBucket = S3Bucket.fromBucketName(stack, "cdd-siri-validator-bucket", siriSXUnvalidatorBucket.bucketName);
+    validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
 }
