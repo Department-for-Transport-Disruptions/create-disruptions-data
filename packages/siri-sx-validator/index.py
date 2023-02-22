@@ -12,12 +12,13 @@ logger.setLevel(logging.INFO)
 
 
 def get_s3_client():
-    
+
     s3_client = boto3.client('s3')
     return s3_client
 
 
 s3_client = get_s3_client()
+
 
 def parse_netex_xml(netex):
     doc = None
@@ -39,7 +40,7 @@ def parse_netex_xml(netex):
 
 
 def validate_netex(download_path):
-    netex_file = open(download_path, 'r', encoding = "ISO-8859-1")
+    netex_file = open(download_path, 'r', encoding="ISO-8859-1")
     netex = netex_file.read()
 
     try:
@@ -63,7 +64,7 @@ def validate_netex(download_path):
             raise
 
 
-def main(event,context):
+def main(event, context):
     logger.info("Lambda start----")
     for record in event['Records']:
         source_bucket = record['s3']['bucket']['name']
@@ -77,8 +78,9 @@ def main(event,context):
             validate_netex(download_path)
 
             logger.info('NeTEx valid, uploading to S3...')
-            s3_client.upload_file(download_path, os.getenv('SIRI_SX_UNVALIDATED_BUCKET_NAME'), key)
+            s3_client.upload_file(download_path, os.getenv(
+                'SIRI_SX_UNVALIDATED_BUCKET_NAME'), key)
 
         except Exception as e:
-            logger.error(f'There was an error when validating NeTEx file: {key}, error: {e}')
-    
+            logger.error(
+                f'There was an error when validating NeTEx file: {key}, error: {e}')
