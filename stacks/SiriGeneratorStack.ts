@@ -3,7 +3,6 @@ import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Bucket, StackContext, use, Function } from "sst/constructs";
 import { SiteStack } from "./Site";
-import { LayerVersion,Code } from "aws-cdk-lib/aws-lambda";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
@@ -59,15 +58,19 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         runtime: "python3.9",
         python: {
             installCommands: [
-                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/"
-            ]
+                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/",
+            ],
         },
-        enableLiveDev: false
+        enableLiveDev: false,
     });
 
     const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-generator-bucket", disruptionsJsonBucket.bucketName);
     bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriGenerator));
 
-    const validatorBucket = S3Bucket.fromBucketName(stack, "cdd-siri-validator-bucket", siriSXUnvalidatorBucket.bucketName);
+    const validatorBucket = S3Bucket.fromBucketName(
+        stack,
+        "cdd-siri-validator-bucket",
+        siriSXUnvalidatorBucket.bucketName,
+    );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
 }
