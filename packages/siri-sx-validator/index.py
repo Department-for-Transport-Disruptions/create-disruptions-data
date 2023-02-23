@@ -26,6 +26,7 @@ s3_client = get_s3_client()
 
 def read_xsd(schema_path):
     try:
+        # Obtain the Schema object from root XSD file to validate the XML
         siri_schema = xmlschema.XMLSchema(schema_path)
 
     except URLError as file_errors:
@@ -52,6 +53,7 @@ def validate_xml(download_path, schema_path):
         if siri_schema is None:
             raise ValueError
         else:
+            # Validate the XML data against the XSD
             siri_schema.validate(download_path)
 
     except xmlschema.XMLSchemaChildrenValidationError as sub_element_errors:
@@ -95,7 +97,7 @@ def main(event, context):
             s3_client.upload_file(
                 download_path,
                 os.getenv("SIRI_SX_BUCKET_NAME"),
-                key,
+                "SIRI-SX.xml",
             )
 
         except Exception as e:

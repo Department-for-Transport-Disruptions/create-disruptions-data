@@ -11,14 +11,13 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         name: `cdd-siri-sx-${stack.stage}`,
     });
 
-    const siriSXUnvalidatorBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
+    const siriSXUnvalidatedBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
         name: `cdd-siri-sx-unvalidated-${stack.stage}`,
     });
 
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         environment: {
-            SIRI_SX_UNVALIDATED_BUCKET_ARN: siriSXUnvalidatorBucket.bucketArn,
-            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatorBucket.bucketName,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
         },
         permissions: [
             new PolicyStatement({
@@ -27,7 +26,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
             }),
             new PolicyStatement({
                 actions: ["s3:PutObject"],
-                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
+                resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
             }),
         ],
         handler: "packages/siri-sx-generator/index.main",
@@ -37,15 +36,13 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
         environment: {
-            SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
             SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
-            SIRI_SX_UNVALIDATED_BUCKET_ARN: siriSXUnvalidatorBucket.bucketArn,
-            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatorBucket.bucketName,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
         },
         permissions: [
             new PolicyStatement({
                 actions: ["s3:GetObject"],
-                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
+                resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
             }),
             new PolicyStatement({
                 actions: ["s3:PutObject"],
@@ -70,7 +67,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const validatorBucket = S3Bucket.fromBucketName(
         stack,
         "cdd-siri-validator-bucket",
-        siriSXUnvalidatorBucket.bucketName,
+        siriSXUnvalidatedBucket.bucketName,
     );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
 }

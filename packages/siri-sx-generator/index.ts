@@ -10,8 +10,13 @@ export const main = async (event: S3Event): Promise<void> => {
     const bucketName = event.Records[0].s3.bucket.name || "";
     const objectKey = event.Records[0].s3.object.key || "";
 
+    console.info("Processing JSON input file: ", objectKey);
     const params = { Bucket: bucketName, Key: objectKey };
+
+    // Read the file from S3 using GetObject API
     const response = await s3Client.send(new GetObjectCommand(params));
+
+    // Method transformToString is invoked to convert stream data to string
     const data = await response.Body?.transformToString();
     const config = {
         indent: "    ",
@@ -30,5 +35,11 @@ export const main = async (event: S3Event): Promise<void> => {
         <ServiceDelivery srsName="">${xmlData}</ServiceDelivery></Siri>`;
     }
 
-    await uploadToS3(xmlFormat(xmlData), "siri-generated-xml.xml", process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME);
+    await uploadToS3(
+        xmlFormat(xmlData),
+        `${Date.now()}-unvalidated-siri.xml`,
+        process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME,
+    );
+
+    console.info("Unvalidated Siri SX XML created and published to S3");
 };
