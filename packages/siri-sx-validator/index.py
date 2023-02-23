@@ -3,13 +3,14 @@ import os
 import uuid
 import logging
 from urllib.parse import unquote_plus
-from lxml import etree, objectify
-from lxml.etree import XMLSyntaxError
-from io import StringIO
+from urllib.error import URLError
+import xmlschema
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
+xsd_path = os.path.dirname(os.path.realpath(__file__))+'/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd'
 
 def get_s3_client():
     
@@ -19,52 +20,57 @@ def get_s3_client():
 
 s3_client = get_s3_client()
 
-def parse_netex_xml(netex):
-    doc = None
-
+def read_xsd(schema_path):
     try:
-        doc = etree.parse(StringIO(netex))
-        logger.info('XML well formed, syntax ok.')
-
-    except IOError:
-        logger.error('Invalid File')
+        siri_schema = xmlschema.XMLSchema(schema_path)
+        
+    except URLError as file_errors:
+        logger.error('XSD file not found exception.')
+        logger.error(file_errors)
         raise
-
-    except etree.XMLSyntaxError as syntax_errors:
-        logger.error('XML Syntax Error')
-        logger.error(syntax_errors.error_log)
+    
+    except xmlschema.XMLSchemaValidationError as validation_errors:
+        logger.error('Error while reading and validating the schema.')
+        logger.error(validation_errors.message+' - '+validation_errors.reason)
         raise
+    
+    except xmlschema.XMLSchemaException as schema_errors:
+        logger.error('Exception when processing the xsd schema')
+        raise
+    
+    return siri_schema
 
-    return doc
-
-
-def validate_netex(download_path):
-    netex_file = open(download_path, 'r', encoding = "ISO-8859-1")
-    netex = netex_file.read()
-
+def validate_xml(download_path,schema_path):
     try:
-        parsed_netex = parse_netex_xml(netex)
+        siri_schema = read_xsd(schema_path)
+        if siri_schema is None:
+            raise ValueError
+        else:
+            siri_schema.validate(download_path)   
+     
+    except xmlschema.XMLSchemaChildrenValidationError as sub_element_errors:
+        logger.error('Error in Sub elements of the XML.')
+        logger.error(sub_element_errors.message+' - '+sub_element_errors.reason)
+        raise     
+    
+    except xmlschema.XMLSchemaValidationError as validation_errors:
+        logger.error('Error validating the XML with the Schema.')
+        logger.error(validation_errors.message+' - '+validation_errors.reason)
+        raise
+    
+    except ValueError as value_error:
+        logger.error('No data returned when reading the XSD schema')
+        raise
+    
+    except xmlschema.XMLSchemaException as schema_errors:
+        logger.error('Exception when validating the XML data.')
+        raise
+        
     except:
+        logger.error('Unknown error, exiting.')
         raise
-
-    if parsed_netex:
-        try:
-            xmlschema = etree.XMLSchema(file='./xsd/NeTEx_publication.xsd')
-            xmlschema.assertValid(parsed_netex)
-            logger.info('XML valid schema validation ok.')
-
-        except etree.DocumentInvalid as schema_errors:
-            logger.error('Schema validation error')
-            logger.error(schema_errors.error_log)
-            raise
-
-        except:
-            logger.error('Unknown error, exiting.')
-            raise
-
 
 def main(event,context):
-    logger.info("Lambda start----")
     for record in event['Records']:
         source_bucket = record['s3']['bucket']['name']
         key = unquote_plus(record['s3']['object']['key'])
@@ -73,12 +79,12 @@ def main(event,context):
         s3_client.download_file(source_bucket, key, download_path)
 
         try:
-            logger.info('Starting NeTEx validation...')
-            validate_netex(download_path)
+            logger.info('Starting  validation...')
+            validate_xml(download_path,xsd_path)
 
-            logger.info('NeTEx valid, uploading to S3...')
-            s3_client.upload_file(download_path, os.getenv('SIRI_SX_UNVALIDATED_BUCKET_NAME'), key)
+            logger.info('Siri SX XML is valid, uploading to S3...')
+            s3_client.upload_file(download_path, os.getenv('SIRI_SX_BUCKET_NAME'), key)
 
         except Exception as e:
-            logger.error(f'There was an error when validating NeTEx file: {key}, error: {e}')
+            logger.error(f'There was an error when validating Siri SX file: {key}, error: {e}')
     

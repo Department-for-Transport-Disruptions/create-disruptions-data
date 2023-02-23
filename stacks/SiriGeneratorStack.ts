@@ -3,6 +3,7 @@ import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Bucket, StackContext, use, Function } from "sst/constructs";
 import { SiteStack } from "./Site";
+import { LayerVersion,Code } from "aws-cdk-lib/aws-lambda";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
@@ -17,8 +18,8 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     const siriGenerator = new Function(stack, "cdd-siri-generator", {
         environment: {
-            SIRI_SX_BUCKET_ARN: siriSXBucket.bucketArn,
-            SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
+            SIRI_SX_UNVALIDATED_BUCKET_ARN: siriSXUnvalidatorBucket.bucketArn,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatorBucket.bucketName,
         },
         permissions: [
             new PolicyStatement({
@@ -27,7 +28,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
             }),
             new PolicyStatement({
                 actions: ["s3:PutObject"],
-                resources: [`${siriSXBucket.bucketArn}/*`],
+                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
             }),
         ],
         handler: "packages/siri-sx-generator/index.main",
@@ -45,30 +46,23 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         permissions: [
             new PolicyStatement({
                 actions: ["s3:GetObject"],
-                resources: [`${siriSXBucket.bucketArn}/*`],
+                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
             }),
             new PolicyStatement({
                 actions: ["s3:PutObject"],
-                resources: [`${siriSXUnvalidatorBucket.bucketArn}/*`],
+                resources: [`${siriSXBucket.bucketArn}/*`],
             }),
         ],
         handler: "packages/siri-sx-validator/index.main",
-        timeout: 60,
+        timeout: 600,
         memorySize: 256,
         runtime: "python3.9",
         python: {
             installCommands: [
-                "python3 -m venv venv",
-                "source venv/bin/activate",
-                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/",
-                "rm -rf venv",
-            ],
+                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/"
+            ]
         },
-        enableLiveDev: false,
-        copyFiles: [{ 
-            from: "packages/siri-sx-validator/xsd/",
-            to: './xsd' 
-        }]
+        enableLiveDev: false
     });
 
     const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-generator-bucket", disruptionsJsonBucket.bucketName);
