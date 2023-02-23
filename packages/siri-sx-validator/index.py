@@ -13,7 +13,6 @@ logger.setLevel(logging.INFO)
 xsd_path = os.path.dirname(os.path.realpath(__file__))+'/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd'
 
 def get_s3_client():
-
     s3_client = boto3.client('s3')
     return s3_client
 
