@@ -1,5 +1,5 @@
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
+import { BucketEncryption, EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Bucket, StackContext, use, Function } from "sst/constructs";
 import { SiteStack } from "./Site";
@@ -8,14 +8,37 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
 
     const siriSXBucket = new Bucket(stack, "SiriSXBucket", {
-        name: `cdd-siri-sx-${stack.stage}`,
+        name: `cdd-siri-sx-generator-${stack.stage}`,
+        cdk: {
+            bucket: {
+                encryption: BucketEncryption.S3_MANAGED,
+                versioned: true,
+                blockPublicAccess: {
+                    blockPublicAcls: true,
+                    blockPublicPolicy: true,
+                    ignorePublicAcls: true,
+                    restrictPublicBuckets: true,
+                },
+            },
+        },
     });
 
     const siriSXUnvalidatedBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
-        name: `cdd-siri-sx-unvalidated-${stack.stage}`,
+        name: `cdd-siri-sx-validator-${stack.stage}`,
+        cdk: {
+            bucket: {
+                encryption: BucketEncryption.S3_MANAGED,
+                blockPublicAccess: {
+                    blockPublicAcls: true,
+                    blockPublicPolicy: true,
+                    ignorePublicAcls: true,
+                    restrictPublicBuckets: true,
+                },
+            },
+        },
     });
 
-    const siriGenerator = new Function(stack, "cdd-siri-generator", {
+    const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
         environment: {
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
         },
@@ -61,12 +84,12 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         enableLiveDev: false,
     });
 
-    const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-generator-bucket", disruptionsJsonBucket.bucketName);
+    const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-sx-generator-bucket", disruptionsJsonBucket.bucketName);
     bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriGenerator));
 
     const validatorBucket = S3Bucket.fromBucketName(
         stack,
-        "cdd-siri-validator-bucket",
+        "cdd-siri-sx-validator-bucket",
         siriSXUnvalidatedBucket.bucketName,
     );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));

@@ -15,13 +15,7 @@ xsd_path = (
     + "/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd"
 )
 
-
-def get_s3_client():
-    s3_client = boto3.client("s3")
-    return s3_client
-
-
-s3_client = get_s3_client()
+s3_client = boto3.client("s3")
 
 
 def read_xsd(schema_path):
@@ -90,7 +84,7 @@ def main(event, context):
         s3_client.download_file(source_bucket, key, download_path)
 
         try:
-            logger.info("Starting  validation...")
+            logger.info("Starting validation...")
             validate_xml(download_path, xsd_path)
 
             logger.info("Siri SX XML is valid, uploading to S3...")
