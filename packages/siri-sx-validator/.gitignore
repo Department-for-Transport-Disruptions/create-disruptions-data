@@ -1,0 +1,8 @@
+*
+
+!.gitignore
+!index.py
+!requirements.txt
+!scripts
+!xsd
+!xsd/**/*
