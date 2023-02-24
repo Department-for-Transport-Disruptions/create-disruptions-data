@@ -8,7 +8,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
 
     const siriSXBucket = new Bucket(stack, "SiriSXBucket", {
-        name: `cdd-siri-sx-generator-${stack.stage}`,
+        name: `cdd-siri-sx-${stack.stage}`,
         cdk: {
             bucket: {
                 encryption: BucketEncryption.S3_MANAGED,
@@ -24,7 +24,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     });
 
     const siriSXUnvalidatedBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
-        name: `cdd-siri-sx-validator-${stack.stage}`,
+        name: `cdd-siri-sx-unvalidated-${stack.stage}`,
         cdk: {
             bucket: {
                 encryption: BucketEncryption.S3_MANAGED,
@@ -39,6 +39,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     });
 
     const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
+        functionName: `cdd-siri-sx-generator-${stack.stage}`,
         environment: {
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
         },
@@ -58,6 +59,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     });
 
     const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
+        functionName: `cdd-siri-sx-validator-${stack.stage}`,
         environment: {
             SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
@@ -84,12 +86,12 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         enableLiveDev: false,
     });
 
-    const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-sx-generator-bucket", disruptionsJsonBucket.bucketName);
+    const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-sx-bucket", disruptionsJsonBucket.bucketName);
     bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriGenerator));
 
     const validatorBucket = S3Bucket.fromBucketName(
         stack,
-        "cdd-siri-sx-validator-bucket",
+        "cdd-siri-sx-unvalidated-bucket",
         siriSXUnvalidatedBucket.bucketName,
     );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
