@@ -10,10 +10,10 @@ import { ApiGatewayV1Api, Stack, Bucket } from "sst/constructs";
 import { SiriGeneratorStack } from "../SiriGeneratorStack";
 
 export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
-    const apiGateway = new ApiGatewayV1Api(stack, "SiriSXApi", {
+    const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         cdk: {
             restApi: {
-                restApiName: `SiriSXApi-${stack.stage}`,
+                restApiName: `cdd-siri-sx-api-${stack.stage}`,
                 description: "API to retrieve Siri SX XML data",
             },
         },
@@ -21,11 +21,10 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
 
     const bucketResource: Resource = apiGateway.cdk.restApi.root.addResource("{folder}");
     const objectResource: Resource = bucketResource.addResource("{item}");
-    // apiGateway.cdk.restApi.root.addResource("{folder}").addMethod("GET", new AwsIntegration({service:'s3'}), {});
 
-    const executeRole = new Role(stack, "siri-sx-api-gateway-s3-assume-role", {
+    const executeRole = new Role(stack, "cdd-siri-sx-api-gateway-s3-integration-role", {
         assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
-        roleName: `Siri-SX-API-Gateway-S3-Integration-Role-${stack.stage}`,
+        roleName: `cdd-siri-sx-api-gateway-s3-integration-role-${stack.stage}`,
     });
 
     executeRole.addToPolicy(
@@ -66,7 +65,6 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
         // Require the API Key on all requests
         apiKeyRequired: true,
         requestParameters: {
-            //"method.request.header.Content-Type": true,
             "method.request.path.folder": true,
             "method.request.path.item": true,
         },
