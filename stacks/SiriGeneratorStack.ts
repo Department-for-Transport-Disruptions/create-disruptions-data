@@ -12,7 +12,7 @@ import { createValidatorLambda } from "./services/ValidatorLambda";
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
 
-    const siriSXBucket = createGeneratorBucket(stack);
+    const siriSXBucket = createGeneratorBucket(stack, "cdd-siri-sx", true);
 
     const siriSXUnvalidatedBucket = createUnvalidatedBucket(stack);
 

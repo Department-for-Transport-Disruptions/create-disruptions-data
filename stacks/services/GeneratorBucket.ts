@@ -1,13 +1,13 @@
 import { BucketEncryption } from "aws-cdk-lib/aws-s3";
 import { Bucket, Stack } from "sst/constructs";
 
-export const createGeneratorBucket = (stack: Stack): Bucket => {
-    const siriSXBucket = new Bucket(stack, "SiriSXBucket", {
-        name: `cdd-siri-sx-${stack.stage}`,
+export const createBucket = (stack: Stack, name: string, versioned: boolean): Bucket => {
+    const siriSXBucket = new Bucket(stack, name, {
+        name: `${name}-${stack.stage}`,
         cdk: {
             bucket: {
                 encryption: BucketEncryption.S3_MANAGED,
-                versioned: true,
+                versioned,
                 blockPublicAccess: {
                     blockPublicAcls: true,
                     blockPublicPolicy: true,
