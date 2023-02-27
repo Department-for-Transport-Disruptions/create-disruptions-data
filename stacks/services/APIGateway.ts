@@ -7,7 +7,6 @@ import {
 } from "aws-cdk-lib/aws-apigateway";
 import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { ApiGatewayV1Api, Stack, Bucket } from "sst/constructs";
-import { SiriGeneratorStack } from "../SiriGeneratorStack";
 
 export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
