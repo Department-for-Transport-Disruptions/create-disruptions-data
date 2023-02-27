@@ -2,17 +2,15 @@ import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { StackContext, use } from "sst/constructs";
 import { SiteStack } from "./Site";
-
-import { createUnvalidatedBucket } from "./services/UnvalidatedBucket";
 import { createGeneratorLambda } from "./services/GeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
-import { SiriAPIStack } from "./SiriAPIStack";
+import { createBucket } from "./services/Buckets";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
-    const { siriSXBucket } = use(SiriAPIStack);
+    const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
-    const siriSXUnvalidatedBucket = createUnvalidatedBucket(stack);
+    const siriSXUnvalidatedBucket = createBucket(stack, "cdd-siri-sx-unvalidated", true);
 
     const siriGenerator = createGeneratorLambda(stack, siriSXUnvalidatedBucket, disruptionsJsonBucket);
 
@@ -27,4 +25,8 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         siriSXUnvalidatedBucket.bucketName,
     );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
+
+    return {
+        siriSXBucket,
+    };
 }
