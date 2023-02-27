@@ -106,7 +106,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const apiGateway = new ApiGatewayV1Api(stack, "SiriSXApi", {
         cdk: {
             restApi: {
-                restApiName: "SiriSXApi",
+                restApiName: `SiriSXApi-${stack.stage}`,
                 description: "API to retrieve Siri SX XML data",
             },
         },
@@ -118,7 +118,7 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     const executeRole = new Role(stack, "siri-sx-api-gateway-s3-assume-role", {
         assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
-        roleName: "Siri-SX-API-Gateway-S3-Integration-Role",
+        roleName: `Siri-SX-API-Gateway-S3-Integration-Role-${stack.stage}`,
     });
 
     executeRole.addToPolicy(
