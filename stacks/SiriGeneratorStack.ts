@@ -1,15 +1,7 @@
-import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
-import { BucketEncryption, EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
+import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
-import { Bucket, StackContext, use, Function, ApiGatewayV1Api } from "sst/constructs";
+import { StackContext, use } from "sst/constructs";
 import { SiteStack } from "./Site";
-import {
-    AuthorizationType,
-    AwsIntegration,
-    MethodOptions,
-    PassthroughBehavior,
-    Resource,
-} from "aws-cdk-lib/aws-apigateway";
 
 import { createSiriApi } from "./services/APIGateway";
 import { createGeneratorBucket } from "./services/GeneratorBucket";
