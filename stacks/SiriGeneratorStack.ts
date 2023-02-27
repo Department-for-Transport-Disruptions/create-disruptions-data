@@ -4,7 +4,7 @@ import { StackContext, use } from "sst/constructs";
 import { SiteStack } from "./Site";
 
 import { createSiriApi } from "./services/APIGateway";
-import { createGeneratorBucket } from "./services/GeneratorBucket";
+import { createBucket } from "./services/GeneratorBucket";
 import { createUnvalidatedBucket } from "./services/UnvalidatedBucket";
 import { createGeneratorLambda } from "./services/GeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
@@ -12,7 +12,7 @@ import { createValidatorLambda } from "./services/ValidatorLambda";
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
 
-    const siriSXBucket = createGeneratorBucket(stack, "cdd-siri-sx", true);
+    const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
     const siriSXUnvalidatedBucket = createUnvalidatedBucket(stack);
 
