@@ -6,7 +6,7 @@ exports[`pages > operator > should render correctly 1`] = `
     className="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner app-phase-banner app-width-container"
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
         className="govuk-phase-banner__content"
@@ -231,7 +231,7 @@ exports[`pages > operator > should render correctly with no multiple operators 1
     className="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner app-phase-banner app-width-container"
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
         className="govuk-phase-banner__content"
