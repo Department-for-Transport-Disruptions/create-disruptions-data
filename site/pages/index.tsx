@@ -1,4 +1,4 @@
-import { TwoThirdsLayout } from "components/layout/Layout";
+import { BaseLayout } from "components/layout/Layout";
 
 const title = "Create Transport Disruption Data";
 const description =
@@ -6,7 +6,7 @@ const description =
 
 const Home = () => {
     return (
-        <TwoThirdsLayout title={title} description={description}>
+        <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Create transport disruption data</h1>
 
             <p className="govuk-body">
@@ -47,7 +47,7 @@ const Home = () => {
                     <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                 </svg>
             </a>
-        </TwoThirdsLayout>
+        </BaseLayout>
     );
 };
 

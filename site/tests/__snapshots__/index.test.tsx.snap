@@ -40,81 +40,73 @@ exports[`pages > operator > should render correctly 1`] = `
     <main
       className="govuk-main-wrapper"
     >
-      <div
-        className="govuk-grid-row"
+      <h1
+        className="govuk-heading-xl"
       >
-        <div
-          className="govuk-grid-column-two-thirds"
+        Create transport disruption data
+      </h1>
+      <p
+        className="govuk-body"
+      >
+        This service is for creating disruption data for public transport services, excluding rail, in England.
+      </p>
+      <p
+        className="govuk-body"
+      >
+        The service can be used by:
+      </p>
+      <ul
+        className="govuk-list govuk-list--bullet"
+      >
+        <li>
+          Local transport authorities that operate their own services
+        </li>
+        <li>
+          Bus operators running commercial services in England
+        </li>
+        <li>
+          Local transport authorities acting on behalf of bus operators
+        </li>
+      </ul>
+      <p
+        className="govuk-body"
+      >
+        Use this service to:
+      </p>
+      <ul
+        className="govuk-list govuk-list--bullet"
+      >
+        <li>
+          Generate disruption data output format for a new or existing public transport disruption
+        </li>
+        <li>
+          Download your own transport disruptions data
+        </li>
+      </ul>
+      <a
+        className="govuk-button govuk-button--start"
+        data-module="govuk-button"
+        draggable="false"
+        href="/create-disruption"
+        id="start-now-button"
+        role="button"
+      >
+        Start now
+        <svg
+          className="govuk-button__start-icon"
+          focusable="false"
+          height="19"
+          role="presentation"
+          viewBox="0 0 33 40"
+          width="17.5"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <h1
-            className="govuk-heading-xl"
-          >
-            Create transport disruption data
-          </h1>
-          <p
-            className="govuk-body"
-          >
-            This service is for creating disruption data for public transport services, excluding rail, in England.
-          </p>
-          <p
-            className="govuk-body"
-          >
-            The service can be used by:
-          </p>
-          <ul
-            className="govuk-list govuk-list--bullet"
-          >
-            <li>
-              Local transport authorities that operate their own services
-            </li>
-            <li>
-              Bus operators running commercial services in England
-            </li>
-            <li>
-              Local transport authorities acting on behalf of bus operators
-            </li>
-          </ul>
-          <p
-            className="govuk-body"
-          >
-            Use this service to:
-          </p>
-          <ul
-            className="govuk-list govuk-list--bullet"
-          >
-            <li>
-              Generate disruption data output format for a new or existing public transport disruption
-            </li>
-            <li>
-              Download your own transport disruptions data
-            </li>
-          </ul>
-          <a
-            className="govuk-button govuk-button--start"
-            data-module="govuk-button"
-            draggable="false"
-            href="/create-disruption"
-            id="start-now-button"
-            role="button"
-          >
-            Start now
-            <svg
-              className="govuk-button__start-icon"
-              focusable="false"
-              height="19"
-              role="presentation"
-              viewBox="0 0 33 40"
-              width="17.5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 0h13l20 20-20 20H0l20-20z"
-                fill="currentColor"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
+          <path
+            d="M0 0h13l20 20-20 20H0l20-20z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
     </main>
     <div>
       <h2
@@ -265,81 +257,73 @@ exports[`pages > operator > should render correctly with no multiple operators 1
     <main
       className="govuk-main-wrapper"
     >
-      <div
-        className="govuk-grid-row"
+      <h1
+        className="govuk-heading-xl"
       >
-        <div
-          className="govuk-grid-column-two-thirds"
+        Create transport disruption data
+      </h1>
+      <p
+        className="govuk-body"
+      >
+        This service is for creating disruption data for public transport services, excluding rail, in England.
+      </p>
+      <p
+        className="govuk-body"
+      >
+        The service can be used by:
+      </p>
+      <ul
+        className="govuk-list govuk-list--bullet"
+      >
+        <li>
+          Local transport authorities that operate their own services
+        </li>
+        <li>
+          Bus operators running commercial services in England
+        </li>
+        <li>
+          Local transport authorities acting on behalf of bus operators
+        </li>
+      </ul>
+      <p
+        className="govuk-body"
+      >
+        Use this service to:
+      </p>
+      <ul
+        className="govuk-list govuk-list--bullet"
+      >
+        <li>
+          Generate disruption data output format for a new or existing public transport disruption
+        </li>
+        <li>
+          Download your own transport disruptions data
+        </li>
+      </ul>
+      <a
+        className="govuk-button govuk-button--start"
+        data-module="govuk-button"
+        draggable="false"
+        href="/create-disruption"
+        id="start-now-button"
+        role="button"
+      >
+        Start now
+        <svg
+          className="govuk-button__start-icon"
+          focusable="false"
+          height="19"
+          role="presentation"
+          viewBox="0 0 33 40"
+          width="17.5"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <h1
-            className="govuk-heading-xl"
-          >
-            Create transport disruption data
-          </h1>
-          <p
-            className="govuk-body"
-          >
-            This service is for creating disruption data for public transport services, excluding rail, in England.
-          </p>
-          <p
-            className="govuk-body"
-          >
-            The service can be used by:
-          </p>
-          <ul
-            className="govuk-list govuk-list--bullet"
-          >
-            <li>
-              Local transport authorities that operate their own services
-            </li>
-            <li>
-              Bus operators running commercial services in England
-            </li>
-            <li>
-              Local transport authorities acting on behalf of bus operators
-            </li>
-          </ul>
-          <p
-            className="govuk-body"
-          >
-            Use this service to:
-          </p>
-          <ul
-            className="govuk-list govuk-list--bullet"
-          >
-            <li>
-              Generate disruption data output format for a new or existing public transport disruption
-            </li>
-            <li>
-              Download your own transport disruptions data
-            </li>
-          </ul>
-          <a
-            className="govuk-button govuk-button--start"
-            data-module="govuk-button"
-            draggable="false"
-            href="/create-disruption"
-            id="start-now-button"
-            role="button"
-          >
-            Start now
-            <svg
-              className="govuk-button__start-icon"
-              focusable="false"
-              height="19"
-              role="presentation"
-              viewBox="0 0 33 40"
-              width="17.5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 0h13l20 20-20 20H0l20-20z"
-                fill="currentColor"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
+          <path
+            d="M0 0h13l20 20-20 20H0l20-20z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
     </main>
     <div>
       <h2
