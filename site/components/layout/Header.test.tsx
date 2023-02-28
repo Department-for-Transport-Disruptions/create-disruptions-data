@@ -1,11 +1,11 @@
 import * as React from "react";
 import renderer from "react-test-renderer";
-import Footer from "../../components/layout/Footer";
+import Header from "./Header";
 import { describe, it, expect } from "vitest";
 
-describe("Footer", () => {
+describe("Header", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<Footer />).toJSON();
+        const tree = renderer.create(<Header isAuthed csrfToken="" noc={undefined} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

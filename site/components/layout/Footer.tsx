@@ -77,7 +77,7 @@ const Footer = (): ReactElement => (
                 </div>
                 <div className="govuk-footer__meta-item">
                     <a
-                        className="govuk-footer__link govuk-footer__copyright-logo"
+                        className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
                         href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
                     >
                         © Crown copyright
