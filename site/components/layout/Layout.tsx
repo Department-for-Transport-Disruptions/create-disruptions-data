@@ -25,8 +25,8 @@ export const BaseLayout = ({
         <>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
-                <title>{buildTitle(errors, title || "Create Fares Data")}</title>
-                <meta name="description" content={description || "Create Fares Data"} />
+                <title>{buildTitle(errors, title || "Create Disruptions")}</title>
+                <meta name="description" content={description || "Create Disruptions"} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta charSet="utf-8" />
             </Head>
