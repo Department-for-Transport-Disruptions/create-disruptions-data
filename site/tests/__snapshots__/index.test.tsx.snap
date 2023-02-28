@@ -125,7 +125,7 @@ exports[`pages > operator > should render correctly 1`] = `
       <p
         className="govuk-body"
       >
-        If you are having problems, please contact the Create Fares Data Service via this link:
+        If you are having problems, please contact the Create Disruption Service via this link:
          
         <a
           className="govuk-link govuk-!-font-size-19"
@@ -350,7 +350,7 @@ exports[`pages > operator > should render correctly with no multiple operators 1
       <p
         className="govuk-body"
       >
-        If you are having problems, please contact the Create Fares Data Service via this link:
+        If you are having problems, please contact the Create Disruption Service via this link:
          
         <a
           className="govuk-link govuk-!-font-size-19"
