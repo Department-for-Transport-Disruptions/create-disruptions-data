@@ -36,7 +36,7 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [] }: TimeSelectorProps): R
                             Minute
                         </label>
                         <input
-                            className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
+                            className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
                                 errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                             id={`${startOrEnd}-minute-input`}
