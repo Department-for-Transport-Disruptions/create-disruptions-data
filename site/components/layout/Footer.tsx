@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from "react";
 
 const Footer = (): ReactElement => (
     <footer className="govuk-footer" role="contentinfo">
@@ -39,7 +39,7 @@ const Footer = (): ReactElement => (
                         </li>
                     </ul>
                     <p className="govuk-footer__body">
-                        Built by the{' '}
+                        Built by the{" "}
                         <a
                             className="govuk-footer__link"
                             href="https://www.gov.uk/government/organisations/department-for-transport"
@@ -64,7 +64,7 @@ const Footer = (): ReactElement => (
                         />
                     </svg>
                     <span className="govuk-footer__licence-description">
-                        All content is available under the{' '}
+                        All content is available under the{" "}
                         <a
                             className="govuk-footer__link"
                             href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
