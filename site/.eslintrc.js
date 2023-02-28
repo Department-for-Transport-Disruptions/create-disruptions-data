@@ -2,7 +2,6 @@ module.exports = {
     env: {
         browser: true,
         es6: true,
-        jest: true,
     },
     extends: [
         "next",
@@ -32,11 +31,8 @@ module.exports = {
         tsconfigRootDir: __dirname,
         project: `./tsconfig.json`,
     },
-    plugins: ["react", "@typescript-eslint", "jsx-a11y", "jest"],
+    plugins: ["react", "@typescript-eslint", "jsx-a11y", "vitest"],
     rules: {
-        "jest/no-disabled-tests": "error",
-        "jest/no-identical-title": "error",
-        "jest/valid-expect": "error",
         "no-console": "error",
         indent: [
             0,

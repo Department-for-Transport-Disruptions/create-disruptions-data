@@ -1,0 +1,451 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`pages > operator > should render correctly 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+    >
+      <div
+        className="govuk-grid-row"
+      >
+        <div
+          className="govuk-grid-column-two-thirds"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Create disruption data
+          </h1>
+          <p
+            className="govuk-body"
+          >
+            This service is for creating disruption data for public transport services, excluding rail, in England.
+          </p>
+          <p
+            className="govuk-body"
+          >
+            The service can be used by:
+          </p>
+          <ul
+            className="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Local transport authorities that operate their own services
+            </li>
+            <li>
+              Bus operators running commercial services in England
+            </li>
+            <li>
+              Local transport authorities acting on behalf of bus operators
+            </li>
+          </ul>
+          <p
+            className="govuk-body"
+          >
+            Use this service to:
+          </p>
+          <ul
+            className="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Generate disruption data output format for a new or existing public transport disruption
+            </li>
+            <li>
+              Download your own transport disruptions data
+            </li>
+          </ul>
+          <a
+            className="govuk-button govuk-button--start"
+            data-module="govuk-button"
+            draggable="false"
+            href="/createDisruption"
+            id="start-now-button"
+            role="button"
+          >
+            Start now
+            <svg
+              className="govuk-button__start-icon"
+              focusable="false"
+              height="19"
+              role="presentation"
+              viewBox="0 0 33 40"
+              width="17.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0h13l20 20-20 20H0l20-20z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Fares Data Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer "
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container "
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
+exports[`pages > operator > should render correctly with no multiple operators 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+    >
+      <div
+        className="govuk-grid-row"
+      >
+        <div
+          className="govuk-grid-column-two-thirds"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Create disruption data
+          </h1>
+          <p
+            className="govuk-body"
+          >
+            This service is for creating disruption data for public transport services, excluding rail, in England.
+          </p>
+          <p
+            className="govuk-body"
+          >
+            The service can be used by:
+          </p>
+          <ul
+            className="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Local transport authorities that operate their own services
+            </li>
+            <li>
+              Bus operators running commercial services in England
+            </li>
+            <li>
+              Local transport authorities acting on behalf of bus operators
+            </li>
+          </ul>
+          <p
+            className="govuk-body"
+          >
+            Use this service to:
+          </p>
+          <ul
+            className="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Generate disruption data output format for a new or existing public transport disruption
+            </li>
+            <li>
+              Download your own transport disruptions data
+            </li>
+          </ul>
+          <a
+            className="govuk-button govuk-button--start"
+            data-module="govuk-button"
+            draggable="false"
+            href="/createDisruption"
+            id="start-now-button"
+            role="button"
+          >
+            Start now
+            <svg
+              className="govuk-button__start-icon"
+              focusable="false"
+              height="19"
+              role="presentation"
+              viewBox="0 0 33 40"
+              width="17.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0h13l20 20-20 20H0l20-20z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Fares Data Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer "
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container "
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
