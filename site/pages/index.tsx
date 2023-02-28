@@ -1,13 +1,13 @@
 import { TwoThirdsLayout } from "components/layout/Layout";
 
-const title = "Create Disruption Data";
+const title = "Create Transport Disruption Data";
 const description =
     "Create Disruptions Data is a service that allows you to generate disruptions data in SIRI-SX format";
 
 const Home = () => {
     return (
         <TwoThirdsLayout title={title} description={description}>
-            <h1 className="govuk-heading-xl">Create disruption data</h1>
+            <h1 className="govuk-heading-xl">Create transport disruption data</h1>
 
             <p className="govuk-body">
                 This service is for creating disruption data for public transport services, excluding rail, in England.
@@ -27,7 +27,7 @@ const Home = () => {
             </ul>
 
             <a
-                href="/createDisruption"
+                href="/create-disruption"
                 role="button"
                 draggable="false"
                 className="govuk-button govuk-button--start"

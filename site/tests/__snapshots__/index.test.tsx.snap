@@ -49,7 +49,7 @@ exports[`pages > operator > should render correctly 1`] = `
           <h1
             className="govuk-heading-xl"
           >
-            Create disruption data
+            Create transport disruption data
           </h1>
           <p
             className="govuk-body"
@@ -93,7 +93,7 @@ exports[`pages > operator > should render correctly 1`] = `
             className="govuk-button govuk-button--start"
             data-module="govuk-button"
             draggable="false"
-            href="/createDisruption"
+            href="/create-disruption"
             id="start-now-button"
             role="button"
           >
@@ -129,7 +129,7 @@ exports[`pages > operator > should render correctly 1`] = `
          
         <a
           className="govuk-link govuk-!-font-size-19"
-          href="/contact"
+          href="https://www.bus-data.dft.gov.uk/contact/"
         >
           Contact us
         </a>
@@ -274,7 +274,7 @@ exports[`pages > operator > should render correctly with no multiple operators 1
           <h1
             className="govuk-heading-xl"
           >
-            Create disruption data
+            Create transport disruption data
           </h1>
           <p
             className="govuk-body"
@@ -318,7 +318,7 @@ exports[`pages > operator > should render correctly with no multiple operators 1
             className="govuk-button govuk-button--start"
             data-module="govuk-button"
             draggable="false"
-            href="/createDisruption"
+            href="/create-disruption"
             id="start-now-button"
             role="button"
           >
@@ -354,7 +354,7 @@ exports[`pages > operator > should render correctly with no multiple operators 1
          
         <a
           className="govuk-link govuk-!-font-size-19"
-          href="/contact"
+          href="https://www.bus-data.dft.gov.uk/contact/"
         >
           Contact us
         </a>

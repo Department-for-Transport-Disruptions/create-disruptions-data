@@ -61,7 +61,7 @@ exports[`Layout > should render correctly 1`] = `
          
         <a
           className="govuk-link govuk-!-font-size-19"
-          href="/contact"
+          href="https://www.bus-data.dft.gov.uk/contact/"
         >
           Contact us
         </a>
