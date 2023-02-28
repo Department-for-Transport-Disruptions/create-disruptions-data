@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { FEEDBACK_LINK } from "../../constants";
 
 const PhaseBanner = (): ReactElement => (
     <div className="app-phase-banner__wrapper">
@@ -8,7 +7,7 @@ const PhaseBanner = (): ReactElement => (
                 <strong className="govuk-tag govuk-phase-banner__content__tag">alpha</strong>
                 <span className="govuk-phase-banner__text">
                     This is a new service – your{" "}
-                    <a className="govuk-link" id="feedback-link" href={FEEDBACK_LINK}>
+                    <a className="govuk-link" id="feedback-link" href="/feedback">
                         feedback
                     </a>{" "}
                     will help us to improve it.
