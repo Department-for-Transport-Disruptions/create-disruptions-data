@@ -18,8 +18,7 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
         },
     });
 
-    const bucketResource: Resource = apiGateway.cdk.restApi.root.addResource("{folder}");
-    const objectResource: Resource = bucketResource.addResource("{item}");
+    const bucketResource: Resource = apiGateway.cdk.restApi.root.addResource("siri-sx");
 
     const executeRole = new Role(stack, "cdd-siri-sx-api-gateway-s3-integration-role", {
         assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
@@ -57,10 +56,6 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
         authorizationType: AuthorizationType.NONE,
         // Require the API Key on all requests
         apiKeyRequired: true,
-        requestParameters: {
-            "method.request.path.folder": true,
-            "method.request.path.item": true,
-        },
         methodResponses: [
             {
                 statusCode: "200",
@@ -71,7 +66,7 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
         ],
     };
 
-    objectResource.addMethod("GET", s3Integration, s3ObjectMethod);
+    bucketResource.addMethod("GET", s3Integration, s3ObjectMethod);
 
     const plan = apiGateway.cdk.restApi.addUsagePlan("UsagePlan", {
         throttle: {
