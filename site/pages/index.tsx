@@ -2,7 +2,7 @@ import { TwoThirdsLayout } from "components/layout/Layout";
 
 const title = "Create Transport Disruption Data";
 const description =
-    "Create Disruptions Data is a service that allows you to generate disruptions data in SIRI-SX format";
+    "Create Transport Disruption Data is a service that allows you to generate disruptions data in SIRI-SX format";
 
 const Home = () => {
     return (
