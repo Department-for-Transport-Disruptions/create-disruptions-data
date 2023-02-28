@@ -1,6 +1,7 @@
 import { SSTConfig } from "sst";
 import { SiriGeneratorStack } from "./stacks/SiriGeneratorStack";
 import { SiteStack } from "./stacks/Site";
+import { SiriAPIStack } from "./stacks/SiriAPIStack";
 
 export default {
     config() {
@@ -12,5 +13,6 @@ export default {
     stacks(app) {
         app.stack(SiteStack);
         app.stack(SiriGeneratorStack);
+        app.stack(SiriAPIStack);
     },
 } satisfies SSTConfig;
