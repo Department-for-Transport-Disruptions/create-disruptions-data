@@ -37,16 +37,10 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
         service: "s3",
         region: "eu-west-2",
         integrationHttpMethod: "GET",
-        path: "{bucket}/{object}",
+        path: `${siriSXBucket.bucketName}/SIRI-SX.xml`,
         options: {
             credentialsRole: executeRole,
             passthroughBehavior: PassthroughBehavior.WHEN_NO_MATCH,
-            requestParameters: {
-                // Specify the bucket name from the XML bucket we created above
-                "integration.request.path.bucket": "method.request.path.folder",
-                // Specify the object name using the APIG context requestId
-                "integration.request.path.object": "method.request.path.item",
-            },
             integrationResponses: [
                 {
                     statusCode: "200",
