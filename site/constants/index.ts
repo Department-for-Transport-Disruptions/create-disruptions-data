@@ -1,1 +1,1 @@
-export const FEEDBACK_LINK = '/feedback';
+export const FEEDBACK_LINK = "/feedback";

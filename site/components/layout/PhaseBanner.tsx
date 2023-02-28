@@ -7,10 +7,10 @@ const PhaseBanner = (): ReactElement => (
             <p className="govuk-phase-banner__content">
                 <strong className="govuk-tag govuk-phase-banner__content__tag">alpha</strong>
                 <span className="govuk-phase-banner__text">
-                    This is a new service – your{' '}
+                    This is a new service – your{" "}
                     <a className="govuk-link" id="feedback-link" href={FEEDBACK_LINK}>
                         feedback
-                    </a>{' '}
+                    </a>{" "}
                     will help us to improve it.
                 </span>
             </p>

@@ -1,5 +1,5 @@
 export interface ErrorInfo {
-  errorMessage: string;
-  id: string;
-  userInput?: string;
+    errorMessage: string;
+    id: string;
+    userInput?: string;
 }

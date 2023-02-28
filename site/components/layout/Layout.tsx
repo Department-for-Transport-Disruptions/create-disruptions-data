@@ -1,10 +1,10 @@
-import Head from 'next/head';
-import React, { PropsWithChildren, ReactElement } from 'react';
-import Help from '../Help'
-import { ErrorInfo } from '../../interfaces';
-import { buildTitle } from '../../utils';
-import Footer from './Footer';
-import PhaseBanner from './PhaseBanner';
+import Head from "next/head";
+import React, { PropsWithChildren, ReactElement } from "react";
+import Help from "../Help";
+import { ErrorInfo } from "../../interfaces";
+import { buildTitle } from "../../utils";
+import Footer from "./Footer";
+import PhaseBanner from "./PhaseBanner";
 
 interface LayoutProps {
     title: string;
@@ -25,14 +25,14 @@ export const BaseLayout = ({
         <>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
-                <title>{buildTitle(errors, title || 'Create Fares Data')}</title>
-                <meta name="description" content={description || 'Create Fares Data'} />
+                <title>{buildTitle(errors, title || "Create Fares Data")}</title>
+                <meta name="description" content={description || "Create Fares Data"} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta charSet="utf-8" />
             </Head>
 
             <PhaseBanner />
-            
+
             <div className="govuk-width-container">
                 <main className="govuk-main-wrapper">{children}</main>
                 {!hideHelp && <Help />}
@@ -49,12 +49,7 @@ export const FullColumnLayout = ({
     children,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout
-        title={title}
-        description={description}
-        errors={errors}
-        hideHelp={hideHelp}
-    >
+    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">{children}</div>
         </div>
@@ -68,12 +63,7 @@ export const TwoThirdsLayout = ({
     children,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout
-        title={title}
-        description={description}
-        errors={errors}
-        hideHelp={hideHelp}
-    >
+    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">{children}</div>
         </div>
