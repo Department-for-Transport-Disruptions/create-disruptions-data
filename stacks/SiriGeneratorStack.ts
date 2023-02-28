@@ -1,90 +1,20 @@
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { BucketEncryption, EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
+import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
-import { Bucket, StackContext, use, Function } from "sst/constructs";
+import { StackContext, use } from "sst/constructs";
 import { SiteStack } from "./Site";
+import { createGeneratorLambda } from "./services/GeneratorLambda";
+import { createValidatorLambda } from "./services/ValidatorLambda";
+import { createBucket } from "./services/Buckets";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);
+    const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
-    const siriSXBucket = new Bucket(stack, "SiriSXBucket", {
-        name: `cdd-siri-sx-${stack.stage}`,
-        cdk: {
-            bucket: {
-                encryption: BucketEncryption.S3_MANAGED,
-                versioned: true,
-                blockPublicAccess: {
-                    blockPublicAcls: true,
-                    blockPublicPolicy: true,
-                    ignorePublicAcls: true,
-                    restrictPublicBuckets: true,
-                },
-            },
-        },
-    });
+    const siriSXUnvalidatedBucket = createBucket(stack, "cdd-siri-sx-unvalidated", true);
 
-    const siriSXUnvalidatedBucket = new Bucket(stack, "SiriSXUnvalidatedBucket", {
-        name: `cdd-siri-sx-unvalidated-${stack.stage}`,
-        cdk: {
-            bucket: {
-                encryption: BucketEncryption.S3_MANAGED,
-                blockPublicAccess: {
-                    blockPublicAcls: true,
-                    blockPublicPolicy: true,
-                    ignorePublicAcls: true,
-                    restrictPublicBuckets: true,
-                },
-            },
-        },
-    });
+    const siriGenerator = createGeneratorLambda(stack, siriSXUnvalidatedBucket, disruptionsJsonBucket);
 
-    const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
-        functionName: `cdd-siri-sx-generator-${stack.stage}`,
-        environment: {
-            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
-        },
-        permissions: [
-            new PolicyStatement({
-                actions: ["s3:GetObject"],
-                resources: [`${disruptionsJsonBucket.bucketArn}/*`],
-            }),
-            new PolicyStatement({
-                actions: ["s3:PutObject"],
-                resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
-            }),
-        ],
-        handler: "packages/siri-sx-generator/index.main",
-        timeout: 60,
-        memorySize: 256,
-    });
-
-    const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
-        functionName: `cdd-siri-sx-validator-${stack.stage}`,
-        environment: {
-            SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
-            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
-        },
-        permissions: [
-            new PolicyStatement({
-                actions: ["s3:GetObject"],
-                resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
-            }),
-            new PolicyStatement({
-                actions: ["s3:PutObject"],
-                resources: [`${siriSXBucket.bucketArn}/*`],
-            }),
-        ],
-        handler: "packages/siri-sx-validator/index.main",
-        timeout: 600,
-        memorySize: 256,
-        runtime: "python3.9",
-        python: {
-            installCommands: [
-                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/",
-            ],
-        },
-        enableLiveDev: false,
-    });
+    const siriValidator = createValidatorLambda(stack, siriSXUnvalidatedBucket, siriSXBucket);
 
     const bucket = S3Bucket.fromBucketName(stack, "cdd-siri-sx-bucket", disruptionsJsonBucket.bucketName);
     bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriGenerator));
@@ -95,4 +25,8 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         siriSXUnvalidatedBucket.bucketName,
     );
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
+
+    return {
+        siriSXBucket,
+    };
 }
