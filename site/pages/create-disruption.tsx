@@ -22,7 +22,11 @@ const getReasonOptions = (): JSX.Element[] => {
     let options = [];
 
     for (let element in Reason) {
-        options.push(<option value={element}>{Reason[element as keyof typeof Reason]}</option>);
+        options.push(
+            <option value={element} key={element}>
+                {Reason[element as keyof typeof Reason]}
+            </option>,
+        );
     }
 
     return options;
