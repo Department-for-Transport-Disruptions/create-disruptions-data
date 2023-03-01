@@ -15,15 +15,14 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
         <BaseLayout title={title} description={description}>
             <>
                 <div className="govuk-form-group">
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="when-is-the-disruption">
-                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 className="govuk-fieldset__heading">
-                                When is the disruption?
-                            </h1>
-                        </legend>
+                    <h1 class="govuk-heading-l">
+                        When is the disruption?
+                    </h1>
+                    
+                    <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
 
-                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
+                    <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
+                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4" id="disruption-repeat-hint">
                             Does this disruption repeat?
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
@@ -54,7 +53,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </button>
                 </div>
             </>
-        </BaseLayout>
+        </BaseLayout >
     );
 };
 
