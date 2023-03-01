@@ -4,15 +4,25 @@ export interface ErrorInfo {
     userInput?: string;
 }
 
-export interface DisruptionValidity {
-    startDateDay: string,
-    startDateMonth: string,
-    startDateYear: string,
-    endDateDay: string,
-    endDateMonth: string,
-    endDateYear: string,
-    startTimeHours: string,
-    startTimeMinute: string,
-    endTimeHours: string,
-    endTimeMinute: string,
+export interface DisruptionInfo {
+    validityStartDateDay: string,
+    validityStartDateMonth: string,
+    validityStartDateYear: string,
+    validityEndDateDay: string,
+    validityEndDateMonth: string,
+    validityEndDateYear: string,
+    validityStartTimeHours: string,
+    validityStartTimeMinute: string,
+    validityEndTimeHours: string,
+    validityEndTimeMinute: string,
+    publishStartDateDay: string,
+    publishStartDateMonth: string,
+    publishStartDateYear: string,
+    publishEndDateDay: string,
+    publishEndDateMonth: string,
+    publishEndDateYear: string,
+    publishStartTimeHours: string,
+    publishStartTimeMinute: string,
+    publishEndTimeHours: string,
+    publishEndTimeMinute: string,
 }

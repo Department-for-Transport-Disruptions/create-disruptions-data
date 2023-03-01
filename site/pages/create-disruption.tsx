@@ -1,14 +1,13 @@
 import React, { ReactElement } from "react";
-import DateSelector from "components/DateSelector";
-import TimeSelector from "components/TimeSelector";
 import { BaseLayout } from "components/layout/Layout"
-import { DisruptionValidity } from "interfaces";
+import { DisruptionInfo } from "interfaces";
+import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
 
 const title = 'Create Disruptions';
 const description = 'Create Disruptions page for the Create Transport Disruptions Service';
 
 interface CreateDisruptionProps {
-    inputs: DisruptionValidity
+    inputs: DisruptionInfo
 }
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
@@ -22,76 +21,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                 When is the disruption?
                             </h1>
                         </legend>
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the start date?
-                        </legend>
-                        <div id="start-date-hint" className="govuk-hint">
-                            Enter in format DD/MM/YYYY
-                        </div>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
-                            }}
-                        />
 
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the start time?
-                        </legend>
-                        <div id="start-time-hint" className="govuk-hint">
-                            Enter in format xxxx
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            inputs={{
-                                hoursInput: inputs.startTimeHours,
-                                minuteInput: inputs.startTimeMinute
-                            }}
-                        />
-
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the end date?
-                        </legend>
-                        <div id="end-date-hint" className="govuk-hint">
-                            Enter in format DD/MM/YYYY
-                        </div>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
-                            }}
-                        />
-
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the end time?
-                        </legend>
-                        <div id="end-time-hint" className="govuk-hint">
-                            Enter in format xxxx
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            inputs={{
-                                hoursInput: inputs.endTimeHours,
-                                minuteInput: inputs.endTimeMinute
-                            }}
-                        />
-                        <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4" data-module="govuk-checkboxes">
-                            <div className="govuk-checkboxes__item">
-                                <input className="govuk-checkboxes__input" id="no-end-date" name="noEndDate" type="checkbox" value="noEndDate" />
-                                <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date">
-                                    No end date
-                                </label>
-                            </div>
-                        </div>
-
+                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
                             Does this disruption repeat?
                         </legend>
@@ -110,6 +41,17 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             </div>
                         </div>
                     </fieldset>
+                    <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-need-to-be-published">
+                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 className="govuk-fieldset__heading  govuk-!-padding-top-8">
+                                When does the disruption need to be published?
+                            </h1>
+                        </legend>
+                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
+                    </fieldset>
+                    <button className="govuk-button mt-8" data-module="govuk-button">
+                        Save and continue
+                    </button>
                 </div>
             </>
         </BaseLayout>
@@ -117,17 +59,27 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 };
 
 export const getServerSideProps = (): { props: object } => {
-    let inputs: DisruptionValidity = {
-        startDateDay: '',
-        startDateMonth: '',
-        startDateYear: '',
-        endDateDay: '',
-        endDateMonth: '',
-        endDateYear: '',
-        startTimeHours: '',
-        startTimeMinute: '',
-        endTimeHours: '',
-        endTimeMinute: '',
+    let inputs: DisruptionInfo = {
+        validityStartDateDay: '',
+        validityStartDateMonth: '',
+        validityStartDateYear: '',
+        validityEndDateDay: '',
+        validityEndDateMonth: '',
+        validityEndDateYear: '',
+        validityStartTimeHours: '',
+        validityStartTimeMinute: '',
+        validityEndTimeHours: '',
+        validityEndTimeMinute: '',
+        publishStartDateDay: '',
+        publishStartDateMonth: '',
+        publishStartDateYear: '',
+        publishEndDateDay: '',
+        publishEndDateMonth: '',
+        publishEndDateYear: '',
+        publishStartTimeHours: '',
+        publishStartTimeMinute: '',
+        publishEndTimeHours: '',
+        publishEndTimeMinute: '',
     }
 
     return ({
