@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import { BaseLayout } from '../components/layout/Layout'
 import { SUPPORT_EMAIL_ADDRESS, SUPPORT_PHONE_NUMBER } from '../constants';
 
-const title = 'Contact - Create Fares Data Service';
-const description = 'Contact page for the Create Fares Data Service';
+const title = 'Contact - Create Transport Disruption Data Service';
+const description = 'Contact page for the Create Transport Disruption Data Service';
 
 interface ContactProps {
     supportEmail: string;
@@ -15,7 +15,7 @@ const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => 
         <BaseLayout title={title} description={description} hideHelp>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
-                    <h1 className="govuk-heading-l">Contact the Create Fares Data Service team</h1>
+                    <h1 className="govuk-heading-l">Contact the Create Transport Disruption Data Service team</h1>
                     <h2 className="govuk-heading-m">Feedback and support</h2>
                     <p className="govuk-body">
                         If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruptions Data team through one of the channels below.
