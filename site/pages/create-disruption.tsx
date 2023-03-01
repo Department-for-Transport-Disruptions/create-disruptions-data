@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
 import DateSelector from "components/DateSelector";
 import TimeSelector from "components/TimeSelector";
-import { BaseLayout } from "components/layout/Layout";
+import { BaseLayout } from "components/layout/Layout"
 import { DisruptionValidity } from "interfaces";
 
-const title = "Create Disruptions";
-const description = "Create Disruptions page for the Create Transport Disruptions Service";
+const title = 'Create Disruptions';
+const description = 'Create Disruptions page for the Create Transport Disruptions Service';
 
 interface CreateDisruptionProps {
-    inputs: DisruptionValidity;
+    inputs: DisruptionValidity
 }
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
@@ -16,7 +16,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
         <BaseLayout title={title} description={description}>
             <>
                 <div className="govuk-form-group">
-                    <h1 className="govuk-heading-l">When is the disruption?</h1>
+                    <h1 class="govuk-heading-l">
+                        When is the disruption?
+                    </h1>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="start-date-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
                             What is the start date?
@@ -38,7 +40,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
                             What is the start time?
                         </legend>
-                        <div id="start-time-hint" className="govuk-hint">
+                        <div id="start-time-hint" className="govuk-hint" >
                             Enter in format xxxx
                         </div>
                         <TimeSelector
@@ -46,13 +48,15 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             startOrEnd="start"
                             inputs={{
                                 hourInput: inputs.startTimeHour,
-                                minuteInput: inputs.startTimeMinute,
+                                minuteInput: inputs.startTimeMinute
                             }}
                         />
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-date-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">What is the end date?</legend>
-                        <div id="end-date-hint" className="govuk-hint">
+                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
+                            What is the end date?
+                        </legend>
+                        <div id="end-date-hint" className="govuk-hint" >
                             Enter in format DD/MM/YYYY
                         </div>
                         <DateSelector
@@ -66,8 +70,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         />
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-time-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">What is the end time?</legend>
-                        <div id="end-time-hint" className="govuk-hint">
+                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
+                            What is the end time?
+                        </legend>
+                        <div id="end-time-hint" className="govuk-hint" >
                             Enter in format HH:MM
                         </div>
                         <TimeSelector
@@ -75,23 +81,14 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             startOrEnd="end"
                             inputs={{
                                 hourInput: inputs.endTimeHour,
-                                minuteInput: inputs.endTimeMinute,
+                                minuteInput: inputs.endTimeMinute
                             }}
                         />
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group">
-                        <div
-                            className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4"
-                            data-module="govuk-checkboxes"
-                        >
+                        <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4" data-module="govuk-checkboxes">
                             <div className="govuk-checkboxes__item">
-                                <input
-                                    className="govuk-checkboxes__input"
-                                    id="no-end-date-time"
-                                    name="noEndDateTime"
-                                    type="checkbox"
-                                    value="noEndDateTime"
-                                />
+                                <input className="govuk-checkboxes__input" id="no-end-date-time" name="noEndDateTime" type="checkbox" value="noEndDateTime" />
                                 <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
                                     No end date/time
                                 </label>
@@ -104,25 +101,13 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
                             <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-repeats"
-                                    name="disruptionRepeats"
-                                    type="radio"
-                                    value="yes"
-                                />
+                                <input className="govuk-radios__input" id="disruption-repeats" name="disruptionRepeats" type="radio" value="yes" />
                                 <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
                                     Yes
                                 </label>
                             </div>
                             <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-does-not-repeat"
-                                    name="disruptionRepeats"
-                                    type="radio"
-                                    value="no"
-                                />
+                                <input className="govuk-radios__input" id="disruption-does-not-repeat" name="disruptionRepeats" type="radio" value="no" />
                                 <label className="govuk-label govuk-radios__label" htmlFor="disruption-does-not-repeat">
                                     No
                                 </label>
@@ -131,27 +116,27 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </fieldset>
                 </div>
             </>
-        </BaseLayout>
+        </BaseLayout >
     );
 };
 
 export const getServerSideProps = (): { props: object } => {
     let inputs: DisruptionValidity = {
-        startDateDay: "",
-        startDateMonth: "",
-        startDateYear: "",
-        endDateDay: "",
-        endDateMonth: "",
-        endDateYear: "",
-        startTimeHour: "",
-        startTimeMinute: "",
-        endTimeHour: "",
-        endTimeMinute: "",
-    };
+        startDateDay: '',
+        startDateMonth: '',
+        startDateYear: '',
+        endDateDay: '',
+        endDateMonth: '',
+        endDateYear: '',
+        startTimeHour: '',
+        startTimeMinute: '',
+        endTimeHour: '',
+        endTimeMinute: '',
+    }
 
-    return {
-        props: { inputs },
-    };
+    return ({
+        props: { inputs }
+    })
 };
 
 export default CreateDisruption;
