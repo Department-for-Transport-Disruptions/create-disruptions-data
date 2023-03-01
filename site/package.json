@@ -40,6 +40,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-vitest": "^0.0.48",
         "jsdom": "^21.1.0",
+        "picocolors": "^1.0.0",
         "postcss": "^8.4.21",
         "react-test-renderer": "^18.2.0",
         "sass": "^1.57.1",
