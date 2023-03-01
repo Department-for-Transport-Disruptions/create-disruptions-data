@@ -1,11 +1,11 @@
 import * as React from "react";
 import renderer from "react-test-renderer";
-import PhaseBanner from "../../components/layout/PhaseBanner";
+import Layout from "./Layout";
 import { describe, it, expect } from "vitest";
 
-describe("PhaseBanner", () => {
+describe("Layout", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<PhaseBanner />).toJSON();
+        const tree = renderer.create(<Layout title="title" description="description" />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
