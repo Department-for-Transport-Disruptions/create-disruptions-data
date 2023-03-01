@@ -5,7 +5,7 @@ import TimeSelector from "./TimeSelector";
 
 interface DisruptionsDateTimeInfoProps {
   isDisruptionValidity: boolean;
-  inputs?: DisruptionInfo;
+  inputs: DisruptionInfo;
   errors?: ErrorInfo[];
 }
 
@@ -75,8 +75,12 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
     />
     <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4" data-module="govuk-checkboxes">
       <div className="govuk-checkboxes__item">
-        <input className="govuk-checkboxes__input" id="no-end-date-time" name="noEndDateTime" type="checkbox" value="noEndDateTime" />
-        <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
+        <input className="govuk-checkboxes__input"
+          id={`${isDisruptionValidity ? 'validity' : 'publish'}-no-end-date-time`}
+          name={`${isDisruptionValidity ? 'validity' : 'publish'}IsnoEndDateTime`}
+          type="checkbox"
+          value={`${isDisruptionValidity ? 'validity' : 'publish'}NoEndDateTime`} />
+        <label className="govuk-label govuk-checkboxes__label" htmlFor={`${isDisruptionValidity ? 'validity' : 'publish'}-no-end-date-time`}>
           No end date/time
         </label>
       </div>
