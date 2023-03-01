@@ -1,14 +1,15 @@
 import React, { ReactElement } from "react";
-import DateSelector from "components/DateSelector";
-import TimeSelector from "components/TimeSelector";
 import { BaseLayout } from "components/layout/Layout";
-import { DisruptionValidity } from "interfaces";
-
+import { DisruptionInfo, ErrorInfo } from "interfaces";
+import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
+import ErrorSummary from "../components/ErrorSummary";
+import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/jsonTypes";
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
-    inputs: DisruptionValidity;
+    inputs: DisruptionInfo;
+    errors: ErrorInfo[];
 }
 
 enum Reason {
@@ -18,225 +19,204 @@ enum Reason {
     specialEvent = "Special Event",
 }
 
-const getReasonOptions = (): JSX.Element[] => {
-    let options = [];
+const reasons: {
+    value: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
+    reason: string;
+}[] = [
+    {
+        value: MiscellaneousReason.roadWorks,
+        reason: "Road Works",
+    },
+    {
+        value: MiscellaneousReason.vandalism,
+        reason: "Vandalism",
+    },
+    {
+        value: MiscellaneousReason.routeDiversion,
+        reason: "Route Diversion",
+    },
+    {
+        value: MiscellaneousReason.specialEvent,
+        reason: "Special Event",
+    },
+];
 
-    for (let element in Reason) {
+const getReasonOptions = (): JSX.Element[] => {
+    let options: JSX.Element[] = [];
+
+    reasons.forEach((reasonType) => {
         options.push(
-            <option value={element} key={element}>
-                {Reason[element as keyof typeof Reason]}
+            <option value={reasonType.value} key={reasonType.value}>
+                {reasonType.reason}
             </option>,
         );
-    }
+    });
 
     return options;
 };
 
-const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
+const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <>
-                <div className="govuk-form-group">
-                    <h1 className="govuk-heading-xl">Create a new Distruption</h1>
-                    <fieldset className="govuk-fieldset">
+            <fieldset className="govuk-fieldset">
+                <form action="/api/createDisruption" method="post">
+                    <>
+                        <ErrorSummary errors={errors} />
                         <div className="govuk-form-group">
-                            <label className="govuk-label mb-3" htmlFor="disruption-type">
-                                Type of disruption
-                            </label>
-                            <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-planned"
-                                    name="disruptionType"
-                                    type="radio"
-                                    value="Planned"
-                                />
-                                <label className="govuk-label govuk-radios__label" htmlFor="disruption-planned">
-                                    Planned
-                                </label>
+                            <h1 className="govuk-heading-xl">Create a new Disruption</h1>
+
+                            <div className="govuk-form-group">
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-3" id="disruption-type">
+                                    Type of disruption
+                                </h3>
+                                <fieldset className="govuk-fieldset">
+                                    <div className="govuk-radios__item">
+                                        <input
+                                            className="govuk-radios__input"
+                                            id="disruption-planned"
+                                            name="disruptionType"
+                                            type="radio"
+                                            value="Planned"
+                                        />
+                                        <label className="govuk-label govuk-radios__label" htmlFor="disruption-planned">
+                                            Planned
+                                        </label>
+                                    </div>
+                                    <div className="govuk-radios__item">
+                                        <input
+                                            className="govuk-radios__input"
+                                            id="disruption-unplanned"
+                                            name="disruptionType"
+                                            type="radio"
+                                            value="Unplanned"
+                                        />
+                                        <label
+                                            className="govuk-label govuk-radios__label"
+                                            htmlFor="disruption-unplanned"
+                                        >
+                                            Unplanned
+                                        </label>
+                                    </div>
+                                </fieldset>
                             </div>
-                            <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-unplanned"
-                                    name="disruptionType"
-                                    type="radio"
-                                    value="Unplanned"
-                                />
-                                <label className="govuk-label govuk-radios__label" htmlFor="disruption-unplanned">
-                                    Unplanned
-                                </label>
+                            <div className="govuk-form-group">
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="summary">
+                                    Summary
+                                </h3>
+                                <input className="govuk-input w-3/4" id="summary" name="summary" type="text" required />
                             </div>
-                        </div>
-                        <div className="govuk-form-group">
-                            <label className="govuk-label" htmlFor="summary">
-                                Summary
-                            </label>
-                            <input className="govuk-input w-3/4" id="summary" name="summary" type="text" />
-                        </div>
-                        <div className="govuk-form-group">
-                            <label className="govuk-label" htmlFor="description">
-                                Description
-                            </label>
-                            <textarea className="govuk-textarea w-3/4" id="description" name="description" rows={5} />
-                        </div>
-                        <div className="govuk-form-group">
-                            <label className="govuk-label" htmlFor="associated-link">
-                                Associated Link
-                            </label>
-                            <input
-                                className="govuk-input w-3/4"
-                                id="associated-link"
-                                name="associatedLink"
-                                type="text"
-                            />
-                        </div>
-                        <div className="govuk-form-group">
-                            <label className="govuk-label" htmlFor="summary">
-                                Reason for disruption
-                            </label>
-                            <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
-                                {getReasonOptions()}
-                            </select>
-                        </div>
-                    </fieldset>
-                </div>
-                <div className="govuk-form-group">
-                    <h1 className="govuk-heading-l">When is the disruption?</h1>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="start-date-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start date?</h3>
-                        </legend>
-                        <div id="start-date-hint" className="govuk-hint">
-                            Enter in format DD/MM/YYYY
-                        </div>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="start-time-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the start time?</h3>
-                        </legend>
-                        <div id="start-time-hint" className="govuk-hint">
-                            Enter in format HH:MM
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            inputs={{
-                                hourInput: inputs.startTimeHour,
-                                minuteInput: inputs.startTimeMinute,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="end-date-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end date?</h3>
-                        </legend>
-                        <div id="end-date-hint" className="govuk-hint">
-                            Enter in format DD/MM/YYYY
-                        </div>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="end-time-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end time?</h3>
-                        </legend>
-                        <div id="end-time-hint" className="govuk-hint">
-                            Enter in format HH:MM
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            inputs={{
-                                hourInput: inputs.endTimeHour,
-                                minuteInput: inputs.endTimeMinute,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group">
-                        <div
-                            className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-8"
-                            data-module="govuk-checkboxes"
-                        >
-                            <div className="govuk-checkboxes__item">
-                                <input
-                                    className="govuk-checkboxes__input"
-                                    id="no-end-date-time"
-                                    name="noEndDateTime"
-                                    type="checkbox"
-                                    value="noEndDateTime"
+                            <div className="govuk-form-group">
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="description">
+                                    Description
+                                </h3>
+                                <textarea
+                                    className="govuk-textarea w-3/4"
+                                    id="description"
+                                    name="description"
+                                    rows={5}
                                 />
-                                <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
-                                    No end date/time
-                                </label>
+                            </div>
+                            <div className="govuk-form-group">
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="associated-link">
+                                    Associated Link
+                                </h3>
+                                <input
+                                    className="govuk-input w-3/4"
+                                    id="associated-link"
+                                    name="associatedLink"
+                                    type="text"
+                                />
+                            </div>
+                            <div className="govuk-form-group">
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-reason">
+                                    Reason for disruption
+                                </h3>
+                                <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
+                                    {getReasonOptions()}
+                                </select>
                             </div>
                         </div>
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8" id="disruption-repeat-hint">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> Does this disruption repeat?</h3>
-                        </legend>
-                        <div className="govuk-radios" data-module="govuk-radios">
-                            <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-repeats"
-                                    name="disruptionRepeats"
-                                    type="radio"
-                                    value="yes"
-                                />
-                                <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
-                                    Yes
-                                </label>
+                        <div className="govuk-form-group">
+                            <h1 className="govuk-heading-l">When is the disruption?</h1>
+
+                            <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
+                            <legend
+                                className="govuk-fieldset__legend govuk-!-padding-top-8"
+                                id="disruption-repeat-hint"
+                            >
+                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0">
+                                    Does this disruption repeat?
+                                </h3>
+                            </legend>
+                            <div className="govuk-radios" data-module="govuk-radios">
+                                <div className="govuk-radios__item">
+                                    <input
+                                        className="govuk-radios__input"
+                                        id="disruption-repeats"
+                                        name="disruptionRepeats"
+                                        type="radio"
+                                        value="yes"
+                                    />
+                                    <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div className="govuk-radios__item">
+                                    <input
+                                        className="govuk-radios__input"
+                                        id="disruption-does-not-repeat"
+                                        name="disruptionRepeats"
+                                        type="radio"
+                                        value="no"
+                                    />
+                                    <label
+                                        className="govuk-label govuk-radios__label"
+                                        htmlFor="disruption-does-not-repeat"
+                                    >
+                                        No
+                                    </label>
+                                </div>
                             </div>
-                            <div className="govuk-radios__item">
-                                <input
-                                    className="govuk-radios__input"
-                                    id="disruption-does-not-repeat"
-                                    name="disruptionRepeats"
-                                    type="radio"
-                                    value="no"
-                                />
-                                <label className="govuk-label govuk-radios__label" htmlFor="disruption-does-not-repeat">
-                                    No
-                                </label>
-                            </div>
+
+                            <h1 className="govuk-heading-l govuk-!-padding-top-8">
+                                When does the disruption need to be published?
+                            </h1>
+
+                            <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
+
+                            <button className="govuk-button mt-8" data-module="govuk-button">
+                                Save and continue
+                            </button>
                         </div>
-                    </fieldset>
-                </div>
-            </>
+                    </>
+                </form>
+            </fieldset>
         </BaseLayout>
     );
 };
 
 export const getServerSideProps = (): { props: object } => {
-    let inputs: DisruptionValidity = {
-        startDateDay: "",
-        startDateMonth: "",
-        startDateYear: "",
-        endDateDay: "",
-        endDateMonth: "",
-        endDateYear: "",
-        startTimeHour: "",
-        startTimeMinute: "",
-        endTimeHour: "",
-        endTimeMinute: "",
+    let inputs: DisruptionInfo = {
+        validityStartDateDay: "",
+        validityStartDateMonth: "",
+        validityStartDateYear: "",
+        validityEndDateDay: "",
+        validityEndDateMonth: "",
+        validityEndDateYear: "",
+        validityStartTimeHour: "",
+        validityStartTimeMinute: "",
+        validityEndTimeHour: "",
+        validityEndTimeMinute: "",
+        publishStartDateDay: "",
+        publishStartDateMonth: "",
+        publishStartDateYear: "",
+        publishEndDateDay: "",
+        publishEndDateMonth: "",
+        publishEndDateYear: "",
+        publishStartTimeHour: "",
+        publishStartTimeMinute: "",
+        publishEndTimeHour: "",
+        publishEndTimeMinute: "",
     };
 
     return {
