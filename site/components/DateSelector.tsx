@@ -18,14 +18,14 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
         <div className="govuk-date-input" id={`${startOrEnd}-date`}>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-day-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-day-input`}>
                         Day
                     </label>
                     <input
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
-                        id={`${startOrEnd}-day-input`}
-                        name={`${startOrEnd}DateDay`}
+                        id={`${type}-${startOrEnd}-day-input`}
+                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
                         type="text"
                         defaultValue={inputs?.dayInput}
                     />
@@ -34,7 +34,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
 
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-month-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-month-input`}>
                         Month
                     </label>
                     <input
@@ -49,7 +49,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
             </div>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-year-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-year-input`}>
                         Year
                     </label>
                     <input
