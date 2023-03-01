@@ -104,29 +104,6 @@ exports[`contact > should render correctly 1`] = `
              to view their contact details
           </p>
         </div>
-        <div
-          className="govuk-grid-column-one-third"
-        >
-          <h2
-            className="govuk-heading-s"
-          >
-            Create Transport Disruption Data Service
-          </h2>
-          <p
-            className="govuk-body"
-          >
-            Create Transport Disruption Data The Create Transport Disruption Data gives local transport authorities and operators within England the ability to create disruptions for bus, light rail, ferry and tram services Help documents
-          </p>
-        </div>
-        <div
-          className="govuk-grid-column-one-third"
-        >
-          <h2
-            className="govuk-heading-s"
-          >
-            Help documents
-          </h2>
-        </div>
       </div>
     </main>
   </div>,
