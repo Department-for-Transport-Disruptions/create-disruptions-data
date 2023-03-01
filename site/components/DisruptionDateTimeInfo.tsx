@@ -75,9 +75,9 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
     />
     <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4" data-module="govuk-checkboxes">
       <div className="govuk-checkboxes__item">
-        <input className="govuk-checkboxes__input" id="no-end-date" name="noEndDate" type="checkbox" value="noEndDate" />
-        <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date">
-          No end date
+        <input className="govuk-checkboxes__input" id="no-end-date-time" name="noEndDateTime" type="checkbox" value="noEndDateTime" />
+        <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
+          No end date/time
         </label>
       </div>
     </div>
