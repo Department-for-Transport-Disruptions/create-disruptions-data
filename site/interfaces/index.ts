@@ -11,8 +11,8 @@ export interface DisruptionValidity {
     endDateDay: string,
     endDateMonth: string,
     endDateYear: string,
-    startTimeHours: string,
+    startTimeHour: string,
     startTimeMinute: string,
-    endTimeHours: string,
+    endTimeHour: string,
     endTimeMinute: string,
 }

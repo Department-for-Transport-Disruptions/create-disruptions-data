@@ -4,7 +4,7 @@ import FormElementWrapper from './FormElementWrapper';
 
 interface TimeSelectorProps {
     inputs?: {
-        hoursInput: string;
+        hourInput: string;
         minuteInput: string;
     };
     errors?: ErrorInfo[];
@@ -17,16 +17,16 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [] }: TimeSelectorProps): R
                 <div className="govuk-date-input__item">
                     <div className="govuk-form-group">
                         <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-hour-input`}>
-                            Hours
+                            Hour
                         </label>
                         <input
                             className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
                                 errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                             id={`${startOrEnd}-hour-input`}
-                            name={`${startOrEnd}Hours`}
+                            name={`${startOrEnd}Hour`}
                             type="text"
-                            defaultValue={inputs?.hoursInput}
+                            defaultValue={inputs?.hourInput}
                         />
                     </div>
                 </div>

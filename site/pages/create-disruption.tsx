@@ -48,7 +48,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="start"
                             inputs={{
-                                hoursInput: inputs.startTimeHours,
+                                hourInput: inputs.startTimeHour,
                                 minuteInput: inputs.startTimeMinute
                             }}
                         />
@@ -79,7 +79,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="end"
                             inputs={{
-                                hoursInput: inputs.endTimeHours,
+                                hourInput: inputs.endTimeHour,
                                 minuteInput: inputs.endTimeMinute
                             }}
                         />
@@ -124,9 +124,9 @@ export const getServerSideProps = (): { props: object } => {
         endDateDay: '',
         endDateMonth: '',
         endDateYear: '',
-        startTimeHours: '',
+        startTimeHour: '',
         startTimeMinute: '',
-        endTimeHours: '',
+        endTimeHour: '',
         endTimeMinute: '',
     }
 
