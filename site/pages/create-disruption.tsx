@@ -1,8 +1,6 @@
-import React, { ReactElement } from "react";
 import DateSelector from "components/DateSelector";
 import TimeSelector from "components/TimeSelector";
 import { BaseLayout } from "components/layout/Layout";
-import { DisruptionValidity } from "interfaces";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -25,11 +23,7 @@ const renderOption = (text: string) => {
     );
 };
 
-interface CreateDisruptionProps {
-    inputs: DisruptionValidity;
-}
-
-const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
+const CreateDisruption = () => {
     return (
         <BaseLayout title={title} description={description}>
             <>
@@ -113,9 +107,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="start"
                             inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
+                                dayInput: "",
+                                monthInput: "",
+                                yearInput: "",
                             }}
                         />
 
@@ -129,8 +123,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="start"
                             inputs={{
-                                hoursInput: inputs.startTimeHours,
-                                minuteInput: inputs.startTimeMinute,
+                                hoursInput: "",
+                                minuteInput: "",
                             }}
                         />
 
@@ -142,9 +136,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="end"
                             inputs={{
-                                dayInput: inputs.startDateDay,
-                                monthInput: inputs.startDateMonth,
-                                yearInput: inputs.startDateYear,
+                                dayInput: "",
+                                monthInput: "",
+                                yearInput: "",
                             }}
                         />
 
@@ -156,8 +150,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             errors={[]}
                             startOrEnd="end"
                             inputs={{
-                                hoursInput: inputs.endTimeHours,
-                                minuteInput: inputs.endTimeMinute,
+                                hoursInput: "",
+                                minuteInput: "",
                             }}
                         />
                         <div
@@ -214,23 +208,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
-    let inputs: DisruptionValidity = {
-        startDateDay: "",
-        startDateMonth: "",
-        startDateYear: "",
-        endDateDay: "",
-        endDateMonth: "",
-        endDateYear: "",
-        startTimeHours: "",
-        startTimeMinute: "",
-        endTimeHours: "",
-        endTimeMinute: "",
-    };
-
-    return {
-        props: { inputs },
-    };
-};
+export const getServerSideProps = (): { props: object } => ({
+    props: {},
+});
 
 export default CreateDisruption;
