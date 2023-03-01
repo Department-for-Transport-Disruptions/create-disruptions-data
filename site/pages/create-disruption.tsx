@@ -15,7 +15,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
         <BaseLayout title={title} description={description}>
             <>
                 <div className="govuk-form-group">
-                    <h1 class="govuk-heading-l">
+                    <h1 className="govuk-heading-l">
                         When is the disruption?
                     </h1>
 
@@ -41,7 +41,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         </div>
                     </fieldset>
 
-                    <h1 class="govuk-heading-l govuk-!-padding-top-8">
+                    <h1 className="govuk-heading-l govuk-!-padding-top-8">
                         When does the disruption need to be published?
                     </h1>
 
