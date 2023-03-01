@@ -36,6 +36,7 @@
     "workspaces": [
         "packages/*",
         "site/*",
-        "site"
+        "site",
+        "shared-ts/*"
     ]
 }
