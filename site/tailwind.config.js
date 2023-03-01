@@ -23,7 +23,7 @@ module.exports = {
                     .reduce((acc, i) => ({ ...acc, [i]: `${i / (baseFontSize / 4)}rem` }), {}),
             }),
             backgroundImage: {
-                "govuk-crest": "url('../public/assets/images/govuk-crest-2x.png')",
+                "govuk-crest": "url('/assets/images/govuk-crest-2x.png')",
             },
             fontSize: {
                 xs: [
