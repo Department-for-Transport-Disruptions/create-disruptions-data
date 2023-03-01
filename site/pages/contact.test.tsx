@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import Contact from './contact';
+import Contact from "./contact";
 
-describe('contact', () => {
+describe("contact", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<Contact supportEmail="mock-support-address@email.co.uk" supportPhone="0800 123 1234" />).toJSON();
+        const tree = renderer.create(<Contact />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

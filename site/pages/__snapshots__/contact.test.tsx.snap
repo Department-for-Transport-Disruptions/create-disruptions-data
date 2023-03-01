@@ -80,9 +80,9 @@ exports[`contact > should render correctly 1`] = `
             Email: 
             <a
               className="govuk-link"
-              href="mailto:mock-support-address@email.co.uk"
+              href="mailto:bodshelpdesk@kpmg.co.uk"
             >
-              mock-support-address@email.co.uk
+              bodshelpdesk@kpmg.co.uk
             </a>
           </p>
           <h3

@@ -5,12 +5,7 @@ import { SUPPORT_EMAIL_ADDRESS, SUPPORT_PHONE_NUMBER } from '../constants';
 const title = 'Contact - Create Transport Disruption Data Service';
 const description = 'Contact page for the Create Transport Disruption Data Service';
 
-interface ContactProps {
-    supportEmail: string;
-    supportPhone: string;
-}
-
-const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => {
+const Contact = (): ReactElement => {
     return (
         <BaseLayout title={title} description={description} hideHelp>
             <div className="govuk-grid-row">
@@ -25,9 +20,9 @@ const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => 
                     </p>
                     <p className="govuk-body">The Help Desk can be contacted by telephone or email as follows.</p>
                     <p className="govuk-body">
-                        Telephone: {supportPhone}
+                        Telephone: {SUPPORT_PHONE_NUMBER}
                         <br />
-                        Email: <a className="govuk-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+                        Email: <a className="govuk-link" href={`mailto:${SUPPORT_EMAIL_ADDRESS}`}>{SUPPORT_EMAIL_ADDRESS}</a>
                     </p>
                     <h3 className="govuk-heading-s">Related services</h3>
                     <p className="govuk-body">
@@ -52,15 +47,6 @@ const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => 
             </div>
         </BaseLayout>
     );
-};
-
-export const getServerSideProps = (): {} => {
-    return {
-        props: {
-            supportEmail: SUPPORT_EMAIL_ADDRESS,
-            supportPhone: SUPPORT_PHONE_NUMBER,
-        },
-    };
 };
 
 export default Contact;

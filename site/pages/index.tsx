@@ -51,8 +51,4 @@ const Home = () => {
     );
 };
 
-export const getServerSideProps = (): { props: object } => ({
-    props: {},
-});
-
 export default Home;
