@@ -74,7 +74,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             What is the end time?
                         </legend>
                         <div id="end-time-hint" className="govuk-hint" >
-                            Enter in format xxxx
+                            Enter in format HH:MM
                         </div>
                         <TimeSelector
                             errors={[]}
