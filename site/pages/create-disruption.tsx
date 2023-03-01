@@ -6,21 +6,20 @@ const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 enum Reason {
-    roadWorks = "roadWorks",
-    vandalism = "vandalism",
-    routeDiversion = "routeDiversion",
-    specialEvent = "specialEvent",
+    roadWorks = "Road Works",
+    vandalism = "Vandalism",
+    routeDiversion = "Route Diversion",
+    specialEvent = "Special Event",
 }
 
-const renderOption = (text: string) => {
-    return (
-        <option key={text}>
-            {text
-                .split(/(?=[A-Z])/)
-                .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                .join(" ")}
-        </option>
-    );
+const getReasonOptions = (): JSX.Element[] => {
+    let options = [];
+
+    for (let element in Reason) {
+        options.push(<option value={element}>{Reason[element as keyof typeof Reason]}</option>);
+    }
+
+    return options;
 };
 
 const CreateDisruption = () => {
@@ -87,7 +86,7 @@ const CreateDisruption = () => {
                                 Reason for disruption
                             </label>
                             <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
-                                {Object.keys(Reason).sort().map(renderOption)}
+                                {getReasonOptions()}
                             </select>
                         </div>
                     </fieldset>
@@ -123,8 +122,8 @@ const CreateDisruption = () => {
                             errors={[]}
                             startOrEnd="start"
                             inputs={{
-                                hoursInput: "",
-                                minuteInput: "",
+                                hourInput: inputs.startTimeHour,
+                                minuteInput: inputs.startTimeMinute,
                             }}
                         />
 
@@ -150,8 +149,8 @@ const CreateDisruption = () => {
                             errors={[]}
                             startOrEnd="end"
                             inputs={{
-                                hoursInput: "",
-                                minuteInput: "",
+                                hourInput: inputs.endTimeHour,
+                                minuteInput: inputs.endTimeMinute,
                             }}
                         />
                         <div
@@ -161,13 +160,13 @@ const CreateDisruption = () => {
                             <div className="govuk-checkboxes__item">
                                 <input
                                     className="govuk-checkboxes__input"
-                                    id="no-end-date"
-                                    name="noEndDate"
+                                    id="no-end-date-time"
+                                    name="noEndDateTime"
                                     type="checkbox"
-                                    value="noEndDate"
+                                    value="noEndDateTime"
                                 />
-                                <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date">
-                                    No end date
+                                <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
+                                    No end date/time
                                 </label>
                             </div>
                         </div>
@@ -208,8 +207,25 @@ const CreateDisruption = () => {
     );
 };
 
-export const getServerSideProps = (): { props: object } => ({
-    props: {},
-});
+export const getServerSideProps = (): { props: object } => {
+    let inputs: DisruptionValidity = {
+        startDateDay: "",
+        startDateMonth: "",
+        startDateYear: "",
+        endDateDay: "",
+        endDateMonth: "",
+        endDateYear: "",
+        startTimeHour: "",
+        startTimeMinute: "",
+        endTimeHour: "",
+        endTimeMinute: "",
+    };
+
+    return {
+        props: {
+            inputs,
+        },
+    };
+};
 
 export default CreateDisruption;
