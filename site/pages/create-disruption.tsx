@@ -18,7 +18,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     <h1 class="govuk-heading-l">
                         When is the disruption?
                     </h1>
-                    
+
                     <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
 
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
@@ -40,14 +40,13 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             </div>
                         </div>
                     </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-need-to-be-published">
-                        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 className="govuk-fieldset__heading  govuk-!-padding-top-8">
-                                When does the disruption need to be published?
-                            </h1>
-                        </legend>
-                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
-                    </fieldset>
+
+                    <h1 class="govuk-heading-l govuk-!-padding-top-8">
+                        When does the disruption need to be published?
+                    </h1>
+
+                    <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
+
                     <button className="govuk-button mt-8" data-module="govuk-button">
                         Save and continue
                     </button>
