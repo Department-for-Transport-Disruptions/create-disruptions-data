@@ -16,12 +16,12 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
         <BaseLayout title={title} description={description}>
             <>
                 <div className="govuk-form-group">
-                    <h1 class="govuk-heading-l">
+                    <h1 className="govuk-heading-l">
                         When is the disruption?
                     </h1>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="start-date-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                            What is the start date?
+                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start date?</h3>
                         </legend>
                         <div id="start-date-hint" className="govuk-hint">
                             Enter in format DD/MM/YYYY
@@ -38,10 +38,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="start-time-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the start time?
+                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the start time?</h3>
                         </legend>
                         <div id="start-time-hint" className="govuk-hint" >
-                            Enter in format xxxx
+                            Enter in format HH:MM
                         </div>
                         <TimeSelector
                             errors={[]}
@@ -54,7 +54,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-date-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the end date?
+                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end date?</h3>
                         </legend>
                         <div id="end-date-hint" className="govuk-hint" >
                             Enter in format DD/MM/YYYY
@@ -71,7 +71,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-time-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-                            What is the end time?
+                        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end time?</h3>
                         </legend>
                         <div id="end-time-hint" className="govuk-hint" >
                             Enter in format HH:MM
@@ -97,7 +97,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </fieldset>
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-4" id="disruption-repeat-hint">
-                            Does this disruption repeat?
+                        <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> Does this disruption repeat?</h3>
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
                             <div className="govuk-radios__item">
