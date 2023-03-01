@@ -18,7 +18,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
         <div className="govuk-date-input" id={`${startOrEnd}-date`}>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-day-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-day-input` : `${startOrEnd}-day-input`}>
                         Day
                     </label>
                     <input
@@ -34,7 +34,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
 
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-month-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-month-input` : `${startOrEnd}-month-input`}>
                         Month
                     </label>
                     <input
@@ -49,7 +49,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
             </div>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-year-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-year-input` : `${startOrEnd}-year-input`}>
                         Year
                     </label>
                     <input
