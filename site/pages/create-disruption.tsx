@@ -66,9 +66,9 @@ export const getServerSideProps = (): { props: object } => {
         validityEndDateDay: '',
         validityEndDateMonth: '',
         validityEndDateYear: '',
-        validityStartTimeHours: '',
+        validityStartTimeHour: '',
         validityStartTimeMinute: '',
-        validityEndTimeHours: '',
+        validityEndTimeHour: '',
         validityEndTimeMinute: '',
         publishStartDateDay: '',
         publishStartDateMonth: '',
@@ -76,9 +76,9 @@ export const getServerSideProps = (): { props: object } => {
         publishEndDateDay: '',
         publishEndDateMonth: '',
         publishEndDateYear: '',
-        publishStartTimeHours: '',
+        publishStartTimeHour: '',
         publishStartTimeMinute: '',
-        publishEndTimeHours: '',
+        publishEndTimeHour: '',
         publishEndTimeMinute: '',
     }
 

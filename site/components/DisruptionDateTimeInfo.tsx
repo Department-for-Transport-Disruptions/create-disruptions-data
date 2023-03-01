@@ -38,7 +38,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       errors={[]}
       startOrEnd="start"
       inputs={{
-        hoursInput: isDisruptionValidity ? inputs.validityStartTimeHours : inputs.publishStartTimeHours,
+        hourInput: isDisruptionValidity ? inputs.validityStartTimeHour : inputs.publishStartTimeHour,
         minuteInput: isDisruptionValidity ? inputs.validityStartTimeMinute : inputs.publishStartTimeMinute
       }}
     />
@@ -69,7 +69,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       errors={[]}
       startOrEnd="end"
       inputs={{
-        hoursInput: isDisruptionValidity ? inputs.validityEndTimeHours : inputs.publishEndTimeHours,
+        hourInput: isDisruptionValidity ? inputs.validityEndTimeHour : inputs.publishEndTimeHour,
         minuteInput: isDisruptionValidity ? inputs.validityEndTimeMinute : inputs.publishEndTimeMinute
       }}
     />
