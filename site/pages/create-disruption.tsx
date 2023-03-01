@@ -22,8 +22,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
 
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-4" id="disruption-repeat-hint">
-                            Does this disruption repeat?
+                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8" id="disruption-repeat-hint">
+                        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">Does this disruption repeat?</h3>
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
                             <div className="govuk-radios__item">

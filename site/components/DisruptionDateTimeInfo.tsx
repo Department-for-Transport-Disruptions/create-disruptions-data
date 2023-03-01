@@ -14,7 +14,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
   <>
     <fieldset className="govuk-fieldset" role="group" aria-describedby="start-date-hint">
       <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-        What is the start date?
+        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start date?</h3>
       </legend>
       <div id="start-date-hint" className="govuk-hint">
         Enter in format DD/MM/YYYY
@@ -30,8 +30,8 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       />
     </fieldset>
     <fieldset className="govuk-fieldset" role="group" aria-describedby="start-time-hint">
-      <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-        What is the start time?
+      <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
+        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start time?</h3>
       </legend>
       <div id="start-time-hint" className="govuk-hint" >
         Enter in format HH:MM
@@ -46,8 +46,8 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       />
     </fieldset>
     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-date-hint">
-      <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-        What is the end date?
+      <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
+        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end date?</h3>
       </legend>
       <div id="end-date-hint" className="govuk-hint" >
         Enter in format DD/MM/YYYY
@@ -63,8 +63,8 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       />
     </fieldset>
     <fieldset className="govuk-fieldset" role="group" aria-describedby="end-time-hint">
-      <legend className="govuk-fieldset__legend govuk-!-padding-top-4">
-        What is the end time?
+      <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
+        <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the end time?</h3>
       </legend>
       <div id="end-time-hint" className="govuk-hint" >
         Enter in format HH:MM
@@ -79,7 +79,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       />
     </fieldset>
     <fieldset className="govuk-fieldset" role="group">
-      <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-4" data-module="govuk-checkboxes">
+      <div className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-8" data-module="govuk-checkboxes">
         <div className="govuk-checkboxes__item">
           <input className="govuk-checkboxes__input"
             id={`${isDisruptionValidity ? 'validity' : 'publish'}-no-end-date-time`}
