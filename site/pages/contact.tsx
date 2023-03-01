@@ -13,7 +13,7 @@ const Contact = (): ReactElement => {
                     <h1 className="govuk-heading-l">Contact the Create Transport Disruption Data Service team</h1>
                     <h2 className="govuk-heading-m">Feedback and support</h2>
                     <p className="govuk-body">
-                        If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruptions Data team through one of the channels below.
+                        If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruption Data team through one of the channels below.
                     </p>
                     <p className="govuk-body">
                         The Help Desk is available Monday to Friday, 9am to 5pm (excluding Bank Holidays in England and Wales, and the 24th of December).

@@ -59,7 +59,7 @@ exports[`contact > should render correctly 1`] = `
           <p
             className="govuk-body"
           >
-            If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruptions Data team through one of the channels below.
+            If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruption Data team through one of the channels below.
           </p>
           <p
             className="govuk-body"
