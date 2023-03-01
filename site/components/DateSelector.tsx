@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ErrorInfo } from '../interfaces';
 import FormElementWrapper from './FormElementWrapper';
-import camelCase from 'lodash/camelCase';
+import startCase from 'lodash/startCase';
 interface DateSelectorProps {
     inputs?: {
         dayInput: string;
@@ -25,7 +25,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                         id={`${type}-${startOrEnd}-day-input`}
-                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
                         type="text"
                         defaultValue={inputs?.dayInput}
                     />
@@ -41,7 +41,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                         id={`${type}-${startOrEnd}-month-input`}
-                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}DateMonth`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateMonth`}
                         type="text"
                         defaultValue={inputs?.monthInput}
                     />
@@ -56,7 +56,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-4 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                         id={`$${type}-${startOrEnd}-year-input`}
-                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}DateYear`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateYear`}
                         type="text"
                         defaultValue={inputs?.yearInput}
                     />

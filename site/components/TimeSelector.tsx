@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ErrorInfo } from '../interfaces';
 import FormElementWrapper from './FormElementWrapper';
-import camelCase from 'lodash/camelCase';
+import startCase from 'lodash/startCase';
 interface TimeSelectorProps {
     inputs?: {
         hourInput: string;
@@ -24,7 +24,7 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                         id={`${type}-${startOrEnd}-hour-input`}
-                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}Hour`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Hour`}
                         type="text"
                         defaultValue={inputs?.hourInput}
                     />
@@ -39,7 +39,7 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
                         id={`${type}-${startOrEnd}-minute-input`}
-                        name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}Minute`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Minute`}
                         type="text"
                         defaultValue={inputs?.minuteInput}
                     />
