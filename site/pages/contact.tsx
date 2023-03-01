@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { BaseLayout } from '../components/layout/Layout'
-import { SUPPORT_EMAIL_ADDRESS } from '../constants';
-import { SUPPORT_PHONE_NUMBER } from '../constants';
+import { SUPPORT_EMAIL_ADDRESS, SUPPORT_PHONE_NUMBER } from '../constants';
 
 const title = 'Contact - Create Fares Data Service';
 const description = 'Contact page for the Create Fares Data Service';
@@ -58,8 +57,8 @@ const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => 
 export const getServerSideProps = (): {} => {
     return {
         props: {
-            supportEmail: SUPPORT_EMAIL_ADDRESS || 'test@example.com',
-            supportPhone: SUPPORT_PHONE_NUMBER || '0800 123 1234',
+            supportEmail: SUPPORT_EMAIL_ADDRESS,
+            supportPhone: SUPPORT_PHONE_NUMBER,
         },
     };
 };
