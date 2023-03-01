@@ -28,7 +28,7 @@ const Contact = ({ supportEmail, supportPhone }: ContactProps): ReactElement => 
                     <p className="govuk-body">
                         Telephone: {supportPhone}
                         <br />
-                        Email: <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+                        Email: <a className="govuk-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
                     </p>
                     <h3 className="govuk-heading-s">Related services</h3>
                     <p className="govuk-body">

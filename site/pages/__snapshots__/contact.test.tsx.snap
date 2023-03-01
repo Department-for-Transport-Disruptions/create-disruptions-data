@@ -79,6 +79,7 @@ exports[`contact > should render correctly 1`] = `
             <br />
             Email: 
             <a
+              className="govuk-link"
               href="mailto:mock-support-address@email.co.uk"
             >
               mock-support-address@email.co.uk
