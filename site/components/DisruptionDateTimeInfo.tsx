@@ -34,7 +34,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
         What is the start time?
       </legend>
       <div id="start-time-hint" className="govuk-hint" >
-        Enter in format xxxx
+        Enter in format HH:MM
       </div>
       <TimeSelector
         errors={[]}
@@ -67,7 +67,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
         What is the end time?
       </legend>
       <div id="end-time-hint" className="govuk-hint" >
-        Enter in format xxxx
+        Enter in format HH:MM
       </div>
       <TimeSelector
         errors={[]}
