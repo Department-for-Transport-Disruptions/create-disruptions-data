@@ -77,7 +77,7 @@ export const DisruptionsDateTimeInfo = ({ inputs, isDisruptionValidity }: Disrup
       <div className="govuk-checkboxes__item">
         <input className="govuk-checkboxes__input"
           id={`${isDisruptionValidity ? 'validity' : 'publish'}-no-end-date-time`}
-          name={`${isDisruptionValidity ? 'validity' : 'publish'}IsnoEndDateTime`}
+          name={`${isDisruptionValidity ? 'validity' : 'publish'}IsNoEndDateTime`}
           type="checkbox"
           value={`${isDisruptionValidity ? 'validity' : 'publish'}NoEndDateTime`} />
         <label className="govuk-label govuk-checkboxes__label" htmlFor={`${isDisruptionValidity ? 'validity' : 'publish'}-no-end-date-time`}>
