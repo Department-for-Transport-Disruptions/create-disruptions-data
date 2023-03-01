@@ -1,4 +1,9 @@
-import { SourceType, Progress, MiscellaneousReason, ServiceDelivery } from "../../../shared-ts/jsonTypes";
+import {
+    MiscellaneousReason,
+    Progress,
+    ServiceDelivery,
+    SourceType,
+} from "@create-disruptions-data/shared-ts/siriTypes";
 import { uploadToS3 } from "../util/s3Client";
 
 export const jsonData: ServiceDelivery = {
