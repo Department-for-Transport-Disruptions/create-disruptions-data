@@ -17,7 +17,7 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
         <div className="govuk-date-input" id={`${startOrEnd}-date`}>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-hour-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-hour-input`}>
                         Hour
                     </label>
                     <input
@@ -32,13 +32,13 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
             </div>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-minute-input`}>
+                    <label className="govuk-label govuk-date-input__label" htmlFor={`${type}-${startOrEnd}-minute-input`}>
                         Minute
                     </label>
                     <input
                         className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
                             } `}
-                        id={`$${type}-${startOrEnd}-minute-input`}
+                        id={`${type}-${startOrEnd}-minute-input`}
                         name={`${type}${type ? camelCase(startOrEnd) : startOrEnd}Minute`}
                         type="text"
                         defaultValue={inputs?.minuteInput}
