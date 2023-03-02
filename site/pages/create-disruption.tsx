@@ -9,7 +9,6 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
-    errors: ErrorInfo[];
 }
 
 enum Reason {
@@ -44,6 +43,7 @@ const reasons: {
 const getReasonOptions = (): JSX.Element[] => {
     let options: JSX.Element[] = [];
 
+    options.push(<option value="" key=""></option>);
     reasons.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
@@ -66,9 +66,11 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
                             <h1 className="govuk-heading-xl">Create a new Disruption</h1>
 
                             <div className="govuk-form-group">
-                                <h3 className="govuk-heading-s govuk-!-margin-bottom-3" id="disruption-type">
-                                    Type of disruption
-                                </h3>
+                                <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
+                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-type">
+                                        Type of disruption
+                                    </h3>
+                                </legend>
                                 <fieldset className="govuk-fieldset">
                                     <div className="govuk-radios__item">
                                         <input
@@ -100,15 +102,19 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
                                 </fieldset>
                             </div>
                             <div className="govuk-form-group">
-                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="summary">
-                                    Summary
-                                </h3>
-                                <input className="govuk-input w-3/4" id="summary" name="summary" type="text" required />
+                                <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
+                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="summary">
+                                        Summary
+                                    </h3>
+                                </legend>
+                                <input className="govuk-input w-3/4" id="summary" name="summary" type="text" />
                             </div>
                             <div className="govuk-form-group">
-                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="description">
-                                    Description
-                                </h3>
+                                <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
+                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="description">
+                                        Description
+                                    </h3>
+                                </legend>
                                 <textarea
                                     className="govuk-textarea w-3/4"
                                     id="description"
@@ -117,9 +123,11 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
                                 />
                             </div>
                             <div className="govuk-form-group">
-                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="associated-link">
-                                    Associated Link
-                                </h3>
+                                <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
+                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="associated-link">
+                                        Associated Link
+                                    </h3>
+                                </legend>
                                 <input
                                     className="govuk-input w-3/4"
                                     id="associated-link"
@@ -128,9 +136,11 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
                                 />
                             </div>
                             <div className="govuk-form-group">
-                                <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-reason">
-                                    Reason for disruption
-                                </h3>
+                                <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
+                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-reason">
+                                        Reason for disruption
+                                    </h3>
+                                </legend>
                                 <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
                                     {getReasonOptions()}
                                 </select>
@@ -195,7 +205,7 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
+export const getServerSideProps = (): { props: CreateDisruptionProps } => {
     let inputs: DisruptionInfo = {
         validityStartDateDay: "",
         validityStartDateMonth: "",
