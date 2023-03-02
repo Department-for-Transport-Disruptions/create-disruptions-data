@@ -1,0 +1,161 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimeSelector > should render correctly with errors 1`] = `
+<div
+  className=""
+>
+  <div
+    className="govuk-date-input"
+    id="start-date"
+  >
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-hour-input"
+        >
+          Hour
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
+          defaultValue="d"
+          id="start-hour-input"
+          name="startHour"
+          type="text"
+        />
+      </div>
+    </div>
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-minute-input"
+        >
+          Minute
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
+          defaultValue="02"
+          id="start-minute-input"
+          name="startMinute"
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with inputs 1`] = `
+<div
+  className=""
+>
+  <div
+    className="govuk-date-input"
+    id="start-date"
+  >
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-hour-input"
+        >
+          Hour
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2  "
+          defaultValue="01"
+          id="start-hour-input"
+          name="startHour"
+          type="text"
+        />
+      </div>
+    </div>
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-minute-input"
+        >
+          Minute
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2  "
+          defaultValue="02"
+          id="start-minute-input"
+          name="startMinute"
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with no inputs 1`] = `
+<div
+  className=""
+>
+  <div
+    className="govuk-date-input"
+    id="start-date"
+  >
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-hour-input"
+        >
+          Hour
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2  "
+          id="start-hour-input"
+          name="startHour"
+          type="text"
+        />
+      </div>
+    </div>
+    <div
+      className="govuk-date-input__item"
+    >
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-date-input__label"
+          htmlFor="start-minute-input"
+        >
+          Minute
+        </label>
+        <input
+          className="govuk-input govuk-date-input__input govuk-input--width-2  "
+          id="start-minute-input"
+          name="startMinute"
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

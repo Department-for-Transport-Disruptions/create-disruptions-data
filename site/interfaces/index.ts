@@ -5,14 +5,10 @@ export interface ErrorInfo {
 }
 
 export interface DisruptionValidity {
-    startDateDay: string,
-    startDateMonth: string,
-    startDateYear: string,
-    endDateDay: string,
-    endDateMonth: string,
-    endDateYear: string,
-    startTimeHour: string,
-    startTimeMinute: string,
-    endTimeHour: string,
-    endTimeMinute: string,
+    startDate: string;
+    endDate: string;
+    startTimeHour: string;
+    startTimeMinute: string;
+    endTimeHour: string;
+    endTimeMinute: string;
 }

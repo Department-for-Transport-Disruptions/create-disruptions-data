@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React, { PropsWithChildren, ReactElement } from "react";
-import Help from "../Help";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
 import Footer from "./Footer";
@@ -13,6 +12,18 @@ interface LayoutProps {
     hideCookieBanner?: boolean;
     hideHelp?: boolean;
 }
+
+const Help = (): ReactElement => (
+    <div>
+        <h2 className="govuk-heading-s">Help and Support</h2>
+        <p className="govuk-body">
+            If you are having problems, please contact the Create Disruption Service via this link:{" "}
+            <a href="https://www.bus-data.dft.gov.uk/contact/" className="govuk-link govuk-!-font-size-19">
+                Contact us
+            </a>
+        </p>
+    </div>
+);
 
 export const BaseLayout = ({
     title,
