@@ -1,9 +1,0 @@
-node_modules
-node_modules/**/*
-*/**/node_modules
-*/**/node_modules/**/*
-.sst
-.sst*
-.sst/**/*
-*.d.ts
-*/**/*.d.ts

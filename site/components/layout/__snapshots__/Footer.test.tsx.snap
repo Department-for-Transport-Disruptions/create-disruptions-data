@@ -28,6 +28,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="/contact"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Help
             </a>
@@ -38,6 +41,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="/cookies"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Cookies
             </a>
@@ -48,6 +54,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="/contact"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Contact
             </a>
@@ -58,6 +67,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="/accessibility"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Accessibility
             </a>
@@ -68,6 +80,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="https://www.gov.uk/help/terms-conditions"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Terms and conditions
             </a>
@@ -78,6 +93,9 @@ exports[`Footer > should render correctly 1`] = `
             <a
               className="govuk-footer__link"
               href="/privacy"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Privacy
             </a>

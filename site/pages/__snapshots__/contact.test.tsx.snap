@@ -77,10 +77,14 @@ exports[`contact > should render correctly 1`] = `
             Telephone: 
             0800 123 1234
             <br />
-            Email: 
+            Email:
+             
             <a
               className="govuk-link"
               href="mailto:bodshelpdesk@kpmg.co.uk"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               bodshelpdesk@kpmg.co.uk
             </a>
@@ -98,6 +102,9 @@ exports[`contact > should render correctly 1`] = `
               aria-label="go to the bus open data service"
               className="underline"
               href="/contact"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               here
             </a>
@@ -148,6 +155,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Help
               </a>
@@ -158,6 +168,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Cookies
               </a>
@@ -168,6 +181,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Contact
               </a>
@@ -178,6 +194,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
@@ -188,6 +207,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
@@ -198,6 +220,9 @@ exports[`contact > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Privacy
               </a>

@@ -13,7 +13,9 @@
         "lint": "eslint .",
         "test:site": "npm test -w @create-disruptions-data/site",
         "test": "npm run test:site",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "tsc:build:site": "tsc --noemit -p site",
+        "tsc:build": "tsc --noemit && npm run tsc:build:site"
     },
     "devDependencies": {
         "@tsconfig/node18": "^1.0.1",
