@@ -13,13 +13,10 @@ interface CreateDisruptionProps {
 }
 
 const getReasonOptions = (): JSX.Element[] => {
-    const options: JSX.Element[] = [];
-
-    options.push(
-        <option value="" key="">
+    const options: JSX.Element[] = [ <option value="" key="">
             Select Reason
-        </option>,
-    );
+        </option>];
+        
     DISRUPTION_REASONS.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
