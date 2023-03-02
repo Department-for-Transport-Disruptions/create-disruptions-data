@@ -34,9 +34,13 @@ const reasons: {
 ];
 
 const getReasonOptions = (): JSX.Element[] => {
-    let options: JSX.Element[] = [];
+    const options: JSX.Element[] = [];
 
-    options.push(<option value="" key=""></option>);
+    options.push(
+        <option value="" key="">
+            Select Reason
+        </option>,
+    );
     reasons.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
