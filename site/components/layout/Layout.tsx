@@ -1,10 +1,10 @@
 import Head from "next/head";
-import React, { PropsWithChildren, ReactElement } from "react";
-import Help from "../Help";
-import { ErrorInfo } from "../../interfaces";
-import { buildTitle } from "../../utils";
+import { PropsWithChildren, ReactElement } from "react";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
+import { ErrorInfo } from "../../interfaces";
+import { buildTitle } from "../../utils";
+import Help from "../Help";
 
 interface LayoutProps {
     title: string;

@@ -1,15 +1,15 @@
-import React, { ReactElement } from 'react';
-import { ErrorInfo } from '../interfaces';
-import FormElementWrapper from './FormElementWrapper';
-import startCase from 'lodash/startCase';
+import startCase from "lodash/startCase";
+import { ReactElement } from "react";
+import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
 interface TimeSelectorProps {
     inputs?: {
         hourInput: string;
         minuteInput: string;
     };
     errors?: ErrorInfo[];
-    startOrEnd: 'start' | 'end';
-    type?: string
+    startOrEnd: "start" | "end";
+    type: string;
 }
 
 const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorProps): ReactElement => (
@@ -17,12 +17,16 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
         <div className="govuk-date-input" id={`${startOrEnd}-date`}>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-hour-input` : `${startOrEnd}-hour-input`}>
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-hour-input` : `${startOrEnd}-hour-input`}
+                    >
                         Hour
                     </label>
                     <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
                         id={`${type}-${startOrEnd}-hour-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Hour`}
                         type="text"
@@ -32,12 +36,16 @@ const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorPro
             </div>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-minute-input` : `${startOrEnd}-minute-input`}>
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-minute-input` : `${startOrEnd}-minute-input`}
+                    >
                         Minute
                     </label>
                     <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
                         id={`${type}-${startOrEnd}-minute-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Minute`}
                         type="text"

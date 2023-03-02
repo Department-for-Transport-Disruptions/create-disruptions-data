@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
-import { BaseLayout } from "components/layout/Layout";
 import { DisruptionInfo, ErrorInfo } from "interfaces";
 import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
-import ErrorSummary from "../components/ErrorSummary";
 import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/jsonTypes";
+import { BaseLayout } from "../components/layout/Layout";
+
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
@@ -55,13 +55,12 @@ const getReasonOptions = (): JSX.Element[] => {
     return options;
 };
 
-const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): ReactElement => {
+const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <fieldset className="govuk-fieldset">
                 <form action="/api/createDisruption" method="post">
                     <>
-                        <ErrorSummary errors={errors} />
                         <div className="govuk-form-group">
                             <h1 className="govuk-heading-xl">Create a new Disruption</h1>
 
@@ -205,8 +204,8 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
     );
 };
 
-export const getServerSideProps = (): { props: CreateDisruptionProps } => {
-    let inputs: DisruptionInfo = {
+export const getServerSideProps = (): { props: object } => {
+    const inputs: DisruptionInfo = {
         validityStartDateDay: "",
         validityStartDateMonth: "",
         validityStartDateYear: "",
