@@ -1,4 +1,4 @@
-import { ErrorInfo } from "interfaces";
+import { ErrorInfo } from "../interfaces";
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     if (errors.length > 0) {

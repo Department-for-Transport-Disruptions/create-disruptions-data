@@ -1,13 +1,13 @@
-import React, { ReactElement } from "react";
-import { BaseLayout } from "components/layout/Layout"
-import { DisruptionInfo } from "interfaces";
-import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
+import { ReactElement } from "react";
+import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
+import { BaseLayout } from "../components/layout/Layout";
+import { DisruptionInfo } from "../interfaces";
 
-const title = 'Create Disruptions';
-const description = 'Create Disruptions page for the Create Transport Disruptions Service';
+const title = "Create Disruptions";
+const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
-    inputs: DisruptionInfo
+    inputs: DisruptionInfo;
 }
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
@@ -15,25 +15,35 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
         <BaseLayout title={title} description={description}>
             <>
                 <div className="govuk-form-group">
-                    <h1 className="govuk-heading-l">
-                        When is the disruption?
-                    </h1>
+                    <h1 className="govuk-heading-l">When is the disruption?</h1>
 
                     <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
 
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-8" id="disruption-repeat-hint">
-                        <h3 className="govuk-heading-s govuk-!-margin-bottom-0">Does this disruption repeat?</h3>
+                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">Does this disruption repeat?</h3>
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
                             <div className="govuk-radios__item">
-                                <input className="govuk-radios__input" id="disruption-repeats" name="disruptionRepeats" type="radio" value="yes" />
+                                <input
+                                    className="govuk-radios__input"
+                                    id="disruption-repeats"
+                                    name="disruptionRepeats"
+                                    type="radio"
+                                    value="yes"
+                                />
                                 <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
                                     Yes
                                 </label>
                             </div>
                             <div className="govuk-radios__item">
-                                <input className="govuk-radios__input" id="disruption-does-not-repeat" name="disruptionRepeats" type="radio" value="no" />
+                                <input
+                                    className="govuk-radios__input"
+                                    id="disruption-does-not-repeat"
+                                    name="disruptionRepeats"
+                                    type="radio"
+                                    value="no"
+                                />
                                 <label className="govuk-label govuk-radios__label" htmlFor="disruption-does-not-repeat">
                                     No
                                 </label>
@@ -52,37 +62,37 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </button>
                 </div>
             </>
-        </BaseLayout >
+        </BaseLayout>
     );
 };
 
 export const getServerSideProps = (): { props: object } => {
-    let inputs: DisruptionInfo = {
-        validityStartDateDay: '',
-        validityStartDateMonth: '',
-        validityStartDateYear: '',
-        validityEndDateDay: '',
-        validityEndDateMonth: '',
-        validityEndDateYear: '',
-        validityStartTimeHour: '',
-        validityStartTimeMinute: '',
-        validityEndTimeHour: '',
-        validityEndTimeMinute: '',
-        publishStartDateDay: '',
-        publishStartDateMonth: '',
-        publishStartDateYear: '',
-        publishEndDateDay: '',
-        publishEndDateMonth: '',
-        publishEndDateYear: '',
-        publishStartTimeHour: '',
-        publishStartTimeMinute: '',
-        publishEndTimeHour: '',
-        publishEndTimeMinute: '',
-    }
+    const inputs: DisruptionInfo = {
+        validityStartDateDay: "",
+        validityStartDateMonth: "",
+        validityStartDateYear: "",
+        validityEndDateDay: "",
+        validityEndDateMonth: "",
+        validityEndDateYear: "",
+        validityStartTimeHour: "",
+        validityStartTimeMinute: "",
+        validityEndTimeHour: "",
+        validityEndTimeMinute: "",
+        publishStartDateDay: "",
+        publishStartDateMonth: "",
+        publishStartDateYear: "",
+        publishEndDateDay: "",
+        publishEndDateMonth: "",
+        publishEndDateYear: "",
+        publishStartTimeHour: "",
+        publishStartTimeMinute: "",
+        publishEndTimeHour: "",
+        publishEndTimeMinute: "",
+    };
 
-    return ({
-        props: { inputs }
-    })
+    return {
+        props: { inputs },
+    };
 };
 
 export default CreateDisruption;

@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import Footer from "./Footer";
 import { describe, it, expect } from "vitest";
+import Footer from "./Footer";
 
 describe("Footer", () => {
     it("should render correctly", () => {

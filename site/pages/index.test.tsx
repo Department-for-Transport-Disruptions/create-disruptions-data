@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import Index from "./index";
 import { describe, it, expect } from "vitest";
+import Index from "./index";
 
 describe("pages", () => {
     describe("operator", () => {

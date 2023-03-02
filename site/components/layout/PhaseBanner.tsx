@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 
 const PhaseBanner = (): ReactElement => (
     <div className="app-phase-banner__wrapper">
