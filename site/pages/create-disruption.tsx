@@ -39,9 +39,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         <div className="govuk-form-group">
                             <fieldset className="govuk-fieldset">
                                 <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-type">
+                                    <span className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-type">
                                         Type of disruption
-                                    </h3>
+                                    </span>
                                 </legend>
                                 <div className="govuk-radios__item">
                                     <input
@@ -101,13 +101,13 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             </select>
                         </div>
                     </div>
-                    <div className="govuk-form-group">
-                        <h1 className="govuk-heading-l">When is the disruption?</h1>
+                    <div className="govuk-form-group govuk-!-padding-top-6">
+                        <h2 className="govuk-heading-l">When is the disruption?</h2>
 
                         <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
                         <fieldset className="govuk-fieldset">
                             <legend
-                                className="govuk-fieldset__legend govuk-!-padding-top-8"
+                                className="govuk-fieldset__legend govuk-!-padding-top-6"
                                 id="disruption-repeat-hint"
                             >
                                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0">
@@ -144,9 +144,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                 </div>
                             </div>
                         </fieldset>
-                        <h1 className="govuk-heading-l govuk-!-padding-top-8">
-                            When does the disruption need to be published?
-                        </h1>
+                    </div>
+                    <div className="govuk-form-group govuk-!-padding-top-6">
+                        <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
 
                         <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
 
