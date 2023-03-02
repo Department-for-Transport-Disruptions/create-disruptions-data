@@ -6,7 +6,7 @@ const Help = (): ReactElement => {
             <h2 className="govuk-heading-s">Help and Support</h2>
             <p className="govuk-body">
                 If you are having problems, please contact the Create Disruption Service via this link:{" "}
-                <a href="https://www.bus-data.dft.gov.uk/contact/" className="govuk-link govuk-!-font-size-19">
+                <a href="/contact" className="govuk-link govuk-!-font-size-19">
                     Contact us
                 </a>
             </p>
