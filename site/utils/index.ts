@@ -1,4 +1,4 @@
-import { ErrorInfo } from "interfaces";
+import { ErrorInfo } from "../interfaces";
 import { ServerResponse } from "http";
 import { NextApiResponse } from "next";
 

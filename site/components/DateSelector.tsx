@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react';
-import { ErrorInfo } from '../interfaces';
-import FormElementWrapper from './FormElementWrapper';
-import startCase from 'lodash/startCase';
+import startCase from "lodash/startCase";
+import { ReactElement } from "react";
+import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
 interface DateSelectorProps {
     inputs?: {
         dayInput: string;
@@ -9,8 +9,8 @@ interface DateSelectorProps {
         yearInput: string;
     };
     errors?: ErrorInfo[];
-    startOrEnd: 'start' | 'end';
-    type?: string
+    startOrEnd: "start" | "end";
+    type: string;
 }
 
 const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorProps): ReactElement => (
@@ -18,12 +18,16 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
         <div className="govuk-date-input" id={`${startOrEnd}-date`}>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-day-input` : `${startOrEnd}-day-input`}>
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-day-input` : `${startOrEnd}-day-input`}
+                    >
                         Day
                     </label>
                     <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
                         id={`${type}-${startOrEnd}-day-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
                         type="text"
@@ -34,12 +38,16 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
 
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-month-input` : `${startOrEnd}-month-input`}>
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-month-input` : `${startOrEnd}-month-input`}
+                    >
                         Month
                     </label>
                     <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
                         id={`${type}-${startOrEnd}-month-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateMonth`}
                         type="text"
@@ -49,12 +57,16 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
             </div>
             <div className="govuk-date-input__item">
                 <div className="govuk-form-group">
-                    <label className="govuk-label govuk-date-input__label" htmlFor={type ? `${type}-${startOrEnd}-year-input` : `${startOrEnd}-year-input`}>
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-year-input` : `${startOrEnd}-year-input`}
+                    >
                         Year
                     </label>
                     <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-4 ${errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
+                        className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
                         id={`$${type}-${startOrEnd}-year-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateYear`}
                         type="text"

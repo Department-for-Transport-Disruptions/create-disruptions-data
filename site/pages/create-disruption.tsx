@@ -1,19 +1,13 @@
-import React, { ReactElement } from "react";
-import { BaseLayout } from "components/layout/Layout";
-import { DisruptionInfo, ErrorInfo } from "interfaces";
-import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
-import ErrorSummary from "../components/ErrorSummary";
-import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/jsonTypes";
+import { ReactElement } from "react";
+import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
+import { BaseLayout } from "../components/layout/Layout";
+import { DisruptionInfo } from "../interfaces";
+
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
-    errors: ErrorInfo[];
-    summary: string;
-    description: string;
-    type: string;
-    reason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
 }
 
 enum Reason {
@@ -216,8 +210,8 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: CreateDisruptionProps } => {
-    let inputs: DisruptionInfo = {
+export const getServerSideProps = (): { props: object } => {
+    const inputs: DisruptionInfo = {
         validityStartDateDay: "",
         validityStartDateMonth: "",
         validityStartDateYear: "",
