@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react';
-import { ErrorInfo } from '../interfaces';
-import FormElementWrapper from './FormElementWrapper';
-
+import startCase from "lodash/startCase";
+import { ReactElement } from "react";
+import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
 interface DateSelectorProps {
     inputs?: {
         dayInput: string;
@@ -9,63 +9,73 @@ interface DateSelectorProps {
         yearInput: string;
     };
     errors?: ErrorInfo[];
-    startOrEnd: 'start' | 'end';
+    startOrEnd: "start" | "end";
+    type: string;
 }
 
-const DateSelector = ({ inputs, startOrEnd, errors = [] }: DateSelectorProps): ReactElement => (
-        <FormElementWrapper errors={errors} errorId={`${startOrEnd}-day-input`} errorClass="govuk-date-input--error">
-            <div className="govuk-date-input" id={`${startOrEnd}-date`}>
-                <div className="govuk-date-input__item">
-                    <div className="govuk-form-group">
-                        <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-day-input`}>
-                            Day
-                        </label>
-                        <input
-                            className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
-                                errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
-                            id={`${startOrEnd}-day-input`}
-                            name={`${startOrEnd}DateDay`}
-                            type="text"
-                            defaultValue={inputs?.dayInput}
-                        />
-                    </div>
-                </div>
-
-                <div className="govuk-date-input__item">
-                    <div className="govuk-form-group">
-                        <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-month-input`}>
-                            Month
-                        </label>
-                        <input
-                            className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
-                                errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
-                            id={`${startOrEnd}-month-input`}
-                            name={`${startOrEnd}DateMonth`}
-                            type="text"
-                            defaultValue={inputs?.monthInput}
-                        />
-                    </div>
-                </div>
-                <div className="govuk-date-input__item">
-                    <div className="govuk-form-group">
-                        <label className="govuk-label govuk-date-input__label" htmlFor={`${startOrEnd}-year-input`}>
-                            Year
-                        </label>
-                        <input
-                            className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
-                                errors.length > 0 ? 'govuk-input--error' : ''
-                            } `}
-                            id={`${startOrEnd}-year-input`}
-                            name={`${startOrEnd}DateYear`}
-                            type="text"
-                            defaultValue={inputs?.yearInput}
-                        />
-                    </div>
+const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorProps): ReactElement => (
+    <FormElementWrapper errors={errors} errorId={`${startOrEnd}-day-input`} errorClass="govuk-date-input--error">
+        <div className="govuk-date-input" id={`${startOrEnd}-date`}>
+            <div className="govuk-date-input__item">
+                <div className="govuk-form-group">
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-day-input` : `${startOrEnd}-day-input`}
+                    >
+                        Day
+                    </label>
+                    <input
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
+                        id={`${type}-${startOrEnd}-day-input`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
+                        type="text"
+                        defaultValue={inputs?.dayInput}
+                    />
                 </div>
             </div>
-        </FormElementWrapper>
+
+            <div className="govuk-date-input__item">
+                <div className="govuk-form-group">
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-month-input` : `${startOrEnd}-month-input`}
+                    >
+                        Month
+                    </label>
+                    <input
+                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
+                        id={`${type}-${startOrEnd}-month-input`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateMonth`}
+                        type="text"
+                        defaultValue={inputs?.monthInput}
+                    />
+                </div>
+            </div>
+            <div className="govuk-date-input__item">
+                <div className="govuk-form-group">
+                    <label
+                        className="govuk-label govuk-date-input__label"
+                        htmlFor={type ? `${type}-${startOrEnd}-year-input` : `${startOrEnd}-year-input`}
+                    >
+                        Year
+                    </label>
+                    <input
+                        className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
+                        id={`$${type}-${startOrEnd}-year-input`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateYear`}
+                        type="text"
+                        defaultValue={inputs?.yearInput}
+                    />
+                </div>
+            </div>
+        </div>
+    </FormElementWrapper>
 );
 
 export default DateSelector;

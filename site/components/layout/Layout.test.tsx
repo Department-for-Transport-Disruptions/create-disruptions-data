@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import Layout from "./Layout";
 import { describe, it, expect } from "vitest";
+import Layout from "./Layout";
 
 describe("Layout", () => {
     it("should render correctly", () => {

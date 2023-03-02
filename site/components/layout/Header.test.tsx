@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import Header from "./Header";
 import { describe, it, expect } from "vitest";
+import Header from "./Header";
 
 describe("Header", () => {
     it("should render correctly", () => {
