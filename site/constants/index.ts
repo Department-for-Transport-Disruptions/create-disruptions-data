@@ -1,4 +1,9 @@
-import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/siriTypes";
+import {
+    MiscellaneousReason,
+    PersonnelReason,
+    EnvironmentReason,
+    EquipmentReason,
+} from "@create-disruptions-data/shared-ts/siriTypes";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
