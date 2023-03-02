@@ -1,7 +1,7 @@
 import { SSTConfig } from "sst";
+import { SiriAPIStack } from "./stacks/SiriAPIStack";
 import { SiriGeneratorStack } from "./stacks/SiriGeneratorStack";
 import { SiteStack } from "./stacks/Site";
-import { SiriAPIStack } from "./stacks/SiriAPIStack";
 
 export default {
     config() {

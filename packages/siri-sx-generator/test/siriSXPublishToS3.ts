@@ -53,8 +53,12 @@ export const jsonData: ServiceDelivery = {
 const stageName = process.argv.slice(2);
 
 if (!stageName) {
+    // eslint-disable-next-line no-console
     console.log("Please provide Serverless Stack Stage name.");
     process.exit(0);
 }
 
-uploadToS3(JSON.stringify(jsonData), "s3-upload.json", `cdd-disruptions-json-${stageName}`);
+uploadToS3(JSON.stringify(jsonData), "s3-upload.json", `cdd-disruptions-json-${stageName[0]}`).catch((e) =>
+    // eslint-disable-next-line no-console
+    console.error(e),
+);

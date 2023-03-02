@@ -1,16 +1,25 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { S3Event } from "aws-lambda";
-import { toXML } from "jstoxml";
-import { getS3Client, uploadToS3 } from "./util/s3Client";
+import { toXML, XmlElement } from "jstoxml";
+import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
+import { randomUUID } from "crypto";
+import { getS3Client, uploadToS3 } from "./util/s3Client";
 
 const s3Client = getS3Client();
 
 export const main = async (event: S3Event): Promise<void> => {
+    logger.options.dev = process.env.NODE_ENV !== "production";
+    logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
+
+    logger.options.meta = {
+        id: randomUUID(),
+    };
+
     const bucketName = event.Records[0].s3.bucket.name || "";
     const objectKey = event.Records[0].s3.object.key || "";
 
-    console.info("Processing JSON input file: ", objectKey);
+    logger.info(`Processing JSON input file: ${objectKey}`);
     const params = { Bucket: bucketName, Key: objectKey };
 
     // Read the file from S3 using GetObject API
@@ -26,7 +35,7 @@ export const main = async (event: S3Event): Promise<void> => {
         throw Error("No data found");
     }
 
-    let xmlData = toXML(JSON.parse(data), config);
+    let xmlData = toXML(JSON.parse(data) as XmlElement, config);
 
     if (!xmlData) {
         throw Error("Could not generate XML");
@@ -41,5 +50,5 @@ export const main = async (event: S3Event): Promise<void> => {
         process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME,
     );
 
-    console.info("Unvalidated Siri SX XML created and published to S3");
+    logger.info("Unvalidated Siri SX XML created and published to S3");
 };

@@ -1,8 +1,7 @@
 {
     "env": {
         "browser": true,
-        "es6": true,
-        "jest": true
+        "es6": true
     },
     "extends": [
         "plugin:@typescript-eslint/recommended",
@@ -27,7 +26,7 @@
         "tsconfigRootDir": ".",
         "project": "./tsconfig.json"
     },
-    "plugins": ["@typescript-eslint", "jest"],
+    "plugins": ["@typescript-eslint"],
     "settings": {
         "import/resolver": {
             "typescript": {
@@ -37,9 +36,6 @@
     },
     "rules": {
         "@typescript-eslint/triple-slash-reference": 0,
-        "jest/no-disabled-tests": "error",
-        "jest/no-identical-title": "error",
-        "jest/valid-expect": "error",
         "no-console": "error",
         "import/order": [
             1,
