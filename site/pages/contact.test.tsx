@@ -1,11 +1,11 @@
 import * as React from "react";
 import renderer from "react-test-renderer";
-import Index from "./index";
 import { describe, it, expect } from "vitest";
+import Contact from "./contact";
 
-describe('index', () => {
+describe("contact", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<Index />).toJSON();
+        const tree = renderer.create(<Contact />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
