@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import { DisruptionInfo, ErrorInfo } from "interfaces";
+import { DisruptionInfo } from "interfaces";
 import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
-import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/jsonTypes";
+import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/siriTypes";
 import { BaseLayout } from "../components/layout/Layout";
 
 const title = "Create Disruptions";
@@ -9,13 +9,6 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
-}
-
-enum Reason {
-    roadWorks = "Road Works",
-    vandalism = "Vandalism",
-    routeDiversion = "Route Diversion",
-    specialEvent = "Special Event",
 }
 
 const reasons: {
