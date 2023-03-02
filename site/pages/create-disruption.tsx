@@ -9,6 +9,11 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
+    errors: ErrorInfo[];
+    summary: string;
+    description: string;
+    type: string;
+    reason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
 }
 
 enum Reason {
@@ -107,7 +112,13 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
                                         Summary
                                     </h3>
                                 </legend>
-                                <input className="govuk-input w-3/4" id="summary" name="summary" type="text" />
+                                <input
+                                    className="govuk-input w-3/4"
+                                    id="summary"
+                                    name="summary"
+                                    type="text"
+                                    defaultValue={summary}
+                                />
                             </div>
                             <div className="govuk-form-group">
                                 <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
@@ -205,7 +216,7 @@ const CreateDisruption = ({ inputs, errors = [] }: CreateDisruptionProps): React
     );
 };
 
-export const getServerSideProps = (): { props: CreateDisruptionProps } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: CreateDisruptionProps } => {
     let inputs: DisruptionInfo = {
         validityStartDateDay: "",
         validityStartDateMonth: "",
@@ -229,8 +240,22 @@ export const getServerSideProps = (): { props: CreateDisruptionProps } => {
         publishEndTimeMinute: "",
     };
 
+    const errors: ErrorInfo[] = [];
+
+    setCookie("disruption2", "test");
+
+    const options: OptionsType = {
+        req: ctx.req,
+        res: ctx.res,
+        path: "/create-disruption",
+    };
+
+    const cookieValues: CookieValueTypes = getCookie("disruption", options);
+
+    console.log(cookieValues);
+
     return {
-        props: { inputs },
+        props: { inputs, errors, summary: "" },
     };
 };
 
