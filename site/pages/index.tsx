@@ -1,4 +1,5 @@
-import { BaseLayout } from "components/layout/Layout";
+import Link from "next/link";
+import { BaseLayout } from "../components/layout/Layout";
 
 const title = "Create Transport Disruption Data";
 const description =
@@ -26,7 +27,7 @@ const Home = () => {
                 <li>Download your own transport disruptions data</li>
             </ul>
 
-            <a
+            <Link
                 href="/create-disruption"
                 role="button"
                 draggable="false"
@@ -46,7 +47,7 @@ const Home = () => {
                 >
                     <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                 </svg>
-            </a>
+            </Link>
         </BaseLayout>
     );
 };

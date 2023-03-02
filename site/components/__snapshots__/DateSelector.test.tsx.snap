@@ -17,7 +17,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={true}
-          id="start-day-input"
+          id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
           placeholder="mm/dd/yyyy"
@@ -83,7 +83,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={false}
-          id="start-day-input"
+          id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
           placeholder="mm/dd/yyyy"
@@ -152,7 +152,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={false}
-          id="start-day-input"
+          id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
           placeholder="mm/dd/yyyy"

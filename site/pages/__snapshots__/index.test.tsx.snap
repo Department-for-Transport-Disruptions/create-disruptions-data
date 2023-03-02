@@ -89,6 +89,9 @@ exports[`index > should render correctly 1`] = `
         draggable="false"
         href="/create-disruption"
         id="start-now-button"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
         role="button"
       >
         Start now

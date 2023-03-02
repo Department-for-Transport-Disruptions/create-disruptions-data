@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import PhaseBanner from "./PhaseBanner";
 import { describe, it, expect } from "vitest";
+import PhaseBanner from "./PhaseBanner";
 
 describe("PhaseBanner", () => {
     it("should render correctly", () => {

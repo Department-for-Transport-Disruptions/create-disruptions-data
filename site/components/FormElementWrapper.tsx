@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { ErrorInfo } from '../interfaces';
+import React, { ReactElement } from "react";
+import { ErrorInfo } from "../interfaces";
 
 interface FormElementWrapperProps {
     errors: ErrorInfo[];
@@ -24,8 +24,9 @@ interface FormErrorBlockProps {
 
 const addErrorClasses = (child: ReactElement, errorClass: string, errorId: string): ReactElement =>
     React.cloneElement(child, {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
         className: child.props.className ? `${child.props.className} ${errorClass}` : errorClass,
-        'aria-describedby': `${errorId}-error`,
+        "aria-describedby": `${errorId}-error`,
     });
 
 export const FormErrorBlock = ({ errors, errorIds }: FormErrorBlockProps): ReactElement => (
@@ -50,7 +51,7 @@ export const FormGroupWrapper = ({
     const errorForElement = errors.find((err) => errorIds.includes(err.id));
 
     return (
-        <div className={`govuk-form-group ${errorForElement && !hideErrorBar ? 'govuk-form-group--error' : ''}`}>
+        <div className={`govuk-form-group ${errorForElement && !hideErrorBar ? "govuk-form-group--error" : ""}`}>
             {children}
         </div>
     );
@@ -67,7 +68,7 @@ const FormElementWrapper = ({
     const errorForElement = errors.find((err) => err.id === errorId);
 
     return (
-        <div className={addFormGroupError && errorForElement ? 'govuk-form-group--error' : ''}>
+        <div className={addFormGroupError && errorForElement ? "govuk-form-group--error" : ""}>
             {errorForElement && !hideText && (
                 <span id={`${errorId}-error`} className="govuk-error-message">
                     <span className="govuk-visually-hidden">Error: </span>

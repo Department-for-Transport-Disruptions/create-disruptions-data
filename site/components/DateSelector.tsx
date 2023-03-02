@@ -16,7 +16,8 @@ interface DateSelectorProps {
     input: Date | null;
     errors?: ErrorInfo[];
     startOrEnd: "start" | "end";
-    disabled: boolean
+    isPublishInfo: boolean;
+    disabled: boolean;
 }
 
 const inputBox = (
@@ -25,7 +26,8 @@ const inputBox = (
     inputRef: React.Ref<any> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
-    disabled: boolean
+    disabled: boolean,
+    isPublishInfo: boolean
 ) => (
     <div className="govuk-date-input flex items-center" id={`${startOrEnd}-date`}>
         <div className="govuk-date-input__item govuk-!-margin-right-0">
@@ -34,7 +36,7 @@ const inputBox = (
                     className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
                         hasErrors ? "govuk-input--error" : ""
                     } `}
-                    id={`${startOrEnd}-day-input`}
+                    id={`${isPublishInfo && 'publish-'}${startOrEnd}-day-input`}
                     name={`${startOrEnd}DateDay`}
                     type="text"
                     ref={inputRef}
@@ -60,7 +62,7 @@ const renderWeekPickerDay = (
                     backgroundColor: color,
                 },
                 [`&&.${pickersDayClasses.dayWithMargin}:focus`]: {
-                    border: '1px solid #ffdd00',
+                    border: "1px solid #ffdd00",
                 },
                 [`&&.${pickersDayClasses.dayWithMargin}:hover`]: {
                     border: `1px solid ${color}`,
@@ -70,7 +72,7 @@ const renderWeekPickerDay = (
     );
 };
 
-const DateSelector = ({ input = null, startOrEnd, errors = [], disabled }: DateSelectorProps): ReactElement => {
+const DateSelector = ({ input = null, startOrEnd, errors = [], disabled, isPublishInfo }: DateSelectorProps): ReactElement => {
     const [value, setValue] = useState(input);
     const theme = createTheme({
         components: {
@@ -109,9 +111,9 @@ const DateSelector = ({ input = null, startOrEnd, errors = [], disabled }: DateS
                             setValue(newValue);
                         }}
                         renderInput={({ inputRef, inputProps, InputProps }) => {
-                            return inputBox(startOrEnd, errors.length > 0, inputRef, inputProps, InputProps, disabled);
+                            return inputBox(startOrEnd, errors.length > 0, inputRef, inputProps, InputProps, disabled, isPublishInfo);
                         }}
-                        disablePast={startOrEnd === 'end'}
+                        disablePast={startOrEnd === "end"}
                     />
                 </LocalizationProvider>
             </ThemeProvider>

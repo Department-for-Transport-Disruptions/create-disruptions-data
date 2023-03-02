@@ -23,8 +23,8 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
           defaultValue="d"
-          id="start-hour-input"
-          name="startHour"
+          id="undefined-start-hour-input"
+          name="undefinedstartHour"
           type="text"
         />
       </div>
@@ -44,8 +44,8 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
           defaultValue="02"
-          id="start-minute-input"
-          name="startMinute"
+          id="undefined-start-minute-input"
+          name="undefinedstartMinute"
           type="text"
         />
       </div>
@@ -77,8 +77,8 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
           defaultValue="01"
-          id="start-hour-input"
-          name="startHour"
+          id="undefined-start-hour-input"
+          name="undefinedstartHour"
           type="text"
         />
       </div>
@@ -98,8 +98,8 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
           defaultValue="02"
-          id="start-minute-input"
-          name="startMinute"
+          id="undefined-start-minute-input"
+          name="undefinedstartMinute"
           type="text"
         />
       </div>
@@ -130,8 +130,8 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="start-hour-input"
-          name="startHour"
+          id="undefined-start-hour-input"
+          name="undefinedstartHour"
           type="text"
         />
       </div>
@@ -150,8 +150,8 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="start-minute-input"
-          name="startMinute"
+          id="undefined-start-minute-input"
+          name="undefinedstartMinute"
           type="text"
         />
       </div>

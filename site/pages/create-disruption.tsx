@@ -1,14 +1,13 @@
-import React, { ReactElement } from "react";
-import DateSelector from "components/DateSelector";
-import TimeSelector from "components/TimeSelector";
-import { BaseLayout } from "components/layout/Layout";
-import { DisruptionValidity } from "interfaces";
+import { ReactElement } from "react";
+import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
+import { BaseLayout } from "../components/layout/Layout";
+import { DisruptionInfo } from "../interfaces";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
-    inputs: DisruptionValidity;
+    inputs: DisruptionInfo;
 }
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
@@ -17,82 +16,12 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
             <>
                 <div className="govuk-form-group">
                     <h1 className="govuk-heading-l">When is the disruption?</h1>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="start-date-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start date?</h3>
-                        </legend>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            input={!!inputs.startDate ? new Date(inputs.startDate) : null}
-                            disabled={false}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="start-time-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the start time?</h3>
-                        </legend>
-                        <div id="start-time-hint" className="govuk-hint">
-                            Enter in format HH:MM
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="start"
-                            inputs={{
-                                hourInput: inputs.startTimeHour,
-                                minuteInput: inputs.startTimeMinute,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="end-date-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end date?</h3>
-                        </legend>
-                        <DateSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            input={!!inputs.startDate ? new Date(inputs.endDate) : null}
-                            disabled={false}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group" aria-describedby="end-time-hint">
-                        <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end time?</h3>
-                        </legend>
-                        <div id="end-time-hint" className="govuk-hint">
-                            Enter in format HH:MM
-                        </div>
-                        <TimeSelector
-                            errors={[]}
-                            startOrEnd="end"
-                            inputs={{
-                                hourInput: inputs.endTimeHour,
-                                minuteInput: inputs.endTimeMinute,
-                            }}
-                        />
-                    </fieldset>
-                    <fieldset className="govuk-fieldset" role="group">
-                        <div
-                            className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-8"
-                            data-module="govuk-checkboxes"
-                        >
-                            <div className="govuk-checkboxes__item">
-                                <input
-                                    className="govuk-checkboxes__input"
-                                    id="no-end-date-time"
-                                    name="noEndDateTime"
-                                    type="checkbox"
-                                    value="noEndDateTime"
-                                />
-                                <label className="govuk-label govuk-checkboxes__label" htmlFor="no-end-date-time">
-                                    No end date/time
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
+
+                    <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
+
                     <fieldset className="govuk-fieldset" role="group" aria-describedby="disruption-repeat-hint">
                         <legend className="govuk-fieldset__legend govuk-!-padding-top-8" id="disruption-repeat-hint">
-                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> Does this disruption repeat?</h3>
+                            <h3 className="govuk-heading-s govuk-!-margin-bottom-0">Does this disruption repeat?</h3>
                         </legend>
                         <div className="govuk-radios" data-module="govuk-radios">
                             <div className="govuk-radios__item">
@@ -121,6 +50,16 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             </div>
                         </div>
                     </fieldset>
+
+                    <h1 className="govuk-heading-l govuk-!-padding-top-8">
+                        When does the disruption need to be published?
+                    </h1>
+
+                    <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
+
+                    <button className="govuk-button mt-8" data-module="govuk-button">
+                        Save and continue
+                    </button>
                 </div>
             </>
         </BaseLayout>
@@ -128,13 +67,19 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 };
 
 export const getServerSideProps = (): { props: object } => {
-    let inputs: DisruptionValidity = {
-        startDate: "",
-        endDate: "",
-        startTimeHour: "",
-        startTimeMinute: "",
-        endTimeHour: "",
-        endTimeMinute: "",
+    const inputs: DisruptionInfo = {
+        validityStartDate: "",
+        validityEndDate: "",
+        validityStartTimeHour: "",
+        validityStartTimeMinute: "",
+        validityEndTimeHour: "",
+        validityEndTimeMinute: "",
+        publishStartDate: "",
+        publishEndDate: "",
+        publishStartTimeHour: "",
+        publishStartTimeMinute: "",
+        publishEndTimeHour: "",
+        publishEndTimeMinute: "",
     };
 
     return {
