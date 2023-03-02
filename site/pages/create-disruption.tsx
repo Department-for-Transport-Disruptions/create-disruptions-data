@@ -3,35 +3,15 @@ import { DisruptionInfo } from "interfaces";
 import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
 import { MiscellaneousReason, PersonnelReason, EnvironmentReason, EquipmentReason } from "../../shared-ts/siriTypes";
 import { BaseLayout } from "../components/layout/Layout";
+import { DISRUPTION_REASONS } from "../constants/index";
 
+DISRUPTION_REASONS;
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
 }
-
-const reasons: {
-    value: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    reason: string;
-}[] = [
-    {
-        value: MiscellaneousReason.roadWorks,
-        reason: "Road Works",
-    },
-    {
-        value: MiscellaneousReason.vandalism,
-        reason: "Vandalism",
-    },
-    {
-        value: MiscellaneousReason.routeDiversion,
-        reason: "Route Diversion",
-    },
-    {
-        value: MiscellaneousReason.specialEvent,
-        reason: "Special Event",
-    },
-];
 
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [];
@@ -41,7 +21,7 @@ const getReasonOptions = (): JSX.Element[] => {
             Select Reason
         </option>,
     );
-    reasons.forEach((reasonType) => {
+    DISRUPTION_REASONS.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
                 {reasonType.reason}
