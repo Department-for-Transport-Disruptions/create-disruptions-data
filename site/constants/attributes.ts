@@ -8,7 +8,7 @@ export const CD_ASSOCIATED_LINK = "associatedLink";
 
 export const CD_DISRUPTION_REASON = "disruptionReason";
 
-export const CD_DISRUPTION_REAPEATS = "disruptionRepeats";
+export const CD_DISRUPTION_REPEATS = "disruptionRepeats";
 
 export const CD_NO_VALIDITY_END_DATE_TIME = "validityNoEndDateTime";
 

@@ -3,26 +3,10 @@ import { DisruptionInfo, ErrorInfo } from "interfaces";
 import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS } from "../constants/index";
-import {
-    MiscellaneousReason,
-    PersonnelReason,
-    EnvironmentReason,
-    EquipmentReason,
-} from "@create-disruptions-data/shared-ts/siriTypes";
 import { NextPageContext } from "next";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
-
-interface CreateDisruptionProps {
-    inputs: DisruptionInfo;
-    summary?: string;
-    description?: string;
-    disruptionType?: string;
-    associatedLink?: string;
-    disruptionReason?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    errors?: ErrorInfo[];
-}
 
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [

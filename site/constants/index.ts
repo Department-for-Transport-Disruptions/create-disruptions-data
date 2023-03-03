@@ -30,3 +30,5 @@ export const DISRUPTION_REASONS: {
         reason: "Special Event",
     },
 ];
+
+export const DISRUPTION_TYPES = ["Planned", "Unplanned"];
