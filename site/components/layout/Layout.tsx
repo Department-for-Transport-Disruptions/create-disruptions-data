@@ -1,10 +1,10 @@
 import Head from "next/head";
+import Link from "next/link";
 import { PropsWithChildren, ReactElement } from "react";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
-import Help from "../Help";
 
 interface LayoutProps {
     title: string;
@@ -13,6 +13,18 @@ interface LayoutProps {
     hideCookieBanner?: boolean;
     hideHelp?: boolean;
 }
+
+const Help = (): ReactElement => (
+    <div>
+        <h2 className="govuk-heading-s">Help and Support</h2>
+        <p className="govuk-body">
+            If you are having problems, please contact the Create Disruption Service via this link:{" "}
+            <Link href="/contact" className="govuk-link govuk-!-font-size-19">
+                Contact us
+            </Link>
+        </p>
+    </div>
+);
 
 export const BaseLayout = ({
     title,

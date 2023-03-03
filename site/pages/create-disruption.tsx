@@ -14,8 +14,8 @@ interface CreateDisruptionProps {
 
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [
-        <option value="" key="">
-            Select Reason
+        <option value="" disabled key="">
+            Choose a reason
         </option>,
     ];
 
@@ -98,7 +98,12 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             <label className="govuk-label govuk-label--s" htmlFor="Distruption-reason">
                                 Reason for disruption
                             </label>
-                            <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
+                            <select
+                                className="govuk-select w-3/4"
+                                id="disruption-reason"
+                                name="disruptionReason"
+                                defaultValue=""
+                            >
                                 {getReasonOptions()}
                             </select>
                         </div>
@@ -164,22 +169,14 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
 export const getServerSideProps = (): { props: object } => {
     const inputs: DisruptionInfo = {
-        validityStartDateDay: "",
-        validityStartDateMonth: "",
-        validityStartDateYear: "",
-        validityEndDateDay: "",
-        validityEndDateMonth: "",
-        validityEndDateYear: "",
+        validityStartDate: "",
+        validityEndDate: "",
         validityStartTimeHour: "",
         validityStartTimeMinute: "",
         validityEndTimeHour: "",
         validityEndTimeMinute: "",
-        publishStartDateDay: "",
-        publishStartDateMonth: "",
-        publishStartDateYear: "",
-        publishEndDateDay: "",
-        publishEndDateMonth: "",
-        publishEndDateYear: "",
+        publishStartDate: "",
+        publishEndDate: "",
         publishStartTimeHour: "",
         publishStartTimeMinute: "",
         publishEndTimeHour: "",
