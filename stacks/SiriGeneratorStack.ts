@@ -1,7 +1,7 @@
 import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { StackContext, use } from "sst/constructs";
-import { SiteStack } from "./Site";
+import { SiteStack } from "./SiteStack";
 import { createGeneratorLambda } from "./services/GeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
 import { createBucket } from "./services/Buckets";
