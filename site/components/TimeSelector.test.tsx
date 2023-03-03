@@ -4,7 +4,16 @@ import TimeSelector from "./TimeSelector";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
-        const tree = renderer.create(<TimeSelector startOrEnd={"start"} type="validity" />).toJSON();
+        const tree = renderer
+            .create(
+                <TimeSelector
+                    errors={[]}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
+                />,
+            )
+            .toJSON();
         expect(tree).toMatchSnapshot();
     });
 
@@ -12,12 +21,11 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    inputs={{
-                        hourInput: "01",
-                        minuteInput: "02",
-                    }}
-                    startOrEnd={"start"}
-                    type="publish"
+                    errors={[]}
+                    input={"0900"}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
                 />,
             )
             .toJSON();
@@ -28,19 +36,11 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    inputs={{
-                        hourInput: "d",
-                        minuteInput: "02",
-                    }}
-                    startOrEnd={"start"}
-                    errors={[
-                        {
-                            errorMessage: "Hour input needs to be a number",
-                            id: "start-hour-input",
-                            userInput: "d",
-                        },
-                    ]}
-                    type="validity"
+                    errors={[{ errorMessage: "There was an error", id: "publish-start-time-input" }]}
+                    input={"0900"}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
                 />,
             )
             .toJSON();

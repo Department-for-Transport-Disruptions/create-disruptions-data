@@ -1,58 +1,29 @@
-import startCase from "lodash/startCase";
 import { ReactElement } from "react";
 import FormElementWrapper from "./FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
+
 interface TimeSelectorProps {
-    inputs?: {
-        hourInput: string;
-        minuteInput: string;
-    };
+    input?: string;
     errors?: ErrorInfo[];
-    startOrEnd: "start" | "end";
-    type: string;
+    disabled: boolean;
+    inputId: string;
+    inputName: string;
 }
 
-const TimeSelector = ({ inputs, startOrEnd, errors = [], type }: TimeSelectorProps): ReactElement => (
-    <FormElementWrapper errors={errors} errorId={`${startOrEnd}-day-input`} errorClass="govuk-date-input--error">
-        <div className="govuk-date-input" id={`${startOrEnd}-date`}>
-            <div className="govuk-date-input__item">
-                <div className="govuk-form-group">
-                    <label
-                        className="govuk-label govuk-date-input__label"
-                        htmlFor={type ? `${type}-${startOrEnd}-hour-input` : `${startOrEnd}-hour-input`}
-                    >
-                        Hour
-                    </label>
-                    <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
-                            errors.length > 0 ? "govuk-input--error" : ""
-                        } `}
-                        id={`${type}-${startOrEnd}-hour-input`}
-                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Hour`}
-                        type="text"
-                        defaultValue={inputs?.hourInput}
-                    />
-                </div>
-            </div>
-            <div className="govuk-date-input__item">
-                <div className="govuk-form-group">
-                    <label
-                        className="govuk-label govuk-date-input__label"
-                        htmlFor={type ? `${type}-${startOrEnd}-minute-input` : `${startOrEnd}-minute-input`}
-                    >
-                        Minute
-                    </label>
-                    <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-2 ${
-                            errors.length > 0 ? "govuk-input--error" : ""
-                        } `}
-                        id={`${type}-${startOrEnd}-minute-input`}
-                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}Minute`}
-                        type="text"
-                        defaultValue={inputs?.minuteInput}
-                    />
-                </div>
-            </div>
+const TimeSelector = ({ input, errors = [], disabled, inputId, inputName }: TimeSelectorProps): ReactElement => (
+    <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-date-input--error">
+        <div className="govuk-form-group">
+            <input
+                className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
+                    errors.length > 0 ? "govuk-input--error" : ""
+                } `}
+                id={inputId}
+                name={inputName}
+                type="text"
+                defaultValue={input}
+                disabled={disabled}
+                placeholder="hhmm"
+            />
         </div>
     </FormElementWrapper>
 );
