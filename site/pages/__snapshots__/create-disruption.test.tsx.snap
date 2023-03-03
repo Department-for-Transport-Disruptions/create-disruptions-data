@@ -163,10 +163,12 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             </label>
             <select
               className="govuk-select w-3/4"
+              defaultValue=""
               id="disruption-reason"
               name="disruptionReason"
             >
               <option
+                disabled={true}
                 value=""
               >
                 Select Reason
@@ -1279,10 +1281,12 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             </label>
             <select
               className="govuk-select w-3/4"
+              defaultValue=""
               id="disruption-reason"
               name="disruptionReason"
             >
               <option
+                disabled={true}
                 value=""
               >
                 Select Reason
