@@ -5,7 +5,16 @@ import { describe, it, expect } from "vitest";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
-        const tree = renderer.create(<TimeSelector startOrEnd={"start"} />).toJSON();
+        const tree = renderer
+            .create(
+                <TimeSelector
+                    errors={[]}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
+                />,
+            )
+            .toJSON();
         expect(tree).toMatchSnapshot();
     });
 
@@ -13,11 +22,11 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    inputs={{
-                        hourInput: "01",
-                        minuteInput: "02",
-                    }}
-                    startOrEnd={"start"}
+                    errors={[]}
+                    input={"0900"}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
                 />,
             )
             .toJSON();
@@ -28,18 +37,11 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    inputs={{
-                        hourInput: "d",
-                        minuteInput: "02",
-                    }}
-                    startOrEnd={"start"}
-                    errors={[
-                        {
-                            errorMessage: "Hour input needs to be a number",
-                            id: "start-hour-input",
-                            userInput: "d",
-                        },
-                    ]}
+                    errors={[{ errorMessage: "There was an error", id: "publish-start-time-input" }]}
+                    input={"0900"}
+                    disabled={false}
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
                 />,
             )
             .toJSON();

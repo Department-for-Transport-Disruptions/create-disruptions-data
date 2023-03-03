@@ -7,14 +7,10 @@ export interface ErrorInfo {
 export interface DisruptionInfo {
     validityStartDate: string;
     validityEndDate: string;
-    validityStartTimeHour: string;
-    validityStartTimeMinute: string;
-    validityEndTimeHour: string;
-    validityEndTimeMinute: string;
+    validityStartTime: string;
+    validityEndTime: string;
     publishStartDate: string;
     publishEndDate: string;
-    publishStartTimeHour: string;
-    publishStartTimeMinute: string;
-    publishEndTimeHour: string;
-    publishEndTimeMinute: string;
+    publishStartTime: string;
+    publishEndTime: string;
 }

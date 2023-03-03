@@ -171,16 +171,12 @@ export const getServerSideProps = (): { props: object } => {
     const inputs: DisruptionInfo = {
         validityStartDate: "",
         validityEndDate: "",
-        validityStartTimeHour: "",
-        validityStartTimeMinute: "",
-        validityEndTimeHour: "",
-        validityEndTimeMinute: "",
+        validityStartTime: "",
+        validityEndTime: "",
         publishStartDate: "",
         publishEndDate: "",
-        publishStartTimeHour: "",
-        publishStartTimeMinute: "",
-        publishEndTimeHour: "",
-        publishEndTimeMinute: "",
+        publishStartTime: "",
+        publishEndTime: "",
     };
 
     return {
