@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { DisruptionInfo } from "interfaces";
+import { DisruptionInfo, ErrorInfo } from "interfaces";
 import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS } from "../constants/index";
@@ -9,6 +9,7 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -20,6 +21,7 @@ interface CreateDisruptionProps {
     disruptionType: string;
     associatedLink?: string;
     disruptionReason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
+    errors: ErrorInfo[];
 }
 
 const getReasonOptions = (): JSX.Element[] => {
