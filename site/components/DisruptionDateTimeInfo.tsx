@@ -24,10 +24,11 @@ export const DisruptionsDateTimeInfo = ({
             <div className="govuk-hint govuk-visually-hidden">Enter in format DD/MM/YYYY</div>
             <DateSelector
                 errors={[]}
-                startOrEnd="start"
                 input={!!inputs.validityStartDate ? new Date(inputs.validityStartDate) : null}
                 disabled={false}
+                disablePast={false}
                 inputId={`${isDisruptionValidity ? "validity" : "publish"}-start-date`}
+                inputName={`${isDisruptionValidity ? "validity" : "publish"}StartDateDay`}
             />
         </div>
         <fieldset
@@ -61,10 +62,11 @@ export const DisruptionsDateTimeInfo = ({
             <div className="govuk-hint govuk-visually-hidden">Enter in format DD/MM/YYYY</div>
             <DateSelector
                 errors={[]}
-                startOrEnd="end"
+                disablePast
                 input={!!inputs.validityEndDate ? new Date(inputs.validityEndDate) : null}
                 disabled={false}
                 inputId={`${isDisruptionValidity ? "validity" : "publish"}-end-date`}
+                inputName={`${isDisruptionValidity ? "validity" : "publish"}EndDateDay`}
             />
         </div>
         <fieldset

@@ -11,38 +11,41 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 interface DateSelectorProps {
     input: Date | null;
     errors?: ErrorInfo[];
-    startOrEnd: "start" | "end";
     disabled: boolean;
     inputId: string;
+    inputName: string;
+    disablePast: boolean;
 }
 
 const inputBox = (
-    startOrEnd: "start" | "end",
-    hasErrors: boolean,
+    errors: ErrorInfo[],
     inputRef: React.Ref<any> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     disabled: boolean,
     inputId: string,
+    inputName: string,
 ) => (
-    <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue" id={`${startOrEnd}-date`}>
-        <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <div className="govuk-form-group">
-                <input
-                    className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
-                        hasErrors ? "govuk-input--error" : ""
-                    } `}
-                    id={inputId}
-                    name={`${inputId.includes("publish") ? "publish" : "validity"}-${startOrEnd}DateDay`}
-                    type="text"
-                    ref={inputRef}
-                    {...inputProps}
-                    disabled={disabled}
-                />
+    <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-date-input--error">
+        <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
+            <div className="govuk-date-input__item govuk-!-margin-right-0">
+                <div className="govuk-form-group">
+                    <input
+                        className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
+                            errors.length > 0 ? "govuk-input--error" : ""
+                        } `}
+                        id={inputId}
+                        name={inputName}
+                        type="text"
+                        ref={inputRef}
+                        {...inputProps}
+                        disabled={disabled}
+                    />
+                </div>
             </div>
+            {InputProps?.endAdornment}
         </div>
-        {InputProps?.endAdornment}
-    </div>
+    </FormElementWrapper>
 );
 
 const renderWeekPickerDay = (
@@ -62,38 +65,29 @@ const renderWeekPickerDay = (
 
 const DateSelector = ({
     input = null,
-    startOrEnd,
     errors = [],
     disabled,
     inputId,
+    inputName,
+    disablePast,
 }: DateSelectorProps): ReactElement => {
     const [value, setValue] = useState(input);
 
     return (
-        <FormElementWrapper errors={errors} errorId={`${startOrEnd}-day-input`} errorClass="govuk-date-input--error">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    renderDay={renderWeekPickerDay}
-                    value={value}
-                    onChange={(newValue) => {
-                        setValue(newValue);
-                    }}
-                    renderInput={({ inputRef, inputProps, InputProps }) => {
-                        return inputBox(
-                            startOrEnd,
-                            errors.length > 0,
-                            inputRef,
-                            inputProps,
-                            InputProps,
-                            disabled,
-                            inputId,
-                        );
-                    }}
-                    disablePast={startOrEnd === "end"}
-                    inputFormat="DD/MM/YYYY"
-                />
-            </LocalizationProvider>
-        </FormElementWrapper>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                renderDay={renderWeekPickerDay}
+                value={value}
+                onChange={(newValue) => {
+                    setValue(newValue);
+                }}
+                renderInput={({ inputRef, inputProps, InputProps }) => {
+                    return inputBox(errors, inputRef, inputProps, InputProps, disabled, inputId, inputName);
+                }}
+                disablePast={disablePast}
+                inputFormat="DD/MM/YYYY"
+            />
+        </LocalizationProvider>
     );
 };
 

@@ -223,7 +223,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="start-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -235,7 +234,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="validity-start-date"
-                      name="validity-startDateDay"
+                      name="validityStartDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -374,7 +373,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="end-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -386,7 +384,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="validity-end-date"
-                      name="validity-endDateDay"
+                      name="validityEndDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -614,7 +612,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="start-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -626,7 +623,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="publish-start-date"
-                      name="publish-startDateDay"
+                      name="publishStartDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -765,7 +762,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="end-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -777,7 +773,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="publish-end-date"
-                      name="publish-endDateDay"
+                      name="publishEndDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -1317,7 +1313,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="start-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -1329,7 +1324,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="validity-start-date"
-                      name="validity-startDateDay"
+                      name="validityStartDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -1465,7 +1460,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="end-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -1477,7 +1471,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="validity-end-date"
-                      name="validity-endDateDay"
+                      name="validityEndDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -1702,7 +1696,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="start-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -1714,7 +1707,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="publish-start-date"
-                      name="publish-startDateDay"
+                      name="publishStartDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
@@ -1850,7 +1843,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <div
                 className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-                id="end-date"
               >
                 <div
                   className="govuk-date-input__item govuk-!-margin-right-0"
@@ -1862,7 +1854,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6  "
                       disabled={false}
                       id="publish-end-date"
-                      name="publish-endDateDay"
+                      name="publishEndDateDay"
                       onChange={[Function]}
                       placeholder="dd/mm/yyyy"
                       type="tel"
