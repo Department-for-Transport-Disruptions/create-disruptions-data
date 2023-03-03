@@ -103,7 +103,7 @@ export const DisruptionsDateTimeInfo = ({
         </fieldset>
         <fieldset className="govuk-fieldset" role="group">
             <div
-                className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-8"
+                className="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-6"
                 data-module="govuk-checkboxes"
             >
                 <div className="govuk-checkboxes__item">
