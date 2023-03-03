@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
-import { DisruptionInfo, ErrorInfo } from "interfaces";
-import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
+import { ReactElement } from "react";
+import { DisruptionInfo, ErrorInfo } from "../interfaces";
+import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS } from "../constants/index";
 import { NextPageContext } from "next";
@@ -8,9 +8,13 @@ import { NextPageContext } from "next";
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
+interface CreateDisruptionProps {
+    inputs: DisruptionInfo;
+}
+
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [
-        <option value="" disabled>
+        <option value="" disabled key="">
             Choose a reason
         </option>,
     ];
@@ -165,18 +169,24 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const inputs: DisruptionInfo = {
-        validityStartDate: "",
-        validityEndDate: "",
+        validityStartDateDay: "",
+        validityEndDateDay: "",
         validityStartTimeHour: "",
         validityStartTimeMinute: "",
         validityEndTimeHour: "",
         validityEndTimeMinute: "",
-        publishStartDate: "",
-        publishEndDate: "",
+        publishStartDateDay: "",
+        publishEndDateDay: "",
         publishStartTimeHour: "",
         publishStartTimeMinute: "",
         publishEndTimeHour: "",
         publishEndTimeMinute: "",
+        summary: "",
+        description: "",
+        associatedLink: "",
+        disruptionRepeats: "",
+        validityIsNoEndDateTime: "",
+        publishIsNoEndDateTime: "",
     };
 
     const errors: ErrorInfo[] = [];

@@ -12,26 +12,22 @@ export interface ErrorInfo {
 }
 
 export interface DisruptionInfo {
-    validityStartDate: string;
-    validityEndDate: string;
+    summary: string;
+    description: string;
+    associatedLink: string;
+    validityStartDateDay: string;
+    validityEndDateDay: string;
     validityStartTimeHour: string;
     validityStartTimeMinute: string;
     validityEndTimeHour: string;
     validityEndTimeMinute: string;
-    publishStartDate: string;
-    publishEndDate: string;
+    publishStartDateDay: string;
+    publishEndDateDay: string;
     publishStartTimeHour: string;
     publishStartTimeMinute: string;
     publishEndTimeHour: string;
     publishEndTimeMinute: string;
-}
-
-export interface CreateDisruptionProps {
-    inputs: DisruptionInfo;
-    summary?: string;
-    description?: string;
-    disruptionType?: string;
-    associatedLink?: string;
-    disruptionReason?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    errors?: ErrorInfo[];
+    disruptionRepeats: string;
+    validityIsNoEndDateTime: string;
+    publishIsNoEndDateTime: string;
 }

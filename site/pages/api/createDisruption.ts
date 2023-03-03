@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { redirectTo } from "../../utils/index";
-import { ErrorInfo } from "../../interfaces";
+import { DisruptionInfo, ErrorInfo } from "../../interfaces";
 import { setCookie, deleteCookie, getCookies, getCookie } from "cookies-next";
 import { CookieValueTypes, OptionsType } from "cookies-next/lib/types";
 import {
@@ -36,7 +36,7 @@ import {
 
 import { DISRUPTION_TYPES } from "../../constants/index";
 
-type CDD = {
+type CreateDisruptionAttrs = {
     summary: string;
 };
 
@@ -66,9 +66,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void>
     // const cookieValues: CookieValueTypes = getCookie("disruption", options);
 
     // const cdd: CDD = JSON.parse(cookieValues?.toString() as string);
+    console.log(req.body);
 
     checkReferrer(req.headers.referer, "/_error", res);
 
+    const formFields: DisruptionInfo = req.body as DisruptionInfo;
     const disruptionType: string = req.body[CD_DISRUPTION_TYPE];
 
     await validateDisruptioType(disruptionType, errors, "some-error-id");
@@ -85,8 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void>
 
     validateAssociatedLink(associatedLink, errors, "some-error-id");
 
-    const disruptionReasons = req.body[CD_];
-    console.log(req.body);
+    //const disruptionReasons = req.body[CD_];
 
     redirectTo(res, `/create-disruption`);
 };

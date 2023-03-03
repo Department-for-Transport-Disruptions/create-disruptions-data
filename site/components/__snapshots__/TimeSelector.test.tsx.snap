@@ -16,15 +16,15 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-hour-input"
+          htmlFor="validity-start-hour-input"
         >
           Hour
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
           defaultValue="d"
-          id="undefined-start-hour-input"
-          name="undefinedstartHour"
+          id="validity-start-hour-input"
+          name="validityStartHour"
           type="text"
         />
       </div>
@@ -37,15 +37,15 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-minute-input"
+          htmlFor="validity-start-minute-input"
         >
           Minute
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
           defaultValue="02"
-          id="undefined-start-minute-input"
-          name="undefinedstartMinute"
+          id="validity-start-minute-input"
+          name="validityStartMinute"
           type="text"
         />
       </div>
@@ -70,15 +70,15 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-hour-input"
+          htmlFor="publish-start-hour-input"
         >
           Hour
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
           defaultValue="01"
-          id="undefined-start-hour-input"
-          name="undefinedstartHour"
+          id="publish-start-hour-input"
+          name="publishStartHour"
           type="text"
         />
       </div>
@@ -91,15 +91,15 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-minute-input"
+          htmlFor="publish-start-minute-input"
         >
           Minute
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
           defaultValue="02"
-          id="undefined-start-minute-input"
-          name="undefinedstartMinute"
+          id="publish-start-minute-input"
+          name="publishStartMinute"
           type="text"
         />
       </div>
@@ -124,14 +124,14 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-hour-input"
+          htmlFor="validity-start-hour-input"
         >
           Hour
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="undefined-start-hour-input"
-          name="undefinedstartHour"
+          id="validity-start-hour-input"
+          name="validityStartHour"
           type="text"
         />
       </div>
@@ -144,14 +144,14 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
       >
         <label
           className="govuk-label govuk-date-input__label"
-          htmlFor="start-minute-input"
+          htmlFor="validity-start-minute-input"
         >
           Minute
         </label>
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="undefined-start-minute-input"
-          name="undefinedstartMinute"
+          id="validity-start-minute-input"
+          name="validityStartMinute"
           type="text"
         />
       </div>
