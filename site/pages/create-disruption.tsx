@@ -13,10 +13,12 @@ interface CreateDisruptionProps {
 }
 
 const getReasonOptions = (): JSX.Element[] => {
-    const options: JSX.Element[] = [ <option value="" key="">
+    const options: JSX.Element[] = [
+        <option value="" disabled>
             Select Reason
-        </option>];
-        
+        </option>,
+    ];
+
     DISRUPTION_REASONS.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
@@ -96,7 +98,12 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             <label className="govuk-label govuk-label--s" htmlFor="Distruption-reason">
                                 Reason for disruption
                             </label>
-                            <select className="govuk-select w-3/4" id="disruption-reason" name="disruptionReason">
+                            <select
+                                className="govuk-select w-3/4"
+                                id="disruption-reason"
+                                name="disruptionReason"
+                                defaultValue=""
+                            >
                                 {getReasonOptions()}
                             </select>
                         </div>
