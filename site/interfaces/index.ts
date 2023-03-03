@@ -12,22 +12,14 @@ export interface ErrorInfo {
 }
 
 export interface DisruptionInfo {
-    validityStartDateDay: string;
-    validityStartDateMonth: string;
-    validityStartDateYear: string;
-    validityEndDateDay: string;
-    validityEndDateMonth: string;
-    validityEndDateYear: string;
+    validityStartDate: string;
+    validityEndDate: string;
     validityStartTimeHour: string;
     validityStartTimeMinute: string;
     validityEndTimeHour: string;
     validityEndTimeMinute: string;
-    publishStartDateDay: string;
-    publishStartDateMonth: string;
-    publishStartDateYear: string;
-    publishEndDateDay: string;
-    publishEndDateMonth: string;
-    publishEndDateYear: string;
+    publishStartDate: string;
+    publishEndDate: string;
     publishStartTimeHour: string;
     publishStartTimeMinute: string;
     publishEndTimeHour: string;
