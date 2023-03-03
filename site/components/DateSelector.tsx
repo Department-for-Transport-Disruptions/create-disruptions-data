@@ -1,12 +1,12 @@
-import React, { ReactElement, useState } from "react";
-import { ErrorInfo } from "../interfaces";
-import FormElementWrapper from "./FormElementWrapper";
+import { FilledInputProps } from "@mui/material/FilledInput";
+import { InputBaseComponentProps } from "@mui/material/InputBase";
+import { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
-import { InputBaseComponentProps } from "@mui/material/InputBase";
-import { FilledInputProps } from "@mui/material/FilledInput";
-import { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import React, { ReactElement, useState } from "react";
+import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
 
 interface DateSelectorProps {
     input: Date | null;
@@ -19,7 +19,7 @@ interface DateSelectorProps {
 
 const inputBox = (
     errors: ErrorInfo[],
-    inputRef: React.Ref<any> | undefined,
+    inputRef: React.Ref<HTMLInputElement> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     disabled: boolean,

@@ -11,6 +11,7 @@
         "@tsconfig/node18": "^1.0.1",
         "@types/aws-lambda": "^8.10.110",
         "@types/jstoxml": "^2.0.2",
+        "@types/lambda-log": "^2.2.1",
         "@types/node": "^18.13.0",
         "sst": "^2.0.18",
         "ts-node": "^10.9.1"
@@ -19,6 +20,7 @@
         "@aws-sdk/client-s3": "^3.272.0",
         "@create-disruptions-data/shared-ts": "file:../../shared-ts",
         "jstoxml": "^3.2.6",
+        "lambda-log": "^3.1.0",
         "sst": "^2.0.18",
         "xml-formatter": "^3.3.0"
     }

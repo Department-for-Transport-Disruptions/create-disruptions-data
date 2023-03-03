@@ -1,9 +1,10 @@
 import Head from "next/head";
-import React, { PropsWithChildren, ReactElement } from "react";
-import { ErrorInfo } from "../../interfaces";
-import { buildTitle } from "../../utils";
+import Link from "next/link";
+import { PropsWithChildren, ReactElement } from "react";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
+import { ErrorInfo } from "../../interfaces";
+import { buildTitle } from "../../utils";
 
 interface LayoutProps {
     title: string;
@@ -18,9 +19,9 @@ const Help = (): ReactElement => (
         <h2 className="govuk-heading-s">Help and Support</h2>
         <p className="govuk-body">
             If you are having problems, please contact the Create Disruption Service via this link:{" "}
-            <a href="/contact" className="govuk-link govuk-!-font-size-19">
+            <Link href="/contact" className="govuk-link govuk-!-font-size-19">
                 Contact us
-            </a>
+            </Link>
         </p>
     </div>
 );

@@ -1,12 +1,15 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import FormElementWrapper from "./FormElementWrapper";
 import { describe, it, expect } from "vitest";
+import FormElementWrapper from "./FormElementWrapper";
 
 describe("FormElementWrapper", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
-            .create(<FormElementWrapper errors={[]} errorId={""} errorClass={""} children={<div></div>} />)
+            .create(
+                <FormElementWrapper errors={[]} errorId={""} errorClass={""}>
+                    <div></div>
+                </FormElementWrapper>,
+            )
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
@@ -23,8 +26,9 @@ describe("FormElementWrapper", () => {
                     ]}
                     errorId={"test-div"}
                     errorClass={"govuk-input--error"}
-                    children={<input id="test-div"></input>}
-                />,
+                >
+                    <input id="test-div"></input>
+                </FormElementWrapper>,
             )
             .toJSON();
         expect(tree).toMatchSnapshot();

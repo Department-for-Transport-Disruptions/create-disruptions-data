@@ -125,6 +125,9 @@ exports[`index > should render correctly 1`] = `
         <a
           className="govuk-link govuk-!-font-size-19"
           href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           Contact us
         </a>
@@ -158,6 +161,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Help
               </a>
@@ -168,6 +174,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Cookies
               </a>
@@ -178,6 +187,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Contact
               </a>
@@ -188,6 +200,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
@@ -198,6 +213,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
@@ -208,6 +226,9 @@ exports[`index > should render correctly 1`] = `
               <a
                 className="govuk-footer__link"
                 href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Privacy
               </a>
