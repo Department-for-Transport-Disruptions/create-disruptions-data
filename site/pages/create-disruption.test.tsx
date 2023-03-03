@@ -1,25 +1,36 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import CreateDisruption from "./create-disruption";
 import { describe, it, expect } from "vitest";
-import { DisruptionValidity } from "../interfaces";
+import CreateDisruption from "./create-disruption";
+import { DisruptionInfo } from "../interfaces";
 
-const blankInputs: DisruptionValidity = {
-    startDate: "",
-    endDate: "",
-    startTimeHour: "",
-    startTimeMinute: "",
-    endTimeHour: "",
-    endTimeMinute: "",
+const blankInputs: DisruptionInfo = {
+    validityStartDate: "",
+    validityEndDate: "",
+    validityStartTimeHour: "",
+    validityEndTimeHour: "",
+    validityStartTimeMinute: "",
+    validityEndTimeMinute: "",
+    publishStartDate: "",
+    publishEndDate: "",
+    publishStartTimeHour: "",
+    publishEndTimeHour: "",
+    publishStartTimeMinute: "",
+    publishEndTimeMinute: "",
 };
 
-const withInputs: DisruptionValidity = {
-    startDate: "01/01/2023",
-    endDate: "08/01/2023",
-    startTimeHour: "01",
-    startTimeMinute: "20",
-    endTimeHour: "11",
-    endTimeMinute: "30",
+const withInputs: DisruptionInfo = {
+    validityStartDate: "01/01/2023",
+    validityEndDate: "08/01/2023",
+    validityStartTimeHour: "01",
+    validityStartTimeMinute: "20",
+    validityEndTimeHour: "11",
+    validityEndTimeMinute: "30",
+    publishStartDate: "10/01/2023",
+    publishEndDate: "18/01/2023",
+    publishStartTimeHour: "02",
+    publishStartTimeMinute: "20",
+    publishEndTimeHour: "15",
+    publishEndTimeMinute: "45",
 };
 
 describe("pages", () => {

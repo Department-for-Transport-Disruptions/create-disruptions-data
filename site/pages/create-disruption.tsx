@@ -1,8 +1,8 @@
-import React, { ReactElement } from "react";
-import { DisruptionInfo } from "interfaces";
-import { DisruptionsDateTimeInfo } from "components/DisruptionDateTimeInfo";
+import { ReactElement } from "react";
+import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS } from "../constants/index";
+import { DisruptionInfo } from "../interfaces";
 
 DISRUPTION_REASONS;
 const title = "Create Disruptions";
@@ -14,7 +14,7 @@ interface CreateDisruptionProps {
 
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [
-        <option value="" disabled>
+        <option value="" disabled key="">
             Choose a reason
         </option>,
     ];

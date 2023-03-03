@@ -1,7 +1,6 @@
-import * as React from "react";
 import renderer from "react-test-renderer";
-import DateSelector from "./DateSelector";
 import { describe, it, expect } from "vitest";
+import DateSelector from "./DateSelector";
 
 describe("DateSelector", () => {
     it("should render correctly with no input", () => {
