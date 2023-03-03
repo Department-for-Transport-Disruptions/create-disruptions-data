@@ -20,7 +20,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
           id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
-          placeholder="mm/dd/yyyy"
+          placeholder="dd/mm/yyyy"
           type="tel"
           value=""
         />
@@ -86,7 +86,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
           id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
-          placeholder="mm/dd/yyyy"
+          placeholder="dd/mm/yyyy"
           type="tel"
           value="01/01/2023"
         />
@@ -155,7 +155,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
           id="undefinedstart-day-input"
           name="startDateDay"
           onChange={[Function]}
-          placeholder="mm/dd/yyyy"
+          placeholder="dd/mm/yyyy"
           type="tel"
           value=""
         />

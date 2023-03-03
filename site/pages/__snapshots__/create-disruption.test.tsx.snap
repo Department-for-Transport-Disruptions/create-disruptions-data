@@ -243,7 +243,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       id="falsestart-day-input"
                       name="startDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -400,7 +400,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       id="publish-end-day-input"
                       name="endDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -646,7 +646,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       id="falsestart-day-input"
                       name="startDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -803,7 +803,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       id="publish-end-day-input"
                       name="endDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -1361,7 +1361,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       id="falsestart-day-input"
                       name="startDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -1515,7 +1515,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       id="publish-end-day-input"
                       name="endDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -1758,7 +1758,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       id="falsestart-day-input"
                       name="startDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />
@@ -1912,7 +1912,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       id="publish-end-day-input"
                       name="endDateDay"
                       onChange={[Function]}
-                      placeholder="mm/dd/yyyy"
+                      placeholder="dd/mm/yyyy"
                       type="tel"
                       value=""
                     />

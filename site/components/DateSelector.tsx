@@ -105,7 +105,6 @@ const DateSelector = ({ input = null, startOrEnd, errors = [], disabled, isPubli
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         renderDay={renderWeekPickerDay}
-                        label="Custom input"
                         value={value}
                         onChange={(newValue) => {
                             setValue(newValue);
@@ -114,6 +113,7 @@ const DateSelector = ({ input = null, startOrEnd, errors = [], disabled, isPubli
                             return inputBox(startOrEnd, errors.length > 0, inputRef, inputProps, InputProps, disabled, isPublishInfo);
                         }}
                         disablePast={startOrEnd === "end"}
+                        inputFormat="DD/MM/YYYY"
                     />
                 </LocalizationProvider>
             </ThemeProvider>
