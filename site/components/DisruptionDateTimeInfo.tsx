@@ -14,31 +14,28 @@ export const DisruptionsDateTimeInfo = ({
     isDisruptionValidity,
 }: DisruptionsDateTimeInfoProps): ReactElement => (
     <>
-        <fieldset
-            className="govuk-fieldset"
-            role="group"
-            aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-start-date-hint`}
-        >
-            <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start date?</h3>
-            </legend>
-            <div id={`${isDisruptionValidity ? "validity" : "publish"}-start-date-hint`} className="govuk-hint">
-                Enter in format DD/MM/YYYY
-            </div>
+        <div className="govuk-form-group govuk-!-margin-bottom-0">
+            <label
+                className="govuk-label govuk-label--s"
+                htmlFor={`${isDisruptionValidity ? "validity" : "publish"}-start-date`}
+            >
+                What is the start date?
+            </label>
+            <div className="govuk-hint govuk-visually-hidden">Enter in format DD/MM/YYYY</div>
             <DateSelector
                 errors={[]}
                 startOrEnd="start"
                 input={!!inputs.validityStartDate ? new Date(inputs.validityStartDate) : null}
                 disabled={false}
-                isPublishInfo={false}
+                inputId={`${isDisruptionValidity ? "validity" : "publish"}-start-date`}
             />
-        </fieldset>
+        </div>
         <fieldset
             className="govuk-fieldset"
             role="group"
             aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-start-time-hint`}
         >
-            <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
+            <legend className="govuk-fieldset__legend govuk-!-padding-top-6">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start time?</h3>
             </legend>
             <div id={`${isDisruptionValidity ? "validity" : "publish"}-start-time-hint`} className="govuk-hint">
@@ -54,31 +51,28 @@ export const DisruptionsDateTimeInfo = ({
                 type={isDisruptionValidity ? "validity" : "publish"}
             />
         </fieldset>
-        <fieldset
-            className="govuk-fieldset"
-            role="group"
-            aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-end-date-hint`}
-        >
-            <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the end date?</h3>
-            </legend>
-            <div id={`${isDisruptionValidity ? "validity" : "publish"}-end-date-hint`} className="govuk-hint">
-                Enter in format DD/MM/YYYY
-            </div>
+        <div className="govuk-form-group govuk-!-margin-bottom-0 govuk-!-margin-top-6">
+            <label
+                className="govuk-label govuk-label--s"
+                htmlFor={`${isDisruptionValidity ? "validity" : "publish"}-end-date`}
+            >
+                What is the end date?
+            </label>
+            <div className="govuk-hint govuk-visually-hidden">Enter in format DD/MM/YYYY</div>
             <DateSelector
                 errors={[]}
                 startOrEnd="end"
                 input={!!inputs.validityEndDate ? new Date(inputs.validityEndDate) : null}
                 disabled={false}
-                isPublishInfo
+                inputId={`${isDisruptionValidity ? "validity" : "publish"}-end-date`}
             />
-        </fieldset>
+        </div>
         <fieldset
             className="govuk-fieldset"
             role="group"
             aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-end-time-hint`}
         >
-            <legend className="govuk-fieldset__legend govuk-!-padding-top-8">
+            <legend className="govuk-fieldset__legend govuk-!-padding-top-6">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the end time?</h3>
             </legend>
             <div id={`${isDisruptionValidity ? "validity" : "publish"}-end-time-hint`} className="govuk-hint">

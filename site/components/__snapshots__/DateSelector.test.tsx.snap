@@ -5,7 +5,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
   className=""
 >
   <div
-    className="govuk-date-input flex items-center"
+    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     id="start-date"
   >
     <div
@@ -17,8 +17,8 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={true}
-          id="undefinedstart-day-input"
-          name="startDateDay"
+          id="publish-end-date"
+          name="publish-startDateDay"
           onChange={[Function]}
           placeholder="dd/mm/yyyy"
           type="tel"
@@ -31,7 +31,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
     >
       <button
         aria-label="Choose date"
-        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1oorrbo-MuiButtonBase-root-MuiIconButton-root"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -71,7 +71,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
   className=""
 >
   <div
-    className="govuk-date-input flex items-center"
+    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     id="start-date"
   >
     <div
@@ -83,8 +83,8 @@ exports[`DateSelector > should render correctly with an input 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={false}
-          id="undefinedstart-day-input"
-          name="startDateDay"
+          id="publish-end-date"
+          name="publish-startDateDay"
           onChange={[Function]}
           placeholder="dd/mm/yyyy"
           type="tel"
@@ -97,7 +97,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
     >
       <button
         aria-label="Choose date, selected date is Jan 1, 2023"
-        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1oorrbo-MuiButtonBase-root-MuiIconButton-root"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -140,7 +140,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
   className=""
 >
   <div
-    className="govuk-date-input flex items-center"
+    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     id="start-date"
   >
     <div
@@ -152,8 +152,8 @@ exports[`DateSelector > should render correctly with no input 1`] = `
         <input
           className="govuk-input govuk-date-input__input govuk-input--width-6  "
           disabled={false}
-          id="undefinedstart-day-input"
-          name="startDateDay"
+          id="publish-end-date"
+          name="publish-startDateDay"
           onChange={[Function]}
           placeholder="dd/mm/yyyy"
           type="tel"
@@ -166,7 +166,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
     >
       <button
         aria-label="Choose date"
-        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1oorrbo-MuiButtonBase-root-MuiIconButton-root"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}

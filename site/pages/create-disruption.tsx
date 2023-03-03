@@ -15,7 +15,7 @@ interface CreateDisruptionProps {
 const getReasonOptions = (): JSX.Element[] => {
     const options: JSX.Element[] = [
         <option value="" disabled>
-            Select Reason
+            Choose a reason
         </option>,
     ];
 
