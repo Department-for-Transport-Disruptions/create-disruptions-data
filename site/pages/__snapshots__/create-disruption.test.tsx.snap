@@ -312,6 +312,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="0120"
                   disabled={false}
                   id="validity-start-time-input"
                   name="validityStartTime"
@@ -429,6 +430,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="1130"
                   disabled={false}
                   id="validity-end-time-input"
                   name="validityEndTime"
@@ -635,6 +637,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="0220"
                   disabled={false}
                   id="publish-start-time-input"
                   name="publishStartTime"
@@ -752,6 +755,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="1545"
                   disabled={false}
                   id="publish-end-time-input"
                   name="publishEndTime"
@@ -1288,6 +1292,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
                   disabled={false}
                   id="validity-start-time-input"
                   name="validityStartTime"
@@ -1402,6 +1407,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
                   disabled={false}
                   id="validity-end-time-input"
                   name="validityEndTime"
@@ -1605,6 +1611,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
                   disabled={false}
                   id="publish-start-time-input"
                   name="publishStartTime"
@@ -1719,6 +1726,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
                   disabled={false}
                   id="publish-end-time-input"
                   name="publishEndTime"
