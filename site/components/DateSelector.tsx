@@ -29,7 +29,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
                             errors.length > 0 ? "govuk-input--error" : ""
                         } `}
                         id={`${type}-${startOrEnd}-day-input`}
-                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}${startOrEnd}DateDay`}
+                        name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateDay`}
                         type="text"
                         defaultValue={inputs?.dayInput}
                     />
@@ -67,7 +67,7 @@ const DateSelector = ({ inputs, startOrEnd, errors = [], type }: DateSelectorPro
                         className={`govuk-input govuk-date-input__input govuk-input--width-4 ${
                             errors.length > 0 ? "govuk-input--error" : ""
                         } `}
-                        id={`$${type}-${startOrEnd}-year-input`}
+                        id={`${type}-${startOrEnd}-year-input`}
                         name={`${type}${type ? startCase(startOrEnd) : startOrEnd}DateYear`}
                         type="text"
                         defaultValue={inputs?.yearInput}

@@ -34,9 +34,7 @@ const nextConfig = {
             },
         ];
     },
-    experimental: {
-        externalDir: true,
-    },
+    transpilePackages: ["@create-disruptions-data/shared-ts/siriTypes"],
 };
 
 module.exports = nextConfig;

@@ -9,26 +9,28 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-
+import { NextPageContext } from "next";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
-    summary: string;
-    description: string;
-    disruptionType: string;
+    summary?: string;
+    description?: string;
+    disruptionType?: string;
     associatedLink?: string;
-    disruptionReason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    errors: ErrorInfo[];
+    disruptionReason?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
+    errors?: ErrorInfo[];
 }
 
 const getReasonOptions = (): JSX.Element[] => {
-    const options: JSX.Element[] = [ <option value="" key="">
+    const options: JSX.Element[] = [
+        <option value="" key="">
             Select Reason
-        </option>];
-        
+        </option>,
+    ];
+
     DISRUPTION_REASONS.forEach((reasonType) => {
         options.push(
             <option value={reasonType.value} key={reasonType.value}>
@@ -51,9 +53,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         <div className="govuk-form-group">
                             <fieldset className="govuk-fieldset">
                                 <legend className="govuk-fieldset__legend govuk-!-padding-top-2">
-                                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-type">
+                                    <span className="govuk-heading-s govuk-!-margin-bottom-0" id="disruption-type">
                                         Type of disruption
-                                    </h3>
+                                    </span>
                                 </legend>
                                 <div className="govuk-radios__item">
                                     <input
@@ -113,13 +115,13 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             </select>
                         </div>
                     </div>
-                    <div className="govuk-form-group">
-                        <h1 className="govuk-heading-l">When is the disruption?</h1>
+                    <div className="govuk-form-group govuk-!-padding-top-6">
+                        <h2 className="govuk-heading-l">When is the disruption?</h2>
 
                         <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
                         <fieldset className="govuk-fieldset">
                             <legend
-                                className="govuk-fieldset__legend govuk-!-padding-top-8"
+                                className="govuk-fieldset__legend govuk-!-padding-top-6"
                                 id="disruption-repeat-hint"
                             >
                                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0">
@@ -156,9 +158,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                 </div>
                             </div>
                         </fieldset>
-                        <h1 className="govuk-heading-l govuk-!-padding-top-8">
-                            When does the disruption need to be published?
-                        </h1>
+                    </div>
+                    <div className="govuk-form-group govuk-!-padding-top-6">
+                        <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
 
                         <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
 
@@ -172,7 +174,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const inputs: DisruptionInfo = {
         validityStartDateDay: "",
         validityStartDateMonth: "",
@@ -198,20 +200,22 @@ export const getServerSideProps = (): { props: object } => {
 
     const errors: ErrorInfo[] = [];
 
-    setCookie("disruption2", "test");
+    //console.log(ctx);
 
-    const options: OptionsType = {
-        req: ctx.req,
-        res: ctx.res,
-        path: "/create-disruption",
-    };
+    // setCookie("disruption2", "test");
 
-    const cookieValues: CookieValueTypes = getCookie("disruption", options);
+    // const options: OptionsType = {
+    //     req: ctx.req,
+    //     res: ctx.res,
+    //     path: "/create-disruption",
+    // };
 
-    console.log(cookieValues);
+    // const cookieValues: CookieValueTypes = getCookie("disruption", options);
+
+    // console.log(cookieValues);
 
     return {
-        props: { inputs, errors, summary: "" },
+        props: { inputs, errors },
     };
 };
 
