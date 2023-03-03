@@ -11,6 +11,7 @@ module.exports = {
             },
             colors: {
                 govBlue: "#1d70b8",
+                govYellow: "#ffdd00",
                 backgroundGrey: "#f3f2f1",
             },
             borderWidth: {

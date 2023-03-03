@@ -1,10 +1,10 @@
 import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { StackContext, use } from "sst/constructs";
-import { SiteStack } from "./SiteStack";
+import { createBucket } from "./services/Buckets";
 import { createGeneratorLambda } from "./services/GeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
-import { createBucket } from "./services/Buckets";
+import { SiteStack } from "./SiteStack";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
     const { disruptionsJsonBucket } = use(SiteStack);

@@ -1,4 +1,5 @@
 import { SSTConfig } from "sst";
+import { SiriAPIStack } from "./stacks/SiriAPIStack";
 import { SiriGeneratorStack } from "./stacks/SiriGeneratorStack";
 import { SiteStack } from "./stacks/SiteStack";
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
