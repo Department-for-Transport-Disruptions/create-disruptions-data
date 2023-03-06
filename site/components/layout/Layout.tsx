@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
-import { PropsWithChildren, ReactElement } from "react";
+import React, { PropsWithChildren, ReactElement, useState, useEffect } from "react";
+import { Portal } from 'react-portal';
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
+import CookieBanner from "../CookieBanner";
 
 interface LayoutProps {
     title: string;
@@ -30,9 +32,16 @@ export const BaseLayout = ({
     title,
     description,
     errors = [],
+    hideCookieBanner,
     children,
     hideHelp,
 }: PropsWithChildren<LayoutProps>): ReactElement => {
+    const [showBanner, setShowBanner] = useState(false);
+
+    useEffect(() => {
+        setShowBanner(true);
+    });
+
     return (
         <>
             <Head>
@@ -42,6 +51,12 @@ export const BaseLayout = ({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta charSet="utf-8" />
             </Head>
+
+            {!hideCookieBanner && showBanner && (
+                <Portal node={document && document.getElementById('js-cookie-banner')}>
+                    <CookieBanner />
+                </Portal>
+            )}
 
             <PhaseBanner />
 
@@ -59,9 +74,15 @@ export const FullColumnLayout = ({
     description,
     errors = [],
     children,
+    hideCookieBanner = false,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
+    <BaseLayout title={title}
+        description={description}
+        errors={errors}
+        hideCookieBanner={hideCookieBanner}
+        hideHelp={hideHelp}
+    >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">{children}</div>
         </div>
@@ -73,9 +94,16 @@ export const TwoThirdsLayout = ({
     description,
     errors = [],
     children,
+    hideCookieBanner = false,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
+    <BaseLayout
+        title={title}
+        description={description}
+        errors={errors}
+        hideCookieBanner={hideCookieBanner}
+        hideHelp={hideHelp}
+    >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">{children}</div>
         </div>

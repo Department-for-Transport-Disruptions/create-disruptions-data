@@ -30,3 +30,7 @@ export const DISRUPTION_REASONS: {
         reason: "Special Event",
     },
 ];
+
+export const COOKIES_POLICY_COOKIE = 'fdbt-cookies-policy';
+
+export const COOKIE_PREFERENCES_COOKIE = 'fdbt-cookie-preferences-set';
