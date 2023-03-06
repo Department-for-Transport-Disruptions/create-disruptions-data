@@ -13,7 +13,7 @@ interface CreateDisruptionProps {
     inputs: PageState;
 }
 
-interface PageInputs {
+export interface PageInputs {
     typeOfDisruption: string;
     summary: string;
     description: string;
@@ -38,7 +38,7 @@ const updatePageStateForInput = (
     currentState: PageState,
     setPageState: Dispatch<SetStateAction<PageState>>,
     inputName: keyof PageInputs,
-    input: string,
+    input: string | Date | null,
     error?: ErrorInfo,
 ): void => {
     setPageState({

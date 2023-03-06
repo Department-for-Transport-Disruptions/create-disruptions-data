@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import { ErrorInfo } from "../interfaces";
-import { PageState } from "../pages/create-disruption";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
+import { PageInputs, PageState } from "../pages/create-disruption";
 
 interface TimeSelectorProps {
     input?: string;
@@ -10,8 +10,14 @@ interface TimeSelectorProps {
     inputId: string;
     inputName: string;
     pageState: PageState;
-    updatePageState: Function;
-    updaterFunction: Function;
+    updatePageState: Dispatch<SetStateAction<PageState>>;
+    updaterFunction: (
+        currentState: PageState,
+        setPageState: Dispatch<SetStateAction<PageState>>,
+        inputName: keyof PageInputs,
+        input: string | Date | null,
+        error?: ErrorInfo,
+    ) => void;
 }
 
 const TimeSelector = ({
@@ -36,12 +42,12 @@ const TimeSelector = ({
                 onBlur={(e) => {
                     const input = e.target.value;
                     if (!input) {
-                        updaterFunction(pageState, updatePageState, inputId, input, {
+                        updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input, {
                             id: inputId,
                             errorMessage: "Enter a time in hhmm format",
                         });
                     } else {
-                        updaterFunction(pageState, updatePageState, inputId, input);
+                        updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input);
                     }
                 }}
             />

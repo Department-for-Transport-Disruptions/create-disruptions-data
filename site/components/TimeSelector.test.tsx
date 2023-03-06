@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import { PageState } from "../pages/create-disruption";
 import TimeSelector from "./TimeSelector";
+import { PageState } from "../pages/create-disruption";
 
 const blankInputs: PageState = {
     errors: [],

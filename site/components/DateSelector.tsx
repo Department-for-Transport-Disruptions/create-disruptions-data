@@ -4,10 +4,10 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { ReactElement, useState } from "react";
-import { ErrorInfo } from "../interfaces";
-import { PageState } from "../pages/create-disruption";
+import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import FormElementWrapper from "./FormElementWrapper";
+import { ErrorInfo } from "../interfaces";
+import { PageInputs, PageState } from "../pages/create-disruption";
 
 interface DateSelectorProps {
     input: Date | null;
@@ -17,8 +17,14 @@ interface DateSelectorProps {
     inputName: string;
     disablePast: boolean;
     pageState: PageState;
-    updatePageState: Function;
-    updaterFunction: Function;
+    updatePageState: Dispatch<SetStateAction<PageState>>;
+    updaterFunction: (
+        currentState: PageState,
+        setPageState: Dispatch<SetStateAction<PageState>>,
+        inputName: keyof PageInputs,
+        input: string | Date | null,
+        error?: ErrorInfo,
+    ) => void;
 }
 
 const inputBox = (
@@ -29,16 +35,18 @@ const inputBox = (
     inputId: string,
     inputName: string,
     pageState: PageState,
-    updatePageState: Function,
-    updaterFunction: Function,
+    updatePageState: Dispatch<SetStateAction<PageState>>,
+    updaterFunction: (
+        currentState: PageState,
+        setPageState: Dispatch<SetStateAction<PageState>>,
+        inputName: keyof PageInputs,
+        input: string | Date | null,
+        error?: ErrorInfo,
+    ) => void,
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <FormElementWrapper
-                errors={pageState.errors}
-                errorId={inputId}
-                errorClass="govuk-input--error"
-            >
+            <FormElementWrapper errors={pageState.errors} errorId={inputId} errorClass="govuk-input--error">
                 <input
                     className="govuk-input govuk-date-input__input govuk-input--width-6"
                     id={inputId}
@@ -51,12 +59,12 @@ const inputBox = (
                     onBlur={(e) => {
                         const input = e.target.value;
                         if (!input) {
-                            updaterFunction(pageState, updatePageState, inputId, input, {
+                            updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input, {
                                 id: inputId,
                                 errorMessage: "Select a date",
                             });
                         } else {
-                            updaterFunction(pageState, updatePageState, inputId, input);
+                            updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input);
                         }
                     }}
                 />
@@ -99,7 +107,7 @@ const DateSelector = ({
                 renderDay={renderWeekPickerDay}
                 value={value}
                 onChange={(newValue) => {
-                    updaterFunction(pageState, updatePageState, inputId, newValue);
+                    updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, newValue);
                     setValue(newValue);
                 }}
                 renderInput={({ inputRef, inputProps, InputProps }) => {
