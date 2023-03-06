@@ -7,11 +7,11 @@ interface CookieBannerMessageProps {
 }
 
 export const CookieBannerMessage = ({ handleClick }: CookieBannerMessageProps): ReactElement => (
-    <div id="global-cookie-message" className="cookie-banner pt-4" role="region" aria-label="cookie banner">
+    <div id="global-cookie-message" className="pt-4" role="region" aria-label="cookie banner">
         <div className="govuk-width-container relative">
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
-                    <div className="cookie-banner__message pb-2">
+                    <div className="pb-2">
                         <h2 className="govuk-heading-m">Tell us whether you accept cookies</h2>
                         <p className="govuk-body">
                             We use&nbsp;
@@ -23,9 +23,9 @@ export const CookieBannerMessage = ({ handleClick }: CookieBannerMessageProps): 
                         </p>
                     </div>
                     {handleClick && (
-                        <div className="cookie-banner__button inline-block p-0 cookie-banner__accept-all">
+                        <div className="inline-block p-0">
                             <a
-                                className="govuk-button cookie-banner__button--inline mr-3"
+                                className="govuk-button mr-3"
                                 id="accept-all-button"
                                 role="button"
                                 onClick={handleClick}
@@ -35,10 +35,10 @@ export const CookieBannerMessage = ({ handleClick }: CookieBannerMessageProps): 
                         </div>
                     )}
 
-                    <div className="cookie-banner__button inline-block p-0">
+                    <div className="inline-block p-0">
                         <a
                             id="set-cookie-preferences-link"
-                            className="govuk-button cookie-banner__button--inline"
+                            className="govuk-button mr-3"
                             role="button"
                             href="/cookies"
                         >
@@ -92,7 +92,7 @@ const CookieBanner = (): ReactElement | null => {
 
     if (cookiesAccepted) {
         return (
-            <div id="cookies-accepted-message" className="cookie-banner py-5 text-lg" role="region" aria-label="cookie banner">
+            <div id="cookies-accepted-message" className="py-5 text-lg" role="region" aria-label="cookie banner">
                 <div className="govuk-width-container relative">
                     <p role="alert">
                         You’ve accepted all cookies. You can{' '}
@@ -101,7 +101,7 @@ const CookieBanner = (): ReactElement | null => {
                         </a>{' '}
                         at any time.
                     </p>
-                    <button className="govuk-link cookie-banner__hide text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static" type="button" onClick={handleHideClick}>
+                    <button className="govuk-link text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static" type="button" onClick={handleHideClick}>
                         Hide
                     </button>
                 </div>
