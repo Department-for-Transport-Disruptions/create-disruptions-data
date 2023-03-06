@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateDisruption from "./create-disruption";
+import CreateDisruption from "./create-disruption.page";
 import { DisruptionInfo } from "../interfaces";
 
 const blankInputs: DisruptionInfo = {

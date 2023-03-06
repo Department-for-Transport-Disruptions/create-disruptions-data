@@ -35,6 +35,7 @@ const nextConfig = {
         ];
     },
     transpilePackages: ["@create-disruptions-data/shared-ts"],
+    pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
 };
 
 module.exports = nextConfig;
