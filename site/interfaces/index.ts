@@ -2,10 +2,10 @@ import { Session as SessionData } from "express-session";
 import { NextApiRequest, NextPageContext } from "next";
 import { DocumentContext } from "next/document";
 import React from "react";
-import { SessionAttributeTypes } from "utils/sessions";
 import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
 import { GetMockContextInput, getMockRequestAndResponse } from "../pages/testData/mockData";
+import { SessionAttributeTypes } from "../utils/sessions";
 
 export interface ErrorInfo {
     errorMessage: string;
