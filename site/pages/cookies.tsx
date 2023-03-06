@@ -1,17 +1,17 @@
-import { parseCookies } from 'nookies';
-import React, { ReactElement } from 'react';
-import { COOKIES_POLICY_COOKIE } from '../constants';
-import { getCsrfToken } from '../utils';
-import CsrfForm from '../components/CsrfForm'
-import { NextPageContextWithSession } from '../interfaces';
-import { TwoThirdsLayout } from '../components/layout/Layout'
+import { parseCookies } from "nookies";
+import React, { ReactElement } from "react";
+import { COOKIES_POLICY_COOKIE } from "../constants";
+import { getCsrfToken } from "../utils";
+import CsrfForm from "../components/CsrfForm";
+import { NextPageContextWithSession } from "../interfaces";
+import { TwoThirdsLayout } from "../components/layout/Layout";
 
-const title = 'Cookies - Create Transport Disruption Data Service';
-const description = 'Cookies Preferences page of the Create Transport Disruption Data Service';
+const title = "Cookies - Create Transport Disruption Data Service";
+const description = "Cookies Preferences page of the Create Transport Disruption Data Service";
 
 export interface CookiePreferencesProps {
     settingsSaved: boolean;
-    trackingDefaultValue: 'on' | 'off';
+    trackingDefaultValue: "on" | "off";
     csrfToken: string;
 }
 
@@ -22,7 +22,9 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                 <h2 className="govuk-heading-m">Your cookie settings were saved</h2>
                 <p className="govuk-body">Return to this page at any point to change your cookie settings.</p>
                 <p className="govuk-body">
-                    <a className="govuk-link" href="/home">Click here to return to the homepage.</a>
+                    <a className="govuk-link" href="/home">
+                        Click here to return to the homepage.
+                    </a>
                 </p>
             </div>
         ) : null}
@@ -60,8 +62,8 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                                 <ul className="govuk-list govuk-list--bullet govuk-hint">
                                     <li>how you got to the site</li>
                                     <li>
-                                        the pages you visit on the Create Transport Disruption Data Service, and how long you spend on
-                                        each page
+                                        the pages you visit on the Create Transport Disruption Data Service, and how
+                                        long you spend on each page
                                     </li>
                                     <li>what you click on while you&apos;re visiting the site</li>
                                 </ul>
@@ -74,7 +76,7 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                                         id="accept-analytics-cookies"
                                         name="tracking"
                                         value="on"
-                                        defaultChecked={trackingDefaultValue === 'on'}
+                                        defaultChecked={trackingDefaultValue === "on"}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"
@@ -90,7 +92,7 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                                         id="decline-analytics-cookies"
                                         name="tracking"
                                         value="off"
-                                        defaultChecked={trackingDefaultValue === 'off'}
+                                        defaultChecked={trackingDefaultValue === "off"}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"
@@ -129,11 +131,11 @@ export const getServerSideProps = (ctx: NextPageContextWithSession): { props: Co
     const csrfToken = getCsrfToken(ctx);
     const cookies = parseCookies(ctx);
 
-    const settingsSaved = (ctx.query?.settingsSaved ?? 'false') === 'true';
+    const settingsSaved = (ctx.query?.settingsSaved ?? "false") === "true";
 
     const tracking = cookies[COOKIES_POLICY_COOKIE] ? JSON.parse(cookies[COOKIES_POLICY_COOKIE]).usage : false;
 
-    const trackingDefaultValue = tracking ? 'on' : 'off';
+    const trackingDefaultValue = tracking ? "on" : "off";
 
     return { props: { settingsSaved, trackingDefaultValue, csrfToken } };
 };

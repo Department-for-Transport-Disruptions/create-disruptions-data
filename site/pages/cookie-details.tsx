@@ -1,23 +1,23 @@
-import React, { ReactElement } from 'react';
-import { TwoThirdsLayout } from '../components/layout/Layout'
+import { ReactElement } from "react";
+import { TwoThirdsLayout } from "../components/layout/Layout";
 
-const title = 'Cookie details - Create Transport Disruption Data Service';
-const description = 'Cookie details page for the Create Transport Disruption Data Service';
+const title = "Cookie details - Create Transport Disruption Data Service";
+const description = "Cookie details page for the Create Transport Disruption Data Service";
 
 const Contact = (): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Details about cookies on the Create Transport Disruption Data Service</h1>
             <p className="govuk-body">
-                The Create Transport Disruption Data Service puts small files (known as ‘cookies’) onto your computer to collect
-                information about how you browse the site. Find out more about the cookies we use, what they’re for and
-                when they expire.
+                The Create Transport Disruption Data Service puts small files (known as ‘cookies’) onto your computer to
+                collect information about how you browse the site. Find out more about the cookies we use, what they’re
+                for and when they expire.
             </p>
             <h2 className="govuk-heading-m">Tracking</h2>
             <p className="govuk-body">
                 We use Google Analytics software (Universal Analytics) to collect anonymised information about how you
-                use the Create Transport Disruption Data Service. We do this to help make sure the site is meeting the needs of its
-                users and to help us make improvements to the site and to government digital services.
+                use the Create Transport Disruption Data Service. We do this to help make sure the site is meeting the
+                needs of its users and to help us make improvements to the site and to government digital services.
             </p>
             <p className="govuk-body">We do not allow Google to use or share the data about how you use this site.</p>
             <ul className="govuk-list govuk-list--bullet govuk-body">
@@ -44,16 +44,16 @@ const Contact = (): ReactElement => {
                     <tr className="govuk-table__row">
                         <td className="govuk-table__cell">_ga</td>
                         <td className="govuk-table__cell">
-                            These help us count how many people visit the Create Transport Disruption Data Service by tracking if
-                            you’ve visited before
+                            These help us count how many people visit the Create Transport Disruption Data Service by
+                            tracking if you’ve visited before
                         </td>
                         <td className="govuk-table__cell">2 years</td>
                     </tr>
                     <tr className="govuk-table__row">
                         <td className="govuk-table__cell">_gid</td>
                         <td className="govuk-table__cell">
-                            These help us count how many people visit the Create Transport Disruption Data Service by tracking if
-                            you’ve visited before
+                            These help us count how many people visit the Create Transport Disruption Data Service by
+                            tracking if you’ve visited before
                         </td>
                         <td className="govuk-table__cell">24 hours</td>
                     </tr>
@@ -69,8 +69,8 @@ const Contact = (): ReactElement => {
             <h2 className="govuk-heading-m">Strictly necessary cookies</h2>
             <h3 className="govuk-heading-s">Progress through the tool</h3>
             <p className="govuk-body">
-                When you use the Create Transport Disruption Data Service we will set the following cookies as you progress through the
-                forms.
+                When you use the Create Transport Disruption Data Service we will set the following cookies as you
+                progress through the forms.
             </p>
             <table className="govuk-table cookie-detail-table">
                 <thead className="govuk-table__head">
@@ -185,7 +185,7 @@ const Contact = (): ReactElement => {
             </table>
             <h2 className="govuk-heading-m">Change your settings</h2>
             <p className="govuk-body">
-                You can{' '}
+                You can{" "}
                 <a className="govuk-link" href="/cookies">
                     change which cookies you’re happy for us to use
                 </a>
