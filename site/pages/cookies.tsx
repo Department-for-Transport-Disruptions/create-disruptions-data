@@ -1,10 +1,10 @@
 import { parseCookies } from "nookies";
-import React, { ReactElement } from "react";
-import { COOKIES_POLICY_COOKIE } from "../constants";
-import { getCsrfToken } from "../utils";
+import { ReactElement } from "react";
 import CsrfForm from "../components/CsrfForm";
-import { NextPageContextWithSession } from "../interfaces";
 import { TwoThirdsLayout } from "../components/layout/Layout";
+import { COOKIES_POLICY_COOKIE } from "../constants";
+import { NextPageContextWithSession } from "../interfaces";
+import { getCsrfToken } from "../utils";
 
 const title = "Cookies - Create Transport Disruption Data Service";
 const description = "Cookies Preferences page of the Create Transport Disruption Data Service";

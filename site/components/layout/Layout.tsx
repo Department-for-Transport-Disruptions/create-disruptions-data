@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import React, { PropsWithChildren, ReactElement, useState, useEffect } from "react";
+import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
 import { Portal } from "react-portal";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
