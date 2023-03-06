@@ -1,11 +1,11 @@
-import { NextApiRequest, NextPageContext } from 'next';
-import { DocumentContext } from 'next/document';
-import { ServerResponse } from 'http';
-import { Session as SessionData } from 'express-session';
-import { SessionAttributeTypes } from 'utils/sessions';
+import { Session as SessionData } from "express-session";
+import { NextApiRequest, NextPageContext } from "next";
+import { DocumentContext } from "next/document";
+import React from "react";
+import { SessionAttributeTypes } from "utils/sessions";
 import { Mock, vi } from "vitest";
-import React from 'react'
-import { GetMockContextInput, getMockRequestAndResponse } from '../pages/testData/mockData';
+import { ServerResponse } from "http";
+import { GetMockContextInput, getMockRequestAndResponse } from "../pages/testData/mockData";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -72,7 +72,7 @@ export const getMockContext = ({
     mockEndFn = vi.fn(),
     isLoggedin = true,
     url = null,
-    query = '',
+    query = "",
 }: GetMockContextInput = {}): NextPageContextWithSession => {
     const { req, res } = getMockRequestAndResponse({
         session,
@@ -89,10 +89,10 @@ export const getMockContext = ({
     const ctx: NextPageContextWithSession = {
         res,
         req,
-        pathname: '',
+        pathname: "",
         query,
         // eslint-disable-next-line react/display-name
-        AppTree: () => React.createElement('div'),
+        AppTree: () => React.createElement("div"),
     };
 
     return ctx;
