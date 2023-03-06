@@ -1,0 +1,60 @@
+name: Pull Request Merged
+
+on:
+  push:
+    branches:
+      - main
+      - feat/DISRUPTION-52_setup_dynamodb
+
+jobs:
+  build_and_deploy_to_test:
+    name: Build and Deploy to Test env
+    runs-on: ubuntu-22.04
+    environment: DISRUPTIONS_TEST
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.14.x'
+          cache: 'npm'
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test Site
+        run: npm run test:site
+
+      - name: Test SIRI-SX Generator
+        run: npm run test:siri
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          prerelease: true
+
+      - name: Deploy to test
+        run: |
+          npm run sst -- build --stage test
+          npm run cdk -- deploy --require-approval never --app ./.sst/dist --all
