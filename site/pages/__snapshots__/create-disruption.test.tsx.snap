@@ -302,57 +302,23 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               className="govuk-hint"
               id="validity-start-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="start-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-start-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="01"
-                      id="validity-start-hour-input"
-                      name="validityStartHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-start-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="20"
-                      id="validity-start-minute-input"
-                      name="validityStartMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="0120"
+                  disabled={false}
+                  id="validity-start-time-input"
+                  name="validityStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -454,57 +420,23 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               className="govuk-hint"
               id="validity-end-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="end-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-end-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="11"
-                      id="validity-end-hour-input"
-                      name="validityEndHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-end-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="30"
-                      id="validity-end-minute-input"
-                      name="validityEndMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="1130"
+                  disabled={false}
+                  id="validity-end-time-input"
+                  name="validityEndTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -695,57 +627,23 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               className="govuk-hint"
               id="publish-start-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="start-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-start-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="02"
-                      id="publish-start-hour-input"
-                      name="publishStartHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-start-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="20"
-                      id="publish-start-minute-input"
-                      name="publishStartMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="0220"
+                  disabled={false}
+                  id="publish-start-time-input"
+                  name="publishStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -847,57 +745,23 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               className="govuk-hint"
               id="publish-end-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="end-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-end-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="15"
-                      id="publish-end-hour-input"
-                      name="publishEndHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-end-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue="45"
-                      id="publish-end-minute-input"
-                      name="publishEndMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue="1545"
+                  disabled={false}
+                  id="publish-end-time-input"
+                  name="publishEndTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -1418,57 +1282,23 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               className="govuk-hint"
               id="validity-start-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="start-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-start-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="validity-start-hour-input"
-                      name="validityStartHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-start-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="validity-start-minute-input"
-                      name="validityStartMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
+                  disabled={false}
+                  id="validity-start-time-input"
+                  name="validityStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -1567,57 +1397,23 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               className="govuk-hint"
               id="validity-end-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="end-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-end-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="validity-end-hour-input"
-                      name="validityEndHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="validity-end-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="validity-end-minute-input"
-                      name="validityEndMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
+                  disabled={false}
+                  id="validity-end-time-input"
+                  name="validityEndTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -1805,57 +1601,23 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               className="govuk-hint"
               id="publish-start-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="start-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-start-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="publish-start-hour-input"
-                      name="publishStartHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-start-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="publish-start-minute-input"
-                      name="publishStartMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
+                  disabled={false}
+                  id="publish-start-time-input"
+                  name="publishStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>
@@ -1954,57 +1716,23 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               className="govuk-hint"
               id="publish-end-time-hint"
             >
-              Enter in format HH:MM
+              Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <div
               className=""
             >
               <div
-                className="govuk-date-input"
-                id="end-date"
+                className="govuk-form-group"
               >
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-end-hour-input"
-                    >
-                      Hour
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="publish-end-hour-input"
-                      name="publishEndHour"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="govuk-date-input__item"
-                >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <label
-                      className="govuk-label govuk-date-input__label"
-                      htmlFor="publish-end-minute-input"
-                    >
-                      Minute
-                    </label>
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-2  "
-                      defaultValue=""
-                      id="publish-end-minute-input"
-                      name="publishEndMinute"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <input
+                  className="govuk-input govuk-date-input__input govuk-input--width-4  "
+                  defaultValue=""
+                  disabled={false}
+                  id="publish-end-time-input"
+                  name="publishEndTime"
+                  placeholder="hhmm"
+                  type="text"
+                />
               </div>
             </div>
           </fieldset>

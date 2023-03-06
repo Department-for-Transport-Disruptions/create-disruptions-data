@@ -74,37 +74,37 @@ export const basePtSituationElementSchema = z.object({
     PublicationWindow: periodSchema,
 });
 
-export const ptSituationElementSchema = basePtSituationElementSchema
-    .and(
-        z
-            .discriminatedUnion("ReasonType", [
-                z.object({
-                    ReasonType: z.literal("MiscellaneousReason"),
-                    MiscellaneousReason: miscellaneousReasonSchema,
-                }),
-                z.object({ ReasonType: z.literal("PersonnelReason"), PersonnelReason: personnelReasonSchema }),
-                z.object({ ReasonType: z.literal("EquipmentReason"), EquipmentReason: equipmentReasonSchema }),
-                z.object({ ReasonType: z.literal("EnvironmentReason"), EnvironmentReason: environmentReasonSchema }),
-            ])
-            .and(
-                z.object({
-                    Planned: z.boolean(),
-                    Summary: z.string(),
-                    Description: z.string(),
-                    InfoLinks: z.array(infoLinksSchema).optional(),
-                }),
-            ),
-    )
-    .transform((val) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        delete val.ReasonType;
+export const ptSituationElementSchema = basePtSituationElementSchema.and(
+    z
+        .discriminatedUnion("ReasonType", [
+            z.object({
+                ReasonType: z.literal("MiscellaneousReason"),
+                MiscellaneousReason: miscellaneousReasonSchema,
+            }),
+            z.object({ ReasonType: z.literal("PersonnelReason"), PersonnelReason: personnelReasonSchema }),
+            z.object({ ReasonType: z.literal("EquipmentReason"), EquipmentReason: equipmentReasonSchema }),
+            z.object({ ReasonType: z.literal("EnvironmentReason"), EnvironmentReason: environmentReasonSchema }),
+        ])
+        .and(
+            z.object({
+                Planned: z.boolean(),
+                Summary: z.string(),
+                Description: z.string(),
+                InfoLinks: z.array(infoLinksSchema).optional(),
+            }),
+        ),
+);
 
-        return val;
-    });
+export const ptSituationElementSchemaWithTransform = ptSituationElementSchema.transform((val) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    delete val.ReasonType;
+
+    return val;
+});
 
 export const situationSchema = z.object({
-    PtSituationElement: ptSituationElementSchema,
+    PtSituationElement: ptSituationElementSchemaWithTransform,
 });
 
 export const situationExchangeDeliverySchema = z.object({

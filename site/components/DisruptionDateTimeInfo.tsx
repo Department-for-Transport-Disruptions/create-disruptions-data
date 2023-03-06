@@ -40,16 +40,14 @@ export const DisruptionsDateTimeInfo = ({
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start time?</h3>
             </legend>
             <div id={`${isDisruptionValidity ? "validity" : "publish"}-start-time-hint`} className="govuk-hint">
-                Enter in format HH:MM
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <TimeSelector
                 errors={[]}
-                startOrEnd="start"
-                inputs={{
-                    hourInput: isDisruptionValidity ? inputs.validityStartTimeHour : inputs.publishStartTimeHour,
-                    minuteInput: isDisruptionValidity ? inputs.validityStartTimeMinute : inputs.publishStartTimeMinute,
-                }}
-                type={isDisruptionValidity ? "validity" : "publish"}
+                input={isDisruptionValidity ? inputs.validityStartTime : inputs.publishStartTime}
+                disabled={false}
+                inputId={`${isDisruptionValidity ? "validity" : "publish"}-start-time-input`}
+                inputName={`${isDisruptionValidity ? "validity" : "publish"}StartTime`}
             />
         </fieldset>
         <div className="govuk-form-group govuk-!-margin-bottom-0 govuk-!-margin-top-6">
@@ -78,16 +76,14 @@ export const DisruptionsDateTimeInfo = ({
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the end time?</h3>
             </legend>
             <div id={`${isDisruptionValidity ? "validity" : "publish"}-end-time-hint`} className="govuk-hint">
-                Enter in format HH:MM
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <TimeSelector
                 errors={[]}
-                startOrEnd="end"
-                inputs={{
-                    hourInput: isDisruptionValidity ? inputs.validityEndTimeHour : inputs.publishEndTimeHour,
-                    minuteInput: isDisruptionValidity ? inputs.validityEndTimeMinute : inputs.publishEndTimeMinute,
-                }}
-                type={isDisruptionValidity ? "validity" : "publish"}
+                input={isDisruptionValidity ? inputs.validityEndTime : inputs.publishEndTime}
+                disabled={false}
+                inputId={`${isDisruptionValidity ? "validity" : "publish"}-end-time-input`}
+                inputName={`${isDisruptionValidity ? "validity" : "publish"}EndTime`}
             />
         </fieldset>
         <fieldset className="govuk-fieldset" role="group">

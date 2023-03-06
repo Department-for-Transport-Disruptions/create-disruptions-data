@@ -4,52 +4,30 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
 <div
   className=""
 >
-  <div
-    className="govuk-date-input"
-    id="start-date"
+  <span
+    className="govuk-error-message"
+    id="publish-start-time-input-error"
   >
-    <div
-      className="govuk-date-input__item"
+    <span
+      className="govuk-visually-hidden"
     >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="validity-start-hour-input"
-        >
-          Hour
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
-          defaultValue="d"
-          id="validity-start-hour-input"
-          name="validityStartHour"
-          type="text"
-        />
-      </div>
-    </div>
-    <div
-      className="govuk-date-input__item"
-    >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="validity-start-minute-input"
-        >
-          Minute
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error "
-          defaultValue="02"
-          id="validity-start-minute-input"
-          name="validityStartMinute"
-          type="text"
-        />
-      </div>
-    </div>
+      Error: 
+    </span>
+    There was an error
+  </span>
+  <div
+    aria-describedby="publish-start-time-input-error"
+    className="govuk-form-group govuk-date-input--error"
+  >
+    <input
+      className="govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error "
+      defaultValue="0900"
+      disabled={false}
+      id="publish-start-time-input"
+      name="publishStartTime"
+      placeholder="hhmm"
+      type="text"
+    />
   </div>
 </div>
 `;
@@ -59,51 +37,17 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
   className=""
 >
   <div
-    className="govuk-date-input"
-    id="start-date"
+    className="govuk-form-group"
   >
-    <div
-      className="govuk-date-input__item"
-    >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="publish-start-hour-input"
-        >
-          Hour
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          defaultValue="01"
-          id="publish-start-hour-input"
-          name="publishStartHour"
-          type="text"
-        />
-      </div>
-    </div>
-    <div
-      className="govuk-date-input__item"
-    >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="publish-start-minute-input"
-        >
-          Minute
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          defaultValue="02"
-          id="publish-start-minute-input"
-          name="publishStartMinute"
-          type="text"
-        />
-      </div>
-    </div>
+    <input
+      className="govuk-input govuk-date-input__input govuk-input--width-4  "
+      defaultValue="0900"
+      disabled={false}
+      id="publish-start-time-input"
+      name="publishStartTime"
+      placeholder="hhmm"
+      type="text"
+    />
   </div>
 </div>
 `;
@@ -113,49 +57,16 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
   className=""
 >
   <div
-    className="govuk-date-input"
-    id="start-date"
+    className="govuk-form-group"
   >
-    <div
-      className="govuk-date-input__item"
-    >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="validity-start-hour-input"
-        >
-          Hour
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="validity-start-hour-input"
-          name="validityStartHour"
-          type="text"
-        />
-      </div>
-    </div>
-    <div
-      className="govuk-date-input__item"
-    >
-      <div
-        className="govuk-form-group"
-      >
-        <label
-          className="govuk-label govuk-date-input__label"
-          htmlFor="validity-start-minute-input"
-        >
-          Minute
-        </label>
-        <input
-          className="govuk-input govuk-date-input__input govuk-input--width-2  "
-          id="validity-start-minute-input"
-          name="validityStartMinute"
-          type="text"
-        />
-      </div>
-    </div>
+    <input
+      className="govuk-input govuk-date-input__input govuk-input--width-4  "
+      disabled={false}
+      id="publish-start-time-input"
+      name="publishStartTime"
+      placeholder="hhmm"
+      type="text"
+    />
   </div>
 </div>
 `;
