@@ -1,12 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { PropsWithChildren, ReactElement, useState, useEffect } from "react";
-import { Portal } from "react-portal";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
 import CookieBanner from "../CookieBanner";
+import { createPortal } from "react-dom";
 
 interface LayoutProps {
     title: string;
@@ -37,10 +37,12 @@ export const BaseLayout = ({
     hideHelp,
 }: PropsWithChildren<LayoutProps>): ReactElement => {
     const [showBanner, setShowBanner] = useState(false);
+    const [cookieDiv, setCookieDiv] = useState<HTMLElement | null>(null);
 
     useEffect(() => {
         setShowBanner(true);
-    });
+        setCookieDiv(document.getElementById("js-cookie-banner"));
+    }, []);
 
     return (
         <>
@@ -52,11 +54,7 @@ export const BaseLayout = ({
                 <meta charSet="utf-8" />
             </Head>
 
-            {!hideCookieBanner && showBanner && (
-                <Portal node={document && document.getElementById("js-cookie-banner")}>
-                    <CookieBanner />
-                </Portal>
-            )}
+            {!hideCookieBanner && cookieDiv && showBanner && createPortal(<CookieBanner />, cookieDiv)}
 
             <PhaseBanner />
 
