@@ -1,3 +1,10 @@
+import {
+    MiscellaneousReason,
+    PersonnelReason,
+    EnvironmentReason,
+    EquipmentReason,
+} from "@create-disruptions-data/shared-ts/siriTypes";
+
 export interface ErrorInfo {
     errorMessage: string;
     id: string;
@@ -5,12 +12,17 @@ export interface ErrorInfo {
 }
 
 export interface DisruptionInfo {
-    validityStartDate: string;
-    validityEndDate: string;
-    validityStartTime: string;
-    validityEndTime: string;
-    publishStartDate: string;
-    publishEndDate: string;
+    typeOfDisruption?: "planned" | "unplanned";
+    summary: string;
+    description: string;
+    associatedLink: string;
+    reasonForDisruption?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
+    disruptionStartDate: Date;
+    disruptionEndDate?: Date;
+    disruptionStartTime: string;
+    disruptionEndTime?: string;
+    publishStartDate: Date;
+    publishEndDate?: Date;
     publishStartTime: string;
-    publishEndTime: string;
+    publishEndTime?: string;
 }

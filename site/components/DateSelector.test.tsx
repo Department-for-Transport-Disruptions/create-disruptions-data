@@ -1,6 +1,26 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
+import { PageState } from "../pages/create-disruption";
 import DateSelector from "./DateSelector";
+
+const blankInputs: PageState = {
+    errors: [],
+    inputs: {
+        typeOfDisruption: "",
+        summary: "",
+        description: "",
+        "associated-link": "",
+        "disruption-reason": "",
+        "disruption-start-date": null,
+        "disruption-end-date": null,
+        "disruption-start-time": "",
+        "disruption-end-time": "",
+        "publish-start-date": null,
+        "publish-end-date": null,
+        "publish-start-time": "",
+        "publish-end-time": "",
+    },
+};
 
 describe("DateSelector", () => {
     it("should render correctly with no input", () => {
@@ -12,6 +32,9 @@ describe("DateSelector", () => {
                     disablePast={false}
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -23,11 +46,13 @@ describe("DateSelector", () => {
             .create(
                 <DateSelector
                     input={null}
-                    errors={[{ errorMessage: "There was an error", id: "publish-end-date" }]}
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
+                    pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -43,6 +68,9 @@ describe("DateSelector", () => {
                     disablePast={false}
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -58,6 +86,9 @@ describe("DateSelector", () => {
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
                     disabled
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();

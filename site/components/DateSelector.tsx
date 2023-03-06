@@ -5,8 +5,9 @@ import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { ReactElement, useState } from "react";
-import FormElementWrapper from "./FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
+import { PageState } from "../pages/create-disruption";
+import FormElementWrapper from "./FormElementWrapper";
 
 interface DateSelectorProps {
     input: Date | null;
@@ -15,37 +16,54 @@ interface DateSelectorProps {
     inputId: string;
     inputName: string;
     disablePast: boolean;
+    pageState: PageState;
+    updatePageState: Function;
+    updaterFunction: Function;
 }
 
 const inputBox = (
-    errors: ErrorInfo[],
     inputRef: React.Ref<HTMLInputElement> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     disabled: boolean,
     inputId: string,
     inputName: string,
+    pageState: PageState,
+    updatePageState: Function,
+    updaterFunction: Function,
 ) => (
-    <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-date-input--error">
-        <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
-            <div className="govuk-date-input__item govuk-!-margin-right-0">
-                <div className="govuk-form-group">
-                    <input
-                        className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
-                            errors.length > 0 ? "govuk-input--error" : ""
-                        } `}
-                        id={inputId}
-                        name={inputName}
-                        type="text"
-                        ref={inputRef}
-                        {...inputProps}
-                        disabled={disabled}
-                    />
-                </div>
-            </div>
-            {InputProps?.endAdornment}
+    <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
+        <div className="govuk-date-input__item govuk-!-margin-right-0">
+            <FormElementWrapper
+                errors={pageState.errors}
+                errorId={inputId}
+                errorClass="govuk-input--error"
+            >
+                <input
+                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                    id={inputId}
+                    name={inputName}
+                    type="text"
+                    ref={inputRef}
+                    {...inputProps}
+                    disabled={disabled}
+                    placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
+                    onBlur={(e) => {
+                        const input = e.target.value;
+                        if (!input) {
+                            updaterFunction(pageState, updatePageState, inputId, input, {
+                                id: inputId,
+                                errorMessage: "Select a date",
+                            });
+                        } else {
+                            updaterFunction(pageState, updatePageState, inputId, input);
+                        }
+                    }}
+                />
+            </FormElementWrapper>
         </div>
-    </FormElementWrapper>
+        {InputProps?.endAdornment}
+    </div>
 );
 
 const renderWeekPickerDay = (
@@ -65,13 +83,15 @@ const renderWeekPickerDay = (
 
 const DateSelector = ({
     input = null,
-    errors = [],
     disabled,
     inputId,
     inputName,
     disablePast,
+    pageState,
+    updatePageState,
+    updaterFunction,
 }: DateSelectorProps): ReactElement => {
-    const [value, setValue] = useState(input);
+    const [value, setValue] = useState(!!disabled ? null : input);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -79,13 +99,25 @@ const DateSelector = ({
                 renderDay={renderWeekPickerDay}
                 value={value}
                 onChange={(newValue) => {
+                    updaterFunction(pageState, updatePageState, inputId, newValue);
                     setValue(newValue);
                 }}
                 renderInput={({ inputRef, inputProps, InputProps }) => {
-                    return inputBox(errors, inputRef, inputProps, InputProps, disabled, inputId, inputName);
+                    return inputBox(
+                        inputRef,
+                        inputProps,
+                        InputProps,
+                        disabled,
+                        inputId,
+                        inputName,
+                        pageState,
+                        updatePageState,
+                        updaterFunction,
+                    );
                 }}
                 disablePast={disablePast}
                 inputFormat="DD/MM/YYYY"
+                disabled={disabled}
             />
         </LocalizationProvider>
     );

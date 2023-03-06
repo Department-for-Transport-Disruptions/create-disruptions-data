@@ -51,7 +51,7 @@ export const FormGroupWrapper = ({
     const errorForElement = errors.find((err) => errorIds.includes(err.id));
 
     return (
-        <div className={`govuk-form-group ${errorForElement && !hideErrorBar ? "govuk-form-group--error" : ""}`}>
+        <div className={`govuk-form-group${errorForElement && !hideErrorBar ? " govuk-form-group--error" : ""}`}>
             {children}
         </div>
     );
