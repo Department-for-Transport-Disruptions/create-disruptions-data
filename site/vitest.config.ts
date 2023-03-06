@@ -6,5 +6,7 @@ export default defineConfig({
     test: {
         include: ["**/*.{test,spec}.{js,ts,tsx}"],
         environment: "jsdom",
+        maxThreads: 1,
+        minThreads: 1,
     },
 });
