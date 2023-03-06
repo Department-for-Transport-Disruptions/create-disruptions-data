@@ -1,34 +1,31 @@
-import { BucketEncryption } from "aws-cdk-lib/aws-s3";
-import { Bucket, NextjsSite, StackContext } from "sst/constructs";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { NextjsSite, StackContext, use } from "sst/constructs";
+import { DynamoDBStack } from "./DynamoDBStack";
 
 export function SiteStack({ stack }: StackContext) {
-    const disruptionsJsonBucket = new Bucket(stack, "DisruptionsJsonBucket", {
-        name: `cdd-disruptions-json-${stack.stage}`,
-        cdk: {
-            bucket: {
-                encryption: BucketEncryption.S3_MANAGED,
-                blockPublicAccess: {
-                    blockPublicAcls: true,
-                    blockPublicPolicy: true,
-                    ignorePublicAcls: true,
-                    restrictPublicBuckets: true,
-                },
-            },
-        },
-    });
+    const { table } = use(DynamoDBStack);
 
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         environment: {
-            DISRUPTIONS_JSON_BUCKET_ARN: disruptionsJsonBucket.bucketArn,
+            TABLE_ARN: table.tableArn,
         },
+        permissions: [
+            new PolicyStatement({
+                resources: [table.tableArn],
+                actions: [
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:Query",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem",
+                ],
+            }),
+        ],
     });
 
     stack.addOutputs({
         URL: site.url || "",
     });
-
-    return {
-        disruptionsJsonBucket,
-    };
 }

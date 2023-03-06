@@ -3,7 +3,7 @@ import {
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
-} from "@create-disruptions-data/shared-ts/siriTypes";
+} from "@create-disruptions-data/shared-ts/enums";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 

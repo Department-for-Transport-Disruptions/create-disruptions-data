@@ -1,8 +1,8 @@
 import { SSTConfig } from "sst";
+import { DynamoDBStack } from "./stacks/DynamoDBStack";
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
 import { SiriGeneratorStack } from "./stacks/SiriGeneratorStack";
 import { SiteStack } from "./stacks/SiteStack";
-import { SiriAPIStack } from "./stacks/SiriAPIStack";
 
 export default {
     config() {
@@ -12,6 +12,7 @@ export default {
         };
     },
     stacks(app) {
+        app.stack(DynamoDBStack);
         app.stack(SiteStack);
         app.stack(SiriGeneratorStack);
         app.stack(SiriAPIStack);

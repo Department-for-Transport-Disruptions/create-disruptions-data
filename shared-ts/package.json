@@ -1,5 +1,11 @@
 {
     "name": "@create-disruptions-data/shared-ts",
     "version": "0.1.0",
-    "type": "module"
+    "type": "module",
+    "scripts": {
+        "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts"
+    },
+    "dependencies": {
+        "dayjs": "^1.11.7"
+    }
 }

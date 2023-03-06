@@ -10,23 +10,19 @@ export const createValidatorLambda = (stack: Stack, siriSXUnvalidatedBucket: Buc
         },
         permissions: [
             new PolicyStatement({
-                actions: ["s3:GetObject"],
                 resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
+                actions: ["s3:GetObject"],
             }),
+
             new PolicyStatement({
-                actions: ["s3:PutObject"],
                 resources: [`${siriSXBucket.bucketArn}/*`],
+                actions: ["s3:PutObject"],
             }),
         ],
         handler: "packages/siri-sx-validator/index.main",
         timeout: 600,
         memorySize: 256,
         runtime: "python3.9",
-        python: {
-            installCommands: [
-                "pip install -r packages/siri-sx-validator/requirements.txt --target packages/siri-sx-validator/",
-            ],
-        },
         enableLiveDev: false,
     });
 
