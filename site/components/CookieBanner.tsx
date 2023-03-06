@@ -1,6 +1,6 @@
 import Cookies, { CookieSetOptions } from 'universal-cookie';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE } from '../constants';
+import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from '../constants';
 
 interface CookieBannerMessageProps {
     handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -15,7 +15,7 @@ export const CookieBannerMessage = ({ handleClick }: CookieBannerMessageProps): 
                         <h2 className="govuk-heading-m">Tell us whether you accept cookies</h2>
                         <p className="govuk-body">
                             We use&nbsp;
-                            <a className="govuk-link" href="/cookieDetails">
+                            <a className="govuk-link" href="/cookie-details">
                                 cookies to collect information
                             </a>
                             &nbsp; about how you use the Create Transport Disruption Data Service. We use this information to make the
@@ -66,7 +66,7 @@ const CookieBanner = (): ReactElement | null => {
 
     const handleAcceptAllClick = (): void => {
         const cookies = new Cookies();
-        const oneYearInSeconds = 31556952
+
         const cookieOptions: CookieSetOptions = {
             maxAge: oneYearInSeconds,
             sameSite: 'strict',
