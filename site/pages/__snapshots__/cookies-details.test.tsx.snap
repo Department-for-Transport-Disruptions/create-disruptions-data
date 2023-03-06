@@ -1,0 +1,692 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`pages > cookieDetails > should render correctly 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+    >
+      <div
+        className="govuk-grid-row"
+      >
+        <div
+          className="govuk-grid-column-two-thirds"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Details about cookies on the Create Transport Disruption Data Service
+          </h1>
+          <p
+            className="govuk-body"
+          >
+            The Create Transport Disruption Data Service puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they’re for and when they expire.
+          </p>
+          <h2
+            className="govuk-heading-m"
+          >
+            Tracking
+          </h2>
+          <p
+            className="govuk-body"
+          >
+            We use Google Analytics software (Universal Analytics) to collect anonymised information about how you use the Create Transport Disruption Data Service. We do this to help make sure the site is meeting the needs of its users and to help us make improvements to the site and to government digital services.
+          </p>
+          <p
+            className="govuk-body"
+          >
+            We do not allow Google to use or share the data about how you use this site.
+          </p>
+          <ul
+            className="govuk-list govuk-list--bullet govuk-body"
+          >
+            <li>
+              how you got to the site
+            </li>
+            <li>
+              the pages you visit on GOV.UK and how long you spend on them
+            </li>
+            <li>
+              what you click on while you’re visiting the site
+            </li>
+          </ul>
+          <p
+            className="govuk-body"
+          >
+            Google Analytics sets the following cookies.
+          </p>
+          <table
+            className="govuk-table cookie-detail-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Name
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Purpose
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Expires
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  _ga
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  These help us count how many people visit the Create Transport Disruption Data Service by tracking if you’ve visited before
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  2 years
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  _gid
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  These help us count how many people visit the Create Transport Disruption Data Service by tracking if you’ve visited before
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  24 hours
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  _gat
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Used to manage the rate at which page view requests are made
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  1 minute
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h2
+            className="govuk-heading-m"
+          >
+            Strictly necessary cookies
+          </h2>
+          <h3
+            className="govuk-heading-s"
+          >
+            Progress through the tool
+          </h3>
+          <p
+            className="govuk-body"
+          >
+            When you use the Create Transport Disruption Data Service we will set the following cookies as you progress through the forms.
+          </p>
+          <table
+            className="govuk-table cookie-detail-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Name
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Purpose
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Expires
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-operator
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Stores the logged in operator name and NOC
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser or sign out
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-user
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Set to store validation information for user
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-reset-password
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Set to store validation information when resetting password
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  _csrf
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Used to secure form submissions
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h3
+            className="govuk-heading-s"
+          >
+            Remembering who you are
+          </h3>
+          <p
+            className="govuk-body"
+          >
+            When you have logged into the service we use cookies to keep track of who you are until you log out or the session ends automatically.
+          </p>
+          <table
+            className="govuk-table cookie-detail-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Name
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Purpose
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Expires
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-id-token
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Stores information about your session
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser or sign out
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-refresh-token
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Allows your session to be extended while using the tool
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser or sign out
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  connect.sid
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Stores a session ID
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  When you close your browser
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h3
+            className="govuk-heading-s"
+          >
+            Cookies message
+          </h3>
+          <p
+            className="govuk-body"
+          >
+            You may see a banner when you visit GOV.UK inviting you to accept cookies or review your settings. We’ll set cookies so that your computer knows you’ve seen it and not to show it again, and also to store your settings.
+          </p>
+          <table
+            className="govuk-table cookie-detail-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Name
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Purpose
+                </th>
+                <th
+                  className="govuk-table__header"
+                  scope="col"
+                >
+                  Expires
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-cookies-policy
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Saves your cookie consent settings
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  1 year
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell"
+                >
+                  fdbt-cookie-preferences-set
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Lets us know that you’ve saved your cookie consent settings
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  1 year
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h2
+            className="govuk-heading-m"
+          >
+            Change your settings
+          </h2>
+          <p
+            className="govuk-body"
+          >
+            You can
+             
+            <a
+              className="govuk-link"
+              href="/cookies"
+            >
+              change which cookies you’re happy for us to use
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { PropsWithChildren, ReactElement, useState, useEffect } from "react";
-import { Portal } from 'react-portal';
+import { Portal } from "react-portal";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
@@ -53,7 +53,7 @@ export const BaseLayout = ({
             </Head>
 
             {!hideCookieBanner && showBanner && (
-                <Portal node={document && document.getElementById('js-cookie-banner')}>
+                <Portal node={document && document.getElementById("js-cookie-banner")}>
                     <CookieBanner />
                 </Portal>
             )}
@@ -77,7 +77,8 @@ export const FullColumnLayout = ({
     hideCookieBanner = false,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout title={title}
+    <BaseLayout
+        title={title}
         description={description}
         errors={errors}
         hideCookieBanner={hideCookieBanner}
