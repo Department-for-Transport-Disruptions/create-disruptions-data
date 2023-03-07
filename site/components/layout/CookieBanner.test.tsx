@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import Cookies from "universal-cookie";
-import { vi, describe, it, expect, afterEach } from "vitest";
+import { vi, describe, it, expect } from "vitest";
 import CookieBanner from "../layout/CookieBanner";
 
 describe("CookieBanner", () => {
