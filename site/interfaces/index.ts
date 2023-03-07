@@ -6,6 +6,7 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { Mock } from "vitest";
 import { ServerResponse } from "http";
 
 export interface ErrorInfo {
@@ -40,4 +41,16 @@ export interface ResponseWithLocals extends ServerResponse {
 export interface CookiePolicy {
     essential: boolean;
     usage: boolean;
+}
+
+export interface GetMockRequestAndResponse {
+    cookieValues?: any;
+    body?: any;
+    uuid?: any;
+    mockWriteHeadFn?: Mock<any, any>;
+    mockEndFn?: Mock<any, any>;
+    requestHeaders?: any;
+    isLoggedin?: boolean;
+    url?: any;
+    query?: any;
 }
