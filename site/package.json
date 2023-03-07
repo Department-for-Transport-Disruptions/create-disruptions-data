@@ -22,6 +22,7 @@
         "@types/node": "18.11.18",
         "@types/react": "18.0.26",
         "@types/react-dom": "18.0.10",
+        "cookie": "^0.5.0",
         "cookies": "^0.8.0",
         "cookies-next": "^2.1.1",
         "dayjs": "^1.11.7",
