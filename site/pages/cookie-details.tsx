@@ -89,18 +89,6 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">cdd-user</td>
-                        <td className="govuk-table__cell">Set to store validation information for user</td>
-                        <td className="govuk-table__cell">When you close your browser</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">cdd-reset-password</td>
-                        <td className="govuk-table__cell">
-                            Set to store validation information when resetting password
-                        </td>
-                        <td className="govuk-table__cell">When you close your browser</td>
-                    </tr>
-                    <tr className="govuk-table__row">
                         <td className="govuk-table__cell">_csrf</td>
                         <td className="govuk-table__cell">Used to secure form submissions</td>
                         <td className="govuk-table__cell">When you close your browser</td>
