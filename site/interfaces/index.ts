@@ -6,11 +6,7 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-import { NextPageContext } from "next";
-import React from "react";
-import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
-import { GetMockContextInput, getMockRequestAndResponse } from "../testData/mockData";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -45,48 +41,3 @@ export interface CookiePolicy {
     essential: boolean;
     usage: boolean;
 }
-
-export interface GetMockRequestAndResponse {
-    cookieValues?: any;
-    body?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
-    requestHeaders?: any;
-    isLoggedin?: boolean;
-    url?: any;
-    query?: any;
-}
-
-export const getMockContext = ({
-    cookies = {},
-    body = null,
-    uuid = {},
-    mockWriteHeadFn = vi.fn(),
-    mockEndFn = vi.fn(),
-    isLoggedin = true,
-    url = null,
-    query = "",
-}: GetMockContextInput = {}): NextPageContext => {
-    const { req, res } = getMockRequestAndResponse({
-        cookieValues: cookies,
-        body,
-        uuid,
-        mockWriteHeadFn,
-        mockEndFn,
-        requestHeaders: {},
-        isLoggedin,
-        url,
-    });
-
-    const ctx: NextPageContext = {
-        res,
-        req,
-        pathname: "",
-        query,
-        // eslint-disable-next-line react/display-name
-        AppTree: () => React.createElement("div"),
-    };
-
-    return ctx;
-};
