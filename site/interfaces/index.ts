@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Session as SessionData } from "express-session";
 import { NextApiRequest, NextPageContext } from "next";
+// eslint-disable-next-line @next/next/no-document-import-in-page
 import { DocumentContext } from "next/document";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
 import { GetMockContextInput, getMockRequestAndResponse } from "../pages/testData/mockData";
-import { SessionAttributeTypes } from "../utils/sessions";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -51,7 +53,6 @@ export interface CookiePolicy {
 }
 
 export interface GetMockRequestAndResponse {
-    session?: Partial<SessionAttributeTypes>;
     cookieValues?: any;
     body?: any;
     uuid?: any;
@@ -64,7 +65,6 @@ export interface GetMockRequestAndResponse {
 }
 
 export const getMockContext = ({
-    session,
     cookies = {},
     body = null,
     uuid = {},
@@ -75,7 +75,6 @@ export const getMockContext = ({
     query = "",
 }: GetMockContextInput = {}): NextPageContextWithSession => {
     const { req, res } = getMockRequestAndResponse({
-        session,
         cookieValues: cookies,
         body,
         uuid,

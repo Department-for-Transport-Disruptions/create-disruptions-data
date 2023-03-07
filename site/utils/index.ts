@@ -1,5 +1,5 @@
-import { NextPageContext } from 'next';
-import { DocumentContextWithSession, ErrorInfo, NextPageContextWithSession } from "../interfaces";
+import { NextPageContext } from "next";
+import { DocumentContextWithSession, ErrorInfo, NextPageContextWithSession, ResponseWithLocals } from "../interfaces";
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     if (errors.length > 0) {
@@ -10,4 +10,4 @@ export const buildTitle = (errors: ErrorInfo[], title: string): string => {
 };
 
 export const getCsrfToken = (ctx: DocumentContextWithSession | NextPageContextWithSession | NextPageContext): string =>
-    (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? '';
+    (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";

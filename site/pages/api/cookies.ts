@@ -3,8 +3,9 @@ import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } fr
 import { NextApiRequestWithSession, CookiePolicy } from "../../interfaces";
 import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 
-export default (req: NextApiRequestWithSession, res: NextApiResponse): void => {
+const cookies = (req: NextApiRequestWithSession, res: NextApiResponse): void => {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { tracking } = req.body;
 
         if (!tracking) {
@@ -27,6 +28,8 @@ export default (req: NextApiRequestWithSession, res: NextApiResponse): void => {
         redirectTo(res, "/cookies?settingsSaved=true");
     } catch (error) {
         const message = "There was a problem saving cookie preferences.";
-        redirectToError(res, message, "api.cookies", error);
+        redirectToError(res, message, "api.cookies", error as Error);
     }
 };
+
+export default cookies;

@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { mockRequest } from "mock-req-res";
-import MockRes from "mock-res";
+import { mockRequest, mockResponse } from "mock-req-res";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../../constants";
@@ -26,12 +26,9 @@ export const getMockRequestAndResponse = ({
     requestHeaders = {},
     isLoggedin = true,
     url = null,
-    session,
     query = null,
 }: GetMockRequestAndResponse = {}): { req: any; res: any } => {
-    const res = new MockRes();
-    res.writeHead = mockWriteHeadFn;
-    res.end = mockEndFn;
+    const res = mockResponse({ writeHead: mockWriteHeadFn, end: mockEndFn });
 
     const {
         idToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXN0b206bm9jIjoiVEVTVCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImp0aSI6Ijg1MmQ1MTVlLTU5YWUtNDllZi1iMTA5LTI4YTRhNzk3YWFkNSIsImlhdCI6MTU5Mjk4NzMwNywiZXhwIjoxNTkyOTkwOTA3fQ.DFdxnpdhykDONOMeZMNeMUFpCHZ-hQ3UXczq_Qh0IAI",
@@ -40,13 +37,12 @@ export const getMockRequestAndResponse = ({
 
     const defaultSession = {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        destroy: (): void => {},
-        ...session,
+        destroy: (): void => { },
     };
 
     let cookieString = "";
 
-    cookieString += isLoggedin ? `${ID_TOKEN_COOKIE}=${idToken};` : "";
+    cookieString += isLoggedin ? `${ID_TOKEN_COOKIE}=${idToken as string};` : "";
 
     cookieString += cookiePolicy ? `${COOKIES_POLICY_COOKIE}=${encodeURI(JSON.stringify(cookiePolicy))}` : "";
 
@@ -76,7 +72,6 @@ export const getMockRequestAndResponse = ({
 };
 
 export const getMockContext = ({
-    session,
     cookies = {},
     body = null,
     uuid = {},
@@ -87,7 +82,6 @@ export const getMockContext = ({
     query = "",
 }: GetMockContextInput = {}): NextPageContextWithSession => {
     const { req, res } = getMockRequestAndResponse({
-        session,
         cookieValues: cookies,
         body,
         uuid,

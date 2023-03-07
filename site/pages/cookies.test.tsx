@@ -1,9 +1,8 @@
-import * as React from "react";
-import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies";
-import { getMockContext } from "../pages/testData/mockData";
-import { CookiePolicy } from "../interfaces";
-import { vi, describe, it, expect, afterEach } from "vitest";
 import renderer from "react-test-renderer";
+import { vi, describe, it, expect, afterEach } from "vitest";
+import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies";
+import { CookiePolicy } from "../interfaces";
+import { getMockContext } from "../pages/testData/mockData";
 
 describe("pages", () => {
     describe("cookies", () => {

@@ -133,6 +133,7 @@ export const getServerSideProps = (ctx: NextPageContextWithSession): { props: Co
 
     const settingsSaved = (ctx.query?.settingsSaved ?? "false") === "true";
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const tracking = cookies[COOKIES_POLICY_COOKIE] ? JSON.parse(cookies[COOKIES_POLICY_COOKIE]).usage : false;
 
     const trackingDefaultValue = tracking ? "on" : "off";

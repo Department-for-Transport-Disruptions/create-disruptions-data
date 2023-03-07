@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { ReactElement, useEffect, useState } from "react";
 import Cookies, { CookieSetOptions } from "universal-cookie";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
@@ -15,25 +16,36 @@ export const CookieBannerMessage = ({ handleClick }: CookieBannerMessageProps): 
                         <h2 className="govuk-heading-m">Tell us whether you accept cookies</h2>
                         <p className="govuk-body">
                             We use&nbsp;
-                            <a className="govuk-link" href="/cookie-details">
+                            <Link className="govuk-link" href="/cookie-details">
                                 cookies to collect information
-                            </a>
+                            </Link>
                             &nbsp; about how you use the Create Transport Disruption Data Service. We use this
                             information to make the website work as well as possible and to improve the service.
                         </p>
                     </div>
                     {handleClick && (
                         <div className="inline-block p-0">
-                            <a className="govuk-button mr-3" id="accept-all-button" role="button" onClick={handleClick}>
+                            <button
+                                type="button"
+                                className="govuk-button mr-3 bg-govGreen"
+                                id="accept-all-button"
+                                data-module="govuk-button"
+                                onClick={handleClick}
+                            >
                                 Accept All
-                            </a>
+                            </button>
                         </div>
                     )}
 
                     <div className="inline-block p-0">
-                        <a id="set-cookie-preferences-link" className="govuk-button mr-3" role="button" href="/cookies">
+                        <Link
+                            id="set-cookie-preferences-link"
+                            className="govuk-button mr-3"
+                            role="button"
+                            href="/cookies"
+                        >
                             Set cookie preferences
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -47,6 +59,7 @@ const CookieBanner = (): ReactElement | null => {
 
     useEffect(() => {
         const cookies = new Cookies();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const cookiePreferences = cookies.get(COOKIE_PREFERENCES_COOKIE);
 
         if (!cookiePreferences || cookiePreferences === "false") {
@@ -86,9 +99,9 @@ const CookieBanner = (): ReactElement | null => {
                 <div className="govuk-width-container relative">
                     <p role="alert">
                         You’ve accepted all cookies. You can{" "}
-                        <a className="govuk-link" href="/cookies">
+                        <Link className="govuk-link" href="/cookies">
                             change your cookie settings
-                        </a>{" "}
+                        </Link>{" "}
                         at any time.
                     </p>
                     <button

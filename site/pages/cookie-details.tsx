@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactElement } from "react";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 
@@ -186,17 +187,13 @@ const Contact = (): ReactElement => {
             <h2 className="govuk-heading-m">Change your settings</h2>
             <p className="govuk-body">
                 You can{" "}
-                <a className="govuk-link" href="/cookies">
+                <Link className="govuk-link" href="/cookies">
                     change which cookies you’re happy for us to use
-                </a>
+                </Link>
                 .
             </p>
         </TwoThirdsLayout>
     );
-};
-
-export const getServerSideProps = (): {} => {
-    return { props: {} };
 };
 
 export default Contact;
