@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import Cookies, { CookieSetOptions } from "universal-cookie";
-import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../constants";
+import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 
 interface CookieBannerMessageProps {
     handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

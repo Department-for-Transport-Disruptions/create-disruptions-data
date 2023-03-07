@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
 import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Portal } from "react-portal";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
-import CookieBanner from "../CookieBanner";
+import CookieBanner from "./CookieBanner";
 
 interface LayoutProps {
     title: string;
@@ -42,6 +43,7 @@ export const BaseLayout = ({
         setShowBanner(true);
     });
 
+    const element = document.getElementById("js-cookie-banner");
     return (
         <>
             <Head>
@@ -52,12 +54,7 @@ export const BaseLayout = ({
                 <meta charSet="utf-8" />
             </Head>
 
-            {!hideCookieBanner && showBanner && (
-                <Portal node={document && document.getElementById("js-cookie-banner")}>
-                    <CookieBanner />
-                </Portal>
-            )}
-
+            {!hideCookieBanner && showBanner && element && <div>{createPortal(<CookieBanner />, element)}</div>}
             <PhaseBanner />
 
             <div className="govuk-width-container">
