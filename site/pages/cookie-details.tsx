@@ -89,12 +89,12 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-user</td>
+                        <td className="govuk-table__cell">cdd-user</td>
                         <td className="govuk-table__cell">Set to store validation information for user</td>
                         <td className="govuk-table__cell">When you close your browser</td>
                     </tr>
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-reset-password</td>
+                        <td className="govuk-table__cell">cdd-reset-password</td>
                         <td className="govuk-table__cell">
                             Set to store validation information when resetting password
                         </td>
@@ -103,43 +103,6 @@ const Contact = (): ReactElement => {
                     <tr className="govuk-table__row">
                         <td className="govuk-table__cell">_csrf</td>
                         <td className="govuk-table__cell">Used to secure form submissions</td>
-                        <td className="govuk-table__cell">When you close your browser</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3 className="govuk-heading-s">Remembering who you are</h3>
-            <p className="govuk-body">
-                When you have logged into the service we use cookies to keep track of who you are until you log out or
-                the session ends automatically.
-            </p>
-            <table className="govuk-table cookie-detail-table">
-                <thead className="govuk-table__head">
-                    <tr className="govuk-table__row">
-                        <th scope="col" className="govuk-table__header">
-                            Name
-                        </th>
-                        <th scope="col" className="govuk-table__header">
-                            Purpose
-                        </th>
-                        <th scope="col" className="govuk-table__header">
-                            Expires
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="govuk-table__body">
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-id-token</td>
-                        <td className="govuk-table__cell">Stores information about your session</td>
-                        <td className="govuk-table__cell">When you close your browser or sign out</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-refresh-token</td>
-                        <td className="govuk-table__cell">Allows your session to be extended while using the tool</td>
-                        <td className="govuk-table__cell">When you close your browser or sign out</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">connect.sid</td>
-                        <td className="govuk-table__cell">Stores a session ID</td>
                         <td className="govuk-table__cell">When you close your browser</td>
                     </tr>
                 </tbody>
@@ -166,12 +129,12 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-cookies-policy</td>
+                        <td className="govuk-table__cell">cdd-cookies-policy</td>
                         <td className="govuk-table__cell">Saves your cookie consent settings</td>
                         <td className="govuk-table__cell">1 year</td>
                     </tr>
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">disr-cookie-preferences-set</td>
+                        <td className="govuk-table__cell">cdd-cookie-preferences-set</td>
                         <td className="govuk-table__cell">
                             Lets us know that you’ve saved your cookie consent settings
                         </td>

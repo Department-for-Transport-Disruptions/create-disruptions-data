@@ -3,7 +3,7 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 import { CookiePolicy } from "../../interfaces";
-import { getMockRequestAndResponse } from "../../pages/testData/mockData";
+import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import cookies from "../api/cookies";
 

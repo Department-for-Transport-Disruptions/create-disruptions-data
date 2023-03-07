@@ -1,6 +1,6 @@
+import { setCookie, getCookie } from "cookies-next";
 import Link from "next/link";
 import React, { ReactElement, useEffect, useState } from "react";
-import Cookies, { CookieSetOptions } from "universal-cookie";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 
 interface CookieBannerMessageProps {
@@ -58,9 +58,8 @@ const CookieBanner = (): ReactElement | null => {
     const [hideBanner, setHideBanner] = useState(true);
 
     useEffect(() => {
-        const cookies = new Cookies();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const cookiePreferences = cookies.get(COOKIE_PREFERENCES_COOKIE);
+        const cookiePreferences = getCookie(COOKIE_PREFERENCES_COOKIE);
 
         if (!cookiePreferences || cookiePreferences === "false") {
             setHideBanner(false);
@@ -68,17 +67,15 @@ const CookieBanner = (): ReactElement | null => {
     }, [setHideBanner]);
 
     const handleAcceptAllClick = (): void => {
-        const cookies = new Cookies();
-
-        const cookieOptions: CookieSetOptions = {
+        const cookieOptions = {
             maxAge: oneYearInSeconds,
             sameSite: "strict",
             secure: process.env.NODE_ENV !== "development",
             path: "/",
         };
 
-        cookies.set(COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
-        cookies.set(COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
+        setCookie(COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
+        setCookie(COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
             ...cookieOptions,
         });
 

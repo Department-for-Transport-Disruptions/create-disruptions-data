@@ -3,8 +3,8 @@
 import { mockRequest, mockResponse } from "mock-req-res";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../../constants";
-import { GetMockRequestAndResponse, NextPageContextWithSession } from "../../interfaces";
+import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../constants";
+import { GetMockRequestAndResponse, NextPageContextWithSession } from "../interfaces";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };

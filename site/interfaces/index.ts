@@ -13,7 +13,7 @@ import { DocumentContext } from "next/document";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
-import { GetMockContextInput, getMockRequestAndResponse } from "../pages/testData/mockData";
+import { GetMockContextInput, getMockRequestAndResponse } from "../testData/mockData";
 
 export interface ErrorInfo {
     errorMessage: string;

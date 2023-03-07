@@ -47,7 +47,7 @@ exports[`pages > cookies > should display a confirmation box when the user saves
           className="govuk-grid-column-two-thirds"
         >
           <div
-            className="information_box__success block p-[20px] mb-[50px] border-4 border-govGreen"
+            className="information_box__success block p-5 mb-12.5 border-4 border-govGreen"
           >
             <h2
               className="govuk-heading-m"
