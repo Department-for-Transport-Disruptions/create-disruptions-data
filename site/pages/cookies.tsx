@@ -35,8 +35,8 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
             Cookies are files saved on your phone, tablet or computer when you visit a website.
         </p>
         <p className="govuk-body">
-            We use cookies to store information about how you use the Create Transport Disruption website, such as the pages you
-            visit.
+            We use cookies to store information about how you use the Create Transport Disruption website, such as the
+            pages you visit.
         </p>
         <h2 className="govuk-heading-m govuk-!-margin-bottom-3">Cookie Settings</h2>
         <div className="cookie-settings__form-wrapper">
