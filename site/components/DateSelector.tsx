@@ -13,7 +13,7 @@ interface DateSelectorProps {
     input: Date | null;
     errors?: ErrorInfo[];
     disabled: boolean;
-    inputId: string;
+    inputId: keyof PageInputs;
     inputName: string;
     disablePast: boolean;
     pageState: PageState;
@@ -32,7 +32,7 @@ const inputBox = (
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     disabled: boolean,
-    inputId: string,
+    inputId: keyof PageInputs,
     inputName: string,
     pageState: PageState,
     updatePageState: Dispatch<SetStateAction<PageState>>,
@@ -59,12 +59,12 @@ const inputBox = (
                     onBlur={(e) => {
                         const input = e.target.value;
                         if (!input) {
-                            updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input, {
+                            updaterFunction(pageState, updatePageState, inputId, input, {
                                 id: inputId,
                                 errorMessage: "Select a date",
                             });
                         } else {
-                            updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input);
+                            updaterFunction(pageState, updatePageState, inputId, input);
                         }
                     }}
                 />
@@ -107,7 +107,7 @@ const DateSelector = ({
                 renderDay={renderWeekPickerDay}
                 value={value}
                 onChange={(newValue) => {
-                    updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, newValue);
+                    updaterFunction(pageState, updatePageState, inputId, newValue);
                     setValue(newValue);
                 }}
                 renderInput={({ inputRef, inputProps, InputProps }) => {

@@ -3,6 +3,8 @@ import { describe, it, expect } from "vitest";
 import TimeSelector from "./TimeSelector";
 import { PageState } from "../pages/create-disruption";
 
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 const blankInputs: PageState = {
     errors: [],
     inputs: {
@@ -32,9 +34,7 @@ describe("TimeSelector", () => {
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -51,9 +51,7 @@ describe("TimeSelector", () => {
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -73,9 +71,7 @@ describe("TimeSelector", () => {
                         ...blankInputs,
                         errors: [{ id: "publish-start-time-input", errorMessage: "Enter a time in hhmm format" }],
                     }}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -92,9 +88,7 @@ describe("TimeSelector", () => {
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )

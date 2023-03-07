@@ -3,6 +3,8 @@ import { describe, it, expect } from "vitest";
 import DateSelector from "./DateSelector";
 import { PageState } from "../pages/create-disruption";
 
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 const blankInputs: PageState = {
     errors: [],
     inputs: {
@@ -33,9 +35,7 @@ describe("DateSelector", () => {
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -53,9 +53,7 @@ describe("DateSelector", () => {
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
                     pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -73,9 +71,7 @@ describe("DateSelector", () => {
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
@@ -93,9 +89,7 @@ describe("DateSelector", () => {
                     inputName={"publishStartDateDay"}
                     disabled
                     pageState={blankInputs}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updatePageState={() => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     updaterFunction={() => {}}
                 />,
             )
