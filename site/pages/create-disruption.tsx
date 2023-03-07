@@ -182,7 +182,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         defaultValue={pageState.inputs.description}
                                         onBlur={(e) => {
                                             const input = e.target.value;
-                                            if (input.length < 5) {
+                                            if (!input) {
                                                 updatePageStateForInput(pageState, setPageState, "description", input, {
                                                     id: "description",
                                                     errorMessage:
