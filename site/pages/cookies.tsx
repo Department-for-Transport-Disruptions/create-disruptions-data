@@ -131,7 +131,7 @@ export const getServerSideProps = (ctx: NextPageContextWithSession): { props: Co
     const csrfToken = getCsrfToken(ctx);
     const cookies = parseCookies(ctx);
 
-    const settingsSaved = !!ctx.query?.settingsSaved;
+    const settingsSaved = ctx.query?.settingsSaved === "true";
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const tracking = cookies[COOKIES_POLICY_COOKIE] ? JSON.parse(cookies[COOKIES_POLICY_COOKIE]).usage : false;
