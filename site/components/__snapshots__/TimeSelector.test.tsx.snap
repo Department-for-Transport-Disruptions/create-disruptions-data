@@ -1,5 +1,21 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`TimeSelector > should render correctly when disabled 1`] = `
+<div
+  className=""
+>
+  <input
+    className="govuk-input govuk-date-input__input govuk-input--width-4"
+    disabled={true}
+    id="publish-start-time-input"
+    name="publishStartTime"
+    onBlur={[Function]}
+    placeholder="N/A"
+    type="text"
+  />
+</div>
+`;
+
 exports[`TimeSelector > should render correctly with errors 1`] = `
 <div
   className=""
@@ -13,22 +29,19 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
     >
       Error: 
     </span>
-    There was an error
+    Enter a time in hhmm format
   </span>
-  <div
+  <input
     aria-describedby="publish-start-time-input-error"
-    className="govuk-form-group govuk-date-input--error"
-  >
-    <input
-      className="govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error "
-      defaultValue="0900"
-      disabled={false}
-      id="publish-start-time-input"
-      name="publishStartTime"
-      placeholder="hhmm"
-      type="text"
-    />
-  </div>
+    className="govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error"
+    defaultValue=""
+    disabled={false}
+    id="publish-start-time-input"
+    name="publishStartTime"
+    onBlur={[Function]}
+    placeholder="hhmm"
+    type="text"
+  />
 </div>
 `;
 
@@ -36,19 +49,16 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
 <div
   className=""
 >
-  <div
-    className="govuk-form-group"
-  >
-    <input
-      className="govuk-input govuk-date-input__input govuk-input--width-4  "
-      defaultValue="0900"
-      disabled={false}
-      id="publish-start-time-input"
-      name="publishStartTime"
-      placeholder="hhmm"
-      type="text"
-    />
-  </div>
+  <input
+    className="govuk-input govuk-date-input__input govuk-input--width-4"
+    defaultValue="0900"
+    disabled={false}
+    id="publish-start-time-input"
+    name="publishStartTime"
+    onBlur={[Function]}
+    placeholder="hhmm"
+    type="text"
+  />
 </div>
 `;
 
@@ -56,17 +66,14 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
 <div
   className=""
 >
-  <div
-    className="govuk-form-group"
-  >
-    <input
-      className="govuk-input govuk-date-input__input govuk-input--width-4  "
-      disabled={false}
-      id="publish-start-time-input"
-      name="publishStartTime"
-      placeholder="hhmm"
-      type="text"
-    />
-  </div>
+  <input
+    className="govuk-input govuk-date-input__input govuk-input--width-4"
+    disabled={false}
+    id="publish-start-time-input"
+    name="publishStartTime"
+    onBlur={[Function]}
+    placeholder="hhmm"
+    type="text"
+  />
 </div>
 `;
