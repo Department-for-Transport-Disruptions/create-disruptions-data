@@ -2,7 +2,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { Portal } from "react-portal";
 import CookieBanner from "./CookieBanner";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
