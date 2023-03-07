@@ -14,10 +14,10 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Assume role using OIDC
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
