@@ -31,10 +31,10 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export const COOKIES_POLICY_COOKIE = "fdbt-cookies-policy";
+export const COOKIES_POLICY_COOKIE = "disr-cookies-policy";
 
-export const COOKIE_PREFERENCES_COOKIE = "fdbt-cookie-preferences-set";
+export const COOKIE_PREFERENCES_COOKIE = "disr-cookie-preferences-set";
 
 export const oneYearInSeconds = 31556952;
 
-export const ID_TOKEN_COOKIE = "fdbt-id-token";
+export const ID_TOKEN_COOKIE = "disr-id-token";

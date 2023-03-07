@@ -89,17 +89,12 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-operator</td>
-                        <td className="govuk-table__cell">Stores the logged in operator name and NOC</td>
-                        <td className="govuk-table__cell">When you close your browser or sign out</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-user</td>
+                        <td className="govuk-table__cell">disr-user</td>
                         <td className="govuk-table__cell">Set to store validation information for user</td>
                         <td className="govuk-table__cell">When you close your browser</td>
                     </tr>
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-reset-password</td>
+                        <td className="govuk-table__cell">disr-reset-password</td>
                         <td className="govuk-table__cell">
                             Set to store validation information when resetting password
                         </td>
@@ -133,12 +128,12 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-id-token</td>
+                        <td className="govuk-table__cell">disr-id-token</td>
                         <td className="govuk-table__cell">Stores information about your session</td>
                         <td className="govuk-table__cell">When you close your browser or sign out</td>
                     </tr>
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-refresh-token</td>
+                        <td className="govuk-table__cell">disr-refresh-token</td>
                         <td className="govuk-table__cell">Allows your session to be extended while using the tool</td>
                         <td className="govuk-table__cell">When you close your browser or sign out</td>
                     </tr>
@@ -171,12 +166,12 @@ const Contact = (): ReactElement => {
                 </thead>
                 <tbody className="govuk-table__body">
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-cookies-policy</td>
+                        <td className="govuk-table__cell">disr-cookies-policy</td>
                         <td className="govuk-table__cell">Saves your cookie consent settings</td>
                         <td className="govuk-table__cell">1 year</td>
                     </tr>
                     <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">fdbt-cookie-preferences-set</td>
+                        <td className="govuk-table__cell">disr-cookie-preferences-set</td>
                         <td className="govuk-table__cell">
                             Lets us know that you’ve saved your cookie consent settings
                         </td>

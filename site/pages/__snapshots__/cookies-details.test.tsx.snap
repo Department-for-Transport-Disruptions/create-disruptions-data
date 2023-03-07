@@ -233,26 +233,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-operator
-                </td>
-                <td
-                  className="govuk-table__cell"
-                >
-                  Stores the logged in operator name and NOC
-                </td>
-                <td
-                  className="govuk-table__cell"
-                >
-                  When you close your browser or sign out
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <td
-                  className="govuk-table__cell"
-                >
-                  fdbt-user
+                  disr-user
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -271,7 +252,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-reset-password
+                  disr-reset-password
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -353,7 +334,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-id-token
+                  disr-id-token
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -372,7 +353,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-refresh-token
+                  disr-refresh-token
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -454,7 +435,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-cookies-policy
+                  disr-cookies-policy
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -473,7 +454,7 @@ exports[`pages > cookieDetails > should render correctly 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  fdbt-cookie-preferences-set
+                  disr-cookie-preferences-set
                 </td>
                 <td
                   className="govuk-table__cell"
