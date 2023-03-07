@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import renderer from "react-test-renderer";
 import { vi, describe, it, expect, afterEach } from "vitest";
 import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies";

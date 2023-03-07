@@ -1,9 +1,9 @@
+import { NextPageContext } from "next/types";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
 import CsrfForm from "../components/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_POLICY_COOKIE } from "../constants";
-import { NextPageContext } from "../interfaces";
 import { getCsrfToken } from "../utils";
 
 const title = "Cookies - Create Transport Disruption Data Service";

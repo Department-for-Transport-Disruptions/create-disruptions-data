@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { mockRequest, mockResponse } from "mock-req-res";
+import { NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../constants";
-import { GetMockRequestAndResponse, NextPageContext } from "../interfaces";
+import { GetMockRequestAndResponse } from "../interfaces";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };

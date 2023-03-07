@@ -1,6 +1,6 @@
-import { NextApiResponse } from "next";
+import { NextApiResponse, NextApiRequest } from "next";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
-import { NextApiRequest, CookiePolicy } from "../../interfaces";
+import { CookiePolicy } from "../../interfaces";
 import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const cookies = (req: NextApiRequest, res: NextApiResponse): void => {
