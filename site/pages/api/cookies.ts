@@ -14,15 +14,8 @@ const cookies = (req: CookiesApiRequest, res: NextApiResponse): void => {
 
         const cookiePolicy: CookiePolicy = { essential: true, usage: tracking === "on" || false };
 
-        setCookieOnResponseObject(COOKIE_PREFERENCES_COOKIE, "true", req, res, oneYearInSeconds, false);
-        setCookieOnResponseObject(
-            COOKIES_POLICY_COOKIE,
-            JSON.stringify(cookiePolicy),
-            req,
-            res,
-            oneYearInSeconds,
-            false,
-        );
+        setCookieOnResponseObject(COOKIE_PREFERENCES_COOKIE, "true", res, oneYearInSeconds, false);
+        setCookieOnResponseObject(COOKIES_POLICY_COOKIE, JSON.stringify(cookiePolicy), res, oneYearInSeconds, false);
 
         redirectTo(res, "/cookies?settingsSaved=true");
     } catch (error) {
