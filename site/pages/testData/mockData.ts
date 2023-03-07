@@ -37,7 +37,7 @@ export const getMockRequestAndResponse = ({
 
     const defaultSession = {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        destroy: (): void => { },
+        destroy: (): void => {},
     };
 
     let cookieString = "";
