@@ -17,12 +17,12 @@ export interface DisruptionInfo {
     description: string;
     associatedLink?: string;
     disruptionReason?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason | "";
-    disruptionStartDate: string;
-    disruptionEndDate: string;
+    disruptionStartDate: Date;
+    disruptionEndDate: Date;
     disruptionStartTime: string;
     disruptionEndTime: string;
-    publishStartDate: string;
-    publishEndDate: string;
+    publishStartDate: Date;
+    publishEndDate: Date;
     publishStartTime: string;
     publishEndTime: string;
     disruptionRepeats?: string;
