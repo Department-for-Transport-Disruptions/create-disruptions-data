@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { CookieSerializeOptions } from "cookie";
-import { setCookie, getCookie } from "cookies-next";
 import Link from "next/link";
+import { setCookie, parseCookies } from "nookies";
 import React, { ReactElement, useEffect, useState } from "react";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 
@@ -61,8 +60,9 @@ const CookieBanner = (): ReactElement | null => {
 
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const cookiePreferences = getCookie(COOKIE_PREFERENCES_COOKIE);
-
+        const cookies = parseCookies();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const cookiePreferences = cookies[COOKIE_PREFERENCES_COOKIE];
         if (!cookiePreferences || cookiePreferences === "false") {
             setHideBanner(false);
         }
@@ -76,8 +76,8 @@ const CookieBanner = (): ReactElement | null => {
             path: "/",
         };
 
-        setCookie(COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
-        setCookie(COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
+        setCookie(null, COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
+        setCookie(null, COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
             ...cookieOptions,
         });
 
