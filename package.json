@@ -25,7 +25,6 @@
         "@typescript-eslint/parser": "^5.52.0",
         "aws-cdk-lib": "2.62.2",
         "cdk": "^2.62.2",
-        "cdk-iam-floyd": "^0.486.0",
         "constructs": "10.1.156",
         "eslint": "^8.34.0",
         "eslint-config-prettier": "^8.6.0",

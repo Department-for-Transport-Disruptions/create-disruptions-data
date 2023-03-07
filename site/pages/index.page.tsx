@@ -52,4 +52,10 @@ const Home = () => {
     );
 };
 
+export const getServerSideProps = (): { props: object } => {
+    return {
+        props: {},
+    };
+};
+
 export default Home;

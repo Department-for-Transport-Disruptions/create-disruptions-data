@@ -53,4 +53,10 @@ const Contact = (): ReactElement => {
     );
 };
 
+export const getServerSideProps = (): { props: object } => {
+    return {
+        props: {},
+    };
+};
+
 export default Contact;

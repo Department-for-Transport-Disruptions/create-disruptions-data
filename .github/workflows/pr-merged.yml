@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/DISRUPTION-52_setup_dynamodb
 
 jobs:
   build_and_deploy_to_test:
