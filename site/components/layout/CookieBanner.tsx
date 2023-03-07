@@ -106,6 +106,7 @@ const CookieBanner = (): ReactElement | null => {
                     <button
                         className="govuk-link text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static"
                         type="button"
+                        id="hide"
                         onClick={handleHideClick}
                     >
                         Hide
