@@ -3,11 +3,11 @@ import Link from "next/link";
 import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Portal } from "react-portal";
+import CookieBanner from "./CookieBanner";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
 import { buildTitle } from "../../utils";
-import CookieBanner from "./CookieBanner";
 
 interface LayoutProps {
     title: string;
@@ -41,9 +41,13 @@ export const BaseLayout = ({
 
     useEffect(() => {
         setShowBanner(true);
-    });
+    }, [setShowBanner]);
 
-    const element = document.getElementById("js-cookie-banner");
+    let element = null;
+    if (typeof document !== "undefined") {
+        element = document.getElementById("js-cookie-banner");
+    }
+
     return (
         <>
             <Head>

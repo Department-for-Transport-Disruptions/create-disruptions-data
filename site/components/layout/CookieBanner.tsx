@@ -52,7 +52,7 @@ const CookieBanner = (): ReactElement | null => {
         if (!cookiePreferences || cookiePreferences === "false") {
             setHideBanner(false);
         }
-    });
+    }, [setHideBanner]);
 
     const handleAcceptAllClick = (): void => {
         const cookies = new Cookies();
