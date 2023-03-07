@@ -6,6 +6,8 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextPageContext } from "next";
+import React from "react";
 import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
 import { GetMockContextInput, getMockRequestAndResponse } from "../testData/mockData";

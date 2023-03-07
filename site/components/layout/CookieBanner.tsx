@@ -1,4 +1,5 @@
-import { setCookie, getCookie } from "cookies-next";
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { setCookie, getCookie, CookieSerializeOptions } from "cookies-next";
 import Link from "next/link";
 import React, { ReactElement, useEffect, useState } from "react";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
@@ -67,7 +68,7 @@ const CookieBanner = (): ReactElement | null => {
     }, [setHideBanner]);
 
     const handleAcceptAllClick = (): void => {
-        const cookieOptions = {
+        const cookieOptions: CookieSerializeOptions = {
             maxAge: oneYearInSeconds,
             sameSite: "strict",
             secure: process.env.NODE_ENV !== "development",
