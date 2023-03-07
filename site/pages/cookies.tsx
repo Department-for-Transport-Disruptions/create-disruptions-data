@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import CsrfForm from "../components/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_POLICY_COOKIE } from "../constants";
-import { NextPageContextWithSession } from "../interfaces";
+import { NextPageContext } from "../interfaces";
 import { getCsrfToken } from "../utils";
 
 const title = "Cookies - Create Transport Disruption Data Service";
@@ -127,7 +127,7 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
     </TwoThirdsLayout>
 );
 
-export const getServerSideProps = (ctx: NextPageContextWithSession): { props: CookiePreferencesProps } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: CookiePreferencesProps } => {
     const csrfToken = getCsrfToken(ctx);
     const cookies = parseCookies(ctx);
 

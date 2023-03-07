@@ -6,11 +6,6 @@ import {
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-import { Session as SessionData } from "express-session";
-import { NextApiRequest, NextPageContext } from "next";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { DocumentContext } from "next/document";
-import React from "react";
 import { Mock, vi } from "vitest";
 import { ServerResponse } from "http";
 import { GetMockContextInput, getMockRequestAndResponse } from "../testData/mockData";
@@ -36,20 +31,6 @@ export interface DisruptionInfo {
     publishStartTime: string;
     publishEndTime?: string;
 }
-
-export interface Session {
-    session: SessionData;
-}
-
-export type NextApiRequestWithSession = NextApiRequest & Session;
-
-export type NextPageContextWithSession = NextPageContext & {
-    req: Session;
-};
-
-export type DocumentContextWithSession = DocumentContext & {
-    req: Session;
-};
 
 export interface ResponseWithLocals extends ServerResponse {
     locals: {
@@ -84,7 +65,7 @@ export const getMockContext = ({
     isLoggedin = true,
     url = null,
     query = "",
-}: GetMockContextInput = {}): NextPageContextWithSession => {
+}: GetMockContextInput = {}): NextPageContext => {
     const { req, res } = getMockRequestAndResponse({
         cookieValues: cookies,
         body,
@@ -96,7 +77,7 @@ export const getMockContext = ({
         url,
     });
 
-    const ctx: NextPageContextWithSession = {
+    const ctx: NextPageContext = {
         res,
         req,
         pathname: "",

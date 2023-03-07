@@ -4,7 +4,7 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../constants";
-import { GetMockRequestAndResponse, NextPageContextWithSession } from "../interfaces";
+import { GetMockRequestAndResponse, NextPageContext } from "../interfaces";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -80,7 +80,7 @@ export const getMockContext = ({
     isLoggedin = true,
     url = null,
     query = "",
-}: GetMockContextInput = {}): NextPageContextWithSession => {
+}: GetMockContextInput = {}): NextPageContext => {
     const { req, res } = getMockRequestAndResponse({
         cookieValues: cookies,
         body,
@@ -92,7 +92,7 @@ export const getMockContext = ({
         url,
     });
 
-    const ctx: NextPageContextWithSession = {
+    const ctx: NextPageContext = {
         res,
         req,
         pathname: "",
