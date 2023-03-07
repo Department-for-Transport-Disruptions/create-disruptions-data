@@ -4,12 +4,15 @@ import { DisruptionsDateTimeInfo } from "../components/DisruptionDateTimeInfo";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS } from "../constants/index";
 import { NextPageContext } from "next";
+import { deleteCookie, getCookie } from "cookies-next";
+import { CookieValueTypes, OptionsType } from "cookies-next/lib/types";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
     inputs: DisruptionInfo;
+    errors: ErrorInfo[];
 }
 
 const getReasonOptions = (): JSX.Element[] => {
@@ -30,7 +33,7 @@ const getReasonOptions = (): JSX.Element[] => {
     return options;
 };
 
-const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
+const CreateDisruption = ({ inputs, errors }: CreateDisruptionProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/createDisruption" method="post">
@@ -49,9 +52,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     <input
                                         className="govuk-radios__input"
                                         id="disruption-planned"
-                                        name="disruptionType"
+                                        name="typeOfDisruption"
                                         type="radio"
-                                        value="Planned"
+                                        value="planned"
+                                        defaultChecked={inputs.typeOfDisruption == "planned"}
                                     />
                                     <label className="govuk-label govuk-radios__label" htmlFor="disruption-planned">
                                         Planned
@@ -61,9 +65,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     <input
                                         className="govuk-radios__input"
                                         id="disruption-unplanned"
-                                        name="disruptionType"
+                                        name="typeOfDisruption"
                                         type="radio"
-                                        value="Unplanned"
+                                        value="unplanned"
+                                        defaultChecked={inputs.typeOfDisruption == "unplanned"}
                                     />
                                     <label className="govuk-label govuk-radios__label" htmlFor="disruption-unplanned">
                                         Unplanned
@@ -75,13 +80,25 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             <label className="govuk-label govuk-label--s" htmlFor="summary">
                                 Summary
                             </label>
-                            <input className="govuk-input w-3/4" id="summary" name="summary" type="text" />
+                            <input
+                                className="govuk-input w-3/4"
+                                id="summary"
+                                name="summary"
+                                type="text"
+                                defaultValue={inputs.summary}
+                            />
                         </div>
                         <div className="govuk-form-group">
                             <label className="govuk-label govuk-label--s" htmlFor="description">
                                 Description
                             </label>
-                            <textarea className="govuk-textarea w-3/4" id="description" name="description" rows={5} />
+                            <textarea
+                                className="govuk-textarea w-3/4"
+                                id="description"
+                                name="description"
+                                rows={5}
+                                defaultValue={inputs.description}
+                            />
                         </div>
                         <div className="govuk-form-group">
                             <label className="govuk-label govuk-label--s" htmlFor="associated-link">
@@ -92,6 +109,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                 id="associated-link"
                                 name="associatedLink"
                                 type="text"
+                                defaultValue={inputs.associatedLink}
                             />
                         </div>
                         <div className="govuk-form-group">
@@ -102,7 +120,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                 className="govuk-select w-3/4"
                                 id="disruption-reason"
                                 name="disruptionReason"
-                                defaultValue=""
+                                defaultValue={inputs.disruptionReason}
                             >
                                 {getReasonOptions()}
                             </select>
@@ -111,7 +129,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     <div className="govuk-form-group govuk-!-padding-top-6">
                         <h2 className="govuk-heading-l">When is the disruption?</h2>
 
-                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity />
+                        <DisruptionsDateTimeInfo inputs={inputs} isDisruption />
                         <fieldset className="govuk-fieldset">
                             <legend
                                 className="govuk-fieldset__legend govuk-!-padding-top-6"
@@ -129,6 +147,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="yes"
+                                        defaultChecked={inputs.disruptionRepeats == "yes"}
                                     />
                                     <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
                                         Yes
@@ -141,6 +160,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="no"
+                                        defaultChecked={inputs.disruptionRepeats == "no"}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"
@@ -155,7 +175,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     <div className="govuk-form-group govuk-!-padding-top-6">
                         <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
 
-                        <DisruptionsDateTimeInfo inputs={inputs} isDisruptionValidity={false} />
+                        <DisruptionsDateTimeInfo inputs={inputs} isDisruption={false} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -167,43 +187,48 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
-    const inputs: DisruptionInfo = {
-        validityStartDateDay: "",
-        validityEndDateDay: "",
-        validityStartTimeHour: "",
-        validityStartTimeMinute: "",
-        validityEndTimeHour: "",
-        validityEndTimeMinute: "",
-        publishStartDateDay: "",
-        publishEndDateDay: "",
-        publishStartTimeHour: "",
-        publishStartTimeMinute: "",
-        publishEndTimeHour: "",
-        publishEndTimeMinute: "",
+export const getServerSideProps = (ctx: NextPageContext): { props: CreateDisruptionProps } => {
+    let inputs: DisruptionInfo = {
+        disruptionStartDate: "",
+        disruptionEndDate: "",
+        disruptionStartTime: "",
+        disruptionEndTime: "",
+        publishStartDate: "",
+        publishEndDate: "",
+        publishStartTime: "",
+        publishEndTime: "",
         summary: "",
         description: "",
         associatedLink: "",
         disruptionRepeats: "",
-        validityIsNoEndDateTime: "",
+        disruptionIsNoEndDateTime: "",
         publishIsNoEndDateTime: "",
+        disruptionReason: "",
     };
 
-    const errors: ErrorInfo[] = [];
+    let errors: ErrorInfo[] = [];
 
     //console.log(ctx);
 
     // setCookie("disruption2", "test");
 
-    // const options: OptionsType = {
-    //     req: ctx.req,
-    //     res: ctx.res,
-    //     path: "/create-disruption",
-    // };
+    const options: OptionsType | undefined = {
+        req: ctx.req,
+        res: ctx.res,
+        path: "/create-disruption",
+    };
 
-    // const cookieValues: CookieValueTypes = getCookie("disruption", options);
+    const disruptionInfo: CookieValueTypes = getCookie("disruptionInfo", options);
+    if (disruptionInfo) {
+        deleteCookie("disruptionInfo", options);
+        inputs = disruptionInfo as any as DisruptionInfo;
+    }
 
-    // console.log(cookieValues);
+    const errorInfo: CookieValueTypes = getCookie("disruptionErrors", options);
+    if (errorInfo) {
+        deleteCookie("disruptionErrors", options);
+        errors = errorInfo as any as ErrorInfo[];
+    }
 
     return {
         props: { inputs, errors },

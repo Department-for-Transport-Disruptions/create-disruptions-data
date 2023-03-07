@@ -31,4 +31,6 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export const DISRUPTION_TYPES = ["Planned", "Unplanned"];
+export const DISRUPTION_TYPES = ["planned", "unplanned"];
+
+export const CD_DATE_FORMAT = "DD/MM/YYYY";

@@ -11,7 +11,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                 />,
             )
             .toJSON();
@@ -27,7 +27,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                 />,
             )
             .toJSON();
@@ -42,7 +42,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                 />,
             )
             .toJSON();
@@ -56,7 +56,7 @@ describe("DateSelector", () => {
                     input={null}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                     disabled
                 />,
             )

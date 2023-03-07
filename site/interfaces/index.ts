@@ -12,22 +12,20 @@ export interface ErrorInfo {
 }
 
 export interface DisruptionInfo {
+    typeOfDisruption?: "planned" | "unplanned";
     summary: string;
     description: string;
-    associatedLink: string;
-    validityStartDateDay: string;
-    validityEndDateDay: string;
-    validityStartTimeHour: string;
-    validityStartTimeMinute: string;
-    validityEndTimeHour: string;
-    validityEndTimeMinute: string;
-    publishStartDateDay: string;
-    publishEndDateDay: string;
-    publishStartTimeHour: string;
-    publishStartTimeMinute: string;
-    publishEndTimeHour: string;
-    publishEndTimeMinute: string;
-    disruptionRepeats: string;
-    validityIsNoEndDateTime: string;
-    publishIsNoEndDateTime: string;
+    associatedLink?: string;
+    disruptionReason?: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason | "";
+    disruptionStartDate: string;
+    disruptionEndDate: string;
+    disruptionStartTime: string;
+    disruptionEndTime: string;
+    publishStartDate: string;
+    publishEndDate: string;
+    publishStartTime: string;
+    publishEndTime: string;
+    disruptionRepeats?: string;
+    disruptionIsNoEndDateTime?: string;
+    publishIsNoEndDateTime?: string;
 }

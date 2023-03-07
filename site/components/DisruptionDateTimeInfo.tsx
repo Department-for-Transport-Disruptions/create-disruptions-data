@@ -4,58 +4,53 @@ import TimeSelector from "./TimeSelector";
 import { DisruptionInfo, ErrorInfo } from "../interfaces";
 
 interface DisruptionsDateTimeInfoProps {
-    isDisruptionValidity: boolean;
+    isDisruption: boolean;
     inputs: DisruptionInfo;
     errors?: ErrorInfo[];
 }
 
-export const DisruptionsDateTimeInfo = ({
-    inputs,
-    isDisruptionValidity,
-}: DisruptionsDateTimeInfoProps): ReactElement => (
+export const DisruptionsDateTimeInfo = ({ inputs, isDisruption }: DisruptionsDateTimeInfoProps): ReactElement => (
     <>
         <div className="govuk-form-group govuk-!-margin-bottom-0">
             <label
                 className="govuk-label govuk-label--s"
-                htmlFor={`${isDisruptionValidity ? "validity" : "publish"}-start-date`}
+                htmlFor={`${isDisruption ? "disruption" : "publish"}-start-date`}
             >
                 What is the start date?
             </label>
             <div className="govuk-hint govuk-visually-hidden">Enter in format DD/MM/YYYY</div>
             <DateSelector
                 errors={[]}
-                input={!!inputs.validityStartDateDay ? new Date(inputs.validityStartDateDay) : null}
+                input={!!inputs.disruptionStartDate ? new Date(inputs.disruptionStartDate) : null}
                 disabled={false}
                 disablePast={false}
-                inputId={`${isDisruptionValidity ? "validity" : "publish"}-start-date`}
-                inputName={`${isDisruptionValidity ? "validity" : "publish"}StartDateDay`}
+                inputId={`${isDisruption ? "disruption" : "publish"}-start-date`}
+                inputName={`${isDisruption ? "disruption" : "publish"}StartDate`}
             />
         </div>
         <fieldset
             className="govuk-fieldset"
             role="group"
-            aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-start-time-hint`}
+            aria-describedby={`${isDisruption ? "disruption" : "publish"}-start-time-hint`}
         >
             <legend className="govuk-fieldset__legend govuk-!-padding-top-6">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0">What is the start time?</h3>
             </legend>
-            <div id={`${isDisruptionValidity ? "validity" : "publish"}-start-time-hint`} className="govuk-hint">
-                Enter in format HH:MM
+            <div id={`${isDisruption ? "disruption" : "publish"}-start-time-hint`} className="govuk-hint">
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <TimeSelector
                 errors={[]}
-                startOrEnd="start"
-                inputs={{
-                    hourInput: isDisruptionValidity ? inputs.validityStartTimeHour : inputs.publishStartTimeHour,
-                    minuteInput: isDisruptionValidity ? inputs.validityStartTimeMinute : inputs.publishStartTimeMinute,
-                }}
-                type={isDisruptionValidity ? "validity" : "publish"}
+                input={isDisruption ? inputs.publishStartTime : inputs.publishStartTime}
+                disabled={false}
+                inputId={`${isDisruption ? "disruption" : "publish"}-start-time-input`}
+                inputName={`${isDisruption ? "disruption" : "publish"}StartTime`}
             />
         </fieldset>
         <div className="govuk-form-group govuk-!-margin-bottom-0 govuk-!-margin-top-6">
             <label
                 className="govuk-label govuk-label--s"
-                htmlFor={`${isDisruptionValidity ? "validity" : "publish"}-end-date`}
+                htmlFor={`${isDisruption ? "disruption" : "publish"}-end-date`}
             >
                 What is the end date?
             </label>
@@ -63,31 +58,29 @@ export const DisruptionsDateTimeInfo = ({
             <DateSelector
                 errors={[]}
                 disablePast
-                input={!!inputs.validityEndDateDay ? new Date(inputs.validityEndDateDay) : null}
+                input={!!inputs.disruptionEndDate ? new Date(inputs.disruptionEndDate) : null}
                 disabled={false}
-                inputId={`${isDisruptionValidity ? "validity" : "publish"}-end-date`}
-                inputName={`${isDisruptionValidity ? "validity" : "publish"}EndDateDay`}
+                inputId={`${isDisruption ? "disruption" : "publish"}-end-date`}
+                inputName={`${isDisruption ? "disruption" : "publish"}EndDate`}
             />
         </div>
         <fieldset
             className="govuk-fieldset"
             role="group"
-            aria-describedby={`${isDisruptionValidity ? "validity" : "publish"}-end-time-hint`}
+            aria-describedby={`${isDisruption ? "disruption" : "publish"}-end-time-hint`}
         >
             <legend className="govuk-fieldset__legend govuk-!-padding-top-6">
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-0"> What is the end time?</h3>
             </legend>
-            <div id={`${isDisruptionValidity ? "validity" : "publish"}-end-time-hint`} className="govuk-hint">
-                Enter in format HH:MM
+            <div id={`${isDisruption ? "disruption" : "publish"}-end-time-hint`} className="govuk-hint">
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
             </div>
             <TimeSelector
                 errors={[]}
-                startOrEnd="end"
-                inputs={{
-                    hourInput: isDisruptionValidity ? inputs.validityEndTimeHour : inputs.publishEndTimeHour,
-                    minuteInput: isDisruptionValidity ? inputs.validityEndTimeMinute : inputs.publishEndTimeMinute,
-                }}
-                type={isDisruptionValidity ? "validity" : "publish"}
+                input={isDisruption ? inputs.disruptionEndTime : inputs.publishEndTime}
+                disabled={false}
+                inputId={`${isDisruption ? "disruption" : "publish"}-end-time-input`}
+                inputName={`${isDisruption ? "disruption" : "publish"}EndTime`}
             />
         </fieldset>
         <fieldset className="govuk-fieldset" role="group">
@@ -98,14 +91,19 @@ export const DisruptionsDateTimeInfo = ({
                 <div className="govuk-checkboxes__item">
                     <input
                         className="govuk-checkboxes__input"
-                        id={`${isDisruptionValidity ? "validity" : "publish"}-no-end-date-time`}
-                        name={`${isDisruptionValidity ? "validity" : "publish"}IsNoEndDateTime`}
+                        id={`${isDisruption ? "disruption" : "publish"}-no-end-date-time`}
+                        name={`${isDisruption ? "disruption" : "publish"}IsNoEndDateTime`}
                         type="checkbox"
-                        value={`${isDisruptionValidity ? "validity" : "publish"}NoEndDateTime`}
+                        value={`${isDisruption ? "disruption" : "publish"}NoEndDateTime`}
+                        defaultChecked={
+                            isDisruption
+                                ? inputs.disruptionIsNoEndDateTime == "disruptionNoEndDateTime"
+                                : inputs.publishIsNoEndDateTime == "publishNoEndDateTime"
+                        }
                     />
                     <label
                         className="govuk-label govuk-checkboxes__label"
-                        htmlFor={`${isDisruptionValidity ? "validity" : "publish"}-no-end-date-time`}
+                        htmlFor={`${isDisruption ? "disruption" : "publish"}-no-end-date-time`}
                     >
                         No end date/time
                     </label>

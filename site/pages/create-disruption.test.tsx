@@ -2,47 +2,41 @@ import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import CreateDisruption from "./create-disruption";
 import { DisruptionInfo } from "../interfaces";
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
 
 const blankInputs: DisruptionInfo = {
-    validityStartDateDay: "",
-    validityEndDateDay: "",
-    validityStartTimeHour: "",
-    validityEndTimeHour: "",
-    validityStartTimeMinute: "",
-    validityEndTimeMinute: "",
-    publishStartDateDay: "",
-    publishEndDateDay: "",
-    publishStartTimeHour: "",
-    publishEndTimeHour: "",
-    publishStartTimeMinute: "",
-    publishEndTimeMinute: "",
+    disruptionStartDate: "",
+    disruptionEndDate: "",
+    disruptionStartTime: "",
+    disruptionEndTime: "",
+    publishStartDate: "",
+    publishEndDate: "",
+    publishStartTime: "",
+    publishEndTime: "",
     summary: "",
     description: "",
     associatedLink: "",
     disruptionRepeats: "",
-    validityIsNoEndDateTime: "",
+    disruptionIsNoEndDateTime: "",
     publishIsNoEndDateTime: "",
 };
 
 const withInputs: DisruptionInfo = {
-    validityStartDateDay: "01/01/2023",
-    validityEndDateDay: "08/01/2023",
-    validityStartTimeHour: "01",
-    validityStartTimeMinute: "20",
-    validityEndTimeHour: "11",
-    validityEndTimeMinute: "30",
-    publishStartDateDay: "10/01/2023",
-    publishEndDateDay: "18/01/2023",
-    publishStartTimeHour: "02",
-    publishStartTimeMinute: "20",
-    publishEndTimeHour: "15",
-    publishEndTimeMinute: "45",
+    typeOfDisruption: "planned",
+    disruptionStartDate: "01/01/2023",
+    disruptionEndDate: "08/01/2023",
+    disruptionStartTime: "0900",
+    disruptionEndTime: "2000",
+    publishStartDate: "10/01/2023",
+    publishEndDate: "18/01/2023",
+    publishStartTime: "0200",
+    publishEndTime: "2000",
     summary: "This is a summary",
     description: "This is a description",
-    associatedLink: "https://google.com",
     disruptionRepeats: "yes",
-    validityIsNoEndDateTime: "validityNoEndDateTime",
+    disruptionIsNoEndDateTime: "disruptionNoEndDateTime",
     publishIsNoEndDateTime: "publishNoEndDateTime",
+    disruptionReason: MiscellaneousReason.roadWorks,
 };
 
 describe("pages", () => {
