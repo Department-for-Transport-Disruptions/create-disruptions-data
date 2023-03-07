@@ -1,11 +1,10 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { NextApiResponse } from "next";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
-import { CookiePolicy } from "../../interfaces";
+import { CookiePolicy, CookiesApiRequest } from "../../interfaces";
 import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 
-const cookies = (req: NextApiRequest, res: NextApiResponse): void => {
+const cookies = (req: CookiesApiRequest, res: NextApiResponse): void => {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { tracking } = req.body;
 
         if (!tracking) {

@@ -14,59 +14,6 @@ const Contact = (): ReactElement => {
                 collect information about how you browse the site. Find out more about the cookies we use, what they’re
                 for and when they expire.
             </p>
-            <h2 className="govuk-heading-m">Tracking</h2>
-            <p className="govuk-body">
-                We use Google Analytics software (Universal Analytics) to collect anonymised information about how you
-                use the Create Transport Disruption Data Service. We do this to help make sure the site is meeting the
-                needs of its users and to help us make improvements to the site and to government digital services.
-            </p>
-            <p className="govuk-body">We do not allow Google to use or share the data about how you use this site.</p>
-            <ul className="govuk-list govuk-list--bullet govuk-body">
-                <li>how you got to the site</li>
-                <li>the pages you visit on GOV.UK and how long you spend on them</li>
-                <li>what you click on while you’re visiting the site</li>
-            </ul>
-            <p className="govuk-body">Google Analytics sets the following cookies.</p>
-            <table className="govuk-table cookie-detail-table">
-                <thead className="govuk-table__head">
-                    <tr className="govuk-table__row">
-                        <th scope="col" className="govuk-table__header">
-                            Name
-                        </th>
-                        <th scope="col" className="govuk-table__header">
-                            Purpose
-                        </th>
-                        <th scope="col" className="govuk-table__header">
-                            Expires
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="govuk-table__body">
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">_ga</td>
-                        <td className="govuk-table__cell">
-                            These help us count how many people visit the Create Transport Disruption Data Service by
-                            tracking if you’ve visited before
-                        </td>
-                        <td className="govuk-table__cell">2 years</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">_gid</td>
-                        <td className="govuk-table__cell">
-                            These help us count how many people visit the Create Transport Disruption Data Service by
-                            tracking if you’ve visited before
-                        </td>
-                        <td className="govuk-table__cell">24 hours</td>
-                    </tr>
-                    <tr className="govuk-table__row">
-                        <td className="govuk-table__cell">_gat</td>
-                        <td className="govuk-table__cell">
-                            Used to manage the rate at which page view requests are made
-                        </td>
-                        <td className="govuk-table__cell">1 minute</td>
-                    </tr>
-                </tbody>
-            </table>
             <h2 className="govuk-heading-m">Strictly necessary cookies</h2>
             <h3 className="govuk-heading-s">Progress through the tool</h3>
             <p className="govuk-body">

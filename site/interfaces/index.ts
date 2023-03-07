@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
     MiscellaneousReason,
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextApiRequest } from "next";
 import { Mock } from "vitest";
 import { ServerResponse } from "http";
 
@@ -41,6 +41,12 @@ export interface ResponseWithLocals extends ServerResponse {
 export interface CookiePolicy {
     essential: boolean;
     usage: boolean;
+}
+
+export interface CookiesApiRequest extends NextApiRequest {
+    body: {
+        tracking: "on" | "off";
+    };
 }
 
 export interface GetMockRequestAndResponse {

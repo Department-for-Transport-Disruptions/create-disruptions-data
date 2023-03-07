@@ -1,6 +1,4 @@
 import { NextPageContext } from "next";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { DocumentContext } from "next/document";
 import { ErrorInfo, ResponseWithLocals } from "../interfaces";
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
@@ -11,5 +9,5 @@ export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     return title;
 };
 
-export const getCsrfToken = (ctx: DocumentContext | NextPageContext | NextPageContext): string =>
+export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
