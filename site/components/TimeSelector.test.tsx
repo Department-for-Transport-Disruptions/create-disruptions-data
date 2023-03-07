@@ -1,16 +1,41 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import TimeSelector from "./TimeSelector";
+import { PageState } from "../pages/create-disruption.page";
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+const blankInputs: PageState = {
+    errors: [],
+    inputs: {
+        typeOfDisruption: "",
+        summary: "",
+        description: "",
+        "associated-link": "",
+        "disruption-reason": "",
+        "disruption-start-date": null,
+        "disruption-end-date": null,
+        "disruption-start-time": "",
+        "disruption-end-time": "",
+        "publish-start-date": null,
+        "publish-end-date": null,
+        "publish-start-time": "",
+        "publish-end-time": "",
+    },
+};
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    errors={[]}
+                    input={undefined}
                     disabled={false}
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -21,11 +46,13 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    errors={[]}
                     input={"0900"}
                     disabled={false}
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -36,11 +63,33 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector
-                    errors={[{ errorMessage: "There was an error", id: "publish-start-time-input" }]}
-                    input={"0900"}
+                    input={""}
                     disabled={false}
                     inputId={"publish-start-time-input"}
                     inputName={"publishStartTime"}
+                    pageState={{
+                        ...blankInputs,
+                        errors: [{ id: "publish-start-time-input", errorMessage: "Enter a time in hhmm format" }],
+                    }}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly when disabled", () => {
+        const tree = renderer
+            .create(
+                <TimeSelector
+                    input={undefined}
+                    disabled
+                    inputId={"publish-start-time-input"}
+                    inputName={"publishStartTime"}
+                    pageState={blankInputs}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();

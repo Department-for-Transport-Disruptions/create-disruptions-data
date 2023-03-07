@@ -23,8 +23,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm run test:ci
+      - name: Test Site
+        run: npm run test:site
+
+      - name: Test SIRI-SX Generator
+        run: npm run test:siri
 
       - name: TypeScript Build
         run: npm run tsc:build

@@ -61,9 +61,7 @@ export default class RootDocument extends Document<DocumentProps> {
 
         return (
             <Html lang="en" className="govuk-template bg-backgroundGrey">
-                <Head nonce={nonce}>
-                    <meta property="csp-nonce" content={nonce} />
-                </Head>
+                <Head nonce={nonce} />
                 <body className="govuk-template__body">
                     <a href="#main-content" className="govuk-skip-link">
                         Skip to main content
