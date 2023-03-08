@@ -35,3 +35,11 @@ export const contactFeedbackQuestion = "Did you contact us for assistance at any
 export const solveFeedbackQuestion = "Did we solve your problem?";
 export const hearAboutUsFeedbackQuestion = "How did you hear about our service?";
 export const generalFeedbackQuestion = "Please let us know any feedback or suggestions for improvements you may have";
+
+export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
+
+export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
+
+export const oneYearInSeconds = 31556952;
+
+export const ID_TOKEN_COOKIE = "cdd-id-token";

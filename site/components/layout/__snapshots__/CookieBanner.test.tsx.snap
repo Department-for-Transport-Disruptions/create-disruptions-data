@@ -1,0 +1,107 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CookieBanner > should render correctly 1`] = `
+<div>
+  <div
+    aria-label="cookie banner"
+    class="pt-4"
+    id="global-cookie-message"
+    role="region"
+  >
+    <div
+      class="govuk-width-container relative"
+    >
+      <div
+        class="govuk-grid-row"
+      >
+        <div
+          class="govuk-grid-column-two-thirds"
+        >
+          <div
+            class="pb-2"
+          >
+            <h2
+              class="govuk-heading-m"
+            >
+              Tell us whether you accept cookies
+            </h2>
+            <p
+              class="govuk-body"
+            >
+              We use 
+              <a
+                class="govuk-link"
+                href="/cookie-details"
+              >
+                cookies to collect information
+              </a>
+                about how you use the Create Transport Disruption Data Service. We use this information to make the website work as well as possible and to improve the service.
+            </p>
+          </div>
+          <div
+            class="inline-block p-0"
+          >
+            <button
+              class="govuk-button mr-3 bg-govGreen"
+              data-module="govuk-button"
+              id="accept-all-button"
+              type="button"
+            >
+              Accept All
+            </button>
+          </div>
+          <div
+            class="inline-block p-0"
+          >
+            <a
+              class="govuk-button mr-3"
+              href="/cookies"
+              id="set-cookie-preferences-link"
+              role="button"
+            >
+              Set cookie preferences
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CookieBanner > should render correctly when accept all is clicked 1`] = `
+<div>
+  <div
+    aria-label="cookie banner"
+    class="py-5 text-lg"
+    id="cookies-accepted-message"
+    role="region"
+  >
+    <div
+      class="govuk-width-container relative"
+    >
+      <p
+        role="alert"
+      >
+        You’ve accepted all cookies. You can
+         
+        <a
+          class="govuk-link"
+          href="/cookies"
+        >
+          change your cookie settings
+        </a>
+         
+        at any time.
+      </p>
+      <button
+        class="govuk-link text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static"
+        id="hide"
+        type="button"
+      >
+        Hide
+      </button>
+    </div>
+  </div>
+</div>
+`;
