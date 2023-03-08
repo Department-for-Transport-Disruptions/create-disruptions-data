@@ -73,7 +73,7 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
   <input
     className="govuk-input govuk-date-input__input govuk-input--width-4"
     disabled={false}
-    id="publish-start-timet"
+    id="publish-start-time"
     name="publishStartTime"
     onBlur={[Function]}
     onChange={[Function]}

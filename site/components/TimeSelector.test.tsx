@@ -50,7 +50,7 @@ describe("TimeSelector", () => {
                     disabled={false}
                     inputId={"publish-start-time"}
                     inputName={"publishStartTime"}
-                    pageState={blankInputs}
+                    pageState={{ ...blankInputs, inputs: { ...blankInputs.inputs, ["publish-start-time"]: "0900" } }}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
                 />,

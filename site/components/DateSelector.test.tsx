@@ -70,7 +70,10 @@ describe("DateSelector", () => {
                     disablePast={false}
                     inputId={"publish-end-date"}
                     inputName={"publishStartDateDay"}
-                    pageState={blankInputs}
+                    pageState={{
+                        ...blankInputs,
+                        inputs: { ...blankInputs.inputs, ["publish-end-date"]: new Date("01/01/2023") },
+                    }}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
                 />,
