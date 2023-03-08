@@ -4,7 +4,7 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import FormElementWrapper from "./FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
 import { PageInputs, PageState } from "../pages/create-disruption";
@@ -100,6 +100,10 @@ const DateSelector = ({
     updaterFunction,
 }: DateSelectorProps): ReactElement => {
     const [value, setValue] = useState(!!disabled ? null : input);
+
+    useEffect(() => {
+        setValue(pageState.inputs[inputId] as SetStateAction<Date | null>);
+    }, [pageState, inputId]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

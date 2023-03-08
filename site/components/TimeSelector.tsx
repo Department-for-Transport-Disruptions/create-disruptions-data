@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import FormElementWrapper from "./FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
 import { PageInputs, PageState } from "../pages/create-disruption";
@@ -7,7 +7,7 @@ interface TimeSelectorProps {
     input?: string;
     errors?: ErrorInfo[];
     disabled: boolean;
-    inputId: string;
+    inputId: keyof PageInputs;
     inputName: string;
     pageState: PageState;
     updatePageState: Dispatch<SetStateAction<PageState>>;
@@ -29,6 +29,12 @@ const TimeSelector = ({
     updatePageState,
     updaterFunction,
 }: TimeSelectorProps): ReactElement => {
+    const [value, setValue] = useState(!!disabled ? "" : input);
+
+    useEffect(() => {
+        setValue(pageState.inputs[inputId] as SetStateAction<string | undefined>);
+    }, [pageState, inputId]);
+
     return (
         <FormElementWrapper errors={pageState.errors} errorId={inputId} errorClass="govuk-input--error">
             <input
@@ -36,18 +42,22 @@ const TimeSelector = ({
                 id={inputId}
                 name={inputName}
                 type="text"
-                defaultValue={input}
                 disabled={disabled}
                 placeholder={disabled ? "N/A" : "hhmm"}
+                value={value}
+                onChange={(e) => {
+                    updaterFunction(pageState, updatePageState, inputId, e.target.value);
+                    setValue(e.target.value);
+                }}
                 onBlur={(e) => {
                     const input = e.target.value;
                     if (!input) {
-                        updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input, {
+                        updaterFunction(pageState, updatePageState, inputId, input, {
                             id: inputId,
                             errorMessage: "Enter a time in hhmm format",
                         });
                     } else {
-                        updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input);
+                        updaterFunction(pageState, updatePageState, inputId, input);
                     }
                 }}
             />

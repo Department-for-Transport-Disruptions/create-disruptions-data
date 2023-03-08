@@ -7,11 +7,13 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
   <input
     className="govuk-input govuk-date-input__input govuk-input--width-4"
     disabled={true}
-    id="publish-start-time-input"
+    id="publish-start-time"
     name="publishStartTime"
     onBlur={[Function]}
+    onChange={[Function]}
     placeholder="N/A"
     type="text"
+    value=""
   />
 </div>
 `;
@@ -22,7 +24,7 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
 >
   <span
     className="govuk-error-message"
-    id="publish-start-time-input-error"
+    id="publish-start-time-error"
   >
     <span
       className="govuk-visually-hidden"
@@ -32,15 +34,16 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
     Enter a time in hhmm format
   </span>
   <input
-    aria-describedby="publish-start-time-input-error"
+    aria-describedby="publish-start-time-error"
     className="govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error"
-    defaultValue=""
     disabled={false}
-    id="publish-start-time-input"
+    id="publish-start-time"
     name="publishStartTime"
     onBlur={[Function]}
+    onChange={[Function]}
     placeholder="hhmm"
     type="text"
+    value=""
   />
 </div>
 `;
@@ -51,13 +54,14 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
 >
   <input
     className="govuk-input govuk-date-input__input govuk-input--width-4"
-    defaultValue="0900"
     disabled={false}
-    id="publish-start-time-input"
+    id="publish-start-time"
     name="publishStartTime"
     onBlur={[Function]}
+    onChange={[Function]}
     placeholder="hhmm"
     type="text"
+    value="0900"
   />
 </div>
 `;
@@ -69,9 +73,10 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
   <input
     className="govuk-input govuk-date-input__input govuk-input--width-4"
     disabled={false}
-    id="publish-start-time-input"
+    id="publish-start-timet"
     name="publishStartTime"
     onBlur={[Function]}
+    onChange={[Function]}
     placeholder="hhmm"
     type="text"
   />

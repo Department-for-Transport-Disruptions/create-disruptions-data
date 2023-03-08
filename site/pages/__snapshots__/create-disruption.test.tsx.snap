@@ -364,13 +364,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0100"
                   disabled={false}
                   id="disruption-start-time"
                   name="disruptionStartTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0100"
                 />
               </div>
             </fieldset>
@@ -484,13 +485,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0200"
                   disabled={false}
                   id="disruption-end-time"
                   name="disruptionEndTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0200"
                 />
               </div>
             </fieldset>
@@ -694,13 +696,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0200"
                   disabled={false}
                   id="publish-start-time"
                   name="publishStartTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0200"
                 />
               </div>
             </fieldset>
@@ -814,13 +817,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="2300"
                   disabled={false}
                   id="publish-end-time"
                   name="publishEndTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="2300"
                 />
               </div>
             </fieldset>
@@ -1405,13 +1409,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-start-time"
                   name="disruptionStartTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </fieldset>
@@ -1522,13 +1527,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-end-time"
                   name="disruptionEndTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </fieldset>
@@ -1729,13 +1735,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="publish-start-time"
                   name="publishStartTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </fieldset>
@@ -1846,13 +1853,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="publish-end-time"
                   name="publishEndTime"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </fieldset>

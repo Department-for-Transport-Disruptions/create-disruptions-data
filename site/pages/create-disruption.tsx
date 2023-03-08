@@ -367,7 +367,11 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         onClick={() => {
                                             setNoDisruptionEndRequired(!noDisruptionEndRequired);
                                             setPageState({
-                                                ...pageState,
+                                                inputs: {
+                                                    ...pageState.inputs,
+                                                    "disruption-end-date": null,
+                                                    "disruption-end-time": "",
+                                                },
                                                 errors: pageState.errors.filter(
                                                     (error) => !error.id.includes("disruption-end"),
                                                 ),
@@ -524,7 +528,11 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         onClick={() => {
                                             setNoPublishEndRequired(!noPublishEndRequired);
                                             setPageState({
-                                                ...pageState,
+                                                inputs: {
+                                                    ...pageState.inputs,
+                                                    "publish-end-date": null,
+                                                    "publish-end-time": "",
+                                                },
                                                 errors: pageState.errors.filter(
                                                     (error) => !error.id.includes("publish-end"),
                                                 ),

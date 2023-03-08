@@ -31,7 +31,7 @@ describe("TimeSelector", () => {
                 <TimeSelector
                     input={undefined}
                     disabled={false}
-                    inputId={"publish-start-time-input"}
+                    inputId={"publish-start-time"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
@@ -48,7 +48,7 @@ describe("TimeSelector", () => {
                 <TimeSelector
                     input={"0900"}
                     disabled={false}
-                    inputId={"publish-start-time-input"}
+                    inputId={"publish-start-time"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
@@ -65,11 +65,11 @@ describe("TimeSelector", () => {
                 <TimeSelector
                     input={""}
                     disabled={false}
-                    inputId={"publish-start-time-input"}
+                    inputId={"publish-start-time"}
                     inputName={"publishStartTime"}
                     pageState={{
                         ...blankInputs,
-                        errors: [{ id: "publish-start-time-input", errorMessage: "Enter a time in hhmm format" }],
+                        errors: [{ id: "publish-start-time", errorMessage: "Enter a time in hhmm format" }],
                     }}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -85,7 +85,7 @@ describe("TimeSelector", () => {
                 <TimeSelector
                     input={undefined}
                     disabled
-                    inputId={"publish-start-time-input"}
+                    inputId={"publish-start-time"}
                     inputName={"publishStartTime"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
