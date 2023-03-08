@@ -1,7 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { NextApiRequest, NextPageContext } from "next";
-// eslint-disable-next-line @next/next/no-document-import-in-page
+import {
+    MiscellaneousReason,
+    PersonnelReason,
+    EnvironmentReason,
+    EquipmentReason,
+} from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextApiRequest } from "next";
 import { ServerResponse } from "http";
 
 export interface ErrorInfo {
