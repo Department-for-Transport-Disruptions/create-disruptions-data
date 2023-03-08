@@ -77,25 +77,6 @@ describe("createDisruption", () => {
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
         createDisruption(req, res);
 
-        const disruptionData: PageInputs = {
-            typeOfDisruption: undefined,
-            summary: undefined,
-            description: undefined,
-            "associated-link": undefined,
-            "disruption-reason": "",
-            "disruption-start-date": undefined,
-            "disruption-end-date": undefined,
-            "disruption-start-time": undefined,
-            "disruption-end-time": undefined,
-            disruptionIsNoEndDateTime: undefined,
-            "publish-start-date": undefined,
-            "publish-end-date": undefined,
-            "publish-start-time": undefined,
-            "publish-end-time": undefined,
-            publishIsNoEndDateTime: undefined,
-            disruptionRepeats: undefined,
-        };
-
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",

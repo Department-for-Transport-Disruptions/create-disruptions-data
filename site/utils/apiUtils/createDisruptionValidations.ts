@@ -1,7 +1,3 @@
-import { redirectTo } from "../index";
-import { NextApiResponse } from "next";
-import { ErrorInfo } from "../../interfaces";
-import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import {
     EnvironmentReason,
     EquipmentReason,
@@ -10,6 +6,10 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { NextApiResponse } from "next";
+import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
+import { ErrorInfo } from "../../interfaces";
+import { redirectTo } from "../index";
 
 dayjs.extend(customParseFormat);
 
