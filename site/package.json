@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "test": "vitest createDisruption",
+        "test": "vitest",
         "coverage": "vitest run --coverage",
         "test:updateSnapshots": "vitest -u",
         "tsc:build": "tsc --noemit"
