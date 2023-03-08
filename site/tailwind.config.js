@@ -8,7 +8,6 @@ module.exports = {
         extend: {
             screens: {
                 xs: "400px",
-                md: "769px",
             },
             colors: {
                 govBlue: "#1d70b8",

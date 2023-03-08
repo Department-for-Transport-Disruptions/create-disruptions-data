@@ -1,9 +1,9 @@
+import { NextPageContext } from "next/types";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
 import CsrfForm from "../components/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_POLICY_COOKIE } from "../constants";
-import { NextPageContextWithSession } from "../interfaces";
 import { getCsrfToken } from "../utils";
 
 const title = "Cookies - Create Transport Disruption Data Service";
@@ -18,7 +18,7 @@ export interface CookiePreferencesProps {
 const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePreferencesProps): ReactElement => (
     <TwoThirdsLayout title={title} description={description} hideCookieBanner>
         {settingsSaved ? (
-            <div className="information_box__success block p-[20px] mb-[50px] border-4 border-govGreen">
+            <div className="information_box__success block p-5 mb-12.5 border-4 border-govGreen">
                 <h2 className="govuk-heading-m">Your cookie settings were saved</h2>
                 <p className="govuk-body">Return to this page at any point to change your cookie settings.</p>
                 <p className="govuk-body">
@@ -127,7 +127,7 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
     </TwoThirdsLayout>
 );
 
-export const getServerSideProps = (ctx: NextPageContextWithSession): { props: CookiePreferencesProps } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: CookiePreferencesProps } => {
     const csrfToken = getCsrfToken(ctx);
     const cookies = parseCookies(ctx);
 

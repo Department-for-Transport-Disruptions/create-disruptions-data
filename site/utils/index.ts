@@ -1,7 +1,7 @@
 import { ServerResponse } from "http";
 import { NextApiResponse } from "next";
 import { NextPageContext } from "next";
-import { DocumentContextWithSession, ErrorInfo, NextPageContextWithSession, ResponseWithLocals } from "../interfaces";
+import { ErrorInfo, ResponseWithLocals } from "../interfaces";
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     if (errors.length > 0) {
@@ -17,5 +17,6 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
     });
     res.end();
 };
-export const getCsrfToken = (ctx: DocumentContextWithSession | NextPageContextWithSession | NextPageContext): string =>
+
+export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";

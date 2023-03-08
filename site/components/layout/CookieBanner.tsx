@@ -1,6 +1,7 @@
+import { CookieSerializeOptions } from "cookie";
 import Link from "next/link";
+import { setCookie, parseCookies } from "nookies";
 import React, { ReactElement, useEffect, useState } from "react";
-import Cookies, { CookieSetOptions } from "universal-cookie";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 
 interface CookieBannerMessageProps {
@@ -58,27 +59,25 @@ const CookieBanner = (): ReactElement | null => {
     const [hideBanner, setHideBanner] = useState(true);
 
     useEffect(() => {
-        const cookies = new Cookies();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const cookiePreferences = cookies.get(COOKIE_PREFERENCES_COOKIE);
-
+        const cookies = parseCookies();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const cookiePreferences = cookies[COOKIE_PREFERENCES_COOKIE];
         if (!cookiePreferences || cookiePreferences === "false") {
             setHideBanner(false);
         }
     }, [setHideBanner]);
 
     const handleAcceptAllClick = (): void => {
-        const cookies = new Cookies();
-
-        const cookieOptions: CookieSetOptions = {
+        const cookieOptions: CookieSerializeOptions = {
             maxAge: oneYearInSeconds,
             sameSite: "strict",
             secure: process.env.NODE_ENV !== "development",
             path: "/",
         };
 
-        cookies.set(COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
-        cookies.set(COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
+        setCookie(null, COOKIE_PREFERENCES_COOKIE, "true", { ...cookieOptions });
+        setCookie(null, COOKIES_POLICY_COOKIE, JSON.stringify({ essential: true, usage: true }), {
             ...cookieOptions,
         });
 
@@ -107,6 +106,7 @@ const CookieBanner = (): ReactElement | null => {
                     <button
                         className="govuk-link text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static"
                         type="button"
+                        id="hide"
                         onClick={handleHideClick}
                     >
                         Hide

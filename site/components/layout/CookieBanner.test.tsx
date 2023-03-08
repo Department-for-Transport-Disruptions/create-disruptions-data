@@ -1,13 +1,21 @@
-import renderer from "react-test-renderer";
-import Cookies from "universal-cookie";
-import { vi, describe, it, expect } from "vitest";
+import { cleanup, fireEvent, render } from "@testing-library/react";
+import { describe, it, expect, afterEach } from "vitest";
 import CookieBanner from "../layout/CookieBanner";
 
 describe("CookieBanner", () => {
-    Cookies.prototype.set = vi.fn();
-
     it("should render correctly", () => {
-        const tree = renderer.create(<CookieBanner />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { container } = render(<CookieBanner />);
+        expect(container).toMatchSnapshot();
     });
+
+    it("should render correctly when accept all is clicked", () => {
+        const { container } = render(<CookieBanner />);
+        const element = container.querySelector("#accept-all-button");
+        if (element) {
+            fireEvent.click(element);
+        }
+        expect(container).toMatchSnapshot();
+    });
+
+    afterEach(cleanup);
 });

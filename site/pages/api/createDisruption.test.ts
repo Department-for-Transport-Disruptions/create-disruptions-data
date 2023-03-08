@@ -2,24 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption from "../api/createDisruption";
-import { getMockRequestAndResponse } from "../../pages/testData/mockData";
-import { OptionsType } from "cookies-next/lib/types";
-import { CookiePolicy, ErrorInfo } from "../../interfaces";
-import { PageInputs } from "pages/create-disruption";
+import { getMockRequestAndResponse } from "../../testData/mockData";
+import { PageInputs } from "../../pages/create-disruption";
 import dayjs from "dayjs";
-import { CD_DATE_FORMAT } from "constants";
+import { CD_DATE_FORMAT } from "../../constants/index";
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
 import * as apiUtils from "../../utils/apiUtils";
 
-import {
-    COOKIES_DISRUPTION_INFO,
-    COOKIES_DISRUPTION_ERRORS,
-    TEN_SECONDS_IN_MILLISECONDS,
-    oneYearInSeconds,
-    COOKIE_PREFERENCES_COOKIE,
-    COOKIES_POLICY_COOKIE,
-} from "../../constants";
-import cookies from "./cookies";
+import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, TEN_SECONDS_IN_MILLISECONDS } from "../../constants";
 
 const getFutureDateAsString = (addDays: number, dateFormat: string) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
@@ -31,7 +21,6 @@ const getStringToDate = (date: string, dateFormat: string): Date => {
 
 describe("createDisruption", () => {
     const writeHeadMock = vi.fn();
-    //const setCookieSpy = vi.spyOn(cookies, "setCookie");
     const setCookieSpy = vi.spyOn(apiUtils, "setCookieOnResponseObject");
     afterEach(() => {
         vi.resetAllMocks();
@@ -41,7 +30,9 @@ describe("createDisruption", () => {
         const disruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
         const disruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
-
+        console.log("disruptionStartDate---", disruptionStartDate);
+        console.log("disruptionEndDate---", disruptionEndDate);
+        console.log("publishStartDate---", publishStartDate);
         const disruptionData: PageInputs = {
             typeOfDisruption: "unplanned",
             summary: "Lorem ipsum dolor sit amet",
@@ -67,14 +58,11 @@ describe("createDisruption", () => {
         disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(1);
-        //expect(setCookieSpy).toHaveBeenCalledWith("disruptionInfo", disruptionData, options);
         expect(setCookieSpy).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_INFO,
             JSON.stringify(disruptionData),
-            req,
             res,
-            oneYearInSeconds,
-            //TEN_SECONDS_IN_MILLISECONDS,
+            TEN_SECONDS_IN_MILLISECONDS,
             false,
         );
 
@@ -84,12 +72,6 @@ describe("createDisruption", () => {
     // it("should redirect back to itself (i.e. /create-disruption) when no form inputs are passed to the API", () => {
     //     const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
     //     createDisruption(req, res);
-
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
 
     //     const disruptionData: PageInputs = {
     //         typeOfDisruption: undefined,
@@ -155,8 +137,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -188,11 +184,7 @@ describe("createDisruption", () => {
     //     disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     const errors: ErrorInfo[] = [
@@ -206,8 +198,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -234,11 +240,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -252,8 +254,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -280,11 +296,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -298,8 +310,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -326,11 +352,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -348,8 +370,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -378,11 +414,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -401,8 +433,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -431,11 +477,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -451,8 +493,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -481,11 +537,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -501,8 +553,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -531,11 +597,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -554,8 +616,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -584,11 +660,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -607,8 +679,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -637,11 +723,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -657,8 +739,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 
@@ -687,11 +783,7 @@ describe("createDisruption", () => {
     //     };
 
     //     const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-    //     const options: OptionsType = {
-    //         req: req,
-    //         res: res,
-    //         path: "/create-disruption",
-    //     };
+
     //     createDisruption(req, res);
 
     //     disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
@@ -707,8 +799,22 @@ describe("createDisruption", () => {
     //         },
     //     ];
     //     expect(setCookieSpy).toHaveBeenCalledTimes(2);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(1, "disruptionInfo", disruptionData, options);
-    //     expect(setCookieSpy).toHaveBeenNthCalledWith(2, "disruptionErrors", errors, options);
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         1,
+    //         COOKIES_DISRUPTION_INFO,
+    //         JSON.stringify(disruptionData),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
+    //     expect(setCookieSpy).toHaveBeenNthCalledWith(
+    //         2,
+    //         COOKIES_DISRUPTION_ERRORS,
+    //         JSON.stringify(errors),
+    //         res,
+    //         TEN_SECONDS_IN_MILLISECONDS,
+    //         false,
+    //     );
     //     expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     // });
 });

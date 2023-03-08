@@ -23,19 +23,14 @@ import {
     COOKIES_DISRUPTION_INFO,
     COOKIES_DISRUPTION_ERRORS,
     TEN_SECONDS_IN_MILLISECONDS,
-    oneYearInSeconds,
+    CREATE_DISRUPTION_PAGE_PATH,
+    ERROR_PATH,
 } from "../../constants/index";
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
 
-    // const options: OptionsType = {
-    //     req: req,
-    //     res: res,
-    //     path: "/create-disruption",
-    // };
-
-    checkReferrer(req.headers.referer, "/_error", res);
+    checkReferrer(req.headers.referer, CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, res);
 
     const formFields: PageInputs = req.body as PageInputs;
 
@@ -61,7 +56,6 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         formFields["disruption-reason"] || "";
 
     validateDisruptionReasons(disruptionReason, errors, "some-error-id");
-    //const disruptionReasons = req.body[CD_];
 
     const disruptionStartDate: Date | null = formFields["disruption-start-date"];
     const disruptionStartTime: string = formFields["disruption-start-time"];
@@ -112,18 +106,23 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         publishIsNoEndDateTime: publishIsNoEndDateTime,
         disruptionRepeats: formFields.disruptionRepeats,
     };
-    //setCookie("disruptionInfo", disruptionData, options);
 
-    setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, "test", req, res, TEN_SECONDS_IN_MILLISECONDS, false);
+    setCookieOnResponseObject(
+        COOKIES_DISRUPTION_INFO,
+        JSON.stringify(disruptionData),
+        res,
+        TEN_SECONDS_IN_MILLISECONDS,
+        false,
+    );
+
+    console.log("errors----", errors);
 
     if (errors.length == 0) {
         redirectTo(res, "/");
     } else {
-        //setCookie("disruptionErrors", errors, options);
         setCookieOnResponseObject(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
-            req,
             res,
             TEN_SECONDS_IN_MILLISECONDS,
             false,

@@ -1,21 +1,18 @@
-import Cookies from "cookies";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
+import { setCookie } from "nookies";
 import { ServerResponse } from "http";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
     cookieName: string,
     cookieValue: string,
-    req: NextApiRequest,
     res: NextApiResponse,
     lifetime?: number,
     httpOnly = true,
 ): void => {
-    const cookies = new Cookies(req, res);
     // From docs: All cookies are httponly by default, and cookies sent over SSL are secure by
     // default. An error will be thrown if you try to send secure cookies over an insecure socket.
-
-    cookies.set(cookieName, cookieValue, {
+    setCookie({ res }, cookieName, cookieValue, {
         path: "/",
         sameSite: "strict",
         secure: process.env.NODE_ENV !== "development",

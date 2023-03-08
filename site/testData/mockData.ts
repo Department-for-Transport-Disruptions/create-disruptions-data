@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { mockRequest, mockResponse } from "mock-req-res";
+import { NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../../constants";
-import { GetMockRequestAndResponse, NextPageContextWithSession } from "../../interfaces";
+import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../constants";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -80,7 +80,7 @@ export const getMockContext = ({
     isLoggedin = true,
     url = null,
     query = "",
-}: GetMockContextInput = {}): NextPageContextWithSession => {
+}: GetMockContextInput = {}): NextPageContext => {
     const { req, res } = getMockRequestAndResponse({
         cookieValues: cookies,
         body,
@@ -92,7 +92,7 @@ export const getMockContext = ({
         url,
     });
 
-    const ctx: NextPageContextWithSession = {
+    const ctx: NextPageContext = {
         res,
         req,
         pathname: "",
@@ -103,3 +103,15 @@ export const getMockContext = ({
 
     return ctx;
 };
+
+export interface GetMockRequestAndResponse {
+    cookieValues?: any;
+    body?: any;
+    uuid?: any;
+    mockWriteHeadFn?: Mock<any, any>;
+    mockEndFn?: Mock<any, any>;
+    requestHeaders?: any;
+    isLoggedin?: boolean;
+    url?: any;
+    query?: any;
+}

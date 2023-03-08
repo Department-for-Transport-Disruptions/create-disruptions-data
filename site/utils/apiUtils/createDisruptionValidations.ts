@@ -10,9 +10,14 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 
-export const checkReferrer = (referrerHeader: string | undefined, requestFromPath: string, res: NextApiResponse) => {
-    if (referrerHeader?.includes(requestFromPath)) {
-        redirectTo(res, "/_error");
+export const checkReferrer = (
+    referrerHeader: string | undefined,
+    requestFromPath: string,
+    errorPath: string,
+    res: NextApiResponse,
+) => {
+    if (!referrerHeader?.includes(requestFromPath)) {
+        redirectTo(res, errorPath);
     }
 };
 
@@ -177,6 +182,10 @@ export const validateDateTime = (
         const jsDate = dayjs(date, CD_DATE_FORMAT, true);
         const isValidTime = validateTime(time, dateType, errors, errorId);
 
+        console.log("CD_DATE_FORMAT---", CD_DATE_FORMAT);
+        console.log("date---", date);
+        console.log("jsDate---", jsDate);
+        console.log("jsDate.isValid()---", jsDate.isValid());
         if (!jsDate.isValid()) {
             errors.push({
                 id: errorId,

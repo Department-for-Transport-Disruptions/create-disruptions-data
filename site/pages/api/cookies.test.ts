@@ -3,7 +3,7 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 import { CookiePolicy } from "../../interfaces";
-import { getMockRequestAndResponse } from "../../pages/testData/mockData";
+import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import cookies from "../api/cookies";
 
@@ -34,7 +34,6 @@ describe("cookies", () => {
             1,
             COOKIE_PREFERENCES_COOKIE,
             "true",
-            req,
             res,
             oneYearInSeconds,
             false,
@@ -43,7 +42,6 @@ describe("cookies", () => {
             2,
             COOKIES_POLICY_COOKIE,
             JSON.stringify(mockCookiePolicy),
-            req,
             res,
             oneYearInSeconds,
             false,
@@ -64,7 +62,6 @@ describe("cookies", () => {
             1,
             COOKIE_PREFERENCES_COOKIE,
             "true",
-            req,
             res,
             oneYearInSeconds,
             false,
@@ -73,7 +70,6 @@ describe("cookies", () => {
             2,
             COOKIES_POLICY_COOKIE,
             JSON.stringify(mockCookiePolicy),
-            req,
             res,
             oneYearInSeconds,
             false,
