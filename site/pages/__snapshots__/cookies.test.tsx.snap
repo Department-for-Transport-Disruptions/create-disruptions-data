@@ -1,0 +1,414 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`pages > cookies > should display a confirmation box when the user saves their preferences 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+    >
+      <div
+        className="govuk-grid-row"
+      >
+        <div
+          className="govuk-grid-column-two-thirds"
+        >
+          <div
+            className="information_box__success block p-[20px] mb-[50px] border-4 border-govGreen"
+          >
+            <h2
+              className="govuk-heading-m"
+            >
+              Your cookie settings were saved
+            </h2>
+            <p
+              className="govuk-body"
+            >
+              Return to this page at any point to change your cookie settings.
+            </p>
+            <p
+              className="govuk-body"
+            >
+              <a
+                className="govuk-link"
+                href="/home"
+              >
+                Click here to return to the homepage.
+              </a>
+            </p>
+          </div>
+          <div
+            className="govuk-!-margin-bottom-8"
+          >
+            <h1
+              className="govuk-heading-l"
+            >
+              Cookies on the Create Transport Disruption Data Service
+            </h1>
+          </div>
+          <p
+            className="govuk-body"
+          >
+            Cookies are files saved on your phone, tablet or computer when you visit a website.
+          </p>
+          <p
+            className="govuk-body"
+          >
+            We use cookies to store information about how you use the Create Transport Disruption website, such as the pages you visit.
+          </p>
+          <h2
+            className="govuk-heading-m govuk-!-margin-bottom-3"
+          >
+            Cookie Settings
+          </h2>
+          <div
+            className="cookie-settings__form-wrapper"
+          >
+            <p
+              className="govuk-body"
+            >
+              We use 2 types of cookie. You can choose which cookies you're happy for us to use.
+            </p>
+            <form
+              action="/api/cookies?_csrf="
+              method="post"
+            >
+              <div
+                className="govuk-form-group"
+              >
+                <fieldset
+                  aria-describedby="analytics-cookies-hint"
+                  className="govuk-fieldset"
+                >
+                  <legend
+                    className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  >
+                    <h2
+                      className="govuk-fieldset__heading"
+                    >
+                      Cookies that measure website use
+                    </h2>
+                  </legend>
+                  <div
+                    className="govuk-hint govuk-!-margin-bottom-3"
+                    id="analytics-cookies-hint"
+                  >
+                    <p
+                      className="govuk-body govuk-hint"
+                    >
+                      We use Google Analytics to measure how you use the website so we can improve it based on user needs. We do not allow Google to use or share the data about how you use this site.
+                    </p>
+                    <p
+                      className="govuk-body govuk-hint"
+                    >
+                      Google Analytics sets cookies that store anonymised information about:
+                    </p>
+                    <ul
+                      className="govuk-list govuk-list--bullet govuk-hint"
+                    >
+                      <li>
+                        how you got to the site
+                      </li>
+                      <li>
+                        the pages you visit on the Create Transport Disruption Data Service, and how long you spend on each page
+                      </li>
+                      <li>
+                        what you click on while you're visiting the site
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    className="govuk-radios"
+                  >
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        defaultChecked={false}
+                        id="accept-analytics-cookies"
+                        name="tracking"
+                        type="radio"
+                        value="on"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="accept-analytics-cookies"
+                      >
+                        Use cookies that measure my website use
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        defaultChecked={true}
+                        id="decline-analytics-cookies"
+                        name="tracking"
+                        type="radio"
+                        value="off"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="decline-analytics-cookies"
+                      >
+                        Do not use cookies that measure my website use
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div>
+                <h2
+                  className="govuk-heading-m"
+                >
+                  Strictly necessary cookies
+                </h2>
+                <p
+                  className="govuk-body"
+                >
+                  These essential cookies are used to remember your progress.
+                </p>
+                <p
+                  className="govuk-body"
+                >
+                  They always need to be on.
+                </p>
+                <p
+                  className="govuk-link govuk-!-font-size-19"
+                >
+                  <a
+                    className="govuk-link govuk-!-font-size-19"
+                    href="/cookieDetails"
+                  >
+                    Find out more about our usage of cookies in our cookie policy
+                  </a>
+                </p>
+              </div>
+              <button
+                className="govuk-button mt-4"
+                data-module="govuk-button"
+                id="save-cookie-preferences-button"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;

@@ -8,11 +8,14 @@ module.exports = {
         extend: {
             screens: {
                 xs: "400px",
+                md: "769px",
             },
             colors: {
                 govBlue: "#1d70b8",
                 govYellow: "#ffdd00",
                 backgroundGrey: "#f3f2f1",
+                hoverBlue: "#003078",
+                govGreen: "#00703c",
             },
             borderWidth: {
                 DEFAULT: "1px",

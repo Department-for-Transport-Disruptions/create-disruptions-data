@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
-import { PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import CookieBanner from "./CookieBanner";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
 import { ErrorInfo } from "../../interfaces";
@@ -30,9 +32,21 @@ export const BaseLayout = ({
     title,
     description,
     errors = [],
+    hideCookieBanner,
     children,
     hideHelp,
 }: PropsWithChildren<LayoutProps>): ReactElement => {
+    const [showBanner, setShowBanner] = useState(false);
+
+    useEffect(() => {
+        setShowBanner(true);
+    }, [setShowBanner]);
+
+    let element = null;
+    if (typeof document !== "undefined") {
+        element = document.getElementById("js-cookie-banner");
+    }
+
     return (
         <>
             <Head>
@@ -43,6 +57,7 @@ export const BaseLayout = ({
                 <meta charSet="utf-8" />
             </Head>
 
+            {!hideCookieBanner && showBanner && element && <div>{createPortal(<CookieBanner />, element)}</div>}
             <PhaseBanner />
 
             <div className="govuk-width-container">
@@ -59,9 +74,16 @@ export const FullColumnLayout = ({
     description,
     errors = [],
     children,
+    hideCookieBanner = false,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
+    <BaseLayout
+        title={title}
+        description={description}
+        errors={errors}
+        hideCookieBanner={hideCookieBanner}
+        hideHelp={hideHelp}
+    >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">{children}</div>
         </div>
@@ -73,9 +95,16 @@ export const TwoThirdsLayout = ({
     description,
     errors = [],
     children,
+    hideCookieBanner = false,
     hideHelp = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
-    <BaseLayout title={title} description={description} errors={errors} hideHelp={hideHelp}>
+    <BaseLayout
+        title={title}
+        description={description}
+        errors={errors}
+        hideCookieBanner={hideCookieBanner}
+        hideHelp={hideHelp}
+    >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">{children}</div>
         </div>

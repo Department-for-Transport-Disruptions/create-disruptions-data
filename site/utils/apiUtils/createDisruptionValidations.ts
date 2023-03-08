@@ -1,7 +1,7 @@
-import { redirectTo } from "./index";
+import { redirectTo } from "../index";
 import { NextApiResponse } from "next";
-import { ErrorInfo } from "../interfaces";
-import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../constants/index";
+import { ErrorInfo } from "../../interfaces";
+import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import {
     EnvironmentReason,
     EquipmentReason,
@@ -27,7 +27,7 @@ export const validateSummary = (summary: string, errors: ErrorInfo[], errorId: s
     } else {
         const lengthErr: ErrorInfo = {
             id: errorId,
-            errorMessage: "Please enter a Summary of less than 100 characters ",
+            errorMessage: "Please enter a Summary of less than 100 characters",
         };
 
         if (!validateLength(summary, 100)) {
@@ -60,9 +60,9 @@ export const validateDisruptionType = (
     }
 };
 
-export const requireFieldCheck = (summary: string | undefined): boolean => {
+export const requireFieldCheck = (field: string | undefined): boolean => {
     let checkPassed = false;
-    if (summary) {
+    if (field) {
         //errors.push(error);
         checkPassed = true;
     }
@@ -102,7 +102,7 @@ export const validateDescription = (description: string, errors: ErrorInfo[], er
     } else {
         const error: ErrorInfo = {
             id: errorId,
-            errorMessage: "Please enter a Description of less than 200 characters ",
+            errorMessage: "Please enter a Description of less than 200 characters",
         };
         if (!validateLength(description, 200)) {
             errors.push(error);
@@ -116,7 +116,7 @@ export const validateAssociatedLink = (associatedLink: string, errors: ErrorInfo
     } catch (_) {
         errors.push({
             id: errorId,
-            errorMessage: "The URL is malformed. Please enter a valid URL ",
+            errorMessage: "The URL is malformed. Please enter a valid URL",
         });
     }
 };
@@ -150,7 +150,7 @@ export const validateDisruptionReasons = (
 };
 
 export const validateDateTime = (
-    date: string,
+    date: Date | null,
     time: string,
     errors: ErrorInfo[],
     errorId: string,
@@ -158,10 +158,8 @@ export const validateDateTime = (
 ): boolean => {
     let isValid = false;
 
-    const dateCheck: boolean = requireFieldCheck(date);
-    const timeCheck: boolean = requireFieldCheck(time);
-
-    if (!dateCheck) {
+    const timeCheck = requireFieldCheck(time);
+    if (!date) {
         errors.push({
             id: errorId,
             errorMessage: `No ${dateType} date selected. Please select a valid ${dateType} date`,
@@ -175,9 +173,8 @@ export const validateDateTime = (
         });
     }
 
-    if (dateCheck && timeCheck) {
+    if (date && timeCheck) {
         const jsDate = dayjs(date, CD_DATE_FORMAT, true);
-
         const isValidTime = validateTime(time, dateType, errors, errorId);
 
         if (!jsDate.isValid()) {
@@ -188,6 +185,7 @@ export const validateDateTime = (
         } else {
             // Validate that the start time input is valid and of time format
             const isFutureDate = jsDate.hour(+time.slice(0, 2)).minute(+time.slice(2, 4)).isAfter(dayjs());
+
             if (isValidTime && !isFutureDate) {
                 errors.push({
                     id: errorId,
@@ -238,14 +236,16 @@ export const validateTime = (time: string, dateType: string, errors: ErrorInfo[]
     return isValid;
 };
 
-export const getDateTime = (date: string, time: string): dayjs.Dayjs => {
-    return dayjs(date, CD_DATE_FORMAT, true).hour(+time.slice(0, 2)).minute(+time.slice(2, 4));
+export const getDateTime = (date: Date | null, time?: string): dayjs.Dayjs => {
+    let formattedDate: dayjs.Dayjs = dayjs(date, CD_DATE_FORMAT, true);
+    if (time) formattedDate = formattedDate.hour(+time.slice(0, 2)).minute(+time.slice(2, 4));
+    return formattedDate;
 };
 
 export const validateDateTimeSection = (
-    startDate: string,
+    startDate: Date | null,
     startTime: string,
-    endDate: string,
+    endDate: Date | null,
     endTime: string,
     isEndDateRequired: string | undefined,
     errors: ErrorInfo[],
