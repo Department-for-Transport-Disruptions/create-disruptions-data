@@ -1,5 +1,947 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`pages > CreateDisruption > should render correctly when the no end date/time is clicked for publish disruption information 1`] = `
+<div>
+  <div
+    class="app-phase-banner__wrapper"
+  >
+    <div
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        class="govuk-phase-banner__content"
+      >
+        <strong
+          class="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          class="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            class="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <main
+      class="govuk-main-wrapper"
+    >
+      <form
+        action="/api/createDisruption"
+        method="post"
+      >
+        <div
+          class="govuk-form-group"
+        >
+          <h1
+            class="govuk-heading-xl"
+          >
+            Create a new Disruption
+          </h1>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              class="govuk-fieldset"
+            >
+              <legend
+                class="govuk-fieldset__legend govuk-!-padding-top-2"
+              >
+                <span
+                  class="govuk-heading-s govuk-!-margin-bottom-0"
+                  id="disruption-type"
+                >
+                  Type of disruption
+                </span>
+              </legend>
+              <div
+                class=""
+              >
+                <div
+                  class="govuk-radios"
+                  id="radio-buttons"
+                >
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      class="govuk-radios__input"
+                      id="disruption-planned"
+                      name="disruptionType"
+                      type="radio"
+                      value="planned"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="disruption-planned"
+                    >
+                      Planned
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item"
+                  >
+                    <input
+                      class="govuk-radios__input"
+                      id="disruption-unplanned"
+                      name="disruptionType"
+                      type="radio"
+                      value="unplanned"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="disruption-unplanned"
+                    >
+                      Unplanned
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="summary"
+              >
+                Summary
+              </label>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input w-3/4"
+                  id="summary"
+                  maxlength="50"
+                  name="summary"
+                  type="text"
+                  value="New disruption"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="description"
+              >
+                Description
+              </label>
+              <div
+                class=""
+              >
+                <textarea
+                  class="govuk-textarea w-3/4"
+                  id="description"
+                  maxlength="200"
+                  name="description"
+                  rows="3"
+                >
+                  A truck broke the bridge
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="associated-link"
+              >
+                Associated Link (optional)
+              </label>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input w-3/4"
+                  id="associated-link"
+                  maxlength="50"
+                  name="associatedLink"
+                  type="text"
+                  value="www.bbc.com"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="Distruption-reason"
+              >
+                Reason for disruption
+              </label>
+              <div
+                class=""
+              >
+                <select
+                  class="govuk-select w-3/4"
+                  id="disruption-reason"
+                  name="disruptionReason"
+                >
+                  <option
+                    disabled=""
+                    value=""
+                  >
+                    Choose a reason
+                  </option>
+                  <option
+                    value="roadWorks"
+                  >
+                    Road Works
+                  </option>
+                  <option
+                    value="vandalism"
+                  >
+                    Vandalism
+                  </option>
+                  <option
+                    selected=""
+                    value="routeDiversion"
+                  >
+                    Route Diversion
+                  </option>
+                  <option
+                    value="specialEvent"
+                  >
+                    Special Event
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="govuk-form-group govuk-!-padding-top-6"
+        >
+          <h2
+            class="govuk-heading-l"
+          >
+            When is the disruption?
+          </h2>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="disruption-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                class="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  class="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    class=""
+                  >
+                    <input
+                      class="govuk-input govuk-date-input__input govuk-input--width-6"
+                      id="disruption-start-date"
+                      name="disruptionStartDate"
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="04/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 4, 2023"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              aria-describedby="disruption-start-time-hint"
+              class="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <h3
+                  class="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  What is the start time?
+                </h3>
+              </legend>
+              <div
+                class="govuk-hint"
+                id="disruption-start-time-hint"
+              >
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
+              </div>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input govuk-date-input__input govuk-input--width-4"
+                  id="disruption-start-time"
+                  name="disruptionStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                  value="0100"
+                />
+              </div>
+            </fieldset>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group govuk-!-margin-bottom-0 govuk-!-margin-top-6"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="disruption-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                class="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  class="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    class=""
+                  >
+                    <input
+                      class="govuk-input govuk-date-input__input govuk-input--width-6"
+                      id="disruption-end-date"
+                      name="disruptionEndDateDay"
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="08/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 8, 2023"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              aria-describedby="disruptionend-time-hint"
+              class="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <h3
+                  class="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                   What is the end time?
+                </h3>
+              </legend>
+              <div
+                class="govuk-hint"
+                id="disruption-end-time-hint"
+              >
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
+              </div>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input govuk-date-input__input govuk-input--width-4"
+                  id="disruption-end-time"
+                  name="disruptionEndTime"
+                  placeholder="hhmm"
+                  type="text"
+                  value="0200"
+                />
+              </div>
+            </fieldset>
+          </div>
+          <fieldset
+            class="govuk-fieldset"
+            role="group"
+          >
+            <div
+              class="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-6"
+              data-module="govuk-checkboxes"
+            >
+              <div
+                class="govuk-checkboxes__item"
+              >
+                <input
+                  class="govuk-checkboxes__input"
+                  id="disruption-no-end-date-time"
+                  name="disruptionIsNoEndDateTime"
+                  type="checkbox"
+                  value="disruptionNoEndDateTime"
+                />
+                <label
+                  class="govuk-label govuk-checkboxes__label"
+                  for="disruption-no-end-date-time"
+                >
+                  No end date/time
+                </label>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            class="govuk-fieldset"
+          >
+            <legend
+              class="govuk-fieldset__legend govuk-!-padding-top-6"
+              id="disruption-repeat-hint"
+            >
+              <h3
+                class="govuk-heading-s govuk-!-margin-bottom-0"
+              >
+                Does this disruption repeat?
+              </h3>
+            </legend>
+            <div
+              class="govuk-radios"
+              data-module="govuk-radios"
+            >
+              <div
+                class="govuk-radios__item"
+              >
+                <input
+                  class="govuk-radios__input"
+                  id="disruption-repeats"
+                  name="disruptionRepeats"
+                  type="radio"
+                  value="yes"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  for="disruption-repeats"
+                >
+                  Yes
+                </label>
+              </div>
+              <div
+                class="govuk-radios__item"
+              >
+                <input
+                  class="govuk-radios__input"
+                  id="disruption-does-not-repeat"
+                  name="disruptionRepeats"
+                  type="radio"
+                  value="no"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  for="disruption-does-not-repeat"
+                >
+                  No
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div
+          class="govuk-form-group govuk-!-padding-top-6"
+        >
+          <h2
+            class="govuk-heading-l"
+          >
+            When does the disruption need to be published?
+          </h2>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="publish-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                class="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  class="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    class=""
+                  >
+                    <input
+                      class="govuk-input govuk-date-input__input govuk-input--width-6"
+                      id="publish-start-date"
+                      name="publishStartDateDay"
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="03/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 3, 2023"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              aria-describedby="publish-start-time-hint"
+              class="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <h3
+                  class="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  What is the start time?
+                </h3>
+              </legend>
+              <div
+                class="govuk-hint"
+                id="publish-start-time-hint"
+              >
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
+              </div>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input govuk-date-input__input govuk-input--width-4"
+                  id="publish-start-time"
+                  name="publishStartTime"
+                  placeholder="hhmm"
+                  type="text"
+                  value="0200"
+                />
+              </div>
+            </fieldset>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group govuk-!-margin-bottom-0 govuk-!-margin-top-6"
+            >
+              <label
+                class="govuk-label govuk-label--s"
+                for="publish-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                class="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  class="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    class=""
+                  >
+                    <input
+                      class="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled=""
+                      id="publish-end-date"
+                      name="publishEndDateDay"
+                      placeholder="N/A"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled=""
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              aria-describedby="publish-end-time-hint"
+              class="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <h3
+                  class="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                   What is the end time?
+                </h3>
+              </legend>
+              <div
+                class="govuk-hint"
+                id="publish-end-time-hint"
+              >
+                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm.
+              </div>
+              <div
+                class=""
+              >
+                <input
+                  class="govuk-input govuk-date-input__input govuk-input--width-4"
+                  disabled=""
+                  id="publish-end-time"
+                  name="publishEndTime"
+                  placeholder="N/A"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </fieldset>
+          </div>
+          <fieldset
+            class="govuk-fieldset"
+            role="group"
+          >
+            <div
+              class="govuk-checkboxes flex govuk-checkboxes--small govuk-!-padding-top-6"
+              data-module="govuk-checkboxes"
+            >
+              <div
+                class="govuk-checkboxes__item"
+              >
+                <input
+                  class="govuk-checkboxes__input"
+                  id="publish-no-end-date-time"
+                  name="publishIsNoEndDateTime"
+                  type="checkbox"
+                  value="publishNoEndDateTime"
+                />
+                <label
+                  class="govuk-label govuk-checkboxes__label"
+                  for="publish-no-end-date-time"
+                >
+                  No end date/time
+                </label>
+              </div>
+            </div>
+          </fieldset>
+          <button
+            class="govuk-button mt-8"
+            data-module="govuk-button"
+          >
+            Save and continue
+          </button>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;
+
 exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
 [
   <div

@@ -1,5 +1,6 @@
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import CreateDisruption, { PageState } from "./create-disruption";
 
 const blankInputs: PageState = {
@@ -51,5 +52,15 @@ describe("pages", () => {
             const tree = renderer.create(<CreateDisruption inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
+
+        it("should render correctly when the no end date/time is clicked for publish disruption information", () => {
+            const { container } = render(<CreateDisruption inputs={withInputs} />);
+            const element = container.querySelector("#publish-no-end-date-time");
+            if (element) {
+                fireEvent.click(element);
+            }
+            expect(container).toMatchSnapshot();
+        });
+        afterEach(cleanup);
     });
 });
