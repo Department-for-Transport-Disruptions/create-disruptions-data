@@ -5,7 +5,6 @@ import { NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { ID_TOKEN_COOKIE, COOKIES_POLICY_COOKIE } from "../constants";
-import { GetMockRequestAndResponse } from "../interfaces";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -104,3 +103,15 @@ export const getMockContext = ({
 
     return ctx;
 };
+
+export interface GetMockRequestAndResponse {
+    cookieValues?: any;
+    body?: any;
+    uuid?: any;
+    mockWriteHeadFn?: Mock<any, any>;
+    mockEndFn?: Mock<any, any>;
+    requestHeaders?: any;
+    isLoggedin?: boolean;
+    url?: any;
+    query?: any;
+}

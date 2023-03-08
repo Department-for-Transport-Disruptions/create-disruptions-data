@@ -49,14 +49,3 @@ export interface CookiesApiRequest extends NextApiRequest {
     };
 }
 
-export interface GetMockRequestAndResponse {
-    cookieValues?: any;
-    body?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
-    requestHeaders?: any;
-    isLoggedin?: boolean;
-    url?: any;
-    query?: any;
-}
