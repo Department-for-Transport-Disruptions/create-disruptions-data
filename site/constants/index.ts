@@ -30,3 +30,8 @@ export const DISRUPTION_REASONS: {
         reason: "Special Event",
     },
 ];
+
+export const contactFeedbackQuestion = "Did you contact us for assistance at any point?";
+export const solveFeedbackQuestion = "Did we solve your problem?";
+export const hearAboutUsFeedbackQuestion = "How did you hear about our service?";
+export const generalFeedbackQuestion = "Please let us know any feedback or suggestions for improvements you may have";
