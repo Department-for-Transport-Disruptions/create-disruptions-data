@@ -1,6 +1,5 @@
-import { ServerResponse } from "http";
 import { NextApiResponse, NextPageContext } from "next";
-import {} from "next";
+import { ServerResponse } from "http";
 import { ErrorInfo, ResponseWithLocals } from "../interfaces";
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {

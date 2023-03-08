@@ -1,12 +1,19 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { redirectTo } from "../../utils/index";
-import { ErrorInfo } from "../../interfaces";
 import {
     MiscellaneousReason,
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextApiRequest, NextApiResponse } from "next";
+import {
+    COOKIES_DISRUPTION_INFO,
+    COOKIES_DISRUPTION_ERRORS,
+    TEN_SECONDS_IN_MILLISECONDS,
+    CREATE_DISRUPTION_PAGE_PATH,
+    ERROR_PATH,
+} from "../../constants/index";
+import { ErrorInfo } from "../../interfaces";
+import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import {
     checkReferrer,
     validateDisruptionType,
@@ -17,15 +24,8 @@ import {
     validateDateTimeSection,
     getDateTime,
 } from "../../utils/apiUtils/createDisruptionValidations";
+import { redirectTo } from "../../utils/index";
 import { PageInputs } from "../create-disruption";
-import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import {
-    COOKIES_DISRUPTION_INFO,
-    COOKIES_DISRUPTION_ERRORS,
-    TEN_SECONDS_IN_MILLISECONDS,
-    CREATE_DISRUPTION_PAGE_PATH,
-    ERROR_PATH,
-} from "../../constants/index";
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];

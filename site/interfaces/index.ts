@@ -1,9 +1,3 @@
-import {
-    MiscellaneousReason,
-    PersonnelReason,
-    EnvironmentReason,
-    EquipmentReason,
-} from "@create-disruptions-data/shared-ts/siriTypes";
 import { NextApiRequest } from "next";
 import { ServerResponse } from "http";
 

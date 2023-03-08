@@ -1,18 +1,18 @@
-import { ErrorInfo } from "../interfaces";
 import {
     MiscellaneousReason,
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextPageContext } from "next";
+import { parseCookies, destroyCookie } from "nookies";
 import { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import DateSelector from "../components/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../components/FormElementWrapper";
 import { BaseLayout } from "../components/layout/Layout";
 import TimeSelector from "../components/TimeSelector";
 import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { NextPageContext } from "next";
-import { parseCookies, destroyCookie } from "nookies";
+import { ErrorInfo } from "../interfaces";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";

@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { describe, it, expect, afterEach, vi } from "vitest";
-import createDisruption from "../api/createDisruption";
-import { getMockRequestAndResponse } from "../../testData/mockData";
-import { PageInputs } from "../../pages/create-disruption";
-import dayjs from "dayjs";
-import { CD_DATE_FORMAT } from "../../constants/index";
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
-import * as apiUtils from "../../utils/apiUtils";
-
-import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, TEN_SECONDS_IN_MILLISECONDS } from "../../constants";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { describe, it, expect, afterEach, vi } from "vitest";
+import {
+    COOKIES_DISRUPTION_ERRORS,
+    COOKIES_DISRUPTION_INFO,
+    TEN_SECONDS_IN_MILLISECONDS,
+    CD_DATE_FORMAT,
+} from "../../constants";
 import { ErrorInfo } from "../../interfaces";
+import { PageInputs } from "../../pages/create-disruption";
+import { getMockRequestAndResponse } from "../../testData/mockData";
+import * as apiUtils from "../../utils/apiUtils";
+import createDisruption from "../api/createDisruption";
 
 dayjs.extend(customParseFormat);
 

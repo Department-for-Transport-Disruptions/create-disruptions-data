@@ -1,7 +1,7 @@
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import CreateDisruption, { PageState } from "./create-disruption";
-import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
 
 const blankInputs: PageState = {
     errors: [],
