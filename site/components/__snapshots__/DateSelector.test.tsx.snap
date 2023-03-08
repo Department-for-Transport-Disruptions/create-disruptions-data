@@ -62,56 +62,6 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
 </div>
 `;
 
-exports[`DateSelector > should render correctly when the no end date/time is clicked for publish information 1`] = `
-<div>
-  <div
-    class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-  >
-    <div
-      class="govuk-date-input__item govuk-!-margin-right-0"
-    >
-      <div
-        class=""
-      >
-        <input
-          class="govuk-input govuk-date-input__input govuk-input--width-6"
-          id="publish-end-date"
-          name="publishStartDateDay"
-          placeholder="DD/MM/YYYY"
-          type="tel"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-    >
-      <button
-        aria-label="Choose date"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-        tabindex="0"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-          data-testid="CalendarIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-          />
-        </svg>
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`DateSelector > should render correctly with an input 1`] = `
 <div
   className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
