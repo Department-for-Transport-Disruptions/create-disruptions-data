@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Checkbox > should render correctly when default checked 1`] = `
+<fieldset
+  className="govuk-fieldset"
+  role="group"
+>
+  <div
+    className="govuk-checkboxes flex govuk-checkboxes--small"
+    data-module="govuk-checkboxes"
+  >
+    <div
+      className="govuk-checkboxes__item"
+    >
+      <input
+        className="govuk-checkboxes__input"
+        defaultChecked={true}
+        id="disruption-no-end-date-time"
+        name="disruptionHasNoEndDateTime"
+        onClick={[Function]}
+        type="checkbox"
+        value="checked"
+      />
+      <label
+        className="govuk-label govuk-checkboxes__label"
+        htmlFor="disruption-no-end-date-time"
+      >
+        No end date/time
+      </label>
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`Checkbox > should render correctly when not default checked 1`] = `
+<fieldset
+  className="govuk-fieldset"
+  role="group"
+>
+  <div
+    className="govuk-checkboxes flex govuk-checkboxes--small"
+    data-module="govuk-checkboxes"
+  >
+    <div
+      className="govuk-checkboxes__item"
+    >
+      <input
+        className="govuk-checkboxes__input"
+        defaultChecked={false}
+        id="disruption-no-end-date-time"
+        name="disruptionHasNoEndDateTime"
+        onClick={[Function]}
+        type="checkbox"
+        value="checked"
+      />
+      <label
+        className="govuk-label govuk-checkboxes__label"
+        htmlFor="disruption-no-end-date-time"
+      >
+        No end date/time
+      </label>
+    </div>
+  </div>
+</fieldset>
+`;

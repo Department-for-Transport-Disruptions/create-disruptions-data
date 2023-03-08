@@ -1,0 +1,179 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimeSelector > should render correctly when disabled 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <fieldset
+    aria-describedby="publish-start-time-hint"
+    className="govuk-fieldset mb-7.5"
+    role="group"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <h3
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        What is the start time?
+      </h3>
+    </legend>
+    <div
+      className="govuk-hint"
+      id="publish-start-time-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        disabled={true}
+        id="publish-start-time-input"
+        name="publishStartTime"
+        onBlur={[Function]}
+        placeholder="N/A"
+        type="text"
+      />
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with errors 1`] = `
+<div
+  className="govuk-form-group govuk-form-group--error"
+>
+  <fieldset
+    aria-describedby="publish-start-time-hint"
+    className="govuk-fieldset mb-7.5"
+    role="group"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <h3
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        What is the start time?
+      </h3>
+    </legend>
+    <div
+      className="govuk-hint"
+      id="publish-start-time-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <span
+        className="govuk-error-message"
+        id="publish-start-time-input-error"
+      >
+        <span
+          className="govuk-visually-hidden"
+        >
+          Error: 
+        </span>
+        Enter a time in hhmm format
+      </span>
+      <input
+        aria-describedby="publish-start-time-input-error"
+        className="govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error"
+        defaultValue=""
+        disabled={false}
+        id="publish-start-time-input"
+        name="publishStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with inputs 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <fieldset
+    aria-describedby="publish-start-time-hint"
+    className="govuk-fieldset mb-7.5"
+    role="group"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <h3
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        What is the start time?
+      </h3>
+    </legend>
+    <div
+      className="govuk-hint"
+      id="publish-start-time-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        defaultValue="0900"
+        disabled={false}
+        id="publish-start-time-input"
+        name="publishStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with no inputs 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <fieldset
+    aria-describedby="publish-start-time-hint"
+    className="govuk-fieldset mb-7.5"
+    role="group"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <h3
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        What is the start time?
+      </h3>
+    </legend>
+    <div
+      className="govuk-hint"
+      id="publish-start-time-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        disabled={false}
+        id="publish-start-time-input"
+        name="publishStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </fieldset>
+</div>
+`;

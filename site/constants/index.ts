@@ -11,22 +11,37 @@ export const SUPPORT_PHONE_NUMBER = "0800 123 1234";
 
 export const DISRUPTION_REASONS: {
     value: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    reason: string;
+    display: string;
 }[] = [
     {
         value: MiscellaneousReason.roadWorks,
-        reason: "Road Works",
+        display: "Road Works",
     },
     {
         value: MiscellaneousReason.vandalism,
-        reason: "Vandalism",
+        display: "Vandalism",
     },
     {
         value: MiscellaneousReason.routeDiversion,
-        reason: "Route Diversion",
+        display: "Route Diversion",
     },
     {
         value: MiscellaneousReason.specialEvent,
-        reason: "Special Event",
+        display: "Special Event",
+    },
+];
+
+export const ERROR_MESSAGES = [
+    {
+        message: "Enter a summary for this disruption",
+        input: "summary",
+    },
+    {
+        message: "Enter a description for this disruption (200 characters maximum)",
+        input: "description",
+    },
+    {
+        message: "Select a reason from the dropdown",
+        input: "disruption-reason",
     },
 ];

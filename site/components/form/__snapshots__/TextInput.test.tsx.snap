@@ -1,0 +1,103 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TextInput > should render correctly as a text area with rows 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="description"
+    >
+      Description
+    </label>
+    <div
+      className=""
+    >
+      <textarea
+        className="govuk-textarea w-3/4"
+        defaultValue=""
+        id="description"
+        maxLength={50}
+        name="description"
+        onBlur={[Function]}
+        rows={3}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TextInput > should render correctly with errors 1`] = `
+<div
+  className="govuk-form-group govuk-form-group--error"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="summary"
+    >
+      Summary
+    </label>
+    <div
+      className=""
+    >
+      <span
+        className="govuk-error-message"
+        id="summary-error"
+      >
+        <span
+          className="govuk-visually-hidden"
+        >
+          Error: 
+        </span>
+        There was an error
+      </span>
+      <input
+        aria-describedby="summary-error"
+        className="govuk-input w-3/4 govuk-input--error"
+        defaultValue=""
+        id="summary"
+        maxLength={50}
+        name="summary"
+        onBlur={[Function]}
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TextInput > should render correctly with no errors 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="summary"
+    >
+      Summary
+    </label>
+    <div
+      className=""
+    >
+      <input
+        className="govuk-input w-3/4"
+        defaultValue=""
+        id="summary"
+        maxLength={50}
+        name="summary"
+        onBlur={[Function]}
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;

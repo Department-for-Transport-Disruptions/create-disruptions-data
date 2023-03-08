@@ -11,6 +11,13 @@ export interface ErrorInfo {
     userInput?: string;
 }
 
+export interface InputInfo {
+    id: string;
+    name: string;
+    display: string;
+    value?: string;
+}
+
 export interface DisruptionInfo {
     typeOfDisruption?: "planned" | "unplanned";
     summary: string;

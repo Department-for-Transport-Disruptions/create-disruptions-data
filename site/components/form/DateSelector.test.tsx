@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import TimeSelector from "./TimeSelector";
-import { PageState } from "../pages/create-disruption";
+import DateSelector from "./DateSelector";
+import { PageState } from "../../pages/create-disruption";
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 
@@ -24,32 +24,18 @@ const blankInputs: PageState = {
     },
 };
 
-describe("TimeSelector", () => {
-    it("should render correctly with no inputs", () => {
+describe("DateSelector", () => {
+    it("should render correctly with no input", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    input={undefined}
+                <DateSelector
+                    header="What is the end date?"
+                    hiddenHint="Enter in format DD/MM/YYYY"
+                    input={null}
                     disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
-    });
-
-    it("should render correctly with inputs", () => {
-        const tree = renderer
-            .create(
-                <TimeSelector
-                    input={"0900"}
-                    disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
+                    disablePast={false}
+                    inputId={"publish-end-date"}
+                    inputName={"publishStartDateDay"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -62,15 +48,35 @@ describe("TimeSelector", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    input={""}
+                <DateSelector
+                    header="What is the end date?"
+                    hiddenHint="Enter in format DD/MM/YYYY"
+                    input={null}
                     disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={{
-                        ...blankInputs,
-                        errors: [{ id: "publish-start-time-input", errorMessage: "Enter a time in hhmm format" }],
-                    }}
+                    disablePast={false}
+                    inputId={"publish-end-date"}
+                    inputName={"publishStartDateDay"}
+                    pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
+                    updatePageState={() => {}}
+                    updaterFunction={() => {}}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly with an input", () => {
+        const tree = renderer
+            .create(
+                <DateSelector
+                    header="What is the end date?"
+                    hiddenHint="Enter in format DD/MM/YYYY"
+                    input={new Date("01/01/2023")}
+                    disabled={false}
+                    disablePast={false}
+                    inputId={"publish-end-date"}
+                    inputName={"publishStartDateDay"}
+                    pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
                 />,
@@ -82,11 +88,14 @@ describe("TimeSelector", () => {
     it("should render correctly when disabled", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    input={undefined}
+                <DateSelector
+                    header="What is the end date?"
+                    hiddenHint="Enter in format DD/MM/YYYY"
+                    input={null}
+                    disablePast={false}
+                    inputId={"publish-end-date"}
+                    inputName={"publishStartDateDay"}
                     disabled
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}

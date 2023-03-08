@@ -1,0 +1,123 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Select > should render correctly with errors 1`] = `
+<div
+  className="govuk-form-group govuk-form-group--error"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="disruption-reason"
+    >
+      Reason for disruption
+    </label>
+    <div
+      className=""
+    >
+      <span
+        className="govuk-error-message"
+        id="disruption-reason-error"
+      >
+        <span
+          className="govuk-visually-hidden"
+        >
+          Error: 
+        </span>
+        There was an error
+      </span>
+      <select
+        aria-describedby="disruption-reason-error"
+        className="govuk-select w-3/4 govuk-select--error"
+        defaultValue=""
+        id="disruption-reason"
+        name="disruptionReason"
+        onBlur={[Function]}
+      >
+        <option
+          disabled={true}
+          value=""
+        >
+          Choose a reason
+        </option>
+        <option
+          value="roadWorks"
+        >
+          Road Works
+        </option>
+        <option
+          value="vandalism"
+        >
+          Vandalism
+        </option>
+        <option
+          value="routeDiversion"
+        >
+          Route Diversion
+        </option>
+        <option
+          value="specialEvent"
+        >
+          Special Event
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Select > should render correctly with no errors 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="disruption-reason"
+    >
+      Reason for disruption
+    </label>
+    <div
+      className=""
+    >
+      <select
+        className="govuk-select w-3/4"
+        defaultValue=""
+        id="disruption-reason"
+        name="disruptionReason"
+        onBlur={[Function]}
+      >
+        <option
+          disabled={true}
+          value=""
+        >
+          Choose a reason
+        </option>
+        <option
+          value="roadWorks"
+        >
+          Road Works
+        </option>
+        <option
+          value="vandalism"
+        >
+          Vandalism
+        </option>
+        <option
+          value="routeDiversion"
+        >
+          Route Diversion
+        </option>
+        <option
+          value="specialEvent"
+        >
+          Special Event
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;

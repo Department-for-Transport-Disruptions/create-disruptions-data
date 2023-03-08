@@ -5,11 +5,13 @@ import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
-import FormElementWrapper from "./FormElementWrapper";
-import { ErrorInfo } from "../interfaces";
-import { PageInputs, PageState } from "../pages/create-disruption";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
+import { ErrorInfo } from "../../interfaces";
+import { PageInputs, PageState } from "../../pages/create-disruption";
 
 interface DateSelectorProps {
+    header: string;
+    hiddenHint?: string;
     input: Date | null;
     errors?: ErrorInfo[];
     disabled: boolean;
@@ -96,38 +98,48 @@ const DateSelector = ({
     inputName,
     disablePast,
     pageState,
+    header,
+    hiddenHint,
     updatePageState,
     updaterFunction,
 }: DateSelectorProps): ReactElement => {
     const [value, setValue] = useState(!!disabled ? null : input);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-                renderDay={renderWeekPickerDay}
-                value={value}
-                onChange={(newValue) => {
-                    updaterFunction(pageState, updatePageState, inputId, newValue);
-                    setValue(newValue);
-                }}
-                renderInput={({ inputRef, inputProps, InputProps }) => {
-                    return inputBox(
-                        inputRef,
-                        inputProps,
-                        InputProps,
-                        disabled,
-                        inputId,
-                        inputName,
-                        pageState,
-                        updatePageState,
-                        updaterFunction,
-                    );
-                }}
-                disablePast={disablePast}
-                inputFormat="DD/MM/YYYY"
-                disabled={disabled}
-            />
-        </LocalizationProvider>
+        <FormGroupWrapper errorIds={[inputId]} errors={pageState.errors}>
+            <div className="govuk-form-group govuk-!-margin-bottom-0">
+                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                    {header}
+                </label>
+                {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        renderDay={renderWeekPickerDay}
+                        value={value}
+                        onChange={(newValue) => {
+                            updaterFunction(pageState, updatePageState, inputId, newValue);
+                            setValue(newValue);
+                        }}
+                        renderInput={({ inputRef, inputProps, InputProps }) => {
+                            return inputBox(
+                                inputRef,
+                                inputProps,
+                                InputProps,
+                                disabled,
+                                inputId,
+                                inputName,
+                                pageState,
+                                updatePageState,
+                                updaterFunction,
+                            );
+                        }}
+                        disablePast={disablePast}
+                        inputFormat="DD/MM/YYYY"
+                        disabled={disabled}
+                    />
+                </LocalizationProvider>
+            </div>
+        </FormGroupWrapper>
     );
 };
 
