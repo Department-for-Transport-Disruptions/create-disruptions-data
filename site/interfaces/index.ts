@@ -6,7 +6,6 @@ import {
     EquipmentReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import { NextApiRequest } from "next";
-import { Mock } from "vitest";
 import { ServerResponse } from "http";
 
 export interface ErrorInfo {
@@ -48,4 +47,3 @@ export interface CookiesApiRequest extends NextApiRequest {
         tracking: "on" | "off";
     };
 }
-
