@@ -11,8 +11,6 @@ import FormElementWrapper, { FormGroupWrapper } from "../components/FormElementW
 import { BaseLayout } from "../components/layout/Layout";
 import TimeSelector from "../components/TimeSelector";
 import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { deleteCookie, getCookie } from "cookies-next";
-import { CookieValueTypes, OptionsType } from "cookies-next/lib/types";
 import { NextPageContext } from "next";
 import { parseCookies, destroyCookie } from "nookies";
 
@@ -593,30 +591,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         },
     };
 
-    //console.log(ctx);
-
-    // setCookie("disruption2", "test");
-
-    const options: OptionsType | undefined = {
-        req: ctx.req,
-        res: ctx.res,
-        path: "/create-disruption",
-    };
-
     const cookies = parseCookies(ctx);
-
-    // //const disruptionInfo: CookieValueTypes = getCookie("disruptionInfo", options);
-
-    // if (disruptionInfo) {
-    //     deleteCookie("disruptionInfo", options);
-    //     pageState.inputs = JSON.parse(disruptionInfo.toString()) as PageInputs;
-    // }
-
-    // const errorInfo: CookieValueTypes = getCookie("disruptionErrors", options);
-    // if (errorInfo) {
-    //     deleteCookie("disruptionErrors", options);
-    //     pageState.errors = JSON.parse(errorInfo.toString()) as ErrorInfo[];
-    // }
 
     const disruptionInfo = cookies[COOKIES_DISRUPTION_INFO];
 
@@ -632,7 +607,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         destroyCookie(ctx, COOKIES_DISRUPTION_ERRORS);
     }
 
-    console.log("pageState", pageState);
     return {
         props: { inputs: pageState },
     };

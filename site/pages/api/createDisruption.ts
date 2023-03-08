@@ -115,8 +115,6 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         false,
     );
 
-    console.log("errors----", errors);
-
     if (errors.length == 0) {
         redirectTo(res, "/");
     } else {
@@ -127,7 +125,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
             TEN_SECONDS_IN_MILLISECONDS,
             false,
         );
-        redirectTo(res, `/create-disruption`);
+        redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
     }
 };
 

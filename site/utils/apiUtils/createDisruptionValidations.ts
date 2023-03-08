@@ -9,6 +9,9 @@ import {
     PersonnelReason,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export const checkReferrer = (
     referrerHeader: string | undefined,
@@ -179,13 +182,9 @@ export const validateDateTime = (
     }
 
     if (date && timeCheck) {
-        const jsDate = dayjs(date, CD_DATE_FORMAT, true);
+        const jsDate = dayjs(date, CD_DATE_FORMAT, "en-gb", true);
         const isValidTime = validateTime(time, dateType, errors, errorId);
 
-        console.log("CD_DATE_FORMAT---", CD_DATE_FORMAT);
-        console.log("date---", date);
-        console.log("jsDate---", jsDate);
-        console.log("jsDate.isValid()---", jsDate.isValid());
         if (!jsDate.isValid()) {
             errors.push({
                 id: errorId,
