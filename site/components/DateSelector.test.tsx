@@ -1,5 +1,6 @@
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import DateSelector from "./DateSelector";
 import { PageState } from "../pages/create-disruption";
 
@@ -99,4 +100,25 @@ describe("DateSelector", () => {
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
+
+    it("should render correctly when the no end date/time is clicked for publications", () => {
+        const { container } = render(
+            <DateSelector
+                input={new Date("01/01/2023")}
+                disabled={false}
+                disablePast={false}
+                inputId={"publish-end-date"}
+                inputName={"publishStartDateDay"}
+                pageState={blankInputs}
+                updatePageState={() => {}}
+                updaterFunction={() => {}}
+            />,
+        );
+        const element = container.querySelector("#publish-no-end-date-time");
+        if (element) {
+            fireEvent.click(element);
+        }
+        expect(container).toMatchSnapshot();
+    });
+    afterEach(cleanup);
 });
