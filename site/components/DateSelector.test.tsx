@@ -101,7 +101,7 @@ describe("DateSelector", () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it("should render correctly when the no end date/time is clicked for publications", () => {
+    it("should render correctly when the no end date/time is clicked for publish information", () => {
         const { container } = render(
             <DateSelector
                 input={new Date("01/01/2023")}

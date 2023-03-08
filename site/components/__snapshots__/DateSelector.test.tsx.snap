@@ -62,7 +62,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
 </div>
 `;
 
-exports[`DateSelector > should render correctly when the no end date/time is clicked for publications 1`] = `
+exports[`DateSelector > should render correctly when the no end date/time is clicked for publish information 1`] = `
 <div>
   <div
     class="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
