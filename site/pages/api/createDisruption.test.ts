@@ -44,10 +44,16 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
             publishIsNoEndDateTime: "publishNoEndDateTime",
@@ -154,10 +160,16 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
             "disruption-start-time": "1000",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-end-time": "1000",
             disruptionIsNoEndDateTime: "disruptionNoEndDateTime",
@@ -213,11 +225,19 @@ describe("createDisruption", () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-reason": "Incorrect Value",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
             publishIsNoEndDateTime: "publishNoEndDateTime",
@@ -270,10 +290,16 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "http://test<>/",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
             publishIsNoEndDateTime: "publishNoEndDateTime",
@@ -326,10 +352,16 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate.toString(),
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
             publishIsNoEndDateTime: "publishNoEndDateTime",
@@ -387,11 +419,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
@@ -450,11 +490,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
@@ -510,11 +558,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
@@ -570,11 +626,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "",
             "disruption-end-time": "",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
@@ -633,11 +697,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "",
             "publish-end-time": "",
@@ -696,11 +768,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "hhmm",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
@@ -756,11 +836,19 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "10",
             "disruption-end-time": "1100",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-start-date": publishStartDate,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
