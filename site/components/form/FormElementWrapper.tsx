@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { ErrorInfo } from "../interfaces";
+import { ErrorInfo } from "../../interfaces";
 
 interface FormElementWrapperProps {
     errors: ErrorInfo[];

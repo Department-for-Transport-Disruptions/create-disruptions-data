@@ -71,7 +71,6 @@ export const validateDisruptionType = (
 export const requireFieldCheck = (field: string | undefined): boolean => {
     let checkPassed = false;
     if (field) {
-        //errors.push(error);
         checkPassed = true;
     }
 
@@ -120,9 +119,7 @@ export const validateDescription = (description: string, errors: ErrorInfo[], er
 
 export const validateAssociatedLink = (associatedLink: string, errors: ErrorInfo[], errorId: string) => {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const url = new URL(associatedLink);
+        new URL(associatedLink);
     } catch (_) {
         errors.push({
             id: errorId,

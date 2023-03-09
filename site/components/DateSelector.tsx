@@ -5,7 +5,7 @@ import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
-import FormElementWrapper from "./FormElementWrapper";
+import FormElementWrapper from "./form/FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
 import { PageInputs, PageState } from "../pages/create-disruption";
 

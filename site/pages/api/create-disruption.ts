@@ -65,9 +65,9 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     validateDateTimeSection(
         disruptionStartDate,
-        disruptionStartTime || "",
+        disruptionStartTime,
         disruptionEndDate,
-        disruptionEndTime || "",
+        disruptionEndTime,
         disruptionIsNoEndDateTime,
         errors,
         "some-error-id",
@@ -80,9 +80,9 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     validateDateTimeSection(
         publishStartDate,
-        publishStartTime || "",
+        publishStartTime,
         publishEndDate,
-        publishEndTime || "",
+        publishEndTime,
         publishIsNoEndDateTime,
         errors,
         "some-error-id",

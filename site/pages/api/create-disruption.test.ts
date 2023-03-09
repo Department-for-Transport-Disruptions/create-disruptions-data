@@ -4,6 +4,7 @@ import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriType
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
+import createDisruption from "./create-disruption";
 import {
     COOKIES_DISRUPTION_ERRORS,
     COOKIES_DISRUPTION_INFO,
@@ -11,10 +12,9 @@ import {
     CD_DATE_FORMAT,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
-import { PageInputs } from "../../pages/create-disruption";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
-import createDisruption from "../api/createDisruption";
+import { PageInputs } from "../create-disruption";
 
 dayjs.extend(customParseFormat);
 

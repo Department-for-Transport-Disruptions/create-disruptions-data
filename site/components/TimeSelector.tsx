@@ -1,5 +1,5 @@
 import { Dispatch, ReactElement, SetStateAction } from "react";
-import FormElementWrapper from "./FormElementWrapper";
+import FormElementWrapper from "./form/FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
 import { PageInputs, PageState } from "../pages/create-disruption";
 

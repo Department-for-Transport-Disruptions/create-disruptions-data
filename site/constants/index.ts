@@ -48,6 +48,12 @@ export const COOKIES_DISRUPTION_INFO = "disruption-info";
 
 export const COOKIES_DISRUPTION_ERRORS = "disruption-errors";
 
+export const COOKIES_ADD_CONSEQUENCE_INFO = "add-consequence-info";
+
+export const COOKIES_ADD_CONSEQUENCE_ERRORS = "add-consequence-errors";
+
 export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 
 export const ERROR_PATH = "/_error";
+
+export const ADD_CONEQUENCE_PAGE_PATH = "/add-consequence";

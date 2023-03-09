@@ -24,3 +24,20 @@ export interface CookiesApiRequest extends NextApiRequest {
         tracking: "on" | "off";
     };
 }
+
+export interface RadioOption {
+    value: string;
+    label: string;
+}
+
+export interface RadioButtonsProps {
+    options: RadioOption[];
+    inputName: string;
+}
+
+export interface InputInfo {
+    id: string;
+    name: string;
+    display: string;
+    value?: string;
+}
