@@ -25,6 +25,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -1099,6 +1102,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>

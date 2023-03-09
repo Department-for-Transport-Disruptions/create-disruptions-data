@@ -70,3 +70,8 @@ export interface DisplayValuePair {
     value: string;
     checked?: boolean;
 }
+
+export interface Feedback {
+    question: string;
+    answer: string;
+}
