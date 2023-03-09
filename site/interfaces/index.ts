@@ -1,5 +1,6 @@
 import { NextApiRequest } from "next";
 import { ServerResponse } from "http";
+import { AddConsequenceProps } from "../pages/add-consequence";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -23,6 +24,10 @@ export interface CookiesApiRequest extends NextApiRequest {
     body: {
         tracking: "on" | "off";
     };
+}
+
+export interface NextApiRequestWithConsequences extends NextApiRequest {
+    body: AddConsequenceProps;
 }
 
 export interface RadioOption {

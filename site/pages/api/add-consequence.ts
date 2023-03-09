@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_ADD_CONSEQUENCE_INFO, COOKIES_ADD_CONSEQUENCE_ERRORS } from "../../constants/index";
-import { ErrorInfo } from "../../interfaces";
+import { ErrorInfo, NextApiRequestWithConsequences } from "../../interfaces";
 import { redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { AddConsequenceProps, ConsequenceType, TransportMode } from "../add-consequence";
 
-const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
+const addConsequence = (req: NextApiRequestWithConsequences, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
 
-    const formFields: AddConsequenceProps = req.body as AddConsequenceProps;
+    const formFields: AddConsequenceProps = req.body;
 
     const tenSeconds = 10000;
 
