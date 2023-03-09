@@ -3,6 +3,7 @@ import {
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
+    Severity,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
@@ -31,22 +32,25 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export const DISRUPTION_SEVERITIES = [
-    { value: "unknown", severity: "Unknown" },
-    { value: "verySlight", severity: "Very Slight" },
+export const DISRUPTION_SEVERITIES: {
+    value: Severity;
+    severity: string;
+}[] = [
+    { value: Severity.unknown, severity: "Unknown" },
+    { value: Severity.verySlight, severity: "Very Slight" },
     {
-        value: "slight",
+        value: Severity.slight,
         severity: "Slight",
     },
     {
-        value: "normal",
+        value: Severity.normal,
         severity: "Normal",
     },
     {
-        value: "severe",
+        value: Severity.severe,
         severity: "Severe",
     },
-    { value: "verySevere", severity: "Very Severe" },
+    { value: Severity.verySevere, severity: "Very Severe" },
 ];
 
 export const OPERATORS = [

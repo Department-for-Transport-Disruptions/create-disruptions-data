@@ -292,3 +292,12 @@ export type ServiceDelivery = {
     ResponseMessageIdentifier: string;
     SituationExchangeDelivery: SituationExchangeDelivery;
 };
+
+export enum Severity {
+    unknown = "unknown",
+    verySlight = "verySlight",
+    slight = "slight",
+    normal = "normal",
+    severe = "severe",
+    verySevere = "verySevere",
+}
