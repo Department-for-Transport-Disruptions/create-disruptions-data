@@ -1,10 +1,10 @@
-import TwoThirdsLayout from "components/layout/Layout";
-import { InputInfo, ErrorInfo } from "interfaces";
+import { NextPageContext } from "next";
+import { destroyCookie, parseCookies } from "nookies";
 import { ReactElement } from "react";
 import Radios from "../components/form/Radios";
+import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_ADD_CONSEQUENCE_ERRORS, COOKIES_ADD_CONSEQUENCE_INFO } from "../constants/index";
-import { destroyCookie, parseCookies } from "nookies";
-import { NextPageContext } from "next";
+import { InputInfo, ErrorInfo } from "../interfaces/index";
 
 interface AddConsequenceWithErrors {
     errors: ErrorInfo[];
@@ -87,7 +87,7 @@ const consequenceType: InputInfo[] = [
     },
 ];
 
-const addConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
+const addConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <form action="/api/add-consequence" method="post">
