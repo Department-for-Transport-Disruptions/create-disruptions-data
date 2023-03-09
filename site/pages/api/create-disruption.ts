@@ -27,6 +27,8 @@ import {
 import { redirectTo } from "../../utils/index";
 import { PageInputs } from "../create-disruption";
 
+export type DisruptionType = "planned" | "unplanned";
+
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
 
@@ -34,7 +36,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     const formFields: PageInputs = req.body as PageInputs;
 
-    const disruptionType: "planned" | "unplanned" | undefined = formFields.typeOfDisruption;
+    const disruptionType: DisruptionType | undefined = formFields.typeOfDisruption;
 
     validateDisruptionType(disruptionType, errors, "some-error-id");
 
@@ -65,9 +67,9 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     validateDateTimeSection(
         disruptionStartDate,
-        disruptionStartTime || "",
+        disruptionStartTime,
         disruptionEndDate,
-        disruptionEndTime || "",
+        disruptionEndTime,
         disruptionIsNoEndDateTime,
         errors,
         "some-error-id",
@@ -80,9 +82,9 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     validateDateTimeSection(
         publishStartDate,
-        publishStartTime || "",
+        publishStartTime,
         publishEndDate,
-        publishEndTime || "",
+        publishEndTime,
         publishIsNoEndDateTime,
         errors,
         "some-error-id",
@@ -117,6 +119,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     if (errors.length == 0) {
         redirectTo(res, "/");
+        return;
     } else {
         setCookieOnResponseObject(
             COOKIES_DISRUPTION_ERRORS,
@@ -126,6 +129,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
             false,
         );
         redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
+        return;
     }
 };
 

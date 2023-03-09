@@ -9,6 +9,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { NextApiResponse } from "next";
 import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
+import { DisruptionType } from "../../pages/api/create-disruption";
 import { redirectTo } from "../index";
 
 dayjs.extend(customParseFormat);
@@ -27,7 +28,7 @@ export const checkReferrer = (
 export const validateSummary = (summary: string, errors: ErrorInfo[], errorId: string) => {
     const summaryRequiredErr: ErrorInfo = {
         id: errorId,
-        errorMessage: "Please enter a Summary",
+        errorMessage: "Enter a summary for this disruption",
     };
 
     if (!requireFieldCheck(summary)) {
@@ -35,7 +36,7 @@ export const validateSummary = (summary: string, errors: ErrorInfo[], errorId: s
     } else {
         const lengthErr: ErrorInfo = {
             id: errorId,
-            errorMessage: "Please enter a Summary of less than 100 characters",
+            errorMessage: "Enter a Summary of less than 100 characters",
         };
 
         if (!validateLength(summary, 100)) {
@@ -45,21 +46,21 @@ export const validateSummary = (summary: string, errors: ErrorInfo[], errorId: s
 };
 
 export const validateDisruptionType = (
-    disruptionType: "planned" | "unplanned" | undefined,
+    disruptionType: DisruptionType | undefined,
     errors: ErrorInfo[],
     errorId: string,
 ) => {
-    const distruptionTypeRequiredErr: ErrorInfo = {
+    const disruptionTypeRequiredErr: ErrorInfo = {
         id: errorId,
-        errorMessage: "Please choose a Type of Disruption",
+        errorMessage: "Choose a Type of Disruption",
     };
 
     if (!requireFieldCheck(disruptionType)) {
-        errors.push(distruptionTypeRequiredErr);
+        errors.push(disruptionTypeRequiredErr);
     } else {
         const invalidTypeErr: ErrorInfo = {
             id: errorId,
-            errorMessage: "Invalid Disruption Type Selected. Please choose a valid Type of Disruption",
+            errorMessage: "Invalid Disruption Type Selected. Choose a valid Type of Disruption",
         };
 
         if (!validateDisruptionTypeValue(disruptionType, DISRUPTION_TYPES)) {
@@ -68,22 +69,18 @@ export const validateDisruptionType = (
     }
 };
 
-export const requireFieldCheck = (field: string | undefined): boolean => {
+export const requireFieldCheck = (field: unknown | undefined): boolean => {
     let checkPassed = false;
     if (field) {
-        //errors.push(error);
         checkPassed = true;
     }
 
     return checkPassed;
 };
 
-export const validateDisruptionTypeValue = (
-    value: "planned" | "unplanned" | undefined,
-    validArray: string[],
-): boolean => {
+export const validateDisruptionTypeValue = (value: DisruptionType | undefined, validArray: string[]): boolean => {
     let isValid = false;
-    if (value && validArray.includes(value)) {
+    if (value && validArray.includes(value as string)) {
         isValid = true;
     }
 
@@ -102,7 +99,7 @@ export const validateLength = (field: string, length: number): boolean => {
 export const validateDescription = (description: string, errors: ErrorInfo[], errorId: string) => {
     const descriptionRequiredErr: ErrorInfo = {
         id: errorId,
-        errorMessage: "Please enter a Description",
+        errorMessage: "Enter a description for this disruption (200 characters maximum)",
     };
 
     if (!requireFieldCheck(description)) {
@@ -110,7 +107,7 @@ export const validateDescription = (description: string, errors: ErrorInfo[], er
     } else {
         const error: ErrorInfo = {
             id: errorId,
-            errorMessage: "Please enter a Description of less than 200 characters",
+            errorMessage: "Enter a Description of less than 200 characters",
         };
         if (!validateLength(description, 200)) {
             errors.push(error);
@@ -120,13 +117,11 @@ export const validateDescription = (description: string, errors: ErrorInfo[], er
 
 export const validateAssociatedLink = (associatedLink: string, errors: ErrorInfo[], errorId: string) => {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const url = new URL(associatedLink);
+        new URL(associatedLink);
     } catch (_) {
         errors.push({
             id: errorId,
-            errorMessage: "The URL is malformed. Please enter a valid URL",
+            errorMessage: "The URL is malformed. Enter a valid URL",
         });
     }
 };
@@ -138,7 +133,7 @@ export const validateDisruptionReasons = (
 ) => {
     let error: ErrorInfo = {
         id: errorId,
-        errorMessage: "Please choose a Reason from the dropdown",
+        errorMessage: "Select a reason from the dropdown",
     };
     if (!requireFieldCheck(disruptionReason)) {
         errors.push(error);
@@ -149,10 +144,10 @@ export const validateDisruptionReasons = (
         };
 
         if (
-            Object.values(MiscellaneousReason).filter((value: string) => value === disruptionReason).length == 0 &&
-            Object.values(EnvironmentReason).filter((value: string) => value === disruptionReason).length == 0 &&
-            Object.values(PersonnelReason).filter((value: string) => value === disruptionReason).length == 0 &&
-            Object.values(EquipmentReason).filter((value: string) => value === disruptionReason).length == 0
+            Object.values(MiscellaneousReason).filter((value: string) => value === disruptionReason).length === 0 &&
+            Object.values(EnvironmentReason).filter((value: string) => value === disruptionReason).length === 0 &&
+            Object.values(PersonnelReason).filter((value: string) => value === disruptionReason).length === 0 &&
+            Object.values(EquipmentReason).filter((value: string) => value === disruptionReason).length === 0
         ) {
             errors.push(error);
         }
@@ -172,14 +167,14 @@ export const validateDateTime = (
     if (!date) {
         errors.push({
             id: errorId,
-            errorMessage: `No ${dateType} date selected. Please select a valid ${dateType} date`,
+            errorMessage: `No ${dateType} date selected. Select a valid ${dateType} date`,
         });
     }
 
     if (!timeCheck) {
         errors.push({
             id: errorId,
-            errorMessage: `No ${dateType} time entered. Please select a valid ${dateType} time`,
+            errorMessage: `No ${dateType} time entered. Select a valid ${dateType} time`,
         });
     }
 
@@ -190,7 +185,7 @@ export const validateDateTime = (
         if (!jsDate.isValid()) {
             errors.push({
                 id: errorId,
-                errorMessage: `Invalid ${dateType} Date value submitted. Please select a valid ${dateType} date`,
+                errorMessage: `Invalid ${dateType} Date value submitted. Select a valid ${dateType} date`,
             });
         } else {
             // Validate that the start time input is valid and of time format
@@ -213,34 +208,13 @@ export const validateDateTime = (
 export const validateTime = (time: string, dateType: string, errors: ErrorInfo[], errorId: string): boolean => {
     let isValid = false;
 
-    if (time.length != 4) {
+    if (time.length != 4 || isNaN(+time) || !(+time.slice(0, 2) < 24) || !(+time.slice(2, 4) < 60)) {
         errors.push({
             id: errorId,
-            errorMessage: `Value for ${dateType} time is of invalid format. Please enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm`,
-        });
-    } else if (isNaN(+time)) {
-        errors.push({
-            id: errorId,
-            errorMessage: `Value for ${dateType} time is not a Number. Please enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm`,
+            errorMessage: `Value for ${dateType} time is of invalid format. Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm`,
         });
     } else {
         isValid = true;
-        if (!(+time.slice(0, 2) < 24)) {
-            errors.push({
-                id: errorId,
-                errorMessage: `Invalid hour value entered in ${dateType} time. The hour value should be between 0-23`,
-            });
-            isValid = false;
-        }
-
-        if (!(+time.slice(2, 4) < 60)) {
-            errors.push({
-                id: errorId,
-                errorMessage: `Invalid minutes value entered in ${dateType} time. The minutes values should be between 0-59`,
-            });
-
-            isValid = false;
-        }
     }
 
     return isValid;
@@ -270,8 +244,7 @@ export const validateDateTimeSection = (
         if (isValid && jsEndDateTime.isBefore(jsStartDateTime)) {
             errors.push({
                 id: errorId,
-                errorMessage:
-                    "End Date and time cannot be before the  Start Date and time. Please update End Date and time",
+                errorMessage: "End Date and time cannot be before the  Start Date and time. Update End Date and time",
             });
         }
     }

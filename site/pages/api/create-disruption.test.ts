@@ -4,6 +4,7 @@ import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriType
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
+import createDisruption from "./create-disruption";
 import {
     COOKIES_DISRUPTION_ERRORS,
     COOKIES_DISRUPTION_INFO,
@@ -11,10 +12,9 @@ import {
     CD_DATE_FORMAT,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
-import { PageInputs } from "../../pages/create-disruption";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
-import createDisruption from "../api/createDisruption";
+import { PageInputs } from "../create-disruption";
 
 dayjs.extend(customParseFormat);
 
@@ -86,45 +86,45 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage: "Please choose a Type of Disruption",
+                errorMessage: "Choose a Type of Disruption",
             },
-            { id: "some-error-id", errorMessage: "Please enter a Summary" },
-            { id: "some-error-id", errorMessage: "Please enter a Description" },
+            { id: "some-error-id", errorMessage: "Enter a Summary" },
+            { id: "some-error-id", errorMessage: "Enter a Description" },
             {
                 id: "some-error-id",
-                errorMessage: "Please choose a Reason from the dropdown",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No Start date selected. Please select a valid Start date",
+                errorMessage: "Choose a Reason from the dropdown",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No Start time entered. Please select a valid Start time",
+                errorMessage: "No Start date selected. Select a valid Start date",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End date selected. Please select a valid End date",
+                errorMessage: "No Start time entered. Select a valid Start time",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End time entered. Please select a valid End time",
+                errorMessage: "No End date selected. Select a valid End date",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No Start date selected. Please select a valid Start date",
+                errorMessage: "No End time entered. Select a valid End time",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No Start time entered. Please select a valid Start time",
+                errorMessage: "No Start date selected. Select a valid Start date",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End date selected. Please select a valid End date",
+                errorMessage: "No Start time entered. Select a valid Start time",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End time entered. Please select a valid End time",
+                errorMessage: "No End date selected. Select a valid End date",
+            },
+            {
+                id: "some-error-id",
+                errorMessage: "No End time entered. Select a valid End time",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -187,11 +187,11 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage: "Please enter a Summary of less than 100 characters",
+                errorMessage: "Enter a Summary of less than 100 characters",
             },
             {
                 id: "some-error-id",
-                errorMessage: "Please enter a Description of less than 200 characters",
+                errorMessage: "Enter a Description of less than 200 characters",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -317,7 +317,7 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage: "The URL is malformed. Please enter a valid URL",
+                errorMessage: "The URL is malformed. Enter a valid URL",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -521,8 +521,7 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage:
-                    "End Date and time cannot be before the  Start Date and time. Please update End Date and time",
+                errorMessage: "End Date and time cannot be before the  Start Date and time. Update End Date and time",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -589,8 +588,7 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage:
-                    "End Date and time cannot be before the  Start Date and time. Please update End Date and time",
+                errorMessage: "End Date and time cannot be before the  Start Date and time. Update End Date and time",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -657,11 +655,11 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage: "No Start time entered. Please select a valid Start time",
+                errorMessage: "No Start time entered. Select a valid Start time",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End time entered. Please select a valid End time",
+                errorMessage: "No End time entered. Select a valid End time",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -728,11 +726,11 @@ describe("createDisruption", () => {
         const errors: ErrorInfo[] = [
             {
                 id: "some-error-id",
-                errorMessage: "No Start time entered. Please select a valid Start time",
+                errorMessage: "No Start time entered. Select a valid Start time",
             },
             {
                 id: "some-error-id",
-                errorMessage: "No End time entered. Please select a valid End time",
+                errorMessage: "No End time entered. Select a valid End time",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -800,7 +798,7 @@ describe("createDisruption", () => {
             {
                 id: "some-error-id",
                 errorMessage:
-                    "Value for End time is not a Number. Please enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
+                    "Value for End time is not a Number. Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -868,7 +866,7 @@ describe("createDisruption", () => {
             {
                 id: "some-error-id",
                 errorMessage:
-                    "Value for Start time is of invalid format. Please enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
+                    "Value for Start time is of invalid format. Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);

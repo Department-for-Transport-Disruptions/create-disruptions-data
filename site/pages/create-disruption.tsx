@@ -7,6 +7,7 @@ import {
 import { NextPageContext } from "next";
 import { parseCookies, destroyCookie } from "nookies";
 import { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import { DisruptionType } from "./api/create-disruption";
 import DateSelector from "../components/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../components/FormElementWrapper";
 import { BaseLayout } from "../components/layout/Layout";
@@ -22,7 +23,7 @@ interface CreateDisruptionProps {
 }
 
 export interface PageInputs {
-    typeOfDisruption?: "planned" | "unplanned";
+    typeOfDisruption?: DisruptionType;
     summary: string;
     description: string;
     "associated-link": string;
@@ -90,7 +91,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createDisruption" method="post">
+            <form action="/api/create-disruption" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Create a new Disruption</h1>
@@ -237,7 +238,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         </FormGroupWrapper>
                         <FormGroupWrapper errorIds={["disruption-reason"]} errors={pageState.errors}>
                             <div className="govuk-form-group">
-                                <label className="govuk-label govuk-label--s" htmlFor="Distruption-reason">
+                                <label className="govuk-label govuk-label--s" htmlFor="Disruption-reason">
                                     Reason for disruption
                                 </label>
                                 <FormElementWrapper
@@ -606,6 +607,8 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         pageState.errors = JSON.parse(cookies[COOKIES_DISRUPTION_ERRORS]) as ErrorInfo[];
         destroyCookie(ctx, COOKIES_DISRUPTION_ERRORS);
     }
+
+    console.log("Errors---", errorInfo);
 
     return {
         props: { inputs: pageState },
