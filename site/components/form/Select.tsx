@@ -1,80 +1,59 @@
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import { ERROR_MESSAGES } from "../../constants";
-import { ErrorInfo, InputInfo } from "../../interfaces";
-import { PageState, PageInputs } from "../../pages/create-disruption";
+import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
+import { handleBlur } from "../../utils/formUtils";
 
-interface SelectProps {
-    pageState: PageState;
-    inputInfo: InputInfo;
+interface SelectProps<T> extends FormBase<T> {
+    defaultDisplay: string;
     selectValues: DisplayValuePair[];
-    updatePageState: Dispatch<SetStateAction<PageState>>;
-    updaterFunction: (
-        currentState: PageState,
-        setPageState: Dispatch<SetStateAction<PageState>>,
-        inputName: keyof PageInputs,
-        input: string | Date | null,
-        error?: ErrorInfo,
-    ) => void;
 }
 
-interface DisplayValuePair {
-    display: string;
-    value: string;
-}
-
-const getSelectOptions = (inputs: DisplayValuePair[]): JSX.Element[] => {
-    const options: JSX.Element[] = [
-        <option value="" disabled key="">
-            Choose a reason
-        </option>,
-    ];
-
-    inputs.forEach((input, index) => {
-        options.push(
-            <option value={input.value} key={`option-${index + 1}`}>
-                {input.display}
-            </option>,
-        );
-    });
-
-    return options;
-};
-
-const Select = ({
-    pageState,
-    inputInfo,
+const Select = <T extends object>({
+    value,
+    inputId,
+    inputName,
+    display,
+    errorMessage = "",
+    initialErrors = [],
+    defaultDisplay,
     selectValues,
-    updatePageState,
-    updaterFunction,
-}: SelectProps): ReactElement => {
-    const errorMessage = ERROR_MESSAGES.find((message) => message.input === inputInfo.id)?.message as string;
+    stateUpdater,
+}: SelectProps<T>): ReactElement => {
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+
+    const getSelectOptions = (): JSX.Element[] => {
+        const options: JSX.Element[] = [
+            <option value="" disabled key="">
+                {defaultDisplay}
+            </option>,
+        ];
+
+        selectValues.forEach((input) => {
+            options.push(
+                <option value={input.value} key={`option-${input.value}`}>
+                    {input.display}
+                </option>,
+            );
+        });
+
+        return options;
+    };
 
     return (
-        <FormGroupWrapper errorIds={[inputInfo.id]} errors={pageState.errors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group">
-                <label className="govuk-label govuk-label--s" htmlFor={inputInfo.id}>
-                    {inputInfo.display}
+                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                    {display}
                 </label>
-                <FormElementWrapper errors={pageState.errors} errorId={inputInfo.id} errorClass="govuk-select--error">
+                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-select--error">
                     <select
                         className="govuk-select w-3/4"
-                        id={inputInfo.id}
-                        name={inputInfo.name}
-                        defaultValue={(pageState.inputs[inputInfo.id as keyof PageInputs] as string) || ""}
-                        onBlur={(e) => {
-                            const input = e.target.value;
-                            if (!input) {
-                                updaterFunction(pageState, updatePageState, inputInfo.id as keyof PageInputs, input, {
-                                    id: inputInfo.id,
-                                    errorMessage,
-                                });
-                            } else {
-                                updaterFunction(pageState, updatePageState, inputInfo.id as keyof PageInputs, input);
-                            }
-                        }}
+                        id={inputId}
+                        name={inputName}
+                        defaultValue={value}
+                        onBlur={(e) => handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors)}
                     >
-                        {getSelectOptions(selectValues)}
+                        {getSelectOptions()}
                     </select>
                 </FormElementWrapper>
             </div>

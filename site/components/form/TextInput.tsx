@@ -1,108 +1,79 @@
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import { ERROR_MESSAGES } from "../../constants";
-import { ErrorInfo, InputInfo } from "../../interfaces";
-import { PageState, PageInputs } from "../../pages/create-disruption";
+import { ErrorInfo, FormBase } from "../../interfaces";
+import { handleBlur } from "../../utils/formUtils";
 
-interface TextInputProps {
-    pageState: PageState;
-    inputInfo: InputInfo;
+interface TextInputProps<T> extends FormBase<T> {
     widthClass: string;
     maxLength: number;
+    minLength?: number;
     textArea?: boolean;
     rows?: number;
-    optional?: boolean;
-    updatePageState: Dispatch<SetStateAction<PageState>>;
-    updaterFunction: (
-        currentState: PageState,
-        setPageState: Dispatch<SetStateAction<PageState>>,
-        inputName: keyof PageInputs,
-        input: string | Date | null,
-        error?: ErrorInfo,
-    ) => void;
 }
 
-const TextInput = ({
-    pageState,
-    inputInfo,
+const TextInput = <T extends object>({
+    value,
+    inputId,
+    display,
+    inputName,
+    errorMessage = "",
+    initialErrors = [],
     widthClass,
     maxLength,
+    minLength = 0,
     textArea = false,
     rows,
     optional = false,
-    updatePageState,
-    updaterFunction,
-}: TextInputProps): ReactElement => {
-    const errorMessage = ERROR_MESSAGES.find((message) => message.input === inputInfo.id)?.message as string;
+    stateUpdater,
+}: TextInputProps<T>): ReactElement => {
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
 
     return (
-        <FormGroupWrapper errorIds={[inputInfo.id]} errors={pageState.errors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group">
-                <label className="govuk-label govuk-label--s" htmlFor={inputInfo.id}>
-                    {inputInfo.display}
+                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                    {display}
                 </label>
-                <FormElementWrapper errors={pageState.errors} errorId={inputInfo.id} errorClass="govuk-input--error">
+                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
                     {textArea ? (
                         <textarea
                             className={`govuk-textarea ${widthClass}`}
-                            id={inputInfo.id}
-                            name={inputInfo.name}
+                            id={inputId}
+                            name={inputName}
                             rows={rows}
                             maxLength={maxLength}
-                            defaultValue={pageState.inputs.description}
-                            onBlur={(e) => {
-                                const input = e.target.value;
-                                if (!input && !optional) {
-                                    updaterFunction(
-                                        pageState,
-                                        updatePageState,
-                                        inputInfo.id as keyof PageInputs,
-                                        input,
-                                        {
-                                            id: inputInfo.id,
-                                            errorMessage,
-                                        },
-                                    );
-                                } else {
-                                    updaterFunction(
-                                        pageState,
-                                        updatePageState,
-                                        inputInfo.id as keyof PageInputs,
-                                        input,
-                                    );
-                                }
-                            }}
+                            defaultValue={value}
+                            onBlur={(e) =>
+                                handleBlur(
+                                    e.target.value,
+                                    inputId,
+                                    errorMessage,
+                                    stateUpdater,
+                                    setErrors,
+                                    optional,
+                                    (input: string) => input.length >= minLength,
+                                )
+                            }
                         />
                     ) : (
                         <input
                             className={`govuk-input ${widthClass}`}
-                            id={inputInfo.id}
-                            name={inputInfo.name}
+                            id={inputId}
+                            name={inputName}
                             type="text"
                             maxLength={maxLength}
-                            defaultValue={pageState.inputs.summary}
-                            onBlur={(e) => {
-                                const input = e.target.value;
-                                if (!input && !optional) {
-                                    updaterFunction(
-                                        pageState,
-                                        updatePageState,
-                                        inputInfo.id as keyof PageInputs,
-                                        input,
-                                        {
-                                            id: inputInfo.id,
-                                            errorMessage,
-                                        },
-                                    );
-                                } else {
-                                    updaterFunction(
-                                        pageState,
-                                        updatePageState,
-                                        inputInfo.id as keyof PageInputs,
-                                        input,
-                                    );
-                                }
-                            }}
+                            defaultValue={value}
+                            onBlur={(e) =>
+                                handleBlur(
+                                    e.target.value,
+                                    inputId,
+                                    errorMessage,
+                                    stateUpdater,
+                                    setErrors,
+                                    optional,
+                                    (input: string) => input.length >= minLength,
+                                )
+                            }
                         />
                     )}
                 </FormElementWrapper>

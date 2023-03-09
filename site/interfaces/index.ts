@@ -53,3 +53,20 @@ export interface CookiesApiRequest extends NextApiRequest {
         tracking: "on" | "off";
     };
 }
+
+export interface FormBase<T> {
+    value?: string;
+    inputId: Extract<keyof T, string>;
+    display: string;
+    inputName: string;
+    errorMessage?: string;
+    initialErrors?: ErrorInfo[];
+    optional?: boolean;
+    stateUpdater: (change: string, field: keyof T) => void;
+}
+
+export interface DisplayValuePair {
+    display: string;
+    value: string;
+    checked?: boolean;
+}

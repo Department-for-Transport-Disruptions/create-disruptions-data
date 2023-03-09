@@ -79,14 +79,15 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-planned"
-                      name="disruptionType"
+                      id="type-of-disruption-planned"
+                      name="typeOfDisruption"
+                      onChange={[Function]}
                       type="radio"
                       value="planned"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-planned"
+                      htmlFor="type-of-disruption-planned"
                     >
                       Planned
                     </label>
@@ -96,14 +97,15 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-unplanned"
-                      name="disruptionType"
+                      id="type-of-disruption-unplanned"
+                      name="typeOfDisruption"
+                      onChange={[Function]}
                       type="radio"
                       value="unplanned"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-unplanned"
+                      htmlFor="type-of-disruption-unplanned"
                     >
                       Unplanned
                     </label>
@@ -154,14 +156,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               <div
                 className=""
               >
-                <textarea
-                  className="govuk-textarea w-3/4"
+                <input
+                  className="govuk-input w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description"
-                  maxLength={200}
+                  maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  rows={3}
+                  type="text"
                 />
               </div>
             </div>
@@ -183,7 +185,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input w-3/4"
-                  defaultValue="New disruption"
+                  defaultValue="www.bbc.com"
                   id="associated-link"
                   maxLength={50}
                   name="associatedLink"
@@ -219,7 +221,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     disabled={true}
                     value=""
                   >
-                    Choose a reason
+                    Select a reason
                   </option>
                   <option
                     value="roadWorks"
@@ -258,100 +260,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group"
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="disruption-start-date"
+                htmlFor="disruption-start-time"
               >
-                What is the start date?
+                What is the start time?
               </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="disruption-start-date"
-                      name="disruptionStartDate"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value="04/01/2023"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date, selected date is Jan 4, 2023"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                    <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              aria-describedby="disruption-start-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the start time?
-                </h3>
-              </legend>
               <div
                 className="govuk-hint"
                 id="disruption-start-time-hint"
@@ -362,6 +278,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className=""
               >
                 <input
+                  aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue="0100"
                   disabled={false}
@@ -372,106 +289,20 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   type="text"
                 />
               </div>
-            </fieldset>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="disruption-end-date"
-              >
-                What is the end date?
-              </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="disruption-end-date"
-                      name="disruptionEndDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value="08/01/2023"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date, selected date is Jan 8, 2023"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                    <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              aria-describedby="disruption-end-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
+            <div
+              className="govuk-form-group"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-end-time"
               >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the end time?
-                </h3>
-              </legend>
+                What is the end time?
+              </label>
               <div
                 className="govuk-hint"
                 id="disruption-end-time-hint"
@@ -482,6 +313,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className=""
               >
                 <input
+                  aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue="0200"
                   disabled={false}
@@ -492,37 +324,54 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   type="text"
                 />
               </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-visually-hidden"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does the disruption have an end datetime?
+                </span>
+              </legend>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="disruption-no-end-date-time-noDisruptionEndDateTime"
+                      name="disruptionHasNoEndDateTime"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="noDisruptionEndDateTime"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="disruption-no-end-date-time-noDisruptionEndDateTime"
+                    >
+                      No end date/time
+                    </label>
+                  </div>
+                </div>
+              </div>
             </fieldset>
           </div>
-          <fieldset
-            className="govuk-fieldset"
-            role="group"
-          >
-            <div
-              className="govuk-checkboxes flex govuk-checkboxes--small"
-              data-module="govuk-checkboxes"
-            >
-              <div
-                className="govuk-checkboxes__item"
-              >
-                <input
-                  className="govuk-checkboxes__input"
-                  defaultChecked={false}
-                  id="disruption-no-end-date-time"
-                  name="disruptionHasNoEndDateTime"
-                  onClick={[Function]}
-                  type="checkbox"
-                  value="checked"
-                />
-                <label
-                  className="govuk-label govuk-checkboxes__label"
-                  htmlFor="disruption-no-end-date-time"
-                >
-                  No end date/time
-                </label>
-              </div>
-            </div>
-          </fieldset>
           <div
             className="govuk-form-group"
           >
@@ -550,14 +399,15 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-repeats"
+                      id="disruption-repeats-yes"
                       name="disruptionRepeats"
+                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats"
+                      htmlFor="disruption-repeats-yes"
                     >
                       Yes
                     </label>
@@ -567,14 +417,15 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-does-not-repeat"
+                      id="disruption-repeats-no"
                       name="disruptionRepeats"
+                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-does-not-repeat"
+                      htmlFor="disruption-repeats-no"
                     >
                       No
                     </label>
@@ -596,100 +447,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group"
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="publish-start-date"
+                htmlFor="publish-start-time"
               >
-                What is the start date?
+                What is the start time?
               </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="publish-start-date"
-                      name="publishStartDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value="03/01/2023"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date, selected date is Jan 3, 2023"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                    <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              aria-describedby="publish-start-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the start time?
-                </h3>
-              </legend>
               <div
                 className="govuk-hint"
                 id="publish-start-time-hint"
@@ -700,6 +465,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className=""
               >
                 <input
+                  aria-describedby="publish-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue="0200"
                   disabled={false}
@@ -710,106 +476,20 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   type="text"
                 />
               </div>
-            </fieldset>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-end-date"
-              >
-                What is the end date?
-              </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="publish-end-date"
-                      name="publishEndDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value="08/01/2023"
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date, selected date is Jan 8, 2023"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                    <span
-                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              aria-describedby="publish-end-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
+            <div
+              className="govuk-form-group"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-end-time"
               >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the end time?
-                </h3>
-              </legend>
+                What is the end time?
+              </label>
               <div
                 className="govuk-hint"
                 id="publish-end-time-hint"
@@ -820,6 +500,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className=""
               >
                 <input
+                  aria-describedby="publish-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue="2300"
                   disabled={false}
@@ -830,37 +511,54 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   type="text"
                 />
               </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-visually-hidden"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does the disruption have an end datetime?
+                </span>
+              </legend>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="publish-no-end-date-time-noPublishEndDateTime"
+                      name="publishHasNoEndDateTime"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="noPublishEndDateTime"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="publish-no-end-date-time-noPublishEndDateTime"
+                    >
+                      No end date/time
+                    </label>
+                  </div>
+                </div>
+              </div>
             </fieldset>
           </div>
-          <fieldset
-            className="govuk-fieldset"
-            role="group"
-          >
-            <div
-              className="govuk-checkboxes flex govuk-checkboxes--small"
-              data-module="govuk-checkboxes"
-            >
-              <div
-                className="govuk-checkboxes__item"
-              >
-                <input
-                  className="govuk-checkboxes__input"
-                  defaultChecked={false}
-                  id="publish-no-end-date-time"
-                  name="publishHasNoEndDateTime"
-                  onClick={[Function]}
-                  type="checkbox"
-                  value="checked"
-                />
-                <label
-                  className="govuk-label govuk-checkboxes__label"
-                  htmlFor="publish-no-end-date-time"
-                >
-                  No end date/time
-                </label>
-              </div>
-            </div>
-          </fieldset>
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1131,14 +829,15 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-planned"
-                      name="disruptionType"
+                      id="type-of-disruption-planned"
+                      name="typeOfDisruption"
+                      onChange={[Function]}
                       type="radio"
                       value="planned"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-planned"
+                      htmlFor="type-of-disruption-planned"
                     >
                       Planned
                     </label>
@@ -1148,14 +847,15 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-unplanned"
-                      name="disruptionType"
+                      id="type-of-disruption-unplanned"
+                      name="typeOfDisruption"
+                      onChange={[Function]}
                       type="radio"
                       value="unplanned"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-unplanned"
+                      htmlFor="type-of-disruption-unplanned"
                     >
                       Unplanned
                     </label>
@@ -1206,14 +906,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               <div
                 className=""
               >
-                <textarea
-                  className="govuk-textarea w-3/4"
+                <input
+                  className="govuk-input w-3/4"
                   defaultValue=""
                   id="description"
-                  maxLength={200}
+                  maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  rows={3}
+                  type="text"
                 />
               </div>
             </div>
@@ -1271,7 +971,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     disabled={true}
                     value=""
                   >
-                    Choose a reason
+                    Select a reason
                   </option>
                   <option
                     value="roadWorks"
@@ -1310,97 +1010,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group"
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="disruption-start-date"
+                htmlFor="disruption-start-time"
               >
-                What is the start date?
+                What is the start time?
               </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="disruption-start-date"
-                      name="disruptionStartDate"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              aria-describedby="disruption-start-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the start time?
-                </h3>
-              </legend>
               <div
                 className="govuk-hint"
                 id="disruption-start-time-hint"
@@ -1411,6 +1028,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className=""
               >
                 <input
+                  aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue=""
                   disabled={false}
@@ -1421,103 +1039,20 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   type="text"
                 />
               </div>
-            </fieldset>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="disruption-end-date"
-              >
-                What is the end date?
-              </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="disruption-end-date"
-                      name="disruptionEndDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              aria-describedby="disruption-end-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
+            <div
+              className="govuk-form-group"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-end-time"
               >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the end time?
-                </h3>
-              </legend>
+                What is the end time?
+              </label>
               <div
                 className="govuk-hint"
                 id="disruption-end-time-hint"
@@ -1528,6 +1063,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className=""
               >
                 <input
+                  aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue=""
                   disabled={false}
@@ -1538,37 +1074,54 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   type="text"
                 />
               </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-visually-hidden"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does the disruption have an end datetime?
+                </span>
+              </legend>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="disruption-no-end-date-time-noDisruptionEndDateTime"
+                      name="disruptionHasNoEndDateTime"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="noDisruptionEndDateTime"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="disruption-no-end-date-time-noDisruptionEndDateTime"
+                    >
+                      No end date/time
+                    </label>
+                  </div>
+                </div>
+              </div>
             </fieldset>
           </div>
-          <fieldset
-            className="govuk-fieldset"
-            role="group"
-          >
-            <div
-              className="govuk-checkboxes flex govuk-checkboxes--small"
-              data-module="govuk-checkboxes"
-            >
-              <div
-                className="govuk-checkboxes__item"
-              >
-                <input
-                  className="govuk-checkboxes__input"
-                  defaultChecked={false}
-                  id="disruption-no-end-date-time"
-                  name="disruptionHasNoEndDateTime"
-                  onClick={[Function]}
-                  type="checkbox"
-                  value="checked"
-                />
-                <label
-                  className="govuk-label govuk-checkboxes__label"
-                  htmlFor="disruption-no-end-date-time"
-                >
-                  No end date/time
-                </label>
-              </div>
-            </div>
-          </fieldset>
           <div
             className="govuk-form-group"
           >
@@ -1596,14 +1149,15 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-repeats"
+                      id="disruption-repeats-yes"
                       name="disruptionRepeats"
+                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats"
+                      htmlFor="disruption-repeats-yes"
                     >
                       Yes
                     </label>
@@ -1613,14 +1167,15 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
-                      id="disruption-does-not-repeat"
+                      id="disruption-repeats-no"
                       name="disruptionRepeats"
+                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
                       className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-does-not-repeat"
+                      htmlFor="disruption-repeats-no"
                     >
                       No
                     </label>
@@ -1642,97 +1197,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group"
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="publish-start-date"
+                htmlFor="publish-start-time"
               >
-                What is the start date?
+                What is the start time?
               </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="publish-start-date"
-                      name="publishStartDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              aria-describedby="publish-start-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the start time?
-                </h3>
-              </legend>
               <div
                 className="govuk-hint"
                 id="publish-start-time-hint"
@@ -1743,6 +1215,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className=""
               >
                 <input
+                  aria-describedby="publish-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue=""
                   disabled={false}
@@ -1753,103 +1226,20 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   type="text"
                 />
               </div>
-            </fieldset>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-end-date"
-              >
-                What is the end date?
-              </label>
-              <div
-                className="govuk-hint govuk-visually-hidden"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
-              >
-                <div
-                  className="govuk-date-input__item govuk-!-margin-right-0"
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      className="govuk-input govuk-date-input__input govuk-input--width-6"
-                      disabled={false}
-                      id="publish-end-date"
-                      name="publishEndDateDay"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      placeholder="DD/MM/YYYY"
-                      type="tel"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                >
-                  <button
-                    aria-label="Choose date"
-                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onContextMenu={[Function]}
-                    onDragLeave={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="CalendarIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              aria-describedby="publish-end-time-hint"
-              className="govuk-fieldset mb-7.5"
-              role="group"
+            <div
+              className="govuk-form-group"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-end-time"
               >
-                <h3
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  What is the end time?
-                </h3>
-              </legend>
+                What is the end time?
+              </label>
               <div
                 className="govuk-hint"
                 id="publish-end-time-hint"
@@ -1860,6 +1250,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className=""
               >
                 <input
+                  aria-describedby="publish-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue=""
                   disabled={false}
@@ -1870,37 +1261,54 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   type="text"
                 />
               </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-visually-hidden"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does the disruption have an end datetime?
+                </span>
+              </legend>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="publish-no-end-date-time-noPublishEndDateTime"
+                      name="publishHasNoEndDateTime"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="noPublishEndDateTime"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="publish-no-end-date-time-noPublishEndDateTime"
+                    >
+                      No end date/time
+                    </label>
+                  </div>
+                </div>
+              </div>
             </fieldset>
           </div>
-          <fieldset
-            className="govuk-fieldset"
-            role="group"
-          >
-            <div
-              className="govuk-checkboxes flex govuk-checkboxes--small"
-              data-module="govuk-checkboxes"
-            >
-              <div
-                className="govuk-checkboxes__item"
-              >
-                <input
-                  className="govuk-checkboxes__input"
-                  defaultChecked={false}
-                  id="publish-no-end-date-time"
-                  name="publishHasNoEndDateTime"
-                  onClick={[Function]}
-                  type="checkbox"
-                  value="checked"
-                />
-                <label
-                  className="govuk-label govuk-checkboxes__label"
-                  htmlFor="publish-no-end-date-time"
-                >
-                  No end date/time
-                </label>
-              </div>
-            </div>
-          </fieldset>
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

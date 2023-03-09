@@ -5,7 +5,7 @@ import CreateDisruption, { PageState } from "./create-disruption";
 const blankInputs: PageState = {
     errors: [],
     inputs: {
-        typeOfDisruption: "",
+        "type-of-disruption": "",
         summary: "",
         description: "",
         "associated-link": "",
@@ -14,17 +14,20 @@ const blankInputs: PageState = {
         "disruption-end-date": null,
         "disruption-start-time": "",
         "disruption-end-time": "",
+        "disruption-repeats": "no",
+        "disruption-no-end-date-time": "",
         "publish-start-date": null,
         "publish-end-date": null,
         "publish-start-time": "",
         "publish-end-time": "",
+        "publish-no-end-date-time": "",
     },
 };
 
 const withInputs: PageState = {
     errors: [],
     inputs: {
-        typeOfDisruption: "planned",
+        "type-of-disruption": "planned",
         summary: "New disruption",
         description: "A truck broke the bridge",
         "associated-link": "www.bbc.com",
@@ -33,10 +36,13 @@ const withInputs: PageState = {
         "disruption-end-date": new Date("01/08/2023"),
         "disruption-start-time": "0100",
         "disruption-end-time": "0200",
+        "disruption-repeats": "no",
+        "disruption-no-end-date-time": "",
         "publish-start-date": new Date("01/03/2023"),
         "publish-end-date": new Date("01/08/2023"),
         "publish-start-time": "0200",
         "publish-end-time": "2300",
+        "publish-no-end-date-time": "",
     },
 };
 
