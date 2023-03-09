@@ -5,18 +5,15 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption from "./create-disruption";
-import {
-    COOKIES_DISRUPTION_ERRORS,
-    COOKIES_DISRUPTION_INFO,
-    TEN_SECONDS_IN_MILLISECONDS,
-    CD_DATE_FORMAT,
-} from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import { PageInputs } from "../create-disruption";
 
 dayjs.extend(customParseFormat);
+
+const tenSeconds = 10000;
 
 const getFutureDateAsString = (addDays: number, dateFormat: string) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
@@ -68,13 +65,7 @@ describe("createDisruption", () => {
         disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(1);
-        expect(setCookieSpy).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            TEN_SECONDS_IN_MILLISECONDS,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res, tenSeconds, false);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/" });
     });
@@ -103,7 +94,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -111,7 +102,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -170,7 +161,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -178,7 +169,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -234,7 +225,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -242,7 +233,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -296,7 +287,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -304,7 +295,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -362,7 +353,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -370,7 +361,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -433,7 +424,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -441,7 +432,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -500,7 +491,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -508,7 +499,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -567,7 +558,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -575,7 +566,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -638,7 +629,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -646,7 +637,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -709,7 +700,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -717,7 +708,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -777,7 +768,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -785,7 +776,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -845,7 +836,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_INFO,
             expect.any(String),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -853,7 +844,7 @@ describe("createDisruption", () => {
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify(errors),
             res,
-            TEN_SECONDS_IN_MILLISECONDS,
+            tenSeconds,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });

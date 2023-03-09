@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-    COOKIES_ADD_CONSEQUENCE_INFO,
-    COOKIES_ADD_CONSEQUENCE_ERRORS,
-    TEN_SECONDS_IN_MILLISECONDS,
-} from "../../constants/index";
+import { COOKIES_ADD_CONSEQUENCE_INFO, COOKIES_ADD_CONSEQUENCE_ERRORS } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { isValueInArray, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { AddConsequenceProps, ConsequenceType, TransportMode } from "../add-consequence";
@@ -12,6 +8,8 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
 
     const formFields: AddConsequenceProps = req.body as AddConsequenceProps;
+
+    const tenSeconds = 10000;
 
     if (!formFields.consequenceType) {
         errors.push({
@@ -27,6 +25,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         });
     }
 
+    formFields.modeOfTransport = "test";
     if (!isValueInArray(formFields.consequenceType, Object.values(ConsequenceType))) {
         errors.push({
             id: "consequence-type-services",
@@ -36,30 +35,19 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
 
     if (!isValueInArray(formFields.modeOfTransport, Object.values(TransportMode))) {
         errors.push({
-            id: "consequence-type-services",
+            id: "transport-mode-bus",
             errorMessage: "Incorrect consequence type selected. Choose a valid value",
         });
     }
 
-    setCookieOnResponseObject(
-        COOKIES_ADD_CONSEQUENCE_INFO,
-        JSON.stringify(formFields),
-        res,
-        TEN_SECONDS_IN_MILLISECONDS,
-        false,
-    );
+    console.log(errors);
+    setCookieOnResponseObject(COOKIES_ADD_CONSEQUENCE_INFO, JSON.stringify(formFields), res, tenSeconds, false);
 
     if (errors.length == 0) {
         redirectTo(res, "/");
         return;
     } else {
-        setCookieOnResponseObject(
-            COOKIES_ADD_CONSEQUENCE_ERRORS,
-            JSON.stringify(errors),
-            res,
-            TEN_SECONDS_IN_MILLISECONDS,
-            false,
-        );
+        setCookieOnResponseObject(COOKIES_ADD_CONSEQUENCE_ERRORS, JSON.stringify(errors), res, tenSeconds, false);
         redirectTo(res, "/add-consequence");
         return;
     }

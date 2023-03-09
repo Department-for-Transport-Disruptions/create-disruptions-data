@@ -11,6 +11,7 @@ import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { DisruptionType } from "../../pages/api/create-disruption";
 import { redirectTo } from "../index";
+import { isValueInArray } from "./index";
 
 dayjs.extend(customParseFormat);
 
@@ -63,7 +64,7 @@ export const validateDisruptionType = (
             errorMessage: "Invalid Disruption Type Selected. Choose a valid Type of Disruption",
         };
 
-        if (!validateDisruptionTypeValue(disruptionType, DISRUPTION_TYPES)) {
+        if (!isValueInArray(disruptionType, Object.values(DISRUPTION_TYPES))) {
             errors.push(invalidTypeErr);
         }
     }
@@ -76,15 +77,6 @@ export const requireFieldCheck = (field: unknown | undefined): boolean => {
     }
 
     return checkPassed;
-};
-
-export const validateDisruptionTypeValue = (value: DisruptionType | undefined, validArray: string[]): boolean => {
-    let isValid = false;
-    if (value && validArray.includes(value as string)) {
-        isValid = true;
-    }
-
-    return isValid;
 };
 
 export const validateLength = (field: string, length: number): boolean => {

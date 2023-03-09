@@ -40,6 +40,8 @@ export const redirectToError = (
 
 export const isValueInArray = (value: unknown, array: string[]): boolean => {
     let isValid = false;
+    console.log("value---", value);
+    console.log("array---", array);
     if (value && array.includes(value as string)) {
         isValid = true;
     }

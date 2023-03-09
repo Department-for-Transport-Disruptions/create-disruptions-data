@@ -41,3 +41,8 @@ export interface InputInfo {
     display: string;
     value?: string;
 }
+
+export interface Feedback {
+    question: string;
+    answer: string;
+}

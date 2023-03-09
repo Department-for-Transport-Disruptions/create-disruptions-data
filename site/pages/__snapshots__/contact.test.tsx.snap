@@ -25,6 +25,9 @@ exports[`contact > should render correctly 1`] = `
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
