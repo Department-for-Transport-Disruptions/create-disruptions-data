@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_ADD_CONSEQUENCE_INFO, COOKIES_ADD_CONSEQUENCE_ERRORS } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
-import { isValueInArray, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { AddConsequenceProps, ConsequenceType, TransportMode } from "../add-consequence";
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
@@ -16,6 +16,11 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
             id: "consequence-type-services",
             errorMessage: "Select a consequence type",
         });
+    } else if (!Object.values(ConsequenceType).includes(formFields.consequenceType)) {
+        errors.push({
+            id: "consequence-type-services",
+            errorMessage: "Incorrect consequence type selected. Choose a valid value",
+        });
     }
 
     if (!formFields.modeOfTransport) {
@@ -23,27 +28,17 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
             id: "transport-mode-bus",
             errorMessage: "Select a mode of transport",
         });
-    }
-
-    formFields.modeOfTransport = "test";
-    if (!isValueInArray(formFields.consequenceType, Object.values(ConsequenceType))) {
-        errors.push({
-            id: "consequence-type-services",
-            errorMessage: "Incorrect consequence type selected. Choose a valid value",
-        });
-    }
-
-    if (!isValueInArray(formFields.modeOfTransport, Object.values(TransportMode))) {
+    } else if (!Object.values(TransportMode).includes(formFields.modeOfTransport)) {
         errors.push({
             id: "transport-mode-bus",
-            errorMessage: "Incorrect consequence type selected. Choose a valid value",
+            errorMessage: "Incorrect mode of transport selected. Choose a valid value",
         });
     }
 
-    console.log(errors);
-    setCookieOnResponseObject(COOKIES_ADD_CONSEQUENCE_INFO, JSON.stringify(formFields), res, tenSeconds, false);
+    console.log("errors----", errors);
 
     if (errors.length == 0) {
+        setCookieOnResponseObject(COOKIES_ADD_CONSEQUENCE_INFO, JSON.stringify(formFields), res, tenSeconds, false);
         redirectTo(res, "/");
         return;
     } else {

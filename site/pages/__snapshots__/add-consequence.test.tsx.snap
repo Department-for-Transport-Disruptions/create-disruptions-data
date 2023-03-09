@@ -25,6 +25,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -100,7 +103,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-bus"
                           name="modeOfTransport"
                           type="radio"
-                          value="bus"
+                          value="Bus"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -117,7 +120,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-tram"
                           name="modeOfTransport"
                           type="radio"
-                          value="tram"
+                          value="Tram"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -134,7 +137,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-ferry"
                           name="modeOfTransport"
                           type="radio"
-                          value="ferry"
+                          value="Ferry"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -151,7 +154,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-train"
                           name="modeOfTransport"
                           type="radio"
-                          value="train"
+                          value="Train"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -206,7 +209,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="consequence-type-services"
                           name="consequenceType"
                           type="radio"
-                          value="services"
+                          value="Services"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -223,7 +226,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-network-wide"
                           name="consequenceType"
                           type="radio"
-                          value="networkWide"
+                          value="Network Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -240,7 +243,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-operator-wide"
                           name="consequenceType"
                           type="radio"
-                          value="operatorWide"
+                          value="Operator Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -257,7 +260,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           id="transport-mode-operator-stops"
                           name="consequenceType"
                           type="radio"
-                          value="stops"
+                          value="Stops"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -498,6 +501,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -561,7 +567,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-bus"
                           name="modeOfTransport"
                           type="radio"
-                          value="bus"
+                          value="Bus"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -578,7 +584,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-tram"
                           name="modeOfTransport"
                           type="radio"
-                          value="tram"
+                          value="Tram"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -595,7 +601,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-ferry"
                           name="modeOfTransport"
                           type="radio"
-                          value="ferry"
+                          value="Ferry"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -612,7 +618,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-train"
                           name="modeOfTransport"
                           type="radio"
-                          value="train"
+                          value="Train"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -655,7 +661,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="consequence-type-services"
                           name="consequenceType"
                           type="radio"
-                          value="services"
+                          value="Services"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -672,7 +678,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-network-wide"
                           name="consequenceType"
                           type="radio"
-                          value="networkWide"
+                          value="Network Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -689,7 +695,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-operator-wide"
                           name="consequenceType"
                           type="radio"
-                          value="operatorWide"
+                          value="Operator Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
@@ -706,7 +712,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           id="transport-mode-operator-stops"
                           name="consequenceType"
                           type="radio"
-                          value="stops"
+                          value="Stops"
                         />
                         <label
                           className="govuk-label govuk-radios__label"

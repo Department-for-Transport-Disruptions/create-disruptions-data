@@ -37,25 +37,25 @@ const modeOfTransportRadio: InputInfo[] = [
     {
         id: "transport-mode-bus",
         name: "modeOfTransport",
-        value: "bus",
+        value: TransportMode.bus,
         display: TransportMode.bus,
     },
     {
         id: "transport-mode-tram",
         name: "modeOfTransport",
-        value: "tram",
+        value: TransportMode.tram,
         display: TransportMode.tram,
     },
     {
         id: "transport-mode-ferry",
         name: "modeOfTransport",
-        value: "ferry",
+        value: TransportMode.ferry,
         display: TransportMode.ferry,
     },
     {
         id: "transport-mode-train",
         name: "modeOfTransport",
-        value: "train",
+        value: TransportMode.train,
         display: TransportMode.train,
     },
 ];
@@ -64,25 +64,25 @@ const consequenceType: InputInfo[] = [
     {
         id: "consequence-type-services",
         name: "consequenceType",
-        value: "services",
+        value: ConsequenceType.services,
         display: ConsequenceType.services,
     },
     {
         id: "transport-mode-network-wide",
         name: "consequenceType",
-        value: "networkWide",
+        value: ConsequenceType.networkWide,
         display: ConsequenceType.networkWide,
     },
     {
         id: "transport-mode-operator-wide",
         name: "consequenceType",
-        value: "operatorWide",
+        value: ConsequenceType.operatorWide,
         display: ConsequenceType.operatorWide,
     },
     {
         id: "transport-mode-operator-stops",
         name: "consequenceType",
-        value: "stops",
+        value: ConsequenceType.stops,
         display: ConsequenceType.stops,
     },
 ];
