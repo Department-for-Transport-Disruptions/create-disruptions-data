@@ -35,7 +35,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         });
     }
 
-    if (errors.length == 0) {
+    if (errors.length === 0) {
         setCookieOnResponseObject(COOKIES_ADD_CONSEQUENCE_INFO, JSON.stringify(formFields), res, tenSeconds, false);
         redirectTo(res, "/");
         return;
