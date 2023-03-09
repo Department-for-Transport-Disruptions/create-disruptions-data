@@ -25,6 +25,9 @@ exports[`pages > cookies > should display a confirmation box when the user saves
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>

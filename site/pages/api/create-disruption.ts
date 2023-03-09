@@ -8,7 +8,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_INFO,
     COOKIES_DISRUPTION_ERRORS,
-    TEN_SECONDS_IN_MILLISECONDS,
     CREATE_DISRUPTION_PAGE_PATH,
     ERROR_PATH,
 } from "../../constants/index";
@@ -28,6 +27,7 @@ import { redirectTo } from "../../utils/index";
 import { PageInputs } from "../create-disruption";
 
 export type DisruptionType = "planned" | "unplanned";
+const tenSeconds = 10000;
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
@@ -109,25 +109,13 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         disruptionRepeats: formFields.disruptionRepeats,
     };
 
-    setCookieOnResponseObject(
-        COOKIES_DISRUPTION_INFO,
-        JSON.stringify(disruptionData),
-        res,
-        TEN_SECONDS_IN_MILLISECONDS,
-        false,
-    );
+    setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(disruptionData), res, tenSeconds, false);
 
     if (errors.length == 0) {
         redirectTo(res, "/");
         return;
     } else {
-        setCookieOnResponseObject(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            TEN_SECONDS_IN_MILLISECONDS,
-            false,
-        );
+        setCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res, tenSeconds, false);
         redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
         return;
     }

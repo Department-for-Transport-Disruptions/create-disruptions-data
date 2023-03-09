@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactElement } from "react";
 
 const PhaseBanner = (): ReactElement => (
@@ -7,9 +8,9 @@ const PhaseBanner = (): ReactElement => (
                 <strong className="govuk-tag govuk-phase-banner__content__tag">alpha</strong>
                 <span className="govuk-phase-banner__text">
                     This is a new service – your{" "}
-                    <a className="govuk-link" id="feedback-link" href="/feedback">
+                    <Link className="govuk-link" id="feedback-link" href="/feedback">
                         feedback
-                    </a>{" "}
+                    </Link>{" "}
                     will help us to improve it.
                 </span>
             </p>

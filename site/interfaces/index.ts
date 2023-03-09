@@ -24,3 +24,8 @@ export interface CookiesApiRequest extends NextApiRequest {
         tracking: "on" | "off";
     };
 }
+
+export interface Feedback {
+    question: string;
+    answer: string;
+}
