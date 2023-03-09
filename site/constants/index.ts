@@ -31,6 +31,40 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
+export const DISRUPTION_SEVERITIES = [
+    { value: "unknown", severity: "Unknown" },
+    { value: "verySlight", severity: "Very Slight" },
+    {
+        value: "slight",
+        severity: "Slight",
+    },
+    {
+        value: "normal",
+        severity: "Normal",
+    },
+    {
+        value: "severe",
+        severity: "Severe",
+    },
+    { value: "verySevere", severity: "Very Severe" },
+];
+
+export const OPERATORS = [
+    {
+        value: "firstGreaterManchester",
+        operator: "First Greater Manchester",
+    },
+    {
+        value: "stagecoachManchester",
+        operator: "Stagecoach Manchester",
+    },
+    {
+        value: "firstSouthYorkshire",
+        operator: "First South Yorkshire",
+    },
+    { value: "stagecoachYorkshire", operator: "Stagecoach Yorkshire" },
+];
+
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";

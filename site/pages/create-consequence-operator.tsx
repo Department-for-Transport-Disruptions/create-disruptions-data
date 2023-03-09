@@ -2,6 +2,7 @@ import { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "../components/FormElementWrapper";
 import { BaseLayout } from "../components/layout/Layout";
 import TimeSelector from "../components/TimeSelector";
+import { DISRUPTION_SEVERITIES, OPERATORS } from "../constants";
 import { ErrorInfo } from "../interfaces";
 
 const title = "Create Consequence Operator";
@@ -110,7 +111,7 @@ const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): 
                                             }
                                         }}
                                     >
-                                        {getOptions("operator", [])}
+                                        {getOptions("operator", OPERATORS)}
                                     </select>
                                 </FormElementWrapper>
                             </div>
@@ -246,7 +247,7 @@ const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): 
                                             }
                                         }}
                                     >
-                                        {getOptions("severity", [])}
+                                        {getOptions("severity", DISRUPTION_SEVERITIES)}
                                     </select>
                                 </FormElementWrapper>
                             </div>
