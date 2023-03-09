@@ -608,8 +608,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         destroyCookie(ctx, COOKIES_DISRUPTION_ERRORS);
     }
 
-    console.log("Errors---", errorInfo);
-
     return {
         props: { inputs: pageState },
     };
