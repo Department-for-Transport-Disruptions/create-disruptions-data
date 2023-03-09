@@ -16,14 +16,14 @@ export interface AddConsequenceProps {
     consequenceType?: ConsequenceType;
 }
 
-enum TransportMode {
+export enum TransportMode {
     bus = "Bus",
     tram = "Tram",
     ferry = "Ferry",
     train = "Train",
 }
 
-enum ConsequenceType {
+export enum ConsequenceType {
     services = "Services",
     networkWide = "Network Wide",
     operatorWide = "Operator Wide",
@@ -87,7 +87,7 @@ const consequenceType: InputInfo[] = [
     },
 ];
 
-const addConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement => {
+const AddConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <form action="/api/add-consequence" method="post">
@@ -141,4 +141,4 @@ export const getServerSideProps = (ctx: NextPageContext): { props: AddConsequenc
     return { props: { inputs, errors } };
 };
 
-export default addConsequence;
+export default AddConsequence;

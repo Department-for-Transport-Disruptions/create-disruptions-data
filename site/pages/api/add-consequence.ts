@@ -5,8 +5,8 @@ import {
     TEN_SECONDS_IN_MILLISECONDS,
 } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
-import { redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { AddConsequenceProps } from "../add-consequence";
+import { isValueInArray, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { AddConsequenceProps, ConsequenceType, TransportMode } from "../add-consequence";
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     const errors: ErrorInfo[] = [];
@@ -16,14 +16,28 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     if (!formFields.consequenceType) {
         errors.push({
             id: "consequence-type-services",
-            errorMessage: "Please select a consequence type",
+            errorMessage: "Select a consequence type",
         });
     }
 
     if (!formFields.modeOfTransport) {
         errors.push({
             id: "transport-mode-bus",
-            errorMessage: "Please select a mode of transport",
+            errorMessage: "Select a mode of transport",
+        });
+    }
+
+    if (!isValueInArray(formFields.consequenceType, Object.values(ConsequenceType))) {
+        errors.push({
+            id: "consequence-type-services",
+            errorMessage: "Incorrect consequence type selected. Choose a valid value",
+        });
+    }
+
+    if (!isValueInArray(formFields.modeOfTransport, Object.values(TransportMode))) {
+        errors.push({
+            id: "consequence-type-services",
+            errorMessage: "Incorrect consequence type selected. Choose a valid value",
         });
     }
 
