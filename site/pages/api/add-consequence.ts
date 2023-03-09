@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { COOKIES_ADD_CONSEQUENCE_INFO, COOKIES_ADD_CONSEQUENCE_ERRORS } from "../../constants/index";
 import { ErrorInfo, NextApiRequestWithConsequences } from "../../interfaces";
 import { redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils";
