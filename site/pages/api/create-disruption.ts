@@ -111,7 +111,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(disruptionData), res, tenSeconds, false);
 
-    if (errors.length == 0) {
+    if (errors.length === 0) {
         redirectTo(res, "/");
         return;
     } else {
