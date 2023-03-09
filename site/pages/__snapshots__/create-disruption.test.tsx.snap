@@ -41,7 +41,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
       class="govuk-main-wrapper"
     >
       <form
-        action="/api/createDisruption"
+        action="/api/create-disruption"
         method="post"
       >
         <div
@@ -79,9 +79,10 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                     class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
+                      checked=""
                       class="govuk-radios__input"
                       id="disruption-planned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="planned"
                     />
@@ -98,7 +99,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                     <input
                       class="govuk-radios__input"
                       id="disruption-unplanned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="unplanned"
                     />
@@ -185,7 +186,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                   class="govuk-input w-3/4"
                   id="associated-link"
                   maxlength="50"
-                  name="associatedLink"
+                  name="associated-link"
                   type="text"
                   value="www.bbc.com"
                 />
@@ -200,7 +201,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
             >
               <label
                 class="govuk-label govuk-label--s"
-                for="Distruption-reason"
+                for="Disruption-reason"
               >
                 Reason for disruption
               </label>
@@ -210,7 +211,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                 <select
                   class="govuk-select w-3/4"
                   id="disruption-reason"
-                  name="disruptionReason"
+                  name="disruption-reason"
                 >
                   <option
                     disabled=""
@@ -281,7 +282,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                     <input
                       class="govuk-input govuk-date-input__input govuk-input--width-6"
                       id="disruption-start-date"
-                      name="disruptionStartDate"
+                      name="disruption-start-date"
                       placeholder="DD/MM/YYYY"
                       type="tel"
                       value="04/01/2023"
@@ -345,7 +346,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                 <input
                   class="govuk-input govuk-date-input__input govuk-input--width-4"
                   id="disruption-start-time"
-                  name="disruptionStartTime"
+                  name="disruption-start-time"
                   placeholder="hhmm"
                   type="text"
                   value="0100"
@@ -382,7 +383,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                     <input
                       class="govuk-input govuk-date-input__input govuk-input--width-6"
                       id="disruption-end-date"
-                      name="disruptionEndDateDay"
+                      name="disruption-end-date"
                       placeholder="DD/MM/YYYY"
                       type="tel"
                       value="08/01/2023"
@@ -446,7 +447,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                 <input
                   class="govuk-input govuk-date-input__input govuk-input--width-4"
                   id="disruption-end-time"
-                  name="disruptionEndTime"
+                  name="disruption-end-time"
                   placeholder="hhmm"
                   type="text"
                   value="0200"
@@ -572,7 +573,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                     <input
                       class="govuk-input govuk-date-input__input govuk-input--width-6"
                       id="publish-start-date"
-                      name="publishStartDateDay"
+                      name="publish-start-date"
                       placeholder="DD/MM/YYYY"
                       type="tel"
                       value="03/01/2023"
@@ -636,7 +637,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                 <input
                   class="govuk-input govuk-date-input__input govuk-input--width-4"
                   id="publish-start-time"
-                  name="publishStartTime"
+                  name="publish-start-time"
                   placeholder="hhmm"
                   type="text"
                   value="0200"
@@ -674,7 +675,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                       class="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled=""
                       id="publish-end-date"
-                      name="publishEndDateDay"
+                      name="publish-end-date"
                       placeholder="N/A"
                       type="tel"
                       value=""
@@ -737,7 +738,7 @@ exports[`pages > CreateDisruption > should render correctly when the no end date
                   class="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled=""
                   id="publish-end-time"
-                  name="publishEndTime"
+                  name="publish-end-time"
                   placeholder="N/A"
                   type="text"
                   value=""
@@ -967,6 +968,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -983,7 +987,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createDisruption"
+        action="/api/create-disruption"
         method="post"
       >
         <div
@@ -1022,8 +1026,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="disruption-planned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="planned"
                     />
@@ -1039,8 +1044,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-unplanned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="unplanned"
                     />
@@ -1129,7 +1135,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   defaultValue="www.bbc.com"
                   id="associated-link"
                   maxLength={50}
-                  name="associatedLink"
+                  name="associated-link"
                   onBlur={[Function]}
                   type="text"
                 />
@@ -1144,7 +1150,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="Distruption-reason"
+                htmlFor="Disruption-reason"
               >
                 Reason for disruption
               </label>
@@ -1155,7 +1161,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-select w-3/4"
                   defaultValue="routeDiversion"
                   id="disruption-reason"
-                  name="disruptionReason"
+                  name="disruption-reason"
                   onBlur={[Function]}
                 >
                   <option
@@ -1227,7 +1233,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="disruption-start-date"
-                      name="disruptionStartDate"
+                      name="disruption-start-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -1308,7 +1314,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="disruption-start-time"
-                  name="disruptionStartTime"
+                  name="disruption-start-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -1348,7 +1354,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="disruption-end-date"
-                      name="disruptionEndDateDay"
+                      name="disruption-end-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -1429,7 +1435,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="disruption-end-time"
-                  name="disruptionEndTime"
+                  name="disruption-end-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -1452,6 +1458,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-checkboxes__input"
+                  defaultChecked={false}
                   id="disruption-no-end-date-time"
                   name="disruptionIsNoEndDateTime"
                   onClick={[Function]}
@@ -1489,6 +1496,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-radios__input"
+                  defaultChecked={false}
                   id="disruption-repeats"
                   name="disruptionRepeats"
                   type="radio"
@@ -1506,6 +1514,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-radios__input"
+                  defaultChecked={false}
                   id="disruption-does-not-repeat"
                   name="disruptionRepeats"
                   type="radio"
@@ -1559,7 +1568,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="publish-start-date"
-                      name="publishStartDateDay"
+                      name="publish-start-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -1640,7 +1649,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="publish-start-time"
-                  name="publishStartTime"
+                  name="publish-start-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -1680,7 +1689,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="publish-end-date"
-                      name="publishEndDateDay"
+                      name="publish-end-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -1761,7 +1770,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="publish-end-time"
-                  name="publishEndTime"
+                  name="publish-end-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -1784,6 +1793,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-checkboxes__input"
+                  defaultChecked={false}
                   id="publish-no-end-date-time"
                   name="publishIsNoEndDateTime"
                   onClick={[Function]}
@@ -2015,6 +2025,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -2031,7 +2044,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createDisruption"
+        action="/api/create-disruption"
         method="post"
       >
         <div
@@ -2070,8 +2083,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-planned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="planned"
                     />
@@ -2087,8 +2101,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-unplanned"
-                      name="disruptionType"
+                      name="typeOfDisruption"
                       type="radio"
                       value="unplanned"
                     />
@@ -2177,7 +2192,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   defaultValue=""
                   id="associated-link"
                   maxLength={50}
-                  name="associatedLink"
+                  name="associated-link"
                   onBlur={[Function]}
                   type="text"
                 />
@@ -2192,7 +2207,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="Distruption-reason"
+                htmlFor="Disruption-reason"
               >
                 Reason for disruption
               </label>
@@ -2203,7 +2218,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   className="govuk-select w-3/4"
                   defaultValue=""
                   id="disruption-reason"
-                  name="disruptionReason"
+                  name="disruption-reason"
                   onBlur={[Function]}
                 >
                   <option
@@ -2275,7 +2290,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="disruption-start-date"
-                      name="disruptionStartDate"
+                      name="disruption-start-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -2353,7 +2368,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="disruption-start-time"
-                  name="disruptionStartTime"
+                  name="disruption-start-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -2393,7 +2408,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="disruption-end-date"
-                      name="disruptionEndDateDay"
+                      name="disruption-end-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -2471,7 +2486,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="disruption-end-time"
-                  name="disruptionEndTime"
+                  name="disruption-end-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -2494,6 +2509,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-checkboxes__input"
+                  defaultChecked={false}
                   id="disruption-no-end-date-time"
                   name="disruptionIsNoEndDateTime"
                   onClick={[Function]}
@@ -2531,6 +2547,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-radios__input"
+                  defaultChecked={false}
                   id="disruption-repeats"
                   name="disruptionRepeats"
                   type="radio"
@@ -2548,6 +2565,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-radios__input"
+                  defaultChecked={false}
                   id="disruption-does-not-repeat"
                   name="disruptionRepeats"
                   type="radio"
@@ -2601,7 +2619,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="publish-start-date"
-                      name="publishStartDateDay"
+                      name="publish-start-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -2679,7 +2697,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="publish-start-time"
-                  name="publishStartTime"
+                  name="publish-start-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -2719,7 +2737,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-input govuk-date-input__input govuk-input--width-6"
                       disabled={false}
                       id="publish-end-date"
-                      name="publishEndDateDay"
+                      name="publish-end-date"
                       onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
@@ -2797,7 +2815,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="publish-end-time"
-                  name="publishEndTime"
+                  name="publish-end-time"
                   onBlur={[Function]}
                   onChange={[Function]}
                   placeholder="hhmm"
@@ -2820,6 +2838,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <input
                   className="govuk-checkboxes__input"
+                  defaultChecked={false}
                   id="publish-no-end-date-time"
                   name="publishIsNoEndDateTime"
                   onClick={[Function]}

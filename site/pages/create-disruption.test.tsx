@@ -1,3 +1,4 @@
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, afterEach } from "vitest";
@@ -6,7 +7,6 @@ import CreateDisruption, { PageState } from "./create-disruption";
 const blankInputs: PageState = {
     errors: [],
     inputs: {
-        typeOfDisruption: "",
         summary: "",
         description: "",
         "associated-link": "",
@@ -29,7 +29,7 @@ const withInputs: PageState = {
         summary: "New disruption",
         description: "A truck broke the bridge",
         "associated-link": "www.bbc.com",
-        "disruption-reason": "routeDiversion",
+        "disruption-reason": MiscellaneousReason.routeDiversion,
         "disruption-start-date": new Date("01/04/2023"),
         "disruption-end-date": new Date("01/08/2023"),
         "disruption-start-time": "0100",

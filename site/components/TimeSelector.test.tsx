@@ -8,7 +8,6 @@ import { PageState } from "../pages/create-disruption";
 const blankInputs: PageState = {
     errors: [],
     inputs: {
-        typeOfDisruption: "",
         summary: "",
         description: "",
         "associated-link": "",
