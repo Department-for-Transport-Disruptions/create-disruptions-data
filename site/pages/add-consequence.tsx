@@ -90,7 +90,7 @@ const consequenceType: InputInfo[] = [
 const addConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
-            <form action="/api/addConsequence" method="post">
+            <form action="/api/add-consequence" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
