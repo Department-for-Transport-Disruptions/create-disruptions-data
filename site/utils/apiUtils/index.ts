@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { decode } from "jsonwebtoken";
-import { NextApiRequest, NextApiResponse } from "next";
-import { parseCookies, setCookie } from "nookies";
+import { NextApiResponse } from "next";
+import { setCookie } from "nookies";
 import { ServerResponse } from "http";
-import { ID_TOKEN_COOKIE } from "../../constants";
-import { CognitoIdToken } from "../../interfaces";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -41,21 +37,3 @@ export const redirectToError = (
     logger.error(message, { context, error: error.stack });
     redirectTo(res, "/error");
 };
-
-export const getAttributeFromIdToken = <T extends keyof CognitoIdToken>(
-    req: NextApiRequest,
-    attribute: T,
-): CognitoIdToken[T] | null => {
-    const cookies = parseCookies({ req });
-    const idToken = cookies[ID_TOKEN_COOKIE];
-
-    if (!idToken) {
-        return null;
-    }
-
-    const decodedIdToken = decode(idToken) as CognitoIdToken;
-
-    return decodedIdToken[attribute] ?? null;
-};
-
-export const getEmailFromIdToken = (req: NextApiRequest): string | null => getAttributeFromIdToken(req, "email");

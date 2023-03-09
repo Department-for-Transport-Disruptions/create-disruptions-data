@@ -51,31 +51,3 @@ export interface Feedback {
     question: string;
     answer: string;
 }
-
-export interface FeedbackApiRequest extends NextApiRequest {
-    body: {
-        hearAboutServiceQuestion: string;
-        generalFeedbackQuestion: string;
-        contactQuestion: string;
-        problemQuestion: string;
-    };
-}
-
-/* eslint-disable camelcase */
-export interface CognitoIdToken {
-    sub: string;
-    aud: string;
-    email_verified: boolean;
-    event_id: string;
-    "custom:noc": string;
-    token_use: string;
-    auth_time: number;
-    iss: string;
-    "cognito:username": string;
-    exp: number;
-    iat: number;
-    email: string;
-    "custom:contactable": string;
-    "custom:schemeOperator": string;
-    "custom:schemeRegionCode": string;
-}

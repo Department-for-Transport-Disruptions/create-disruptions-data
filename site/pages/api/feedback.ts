@@ -1,16 +1,25 @@
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import Mail from "nodemailer/lib/mailer";
 import {
-    contactFeedbackQuestion,
-    solveFeedbackQuestion,
-    hearAboutUsFeedbackQuestion,
-    generalFeedbackQuestion,
+    CONTACT_FEEDBACK_QUESTION,
+    GENERAL_FEEDBACK_QUESTION,
+    HEAR_ABOUT_US_FEEDBACK_QUESTION,
+    SOLVE_FEEDBACK_QUESTION,
 } from "../../constants";
-import { Feedback, FeedbackApiRequest } from "../../interfaces";
+import { Feedback } from "../../interfaces";
 import { setFeedbackMailOptions } from "../../utils/apiUtils/feedbackEmailer";
-import { redirectToError, redirectTo, getEmailFromIdToken } from "../../utils/apiUtils/index";
+import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 import { removeExcessWhiteSpace } from "../../utils/apiUtils/validator";
 import logger from "../../utils/logger";
+
+interface FeedbackApiRequest extends NextApiRequest {
+    body: {
+        hearAboutServiceQuestion: string;
+        generalFeedbackQuestion: string;
+        contactQuestion: string;
+        problemQuestion: string;
+    };
+}
 
 export const buildFeedbackForEmail = (req: FeedbackApiRequest): Feedback[] => {
     const { body } = req;
@@ -19,25 +28,25 @@ export const buildFeedbackForEmail = (req: FeedbackApiRequest): Feedback[] => {
     const refinedGeneralFeedbackInput = removeExcessWhiteSpace(body.generalFeedbackQuestion);
     if (refinedHearAboutServiceInput && refinedHearAboutServiceInput !== "") {
         feedback.push({
-            question: hearAboutUsFeedbackQuestion,
+            question: HEAR_ABOUT_US_FEEDBACK_QUESTION,
             answer: refinedHearAboutServiceInput,
         });
     }
     if (refinedGeneralFeedbackInput && refinedGeneralFeedbackInput !== "") {
         feedback.push({
-            question: generalFeedbackQuestion,
+            question: GENERAL_FEEDBACK_QUESTION,
             answer: refinedGeneralFeedbackInput,
         });
     }
     if (body.contactQuestion) {
         feedback.push({
-            question: contactFeedbackQuestion,
+            question: CONTACT_FEEDBACK_QUESTION,
             answer: body.contactQuestion,
         });
     }
     if (body.problemQuestion) {
         feedback.push({
-            question: solveFeedbackQuestion,
+            question: SOLVE_FEEDBACK_QUESTION,
             answer: body.problemQuestion,
         });
     }
@@ -95,7 +104,7 @@ const feedback = (req: FeedbackApiRequest, res: NextApiResponse): void => {
         }
 
         const feedback: Feedback[] = buildFeedbackForEmail(req);
-        const feedbackSubmitterEmailAddress = getEmailFromIdToken(req) || "UNKNOWN";
+        const feedbackSubmitterEmailAddress = "UNKNOWN";
         mailOptions = setFeedbackMailOptions(feedbackSubmitterEmailAddress, feedback);
 
         if (process.env.NODE_ENV !== "production") {

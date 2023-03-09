@@ -33,10 +33,10 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export const contactFeedbackQuestion = "Did you contact us for assistance at any point?";
-export const solveFeedbackQuestion = "Did we solve your problem?";
-export const hearAboutUsFeedbackQuestion = "How did you hear about our service?";
-export const generalFeedbackQuestion = "Please let us know any feedback or suggestions for improvements you may have";
+export const CONTACT_FEEDBACK_QUESTION = "Did you contact us for assistance at any point?";
+export const SOLVE_FEEDBACK_QUESTION = "Did we solve your problem?";
+export const HEAR_ABOUT_US_FEEDBACK_QUESTION = "How did you hear about our service?";
+export const GENERAL_FEEDBACK_QUESTION = "Please let us know any feedback or suggestions for improvements you may have";
 
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 

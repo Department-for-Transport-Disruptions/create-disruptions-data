@@ -4,10 +4,10 @@ import { ReactElement } from "react";
 import CsrfForm from "../components/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import {
-    contactFeedbackQuestion,
-    solveFeedbackQuestion,
-    hearAboutUsFeedbackQuestion,
-    generalFeedbackQuestion,
+    CONTACT_FEEDBACK_QUESTION,
+    SOLVE_FEEDBACK_QUESTION,
+    HEAR_ABOUT_US_FEEDBACK_QUESTION,
+    GENERAL_FEEDBACK_QUESTION,
 } from "../constants";
 import { getCsrfToken } from "../utils";
 
@@ -58,7 +58,7 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
                             className="govuk-fieldset__legend govuk-fieldset__legend--m"
                             id="hear-about-service-header"
                         >
-                            {hearAboutUsFeedbackQuestion}
+                            {HEAR_ABOUT_US_FEEDBACK_QUESTION}
                         </legend>
                         <textarea
                             className="govuk-textarea"
@@ -75,7 +75,7 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
                             className="govuk-fieldset__legend govuk-fieldset__legend--m"
                             id="general-feedback-header"
                         >
-                            {generalFeedbackQuestion}
+                            {GENERAL_FEEDBACK_QUESTION}
                         </legend>
                         <textarea
                             className="govuk-textarea"
@@ -89,7 +89,7 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
                 <div className="govuk-!-padding-bottom-3">
                     <fieldset className="govuk-fieldset" aria-describedby="contact-header">
                         <legend className="govuk-fieldset__legend govuk-fieldset__legend--m" id="contact-header">
-                            {contactFeedbackQuestion}
+                            {CONTACT_FEEDBACK_QUESTION}
                         </legend>
                         <div className="govuk-radios" id="contact-radios">
                             <div className="govuk-radios__item">
@@ -123,7 +123,7 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
                 <div className="govuk-!-padding-bottom-6">
                     <fieldset className="govuk-fieldset" aria-describedby="problem-header">
                         <legend className="govuk-fieldset__legend govuk-fieldset__legend--m" id="problem-header">
-                            {solveFeedbackQuestion}
+                            {SOLVE_FEEDBACK_QUESTION}
                         </legend>
                         <div className="govuk-radios" id="problem-radios">
                             <div className="govuk-radios__item">
