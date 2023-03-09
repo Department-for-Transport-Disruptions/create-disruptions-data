@@ -9,9 +9,9 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="publish-end-date"
+      htmlFor="disruption-start-date"
     >
-      What is the end date?
+      What is the start date?
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -30,8 +30,8 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={true}
-            id="publish-end-date"
-            name="publishStartDateDay"
+            id="disruption-start-date"
+            name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="N/A"
@@ -90,9 +90,9 @@ exports[`DateSelector > should render correctly with an input 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="publish-end-date"
+      htmlFor="disruption-start-date"
     >
-      What is the end date?
+      What is the start date?
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -111,13 +111,13 @@ exports[`DateSelector > should render correctly with an input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="publish-end-date"
-            name="publishStartDateDay"
+            id="disruption-start-date"
+            name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"
             type="tel"
-            value="01/01/2023"
+            value="01/01/2024"
           />
         </div>
       </div>
@@ -125,7 +125,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
         className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
       >
         <button
-          aria-label="Choose date, selected date is Jan 1, 2023"
+          aria-label="Choose date, selected date is Jan 1, 2024"
           className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
           disabled={false}
           onBlur={[Function]}
@@ -171,9 +171,9 @@ exports[`DateSelector > should render correctly with errors 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="publish-end-date"
+      htmlFor="disruption-start-date"
     >
-      What is the end date?
+      What is the start date?
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -191,21 +191,21 @@ exports[`DateSelector > should render correctly with errors 1`] = `
         >
           <span
             className="govuk-error-message"
-            id="publish-end-date-error"
+            id="disruption-start-date-error"
           >
             <span
               className="govuk-visually-hidden"
             >
               Error: 
             </span>
-            Select a date
+            There was an error
           </span>
           <input
-            aria-describedby="publish-end-date-error"
+            aria-describedby="disruption-start-date-error"
             className="govuk-input govuk-date-input__input govuk-input--width-6 govuk-input--error"
             disabled={false}
-            id="publish-end-date"
-            name="publishStartDateDay"
+            id="disruption-start-date"
+            name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"
@@ -267,9 +267,9 @@ exports[`DateSelector > should render correctly with no input 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="publish-end-date"
+      htmlFor="disruption-start-date"
     >
-      What is the end date?
+      What is the start date?
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -288,8 +288,8 @@ exports[`DateSelector > should render correctly with no input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="publish-end-date"
-            name="publishStartDateDay"
+            id="disruption-start-date"
+            name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"

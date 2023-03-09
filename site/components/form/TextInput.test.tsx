@@ -105,4 +105,26 @@ describe("TextInput", () => {
 
         unmount();
     });
+
+    it("should display error if user clicks on field then clicks away", async () => {
+        const { unmount } = render(
+            <TextInput<PageInputs>
+                inputId="field2"
+                inputName="testField"
+                display="Test Field"
+                errorMessage="Test Error Message"
+                stateUpdater={vi.fn()}
+                widthClass="w-3/4"
+                minLength={15}
+                maxLength={50}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("Test Field"));
+        await userEvent.tab();
+
+        expect(screen.getByText("Test Error Message")).toBeTruthy();
+
+        unmount();
+    });
 });

@@ -4,51 +4,33 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import { ErrorInfo } from "../../interfaces";
-import { PageInputs, PageState } from "../../pages/create-disruption";
+import { ErrorInfo, FormBase } from "../../interfaces";
+import { handleBlur } from "../../utils/formUtils";
 
-interface DateSelectorProps {
-    header: string;
-    hiddenHint?: string;
-    input: Date | null;
-    errors?: ErrorInfo[];
+interface DateSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
-    inputId: keyof PageInputs;
-    inputName: string;
+    hiddenHint?: string;
     disablePast: boolean;
-    pageState: PageState;
-    updatePageState: Dispatch<SetStateAction<PageState>>;
-    updaterFunction: (
-        currentState: PageState,
-        setPageState: Dispatch<SetStateAction<PageState>>,
-        inputName: keyof PageInputs,
-        input: string | Date | null,
-        error?: ErrorInfo,
-    ) => void;
 }
 
-const inputBox = (
+const inputBox = <T extends object>(
     inputRef: React.Ref<HTMLInputElement> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
-    disabled: boolean,
-    inputId: keyof PageInputs,
+    inputId: Extract<keyof T, string>,
     inputName: string,
-    pageState: PageState,
-    updatePageState: Dispatch<SetStateAction<PageState>>,
-    updaterFunction: (
-        currentState: PageState,
-        setPageState: Dispatch<SetStateAction<PageState>>,
-        inputName: keyof PageInputs,
-        input: string | Date | null,
-        error?: ErrorInfo,
-    ) => void,
+    errorMessage: string,
+    errors: ErrorInfo[],
+    disabled: boolean,
+    optional: boolean,
+    stateUpdater: (change: string, field: keyof T) => void,
+    setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <FormElementWrapper errors={pageState.errors} errorId={inputId} errorClass="govuk-input--error">
+            <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
                 <input
                     className="govuk-input govuk-date-input__input govuk-input--width-6"
                     id={inputId}
@@ -58,17 +40,7 @@ const inputBox = (
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={(e) => {
-                        const input = e.target.value;
-                        if (!input) {
-                            updaterFunction(pageState, updatePageState, inputId, input, {
-                                id: inputId,
-                                errorMessage: "Select a date",
-                            });
-                        } else {
-                            updaterFunction(pageState, updatePageState, inputId, input);
-                        }
-                    }}
+                    onBlur={(e) => handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors, optional)}
                 />
             </FormElementWrapper>
         </div>
@@ -91,46 +63,49 @@ const renderWeekPickerDay = (
     />
 );
 
-const DateSelector = ({
-    input = null,
-    disabled,
+const DateSelector = <T extends object>({
+    value,
     inputId,
+    display,
     inputName,
-    disablePast,
-    pageState,
-    header,
+    errorMessage = "",
+    initialErrors = [],
+    disabled,
     hiddenHint,
-    updatePageState,
-    updaterFunction,
-}: DateSelectorProps): ReactElement => {
-    const [value, setValue] = useState(!!disabled ? null : input);
+    optional = false,
+    disablePast,
+    stateUpdater,
+}: DateSelectorProps<T>): ReactElement => {
+    const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={pageState.errors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group govuk-!-margin-bottom-0">
                 <label className="govuk-label govuk-label--s" htmlFor={inputId}>
-                    {header}
+                    {display}
                 </label>
                 {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         renderDay={renderWeekPickerDay}
-                        value={value}
+                        value={dateValue}
                         onChange={(newValue) => {
-                            updaterFunction(pageState, updatePageState, inputId, newValue);
-                            setValue(newValue);
+                            setDateValue(newValue);
                         }}
                         renderInput={({ inputRef, inputProps, InputProps }) => {
                             return inputBox(
                                 inputRef,
                                 inputProps,
                                 InputProps,
-                                disabled,
                                 inputId,
                                 inputName,
-                                pageState,
-                                updatePageState,
-                                updaterFunction,
+                                errorMessage,
+                                errors,
+                                disabled,
+                                optional,
+                                stateUpdater,
+                                setErrors,
                             );
                         }}
                         disablePast={disablePast}

@@ -156,14 +156,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               <div
                 className=""
               >
-                <input
-                  className="govuk-input w-3/4"
+                <textarea
+                  className="govuk-textarea w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  type="text"
+                  rows={3}
                 />
               </div>
             </div>
@@ -260,6 +260,87 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-form-group"
           >
             <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="disruption-start-date"
+                      name="disruptionStartDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="04/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 4, 2023"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
               className="govuk-form-group"
             >
               <label
@@ -288,6 +369,87 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   placeholder="hhmm"
                   type="text"
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="disruption-end-date"
+                      name="disruptionEndDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="08/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 8, 2023"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -447,6 +609,87 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             className="govuk-form-group"
           >
             <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="publish-start-date"
+                      name="publishStartDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="03/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 3, 2023"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
               className="govuk-form-group"
             >
               <label
@@ -475,6 +718,87 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   placeholder="hhmm"
                   type="text"
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="publish-end-date"
+                      name="publishEndDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value="08/01/2023"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date, selected date is Jan 8, 2023"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -906,14 +1230,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               <div
                 className=""
               >
-                <input
-                  className="govuk-input w-3/4"
+                <textarea
+                  className="govuk-textarea w-3/4"
                   defaultValue=""
                   id="description"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  type="text"
+                  rows={3}
                 />
               </div>
             </div>
@@ -1010,6 +1334,84 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-form-group"
           >
             <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="disruption-start-date"
+                      name="disruptionStartDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
               className="govuk-form-group"
             >
               <label
@@ -1038,6 +1440,84 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   placeholder="hhmm"
                   type="text"
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="disruption-end-date"
+                      name="disruptionEndDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1197,6 +1677,84 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             className="govuk-form-group"
           >
             <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-start-date"
+              >
+                What is the start date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="publish-start-date"
+                      name="publishStartDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
               className="govuk-form-group"
             >
               <label
@@ -1225,6 +1783,84 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   placeholder="hhmm"
                   type="text"
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="publish-end-date"
+              >
+                What is the end date?
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="publish-end-date"
+                      name="publishEndDate"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

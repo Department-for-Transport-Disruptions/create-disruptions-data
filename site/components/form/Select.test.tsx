@@ -1,44 +1,24 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import Select from "./Select";
 import { DISRUPTION_REASONS } from "../../constants";
-import { PageState } from "../../pages/create-disruption";
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-const state: PageState = {
-    errors: [],
-    inputs: {
-        typeOfDisruption: "",
-        summary: "",
-        description: "",
-        "associated-link": "",
-        "disruption-reason": "",
-        "disruption-start-date": null,
-        "disruption-end-date": null,
-        "disruption-start-time": "",
-        "disruption-end-time": "",
-        "publish-start-date": null,
-        "publish-end-date": null,
-        "publish-start-time": "",
-        "publish-end-time": "",
-    },
-};
+import { PageInputs } from "../../pages/create-disruption";
 
 describe("Select", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
-                <Select
-                    pageState={state}
-                    inputInfo={{
-                        id: "disruption-reason",
-                        name: "disruptionReason",
-                        display: "Reason for disruption",
-                    }}
+                <Select<PageInputs>
+                    inputId="disruption-reason"
+                    inputName="disruptionReason"
+                    display="Reason for disruption"
+                    defaultDisplay="Select a reason"
+                    errorMessage="Select a reason from the dropdown"
                     selectValues={DISRUPTION_REASONS}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    stateUpdater={vi.fn()}
+                    value={""}
                 />,
             )
             .toJSON();
@@ -48,19 +28,41 @@ describe("Select", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <Select
-                    pageState={{ ...state, errors: [{ errorMessage: "There was an error", id: "disruption-reason" }] }}
-                    inputInfo={{
-                        id: "disruption-reason",
-                        name: "disruptionReason",
-                        display: "Reason for disruption",
-                    }}
+                <Select<PageInputs>
+                    inputId="disruption-reason"
+                    inputName="disruptionReason"
+                    display="Reason for disruption"
+                    defaultDisplay="Select a reason"
+                    errorMessage="Select a reason from the dropdown"
                     selectValues={DISRUPTION_REASONS}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    stateUpdater={vi.fn()}
+                    value={""}
+                    initialErrors={[{ errorMessage: "There was an error", id: "disruption-reason" }]}
                 />,
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it("should validate minLength and display error", async () => {
+        const { unmount } = render(
+            <Select<PageInputs>
+                inputId="disruption-reason"
+                inputName="disruptionReason"
+                display="Reason for disruption"
+                defaultDisplay="Select a reason"
+                errorMessage="Select a reason from the dropdown"
+                selectValues={DISRUPTION_REASONS}
+                stateUpdater={vi.fn()}
+                value={""}
+            />,
+        );
+
+        await userEvent.click(screen.getByText("Select a reason"));
+        await userEvent.tab();
+
+        expect(screen.getByText("Select a reason")).toBeTruthy();
+
+        unmount();
     });
 });

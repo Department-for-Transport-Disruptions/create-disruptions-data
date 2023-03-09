@@ -1,44 +1,24 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import DateSelector from "./DateSelector";
-import { PageState } from "../../pages/create-disruption";
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-const blankInputs: PageState = {
-    errors: [],
-    inputs: {
-        typeOfDisruption: "",
-        summary: "",
-        description: "",
-        "associated-link": "",
-        "disruption-reason": "",
-        "disruption-start-date": null,
-        "disruption-end-date": null,
-        "disruption-start-time": "",
-        "disruption-end-time": "",
-        "publish-start-date": null,
-        "publish-end-date": null,
-        "publish-start-time": "",
-        "publish-end-time": "",
-    },
-};
+import { PageInputs } from "../../pages/create-disruption";
 
 describe("DateSelector", () => {
     it("should render correctly with no input", () => {
         const tree = renderer
             .create(
-                <DateSelector
-                    header="What is the end date?"
+                <DateSelector<PageInputs>
+                    display="What is the start date?"
                     hiddenHint="Enter in format DD/MM/YYYY"
-                    input={null}
+                    value=""
+                    errorMessage="Select a date"
                     disabled={false}
                     disablePast={false}
-                    inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-date"
+                    inputName="disruptionStartDate"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -48,17 +28,17 @@ describe("DateSelector", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <DateSelector
-                    header="What is the end date?"
+                <DateSelector<PageInputs>
+                    display="What is the start date?"
                     hiddenHint="Enter in format DD/MM/YYYY"
-                    input={null}
+                    initialErrors={[{ errorMessage: "There was an error", id: "disruption-start-date" }]}
+                    value="sss"
+                    errorMessage="There was an error"
                     disabled={false}
                     disablePast={false}
-                    inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
-                    pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-date"
+                    inputName="disruptionStartDate"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -68,17 +48,16 @@ describe("DateSelector", () => {
     it("should render correctly with an input", () => {
         const tree = renderer
             .create(
-                <DateSelector
-                    header="What is the end date?"
+                <DateSelector<PageInputs>
+                    display="What is the start date?"
                     hiddenHint="Enter in format DD/MM/YYYY"
-                    input={new Date("01/01/2023")}
+                    value="01/01/2024"
+                    errorMessage="Select a date"
                     disabled={false}
                     disablePast={false}
-                    inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-date"
+                    inputName="disruptionStartDate"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -88,20 +67,42 @@ describe("DateSelector", () => {
     it("should render correctly when disabled", () => {
         const tree = renderer
             .create(
-                <DateSelector
-                    header="What is the end date?"
+                <DateSelector<PageInputs>
+                    display="What is the start date?"
                     hiddenHint="Enter in format DD/MM/YYYY"
-                    input={null}
-                    disablePast={false}
-                    inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    value="01/01/2024"
+                    errorMessage="Select a date"
                     disabled
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    disablePast={false}
+                    inputId="disruption-start-date"
+                    inputName="disruptionStartDate"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it("should validate minLength and display error", async () => {
+        const { unmount } = render(
+            <DateSelector<PageInputs>
+                display="What is the start date?"
+                hiddenHint="Enter in format DD/MM/YYYY"
+                value=""
+                errorMessage="Select a date"
+                disabled={false}
+                disablePast={false}
+                inputId="disruption-start-date"
+                inputName="disruptionStartDate"
+                stateUpdater={vi.fn()}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("What is the start date?"));
+        await userEvent.tab();
+
+        expect(screen.getByText("Select a date")).toBeTruthy();
+
+        unmount();
     });
 });

@@ -1,46 +1,23 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import TimeSelector from "./TimeSelector";
-import { PageState } from "../../pages/create-disruption";
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-const blankInputs: PageState = {
-    errors: [],
-    inputs: {
-        typeOfDisruption: "",
-        summary: "",
-        description: "",
-        "associated-link": "",
-        "disruption-reason": "",
-        "disruption-start-date": null,
-        "disruption-end-date": null,
-        "disruption-start-time": "",
-        "disruption-end-time": "",
-        "publish-start-date": null,
-        "publish-end-date": null,
-        "publish-start-time": "",
-        "publish-end-time": "",
-    },
-};
+import { PageInputs } from "../../pages/create-disruption";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    header="What is the start time?"
-                    hint={{
-                        id: "publish-start-time-hint",
-                        text: "Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
-                    }}
-                    input={undefined}
+                <TimeSelector<PageInputs>
+                    display="What is the start time?"
+                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                    value={""}
+                    errorMessage="Enter a start time for the disruption"
                     disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-time"
+                    inputName="disruptionStartTime"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -50,19 +27,15 @@ describe("TimeSelector", () => {
     it("should render correctly with inputs", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    header="What is the start time?"
-                    hint={{
-                        id: "publish-start-time-hint",
-                        text: "Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
-                    }}
-                    input={"0900"}
+                <TimeSelector<PageInputs>
+                    display="What is the start time?"
+                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                    value={"0900"}
+                    errorMessage="Enter a start time for the disruption"
                     disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-time"
+                    inputName="disruptionStartTime"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -72,22 +45,16 @@ describe("TimeSelector", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    header="What is the start time?"
-                    hint={{
-                        id: "publish-start-time-hint",
-                        text: "Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
-                    }}
-                    input={""}
+                <TimeSelector<PageInputs>
+                    display="What is the start time?"
+                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                    value={"three thirty"}
+                    initialErrors={[{ errorMessage: "There was an error", id: "disruption-reason" }]}
+                    errorMessage="There was an error"
                     disabled={false}
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={{
-                        ...blankInputs,
-                        errors: [{ id: "publish-start-time-input", errorMessage: "Enter a time in hhmm format" }],
-                    }}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-time"
+                    inputName="disruptionStartTime"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -97,22 +64,40 @@ describe("TimeSelector", () => {
     it("should render correctly when disabled", () => {
         const tree = renderer
             .create(
-                <TimeSelector
-                    header="What is the start time?"
-                    hint={{
-                        id: "publish-start-time-hint",
-                        text: "Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
-                    }}
-                    input={undefined}
+                <TimeSelector<PageInputs>
+                    display="What is the start time?"
+                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                    value={"three thirty"}
+                    errorMessage="There was an error"
                     disabled
-                    inputId={"publish-start-time-input"}
-                    inputName={"publishStartTime"}
-                    pageState={blankInputs}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
+                    inputId="disruption-start-time"
+                    inputName="disruptionStartTime"
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it("should validate minLength and display error", async () => {
+        const { unmount } = render(
+            <TimeSelector<PageInputs>
+                display="What is the start time?"
+                hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                value={""}
+                errorMessage="Enter a start time for the disruption"
+                disabled={false}
+                inputId="disruption-start-time"
+                inputName="disruptionStartTime"
+                stateUpdater={vi.fn()}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("What is the start time?"));
+        await userEvent.tab();
+
+        expect(screen.getByText("Enter a start time for the disruption")).toBeTruthy();
+
+        unmount();
     });
 });

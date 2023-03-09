@@ -1,0 +1,208 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Radios > should render correctly with a padding 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <fieldset
+    className="govuk-fieldset"
+  >
+    <legend
+      className="govuk-fieldset__legend govuk-!-padding-top-2"
+    >
+      <span
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        Type of disruption
+      </span>
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="govuk-radios"
+        id="radio-buttons"
+      >
+        <div
+          className="govuk-radios__item govuk-!-margin-bottom-1"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-planned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="planned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-planned"
+          >
+            Planned
+          </label>
+        </div>
+        <div
+          className="govuk-radios__item"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-unplanned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="unplanned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-unplanned"
+          >
+            Unplanned
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Radios > should render correctly with errors 1`] = `
+<div
+  className="govuk-form-group govuk-form-group--error"
+>
+  <fieldset
+    className="govuk-fieldset"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <span
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        Type of disruption
+      </span>
+    </legend>
+    <div
+      className=""
+    >
+      <span
+        className="govuk-error-message"
+        id="type-of-disruption-error"
+      >
+        <span
+          className="govuk-visually-hidden"
+        >
+          Error: 
+        </span>
+        There was an error
+      </span>
+      <div
+        aria-describedby="type-of-disruption-error"
+        className="govuk-radios govuk-radios--error"
+        id="radio-buttons"
+      >
+        <div
+          className="govuk-radios__item govuk-!-margin-bottom-1"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-planned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="planned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-planned"
+          >
+            Planned
+          </label>
+        </div>
+        <div
+          className="govuk-radios__item"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-unplanned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="unplanned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-unplanned"
+          >
+            Unplanned
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Radios > should render correctly with no errors 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <fieldset
+    className="govuk-fieldset"
+  >
+    <legend
+      className="govuk-fieldset__legend"
+    >
+      <span
+        className="govuk-heading-s govuk-!-margin-bottom-0"
+      >
+        Type of disruption
+      </span>
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="govuk-radios"
+        id="radio-buttons"
+      >
+        <div
+          className="govuk-radios__item govuk-!-margin-bottom-1"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-planned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="planned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-planned"
+          >
+            Planned
+          </label>
+        </div>
+        <div
+          className="govuk-radios__item"
+        >
+          <input
+            className="govuk-radios__input"
+            id="type-of-disruption-unplanned"
+            name="typeOfDisruption"
+            onChange={[Function]}
+            type="radio"
+            value="unplanned"
+          />
+          <label
+            className="govuk-label govuk-radios__label"
+            htmlFor="type-of-disruption-unplanned"
+          >
+            Unplanned
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
