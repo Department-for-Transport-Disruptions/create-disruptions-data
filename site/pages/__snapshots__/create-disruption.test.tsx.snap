@@ -41,7 +41,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createDisruption"
+        action="/api/create-disruption"
         method="post"
       >
         <div
@@ -204,7 +204,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="Distruption-reason"
+                htmlFor="Disruption-reason"
               >
                 Reason for disruption
               </label>
@@ -1091,7 +1091,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createDisruption"
+        action="/api/create-disruption"
         method="post"
       >
         <div
@@ -1254,7 +1254,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             >
               <label
                 className="govuk-label govuk-label--s"
-                htmlFor="Distruption-reason"
+                htmlFor="Disruption-reason"
               >
                 Reason for disruption
               </label>

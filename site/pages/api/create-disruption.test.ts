@@ -84,48 +84,18 @@ describe("createDisruption", () => {
         createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
-            {
-                id: "some-error-id",
-                errorMessage: "Choose a Type of Disruption",
-            },
-            { id: "some-error-id", errorMessage: "Enter a Summary" },
-            { id: "some-error-id", errorMessage: "Enter a Description" },
-            {
-                id: "some-error-id",
-                errorMessage: "Choose a Reason from the dropdown",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No Start date selected. Select a valid Start date",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No Start time entered. Select a valid Start time",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No End date selected. Select a valid End date",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No End time entered. Select a valid End time",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No Start date selected. Select a valid Start date",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No Start time entered. Select a valid Start time",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No End date selected. Select a valid End date",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "No End time entered. Select a valid End time",
-            },
+            { id: "some-error-id", errorMessage: "Choose a Type of Disruption" },
+            { id: "some-error-id", errorMessage: "Enter a summary for this disruption" },
+            { id: "some-error-id", errorMessage: "Enter a description for this disruption (200 characters maximum)" },
+            { id: "some-error-id", errorMessage: "Select a reason from the dropdown" },
+            { id: "some-error-id", errorMessage: "No Start date selected. Select a valid Start date" },
+            { id: "some-error-id", errorMessage: "No Start time entered. Select a valid Start time" },
+            { id: "some-error-id", errorMessage: "No End date selected. Select a valid End date" },
+            { id: "some-error-id", errorMessage: "No End time entered. Select a valid End time" },
+            { id: "some-error-id", errorMessage: "No Start date selected. Select a valid Start date" },
+            { id: "some-error-id", errorMessage: "No Start time entered. Select a valid Start time" },
+            { id: "some-error-id", errorMessage: "No End date selected. Select a valid End date" },
+            { id: "some-error-id", errorMessage: "No End time entered. Select a valid End time" },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
         expect(setCookieSpy).toHaveBeenNthCalledWith(
@@ -798,7 +768,7 @@ describe("createDisruption", () => {
             {
                 id: "some-error-id",
                 errorMessage:
-                    "Value for End time is not a Number. Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
+                    "Value for End time is of invalid format. Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm",
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);

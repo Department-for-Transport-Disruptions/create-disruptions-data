@@ -117,6 +117,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         false,
     );
 
+    console.log(errors);
     if (errors.length == 0) {
         redirectTo(res, "/");
         return;
