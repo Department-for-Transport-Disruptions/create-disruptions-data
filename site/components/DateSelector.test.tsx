@@ -88,7 +88,7 @@ describe("DateSelector", () => {
                     input={null}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDate"}
+                    inputName={"publishEndDate"}
                     disabled
                     pageState={blankInputs}
                     updatePageState={() => {}}
