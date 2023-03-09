@@ -62,4 +62,5 @@ export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 export const ERROR_PATH = "/_error";
 
 export const ADD_CONEQUENCE_PAGE_PATH = "/add-consequence";
+
 export const STAGE = process.env.STAGE || "dev";
