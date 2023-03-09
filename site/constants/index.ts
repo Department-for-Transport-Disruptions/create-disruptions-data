@@ -55,18 +55,18 @@ export const DISRUPTION_SEVERITIES: {
 
 export const OPERATORS = [
     {
-        value: "firstGreaterManchester",
+        value: "FMAN",
         operator: "First Greater Manchester",
     },
     {
-        value: "stagecoachManchester",
+        value: "SCMN",
         operator: "Stagecoach Manchester",
     },
     {
-        value: "firstSouthYorkshire",
+        value: "FSYO",
         operator: "First South Yorkshire",
     },
-    { value: "stagecoachYorkshire", operator: "Stagecoach Yorkshire" },
+    { value: "SYRK", operator: "Stagecoach Yorkshire" },
 ];
 
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
