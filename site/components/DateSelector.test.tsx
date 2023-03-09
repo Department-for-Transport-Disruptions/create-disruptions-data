@@ -32,7 +32,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDate"}
+                    inputName={"publishEndDate"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -50,7 +50,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDate"}
+                    inputName={"publishEndDate"}
                     pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
