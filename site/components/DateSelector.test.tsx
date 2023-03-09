@@ -8,7 +8,6 @@ import { PageState } from "../pages/create-disruption";
 const blankInputs: PageState = {
     errors: [],
     inputs: {
-        typeOfDisruption: "",
         summary: "",
         description: "",
         "associated-link": "",
@@ -33,7 +32,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -51,7 +50,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                     pageState={{ ...blankInputs, errors: [{ id: "publish-end-date", errorMessage: "Select a date" }] }}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -69,7 +68,7 @@ describe("DateSelector", () => {
                     disabled={false}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                     pageState={blankInputs}
                     updatePageState={() => {}}
                     updaterFunction={() => {}}
@@ -86,7 +85,7 @@ describe("DateSelector", () => {
                     input={null}
                     disablePast={false}
                     inputId={"publish-end-date"}
-                    inputName={"publishStartDateDay"}
+                    inputName={"publishStartDate"}
                     disabled
                     pageState={blankInputs}
                     updatePageState={() => {}}

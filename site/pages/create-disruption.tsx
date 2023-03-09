@@ -1,9 +1,18 @@
+import {
+    MiscellaneousReason,
+    PersonnelReason,
+    EnvironmentReason,
+    EquipmentReason,
+} from "@create-disruptions-data/shared-ts/siriTypes";
+import { NextPageContext } from "next";
+import { parseCookies, destroyCookie } from "nookies";
 import { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import { DisruptionType } from "./api/create-disruption";
 import DateSelector from "../components/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../components/FormElementWrapper";
 import { BaseLayout } from "../components/layout/Layout";
 import TimeSelector from "../components/TimeSelector";
-import { DISRUPTION_REASONS } from "../constants/index";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
 import { ErrorInfo } from "../interfaces";
 
 const title = "Create Disruptions";
@@ -14,11 +23,11 @@ interface CreateDisruptionProps {
 }
 
 export interface PageInputs {
-    typeOfDisruption: string;
+    typeOfDisruption?: DisruptionType;
     summary: string;
     description: string;
     "associated-link": string;
-    "disruption-reason": string;
+    "disruption-reason": MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason | "";
     "disruption-start-date": Date | null;
     "disruption-end-date": Date | null;
     "disruption-start-time": string;
@@ -27,6 +36,9 @@ export interface PageInputs {
     "publish-end-date": Date | null;
     "publish-start-time": string;
     "publish-end-time": string;
+    disruptionRepeats?: string;
+    disruptionIsNoEndDateTime?: string;
+    publishIsNoEndDateTime?: string;
 }
 
 export interface PageState {
@@ -79,7 +91,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createDisruption" method="post">
+            <form action="/api/create-disruption" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Create a new Disruption</h1>
@@ -100,9 +112,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                             <input
                                                 className="govuk-radios__input"
                                                 id="disruption-planned"
-                                                name="disruptionType"
+                                                name="typeOfDisruption"
                                                 type="radio"
                                                 value="planned"
+                                                defaultChecked={pageState.inputs.typeOfDisruption === "planned"}
                                             />
                                             <label
                                                 className="govuk-label govuk-radios__label"
@@ -116,9 +129,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                             <input
                                                 className="govuk-radios__input"
                                                 id="disruption-unplanned"
-                                                name="disruptionType"
+                                                name="typeOfDisruption"
                                                 type="radio"
                                                 value="unplanned"
+                                                defaultChecked={pageState.inputs.typeOfDisruption === "unplanned"}
                                             />
                                             <label
                                                 className="govuk-label govuk-radios__label"
@@ -209,7 +223,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     <input
                                         className="govuk-input w-3/4"
                                         id="associated-link"
-                                        name="associatedLink"
+                                        name="associated-link"
                                         type="text"
                                         maxLength={50}
                                         defaultValue={pageState.inputs["associated-link"]}
@@ -224,7 +238,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         </FormGroupWrapper>
                         <FormGroupWrapper errorIds={["disruption-reason"]} errors={pageState.errors}>
                             <div className="govuk-form-group">
-                                <label className="govuk-label govuk-label--s" htmlFor="Distruption-reason">
+                                <label className="govuk-label govuk-label--s" htmlFor="Disruption-reason">
                                     Reason for disruption
                                 </label>
                                 <FormElementWrapper
@@ -235,7 +249,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     <select
                                         className="govuk-select w-3/4"
                                         id="disruption-reason"
-                                        name="disruptionReason"
+                                        name="disruption-reason"
                                         defaultValue={pageState.inputs["disruption-reason"] || ""}
                                         onBlur={(e) => {
                                             const input = e.target.value;
@@ -280,7 +294,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     disabled={false}
                                     disablePast={false}
                                     inputId="disruption-start-date"
-                                    inputName="disruptionStartDate"
+                                    inputName="disruption-start-date"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -304,7 +318,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["disruption-start-time"]}
                                     disabled={false}
                                     inputId="disruption-start-time"
-                                    inputName="disruptionStartTime"
+                                    inputName="disruption-start-time"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -322,7 +336,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["disruption-end-date"] || null}
                                     disabled={noDisruptionEndRequired}
                                     inputId="disruption-end-date"
-                                    inputName="disruptionEndDateDay"
+                                    inputName="disruption-end-date"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -345,7 +359,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["disruption-end-time"]}
                                     disabled={noDisruptionEndRequired}
                                     inputId="disruption-end-time"
-                                    inputName="disruptionEndTime"
+                                    inputName="disruption-end-time"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -364,6 +378,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionIsNoEndDateTime"
                                         type="checkbox"
                                         value="disruptionNoEndDateTime"
+                                        defaultChecked={
+                                            pageState.inputs.disruptionIsNoEndDateTime === "disruptionNoEndDateTime"
+                                        }
                                         onClick={() => {
                                             setNoDisruptionEndRequired(!noDisruptionEndRequired);
                                             setPageState({
@@ -401,6 +418,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="yes"
+                                        defaultChecked={pageState.inputs.disruptionRepeats === "yes"}
                                     />
                                     <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
                                         Yes
@@ -413,6 +431,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="no"
+                                        defaultChecked={pageState.inputs.disruptionRepeats === "no"}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"
@@ -438,7 +457,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     disabled={false}
                                     disablePast={false}
                                     inputId="publish-start-date"
-                                    inputName="publishStartDateDay"
+                                    inputName="publish-start-date"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -462,7 +481,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["publish-start-time"]}
                                     disabled={false}
                                     inputId="publish-start-time"
-                                    inputName="publishStartTime"
+                                    inputName="publish-start-time"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -481,7 +500,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["publish-end-date"]}
                                     disabled={noPublishEndRequired}
                                     inputId="publish-end-date"
-                                    inputName="publishEndDateDay"
+                                    inputName="publish-end-date"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -501,7 +520,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     input={pageState.inputs["publish-end-time"]}
                                     disabled={noPublishEndRequired}
                                     inputId="publish-end-time"
-                                    inputName="publishEndTime"
+                                    inputName="publish-end-time"
                                     pageState={pageState}
                                     updatePageState={setPageState}
                                     updaterFunction={updatePageStateForInput}
@@ -521,6 +540,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="publishIsNoEndDateTime"
                                         type="checkbox"
                                         value="publishNoEndDateTime"
+                                        defaultChecked={
+                                            pageState.inputs.publishIsNoEndDateTime === "publishNoEndDateTime"
+                                        }
                                         onClick={() => {
                                             setNoPublishEndRequired(!noPublishEndRequired);
                                             setPageState({
@@ -551,11 +573,10 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
-    const inputs: PageState = {
+export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
+    const pageState: PageState = {
         errors: [],
         inputs: {
-            typeOfDisruption: "",
             summary: "",
             description: "",
             "associated-link": "",
@@ -571,8 +592,24 @@ export const getServerSideProps = (): { props: object } => {
         },
     };
 
+    const cookies = parseCookies(ctx);
+
+    const disruptionInfo = cookies[COOKIES_DISRUPTION_INFO];
+
+    if (disruptionInfo) {
+        pageState.inputs = JSON.parse(cookies[COOKIES_DISRUPTION_INFO]) as PageInputs;
+        destroyCookie(ctx, COOKIES_DISRUPTION_INFO);
+    }
+
+    const errorInfo = cookies[COOKIES_DISRUPTION_ERRORS];
+
+    if (errorInfo) {
+        pageState.errors = JSON.parse(cookies[COOKIES_DISRUPTION_ERRORS]) as ErrorInfo[];
+        destroyCookie(ctx, COOKIES_DISRUPTION_ERRORS);
+    }
+
     return {
-        props: { inputs },
+        props: { inputs: pageState },
     };
 };
 

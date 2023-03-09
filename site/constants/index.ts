@@ -33,6 +33,9 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
+export const DISRUPTION_TYPES = ["planned", "unplanned"];
+
+export const CD_DATE_FORMAT = "DD/MM/YYYY";
 export const CONTACT_FEEDBACK_QUESTION = "Did you contact us for assistance at any point?";
 export const SOLVE_FEEDBACK_QUESTION = "Did we solve your problem?";
 export const HEAR_ABOUT_US_FEEDBACK_QUESTION = "How did you hear about our service?";
@@ -46,4 +49,11 @@ export const oneYearInSeconds = 31556952;
 
 export const ID_TOKEN_COOKIE = "cdd-id-token";
 
+export const COOKIES_DISRUPTION_INFO = "disruption-info";
+
+export const COOKIES_DISRUPTION_ERRORS = "disruption-errors";
+
+export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
+
+export const ERROR_PATH = "/_error";
 export const STAGE = process.env.STAGE || "dev";
