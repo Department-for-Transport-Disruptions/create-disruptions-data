@@ -1,65 +1,99 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Checkbox > should render correctly when default checked 1`] = `
-<fieldset
-  className="govuk-fieldset"
-  role="group"
+<div
+  className="govuk-form-group"
 >
-  <div
-    className="govuk-checkboxes flex govuk-checkboxes--small"
-    data-module="govuk-checkboxes"
+  <fieldset
+    className="govuk-fieldset"
+    role="group"
   >
-    <div
-      className="govuk-checkboxes__item"
+    <legend
+      className="govuk-fieldset__legend govuk-visually-hidden"
     >
-      <input
-        className="govuk-checkboxes__input"
-        defaultChecked={true}
-        id="disruption-no-end-date-time"
-        name="disruptionHasNoEndDateTime"
-        onClick={[Function]}
-        type="checkbox"
-        value="checked"
-      />
-      <label
-        className="govuk-label govuk-checkboxes__label"
-        htmlFor="disruption-no-end-date-time"
+      <span
+        className="govuk-heading-s govuk-!-margin-bottom-0"
       >
-        No end date/time
-      </label>
+        Display Legend
+      </span>
+    </legend>
+    <div
+      className="govuk-checkboxes flex govuk-checkboxes--small"
+      data-module="govuk-checkboxes"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="govuk-checkboxes__item"
+        >
+          <input
+            className="govuk-checkboxes__input"
+            defaultChecked={true}
+            id="field1-radioValue"
+            name="testField"
+            onChange={[Function]}
+            type="checkbox"
+            value="radioValue"
+          />
+          <label
+            className="govuk-label govuk-checkboxes__label"
+            htmlFor="field1-radioValue"
+          >
+            Radio Label
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
-</fieldset>
+  </fieldset>
+</div>
 `;
 
 exports[`Checkbox > should render correctly when not default checked 1`] = `
-<fieldset
-  className="govuk-fieldset"
-  role="group"
+<div
+  className="govuk-form-group"
 >
-  <div
-    className="govuk-checkboxes flex govuk-checkboxes--small"
-    data-module="govuk-checkboxes"
+  <fieldset
+    className="govuk-fieldset"
+    role="group"
   >
-    <div
-      className="govuk-checkboxes__item"
+    <legend
+      className="govuk-fieldset__legend govuk-visually-hidden"
     >
-      <input
-        className="govuk-checkboxes__input"
-        defaultChecked={false}
-        id="disruption-no-end-date-time"
-        name="disruptionHasNoEndDateTime"
-        onClick={[Function]}
-        type="checkbox"
-        value="checked"
-      />
-      <label
-        className="govuk-label govuk-checkboxes__label"
-        htmlFor="disruption-no-end-date-time"
+      <span
+        className="govuk-heading-s govuk-!-margin-bottom-0"
       >
-        No end date/time
-      </label>
+        Display Legend
+      </span>
+    </legend>
+    <div
+      className="govuk-checkboxes flex govuk-checkboxes--small"
+      data-module="govuk-checkboxes"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="govuk-checkboxes__item"
+        >
+          <input
+            className="govuk-checkboxes__input"
+            defaultChecked={false}
+            id="field1-radioValue"
+            name="testField"
+            onChange={[Function]}
+            type="checkbox"
+            value="radioValue"
+          />
+          <label
+            className="govuk-label govuk-checkboxes__label"
+            htmlFor="field1-radioValue"
+          >
+            Radio Label
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
-</fieldset>
+  </fieldset>
+</div>
 `;

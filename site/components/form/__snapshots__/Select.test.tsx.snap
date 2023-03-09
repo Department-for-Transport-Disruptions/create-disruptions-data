@@ -2,45 +2,25 @@
 
 exports[`Select > should render correctly with errors 1`] = `
 <div
-  className="govuk-form-group govuk-form-group--error"
+  className="govuk-form-group"
 >
   <div
     className="govuk-form-group"
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-reason"
-    >
-      Reason for disruption
-    </label>
+    />
     <div
       className=""
     >
-      <span
-        className="govuk-error-message"
-        id="disruption-reason-error"
-      >
-        <span
-          className="govuk-visually-hidden"
-        >
-          Error: 
-        </span>
-        There was an error
-      </span>
       <select
-        aria-describedby="disruption-reason-error"
-        className="govuk-select w-3/4 govuk-select--error"
-        defaultValue=""
-        id="disruption-reason"
-        name="disruptionReason"
+        className="govuk-select w-3/4"
         onBlur={[Function]}
       >
         <option
           disabled={true}
           value=""
-        >
-          Choose a reason
-        </option>
+        />
         <option
           value="roadWorks"
         >
@@ -76,26 +56,18 @@ exports[`Select > should render correctly with no errors 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-reason"
-    >
-      Reason for disruption
-    </label>
+    />
     <div
       className=""
     >
       <select
         className="govuk-select w-3/4"
-        defaultValue=""
-        id="disruption-reason"
-        name="disruptionReason"
         onBlur={[Function]}
       >
         <option
           disabled={true}
           value=""
-        >
-          Choose a reason
-        </option>
+        />
         <option
           value="roadWorks"
         >

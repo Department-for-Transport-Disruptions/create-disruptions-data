@@ -1,76 +1,54 @@
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import { ErrorInfo } from "../../interfaces";
-import { PageState, PageInputs } from "../../pages/create-disruption";
+import { ErrorInfo, FormBase } from "../../interfaces";
+import { handleBlur } from "../../utils/formUtils";
 
-interface TimeSelectorProps {
-    header: string;
-    input?: string;
-    errors?: ErrorInfo[];
+interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
-    inputId: string;
-    inputName: string;
-    pageState: PageState;
-    hint?: {
-        id: string;
-        text: string;
-    };
-    updatePageState: Dispatch<SetStateAction<PageState>>;
-    updaterFunction: (
-        currentState: PageState,
-        setPageState: Dispatch<SetStateAction<PageState>>,
-        inputName: keyof PageInputs,
-        input: string | Date | null,
-        error?: ErrorInfo,
-    ) => void;
+    hint?: string;
 }
 
-const TimeSelector = ({
-    header,
-    input,
-    disabled,
+const TimeSelector = <T extends object>({
+    value,
     inputId,
+    display,
     inputName,
-    pageState,
+    errorMessage = "",
+    initialErrors = [],
+    disabled,
     hint,
-    updatePageState,
-    updaterFunction,
-}: TimeSelectorProps): ReactElement => {
+    optional = false,
+    stateUpdater,
+}: TimeSelectorProps<T>): ReactElement => {
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={pageState.errors}>
-            <fieldset className="govuk-fieldset mb-7.5" role="group" aria-describedby={hint ? hint.id : undefined}>
-                <legend className="govuk-fieldset__legend">
-                    <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{header}</h3>
-                </legend>
+        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
+            <div className="govuk-form-group">
+                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                    {display}
+                </label>
                 {hint ? (
-                    <div id={hint.id} className="govuk-hint">
-                        {hint.text}
+                    <div id={`${inputId}-hint`} className="govuk-hint">
+                        {hint}
                     </div>
                 ) : null}
-
-                <FormElementWrapper errors={pageState.errors} errorId={inputId} errorClass="govuk-input--error">
+                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
                     <input
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
                         id={inputId}
                         name={inputName}
                         type="text"
-                        defaultValue={input}
+                        defaultValue={value}
                         disabled={disabled}
                         placeholder={disabled ? "N/A" : "hhmm"}
-                        onBlur={(e) => {
-                            const input = e.target.value;
-                            if (!input) {
-                                updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input, {
-                                    id: inputId,
-                                    errorMessage: "Enter a time in hhmm format",
-                                });
-                            } else {
-                                updaterFunction(pageState, updatePageState, inputId as keyof PageInputs, input);
-                            }
-                        }}
+                        aria-describedby={hint ? `${inputId}-hint` : ""}
+                        onBlur={(e) =>
+                            handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors, optional)
+                        }
                     />
                 </FormElementWrapper>
-            </fieldset>
+            </div>
         </FormGroupWrapper>
     );
 };

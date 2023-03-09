@@ -1,22 +1,31 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import Checkbox from "./Checkbox";
 
-/* eslint-disable @typescript-eslint/no-empty-function */
+interface PageInputs {
+    field1: string;
+    field2: boolean;
+    field3: string;
+    field4: string;
+}
 
 describe("Checkbox", () => {
     it("should render correctly when not default checked", () => {
         const tree = renderer
             .create(
-                <Checkbox
-                    inputInfo={{
-                        id: "disruption-no-end-date-time",
-                        name: "disruptionHasNoEndDateTime",
-                        display: "No end date/time",
-                        value: "checked",
-                    }}
-                    noDisruptionEndRequired={false}
-                    updateNoDisruptionRequired={() => {}}
+                <Checkbox<PageInputs>
+                    inputId="field1"
+                    inputName="testField"
+                    display="Display Legend"
+                    hideLegend
+                    checkboxDetail={[
+                        {
+                            display: "Radio Label",
+                            value: "radioValue",
+                            checked: false,
+                        },
+                    ]}
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();
@@ -26,15 +35,19 @@ describe("Checkbox", () => {
     it("should render correctly when default checked", () => {
         const tree = renderer
             .create(
-                <Checkbox
-                    inputInfo={{
-                        id: "disruption-no-end-date-time",
-                        name: "disruptionHasNoEndDateTime",
-                        display: "No end date/time",
-                        value: "checked",
-                    }}
-                    noDisruptionEndRequired={true}
-                    updateNoDisruptionRequired={() => {}}
+                <Checkbox<PageInputs>
+                    inputId="field1"
+                    inputName="testField"
+                    display="Display Legend"
+                    hideLegend
+                    checkboxDetail={[
+                        {
+                            display: "Radio Label",
+                            value: "radioValue",
+                            checked: true,
+                        },
+                    ]}
+                    stateUpdater={vi.fn()}
                 />,
             )
             .toJSON();

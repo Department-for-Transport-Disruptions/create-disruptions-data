@@ -1,44 +1,27 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import TextInput from "./TextInput";
-import { PageState } from "../../pages/create-disruption";
 
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-const state: PageState = {
-    errors: [],
-    inputs: {
-        typeOfDisruption: "",
-        summary: "",
-        description: "",
-        "associated-link": "",
-        "disruption-reason": "",
-        "disruption-start-date": null,
-        "disruption-end-date": null,
-        "disruption-start-time": "",
-        "disruption-end-time": "",
-        "publish-start-date": null,
-        "publish-end-date": null,
-        "publish-start-time": "",
-        "publish-end-time": "",
-    },
-};
+interface PageInputs {
+    field1: string;
+    field2: boolean;
+    field3: string;
+    field4: string;
+}
 
 describe("TextInput", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
-                <TextInput
-                    pageState={state}
-                    inputInfo={{
-                        id: "summary",
-                        name: "summary",
-                        display: "Summary",
-                    }}
+                <TextInput<PageInputs>
+                    inputId="field1"
+                    inputName="testField"
+                    display="Test Field"
+                    stateUpdater={vi.fn()}
                     widthClass="w-3/4"
                     maxLength={50}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -48,17 +31,14 @@ describe("TextInput", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <TextInput
-                    pageState={{ ...state, errors: [{ errorMessage: "There was an error", id: "summary" }] }}
-                    inputInfo={{
-                        id: "summary",
-                        name: "summary",
-                        display: "Summary",
-                    }}
+                <TextInput<PageInputs>
+                    initialErrors={[{ errorMessage: "There was an error", id: "summary" }]}
+                    inputId="field1"
+                    inputName="testField"
+                    display="Test Field"
+                    stateUpdater={vi.fn()}
                     widthClass="w-3/4"
                     maxLength={50}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
@@ -68,22 +48,61 @@ describe("TextInput", () => {
     it("should render correctly as a text area with rows", () => {
         const tree = renderer
             .create(
-                <TextInput
-                    pageState={state}
-                    inputInfo={{
-                        id: "description",
-                        name: "description",
-                        display: "Description",
-                    }}
+                <TextInput<PageInputs>
+                    inputId="field1"
+                    inputName="testField"
+                    display="Test Field"
+                    stateUpdater={vi.fn()}
                     widthClass="w-3/4"
                     maxLength={50}
                     textArea
                     rows={3}
-                    updatePageState={() => {}}
-                    updaterFunction={() => {}}
                 />,
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it("should validate input on blur and display error", async () => {
+        const { unmount } = render(
+            <TextInput<PageInputs>
+                inputId="field1"
+                inputName="testField"
+                display="Test Field"
+                errorMessage="Test Error Message"
+                stateUpdater={vi.fn()}
+                widthClass="w-3/4"
+                maxLength={50}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("Test Field"));
+        await userEvent.tab();
+
+        expect(screen.getByText("Test Error Message")).toBeTruthy();
+
+        unmount();
+    });
+
+    it("should validate minLength and display error", async () => {
+        const { unmount } = render(
+            <TextInput<PageInputs>
+                inputId="field2"
+                inputName="testField"
+                display="Test Field"
+                errorMessage="Test Error Message"
+                stateUpdater={vi.fn()}
+                widthClass="w-3/4"
+                minLength={15}
+                maxLength={50}
+            />,
+        );
+
+        await userEvent.type(screen.getByLabelText("Test Field"), "texttooshort");
+        await userEvent.tab();
+
+        expect(screen.getByText("Test Error Message")).toBeTruthy();
+
+        unmount();
     });
 });

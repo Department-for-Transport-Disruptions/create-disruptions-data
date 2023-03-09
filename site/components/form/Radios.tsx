@@ -1,43 +1,50 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import { InputInfo } from "../../interfaces";
-import { PageState } from "../../pages/create-disruption";
+import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
 
-interface RadiosProps {
-    heading: string;
-    pageState: PageState;
-    inputInfo: InputInfo[];
+interface RadiosProps<T> extends FormBase<T> {
+    radioDetail: DisplayValuePair[];
     paddingTop?: number;
 }
 
-const Radios = ({ heading, pageState, inputInfo, paddingTop }: RadiosProps): ReactElement => {
+const Radios = <T extends object>({
+    display,
+    inputId,
+    inputName,
+    radioDetail,
+    initialErrors = [],
+    stateUpdater,
+    paddingTop,
+}: RadiosProps<T>): ReactElement => {
+    const [errors] = useState<ErrorInfo[]>(initialErrors);
+
     return (
-        <FormGroupWrapper errorIds={[inputInfo[0].id]} errors={pageState.errors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <fieldset className="govuk-fieldset">
                 <legend className={`govuk-fieldset__legend${paddingTop ? ` govuk-!-padding-top-${paddingTop}` : ""}`}>
-                    <span className="govuk-heading-s govuk-!-margin-bottom-0">{heading}</span>
+                    <span className="govuk-heading-s govuk-!-margin-bottom-0">{display}</span>
                 </legend>
-                <FormElementWrapper
-                    errors={pageState.errors}
-                    errorId={inputInfo[0].id}
-                    errorClass="govuk-radios--error"
-                >
+                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-radios--error">
                     <div className="govuk-radios" id="radio-buttons">
-                        {inputInfo.map((input, index) => (
+                        {radioDetail.map((input, index) => (
                             <div
                                 className={`govuk-radios__item${
-                                    index < inputInfo.length - 1 ? " govuk-!-margin-bottom-1" : ""
+                                    index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
                                 }`}
-                                key={`radio-${index + 1}`}
+                                key={`radio-${input.value}`}
                             >
                                 <input
                                     className="govuk-radios__input"
-                                    id={input.id}
-                                    name={input.name}
+                                    id={`${inputId}-${input.value}`}
+                                    name={inputName}
                                     type="radio"
                                     value={input.value}
+                                    onChange={(e) => stateUpdater(e.currentTarget.value, inputId)}
                                 />
-                                <label className="govuk-label govuk-radios__label" htmlFor={input.id}>
+                                <label
+                                    className="govuk-label govuk-radios__label"
+                                    htmlFor={`${inputId}-${input.value}`}
+                                >
                                     {input.display}
                                 </label>
                             </div>
