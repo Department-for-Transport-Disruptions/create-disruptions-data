@@ -11,7 +11,6 @@ import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { DisruptionType } from "../../pages/api/create-disruption";
 import { redirectTo } from "../index";
-import { isValueInArray } from "./index";
 
 dayjs.extend(customParseFormat);
 
@@ -64,7 +63,7 @@ export const validateDisruptionType = (
             errorMessage: "Invalid Disruption Type Selected. Choose a valid Type of Disruption",
         };
 
-        if (!isValueInArray(disruptionType, Object.values(DISRUPTION_TYPES))) {
+        if (!Object.values(DISRUPTION_TYPES).includes(disruptionType as string)) {
             errors.push(invalidTypeErr);
         }
     }

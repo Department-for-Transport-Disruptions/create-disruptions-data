@@ -37,12 +37,3 @@ export const redirectToError = (
     logger.error(message, { context, error: error.stack });
     redirectTo(res, "/error");
 };
-
-export const isValueInArray = (value: unknown, array: string[]): boolean => {
-    let isValid = false;
-    if (value && array.includes(value as string)) {
-        isValid = true;
-    }
-
-    return isValid;
-};
