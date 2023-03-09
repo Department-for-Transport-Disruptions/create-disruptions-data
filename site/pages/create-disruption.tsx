@@ -115,7 +115,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                                 name="typeOfDisruption"
                                                 type="radio"
                                                 value="planned"
-                                                defaultChecked={pageState.inputs.typeOfDisruption == "planned"}
+                                                defaultChecked={pageState.inputs.typeOfDisruption === "planned"}
                                             />
                                             <label
                                                 className="govuk-label govuk-radios__label"
@@ -132,7 +132,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                                 name="typeOfDisruption"
                                                 type="radio"
                                                 value="unplanned"
-                                                defaultChecked={pageState.inputs.typeOfDisruption == "unplanned"}
+                                                defaultChecked={pageState.inputs.typeOfDisruption === "unplanned"}
                                             />
                                             <label
                                                 className="govuk-label govuk-radios__label"
@@ -379,7 +379,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         type="checkbox"
                                         value="disruptionNoEndDateTime"
                                         defaultChecked={
-                                            pageState.inputs.disruptionIsNoEndDateTime == "disruptionNoEndDateTime"
+                                            pageState.inputs.disruptionIsNoEndDateTime === "disruptionNoEndDateTime"
                                         }
                                         onClick={() => {
                                             setNoDisruptionEndRequired(!noDisruptionEndRequired);
@@ -418,7 +418,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="yes"
-                                        defaultChecked={pageState.inputs.disruptionRepeats == "yes"}
+                                        defaultChecked={pageState.inputs.disruptionRepeats === "yes"}
                                     />
                                     <label className="govuk-label govuk-radios__label" htmlFor="disruption-repeats">
                                         Yes
@@ -431,7 +431,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         name="disruptionRepeats"
                                         type="radio"
                                         value="no"
-                                        defaultChecked={pageState.inputs.disruptionRepeats == "no"}
+                                        defaultChecked={pageState.inputs.disruptionRepeats === "no"}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"
@@ -541,7 +541,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                         type="checkbox"
                                         value="publishNoEndDateTime"
                                         defaultChecked={
-                                            pageState.inputs.publishIsNoEndDateTime == "publishNoEndDateTime"
+                                            pageState.inputs.publishIsNoEndDateTime === "publishNoEndDateTime"
                                         }
                                         onClick={() => {
                                             setNoPublishEndRequired(!noPublishEndRequired);
