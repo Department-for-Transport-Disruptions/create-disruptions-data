@@ -7,4 +7,4 @@ stage_name=$(cat ${cdd_root_folder_path}/.sst/stage)
 
 cd $cdd_root_folder_path/packages/siri-sx-generator
 
-npm run s3-publish-json $stage_name
+npm run dynamo-publish-json $stage_name

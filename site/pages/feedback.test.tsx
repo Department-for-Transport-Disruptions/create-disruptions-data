@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import Feedback, { getServerSideProps } from "./feedback";
+import Feedback, { getServerSideProps } from "./feedback.page";
 import { getMockContext } from "../testData/mockData";
 
 describe("pages", () => {
