@@ -88,7 +88,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
             <form action="/api/create-disruption" method="post">
                 <>
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Create a new Disruption</h1>
+                        <h1 className="govuk-heading-xl">Create a new disruption</h1>
 
                         <Radios<PageInputs>
                             display="Type of disruption"

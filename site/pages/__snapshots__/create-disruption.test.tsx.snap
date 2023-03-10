@@ -53,7 +53,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <h1
             className="govuk-heading-xl"
           >
-            Create a new Disruption
+            Create a new disruption
           </h1>
           <div
             className="govuk-form-group"
@@ -1130,7 +1130,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <h1
             className="govuk-heading-xl"
           >
-            Create a new Disruption
+            Create a new disruption
           </h1>
           <div
             className="govuk-form-group"
