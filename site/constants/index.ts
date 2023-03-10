@@ -102,4 +102,3 @@ export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 
 export const ERROR_PATH = "/_error";
 export const STAGE = process.env.STAGE || "dev";
-
