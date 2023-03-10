@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import TypeOfConsequence from "./type-of-consequence";
+import TypeOfConsequence from "./type-of-consequence.page";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { AddConsequenceProps, ErrorInfo } from "../interfaces/index";
 
