@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { ReactElement, useState } from "react";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
+import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
@@ -12,6 +14,7 @@ const description = "Create Consequence Operator page for the Create Transport D
 
 interface CreateConsequenceOperatorProps {
     inputs: PageState;
+    previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
 }
 
 export interface PageInputs {
@@ -28,7 +31,10 @@ export interface PageState {
     inputs: PageInputs;
 }
 
-const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): ReactElement => {
+const CreateConsequenceOperator = ({
+    inputs,
+    previousConsequenceInformation,
+}: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState>(inputs);
 
     const updatePageStateForInput = (inputName: keyof PageInputs, input: string, error?: ErrorInfo): void => {
@@ -55,7 +61,28 @@ const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): 
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
-
+                        <Table
+                            rows={[
+                                {
+                                    header: "Mode of Transport",
+                                    cells: [
+                                        previousConsequenceInformation.modeOfTransport,
+                                        <Link key={"mode-of-transport"} className="govuk-link" href="/add-consequence">
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Consequence Type",
+                                    cells: [
+                                        previousConsequenceInformation.consequenceType,
+                                        <Link key={"consequence-type"} className="govuk-link" href="/add-consequence">
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                            ]}
+                        />
                         <div className="govuk-form-group">
                             <Select<PageInputs>
                                 inputId="consequence-operator"
@@ -173,8 +200,10 @@ export const getServerSideProps = (): { props: object } => {
         },
     };
 
+    const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Operator wide" };
+
     return {
-        props: { inputs },
+        props: { inputs, previousConsequenceInformation },
     };
 };
 

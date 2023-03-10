@@ -55,6 +55,77 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             Add a Consequence
           </h1>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="row"
+                >
+                  Mode of Transport
+                </th>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Bus
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  <a
+                    className="govuk-link"
+                    href="/add-consequence"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="row"
+                >
+                  Consequence Type
+                </th>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Operator wide
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  <a
+                    className="govuk-link"
+                    href="/add-consequence"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div
             className="govuk-form-group"
           >
@@ -623,6 +694,77 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             Add a Consequence
           </h1>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="row"
+                >
+                  Mode of Transport
+                </th>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Bus
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  <a
+                    className="govuk-link"
+                    href="/add-consequence"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="row"
+                >
+                  Consequence Type
+                </th>
+                <td
+                  className="govuk-table__cell"
+                >
+                  Operator wide
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  <a
+                    className="govuk-link"
+                    href="/add-consequence"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div
             className="govuk-form-group"
           >

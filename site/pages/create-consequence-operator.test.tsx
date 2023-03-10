@@ -26,15 +26,31 @@ const withInputs: PageState = {
     },
 };
 
+const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Operator wide" };
+
 describe("pages", () => {
     describe("CreateConsequenceOperator", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceOperator inputs={blankInputs} />).toJSON();
+            const tree = renderer
+                .create(
+                    <CreateConsequenceOperator
+                        inputs={blankInputs}
+                        previousConsequenceInformation={previousConsequenceInformation}
+                    />,
+                )
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateConsequenceOperator inputs={withInputs} />).toJSON();
+            const tree = renderer
+                .create(
+                    <CreateConsequenceOperator
+                        inputs={withInputs}
+                        previousConsequenceInformation={previousConsequenceInformation}
+                    />,
+                )
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
     });
