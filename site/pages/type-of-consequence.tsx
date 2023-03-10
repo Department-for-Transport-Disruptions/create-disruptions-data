@@ -9,8 +9,8 @@ import { COOKIES_ADD_CONSEQUENCE_ERRORS, COOKIES_ADD_CONSEQUENCE_INFO } from "..
 import { AddConsequenceProps, AddConsequenceWithErrors, DisplayValuePair, ErrorInfo } from "../interfaces/index";
 import logger from "../utils/logger";
 
-const title = "Add a consequence";
-const description = "Page to add a consequnce by choosing its type and mode of transport";
+const title = "Create Consequences";
+const description = "Create Consequences page for the Create Transport Disruptions Service";
 
 const modeOfTransportRadio: DisplayValuePair[] = [];
 
@@ -48,7 +48,7 @@ const AddConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): Reac
 
     return (
         <TwoThirdsLayout title={title} description={description}>
-            <form action="/api/add-consequence" method="post">
+            <form action="/api/type-of-consequence" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
@@ -103,6 +103,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: AddConsequenc
     if (errorInfo) {
         logger.info(inspect(JSON.parse(errorInfo), false, null, true));
         errors = JSON.parse(cookies[COOKIES_ADD_CONSEQUENCE_ERRORS]) as ErrorInfo[];
+        destroyCookie(ctx, COOKIES_ADD_CONSEQUENCE_ERRORS);
     }
 
     return { props: { inputs, errors } };

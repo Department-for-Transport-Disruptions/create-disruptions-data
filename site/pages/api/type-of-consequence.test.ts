@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
-import addConsequence from "./add-consequence";
+import addConsequence from "./type-of-consequence";
 import { ConsequenceType, TransportMode } from "../../constants/enum";
 import {
     COOKIES_ADD_CONSEQUENCE_INFO,
@@ -43,7 +43,7 @@ describe("addConsequence", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/" });
     });
 
-    it("should redirect back to add consequence page (/add-consequence) when no inputs are passed", () => {
+    it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
             { id: "consequenceType", errorMessage: "Select a consequence type" },
             { id: "modeOfTransport", errorMessage: "Select a mode of transport" },
@@ -68,7 +68,7 @@ describe("addConsequence", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_CONSEQUENCE_PAGE_PATH });
     });
 
-    it("should redirect back to add consequence page (/add-consequence) when incorrect values are passed", () => {
+    it("should redirect back to add consequence page (/type-of-consequence) when incorrect values are passed", () => {
         const disruptionData = {
             modeOfTransport: "incorrect mode",
             consequenceType: "incorrect type",
