@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
-import addConsequence from "./type-of-consequence";
+import addConsequence from "./type-of-consequence.api";
 import { ConsequenceType, TransportMode } from "../../constants/enum";
 import {
     COOKIES_ADD_CONSEQUENCE_INFO,
