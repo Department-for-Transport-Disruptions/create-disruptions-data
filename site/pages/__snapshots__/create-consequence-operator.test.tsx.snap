@@ -87,7 +87,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/add-consequence"
+                    href="/type-of-consequence"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -115,7 +115,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/add-consequence"
+                    href="/type-of-consequence"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -737,7 +737,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 >
                   <a
                     className="govuk-link"
-                    href="/add-consequence"
+                    href="/type-of-consequence"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -765,7 +765,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 >
                   <a
                     className="govuk-link"
-                    href="/add-consequence"
+                    href="/type-of-consequence"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

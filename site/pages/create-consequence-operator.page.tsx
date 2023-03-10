@@ -71,7 +71,11 @@ const CreateConsequenceOperator = ({
                                     header: "Mode of transport",
                                     cells: [
                                         previousConsequenceInformation.modeOfTransport,
-                                        <Link key={"mode-of-transport"} className="govuk-link" href="/add-consequence">
+                                        <Link
+                                            key={"mode-of-transport"}
+                                            className="govuk-link"
+                                            href="/type-of-consequence"
+                                        >
                                             Change
                                         </Link>,
                                     ],
@@ -80,7 +84,11 @@ const CreateConsequenceOperator = ({
                                     header: "Consequence type",
                                     cells: [
                                         previousConsequenceInformation.consequenceType,
-                                        <Link key={"consequence-type"} className="govuk-link" href="/add-consequence">
+                                        <Link
+                                            key={"consequence-type"}
+                                            className="govuk-link"
+                                            href="/type-of-consequence"
+                                        >
                                             Change
                                         </Link>,
                                     ],
