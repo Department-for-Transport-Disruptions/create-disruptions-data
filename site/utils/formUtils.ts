@@ -10,7 +10,6 @@ export const handleBlur = <T>(
     optional = false,
     validityChecker?: (input: string) => boolean,
 ) => {
-    console.log("Handle blue----");
     stateUpdater(input, inputId);
 
     if ((!optional && !input) || (!optional && !!validityChecker && !validityChecker(input))) {
