@@ -53,7 +53,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <h1
             className="govuk-heading-xl"
           >
-            Add a Consequence
+            Add a consequence
           </h1>
           <table
             className="govuk-table"
@@ -703,7 +703,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           <h1
             className="govuk-heading-xl"
           >
-            Add a Consequence
+            Add a consequence
           </h1>
           <table
             className="govuk-table"
