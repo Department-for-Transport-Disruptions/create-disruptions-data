@@ -39,7 +39,7 @@ export interface DisruptionPageInputs {
     "publish-no-end-date-time": string;
 }
 
-export interface PageState {
+interface PageState {
     errors: ErrorInfo[];
     inputs: DisruptionPageInputs;
 }

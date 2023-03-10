@@ -26,7 +26,7 @@ export interface ConsequenceOperatorPageInputs {
     "disruption-direction": string;
 }
 
-export interface PageState {
+interface PageState {
     errors: ErrorInfo[];
     inputs: ConsequenceOperatorPageInputs;
 }
