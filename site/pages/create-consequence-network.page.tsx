@@ -63,7 +63,7 @@ const CreateConsequenceNetwork = ({
             <form action="/api/createConsequenceNetwork" method="post">
                 <>
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Add a Consequence</h1>
+                        <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
                             rows={[
                                 {
