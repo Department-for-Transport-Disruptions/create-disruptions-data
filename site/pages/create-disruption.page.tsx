@@ -47,7 +47,11 @@ export interface DisruptionPageState {
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     const [pageState, setDisruptionPageState] = useState<DisruptionPageState>(inputs);
 
-    const updateDisruptionPageStateForInput = (inputName: keyof DisruptionPageInputs, input: string, error?: ErrorInfo): void => {
+    const updateDisruptionPageStateForInput = (
+        inputName: keyof DisruptionPageInputs,
+        input: string,
+        error?: ErrorInfo,
+    ): void => {
         setDisruptionPageState({
             inputs: {
                 ...pageState.inputs,
