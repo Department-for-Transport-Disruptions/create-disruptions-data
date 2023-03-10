@@ -72,7 +72,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               >
                 <a
                   className="govuk-link"
-                  href="/home"
+                  href="/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -381,6 +381,9 @@ exports[`pages > feedback > should render correctly after feedback has been succ
             <a
               className="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -409,6 +412,9 @@ exports[`pages > feedback > should render correctly after feedback has been succ
             <a
               className="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -422,6 +428,9 @@ exports[`pages > feedback > should render correctly after feedback has been succ
           <a
             className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
@@ -504,7 +513,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               >
                 <a
                   className="govuk-link"
-                  href="/home"
+                  href="/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -813,6 +822,9 @@ exports[`pages > feedback > should render correctly after the user tries to subm
             <a
               className="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -841,6 +853,9 @@ exports[`pages > feedback > should render correctly after the user tries to subm
             <a
               className="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -854,6 +869,9 @@ exports[`pages > feedback > should render correctly after the user tries to subm
           <a
             className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
@@ -1217,6 +1235,9 @@ exports[`pages > feedback > should render correctly when the page is first visit
             <a
               className="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1245,6 +1266,9 @@ exports[`pages > feedback > should render correctly when the page is first visit
             <a
               className="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1258,6 +1282,9 @@ exports[`pages > feedback > should render correctly when the page is first visit
           <a
             className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>

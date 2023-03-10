@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from "next/document";
+import Link from "next/link";
 import { ReactElement } from "react";
 import { v4 } from "uuid";
 import crypto from "node:crypto";
@@ -13,9 +14,7 @@ const generateCsp = (): { csp: string; nonce: string } => {
 
     const csp = `
         default-src 'self';
-        script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://www.google-analytics.com https://ssl.google-analytics.com https://www.googletagmanager.com ${
-        production ? "" : "'unsafe-eval' 'unsafe-inline'"
-    };
+        script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
         frame-src 'self';
         base-uri 'self';
         block-all-mixed-content;
@@ -23,7 +22,7 @@ const generateCsp = (): { csp: string; nonce: string } => {
         img-src * 'self' data: https;
         object-src 'none';
         script-src-attr 'none';
-        style-src 'self' ${production ? "" : "'unsafe-inline'"};
+        style-src 'self' 'unsafe-inline';
         upgrade-insecure-requests;
     `
         .replace(/\s{2,}/g, " ")
@@ -42,7 +41,7 @@ interface DocumentProps extends DocumentInitialProps {
     noc: string | undefined;
 }
 
-export default class MyDocument extends Document<DocumentProps> {
+export default class RootDocument extends Document<DocumentProps> {
     static async getInitialProps(ctx: DocumentContext) {
         const initialProps = await Document.getInitialProps(ctx);
         const { csp, nonce } = generateCsp();
@@ -65,9 +64,9 @@ export default class MyDocument extends Document<DocumentProps> {
             <Html lang="en" className="govuk-template bg-backgroundGrey">
                 <Head nonce={nonce} />
                 <body className="govuk-template__body">
-                    <a href="#main-content" className="govuk-skip-link">
+                    <Link href="#main-content" className="govuk-skip-link">
                         Skip to main content
-                    </a>
+                    </Link>
                     <div id="js-cookie-banner" />
 
                     <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />
