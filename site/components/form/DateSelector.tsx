@@ -4,7 +4,7 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -77,7 +77,15 @@ const DateSelector = <T extends object>({
     stateUpdater,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
-    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const errorsToUse = !disabled ? initialErrors : initialErrors.filter((error) => !(error.id === inputId));
+    const [errors, setErrors] = useState<ErrorInfo[]>(errorsToUse);
+
+    useEffect(() => {
+        if (disabled) {
+            setErrors([]);
+            setDateValue(null);
+        }
+    }, [disabled]);
 
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>

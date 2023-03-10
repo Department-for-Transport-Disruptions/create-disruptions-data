@@ -10,7 +10,7 @@ describe("DateSelector", () => {
         const tree = renderer
             .create(
                 <DateSelector<TestInputs>
-                    display="What is the start date?"
+                    display="Start date"
                     hiddenHint="Enter in format DD/MM/YYYY"
                     value=""
                     errorMessage="Select a date"
@@ -29,7 +29,7 @@ describe("DateSelector", () => {
         const tree = renderer
             .create(
                 <DateSelector<TestInputs>
-                    display="What is the start date?"
+                    display="Start date"
                     hiddenHint="Enter in format DD/MM/YYYY"
                     initialErrors={[{ errorMessage: "There was an error", id: "field1" }]}
                     value="sss"
@@ -49,7 +49,7 @@ describe("DateSelector", () => {
         const tree = renderer
             .create(
                 <DateSelector<TestInputs>
-                    display="What is the start date?"
+                    display="Start date"
                     hiddenHint="Enter in format DD/MM/YYYY"
                     value="01/01/2024"
                     errorMessage="Select a date"
@@ -68,7 +68,7 @@ describe("DateSelector", () => {
         const tree = renderer
             .create(
                 <DateSelector<TestInputs>
-                    display="What is the start date?"
+                    display="Start date"
                     hiddenHint="Enter in format DD/MM/YYYY"
                     value="01/01/2024"
                     errorMessage="Select a date"
@@ -86,7 +86,7 @@ describe("DateSelector", () => {
     it("should validate minLength and display error", async () => {
         const { unmount } = render(
             <DateSelector<TestInputs>
-                display="What is the start date?"
+                display="Start date"
                 hiddenHint="Enter in format DD/MM/YYYY"
                 value=""
                 errorMessage="Select a date"
@@ -98,10 +98,33 @@ describe("DateSelector", () => {
             />,
         );
 
-        await userEvent.click(screen.getByLabelText("What is the start date?"));
+        await userEvent.click(screen.getByLabelText("Start date"));
         await userEvent.tab();
 
         expect(screen.getByText("Select a date")).toBeTruthy();
+
+        unmount();
+    });
+
+    it("should validate minLength and display error", async () => {
+        const { unmount } = render(
+            <DateSelector<TestInputs>
+                display="Start date"
+                hiddenHint="Enter in format DD/MM/YYYY"
+                value=""
+                errorMessage="Select a date"
+                disabled
+                disablePast={false}
+                inputId="field1"
+                inputName="disruptionStartDate"
+                stateUpdater={vi.fn()}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("Start date"));
+        await userEvent.tab();
+
+        expect(screen.queryByText("Select a date")).toBeFalsy();
 
         unmount();
     });

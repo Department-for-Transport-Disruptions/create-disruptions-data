@@ -11,7 +11,7 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start time?
+      Start time
     </label>
     <div
       className="govuk-hint"
@@ -25,13 +25,14 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
       <input
         aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
-        defaultValue="three thirty"
         disabled={true}
         id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
+        onChange={[Function]}
         placeholder="N/A"
         type="text"
+        value="three thirty"
       />
     </div>
   </div>
@@ -49,7 +50,7 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start time?
+      Start time
     </label>
     <div
       className="govuk-hint"
@@ -63,13 +64,14 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
       <input
         aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
-        defaultValue="three thirty"
         disabled={false}
         id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
+        onChange={[Function]}
         placeholder="hhmm"
         type="text"
+        value="three thirty"
       />
     </div>
   </div>
@@ -87,7 +89,7 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start time?
+      Start time
     </label>
     <div
       className="govuk-hint"
@@ -101,13 +103,14 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
       <input
         aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
-        defaultValue="0900"
         disabled={false}
         id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
+        onChange={[Function]}
         placeholder="hhmm"
         type="text"
+        value="0900"
       />
     </div>
   </div>
@@ -125,7 +128,7 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start time?
+      Start time
     </label>
     <div
       className="govuk-hint"
@@ -139,13 +142,14 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
       <input
         aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
-        defaultValue=""
         disabled={false}
         id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
+        onChange={[Function]}
         placeholder="hhmm"
         type="text"
+        value=""
       />
     </div>
   </div>
