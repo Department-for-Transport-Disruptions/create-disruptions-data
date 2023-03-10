@@ -3,8 +3,7 @@ import {
     PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
-    Severity,
-} from "@create-disruptions-data/shared-ts/siriTypes";
+} from "@create-disruptions-data/shared-ts/enums";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
@@ -33,6 +32,15 @@ export const DISRUPTION_REASONS: {
         display: "Special Event",
     },
 ];
+
+export enum Severity {
+    unknown = "unknown",
+    verySlight = "verySlight",
+    slight = "slight",
+    normal = "normal",
+    severe = "severe",
+    verySevere = "verySevere",
+}
 
 export const DISRUPTION_SEVERITIES: {
     value: Severity;
@@ -94,3 +102,4 @@ export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 
 export const ERROR_PATH = "/_error";
 export const STAGE = process.env.STAGE || "dev";
+

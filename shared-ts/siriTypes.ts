@@ -1,303 +1,41 @@
-export enum SourceType {
-    directReport = "directReport",
-    email = "email",
-    phone = "phone",
-    fax = "fax",
-    post = "post",
-    feed = "feed",
-    radio = "radio",
-    tv = "tv",
-    web = "web",
-    pager = "pager",
-    text = "text",
-    other = "other",
-}
+import { z } from "zod";
+import {
+    basePtSituationElementSchema,
+    infoLinkSchema,
+    periodSchema,
+    ptSituationElementSchema,
+    referenceSchema,
+    repetitionsSchema,
+    serviceDeliverySchema,
+    siriSchema,
+    situationElementRefSchema,
+    situationExchangeDeliverySchema,
+    situationSchema,
+    sourceSchema,
+} from "./siriTypes.zod";
 
-export enum Progress {
-    draft = "draft",
-    pendingApproval = "pendingApproval",
-    approvedDraft = "approvedDraft",
-    open = "open",
-    closing = "closing",
-    closed = "closed",
-    rejected = "rejected",
-}
+export type Source = z.infer<typeof sourceSchema>;
 
-export enum MiscellaneousReason {
-    accident = "accident",
-    securityAlert = "securityAlert",
-    congestion = "congestion",
-    roadWorks = "roadWorks",
-    roadClosed = "roadClosed",
-    bombExplosion = "bombExplosion",
-    incident = "incident",
-    routeDiversion = "routeDiversion",
-    staffAbsence = "staffAbsence",
-    signalProblem = "signalProblem",
-    maintenanceWork = "maintenanceWork",
-    constructionWork = "constructionWork",
-    fog = "fog",
-    ice = "ice",
-    heavyRain = "heavyRain",
-    waterLogged = "waterLogged",
-    unknown = "unknown",
-    nearMiss = "nearMiss",
-    safetyViolation = "safetyViolation",
-    signalPassedAtDanger = "signalPassedAtDanger",
-    stationOverrun = "stationOverrun",
-    trainDoor = "trainDoor",
-    emergencyServicesCall = "emergencyServicesCall",
-    policeRequest = "policeRequest",
-    fireBrigadeSafetyChecks = "fireBrigadeSafetyChecks",
-    unattendedBag = "unattendedBag",
-    telephonedThreat = "telephonedThreat",
-    suspectVehicle = "suspectVehicle",
-    civilEmergency = "civilEmergency",
-    airRaid = "airRaid",
-    sabotage = "sabotage",
-    bombAlert = "bombAlert",
-    attach = "attach",
-    evacuation = "evacuation",
-    terroristIncident = "terroristIncident",
-    gunfireOnRoadway = "gunfireOnRoadway",
-    explosion = "explosion",
-    explosionHazard = "explosionHazard",
-    securityIncident = "securityIncident",
-    fire = "fire",
-    linesideFire = "linesideFire",
-    vandalism = "vandalism",
-    passengerAction = "passengerAction",
-    staffAssault = "staffAssault",
-    railwayCrime = "railwayCrime",
-    fatality = "fatality",
-    personUnderTrain = "personUnderTrain",
-    personHitByTrain = "personHitByTrain",
-    personIllOnVehicle = "personIllOnVehicle",
-    emergencyServices = "emergencyServices",
-    collision = "collision",
-    overcrowded = "overcrowded",
-    insufficientDemand = "insufficientDemand",
-    lightingFailure = "lightingFailure",
-    leaderBoardFailure = "leaderBoardFailure",
-    serviceIndicatorFailure = "serviceIndicatorFailure",
-    serviceFailure = "serviceFailure",
-    operatorCeasedTrading = "operatorCeasedTrading",
-    operatorSuspended = "operatorSuspended",
-    routeBlockage = "routeBlockage",
-    personOnTheLine = "personOnTheLine",
-    vehicleOnTheLine = "vehicleOnTheLine",
-    levelCrossingIncident = "levelCrossingIncident",
-    objectOnTheLine = "objectOnTheLine",
-    fallenTreeOnTheLine = "fallenTreeOnTheLine",
-    vegetation = "vegetation",
-    trainStruckAnimal = "trainStruckAnimal",
-    trainStruckObject = "trainStruckObject",
-    animalOnTheLine = "animalOnTheLine",
-    roadworks = "roadworks",
-    specialEvent = "specialEvent",
-    march = "march",
-    procession = "procession",
-    demonstration = "demonstration",
-    publicDisturbance = "publicDisturbance",
-    filterBlockade = "filterBlockade",
-    sightseersObstructingAccess = "sightseersObstructingAccess",
-    bridgeStrike = "bridgeStrike",
-    overheadObstruction = "overheadObstruction",
-    undefinedProblem = "undefinedProblem",
-    problemsAtBorderPost = "problemsAtBorderPost",
-    problemsAtCustomsPost = "problemsAtCustomsPost",
-    problemsOnLocalRoad = "problemsOnLocalRoad",
-}
+export type Period = z.infer<typeof periodSchema>;
 
-export enum PersonnelReason {
-    unknown = "unknown",
-    staffSickness = "staffSickness",
-    staffInjury = "staffInjury",
-    contractorStaffInjury = "contractorStaffInjury",
-    staffAbsence = "staffAbsence",
-    staffInWrongPlace = "staffInWrongPlace",
-    staffShortage = "staffShortage",
-    industrialAction = "industrialAction",
-    unofficialIndustrialAction = "unofficialIndustrialAction",
-    workToRule = "workToRule",
-    undefinedPersonnelProblem = "undefinedPersonnelProblem",
-}
+export type InfoLink = z.infer<typeof infoLinkSchema>;
 
-export enum EquipmentReason {
-    unknown = "unknown",
-    pointsFailure = "pointsFailure",
-    signalProblem = "signalProblem",
-    trainWarningSystemProblem = "trainWarningSystemProblem",
-    trackCircuitProblem = "trackCircuitProblem",
-    signalFailure = "signalFailure",
-    derailment = "derailment",
-    engineFailure = "engineFailure",
-    tractionFailure = "tractionFailure",
-    breakDown = "breakDown",
-    technicalProblem = "technicalProblem",
-    brokenRail = "brokenRail",
-    poorRailConditions = "poorRailConditions",
-    wheelImpactLoad = "wheelImpactLoad",
-    lackOfOperationalStock = "lackOfOperationalStock",
-    defectiveFireAlarmEquipment = "defectiveFireAlarmEquipment",
-    defectivePlatformEdgeDoors = "defectivePlatformEdgeDoors",
-    defectiveCctv = "defectiveCctv",
-    defectivePublicAnnouncementSystem = "defectivePublicAnnouncementSystem",
-    ticketingSystemNotAvailable = "ticketingSystemNotAvailable",
-    repairWork = "repairWork",
-    constructionWork = "constructionWork",
-    maintenanceWork = "maintenanceWork",
-    emergencyEngineeringWork = "emergencyEngineeringWork",
-    lateFinishToEngineeringWork = "lateFinishToEngineeringWork",
-    powerProblem = "powerProblem",
-    fuelProblem = "fuelProblem",
-    swingBridgeFailure = "swingBridgeFailure",
-    escalatorFailure = "escalatorFailure",
-    liftFailure = "liftFailure",
-    gangwayProblem = "gangwayProblem",
-    closedForMaintenance = "closedForMaintenance",
-    fuelShortage = "fuelShortage",
-    deicingWork = "deicingWork",
-    wheelProblem = "wheelProblem",
-    luggageCarouselProblem = "luggageCarouselProblem",
-    undefinedEquipmentProblem = "undefinedEquipmentProblem",
-}
+export type SituationElementRef = z.infer<typeof situationElementRefSchema>;
 
-export enum EnvironmentReason {
-    unknown = "unknown",
-    fog = "fog",
-    roughSea = "roughSea",
-    heavySnowFall = "heavySnowFall",
-    driftingSnow = "driftingSnow",
-    blizzardConditions = "blizzardConditions",
-    heavyRain = "heavyRain",
-    strongWinds = "strongWinds",
-    stormConditions = "stormConditions",
-    stormDamage = "stormDamage",
-    tidalRestrictions = "tidalRestrictions",
-    highTide = "highTide",
-    lowTide = "lowTide",
-    ice = "ice",
-    frozen = "frozen",
-    hail = "hail",
-    sleet = "sleet",
-    highTemperatures = "highTemperatures",
-    flooding = "flooding",
-    waterlogged = "waterlogged",
-    lowWaterLevel = "lowWaterLevel",
-    highWaterLevel = "highWaterLevel",
-    fallenLeaves = "fallenLeaves",
-    fallenTree = "fallenTree",
-    landslide = "landslide",
-    undefinedEnvironmentalProblem = "undefinedEnvironmentalProblem",
-    lightningStrike = "lightningStrike",
-    sewerOverflow = "sewerOverflow",
-    grassFire = "grassFire",
-}
+export type Reference = z.infer<typeof referenceSchema>;
 
-export enum DayType {
-    monday = "monday",
-    tuesday = "tuesday",
-    wednesday = "wednesday",
-    thursday = "thursday",
-    friday = "friday",
-    saturday = "saturday",
-    sunday = "sunday",
-}
+export type Repetitions = z.infer<typeof repetitionsSchema>;
 
-export type Source = {
-    SourceType: SourceType;
-    TimeOfCommunication: string;
-};
+export type InfoLinks = z.infer<typeof infoLinkSchema>;
 
-export type Period = {
-    StartTime: string;
-    EndTime?: string;
-};
+export type BasePtSituationElement = z.infer<typeof basePtSituationElementSchema>;
 
-export type InfoLink = {
-    Uri: string;
-};
+export type PtSituationElement = z.infer<typeof ptSituationElementSchema>;
 
-export type SituationElementRef = {
-    CreationTime: string;
-    ParticipantRef: string;
-    SituationNumber: string;
-};
-export type Reference = {
-    RelatedToRef: SituationElementRef[];
-};
+export type Situation = z.infer<typeof situationSchema>;
 
-export type Repetitions = {
-    DayType: DayType[];
-};
+export type SituationExchangeDelivery = z.infer<typeof situationExchangeDeliverySchema>;
 
-export type InfoLinks = {
-    InfoLink: InfoLink[];
-};
+export type ServiceDelivery = z.infer<typeof serviceDeliverySchema>;
 
-export type BasePtSituationElement = {
-    CreationTime: SituationElementRef["CreationTime"];
-    ParticipantRef: SituationElementRef["ParticipantRef"];
-    SituationNumber: SituationElementRef["SituationNumber"];
-    Version?: number;
-    References?: Reference;
-    Source: Source;
-    Progress: Progress;
-    ValidityPeriod: Period[];
-    Repetitions?: Repetitions;
-    PublicationWindow: Period;
-    Planned: boolean;
-    Summary: string;
-    Description: string;
-    InfoLinks?: InfoLinks;
-};
-
-export type MiscReasonPtSituationElement = BasePtSituationElement & {
-    MiscellaneousReason: MiscellaneousReason;
-};
-
-export type PersonnelReasonPtSituationElement = BasePtSituationElement & {
-    PersonnelReason: PersonnelReason;
-};
-
-export type EquipmentReasonPtSituationElement = BasePtSituationElement & {
-    EquipmentReason: EquipmentReason;
-};
-
-export type EnvironmentReasonPtSituationElement = BasePtSituationElement & {
-    EnvironmentReason: EnvironmentReason;
-};
-
-export type PtSituationElement =
-    | MiscReasonPtSituationElement
-    | PersonnelReasonPtSituationElement
-    | EquipmentReasonPtSituationElement
-    | EnvironmentReasonPtSituationElement;
-
-export type Situations = {
-    PtSituationElement: PtSituationElement[];
-};
-
-export type SituationExchangeDelivery = {
-    ResponseTimestamp: string;
-    Status?: boolean;
-    ShortestPossibleCycle?: string;
-    Situations: Situations;
-};
-
-export type ServiceDelivery = {
-    ResponseTimestamp: string;
-    ProducerRef: string;
-    ResponseMessageIdentifier: string;
-    SituationExchangeDelivery: SituationExchangeDelivery;
-};
-
-export enum Severity {
-    unknown = "unknown",
-    verySlight = "verySlight",
-    slight = "slight",
-    normal = "normal",
-    severe = "severe",
-    verySevere = "verySevere",
-}
+export type Siri = z.infer<typeof siriSchema>;

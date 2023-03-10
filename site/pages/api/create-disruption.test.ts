@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/siriTypes";
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import createDisruption from "./create-disruption";
+import createDisruption from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
-import { DisruptionPageInputs } from "../create-disruption";
+import { DisruptionPageInputs } from "../create-disruption.page";
 
 dayjs.extend(customParseFormat);
 

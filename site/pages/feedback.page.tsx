@@ -34,7 +34,7 @@ const createFeedbackBox = (option: "submitted" | "not submitted"): ReactElement 
                 : "The feedback form was empty, at least one question has to be answered"}
         </p>
         <p className="govuk-body">
-            <Link className="govuk-link" href="/home">
+            <Link className="govuk-link" href="/">
                 Click here to return to the homepage
             </Link>
         </p>

@@ -18,7 +18,7 @@ import {
     getDateTime,
 } from "../../utils/apiUtils/createDisruptionValidations";
 import { redirectTo } from "../../utils/index";
-import { DisruptionPageInputs } from "../create-disruption";
+import { DisruptionPageInputs } from "../create-disruption.page";
 
 export type DisruptionType = "planned" | "unplanned";
 

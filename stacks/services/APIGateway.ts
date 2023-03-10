@@ -6,10 +6,20 @@ import {
     Resource,
 } from "aws-cdk-lib/aws-apigateway";
 import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { IHostedZone } from "aws-cdk-lib/aws-route53";
 import { ApiGatewayV1Api, Stack, Bucket } from "sst/constructs";
 
-export const createSiriApi = (stack: Stack, siriSXBucket: Bucket): void => {
+export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IHostedZone): void => {
+    const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
+
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
+        customDomain: {
+            domainName: `${subDomain}.${hostedZone.zoneName}`,
+            hostedZone: hostedZone.zoneName,
+            path: "v1",
+            securityPolicy: "TLS 1.2",
+            endpointType: "edge",
+        },
         cdk: {
             restApi: {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
