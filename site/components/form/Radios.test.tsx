@@ -1,15 +1,15 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import Radios from "./Radios";
-import { PageInputs } from "../../pages/create-disruption";
+import { TestInputs } from "../../interfaces";
 
 describe("Radios", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
-                <Radios<PageInputs>
+                <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="type-of-disruption"
+                    inputId="field1"
                     radioDetail={[
                         {
                             value: "planned",
@@ -32,10 +32,10 @@ describe("Radios", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <Radios<PageInputs>
+                <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="type-of-disruption"
-                    initialErrors={[{ errorMessage: "There was an error", id: "type-of-disruption" }]}
+                    inputId="field1"
+                    initialErrors={[{ errorMessage: "There was an error", id: "field1" }]}
                     radioDetail={[
                         {
                             value: "planned",
@@ -58,9 +58,9 @@ describe("Radios", () => {
     it("should render correctly with a padding", () => {
         const tree = renderer
             .create(
-                <Radios<PageInputs>
+                <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="type-of-disruption"
+                    inputId="field1"
                     radioDetail={[
                         {
                             value: "planned",

@@ -9,13 +9,13 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-time"
+      htmlFor="field1"
     >
       What is the start time?
     </label>
     <div
       className="govuk-hint"
-      id="disruption-start-time-hint"
+      id="field1-hint"
     >
       Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
     </div>
@@ -23,11 +23,11 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
       className=""
     >
       <input
-        aria-describedby="disruption-start-time-hint"
+        aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
         defaultValue="three thirty"
         disabled={true}
-        id="disruption-start-time"
+        id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
         placeholder="N/A"
@@ -47,13 +47,13 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-time"
+      htmlFor="field1"
     >
       What is the start time?
     </label>
     <div
       className="govuk-hint"
-      id="disruption-start-time-hint"
+      id="field1-hint"
     >
       Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
     </div>
@@ -61,11 +61,11 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
       className=""
     >
       <input
-        aria-describedby="disruption-start-time-hint"
+        aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
         defaultValue="three thirty"
         disabled={false}
-        id="disruption-start-time"
+        id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
         placeholder="hhmm"
@@ -85,13 +85,13 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-time"
+      htmlFor="field1"
     >
       What is the start time?
     </label>
     <div
       className="govuk-hint"
-      id="disruption-start-time-hint"
+      id="field1-hint"
     >
       Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
     </div>
@@ -99,11 +99,11 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
       className=""
     >
       <input
-        aria-describedby="disruption-start-time-hint"
+        aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
         defaultValue="0900"
         disabled={false}
-        id="disruption-start-time"
+        id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
         placeholder="hhmm"
@@ -123,13 +123,13 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-time"
+      htmlFor="field1"
     >
       What is the start time?
     </label>
     <div
       className="govuk-hint"
-      id="disruption-start-time-hint"
+      id="field1-hint"
     >
       Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
     </div>
@@ -137,11 +137,11 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
       className=""
     >
       <input
-        aria-describedby="disruption-start-time-hint"
+        aria-describedby="field1-hint"
         className="govuk-input govuk-date-input__input govuk-input--width-4"
         defaultValue=""
         disabled={false}
-        id="disruption-start-time"
+        id="field1"
         name="disruptionStartTime"
         onBlur={[Function]}
         placeholder="hhmm"

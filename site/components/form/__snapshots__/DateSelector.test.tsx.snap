@@ -9,7 +9,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-date"
+      htmlFor="field1"
     >
       What is the start date?
     </label>
@@ -30,7 +30,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={true}
-            id="disruption-start-date"
+            id="field1"
             name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
@@ -90,7 +90,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-date"
+      htmlFor="field1"
     >
       What is the start date?
     </label>
@@ -111,7 +111,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="disruption-start-date"
+            id="field1"
             name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
@@ -171,7 +171,7 @@ exports[`DateSelector > should render correctly with errors 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-date"
+      htmlFor="field1"
     >
       What is the start date?
     </label>
@@ -191,7 +191,7 @@ exports[`DateSelector > should render correctly with errors 1`] = `
         >
           <span
             className="govuk-error-message"
-            id="disruption-start-date-error"
+            id="field1-error"
           >
             <span
               className="govuk-visually-hidden"
@@ -201,10 +201,10 @@ exports[`DateSelector > should render correctly with errors 1`] = `
             There was an error
           </span>
           <input
-            aria-describedby="disruption-start-date-error"
+            aria-describedby="field1-error"
             className="govuk-input govuk-date-input__input govuk-input--width-6 govuk-input--error"
             disabled={false}
-            id="disruption-start-date"
+            id="field1"
             name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}
@@ -267,7 +267,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="disruption-start-date"
+      htmlFor="field1"
     >
       What is the start date?
     </label>
@@ -288,7 +288,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="disruption-start-date"
+            id="field1"
             name="disruptionStartDate"
             onBlur={[Function]}
             onChange={[Function]}

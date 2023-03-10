@@ -33,21 +33,6 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export const ERROR_MESSAGES = [
-    {
-        message: "Enter a summary for this disruption",
-        input: "summary",
-    },
-    {
-        message: "Enter a description for this disruption (200 characters maximum)",
-        input: "description",
-    },
-    {
-        message: "Select a reason from the dropdown",
-        input: "disruption-reason",
-    },
-];
-
 export const DISRUPTION_TYPES = ["planned", "unplanned"];
 
 export const CD_DATE_FORMAT = "DD/MM/YYYY";

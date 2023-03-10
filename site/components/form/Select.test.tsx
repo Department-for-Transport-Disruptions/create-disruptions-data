@@ -4,14 +4,14 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import Select from "./Select";
 import { DISRUPTION_REASONS } from "../../constants";
-import { PageInputs } from "../../pages/create-disruption";
+import { TestInputs } from "../../interfaces";
 
 describe("Select", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
-                <Select<PageInputs>
-                    inputId="disruption-reason"
+                <Select<TestInputs>
+                    inputId="field1"
                     inputName="disruptionReason"
                     display="Reason for disruption"
                     defaultDisplay="Select a reason"
@@ -28,8 +28,8 @@ describe("Select", () => {
     it("should render correctly with errors", () => {
         const tree = renderer
             .create(
-                <Select<PageInputs>
-                    inputId="disruption-reason"
+                <Select<TestInputs>
+                    inputId="field1"
                     inputName="disruptionReason"
                     display="Reason for disruption"
                     defaultDisplay="Select a reason"
@@ -46,8 +46,8 @@ describe("Select", () => {
 
     it("should validate minLength and display error", async () => {
         const { unmount } = render(
-            <Select<PageInputs>
-                inputId="disruption-reason"
+            <Select<TestInputs>
+                inputId="field1"
                 inputName="disruptionReason"
                 display="Reason for disruption"
                 defaultDisplay="Select a reason"

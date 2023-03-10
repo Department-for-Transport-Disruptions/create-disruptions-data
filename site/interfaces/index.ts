@@ -46,3 +46,10 @@ export interface Feedback {
     question: string;
     answer: string;
 }
+
+export interface TestInputs {
+    field1: string;
+    field2: boolean;
+    field3: string;
+    field4: string;
+}
