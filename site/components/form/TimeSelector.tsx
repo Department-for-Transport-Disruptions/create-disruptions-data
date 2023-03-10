@@ -20,8 +20,7 @@ const TimeSelector = <T extends object>({
     optional = false,
     stateUpdater,
 }: TimeSelectorProps<T>): ReactElement => {
-    const errorsToUse = !disabled ? initialErrors : initialErrors.filter((error) => !(error.id === inputId));
-    const [errors, setErrors] = useState<ErrorInfo[]>(errorsToUse);
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const [inputValue, setInputValue] = useState(value);
 
     useEffect(() => {

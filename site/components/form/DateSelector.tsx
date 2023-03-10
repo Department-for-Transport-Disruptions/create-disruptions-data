@@ -77,8 +77,7 @@ const DateSelector = <T extends object>({
     stateUpdater,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
-    const errorsToUse = !disabled ? initialErrors : initialErrors.filter((error) => !(error.id === inputId));
-    const [errors, setErrors] = useState<ErrorInfo[]>(errorsToUse);
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
 
     useEffect(() => {
         if (disabled) {

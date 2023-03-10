@@ -106,7 +106,7 @@ describe("DateSelector", () => {
         unmount();
     });
 
-    it("should validate minLength and display error", async () => {
+    it("should not error when the component is disabled", async () => {
         const { unmount } = render(
             <DateSelector<TestInputs>
                 display="Start date"

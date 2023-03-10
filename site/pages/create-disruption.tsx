@@ -258,7 +258,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         />
 
                         <TimeSelector<PageInputs>
-                            display="End time?"
+                            display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs["publish-end-time"]}
                             errorMessage="Enter a publication end time for the disruption"
