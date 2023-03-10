@@ -9,6 +9,7 @@ interface TextInputProps<T> extends FormBase<T> {
     minLength?: number;
     textArea?: boolean;
     rows?: number;
+    hint?: string;
 }
 
 const TextInput = <T extends object>({
@@ -24,6 +25,7 @@ const TextInput = <T extends object>({
     minLength = 0,
     textArea = false,
     rows,
+    hint,
     optional = false,
     stateUpdater,
 }: TextInputProps<T>): ReactElement => {
@@ -35,6 +37,11 @@ const TextInput = <T extends object>({
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
+                {hint ? (
+                    <div id={`${inputId}-hint`} className="govuk-hint">
+                        {hint}
+                    </div>
+                ) : null}
                 <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
                     {textArea ? (
                         <textarea

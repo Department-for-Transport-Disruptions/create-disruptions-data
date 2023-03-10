@@ -104,6 +104,7 @@ const CreateConsequenceOperator = ({
                             inputId="description"
                             display="Consequence description"
                             displaySize="l"
+                            hint="What advice would you like to display?"
                             inputName="description"
                             errorMessage="Enter a description for this consequence"
                             widthClass="w-3/4"

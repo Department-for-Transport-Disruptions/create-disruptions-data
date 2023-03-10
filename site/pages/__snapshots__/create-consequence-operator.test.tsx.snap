@@ -191,6 +191,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 Consequence description
               </label>
               <div
+                className="govuk-hint"
+                id="description-hint"
+              >
+                What advice would you like to display?
+              </div>
+              <div
                 className=""
               >
                 <textarea
@@ -834,6 +840,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               >
                 Consequence description
               </label>
+              <div
+                className="govuk-hint"
+                id="description-hint"
+              >
+                What advice would you like to display?
+              </div>
               <div
                 className=""
               >
