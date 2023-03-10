@@ -13,6 +13,7 @@ const Select = <T extends object>({
     inputId,
     inputName,
     display,
+    displaySize = "s",
     errorMessage = "",
     initialErrors = [],
     defaultDisplay,
@@ -42,7 +43,7 @@ const Select = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group">
-                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
                 <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-select--error">

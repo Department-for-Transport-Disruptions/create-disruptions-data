@@ -67,6 +67,7 @@ const DateSelector = <T extends object>({
     value,
     inputId,
     display,
+    displaySize = "s",
     inputName,
     errorMessage = "",
     initialErrors = [],
@@ -89,7 +90,7 @@ const DateSelector = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group govuk-!-margin-bottom-0">
-                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
                 {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}

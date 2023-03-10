@@ -33,6 +33,51 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
+export enum Severity {
+    unknown = "unknown",
+    verySlight = "verySlight",
+    slight = "slight",
+    normal = "normal",
+    severe = "severe",
+    verySevere = "verySevere",
+}
+
+export const DISRUPTION_SEVERITIES: {
+    value: Severity;
+    display: string;
+}[] = [
+    { value: Severity.unknown, display: "Unknown" },
+    { value: Severity.verySlight, display: "Very slight" },
+    {
+        value: Severity.slight,
+        display: "Slight",
+    },
+    {
+        value: Severity.normal,
+        display: "Normal",
+    },
+    {
+        value: Severity.severe,
+        display: "Severe",
+    },
+    { value: Severity.verySevere, display: "Very severe" },
+];
+
+export const OPERATORS = [
+    {
+        value: "FMAN",
+        display: "First Greater Manchester",
+    },
+    {
+        value: "SCMN",
+        display: "Stagecoach Manchester",
+    },
+    {
+        value: "FSYO",
+        display: "First South Yorkshire",
+    },
+    { value: "SYRK", display: "Stagecoach Yorkshire" },
+];
 export const DISRUPTION_TYPES = ["planned", "unplanned"];
 
 export const CD_DATE_FORMAT = "DD/MM/YYYY";
