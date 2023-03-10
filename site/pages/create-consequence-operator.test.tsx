@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { PageState } from "./create-consequence-operator.page";
+import CreateConsequenceOperator, { ConsequenceOperatorPageState } from "./create-consequence-operator.page";
 
-const blankInputs: PageState = {
+const blankInputs: ConsequenceOperatorPageState = {
     errors: [],
     inputs: {
         "consequence-operator": "",
@@ -14,7 +14,7 @@ const blankInputs: PageState = {
     },
 };
 
-const withInputs: PageState = {
+const withInputs: ConsequenceOperatorPageState = {
     errors: [],
     inputs: {
         "consequence-operator": "FSYO",

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -22,6 +22,14 @@ const TimeSelector = <T extends object>({
     stateUpdater,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const [inputValue, setInputValue] = useState(value);
+
+    useEffect(() => {
+        if (disabled) {
+            setErrors([]);
+            setInputValue("");
+        }
+    }, [disabled]);
 
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
@@ -40,10 +48,11 @@ const TimeSelector = <T extends object>({
                         id={inputId}
                         name={inputName}
                         type="text"
-                        defaultValue={value}
+                        value={inputValue}
                         disabled={disabled}
                         placeholder={disabled ? "N/A" : "hhmm"}
                         aria-describedby={hint ? `${inputId}-hint` : ""}
+                        onChange={(e) => setInputValue(e.target.value)}
                         onBlur={(e) =>
                             handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors, optional)
                         }

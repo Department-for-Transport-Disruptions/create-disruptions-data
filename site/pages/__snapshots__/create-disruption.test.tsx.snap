@@ -269,7 +269,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-start-date"
               >
-                What is the start date?
+                Start date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -350,7 +350,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-start-time"
               >
-                What is the start time?
+                Start time
               </label>
               <div
                 className="govuk-hint"
@@ -364,13 +364,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0100"
                   disabled={false}
                   id="disruption-start-time"
                   name="disruption-start-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0100"
                 />
               </div>
             </div>
@@ -385,7 +386,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-end-date"
               >
-                What is the end date?
+                End date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -466,7 +467,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-end-time"
               >
-                What is the end time?
+                End time
               </label>
               <div
                 className="govuk-hint"
@@ -480,13 +481,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0200"
                   disabled={false}
                   id="disruption-end-time"
                   name="disruption-end-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0200"
                 />
               </div>
             </div>
@@ -618,7 +620,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-start-date"
               >
-                What is the start date?
+                Start date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -699,7 +701,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-start-time"
               >
-                What is the start time?
+                Start time
               </label>
               <div
                 className="govuk-hint"
@@ -713,13 +715,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="publish-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0200"
                   disabled={false}
                   id="publish-start-time"
                   name="publish-start-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="0200"
                 />
               </div>
             </div>
@@ -734,7 +737,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-end-date"
               >
-                What is the end date?
+                End date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -815,7 +818,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-end-time"
               >
-                What is the end time?
+                End time
               </label>
               <div
                 className="govuk-hint"
@@ -829,13 +832,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="publish-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="2300"
                   disabled={false}
                   id="publish-end-time"
                   name="publish-end-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="2300"
                 />
               </div>
             </div>
@@ -1355,7 +1359,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-start-date"
               >
-                What is the start date?
+                Start date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -1433,7 +1437,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-start-time"
               >
-                What is the start time?
+                Start time
               </label>
               <div
                 className="govuk-hint"
@@ -1447,13 +1451,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-start-time"
                   name="disruption-start-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </div>
@@ -1468,7 +1473,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-end-date"
               >
-                What is the end date?
+                End date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -1546,7 +1551,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="disruption-end-time"
               >
-                What is the end time?
+                End time
               </label>
               <div
                 className="govuk-hint"
@@ -1560,13 +1565,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-end-time"
                   name="disruption-end-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </div>
@@ -1698,7 +1704,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-start-date"
               >
-                What is the start date?
+                Start date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -1776,7 +1782,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-start-time"
               >
-                What is the start time?
+                Start time
               </label>
               <div
                 className="govuk-hint"
@@ -1790,13 +1796,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="publish-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="publish-start-time"
                   name="publish-start-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </div>
@@ -1811,7 +1818,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-end-date"
               >
-                What is the end date?
+                End date
               </label>
               <div
                 className="govuk-hint govuk-visually-hidden"
@@ -1889,7 +1896,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-label govuk-label--s"
                 htmlFor="publish-end-time"
               >
-                What is the end time?
+                End time
               </label>
               <div
                 className="govuk-hint"
@@ -1903,13 +1910,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="publish-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="publish-end-time"
                   name="publish-end-time"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </div>
