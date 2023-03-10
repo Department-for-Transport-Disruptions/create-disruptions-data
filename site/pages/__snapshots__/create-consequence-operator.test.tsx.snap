@@ -283,7 +283,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+                Enter the time in the format hhmm. For example 4800 is 48 hours
               </div>
               <div
                 className=""
@@ -918,7 +918,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+                Enter the time in the format hhmm. For example 4800 is 48 hours
               </div>
               <div
                 className=""

@@ -136,7 +136,7 @@ const CreateConsequenceOperator = ({
                         <TimeSelector<ConsequenceOperatorPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
-                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                            hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
                             value={pageState.inputs["disruption-delay"]}
                             errorMessage="Enter a time for the disruption delay"
                             disabled={false}
