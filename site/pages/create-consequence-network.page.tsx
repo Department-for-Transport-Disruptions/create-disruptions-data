@@ -13,7 +13,7 @@ const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceNetworkProps {
-    inputs: PageState;
+    inputs: ConsequenceNetworkPageState;
     previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
 }
 
@@ -25,7 +25,7 @@ export interface ConsequenceNetworkPageInputs {
     "disruption-direction": string;
 }
 
-export interface PageState {
+export interface ConsequenceNetworkPageState {
     errors: ErrorInfo[];
     inputs: ConsequenceNetworkPageInputs;
 }
@@ -34,14 +34,14 @@ const CreateConsequenceNetwork = ({
     inputs,
     previousConsequenceInformation,
 }: CreateConsequenceNetworkProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState>(inputs);
+    const [pageState, setConsequenceNetworkPageState] = useState<ConsequenceNetworkPageState>(inputs);
 
-    const updatePageStateForInput = (
+    const updateConsequenceNetworkPageStateForInput = (
         inputName: keyof ConsequenceNetworkPageInputs,
         input: string,
         error?: ErrorInfo,
     ): void => {
-        setPageState({
+        setConsequenceNetworkPageState({
             inputs: {
                 ...pageState.inputs,
                 [inputName]: input,
@@ -55,7 +55,7 @@ const CreateConsequenceNetwork = ({
     };
 
     const stateUpdater = (change: string, field: keyof ConsequenceNetworkPageInputs) => {
-        updatePageStateForInput(field, change);
+        updateConsequenceNetworkPageStateForInput(field, change);
     };
 
     return (
@@ -187,7 +187,7 @@ const CreateConsequenceNetwork = ({
 };
 
 export const getServerSideProps = (): { props: object } => {
-    const inputs: PageState = {
+    const inputs: ConsequenceNetworkPageState = {
         errors: [],
         inputs: {
             description: "",

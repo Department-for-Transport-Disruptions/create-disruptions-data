@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceNetwork, { PageState } from "./create-consequence-network.page";
+import CreateConsequenceNetwork, { ConsequenceNetworkPageState } from "./create-consequence-network.page";
 
-const blankInputs: PageState = {
+const blankInputs: ConsequenceNetworkPageState = {
     errors: [],
     inputs: {
         description: "",
@@ -13,7 +13,7 @@ const blankInputs: PageState = {
     },
 };
 
-const withInputs: PageState = {
+const withInputs: ConsequenceNetworkPageState = {
     errors: [],
     inputs: {
         description: "A truck broke down on a bridge",
