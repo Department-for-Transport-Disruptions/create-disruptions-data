@@ -12,6 +12,7 @@ const TimeSelector = <T extends object>({
     value,
     inputId,
     display,
+    displaySize = "s",
     inputName,
     errorMessage = "",
     initialErrors = [],
@@ -25,7 +26,7 @@ const TimeSelector = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <div className="govuk-form-group">
-                <label className="govuk-label govuk-label--s" htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
                 {hint ? (

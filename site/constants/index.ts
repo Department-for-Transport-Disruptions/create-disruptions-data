@@ -36,39 +36,39 @@ export const DISRUPTION_REASONS: {
 
 export const DISRUPTION_SEVERITIES: {
     value: Severity;
-    severity: string;
+    display: string;
 }[] = [
-    { value: Severity.unknown, severity: "Unknown" },
-    { value: Severity.verySlight, severity: "Very Slight" },
+    { value: Severity.unknown, display: "Unknown" },
+    { value: Severity.verySlight, display: "Very Slight" },
     {
         value: Severity.slight,
-        severity: "Slight",
+        display: "Slight",
     },
     {
         value: Severity.normal,
-        severity: "Normal",
+        display: "Normal",
     },
     {
         value: Severity.severe,
-        severity: "Severe",
+        display: "Severe",
     },
-    { value: Severity.verySevere, severity: "Very Severe" },
+    { value: Severity.verySevere, display: "Very Severe" },
 ];
 
 export const OPERATORS = [
     {
         value: "FMAN",
-        operator: "First Greater Manchester",
+        display: "First Greater Manchester",
     },
     {
         value: "SCMN",
-        operator: "Stagecoach Manchester",
+        display: "Stagecoach Manchester",
     },
     {
         value: "FSYO",
-        operator: "First South Yorkshire",
+        display: "First South Yorkshire",
     },
-    { value: "SYRK", operator: "Stagecoach Yorkshire" },
+    { value: "SYRK", display: "Stagecoach Yorkshire" },
 ];
 export const DISRUPTION_TYPES = ["planned", "unplanned"];
 
