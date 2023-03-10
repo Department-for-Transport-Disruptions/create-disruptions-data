@@ -1,10 +1,14 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./add-consequence";
-import { COOKIES_ADD_CONSEQUENCE_INFO, COOKIES_ADD_CONSEQUENCE_ERRORS } from "../../constants/index";
-import { ErrorInfo } from "../../interfaces";
+import { ConsequenceType, TransportMode } from "../../constants/enum";
+import {
+    COOKIES_ADD_CONSEQUENCE_INFO,
+    COOKIES_ADD_CONSEQUENCE_ERRORS,
+    ADD_CONSEQUENCE_PAGE_PATH,
+} from "../../constants/index";
+import { AddConsequenceProps, ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
-import { AddConsequenceProps, ConsequenceType, TransportMode } from "../add-consequence";
 
 const tenSeconds = 10000;
 
@@ -41,8 +45,8 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/add-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
-            { id: "consequence-type-services", errorMessage: "Select a consequence type" },
-            { id: "transport-mode-bus", errorMessage: "Select a mode of transport" },
+            { id: "consequenceType", errorMessage: "Select a consequence type" },
+            { id: "modeOfTransport", errorMessage: "Select a mode of transport" },
         ];
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -60,7 +64,7 @@ describe("addConsequence", () => {
             false,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/add-consequence" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_CONSEQUENCE_PAGE_PATH });
     });
 
     it("should redirect back to add consequence page (/add-consequence) when incorrect values are passed", () => {
@@ -71,10 +75,10 @@ describe("addConsequence", () => {
 
         const errors: ErrorInfo[] = [
             {
-                id: "consequence-type-services",
+                id: "consequenceType",
                 errorMessage: "Incorrect consequence type selected. Choose a valid value",
             },
-            { id: "transport-mode-bus", errorMessage: "Incorrect mode of transport selected. Choose a valid value" },
+            { id: "modeOfTransport", errorMessage: "Incorrect mode of transport selected. Choose a valid value" },
         ];
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -92,6 +96,6 @@ describe("addConsequence", () => {
             false,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/add-consequence" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_CONSEQUENCE_PAGE_PATH });
     });
 });

@@ -1,9 +1,3 @@
-import {
-    MiscellaneousReason,
-    PersonnelReason,
-    EnvironmentReason,
-    EquipmentReason,
-} from "@create-disruptions-data/shared-ts/siriTypes";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_INFO,
@@ -12,7 +6,7 @@ import {
     ERROR_PATH,
 } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
-import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import {
     checkReferrer,
     validateDisruptionType,
@@ -27,16 +21,18 @@ import { redirectTo } from "../../utils/index";
 import { PageInputs } from "../create-disruption";
 
 export type DisruptionType = "planned" | "unplanned";
-const tenSeconds = 10000;
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
+    destroyCookieOnResponseObject(COOKIES_DISRUPTION_INFO, res);
+    destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
+
     const errors: ErrorInfo[] = [];
 
     checkReferrer(req.headers.referer, CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, res);
 
     const formFields: PageInputs = req.body as PageInputs;
 
-    const disruptionType: DisruptionType | undefined = formFields.typeOfDisruption;
+    const disruptionType: DisruptionType | "" = formFields["type-of-disruption"];
 
     validateDisruptionType(disruptionType, errors, "some-error-id");
 
@@ -54,16 +50,15 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         validateAssociatedLink(associatedLink, errors, "some-error-id");
     }
 
-    const disruptionReason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason | "" =
-        formFields["disruption-reason"] || "";
+    const disruptionReason: string = formFields["disruption-reason"] || "";
 
     validateDisruptionReasons(disruptionReason, errors, "some-error-id");
 
-    const disruptionStartDate: Date | null = formFields["disruption-start-date"];
-    const disruptionStartTime: string = formFields["disruption-start-time"];
-    const disruptionEndDate: Date | null = formFields["disruption-end-date"];
-    const disruptionEndTime: string = formFields["disruption-end-time"];
-    const disruptionIsNoEndDateTime: string | undefined = formFields.disruptionIsNoEndDateTime;
+    const disruptionStartDate = formFields["disruption-start-date"];
+    const disruptionStartTime = formFields["disruption-start-time"];
+    const disruptionEndDate = formFields["disruption-end-date"];
+    const disruptionEndTime = formFields["disruption-end-time"];
+    const disruptionIsNoEndDateTime = formFields["disruption-no-end-date-time"];
 
     validateDateTimeSection(
         disruptionStartDate,
@@ -74,11 +69,11 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         errors,
         "some-error-id",
     );
-    const publishStartDate: Date | null = formFields["publish-start-date"];
-    const publishStartTime: string = formFields["publish-start-time"];
-    const publishEndDate: Date | null = formFields["publish-end-date"];
-    const publishEndTime: string = formFields["publish-end-time"];
-    const publishIsNoEndDateTime: string | undefined = formFields.publishIsNoEndDateTime;
+    const publishStartDate = formFields["publish-start-date"];
+    const publishStartTime = formFields["publish-start-time"];
+    const publishEndDate = formFields["publish-end-date"];
+    const publishEndTime = formFields["publish-end-time"];
+    const publishIsNoEndDateTime = formFields["publish-no-end-date-time"];
 
     validateDateTimeSection(
         publishStartDate,
@@ -91,31 +86,33 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     );
 
     const disruptionData: PageInputs = {
-        typeOfDisruption: disruptionType,
+        "type-of-disruption": disruptionType,
         summary: summary,
         description: description,
         "associated-link": associatedLink,
         "disruption-reason": disruptionReason,
-        "disruption-start-date": disruptionStartDate ? getDateTime(disruptionStartDate).toDate() : disruptionStartDate,
-        "disruption-end-date": disruptionEndDate ? getDateTime(disruptionEndDate).toDate() : disruptionEndDate,
+        "disruption-start-date": disruptionStartDate
+            ? getDateTime(disruptionStartDate).toString()
+            : disruptionStartDate,
+        "disruption-end-date": disruptionEndDate ? getDateTime(disruptionEndDate).toString() : disruptionEndDate,
         "disruption-start-time": disruptionStartTime,
         "disruption-end-time": disruptionEndTime,
-        disruptionIsNoEndDateTime: disruptionIsNoEndDateTime,
-        "publish-start-date": publishStartDate ? getDateTime(publishStartDate).toDate() : publishStartDate,
-        "publish-end-date": publishEndDate ? getDateTime(publishEndDate).toDate() : publishEndDate,
+        "disruption-no-end-date-time": disruptionIsNoEndDateTime,
+        "publish-start-date": publishStartDate ? getDateTime(publishStartDate).toString() : publishStartDate,
+        "publish-end-date": publishEndDate ? getDateTime(publishEndDate).toString() : publishEndDate,
         "publish-start-time": publishStartTime,
         "publish-end-time": publishEndTime,
-        publishIsNoEndDateTime: publishIsNoEndDateTime,
-        disruptionRepeats: formFields.disruptionRepeats,
+        "publish-no-end-date-time": publishIsNoEndDateTime,
+        "disruption-repeats": formFields["disruption-repeats"],
     };
 
-    setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(disruptionData), res, tenSeconds, false);
+    setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(disruptionData), res);
 
     if (errors.length === 0) {
         redirectTo(res, "/");
         return;
     } else {
-        setCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res, tenSeconds, false);
+        setCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
         return;
     }

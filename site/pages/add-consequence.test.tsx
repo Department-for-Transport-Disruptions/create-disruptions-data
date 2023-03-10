@@ -1,14 +1,15 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import AddConsequence, { AddConsequenceProps, TransportMode, ConsequenceType } from "./add-consequence";
-import { ErrorInfo } from "../interfaces/index";
+import AddConsequence from "./add-consequence";
+import { ConsequenceType, TransportMode } from "../constants/enum";
+import { AddConsequenceProps, ErrorInfo } from "../interfaces/index";
 
 const noErrors: ErrorInfo[] = [];
 const withNoInputs: AddConsequenceProps = {};
 
 const withErrors: ErrorInfo[] = [
-    { id: "consequence-type-services", errorMessage: "Please select a consequence type" },
-    { id: "transport-mode-bus", errorMessage: "Please select a mode of transport" },
+    { id: "consequenceType", errorMessage: "Select a consequence type" },
+    { id: "modeOfTransport", errorMessage: "Select a mode of transport" },
 ];
 const withInputs: AddConsequenceProps = {
     modeOfTransport: TransportMode.bus,

@@ -1,93 +1,51 @@
 import { NextPageContext } from "next";
 import { destroyCookie, parseCookies } from "nookies";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+import { inspect } from "util";
 import Radios from "../components/form/Radios";
 import { TwoThirdsLayout } from "../components/layout/Layout";
+import { ConsequenceType, TransportMode } from "../constants/enum";
 import { COOKIES_ADD_CONSEQUENCE_ERRORS, COOKIES_ADD_CONSEQUENCE_INFO } from "../constants/index";
-import { InputInfo, ErrorInfo } from "../interfaces/index";
+import { AddConsequenceProps, AddConsequenceWithErrors, DisplayValuePair, ErrorInfo } from "../interfaces/index";
+import logger from "../utils/logger";
 
-interface AddConsequenceWithErrors {
-    errors: ErrorInfo[];
-    inputs: AddConsequenceProps;
-}
-
-export interface AddConsequenceProps {
-    modeOfTransport?: TransportMode;
-    consequenceType?: ConsequenceType;
-}
-
-export enum TransportMode {
-    bus = "Bus",
-    tram = "Tram",
-    ferry = "Ferry",
-    train = "Train",
-}
-
-export enum ConsequenceType {
-    services = "Services",
-    networkWide = "Network Wide",
-    operatorWide = "Operator Wide",
-    stops = "Stops",
-}
-
-const title = "Add a Consequence";
+const title = "Add a consequence";
 const description = "Page to add a consequnce by choosing its type and mode of transport";
 
-const modeOfTransportRadio: InputInfo[] = [
-    {
-        id: "transport-mode-bus",
-        name: "modeOfTransport",
-        value: TransportMode.bus,
-        display: TransportMode.bus,
-    },
-    {
-        id: "transport-mode-tram",
-        name: "modeOfTransport",
-        value: TransportMode.tram,
-        display: TransportMode.tram,
-    },
-    {
-        id: "transport-mode-ferry",
-        name: "modeOfTransport",
-        value: TransportMode.ferry,
-        display: TransportMode.ferry,
-    },
-    {
-        id: "transport-mode-train",
-        name: "modeOfTransport",
-        value: TransportMode.train,
-        display: TransportMode.train,
-    },
-];
+const modeOfTransportRadio: DisplayValuePair[] = [];
 
-const consequenceType: InputInfo[] = [
-    {
-        id: "consequence-type-services",
-        name: "consequenceType",
-        value: ConsequenceType.services,
-        display: ConsequenceType.services,
-    },
-    {
-        id: "transport-mode-network-wide",
-        name: "consequenceType",
-        value: ConsequenceType.networkWide,
-        display: ConsequenceType.networkWide,
-    },
-    {
-        id: "transport-mode-operator-wide",
-        name: "consequenceType",
-        value: ConsequenceType.operatorWide,
-        display: ConsequenceType.operatorWide,
-    },
-    {
-        id: "transport-mode-operator-stops",
-        name: "consequenceType",
-        value: ConsequenceType.stops,
-        display: ConsequenceType.stops,
-    },
-];
+Object.values(TransportMode).forEach((enumValue) => {
+    modeOfTransportRadio.push({
+        value: enumValue,
+        display: enumValue,
+    });
+});
 
-const AddConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement => {
+const consequenceType: DisplayValuePair[] = [];
+
+Object.values(ConsequenceType).forEach((enumValue) => {
+    consequenceType.push({
+        value: enumValue,
+        display: enumValue,
+    });
+});
+
+const AddConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
+    const [pageState, setPageState] = useState<AddConsequenceProps>(inputs);
+    const [errorState, setErrorState] = useState<ErrorInfo[]>(errors);
+
+    const updatePageStateForInput = (inputName: keyof AddConsequenceProps, input: string, error?: ErrorInfo): void => {
+        setPageState({
+            ...pageState,
+            [inputName]: input,
+        });
+        setErrorState([...(error ? [...errorState, error] : [...errors.filter((error) => error.id !== inputName)])]);
+    };
+
+    const stateUpdater = (change: string, field: keyof AddConsequenceProps) => {
+        updatePageStateForInput(field, change);
+    };
+
     return (
         <TwoThirdsLayout title={title} description={description}>
             <form action="/api/add-consequence" method="post">
@@ -95,20 +53,29 @@ const AddConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
 
-                        <Radios heading="Select mode of Transport" errors={errors} inputInfo={modeOfTransportRadio} />
-                        <Radios
-                            heading="Select consequence type"
-                            errors={errors}
-                            inputInfo={consequenceType}
+                        <Radios<AddConsequenceProps>
+                            display="Select mode of Transport"
+                            inputId="modeOfTransport"
+                            radioDetail={modeOfTransportRadio}
+                            inputName="modeOfTransport"
+                            stateUpdater={stateUpdater}
+                            value={pageState.modeOfTransport}
+                            initialErrors={errorState}
+                        />
+                        <Radios<AddConsequenceProps>
+                            display="Select consequence type"
+                            inputId="consequenceType"
+                            radioDetail={consequenceType}
+                            inputName="consequenceType"
+                            stateUpdater={stateUpdater}
+                            value={pageState.consequenceType}
+                            initialErrors={errorState}
                             paddingTop={3}
                         />
 
                         <div className="govuk-button-group">
                             <button className="govuk-button" data-module="govuk-button">
                                 Save and continue
-                            </button>
-                            <button className="govuk-button govuk-button--secondary" data-module="govuk-button">
-                                Save as draft
                             </button>
                         </div>
                     </div>
@@ -120,22 +87,22 @@ const AddConsequence = ({ errors = [] }: AddConsequenceWithErrors): ReactElement
 
 export const getServerSideProps = (ctx: NextPageContext): { props: AddConsequenceWithErrors } => {
     let errors: ErrorInfo[] = [];
-    let inputs: AddConsequenceProps = {};
+    const inputs: AddConsequenceProps = {};
 
     const cookies = parseCookies(ctx);
 
     const disruptionInfo = cookies[COOKIES_ADD_CONSEQUENCE_INFO];
 
     if (disruptionInfo) {
-        inputs = JSON.parse(cookies[COOKIES_ADD_CONSEQUENCE_INFO]) as AddConsequenceProps;
+        logger.info(inspect(JSON.parse(disruptionInfo), false, null, true));
         destroyCookie(ctx, COOKIES_ADD_CONSEQUENCE_INFO);
     }
 
     const errorInfo = cookies[COOKIES_ADD_CONSEQUENCE_ERRORS];
 
     if (errorInfo) {
+        logger.info(inspect(JSON.parse(errorInfo), false, null, true));
         errors = JSON.parse(cookies[COOKIES_ADD_CONSEQUENCE_ERRORS]) as ErrorInfo[];
-        destroyCookie(ctx, COOKIES_ADD_CONSEQUENCE_ERRORS);
     }
 
     return { props: { inputs, errors } };
