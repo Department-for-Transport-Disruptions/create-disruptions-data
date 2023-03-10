@@ -81,17 +81,17 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <span
                       className="govuk-error-message"
-                      id="transport-mode-bus-error"
+                      id="modeOfTransport-error"
                     >
                       <span
                         className="govuk-visually-hidden"
                       >
                         Error: 
                       </span>
-                      Please select a mode of transport
+                      Select a mode of transport
                     </span>
                     <div
-                      aria-describedby="transport-mode-bus-error"
+                      aria-describedby="modeOfTransport-error"
                       className="govuk-radios govuk-radios--error"
                       id="radio-buttons"
                     >
@@ -100,14 +100,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-bus"
+                          defaultChecked={true}
+                          id="modeOfTransport-Bus"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Bus"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-bus"
+                          htmlFor="modeOfTransport-Bus"
                         >
                           Bus
                         </label>
@@ -117,14 +119,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-tram"
+                          defaultChecked={false}
+                          id="modeOfTransport-Tram"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Tram"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-tram"
+                          htmlFor="modeOfTransport-Tram"
                         >
                           Tram
                         </label>
@@ -134,14 +138,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-ferry"
+                          defaultChecked={false}
+                          id="modeOfTransport-Ferry"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Ferry"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-ferry"
+                          htmlFor="modeOfTransport-Ferry"
                         >
                           Ferry
                         </label>
@@ -151,14 +157,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-train"
+                          defaultChecked={false}
+                          id="modeOfTransport-Train"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Train"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-train"
+                          htmlFor="modeOfTransport-Train"
                         >
                           Train
                         </label>
@@ -187,17 +195,17 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <span
                       className="govuk-error-message"
-                      id="consequence-type-services-error"
+                      id="consequenceType-error"
                     >
                       <span
                         className="govuk-visually-hidden"
                       >
                         Error: 
                       </span>
-                      Please select a consequence type
+                      Select a consequence type
                     </span>
                     <div
-                      aria-describedby="consequence-type-services-error"
+                      aria-describedby="consequenceType-error"
                       className="govuk-radios govuk-radios--error"
                       id="radio-buttons"
                     >
@@ -206,14 +214,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="consequence-type-services"
+                          defaultChecked={false}
+                          id="consequenceType-Services"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Services"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="consequence-type-services"
+                          htmlFor="consequenceType-Services"
                         >
                           Services
                         </label>
@@ -223,14 +233,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-network-wide"
+                          defaultChecked={true}
+                          id="consequenceType-Network Wide"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Network Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-network-wide"
+                          htmlFor="consequenceType-Network Wide"
                         >
                           Network Wide
                         </label>
@@ -240,14 +252,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-operator-wide"
+                          defaultChecked={false}
+                          id="consequenceType-Operator Wide"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Operator Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-operator-wide"
+                          htmlFor="consequenceType-Operator Wide"
                         >
                           Operator Wide
                         </label>
@@ -257,14 +271,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-operator-stops"
+                          defaultChecked={false}
+                          id="consequenceType-Stops"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Stops"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-operator-stops"
+                          htmlFor="consequenceType-Stops"
                         >
                           Stops
                         </label>
@@ -281,12 +297,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   data-module="govuk-button"
                 >
                   Save and continue
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary"
-                  data-module="govuk-button"
-                >
-                  Save as draft
                 </button>
               </div>
             </div>
@@ -564,14 +574,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-bus"
+                          defaultChecked={false}
+                          id="modeOfTransport-Bus"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Bus"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-bus"
+                          htmlFor="modeOfTransport-Bus"
                         >
                           Bus
                         </label>
@@ -581,14 +593,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-tram"
+                          defaultChecked={false}
+                          id="modeOfTransport-Tram"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Tram"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-tram"
+                          htmlFor="modeOfTransport-Tram"
                         >
                           Tram
                         </label>
@@ -598,14 +612,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-ferry"
+                          defaultChecked={false}
+                          id="modeOfTransport-Ferry"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Ferry"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-ferry"
+                          htmlFor="modeOfTransport-Ferry"
                         >
                           Ferry
                         </label>
@@ -615,14 +631,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-train"
+                          defaultChecked={false}
+                          id="modeOfTransport-Train"
                           name="modeOfTransport"
+                          onChange={[Function]}
                           type="radio"
                           value="Train"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-train"
+                          htmlFor="modeOfTransport-Train"
                         >
                           Train
                         </label>
@@ -658,14 +676,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="consequence-type-services"
+                          defaultChecked={false}
+                          id="consequenceType-Services"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Services"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="consequence-type-services"
+                          htmlFor="consequenceType-Services"
                         >
                           Services
                         </label>
@@ -675,14 +695,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-network-wide"
+                          defaultChecked={false}
+                          id="consequenceType-Network Wide"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Network Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-network-wide"
+                          htmlFor="consequenceType-Network Wide"
                         >
                           Network Wide
                         </label>
@@ -692,14 +714,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-operator-wide"
+                          defaultChecked={false}
+                          id="consequenceType-Operator Wide"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Operator Wide"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-operator-wide"
+                          htmlFor="consequenceType-Operator Wide"
                         >
                           Operator Wide
                         </label>
@@ -709,14 +733,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           className="govuk-radios__input"
-                          id="transport-mode-operator-stops"
+                          defaultChecked={false}
+                          id="consequenceType-Stops"
                           name="consequenceType"
+                          onChange={[Function]}
                           type="radio"
                           value="Stops"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="transport-mode-operator-stops"
+                          htmlFor="consequenceType-Stops"
                         >
                           Stops
                         </label>
@@ -733,12 +759,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   data-module="govuk-button"
                 >
                   Save and continue
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary"
-                  data-module="govuk-button"
-                >
-                  Save as draft
                 </button>
               </div>
             </div>

@@ -55,8 +55,9 @@ describe("addConsequence", () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(1);
-        expect(setCookieSpy).toHaveBeenCalledWith(
+        expect(setCookieSpy).toHaveBeenCalledTimes(2);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(
+            2,
             COOKIES_ADD_CONSEQUENCE_ERRORS,
             JSON.stringify(errors),
             res,
@@ -87,8 +88,9 @@ describe("addConsequence", () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(1);
-        expect(setCookieSpy).toHaveBeenCalledWith(
+        expect(setCookieSpy).toHaveBeenCalledTimes(2);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(
+            2,
             COOKIES_ADD_CONSEQUENCE_ERRORS,
             JSON.stringify(errors),
             res,
