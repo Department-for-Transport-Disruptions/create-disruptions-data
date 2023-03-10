@@ -72,7 +72,7 @@ const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): 
 
                         <TextInput<PageInputs>
                             inputId="description"
-                            display="Description"
+                            display="Consequence description"
                             displaySize="l"
                             inputName="description"
                             errorMessage="Enter a description for this disruption"
