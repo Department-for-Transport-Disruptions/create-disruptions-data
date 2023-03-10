@@ -297,13 +297,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="yes"
                   disabled={false}
                   id="disruption-delay"
                   name="disruption-delay"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value="yes"
                 />
               </div>
             </div>
@@ -947,13 +948,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-delay"
                   name="disruption-delay"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
+                  value=""
                 />
               </div>
             </div>
