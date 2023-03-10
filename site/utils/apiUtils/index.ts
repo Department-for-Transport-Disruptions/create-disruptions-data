@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { setCookie } from "nookies";
+import { destroyCookie, setCookie } from "nookies";
 import { ServerResponse } from "http";
 import logger from "../logger";
 
@@ -19,6 +19,10 @@ export const setCookieOnResponseObject = (
         maxAge: lifetime,
         httpOnly,
     });
+};
+
+export const destroyCookieOnResponseObject = (cookieName: string, res: NextApiResponse): void => {
+    destroyCookie({ res }, cookieName);
 };
 
 export const redirectTo = (res: NextApiResponse | ServerResponse, location: string): void => {

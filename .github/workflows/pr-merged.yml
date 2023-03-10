@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_and_deploy_to_test:
-    name: Build and Deploy to Test env
+    name: Build and Deploy to Test Env
     runs-on: ubuntu-22.04
     environment: DISRUPTIONS_TEST
     permissions:
