@@ -1,0 +1,86 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SIRI-SX Generator > handles invalid disruptions JSON - EndTime before StartTime 1`] = `
+"[
+  {
+    \\"code\\": \\"custom\\",
+    \\"message\\": \\"End Time must be after Start Time\\",
+    \\"path\\": [
+      \\"ServiceDelivery\\",
+      \\"SituationExchangeDelivery\\",
+      \\"Situations\\",
+      0,
+      \\"PtSituationElement\\",
+      \\"PublicationWindow\\"
+    ]
+  }
+]"
+`;
+
+exports[`SIRI-SX Generator > handles invalid disruptions JSON - Invalid enum value (EnvironmentReason) 1`] = `
+"[
+  {
+    \\"received\\": \\"EnvironmentReason\\",
+    \\"code\\": \\"invalid_enum_value\\",
+    \\"options\\": [
+      \\"unknown\\",
+      \\"fog\\",
+      \\"roughSea\\",
+      \\"heavySnowFall\\",
+      \\"driftingSnow\\",
+      \\"blizzardConditions\\",
+      \\"heavyRain\\",
+      \\"strongWinds\\",
+      \\"stormConditions\\",
+      \\"stormDamage\\",
+      \\"tidalRestrictions\\",
+      \\"highTide\\",
+      \\"lowTide\\",
+      \\"ice\\",
+      \\"frozen\\",
+      \\"hail\\",
+      \\"sleet\\",
+      \\"highTemperatures\\",
+      \\"flooding\\",
+      \\"waterlogged\\",
+      \\"lowWaterLevel\\",
+      \\"highWaterLevel\\",
+      \\"fallenLeaves\\",
+      \\"fallenTree\\",
+      \\"landslide\\",
+      \\"undefinedEnvironmentalProblem\\",
+      \\"lightningStrike\\",
+      \\"sewerOverflow\\",
+      \\"grassFire\\"
+    ],
+    \\"path\\": [
+      \\"ServiceDelivery\\",
+      \\"SituationExchangeDelivery\\",
+      \\"Situations\\",
+      0,
+      \\"PtSituationElement\\",
+      \\"EnvironmentReason\\"
+    ],
+    \\"message\\": \\"Invalid enum value. Expected 'unknown' | 'fog' | 'roughSea' | 'heavySnowFall' | 'driftingSnow' | 'blizzardConditions' | 'heavyRain' | 'strongWinds' | 'stormConditions' | 'stormDamage' | 'tidalRestrictions' | 'highTide' | 'lowTide' | 'ice' | 'frozen' | 'hail' | 'sleet' | 'highTemperatures' | 'flooding' | 'waterlogged' | 'lowWaterLevel' | 'highWaterLevel' | 'fallenLeaves' | 'fallenTree' | 'landslide' | 'undefinedEnvironmentalProblem' | 'lightningStrike' | 'sewerOverflow' | 'grassFire', received 'EnvironmentReason'\\"
+  }
+]"
+`;
+
+exports[`SIRI-SX Generator > handles invalid disruptions JSON - Missing field (ParticipantRef) 1`] = `
+"[
+  {
+    \\"code\\": \\"invalid_type\\",
+    \\"expected\\": \\"string\\",
+    \\"received\\": \\"undefined\\",
+    \\"path\\": [
+      \\"ServiceDelivery\\",
+      \\"SituationExchangeDelivery\\",
+      \\"Situations\\",
+      0,
+      \\"PtSituationElement\\",
+      \\"ParticipantRef\\"
+    ],
+    \\"message\\": \\"Required\\"
+  }
+]"
+`;

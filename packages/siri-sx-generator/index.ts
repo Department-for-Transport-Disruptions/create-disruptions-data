@@ -1,54 +1,128 @@
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { S3Event } from "aws-lambda";
-import { toXML, XmlElement } from "jstoxml";
+import { S3Client } from "@aws-sdk/client-s3";
+import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { DynamoDBStreamEvent } from "aws-lambda";
+import { toXML } from "jstoxml";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
 import { randomUUID } from "crypto";
-import { getS3Client, uploadToS3 } from "./util/s3Client";
+import { getDdbDocumentClient, getS3Client, uploadToS3 } from "./util/awsClient";
 
 const s3Client = getS3Client();
+const ddbDocClient = getDdbDocumentClient();
 
-export const main = async (event: S3Event): Promise<void> => {
-    logger.options.dev = process.env.NODE_ENV !== "production";
-    logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
+export const generateSiriSxAndUploadToS3 = async (
+    s3Client: S3Client,
+    ddbDocClient: DynamoDBDocumentClient,
+    tableName: string,
+    bucketName: string,
+    responseMessageIdentifier: string,
+    currentTime: string,
+) => {
+    logger.info(`Scanning DynamoDB table...`);
 
-    logger.options.meta = {
-        id: randomUUID(),
-    };
+    try {
+        const dbScanData = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: tableName,
+            }),
+        );
 
-    const bucketName = event.Records[0].s3.bucket.name || "";
-    const objectKey = event.Records[0].s3.object.key || "";
+        const cleanData = dbScanData.Items?.map((item) => {
+            delete item.PK;
+            delete item.SK;
 
-    logger.info(`Processing JSON input file: ${objectKey}`);
-    const params = { Bucket: bucketName, Key: objectKey };
+            return item;
+        });
 
-    // Read the file from S3 using GetObject API
-    const response = await s3Client.send(new GetObjectCommand(params));
+        const jsonToXmlObject = {
+            ServiceDelivery: {
+                ProducerRef: "DfT",
+                ResponseTimestamp: currentTime,
+                ResponseMessageIdentifier: responseMessageIdentifier,
+                SituationExchangeDelivery: {
+                    ResponseTimestamp: currentTime,
+                    Situations: cleanData?.map((data) => ({
+                        PtSituationElement: data,
+                    })),
+                },
+            },
+        };
 
-    // Method transformToString is invoked to convert stream data to string
-    const data = await response.Body?.transformToString();
-    const config = {
-        indent: "    ",
-    };
+        logger.info(`Verifying JSON against schema...`);
+        const verifiedObject = siriSchema.parse(jsonToXmlObject);
 
-    if (!data) {
-        throw Error("No data found");
+        verifiedObject.ServiceDelivery.SituationExchangeDelivery.Situations[0].PtSituationElement.ReasonType;
+
+        const completeObject = {
+            _name: "Siri",
+            _attrs: {
+                version: "2.0",
+                xmlns: "http://www.siri.org.uk/siri",
+                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                "xsi:schemaLocation": "http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd",
+            },
+            _content: verifiedObject,
+        };
+
+        const xmlData = toXML(completeObject, {
+            header: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
+            indent: "    ",
+        });
+
+        await uploadToS3(
+            s3Client,
+            xmlFormat(xmlData, {
+                collapseContent: true,
+            }),
+            `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
+            bucketName,
+        );
+    } catch (e) {
+        throw e;
     }
+};
 
-    let xmlData = toXML(JSON.parse(data) as XmlElement, config);
+export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
+    try {
+        logger.options.dev = process.env.NODE_ENV !== "production";
+        logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
 
-    if (!xmlData) {
-        throw Error("Could not generate XML");
-    } else {
-        xmlData = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Siri version="2.0" xmlns="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd">
-        <ServiceDelivery srsName="">${xmlData}</ServiceDelivery></Siri>`;
+        logger.options.meta = {
+            id: randomUUID(),
+        };
+
+        const { TABLE_NAME: tableName, SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName } = process.env;
+
+        if (!tableName) {
+            throw new Error("TABLE_NAME not set");
+        }
+
+        if (!unvalidatedBucketName) {
+            throw new Error("SIRI_SX_UNVALIDATED_BUCKET_NAME not set");
+        }
+        logger.info(`SIRI-SX generation triggered by event ID: ${event.Records[0].eventID || ""}`);
+
+        const responseMessageIdentifier = randomUUID();
+        const currentTime = new Date();
+
+        await generateSiriSxAndUploadToS3(
+            s3Client,
+            ddbDocClient,
+            tableName,
+            unvalidatedBucketName,
+            responseMessageIdentifier,
+            currentTime.toISOString(),
+        );
+
+        logger.info("Unvalidated SIRI-SX XML created and published to S3");
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
     }
-
-    await uploadToS3(
-        xmlFormat(xmlData),
-        `${Date.now()}-unvalidated-siri.xml`,
-        process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME,
-    );
-
-    logger.info("Unvalidated Siri SX XML created and published to S3");
 };

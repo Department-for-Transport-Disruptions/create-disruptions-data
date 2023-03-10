@@ -3,13 +3,13 @@ import {
     EquipmentReason,
     MiscellaneousReason,
     PersonnelReason,
-} from "@create-disruptions-data/shared-ts/siriTypes";
+} from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { NextApiResponse } from "next";
 import { DISRUPTION_TYPES, CD_DATE_FORMAT } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
-import { DisruptionType } from "../../pages/api/create-disruption";
+import { DisruptionType } from "../../pages/api/create-disruption.api";
 import { redirectTo } from "../index";
 
 dayjs.extend(customParseFormat);
