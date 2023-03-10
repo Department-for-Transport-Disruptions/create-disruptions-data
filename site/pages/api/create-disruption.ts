@@ -18,7 +18,7 @@ import {
     getDateTime,
 } from "../../utils/apiUtils/createDisruptionValidations";
 import { redirectTo } from "../../utils/index";
-import { PageInputs } from "../create-disruption";
+import { DisruptionPageInputs } from "../create-disruption";
 
 export type DisruptionType = "planned" | "unplanned";
 
@@ -30,7 +30,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
 
     checkReferrer(req.headers.referer, CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, res);
 
-    const formFields: PageInputs = req.body as PageInputs;
+    const formFields: DisruptionPageInputs = req.body as DisruptionPageInputs;
 
     const disruptionType: DisruptionType | "" = formFields["type-of-disruption"];
 
@@ -85,7 +85,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         "some-error-id",
     );
 
-    const disruptionData: PageInputs = {
+    const disruptionData: DisruptionPageInputs = {
         "type-of-disruption": disruptionType,
         summary: summary,
         description: description,

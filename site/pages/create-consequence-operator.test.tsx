@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { PageState } from "./create-consequence-operator";
+import CreateConsequenceOperator, { PageState } from "./create-consequence-operator.page";
 
 const blankInputs: PageState = {
     errors: [],
