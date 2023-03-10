@@ -13,19 +13,19 @@ import { PageInputs } from "../create-disruption";
 
 dayjs.extend(customParseFormat);
 
-const tenSeconds = 10000;
-
 const getFutureDateAsString = (addDays: number, dateFormat: string) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
 
-const getStringToDate = (date: string, dateFormat: string): Date => {
-    return dayjs(date, dateFormat, true).toDate();
+const formatDate = (date: string, dateFormat: string): string => {
+    return dayjs(date, dateFormat, true).toString();
 };
 
 describe("createDisruption", () => {
     const writeHeadMock = vi.fn();
     const setCookieSpy = vi.spyOn(apiUtils, "setCookieOnResponseObject");
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    setCookieSpy.mockImplementation(() => {});
     afterEach(() => {
         vi.resetAllMocks();
     });
@@ -35,37 +35,34 @@ describe("createDisruption", () => {
         const disruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
         const disruptionData: PageInputs = {
-            typeOfDisruption: "unplanned",
+            "type-of-disruption": "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
+            "disruption-repeats": "no",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            publishIsNoEndDateTime: "publishNoEndDateTime",
-            disruptionRepeats: "yes",
+            "publish-end-date": "",
+            "publish-end-time": "",
+            "publish-no-end-date-time": "publishNoEndDateTime",
+            "disruption-no-end-date-time": "yes",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(1);
-        expect(setCookieSpy).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res, tenSeconds, false);
+        expect(setCookieSpy).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/" });
     });
@@ -89,22 +86,8 @@ describe("createDisruption", () => {
             { id: "some-error-id", errorMessage: "No End time entered. Select a valid End time" },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -114,36 +97,33 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
             "disruption-start-time": "1000",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
+            "disruption-end-date": "",
+            "disruption-end-time": "",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-end-time": "1000",
-            disruptionIsNoEndDateTime: "disruptionNoEndDateTime",
-            disruptionRepeats: "yes",
+            "disruption-no-end-date-time": "disruptionNoEndDateTime",
+            "publish-no-end-date-time": "",
+            "disruption-repeats": "yes",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -156,22 +136,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -181,37 +147,32 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-reason": "Incorrect Value",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            publishIsNoEndDateTime: "publishNoEndDateTime",
-            disruptionRepeats: "yes",
+            "publish-no-end-date-time": "publishNoEndDateTime",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-end-date": "",
+            "publish-end-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -220,22 +181,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -245,35 +192,32 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "http://test<>/",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            publishIsNoEndDateTime: "publishNoEndDateTime",
-            disruptionRepeats: "yes",
+            "publish-no-end-date-time": "publishNoEndDateTime",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-end-date": "",
+            "publish-end-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -282,22 +226,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -307,35 +237,32 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate.toString(),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            publishIsNoEndDateTime: "publishNoEndDateTime",
-            disruptionRepeats: "yes",
+            "publish-no-end-date-time": "publishNoEndDateTime",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-end-date": "",
+            "publish-end-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -348,22 +275,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -374,39 +287,33 @@ describe("createDisruption", () => {
         const publishEndDate = dayjs().subtract(2, "day").format(CD_DATE_FORMAT).toString();
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -419,22 +326,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -445,39 +338,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -486,22 +373,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -512,39 +385,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -553,22 +420,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -579,39 +432,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "",
             "disruption-end-time": "",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -624,22 +471,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -650,39 +483,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "",
             "publish-end-time": "",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -695,22 +522,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -721,39 +534,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "hhmm",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -763,22 +570,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
@@ -789,39 +582,33 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
         const disruptionData: PageInputs = {
-            typeOfDisruption: "planned",
+            "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-start-date": disruptionStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "10",
             "disruption-end-time": "1100",
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-start-date": publishStartDate,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
-            disruptionRepeats: "yes",
+            "disruption-repeats": "yes",
+            "disruption-no-end-date-time": "",
+            "publish-no-end-date-time": "",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
-        disruptionData["disruption-start-date"] = getStringToDate(disruptionStartDate, CD_DATE_FORMAT);
-        disruptionData["disruption-end-date"] = getStringToDate(disruptionEndDate, CD_DATE_FORMAT);
-        disruptionData["publish-start-date"] = getStringToDate(publishStartDate, CD_DATE_FORMAT);
-        disruptionData["publish-end-date"] = getStringToDate(publishEndDate, CD_DATE_FORMAT);
+        disruptionData["disruption-start-date"] = formatDate(disruptionStartDate, CD_DATE_FORMAT);
+        disruptionData["disruption-end-date"] = formatDate(disruptionEndDate, CD_DATE_FORMAT);
+        disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
+        disruptionData["publish-end-date"] = formatDate(publishEndDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
             {
@@ -831,22 +618,8 @@ describe("createDisruption", () => {
             },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_DISRUPTION_INFO,
-            expect.any(String),
-            res,
-            tenSeconds,
-            false,
-        );
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            2,
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify(errors),
-            res,
-            tenSeconds,
-            false,
-        );
+        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieSpy).toHaveBeenNthCalledWith(2, COOKIES_DISRUPTION_ERRORS, JSON.stringify(errors), res);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 });

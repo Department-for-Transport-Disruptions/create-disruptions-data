@@ -45,11 +45,7 @@ export const validateSummary = (summary: string, errors: ErrorInfo[], errorId: s
     }
 };
 
-export const validateDisruptionType = (
-    disruptionType: DisruptionType | undefined,
-    errors: ErrorInfo[],
-    errorId: string,
-) => {
+export const validateDisruptionType = (disruptionType: DisruptionType | "", errors: ErrorInfo[], errorId: string) => {
     const disruptionTypeRequiredErr: ErrorInfo = {
         id: errorId,
         errorMessage: "Choose a Type of Disruption",
@@ -117,15 +113,12 @@ export const validateAssociatedLink = (associatedLink: string, errors: ErrorInfo
     }
 };
 
-export const validateDisruptionReasons = (
-    disruptionReason: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason | "",
-    errors: ErrorInfo[],
-    errorId: string,
-) => {
+export const validateDisruptionReasons = (disruptionReason: string, errors: ErrorInfo[], errorId: string) => {
     let error: ErrorInfo = {
         id: errorId,
         errorMessage: "Select a reason from the dropdown",
     };
+
     if (!requireFieldCheck(disruptionReason)) {
         errors.push(error);
     } else {
@@ -146,7 +139,7 @@ export const validateDisruptionReasons = (
 };
 
 export const validateDateTime = (
-    date: Date | null,
+    date: string,
     time: string,
     errors: ErrorInfo[],
     errorId: string,
@@ -211,16 +204,16 @@ export const validateTime = (time: string, dateType: string, errors: ErrorInfo[]
     return isValid;
 };
 
-export const getDateTime = (date: Date | null, time?: string): dayjs.Dayjs => {
+export const getDateTime = (date: string, time?: string): dayjs.Dayjs => {
     let formattedDate: dayjs.Dayjs = dayjs(date, CD_DATE_FORMAT, true);
     if (time) formattedDate = formattedDate.hour(+time.slice(0, 2)).minute(+time.slice(2, 4));
     return formattedDate;
 };
 
 export const validateDateTimeSection = (
-    startDate: Date | null,
+    startDate: string,
     startTime: string,
-    endDate: Date | null,
+    endDate: string,
     endTime: string,
     isEndDateRequired: string | undefined,
     errors: ErrorInfo[],
