@@ -10,7 +10,7 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector<TestInputs>
-                    display="What is the start time?"
+                    display="Start time"
                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={""}
                     errorMessage="Enter a start time for the disruption"
@@ -28,7 +28,7 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector<TestInputs>
-                    display="What is the start time?"
+                    display="Start time"
                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={"0900"}
                     errorMessage="Enter a start time for the disruption"
@@ -46,7 +46,7 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector<TestInputs>
-                    display="What is the start time?"
+                    display="Start time"
                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={"three thirty"}
                     initialErrors={[{ errorMessage: "There was an error", id: "disruption-reason" }]}
@@ -65,7 +65,7 @@ describe("TimeSelector", () => {
         const tree = renderer
             .create(
                 <TimeSelector<TestInputs>
-                    display="What is the start time?"
+                    display="Start time"
                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={"three thirty"}
                     errorMessage="There was an error"
@@ -82,7 +82,7 @@ describe("TimeSelector", () => {
     it("should validate minLength and display error", async () => {
         const { unmount } = render(
             <TimeSelector<TestInputs>
-                display="What is the start time?"
+                display="Start time"
                 hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                 value={""}
                 errorMessage="Enter a start time for the disruption"
@@ -93,10 +93,32 @@ describe("TimeSelector", () => {
             />,
         );
 
-        await userEvent.click(screen.getByLabelText("What is the start time?"));
+        await userEvent.click(screen.getByLabelText("Start time"));
         await userEvent.tab();
 
         expect(screen.getByText("Enter a start time for the disruption")).toBeTruthy();
+
+        unmount();
+    });
+
+    it("should not display error if the component is disabled", async () => {
+        const { unmount } = render(
+            <TimeSelector<TestInputs>
+                display="Start time"
+                hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                value={""}
+                errorMessage="Enter a start time for the disruption"
+                disabled
+                inputId="field1"
+                inputName="disruptionStartTime"
+                stateUpdater={vi.fn()}
+            />,
+        );
+
+        await userEvent.click(screen.getByLabelText("Start time"));
+        await userEvent.tab();
+
+        expect(screen.queryByText("Enter a start time for the disruption")).toBeFalsy();
 
         unmount();
     });
