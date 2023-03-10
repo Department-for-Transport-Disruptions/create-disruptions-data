@@ -83,19 +83,18 @@ const CreateConsequenceOperator = ({
                                 },
                             ]}
                         />
-                        <div className="govuk-form-group">
-                            <Select<PageInputs>
-                                inputId="consequence-operator"
-                                inputName="consequence-operator"
-                                display="Who is the operator?"
-                                displaySize="l"
-                                defaultDisplay="Select an operator"
-                                errorMessage="Select an operator from the dropdown"
-                                selectValues={OPERATORS}
-                                stateUpdater={stateUpdater}
-                                value={pageState.inputs["consequence-operator"]}
-                            />
-                        </div>
+
+                        <Select<PageInputs>
+                            inputId="consequence-operator"
+                            inputName="consequence-operator"
+                            display="Who is the operator?"
+                            displaySize="l"
+                            defaultDisplay="Select an operator"
+                            errorMessage="Select an operator from the dropdown"
+                            selectValues={OPERATORS}
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs["consequence-operator"]}
+                        />
 
                         <TextInput<PageInputs>
                             inputId="description"
