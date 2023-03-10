@@ -25,6 +25,9 @@ exports[`pages > cookies > should display a confirmation box when the user saves
             className="govuk-link"
             href="/feedback"
             id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             feedback
           </a>
@@ -64,7 +67,10 @@ exports[`pages > cookies > should display a confirmation box when the user saves
             >
               <a
                 className="govuk-link"
-                href="/home"
+                href="/"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 Click here to return to the homepage.
               </a>
@@ -213,7 +219,10 @@ exports[`pages > cookies > should display a confirmation box when the user saves
                 >
                   <a
                     className="govuk-link govuk-!-font-size-19"
-                    href="/cookieDetails"
+                    href="/cookie-details"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
                   >
                     Find out more about our usage of cookies in our cookie policy
                   </a>
@@ -362,6 +371,9 @@ exports[`pages > cookies > should display a confirmation box when the user saves
             <a
               className="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -390,6 +402,9 @@ exports[`pages > cookies > should display a confirmation box when the user saves
             <a
               className="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -403,6 +418,9 @@ exports[`pages > cookies > should display a confirmation box when the user saves
           <a
             className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>

@@ -41,14 +41,14 @@ const Footer = (): ReactElement => (
                     </ul>
                     <p className="govuk-footer__body">
                         Built by the{" "}
-                        <a
+                        <Link
                             className="govuk-footer__link"
                             href="https://www.gov.uk/government/organisations/department-for-transport"
                             target="_blank"
                             rel="noreferrer"
                         >
                             Department for Transport
-                        </a>
+                        </Link>
                     </p>
                     <svg
                         aria-hidden="true"
@@ -66,23 +66,23 @@ const Footer = (): ReactElement => (
                     </svg>
                     <span className="govuk-footer__licence-description">
                         All content is available under the{" "}
-                        <a
+                        <Link
                             className="govuk-footer__link"
                             href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                             rel="license"
                         >
                             Open Government Licence v3.0
-                        </a>
+                        </Link>
                         , except where otherwise stated
                     </span>
                 </div>
                 <div className="govuk-footer__meta-item">
-                    <a
+                    <Link
                         className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
                         href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
                     >
                         © Crown copyright
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactElement } from "react";
 
 interface HeaderProps {
@@ -10,7 +11,7 @@ const Header = ({ isAuthed, noc }: HeaderProps): ReactElement => (
     <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
         <div className="govuk-header__container mb-0 border-b-0 govuk-width-container">
             <div className="govuk-header__logo">
-                <a href="https://www.gov.uk/" className="govuk-header__link govuk-header__link--homepage">
+                <Link href="https://www.gov.uk/" className="govuk-header__link govuk-header__link--homepage">
                     <span className="govuk-header__logotype">
                         <svg
                             role="presentation"
@@ -29,17 +30,13 @@ const Header = ({ isAuthed, noc }: HeaderProps): ReactElement => (
                         </svg>
                         <span className="govuk-header__logotype-text pl-1">GOV.UK</span>
                     </span>
-                </a>
+                </Link>
             </div>
 
             <div className="govuk-header__content">
-                <a
-                    href={isAuthed ? "/home" : "/"}
-                    id="title-link"
-                    className="govuk-header__link govuk-header__link--service-name"
-                >
+                <Link href="/" id="title-link" className="govuk-header__link govuk-header__link--service-name">
                     Create Transport Disruption Data
-                </a>
+                </Link>
             </div>
 
             <div className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2">
@@ -51,14 +48,14 @@ const Header = ({ isAuthed, noc }: HeaderProps): ReactElement => (
                                 <span className="govuk-!-margin-right-1"> | </span>
                             </>
                         )}
-                        <a href={"/account"} className="govuk-header__link mr-1.5">
+                        <Link href={"/account"} className="govuk-header__link mr-1.5">
                             <span> {"My Account"} </span>
-                        </a>
+                        </Link>
                     </>
                 ) : (
-                    <a href={"/login"} className="govuk-header__link">
+                    <Link href={"/login"} className="govuk-header__link">
                         <span> {"Sign in"} </span>
-                    </a>
+                    </Link>
                 )}
             </div>
         </div>

@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from "next/document";
+import Link from "next/link";
 import { ReactElement } from "react";
 import { v4 } from "uuid";
 import crypto from "node:crypto";
@@ -63,9 +64,9 @@ export default class RootDocument extends Document<DocumentProps> {
             <Html lang="en" className="govuk-template bg-backgroundGrey">
                 <Head nonce={nonce} />
                 <body className="govuk-template__body">
-                    <a href="#main-content" className="govuk-skip-link">
+                    <Link href="#main-content" className="govuk-skip-link">
                         Skip to main content
-                    </a>
+                    </Link>
                     <div id="js-cookie-banner" />
 
                     <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />

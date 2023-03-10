@@ -1,0 +1,153 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimeSelector > should render correctly when disabled 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="field1"
+    >
+      What is the start time?
+    </label>
+    <div
+      className="govuk-hint"
+      id="field1-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        aria-describedby="field1-hint"
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        defaultValue="three thirty"
+        disabled={true}
+        id="field1"
+        name="disruptionStartTime"
+        onBlur={[Function]}
+        placeholder="N/A"
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with errors 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="field1"
+    >
+      What is the start time?
+    </label>
+    <div
+      className="govuk-hint"
+      id="field1-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        aria-describedby="field1-hint"
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        defaultValue="three thirty"
+        disabled={false}
+        id="field1"
+        name="disruptionStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with inputs 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="field1"
+    >
+      What is the start time?
+    </label>
+    <div
+      className="govuk-hint"
+      id="field1-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        aria-describedby="field1-hint"
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        defaultValue="0900"
+        disabled={false}
+        id="field1"
+        name="disruptionStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TimeSelector > should render correctly with no inputs 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="field1"
+    >
+      What is the start time?
+    </label>
+    <div
+      className="govuk-hint"
+      id="field1-hint"
+    >
+      Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
+    </div>
+    <div
+      className=""
+    >
+      <input
+        aria-describedby="field1-hint"
+        className="govuk-input govuk-date-input__input govuk-input--width-4"
+        defaultValue=""
+        disabled={false}
+        id="field1"
+        name="disruptionStartTime"
+        onBlur={[Function]}
+        placeholder="hhmm"
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
