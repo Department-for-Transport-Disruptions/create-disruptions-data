@@ -15,6 +15,9 @@ exports[`Header > should render correctly 1`] = `
       <a
         className="govuk-header__link govuk-header__link--homepage"
         href="https://www.gov.uk/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span
           className="govuk-header__logotype"
@@ -47,8 +50,11 @@ exports[`Header > should render correctly 1`] = `
     >
       <a
         className="govuk-header__link govuk-header__link--service-name"
-        href="/home"
+        href="/"
         id="title-link"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Create Transport Disruption Data
       </a>
@@ -59,6 +65,9 @@ exports[`Header > should render correctly 1`] = `
       <a
         className="govuk-header__link mr-1.5"
         href="/account"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
            
