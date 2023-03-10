@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import AddConsequence from "./add-consequence";
+import TypeOfConsequence from "./type-of-consequence";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { AddConsequenceProps, ErrorInfo } from "../interfaces/index";
 
@@ -19,12 +19,12 @@ const withInputs: AddConsequenceProps = {
 describe("pages", () => {
     describe("CreateDisruption", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<AddConsequence errors={noErrors} inputs={withNoInputs} />).toJSON();
+            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withNoInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<AddConsequence errors={withErrors} inputs={withInputs} />).toJSON();
+            const tree = renderer.create(<TypeOfConsequence errors={withErrors} inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

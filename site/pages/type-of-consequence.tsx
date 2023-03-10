@@ -30,7 +30,7 @@ Object.values(ConsequenceType).forEach((enumValue) => {
     });
 });
 
-const AddConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
+const TypeOfConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
     const [pageState, setPageState] = useState<AddConsequenceProps>(inputs);
     const [errorState, setErrorState] = useState<ErrorInfo[]>(errors);
 
@@ -109,4 +109,4 @@ export const getServerSideProps = (ctx: NextPageContext): { props: AddConsequenc
     return { props: { inputs, errors } };
 };
 
-export default AddConsequence;
+export default TypeOfConsequence;
