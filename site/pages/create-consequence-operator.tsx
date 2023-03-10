@@ -75,7 +75,7 @@ const CreateConsequenceOperator = ({ inputs }: CreateConsequenceOperatorProps): 
                             display="Consequence description"
                             displaySize="l"
                             inputName="description"
-                            errorMessage="Enter a description for this disruption"
+                            errorMessage="Enter a description for this consequence"
                             widthClass="w-3/4"
                             textArea
                             rows={3}
