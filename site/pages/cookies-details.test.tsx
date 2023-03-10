@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CookieDetails from "./cookie-details";
+import CookieDetails from "./cookie-details.page";
 
 describe("pages", () => {
     describe("cookieDetails", () => {

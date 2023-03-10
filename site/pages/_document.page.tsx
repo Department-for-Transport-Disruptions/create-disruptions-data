@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 import { v4 } from "uuid";
 import crypto from "node:crypto";
 import Header from "../components/layout/Header";
+import Link from "next/link";
 
 const generateCsp = (): { csp: string; nonce: string } => {
     const production = process.env.NODE_ENV === "production";
@@ -63,9 +64,9 @@ export default class RootDocument extends Document<DocumentProps> {
             <Html lang="en" className="govuk-template bg-backgroundGrey">
                 <Head nonce={nonce} />
                 <body className="govuk-template__body">
-                    <a href="#main-content" className="govuk-skip-link">
+                    <Link href="#main-content" className="govuk-skip-link">
                         Skip to main content
-                    </a>
+                    </Link>
                     <div id="js-cookie-banner" />
 
                     <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />

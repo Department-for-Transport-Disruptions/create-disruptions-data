@@ -15,6 +15,7 @@ module.exports = {
                 backgroundGrey: "#f3f2f1",
                 hoverBlue: "#003078",
                 govGreen: "#00703c",
+                govRed: "#d4351c",
             },
             borderWidth: {
                 DEFAULT: "1px",

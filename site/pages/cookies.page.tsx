@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { NextPageContext } from "next/types";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
@@ -22,9 +23,9 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                 <h2 className="govuk-heading-m">Your cookie settings were saved</h2>
                 <p className="govuk-body">Return to this page at any point to change your cookie settings.</p>
                 <p className="govuk-body">
-                    <a className="govuk-link" href="/home">
+                    <Link className="govuk-link" href="/home">
                         Click here to return to the homepage.
-                    </a>
+                    </Link>
                 </p>
             </div>
         ) : null}
@@ -109,9 +110,9 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
                         <p className="govuk-body">These essential cookies are used to remember your progress.</p>
                         <p className="govuk-body">They always need to be on.</p>
                         <p className="govuk-link govuk-!-font-size-19">
-                            <a className="govuk-link govuk-!-font-size-19" href="/cookieDetails">
+                            <Link className="govuk-link govuk-!-font-size-19" href="/cookie-details">
                                 Find out more about our usage of cookies in our cookie policy
-                            </a>
+                            </Link>
                         </p>
                     </div>
                     <button
