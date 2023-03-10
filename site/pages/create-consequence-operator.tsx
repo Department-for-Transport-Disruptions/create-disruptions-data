@@ -17,7 +17,7 @@ interface CreateConsequenceOperatorProps {
     previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
 }
 
-export interface PageInputs {
+export interface ConsequenceOperatorPageInputs {
     "consequence-operator": string;
     description: string;
     "remove-from-journey-planners": string;
@@ -28,7 +28,7 @@ export interface PageInputs {
 
 export interface PageState {
     errors: ErrorInfo[];
-    inputs: PageInputs;
+    inputs: ConsequenceOperatorPageInputs;
 }
 
 const CreateConsequenceOperator = ({
@@ -37,7 +37,11 @@ const CreateConsequenceOperator = ({
 }: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState>(inputs);
 
-    const updatePageStateForInput = (inputName: keyof PageInputs, input: string, error?: ErrorInfo): void => {
+    const updatePageStateForInput = (
+        inputName: keyof ConsequenceOperatorPageInputs,
+        input: string,
+        error?: ErrorInfo,
+    ): void => {
         setPageState({
             inputs: {
                 ...pageState.inputs,
@@ -51,7 +55,7 @@ const CreateConsequenceOperator = ({
         });
     };
 
-    const stateUpdater = (change: string, field: keyof PageInputs) => {
+    const stateUpdater = (change: string, field: keyof ConsequenceOperatorPageInputs) => {
         updatePageStateForInput(field, change);
     };
 
@@ -64,7 +68,7 @@ const CreateConsequenceOperator = ({
                         <Table
                             rows={[
                                 {
-                                    header: "Mode of Transport",
+                                    header: "Mode of transport",
                                     cells: [
                                         previousConsequenceInformation.modeOfTransport,
                                         <Link key={"mode-of-transport"} className="govuk-link" href="/add-consequence">
@@ -73,7 +77,7 @@ const CreateConsequenceOperator = ({
                                     ],
                                 },
                                 {
-                                    header: "Consequence Type",
+                                    header: "Consequence type",
                                     cells: [
                                         previousConsequenceInformation.consequenceType,
                                         <Link key={"consequence-type"} className="govuk-link" href="/add-consequence">
@@ -84,7 +88,7 @@ const CreateConsequenceOperator = ({
                             ]}
                         />
 
-                        <Select<PageInputs>
+                        <Select<ConsequenceOperatorPageInputs>
                             inputId="consequence-operator"
                             inputName="consequence-operator"
                             display="Who is the operator?"
@@ -96,7 +100,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs["consequence-operator"]}
                         />
 
-                        <TextInput<PageInputs>
+                        <TextInput<ConsequenceOperatorPageInputs>
                             inputId="description"
                             display="Consequence description"
                             displaySize="l"
@@ -110,7 +114,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs.description}
                         />
 
-                        <Radios<PageInputs>
+                        <Radios<ConsequenceOperatorPageInputs>
                             display="Would you like to remove this from journey planners?"
                             displaySize="l"
                             inputId="remove-from-journey-planners"
@@ -129,7 +133,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs["remove-from-journey-planners"]}
                         />
 
-                        <TimeSelector<PageInputs>
+                        <TimeSelector<ConsequenceOperatorPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -141,7 +145,7 @@ const CreateConsequenceOperator = ({
                             stateUpdater={stateUpdater}
                         />
 
-                        <Select<PageInputs>
+                        <Select<ConsequenceOperatorPageInputs>
                             inputId="disruption-severity"
                             inputName="disruption-severity"
                             display="What is the severity of the disruption?"
@@ -153,7 +157,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs["disruption-severity"]}
                         />
 
-                        <Radios<PageInputs>
+                        <Radios<ConsequenceOperatorPageInputs>
                             display="What is the direction of the disruption?"
                             displaySize="l"
                             inputId="disruption-direction"

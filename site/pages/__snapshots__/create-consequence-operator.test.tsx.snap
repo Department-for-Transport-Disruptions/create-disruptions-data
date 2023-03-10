@@ -75,7 +75,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Mode of Transport
+                  Mode of transport
                 </th>
                 <td
                   className="govuk-table__cell"
@@ -103,7 +103,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Consequence Type
+                  Consequence type
                 </th>
                 <td
                   className="govuk-table__cell"
@@ -338,7 +338,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   <option
                     value="verySlight"
                   >
-                    Very Slight
+                    Very slight
                   </option>
                   <option
                     value="slight"
@@ -358,7 +358,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   <option
                     value="verySevere"
                   >
-                    Very Severe
+                    Very severe
                   </option>
                 </select>
               </div>
@@ -710,7 +710,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Mode of Transport
+                  Mode of transport
                 </th>
                 <td
                   className="govuk-table__cell"
@@ -738,7 +738,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Consequence Type
+                  Consequence type
                 </th>
                 <td
                   className="govuk-table__cell"
@@ -973,7 +973,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   <option
                     value="verySlight"
                   >
-                    Very Slight
+                    Very slight
                   </option>
                   <option
                     value="slight"
@@ -993,7 +993,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   <option
                     value="verySevere"
                   >
-                    Very Severe
+                    Very severe
                   </option>
                 </select>
               </div>

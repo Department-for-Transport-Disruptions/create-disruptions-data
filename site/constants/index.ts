@@ -39,7 +39,7 @@ export const DISRUPTION_SEVERITIES: {
     display: string;
 }[] = [
     { value: Severity.unknown, display: "Unknown" },
-    { value: Severity.verySlight, display: "Very Slight" },
+    { value: Severity.verySlight, display: "Very slight" },
     {
         value: Severity.slight,
         display: "Slight",
@@ -52,7 +52,7 @@ export const DISRUPTION_SEVERITIES: {
         value: Severity.severe,
         display: "Severe",
     },
-    { value: Severity.verySevere, display: "Very Severe" },
+    { value: Severity.verySevere, display: "Very severe" },
 ];
 
 export const OPERATORS = [
