@@ -17,7 +17,7 @@ const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
 interface CreateDisruptionProps {
-    inputs: PageState;
+    inputs: DisruptionPageState;
 }
 
 export interface DisruptionPageInputs {
@@ -39,16 +39,16 @@ export interface DisruptionPageInputs {
     "publish-no-end-date-time": string;
 }
 
-interface PageState {
+export interface DisruptionPageState {
     errors: ErrorInfo[];
     inputs: DisruptionPageInputs;
 }
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState>(inputs);
+    const [pageState, setDisruptionPageState] = useState<DisruptionPageState>(inputs);
 
-    const updatePageStateForInput = (inputName: keyof DisruptionPageInputs, input: string, error?: ErrorInfo): void => {
-        setPageState({
+    const updateDisruptionPageStateForInput = (inputName: keyof DisruptionPageInputs, input: string, error?: ErrorInfo): void => {
+        setDisruptionPageState({
             inputs: {
                 ...pageState.inputs,
                 [inputName]: input,
@@ -62,7 +62,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     };
 
     const stateUpdater = (change: string, field: keyof DisruptionPageInputs) => {
-        updatePageStateForInput(field, change);
+        updateDisruptionPageStateForInput(field, change);
     };
 
     return (
@@ -294,7 +294,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
-    const pageState: PageState = {
+    const pageState: DisruptionPageState = {
         errors: [],
         inputs: {
             "type-of-disruption": "",

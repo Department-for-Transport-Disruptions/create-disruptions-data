@@ -13,7 +13,7 @@ const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceOperatorProps {
-    inputs: PageState;
+    inputs: ConsequenceOperatorPageState;
     previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
 }
 
@@ -26,7 +26,7 @@ export interface ConsequenceOperatorPageInputs {
     "disruption-direction": string;
 }
 
-interface PageState {
+export interface ConsequenceOperatorPageState {
     errors: ErrorInfo[];
     inputs: ConsequenceOperatorPageInputs;
 }
@@ -35,14 +35,14 @@ const CreateConsequenceOperator = ({
     inputs,
     previousConsequenceInformation,
 }: CreateConsequenceOperatorProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState>(inputs);
+    const [pageState, setConsequenceOperatorPageState] = useState<ConsequenceOperatorPageState>(inputs);
 
-    const updatePageStateForInput = (
+    const updateConsequenceOperatorPageStateForInput = (
         inputName: keyof ConsequenceOperatorPageInputs,
         input: string,
         error?: ErrorInfo,
     ): void => {
-        setPageState({
+        setConsequenceOperatorPageState({
             inputs: {
                 ...pageState.inputs,
                 [inputName]: input,
@@ -56,7 +56,7 @@ const CreateConsequenceOperator = ({
     };
 
     const stateUpdater = (change: string, field: keyof ConsequenceOperatorPageInputs) => {
-        updatePageStateForInput(field, change);
+        updateConsequenceOperatorPageStateForInput(field, change);
     };
 
     return (
@@ -200,7 +200,7 @@ const CreateConsequenceOperator = ({
 };
 
 export const getServerSideProps = (): { props: object } => {
-    const inputs: PageState = {
+    const inputs: ConsequenceOperatorPageState = {
         errors: [],
         inputs: {
             "consequence-operator": "",
