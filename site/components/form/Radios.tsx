@@ -13,10 +13,10 @@ const Radios = <T extends object>({
     displaySize = "s",
     inputName,
     radioDetail,
+    value,
     initialErrors = [],
     stateUpdater,
     paddingTop,
-    value,
 }: RadiosProps<T>): ReactElement => {
     const [errors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -42,8 +42,8 @@ const Radios = <T extends object>({
                                     name={inputName}
                                     type="radio"
                                     value={input.value}
-                                    defaultChecked={value === input.value}
                                     onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
+                                    defaultChecked={input.value === value}
                                 />
                                 <label
                                     className="govuk-label govuk-radios__label"

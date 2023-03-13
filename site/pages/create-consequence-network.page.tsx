@@ -6,19 +6,18 @@ import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
-import { DISRUPTION_SEVERITIES, OPERATORS } from "../constants";
+import { DISRUPTION_SEVERITIES } from "../constants";
 import { ErrorInfo } from "../interfaces";
 
-const title = "Create Consequence Operator";
-const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
+const title = "Create Consequence Network";
+const description = "Create Consequence Network page for the Create Transport Disruptions Service";
 
-interface CreateConsequenceOperatorProps {
-    inputs: ConsequenceOperatorPageState;
+interface CreateConsequenceNetworkProps {
+    inputs: ConsequenceNetworkPageState;
     previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
 }
 
-export interface ConsequenceOperatorPageInputs {
-    "consequence-operator": string;
+export interface ConsequenceNetworkPageInputs {
     description: string;
     "remove-from-journey-planners": string;
     "disruption-delay": string;
@@ -26,23 +25,23 @@ export interface ConsequenceOperatorPageInputs {
     "disruption-direction": string;
 }
 
-export interface ConsequenceOperatorPageState {
+export interface ConsequenceNetworkPageState {
     errors: ErrorInfo[];
-    inputs: ConsequenceOperatorPageInputs;
+    inputs: ConsequenceNetworkPageInputs;
 }
 
-const CreateConsequenceOperator = ({
+const CreateConsequenceNetwork = ({
     inputs,
     previousConsequenceInformation,
-}: CreateConsequenceOperatorProps): ReactElement => {
-    const [pageState, setConsequenceOperatorPageState] = useState<ConsequenceOperatorPageState>(inputs);
+}: CreateConsequenceNetworkProps): ReactElement => {
+    const [pageState, setConsequenceNetworkPageState] = useState<ConsequenceNetworkPageState>(inputs);
 
-    const updateConsequenceOperatorPageStateForInput = (
-        inputName: keyof ConsequenceOperatorPageInputs,
+    const updateConsequenceNetworkPageStateForInput = (
+        inputName: keyof ConsequenceNetworkPageInputs,
         input: string,
         error?: ErrorInfo,
     ): void => {
-        setConsequenceOperatorPageState({
+        setConsequenceNetworkPageState({
             inputs: {
                 ...pageState.inputs,
                 [inputName]: input,
@@ -55,13 +54,13 @@ const CreateConsequenceOperator = ({
         });
     };
 
-    const stateUpdater = (change: string, field: keyof ConsequenceOperatorPageInputs) => {
-        updateConsequenceOperatorPageStateForInput(field, change);
+    const stateUpdater = (change: string, field: keyof ConsequenceNetworkPageInputs) => {
+        updateConsequenceNetworkPageStateForInput(field, change);
     };
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createConsequenceOperator" method="post">
+            <form action="/api/createConsequenceNetwork" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
@@ -96,17 +95,7 @@ const CreateConsequenceOperator = ({
                             ]}
                         />
 
-                        <Select<ConsequenceOperatorPageInputs>
-                            inputName="consequence-operator"
-                            display="Who is the operator?"
-                            displaySize="l"
-                            defaultDisplay="Select an operator"
-                            selectValues={OPERATORS}
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs["consequence-operator"]}
-                        />
-
-                        <TextInput<ConsequenceOperatorPageInputs>
+                        <TextInput<ConsequenceNetworkPageInputs>
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
@@ -119,7 +108,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs.description}
                         />
 
-                        <Radios<ConsequenceOperatorPageInputs>
+                        <Radios<ConsequenceNetworkPageInputs>
                             display="Would you like to remove this from journey planners?"
                             displaySize="l"
                             radioDetail={[
@@ -137,7 +126,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs["remove-from-journey-planners"]}
                         />
 
-                        <TimeSelector<ConsequenceOperatorPageInputs>
+                        <TimeSelector<ConsequenceNetworkPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
                             hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
@@ -147,7 +136,7 @@ const CreateConsequenceOperator = ({
                             stateUpdater={stateUpdater}
                         />
 
-                        <Select<ConsequenceOperatorPageInputs>
+                        <Select<ConsequenceNetworkPageInputs>
                             inputName="disruption-severity"
                             display="What is the severity of the disruption?"
                             displaySize="l"
@@ -157,7 +146,7 @@ const CreateConsequenceOperator = ({
                             value={pageState.inputs["disruption-severity"]}
                         />
 
-                        <Radios<ConsequenceOperatorPageInputs>
+                        <Radios<ConsequenceNetworkPageInputs>
                             display="What is the direction of the disruption?"
                             displaySize="l"
                             radioDetail={[
@@ -190,10 +179,9 @@ const CreateConsequenceOperator = ({
 };
 
 export const getServerSideProps = (): { props: object } => {
-    const inputs: ConsequenceOperatorPageState = {
+    const inputs: ConsequenceNetworkPageState = {
         errors: [],
         inputs: {
-            "consequence-operator": "",
             description: "",
             "remove-from-journey-planners": "",
             "disruption-delay": "",
@@ -202,11 +190,11 @@ export const getServerSideProps = (): { props: object } => {
         },
     };
 
-    const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Operator wide" };
+    const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Network wide" };
 
     return {
         props: { inputs, previousConsequenceInformation },
     };
 };
 
-export default CreateConsequenceOperator;
+export default CreateConsequenceNetwork;

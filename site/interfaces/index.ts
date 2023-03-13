@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
+import { ConsequenceType, TransportMode } from "../constants/enum";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -57,4 +58,18 @@ export interface TestInputs {
 export interface PageState<T> {
     errors: ErrorInfo[];
     inputs: T;
+}
+
+export interface NextApiRequestWithConsequences extends NextApiRequest {
+    body: AddConsequenceProps;
+}
+
+export interface AddConsequenceWithErrors {
+    errors: ErrorInfo[];
+    inputs: AddConsequenceProps;
+}
+
+export interface AddConsequenceProps {
+    modeOfTransport?: TransportMode;
+    consequenceType?: ConsequenceType;
 }
