@@ -36,6 +36,7 @@
         "./tailwind.config.js",
         "./postcss.config.js",
         "./babel.config.js",
+        "./public/scripts/all.js"
     ],
     "exclude": ["node_modules"]
 }
