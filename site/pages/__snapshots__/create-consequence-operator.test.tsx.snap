@@ -80,7 +80,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <td
                   className="govuk-table__cell"
                 >
-                  Bus
+                  Ferry
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -739,7 +739,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <td
                   className="govuk-table__cell"
                 >
-                  Bus
+                  Ferry
                 </td>
                 <td
                   className="govuk-table__cell"

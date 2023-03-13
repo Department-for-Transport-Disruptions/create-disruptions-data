@@ -284,10 +284,20 @@ export const getServerSideProps = (ctx: NextPageContext): { props: PageState<Par
     const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
 
     if (dataCookie) {
-        pageState.inputs = createDisruptionSchema.parse(JSON.parse(dataCookie)) as Partial<DisruptionPageInputs>;
+        const parsedData = createDisruptionSchema.safeParse(JSON.parse(dataCookie));
+
+        if (parsedData.success) {
+            return {
+                props: {
+                    inputs: parsedData.data,
+                    errors: [],
+                },
+            };
+        }
     } else if (errorCookie) {
         pageState = JSON.parse(errorCookie) as PageState<Partial<DisruptionPageInputs>>;
     }
+
     return {
         props: pageState,
     };

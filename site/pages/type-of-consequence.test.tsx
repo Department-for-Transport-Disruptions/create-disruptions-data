@@ -1,19 +1,19 @@
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import TypeOfConsequence from "./type-of-consequence.page";
-import { ConsequenceType, TransportMode } from "../constants/enum";
-import { AddConsequenceProps, ErrorInfo } from "../interfaces/index";
+import TypeOfConsequence, { ConsequenceTypePageInputs } from "./type-of-consequence.page";
+import { ErrorInfo } from "../interfaces/index";
 
 const noErrors: ErrorInfo[] = [];
-const withNoInputs: AddConsequenceProps = {};
+const withNoInputs: ConsequenceTypePageInputs = {};
 
 const withErrors: ErrorInfo[] = [
     { id: "consequenceType", errorMessage: "Select a consequence type" },
     { id: "modeOfTransport", errorMessage: "Select a mode of transport" },
 ];
-const withInputs: AddConsequenceProps = {
-    modeOfTransport: TransportMode.bus,
-    consequenceType: ConsequenceType.networkWide,
+const withInputs: ConsequenceTypePageInputs = {
+    modeOfTransport: VehicleMode.bus,
+    consequenceType: "networkWide",
 };
 
 describe("pages", () => {

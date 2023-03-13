@@ -1,20 +1,32 @@
+import { NextPageContext } from "next";
 import Link from "next/link";
+import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import { z } from "zod";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
-import { DISRUPTION_SEVERITIES, OPERATORS } from "../constants";
+import {
+    ADD_CONSEQUENCE_PAGE_PATH,
+    CONSEQUENCE_TYPES,
+    COOKIES_CONSEQUENCE_TYPE_INFO,
+    DISRUPTION_SEVERITIES,
+    OPERATORS,
+    VEHICLE_MODES,
+} from "../constants";
 import { ErrorInfo } from "../interfaces";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { redirectTo } from "../utils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceOperatorProps {
     inputs: ConsequenceOperatorPageState;
-    previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
+    previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema>;
 }
 
 export interface ConsequenceOperatorPageInputs {
@@ -70,7 +82,9 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Mode of transport",
                                     cells: [
-                                        previousConsequenceInformation.modeOfTransport,
+                                        VEHICLE_MODES.find(
+                                            (mode) => mode.value === previousConsequenceInformation.modeOfTransport,
+                                        )?.display,
                                         <Link
                                             key={"mode-of-transport"}
                                             className="govuk-link"
@@ -83,7 +97,9 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Consequence type",
                                     cells: [
-                                        previousConsequenceInformation.consequenceType,
+                                        CONSEQUENCE_TYPES.find(
+                                            (type) => type.value === previousConsequenceInformation.consequenceType,
+                                        )?.display,
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
@@ -189,7 +205,7 @@ const CreateConsequenceOperator = ({
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
     const inputs: ConsequenceOperatorPageState = {
         errors: [],
         inputs: {
@@ -202,11 +218,23 @@ export const getServerSideProps = (): { props: object } => {
         },
     };
 
-    const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Operator wide" };
+    const typeCookie = parseCookies(ctx)[COOKIES_CONSEQUENCE_TYPE_INFO];
 
-    return {
-        props: { inputs, previousConsequenceInformation },
-    };
+    if (typeCookie) {
+        const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+
+        if (previousConsequenceInformation.success) {
+            return {
+                props: { inputs, previousConsequenceInformation: previousConsequenceInformation.data },
+            };
+        }
+    }
+
+    if (ctx.res) {
+        redirectTo(ctx.res, ADD_CONSEQUENCE_PAGE_PATH);
+    }
+
+    return;
 };
 
 export default CreateConsequenceOperator;

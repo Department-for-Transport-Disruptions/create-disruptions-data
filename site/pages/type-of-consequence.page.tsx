@@ -1,73 +1,72 @@
 import { NextPageContext } from "next";
-import { destroyCookie, parseCookies } from "nookies";
+import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { inspect } from "util";
+import { z } from "zod";
+import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { ConsequenceType, TransportMode } from "../constants/enum";
-import { COOKIES_ADD_CONSEQUENCE_ERRORS, COOKIES_ADD_CONSEQUENCE_INFO } from "../constants/index";
-import { AddConsequenceProps, AddConsequenceWithErrors, DisplayValuePair, ErrorInfo } from "../interfaces/index";
-import logger from "../utils/logger";
+import {
+    COOKIES_CONSEQUENCE_TYPE_INFO,
+    COOKIES_CONSEQUENCE_TYPE_ERRORS,
+    VEHICLE_MODES,
+    CONSEQUENCE_TYPES,
+} from "../constants/index";
+import { ErrorInfo, PageState } from "../interfaces/index";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-const modeOfTransportRadio: DisplayValuePair[] = [];
+export interface ConsequenceTypePageInputs extends Partial<z.infer<typeof typeOfConsequenceSchema>> {}
 
-Object.entries(TransportMode).forEach((entry) => {
-    modeOfTransportRadio.push({
-        value: entry[0],
-        display: entry[1],
-    });
-});
+const TypeOfConsequence = (initialState: PageState<Partial<ConsequenceTypePageInputs>>): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<ConsequenceTypePageInputs>>>(initialState);
 
-const consequenceType: DisplayValuePair[] = [];
-
-Object.entries(ConsequenceType).forEach((entry) => {
-    consequenceType.push({
-        value: entry[0],
-        display: entry[1],
-    });
-});
-
-const TypeOfConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): ReactElement => {
-    const [pageState, setPageState] = useState<AddConsequenceProps>(inputs);
-    const [errorState, setErrorState] = useState<ErrorInfo[]>(errors);
-
-    const updatePageStateForInput = (inputName: keyof AddConsequenceProps, input: string, error?: ErrorInfo): void => {
+    const updatePageStateForInput = (
+        inputName: keyof ConsequenceTypePageInputs,
+        input: string,
+        error?: ErrorInfo,
+    ): void => {
         setPageState({
-            ...pageState,
-            [inputName]: input,
+            inputs: {
+                ...pageState.inputs,
+                [inputName]: input,
+            },
+            errors: [
+                ...(error
+                    ? [...pageState.errors, error]
+                    : [...pageState.errors.filter((error) => error.id !== inputName)]),
+            ],
         });
-        setErrorState([...(error ? [...errorState, error] : [...errors.filter((error) => error.id !== inputName)])]);
     };
 
-    const stateUpdater = (change: string, field: keyof AddConsequenceProps) => {
+    const stateUpdater = (change: string, field: keyof ConsequenceTypePageInputs) => {
         updatePageStateForInput(field, change);
     };
 
     return (
-        <TwoThirdsLayout title={title} description={description}>
+        <TwoThirdsLayout title={title} description={description} errors={initialState.errors}>
             <form action="/api/type-of-consequence" method="post">
                 <>
+                    <ErrorSummary errors={initialState.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
 
-                        <Radios<AddConsequenceProps>
+                        <Radios<ConsequenceTypePageInputs>
                             display="Select mode of transport"
-                            radioDetail={modeOfTransportRadio}
+                            radioDetail={VEHICLE_MODES}
                             inputName="modeOfTransport"
                             stateUpdater={stateUpdater}
-                            value={pageState.modeOfTransport}
-                            initialErrors={errorState}
+                            value={pageState.inputs.modeOfTransport}
+                            initialErrors={initialState.errors}
                         />
-                        <Radios<AddConsequenceProps>
+                        <Radios<ConsequenceTypePageInputs>
                             display="Select consequence type"
-                            radioDetail={consequenceType}
+                            radioDetail={CONSEQUENCE_TYPES}
                             inputName="consequenceType"
                             stateUpdater={stateUpdater}
-                            value={pageState.consequenceType}
-                            initialErrors={errorState}
+                            value={pageState.inputs.consequenceType}
+                            initialErrors={initialState.errors}
                             paddingTop={3}
                         />
 
@@ -83,28 +82,35 @@ const TypeOfConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): R
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: AddConsequenceWithErrors } => {
-    let errors: ErrorInfo[] = [];
-    const inputs: AddConsequenceProps = {};
+export const getServerSideProps = (ctx: NextPageContext): { props: PageState<Partial<ConsequenceTypePageInputs>> } => {
+    let pageState: PageState<Partial<ConsequenceTypePageInputs>> = {
+        errors: [],
+        inputs: {},
+    };
 
     const cookies = parseCookies(ctx);
 
-    const disruptionInfo = cookies[COOKIES_ADD_CONSEQUENCE_INFO];
+    const dataCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_TYPE_ERRORS];
 
-    if (disruptionInfo) {
-        logger.info(inspect(JSON.parse(disruptionInfo), false, null, true));
-        destroyCookie(ctx, COOKIES_ADD_CONSEQUENCE_INFO);
+    if (dataCookie) {
+        const parsedData = typeOfConsequenceSchema.safeParse(JSON.parse(dataCookie));
+
+        if (parsedData.success) {
+            return {
+                props: {
+                    inputs: parsedData.data,
+                    errors: [],
+                },
+            };
+        }
+    } else if (errorCookie) {
+        pageState = JSON.parse(errorCookie) as PageState<Partial<ConsequenceTypePageInputs>>;
     }
 
-    const errorInfo = cookies[COOKIES_ADD_CONSEQUENCE_ERRORS];
-
-    if (errorInfo) {
-        logger.info(inspect(JSON.parse(errorInfo), false, null, true));
-        errors = JSON.parse(cookies[COOKIES_ADD_CONSEQUENCE_ERRORS]) as ErrorInfo[];
-        destroyCookie(ctx, COOKIES_ADD_CONSEQUENCE_ERRORS);
-    }
-
-    return { props: { inputs, errors } };
+    return {
+        props: pageState,
+    };
 };
 
 export default TypeOfConsequence;
