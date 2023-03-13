@@ -11,6 +11,7 @@ const Checkbox = <T extends object>({
     inputId,
     inputName,
     display,
+    displaySize = "s",
     hideLegend = false,
     checkboxDetail,
     initialErrors = [],
@@ -22,7 +23,7 @@ const Checkbox = <T extends object>({
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <fieldset className="govuk-fieldset" role="group">
                 <legend className={`govuk-fieldset__legend${hideLegend ? " govuk-visually-hidden" : ""}`}>
-                    <span className="govuk-heading-s govuk-!-margin-bottom-0">{display}</span>
+                    <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <div className="govuk-checkboxes flex govuk-checkboxes--small" data-module="govuk-checkboxes">
                     <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-radios--error">

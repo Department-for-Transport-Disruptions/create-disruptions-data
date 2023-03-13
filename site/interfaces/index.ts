@@ -30,6 +30,7 @@ export interface FormBase<T> {
     value?: string;
     inputId: Extract<keyof T, string>;
     display: string;
+    displaySize?: "s" | "m" | "l" | "xl";
     inputName: string;
     errorMessage?: string;
     initialErrors?: ErrorInfo[];

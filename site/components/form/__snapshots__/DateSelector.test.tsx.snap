@@ -11,7 +11,7 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start date?
+      Start date
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -92,7 +92,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start date?
+      Start date
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -173,7 +173,7 @@ exports[`DateSelector > should render correctly with errors 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start date?
+      Start date
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"
@@ -269,7 +269,7 @@ exports[`DateSelector > should render correctly with no input 1`] = `
       className="govuk-label govuk-label--s"
       htmlFor="field1"
     >
-      What is the start date?
+      Start date
     </label>
     <div
       className="govuk-hint govuk-visually-hidden"

@@ -9,7 +9,7 @@ import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } fr
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
-import { PageInputs } from "../create-disruption.page";
+import { DisruptionPageInputs } from "../create-disruption.page";
 
 dayjs.extend(customParseFormat);
 
@@ -34,7 +34,7 @@ describe("createDisruption", () => {
         const disruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
         const disruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -96,7 +96,7 @@ describe("createDisruption", () => {
         const publishEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -146,7 +146,7 @@ describe("createDisruption", () => {
         const disruptionEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -191,7 +191,7 @@ describe("createDisruption", () => {
         const disruptionEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -236,7 +236,7 @@ describe("createDisruption", () => {
         const disruptionEndDate = dayjs().subtract(1, "day").format(CD_DATE_FORMAT).toString();
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -286,7 +286,7 @@ describe("createDisruption", () => {
         const publishStartDate = dayjs().subtract(4, "day").format(CD_DATE_FORMAT).toString();
         const publishEndDate = dayjs().subtract(2, "day").format(CD_DATE_FORMAT).toString();
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -337,7 +337,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -384,7 +384,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(7, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -431,7 +431,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -482,7 +482,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(7, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -533,7 +533,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(7, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -581,7 +581,7 @@ describe("createDisruption", () => {
         const publishStartDate = getFutureDateAsString(7, CD_DATE_FORMAT);
         const publishEndDate = getFutureDateAsString(12, CD_DATE_FORMAT);
 
-        const disruptionData: PageInputs = {
+        const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
             summary: "Lorem ipsum dolor sit amet",
             description:

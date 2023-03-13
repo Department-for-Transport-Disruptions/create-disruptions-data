@@ -9,6 +9,7 @@ interface RadiosProps<T> extends FormBase<T> {
 
 const Radios = <T extends object>({
     display,
+    displaySize = "s",
     inputId,
     inputName,
     radioDetail,
@@ -23,7 +24,7 @@ const Radios = <T extends object>({
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>
             <fieldset className="govuk-fieldset">
                 <legend className={`govuk-fieldset__legend${paddingTop ? ` govuk-!-padding-top-${paddingTop}` : ""}`}>
-                    <span className="govuk-heading-s govuk-!-margin-bottom-0">{display}</span>
+                    <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-radios--error">
                     <div className="govuk-radios" id="radio-buttons">
