@@ -47,18 +47,17 @@ const previousConsequencesInformation: Consequence[] = [
 ];
 
 const previousDisruptionInformation: Disruption = {
-    "type-of-disruption": "planned",
+    "type-of-disruption": "Planned",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     "associated-link": "https://www.flooding.com",
-    "disruption-reason":
-        "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
+    "disruption-reason": "Special Event",
     "disruption-start-date": "13/01/2022",
     "disruption-start-time": "13/01/2022",
     "disruption-end-date": "14/01/2022",
     "disruption-end-time": "14:00",
-    "disruption-repeats": "no",
+    "disruption-repeats": "No",
     "publish-start-date": "13/01/2022",
     "publish-start-time": "1300",
     "publish-end-date": "13/01/2022",

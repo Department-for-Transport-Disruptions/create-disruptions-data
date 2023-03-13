@@ -59,3 +59,12 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
 export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
 
 export const formatTime = (time: string) => (time ? time.slice(0, -2) + ":" + time.slice(-2) : "");
+
+export const splitCamelCaseToString = (s: string) => {
+    return s
+        .split(/(?=[A-Z])/)
+        .map(function (p) {
+            return p.charAt(0).toUpperCase() + p.slice(1);
+        })
+        .join(" ");
+};

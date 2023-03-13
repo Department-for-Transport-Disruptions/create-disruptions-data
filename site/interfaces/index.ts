@@ -89,7 +89,7 @@ export interface SocialMediaPost {
 }
 
 export interface Disruption {
-    "type-of-disruption": "planned" | "unplanned" | "";
+    "type-of-disruption": "Planned" | "Unplanned" | "";
     summary: string;
     description: string;
     "associated-link": string;
@@ -98,7 +98,7 @@ export interface Disruption {
     "disruption-end-date": string;
     "disruption-start-time": string;
     "disruption-end-time": string;
-    "disruption-repeats": "yes" | "no";
+    "disruption-repeats": "Yes" | "No";
     "publish-start-date": string;
     "publish-end-date": string;
     "publish-start-time": string;

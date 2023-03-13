@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { startCase } from "lodash";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -7,7 +8,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
-import { convertDateTimeToFormat, formatTime } from "../utils";
+import { convertDateTimeToFormat, formatTime, splitCamelCaseToString } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -377,16 +378,17 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     ];
 
     const previousDisruptionInformation: Disruption = {
-        "type-of-disruption": disruptionInfo["type-of-disruption"],
+        "type-of-disruption": startCase(disruptionInfo["type-of-disruption"]) as Disruption["type-of-disruption"],
         summary: disruptionInfo.summary,
         description: disruptionInfo.description,
         "associated-link": disruptionInfo["associated-link"] || "N/A",
-        "disruption-reason": disruptionInfo["disruption-reason"],
+        "disruption-reason": splitCamelCaseToString(disruptionInfo["disruption-reason"]),
         "disruption-start-date": convertDateTimeToFormat(disruptionInfo["disruption-start-date"], "DD/MM/YYYY"),
         "disruption-start-time": formatTime(disruptionInfo["disruption-start-time"]),
         "disruption-end-date": convertDateTimeToFormat(disruptionInfo["disruption-end-date"], "DD/MM/YYYY") || "N/A",
         "disruption-end-time": formatTime(disruptionInfo["disruption-end-time"]) || "N/A",
-        "disruption-repeats": disruptionInfo["disruption-repeats"] || "No",
+        "disruption-repeats":
+            (startCase(disruptionInfo["disruption-repeats"]) as Disruption["disruption-repeats"]) || "No",
         "publish-start-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
         "publish-start-time": formatTime(disruptionInfo["publish-start-time"]),
         "publish-end-date": convertDateTimeToFormat(disruptionInfo["publish-end-date"], "DD/MM/YYYY") || "N/A",
