@@ -54,7 +54,7 @@ const TypeOfConsequence = ({ inputs, errors = [] }: AddConsequenceWithErrors): R
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
 
                         <Radios<AddConsequenceProps>
-                            display="Select mode of Transport"
+                            display="Select mode of transport"
                             inputId="modeOfTransport"
                             radioDetail={modeOfTransportRadio}
                             inputName="modeOfTransport"

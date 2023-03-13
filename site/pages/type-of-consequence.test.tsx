@@ -18,13 +18,18 @@ const withInputs: AddConsequenceProps = {
 
 describe("pages", () => {
     describe("CreateDisruption", () => {
-        it("should render correctly with no inputs", () => {
+        it("should render correctly with no inputs and no errors", () => {
             const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withNoInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs", () => {
+        it("should render correctly with inputs and with errors", () => {
             const tree = renderer.create(<TypeOfConsequence errors={withErrors} inputs={withInputs} />).toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and without errors", () => {
+            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });
