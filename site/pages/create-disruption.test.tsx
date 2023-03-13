@@ -1,61 +1,45 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateDisruption, { DisruptionPageState } from "./create-disruption.page";
+import CreateDisruption, { DisruptionPageInputs } from "./create-disruption.page";
+import { PageState } from "../interfaces";
 
-const blankInputs: DisruptionPageState = {
+const blankInputs: PageState<Partial<DisruptionPageInputs>> = {
     errors: [],
-    inputs: {
-        "type-of-disruption": "",
-        summary: "",
-        description: "",
-        "associated-link": "",
-        "disruption-reason": "",
-        "disruption-repeats": "no",
-        "disruption-start-date": "",
-        "disruption-end-date": "",
-        "disruption-start-time": "",
-        "disruption-end-time": "",
-        "disruption-no-end-date-time": "",
-        "publish-start-date": "",
-        "publish-end-date": "",
-        "publish-start-time": "",
-        "publish-end-time": "",
-        "publish-no-end-date-time": "",
-    },
+    inputs: {},
 };
 
-const withInputs: DisruptionPageState = {
+const withInputs: PageState<DisruptionPageInputs> = {
     errors: [],
     inputs: {
-        "type-of-disruption": "planned",
+        disruptionType: "planned",
         summary: "New disruption",
         description: "A truck broke the bridge",
-        "associated-link": "www.bbc.com",
-        "disruption-reason": MiscellaneousReason.routeDiversion,
-        "disruption-start-date": "01/04/2023",
-        "disruption-end-date": "01/08/2023",
-        "disruption-start-time": "0100",
-        "disruption-end-time": "0200",
-        "disruption-repeats": "no",
-        "disruption-no-end-date-time": "",
-        "publish-start-date": "01/03/2023",
-        "publish-end-date": "01/08/2023",
-        "publish-start-time": "0200",
-        "publish-end-time": "2300",
-        "publish-no-end-date-time": "",
+        associatedLink: "www.bbc.com",
+        disruptionReason: MiscellaneousReason.routeDiversion,
+        disruptionStartDate: "01/04/2023",
+        disruptionEndDate: "01/08/2023",
+        disruptionStartTime: "0100",
+        disruptionEndTime: "0200",
+        disruptionRepeats: "no",
+        disruptionNoEndDateTime: "",
+        publishStartDate: "01/03/2023",
+        publishEndDate: "01/08/2023",
+        publishStartTime: "0200",
+        publishEndTime: "2300",
+        publishNoEndDateTime: "",
     },
 };
 
 describe("pages", () => {
     describe("CreateDisruption", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateDisruption inputs={blankInputs} />).toJSON();
+            const tree = renderer.create(<CreateDisruption {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateDisruption inputs={withInputs} />).toJSON();
+            const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

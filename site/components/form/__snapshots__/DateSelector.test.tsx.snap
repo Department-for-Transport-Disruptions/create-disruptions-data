@@ -6,10 +6,11 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
 >
   <div
     className="govuk-form-group govuk-!-margin-bottom-0"
+    id="field-1"
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="field1"
+      htmlFor="field-1-input"
     >
       Start date
     </label>
@@ -30,8 +31,8 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={true}
-            id="field1"
-            name="disruptionStartDate"
+            id="field-1-input"
+            name="field1"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="N/A"
@@ -87,10 +88,11 @@ exports[`DateSelector > should render correctly with an input 1`] = `
 >
   <div
     className="govuk-form-group govuk-!-margin-bottom-0"
+    id="field-1"
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="field1"
+      htmlFor="field-1-input"
     >
       Start date
     </label>
@@ -111,8 +113,8 @@ exports[`DateSelector > should render correctly with an input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="field1"
-            name="disruptionStartDate"
+            id="field-1-input"
+            name="field1"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"
@@ -168,10 +170,11 @@ exports[`DateSelector > should render correctly with errors 1`] = `
 >
   <div
     className="govuk-form-group govuk-!-margin-bottom-0"
+    id="field-1"
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="field1"
+      htmlFor="field-1-input"
     >
       Start date
     </label>
@@ -204,8 +207,8 @@ exports[`DateSelector > should render correctly with errors 1`] = `
             aria-describedby="field1-error"
             className="govuk-input govuk-date-input__input govuk-input--width-6 govuk-input--error"
             disabled={false}
-            id="field1"
-            name="disruptionStartDate"
+            id="field-1-input"
+            name="field1"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"
@@ -264,10 +267,11 @@ exports[`DateSelector > should render correctly with no input 1`] = `
 >
   <div
     className="govuk-form-group govuk-!-margin-bottom-0"
+    id="field-1"
   >
     <label
       className="govuk-label govuk-label--s"
-      htmlFor="field1"
+      htmlFor="field-1-input"
     >
       Start date
     </label>
@@ -288,8 +292,8 @@ exports[`DateSelector > should render correctly with no input 1`] = `
           <input
             className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
-            id="field1"
-            name="disruptionStartDate"
+            id="field-1-input"
+            name="field1"
             onBlur={[Function]}
             onChange={[Function]}
             placeholder="DD/MM/YYYY"

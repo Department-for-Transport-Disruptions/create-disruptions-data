@@ -203,3 +203,10 @@ export enum DayType {
     saturday = "saturday",
     sunday = "sunday",
 }
+
+export enum VehicleMode {
+    bus = "bus",
+    tram = "tram",
+    ferryService = "ferryService",
+    rail = "rail",
+}

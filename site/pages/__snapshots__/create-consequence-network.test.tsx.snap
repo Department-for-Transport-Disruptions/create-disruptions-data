@@ -131,10 +131,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             <div
               className="govuk-form-group"
+              id="description"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="description"
+                htmlFor="description-input"
               >
                 Consequence description
               </label>
@@ -150,7 +151,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 <textarea
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
-                  id="description"
+                  id="description-input"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
@@ -164,6 +165,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             <fieldset
               className="govuk-fieldset"
+              id="remove-from-journey-planners"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -179,7 +181,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -228,10 +229,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             <div
               className="govuk-form-group"
+              id="disruption-delay"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay"
+                htmlFor="disruption-delay-input"
               >
                 How long is the disruption delay?
               </label>
@@ -247,14 +249,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue="yes"
                   disabled={false}
-                  id="disruption-delay"
+                  id="disruption-delay-input"
                   name="disruption-delay"
                   onBlur={[Function]}
-                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
-                  value="yes"
                 />
               </div>
             </div>
@@ -264,10 +265,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             <div
               className="govuk-form-group"
+              id="disruption-severity"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity"
+                htmlFor="disruption-severity-input"
               >
                 What is the severity of the disruption?
               </label>
@@ -277,7 +279,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 <select
                   className="govuk-select w-3/4"
                   defaultValue="severe"
-                  id="disruption-severity"
+                  id="disruption-severity-input"
                   name="disruption-severity"
                   onBlur={[Function]}
                 >
@@ -326,6 +328,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             <fieldset
               className="govuk-fieldset"
+              id="disruption-direction"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -341,7 +344,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -735,10 +737,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           >
             <div
               className="govuk-form-group"
+              id="description"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="description"
+                htmlFor="description-input"
               >
                 Consequence description
               </label>
@@ -754,7 +757,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <textarea
                   className="govuk-textarea w-3/4"
                   defaultValue=""
-                  id="description"
+                  id="description-input"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
@@ -768,6 +771,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           >
             <fieldset
               className="govuk-fieldset"
+              id="remove-from-journey-planners"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -783,7 +787,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -832,10 +835,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           >
             <div
               className="govuk-form-group"
+              id="disruption-delay"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay"
+                htmlFor="disruption-delay-input"
               >
                 How long is the disruption delay?
               </label>
@@ -851,14 +855,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue=""
                   disabled={false}
-                  id="disruption-delay"
+                  id="disruption-delay-input"
                   name="disruption-delay"
                   onBlur={[Function]}
-                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
-                  value=""
                 />
               </div>
             </div>
@@ -868,10 +871,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           >
             <div
               className="govuk-form-group"
+              id="disruption-severity"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity"
+                htmlFor="disruption-severity-input"
               >
                 What is the severity of the disruption?
               </label>
@@ -881,7 +885,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <select
                   className="govuk-select w-3/4"
                   defaultValue=""
-                  id="disruption-severity"
+                  id="disruption-severity-input"
                   name="disruption-severity"
                   onBlur={[Function]}
                 >
@@ -930,6 +934,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           >
             <fieldset
               className="govuk-fieldset"
+              id="disruption-direction"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -945,7 +950,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
