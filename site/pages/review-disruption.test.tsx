@@ -2,7 +2,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
 import { ConsequenceType, TransportMode } from "../constants/enum";
-import { Consequence, Disruption, ErrorInfo, SocialMediaPost } from "../interfaces/index";
+import { Consequence, Disruption, SocialMediaPost } from "../interfaces/index";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
