@@ -8,7 +8,7 @@ import { DisruptionPageInputs } from "./create-disruption.page";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
-import { Consequence } from "../interfaces";
+import { Consequence, SocialMediaPost } from "../interfaces";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -16,11 +16,13 @@ const description = "Review Disruption page for the Create Transport Disruptions
 interface CreateConsequenceOperatorProps {
     previousDisruptionInformation: DisruptionPageInputs;
     previousConsequencesInformation: Consequence[];
+    previousSocialMediaPosts: SocialMediaPost[];
 }
 
 const CreateConsequenceOperator = ({
     previousDisruptionInformation,
     previousConsequencesInformation,
+    previousSocialMediaPosts,
 }: CreateConsequenceOperatorProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
@@ -363,6 +365,95 @@ const CreateConsequenceOperator = ({
                         >
                             Add another consequence
                         </Link>
+
+                        <br />
+                        <h2 className="govuk-heading-l">Social media posts</h2>
+
+                        <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                            {previousSocialMediaPosts.map((post, i) => (
+                                <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
+                                    <div className="govuk-accordion__section-header">
+                                        <h2 className="govuk-accordion__section-heading">
+                                            <span
+                                                className="govuk-accordion__section-button"
+                                                id={`accordion-default-heading-${i + 1}`}
+                                            >
+                                                {`Social media post ${i + 1}`}
+                                            </span>
+                                        </h2>
+                                    </div>
+                                    <div
+                                        id={`accordion-default-content-${i + 1}`}
+                                        className="govuk-accordion__section-content"
+                                        aria-labelledby={`accordion-default-heading-${i + 1}`}
+                                    >
+                                        <Table
+                                            rows={[
+                                                {
+                                                    header: "Message to appear",
+                                                    cells: [
+                                                        post["message-to-appear"],
+                                                        <Link
+                                                            key={"message-to-appear"}
+                                                            className="govuk-link"
+                                                            href="/social-media-posts"
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Publish date",
+                                                    cells: [
+                                                        post["publish-date"],
+                                                        <Link
+                                                            key={"publish-date"}
+                                                            className="govuk-link"
+                                                            href="/social-media-posts"
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Publish time",
+                                                    cells: [
+                                                        post["publish-time"],
+                                                        <Link
+                                                            key={"publish-time"}
+                                                            className="govuk-link"
+                                                            href="/social-media-posts"
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Account to publish",
+                                                    cells: [
+                                                        post["account-to-publish"],
+                                                        <Link
+                                                            key={"account-to-publish"}
+                                                            className="govuk-link"
+                                                            href="/social-media-posts"
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <Link
+                            role="button"
+                            href="/social-media-posts"
+                            className="govuk-button mt-2 govuk-button--secondary"
+                        >
+                            Add another social media post
+                        </Link>
                         <br />
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
@@ -379,6 +470,21 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const disruptionInfo: DisruptionPageInputs = cookies["disruption-info"]
         ? JSON.parse(cookies["disruption-info"])
         : "";
+
+    const previousSocialMediaPosts: SocialMediaPost[] = [
+        {
+            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
+            "publish-date": dayjs(disruptionInfo["publish-start-date"]).format("DD/MM/YYYY") || "N/A",
+            "publish-time": dayjs(disruptionInfo["publish-start-time"]).format("hh:mm") || "N/A",
+            "account-to-publish": "Example account",
+        },
+        {
+            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
+            "publish-date": dayjs(disruptionInfo["publish-start-date"]).format("DD/MM/YYYY") || "N/A",
+            "publish-time": dayjs(disruptionInfo["publish-start-time"]).format("hh:mm") || "N/A",
+            "account-to-publish": "Example account 2",
+        },
+    ];
 
     const previousConsequencesInformation: Consequence[] = [
         {
@@ -425,7 +531,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     };
 
     return {
-        props: { previousDisruptionInformation, previousConsequencesInformation },
+        props: { previousDisruptionInformation, previousConsequencesInformation, previousSocialMediaPosts },
     };
 };
 

@@ -80,3 +80,10 @@ export interface Consequence {
     "disruption-delay": string;
     "consequence-operator"?: string;
 }
+
+export interface SocialMediaPost {
+    "message-to-appear": string;
+    "publish-date": string;
+    "publish-time": string;
+    "account-to-publish": string;
+}
