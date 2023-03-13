@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > CreateConsequenceOperator > should render correctly with inputs 1`] = `
+exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceOperator"
+        action="/api/createConsequenceNetwork"
         method="post"
       >
         <div
@@ -108,7 +108,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <td
                   className="govuk-table__cell"
                 >
-                  Operator wide
+                  Network wide
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -126,58 +126,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               </tr>
             </tbody>
           </table>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-            >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator"
-              >
-                Who is the operator?
-              </label>
-              <div
-                className=""
-              >
-                <select
-                  className="govuk-select w-3/4"
-                  defaultValue="FSYO"
-                  id="consequence-operator"
-                  name="consequence-operator"
-                  onBlur={[Function]}
-                >
-                  <option
-                    disabled={true}
-                    value=""
-                  >
-                    Select an operator
-                  </option>
-                  <option
-                    value="FMAN"
-                  >
-                    First Greater Manchester
-                  </option>
-                  <option
-                    value="SCMN"
-                  >
-                    Stagecoach Manchester
-                  </option>
-                  <option
-                    value="FSYO"
-                  >
-                    First South Yorkshire
-                  </option>
-                  <option
-                    value="SYRK"
-                  >
-                    Stagecoach Yorkshire
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
           <div
             className="govuk-form-group"
           >
@@ -651,7 +599,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
 ]
 `;
 
-exports[`pages > CreateConsequenceOperator > should render correctly with no inputs 1`] = `
+exports[`pages > CreateConsequenceNetwork > should render correctly with no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -695,7 +643,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceOperator"
+        action="/api/createConsequenceNetwork"
         method="post"
       >
         <div
@@ -759,7 +707,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <td
                   className="govuk-table__cell"
                 >
-                  Operator wide
+                  Network wide
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -777,58 +725,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               </tr>
             </tbody>
           </table>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-            >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator"
-              >
-                Who is the operator?
-              </label>
-              <div
-                className=""
-              >
-                <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
-                  id="consequence-operator"
-                  name="consequence-operator"
-                  onBlur={[Function]}
-                >
-                  <option
-                    disabled={true}
-                    value=""
-                  >
-                    Select an operator
-                  </option>
-                  <option
-                    value="FMAN"
-                  >
-                    First Greater Manchester
-                  </option>
-                  <option
-                    value="SCMN"
-                  >
-                    Stagecoach Manchester
-                  </option>
-                  <option
-                    value="FSYO"
-                  >
-                    First South Yorkshire
-                  </option>
-                  <option
-                    value="SYRK"
-                  >
-                    Stagecoach Yorkshire
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
           <div
             className="govuk-form-group"
           >
