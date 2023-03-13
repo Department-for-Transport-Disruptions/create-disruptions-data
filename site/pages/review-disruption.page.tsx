@@ -7,15 +7,21 @@ import { ReactElement } from "react";
 import { DisruptionPageInputs } from "./create-disruption.page";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
+import { ConsequenceType, TransportMode } from "../constants/enum";
+import { Consequence } from "../interfaces";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceOperatorProps {
     previousDisruptionInformation: DisruptionPageInputs;
+    previousConsequencesInformation: Consequence[];
 }
 
-const CreateConsequenceOperator = ({ previousDisruptionInformation }: CreateConsequenceOperatorProps): ReactElement => {
+const CreateConsequenceOperator = ({
+    previousDisruptionInformation,
+    previousConsequencesInformation,
+}: CreateConsequenceOperatorProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/createConsequenceOperator" method="post">
@@ -188,6 +194,98 @@ const CreateConsequenceOperator = ({ previousDisruptionInformation }: CreateCons
                                 },
                             ]}
                         />
+                        <h2 className="govuk-heading-l">Consequences</h2>
+                        <Table
+                            rows={[
+                                {
+                                    header: "Mode of transport",
+                                    cells: [
+                                        previousConsequencesInformation[0]["mode-of-transport"],
+                                        <Link
+                                            key={"mode-of-transport"}
+                                            className="govuk-link"
+                                            href="/type-of-consequence"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Consequence type",
+                                    cells: [
+                                        previousConsequencesInformation[0]["consequence-type"],
+                                        <Link
+                                            key={"consequence-type"}
+                                            className="govuk-link"
+                                            href="/type-of-consequence"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Service",
+                                    cells: [
+                                        previousConsequencesInformation[0].service,
+                                        <Link key={"service"} className="govuk-link" href="/create-consequence-network">
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Stops affected",
+                                    cells: [
+                                        previousConsequencesInformation[0]["stops-affected"],
+                                        <Link
+                                            key={"stops-affected"}
+                                            className="govuk-link"
+                                            href="/create-consequence-network"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Advice to display",
+                                    cells: [
+                                        previousConsequencesInformation[0]["advice-to-display"],
+                                        <Link
+                                            key={"advice-to-display"}
+                                            className="govuk-link"
+                                            href="/create-consequence-network"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Remove from journey planner",
+                                    cells: [
+                                        previousConsequencesInformation[0]["remove-from-journey-planners"],
+                                        <Link
+                                            key={"remove-from-journey-planners"}
+                                            className="govuk-link"
+                                            href="/create-consequence-network"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                                {
+                                    header: "Disruption delay",
+                                    cells: [
+                                        previousConsequencesInformation[0]["disruption-delay"],
+                                        <Link
+                                            key={"disruption-delay"}
+                                            className="govuk-link"
+                                            href="/create-consequence-network"
+                                        >
+                                            Change
+                                        </Link>,
+                                    ],
+                                },
+                            ]}
+                        />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
@@ -204,6 +302,18 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const disruptionInfo: DisruptionPageInputs = cookies["disruption-info"]
         ? JSON.parse(cookies["disruption-info"])
         : "";
+
+    const previousConsequencesInformation: Consequence[] = [
+        {
+            "mode-of-transport": TransportMode.bus,
+            "consequence-type": ConsequenceType.networkWide,
+            service: "1: Piccadilly to Manchester central",
+            "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"].join(", "),
+            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+            "remove-from-journey-planners": "Yes",
+            "disruption-delay": "35 minutes",
+        },
+    ];
 
     const previousDisruptionInformation = {
         "type-of-disruption": disruptionInfo["type-of-disruption"] || "N/A",
@@ -223,7 +333,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     };
 
     return {
-        props: { previousDisruptionInformation },
+        props: { previousDisruptionInformation, previousConsequencesInformation },
     };
 };
 

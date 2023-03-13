@@ -69,3 +69,13 @@ export interface AddConsequenceProps {
     modeOfTransport?: TransportMode;
     consequenceType?: ConsequenceType;
 }
+
+export interface Consequence {
+    "mode-of-transport": TransportMode;
+    "consequence-type": ConsequenceType;
+    service: string;
+    "stops-affected": string;
+    "advice-to-display": string;
+    "remove-from-journey-planners": string;
+    "disruption-delay": string;
+}
