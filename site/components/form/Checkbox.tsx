@@ -1,3 +1,4 @@
+import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
@@ -8,7 +9,6 @@ interface CheckboxProps<T> extends FormBase<T> {
 }
 
 const Checkbox = <T extends object>({
-    inputId,
     inputName,
     display,
     displaySize = "s",
@@ -18,15 +18,16 @@ const Checkbox = <T extends object>({
     stateUpdater,
 }: CheckboxProps<T>): ReactElement => {
     const [errors] = useState<ErrorInfo[]>(initialErrors);
+    const inputId = kebabCase(inputName);
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
-            <fieldset className="govuk-fieldset" role="group">
+        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
+            <fieldset className="govuk-fieldset" role="group" id={inputId}>
                 <legend className={`govuk-fieldset__legend${hideLegend ? " govuk-visually-hidden" : ""}`}>
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <div className="govuk-checkboxes flex govuk-checkboxes--small" data-module="govuk-checkboxes">
-                    <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-radios--error">
+                    <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
                         <>
                             {checkboxDetail.map((item) => (
                                 <div className="govuk-checkboxes__item" key={item.value}>
@@ -37,7 +38,10 @@ const Checkbox = <T extends object>({
                                         type="checkbox"
                                         value={item.value}
                                         onChange={(e) =>
-                                            stateUpdater(e.currentTarget.checked ? e.currentTarget.value : "", inputId)
+                                            stateUpdater(
+                                                e.currentTarget.checked ? e.currentTarget.value : "",
+                                                inputName,
+                                            )
                                         }
                                         defaultChecked={item.checked}
                                     />

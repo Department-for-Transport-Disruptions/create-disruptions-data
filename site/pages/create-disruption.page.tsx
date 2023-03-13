@@ -1,7 +1,8 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { inspect } from "util";
+import { z } from "zod";
+import ErrorSummary from "../components/ErrorSummary";
 import Checkbox from "../components/form/Checkbox";
 import DateSelector from "../components/form/DateSelector";
 import Radios from "../components/form/Radios";
@@ -10,42 +11,16 @@ import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { ErrorInfo } from "../interfaces";
-import logger from "../utils/logger";
+import { ErrorInfo, PageState } from "../interfaces";
+import { createDisruptionSchema } from "../schemas/create-disruption.schema";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
-interface CreateDisruptionProps {
-    inputs: DisruptionPageState;
-}
+interface DisruptionPageInputs extends Partial<z.infer<typeof createDisruptionSchema>> {}
 
-export interface DisruptionPageInputs {
-    "type-of-disruption": "planned" | "unplanned" | "";
-    summary: string;
-    description: string;
-    "associated-link": string;
-    "disruption-reason": string;
-    "disruption-start-date": string;
-    "disruption-end-date": string;
-    "disruption-start-time": string;
-    "disruption-end-time": string;
-    "disruption-no-end-date-time": string;
-    "disruption-repeats": "yes" | "no";
-    "publish-start-date": string;
-    "publish-end-date": string;
-    "publish-start-time": string;
-    "publish-end-time": string;
-    "publish-no-end-date-time": string;
-}
-
-export interface DisruptionPageState {
-    errors: ErrorInfo[];
-    inputs: DisruptionPageInputs;
-}
-
-const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
-    const [pageState, setDisruptionPageState] = useState<DisruptionPageState>(inputs);
+const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
+    const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
 
     const updateDisruptionPageStateForInput = (
         inputName: keyof DisruptionPageInputs,
@@ -70,15 +45,15 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     };
 
     return (
-        <BaseLayout title={title} description={description}>
+        <BaseLayout title={title} description={description} errors={initialState.errors}>
             <form action="/api/create-disruption" method="post">
                 <>
+                    <ErrorSummary errors={initialState.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Create a new disruption</h1>
 
                         <Radios<DisruptionPageInputs>
                             display="Type of disruption"
-                            inputId="type-of-disruption"
                             radioDetail={[
                                 {
                                     value: "planned",
@@ -89,55 +64,55 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                                     display: "Unplanned",
                                 },
                             ]}
-                            inputName="type-of-disruption"
+                            inputName="disruptionType"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["type-of-disruption"]}
+                            value={pageState.inputs.disruptionType}
+                            initialErrors={pageState.errors}
                         />
 
                         <TextInput<DisruptionPageInputs>
-                            inputId="summary"
                             display="Summary"
                             inputName="summary"
-                            errorMessage="Enter a summary for this disruption"
                             widthClass="w-3/4"
                             maxLength={50}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.summary}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.summary}
                         />
 
                         <TextInput<DisruptionPageInputs>
-                            inputId="description"
                             display="Description"
                             inputName="description"
-                            errorMessage="Enter a description for this disruption"
                             widthClass="w-3/4"
                             textArea
                             rows={3}
                             maxLength={500}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.description}
                         />
 
                         <TextInput<DisruptionPageInputs>
-                            inputId="associated-link"
+                            inputName="associatedLink"
                             display="Associated Link (optional)"
-                            inputName="associated-link"
-                            optional
                             widthClass="w-3/4"
                             maxLength={50}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["associated-link"]}
+                            value={pageState.inputs.associatedLink}
+                            schema={createDisruptionSchema.shape.associatedLink}
                         />
 
                         <Select<DisruptionPageInputs>
-                            inputId="disruption-reason"
-                            inputName="disruption-reason"
+                            inputName="disruptionReason"
                             display="Reason for disruption"
                             defaultDisplay="Select a reason"
-                            errorMessage="Select a reason from the dropdown"
                             selectValues={DISRUPTION_REASONS}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["disruption-reason"]}
+                            value={pageState.inputs.disruptionReason}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.disruptionReason}
                         />
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
@@ -146,69 +121,68 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         <DateSelector<DisruptionPageInputs>
                             display="Start date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs["disruption-start-date"]}
-                            errorMessage="Select a date"
+                            value={pageState.inputs.disruptionStartDate}
                             disabled={false}
                             disablePast={false}
-                            inputId="disruption-start-date"
-                            inputName="disruption-start-date"
+                            inputName="disruptionStartDate"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.disruptionStartDate}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
                             display="Start time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs["disruption-start-time"]}
-                            errorMessage="Enter a start time for the disruption"
+                            value={pageState.inputs.disruptionStartTime}
                             disabled={false}
-                            inputId="disruption-start-time"
-                            inputName="disruption-start-time"
+                            inputName="disruptionStartTime"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.disruptionStartTime}
                         />
 
                         <DateSelector<DisruptionPageInputs>
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs["disruption-end-date"]}
-                            errorMessage="Select a date"
-                            disabled={pageState.inputs["disruption-no-end-date-time"] !== ""}
+                            value={pageState.inputs.disruptionEndDate}
+                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
                             disablePast
-                            inputId="disruption-end-date"
-                            inputName="disruption-end-date"
+                            inputName="disruptionEndDate"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.disruptionEndDate}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs["disruption-end-time"]}
-                            errorMessage="Enter an end time for the disruption"
-                            disabled={pageState.inputs["disruption-no-end-date-time"] !== ""}
-                            inputId="disruption-end-time"
-                            inputName="disruption-end-time"
+                            value={pageState.inputs.disruptionEndTime}
+                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
+                            inputName="disruptionEndTime"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.disruptionEndTime}
                         />
 
                         <Checkbox<DisruptionPageInputs>
-                            inputId="disruption-no-end-date-time"
-                            inputName="disruption-no-end-date-time"
+                            inputName="disruptionNoEndDateTime"
                             display="Does the disruption have an end datetime?"
                             hideLegend
                             checkboxDetail={[
                                 {
                                     display: "No end date/time",
-                                    value: "noDisruptionEndDateTime",
-                                    checked: pageState.inputs["disruption-no-end-date-time"] !== "",
+                                    value: "true",
+                                    checked: pageState.inputs.disruptionNoEndDateTime === "true",
                                 },
                             ]}
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
                         />
 
                         <Radios<DisruptionPageInputs>
                             display="Does this disruption repeat?"
-                            inputId="disruption-repeats"
-                            value={pageState.inputs["disruption-repeats"]}
-                            inputName="disruption-repeats"
+                            value={pageState.inputs.disruptionRepeats ?? ""}
+                            inputName="disruptionRepeats"
                             radioDetail={[
                                 {
                                     value: "yes",
@@ -221,6 +195,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             ]}
                             paddingTop={6}
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
                         />
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
@@ -229,62 +204,62 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                         <DateSelector<DisruptionPageInputs>
                             display="Start date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs["publish-start-date"]}
-                            errorMessage="Select a date"
+                            value={pageState.inputs.publishStartDate}
                             disabled={false}
                             disablePast={false}
-                            inputId="publish-start-date"
-                            inputName="publish-start-date"
+                            inputName="publishStartDate"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.publishStartDate}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
                             display="Start time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs["publish-start-time"]}
-                            errorMessage="Enter a publication start time for the disruption"
+                            value={pageState.inputs.publishStartTime}
                             disabled={false}
-                            inputId="publish-start-time"
-                            inputName="publish-start-time"
+                            inputName="publishStartTime"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.publishStartTime}
                         />
 
                         <DateSelector<DisruptionPageInputs>
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs["publish-end-date"]}
-                            errorMessage="Select a date"
-                            disabled={pageState.inputs["publish-no-end-date-time"] !== ""}
+                            value={pageState.inputs.publishEndDate}
+                            disabled={pageState.inputs.publishNoEndDateTime === "true"}
                             disablePast
-                            inputId="publish-end-date"
-                            inputName="publish-end-date"
+                            inputName="publishEndDate"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.publishEndDate}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs["publish-end-time"]}
-                            errorMessage="Enter a publication end time for the disruption"
-                            disabled={pageState.inputs["publish-no-end-date-time"] !== ""}
-                            inputId="publish-end-time"
-                            inputName="publish-end-time"
+                            value={pageState.inputs.publishEndTime}
+                            disabled={pageState.inputs.publishNoEndDateTime === "true"}
+                            inputName="publishEndTime"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createDisruptionSchema.shape.publishEndTime}
                         />
 
                         <Checkbox<DisruptionPageInputs>
-                            inputId="publish-no-end-date-time"
-                            inputName="publish-no-end-date-time"
+                            inputName="publishNoEndDateTime"
                             display="Does the disruption have an end datetime?"
                             hideLegend
                             checkboxDetail={[
                                 {
                                     display: "No end date/time",
-                                    value: "noPublishEndDateTime",
-                                    checked: pageState.inputs["publish-no-end-date-time"] !== "",
+                                    value: "true",
+                                    checked: pageState.inputs.publishNoEndDateTime === "true",
                                 },
                             ]}
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -297,45 +272,24 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
-    const pageState: DisruptionPageState = {
+export const getServerSideProps = (ctx: NextPageContext): { props: PageState<Partial<DisruptionPageInputs>> } => {
+    let pageState: PageState<Partial<DisruptionPageInputs>> = {
         errors: [],
-        inputs: {
-            "type-of-disruption": "",
-            summary: "",
-            description: "",
-            "associated-link": "",
-            "disruption-reason": "",
-            "disruption-repeats": "no",
-            "disruption-start-date": "",
-            "disruption-end-date": "",
-            "disruption-start-time": "",
-            "disruption-end-time": "",
-            "disruption-no-end-date-time": "",
-            "publish-start-date": "",
-            "publish-end-date": "",
-            "publish-start-time": "",
-            "publish-end-time": "",
-            "publish-no-end-date-time": "",
-        },
+        inputs: {},
     };
 
     const cookies = parseCookies(ctx);
 
-    const disruptionInfo = cookies[COOKIES_DISRUPTION_INFO];
+    const dataCookie = cookies[COOKIES_DISRUPTION_INFO];
+    const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
 
-    if (disruptionInfo) {
-        logger.info(inspect(JSON.parse(cookies[COOKIES_DISRUPTION_INFO]), false, null, true));
+    if (dataCookie) {
+        pageState.inputs = createDisruptionSchema.parse(JSON.parse(dataCookie)) as Partial<DisruptionPageInputs>;
+    } else if (errorCookie) {
+        pageState = JSON.parse(errorCookie) as PageState<Partial<DisruptionPageInputs>>;
     }
-
-    const errorInfo = cookies[COOKIES_DISRUPTION_ERRORS];
-
-    if (errorInfo) {
-        logger.info(inspect(JSON.parse(cookies[COOKIES_DISRUPTION_ERRORS]), false, null, true));
-    }
-
     return {
-        props: { inputs: pageState },
+        props: pageState,
     };
 };
 

@@ -1,25 +1,28 @@
 import { Dispatch, SetStateAction } from "react";
+import { z } from "zod";
 import { ErrorInfo } from "../interfaces";
 
 export const handleBlur = <T>(
     input: string,
-    inputId: Extract<keyof T, string>,
-    errorMessage: string,
+    inputName: Extract<keyof T, string>,
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: Dispatch<SetStateAction<ErrorInfo[]>>,
-    optional = false,
-    validityChecker?: (input: string) => boolean,
+    schema?: z.ZodTypeAny,
 ) => {
-    stateUpdater(input, inputId);
+    stateUpdater(input, inputName);
 
-    if ((!optional && !input) || (!optional && !!validityChecker && !validityChecker(input))) {
-        setErrors([
-            {
-                id: inputId,
-                errorMessage,
-            },
-        ]);
-    } else {
-        setErrors([]);
+    if (schema) {
+        const parsed = schema.safeParse(input);
+
+        if (parsed.success === false) {
+            setErrors([
+                {
+                    id: inputName,
+                    errorMessage: parsed.error.errors[0].message,
+                },
+            ]);
+        } else {
+            setErrors([]);
+        }
     }
 };

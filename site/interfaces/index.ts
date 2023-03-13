@@ -1,9 +1,10 @@
 import { NextApiRequest } from "next";
+import { z } from "zod";
 import { ServerResponse } from "http";
 
 export interface ErrorInfo {
     errorMessage: string;
-    id: string;
+    id: string | number;
     userInput?: string;
 }
 
@@ -27,14 +28,12 @@ export interface CookiesApiRequest extends NextApiRequest {
 
 export interface FormBase<T> {
     value?: string;
-    inputId: Extract<keyof T, string>;
     display: string;
     displaySize?: "s" | "m" | "l" | "xl";
-    inputName: string;
-    errorMessage?: string;
+    inputName: Extract<keyof T, string>;
     initialErrors?: ErrorInfo[];
-    optional?: boolean;
     stateUpdater: (change: string, field: keyof T) => void;
+    schema?: z.ZodTypeAny;
 }
 
 export interface DisplayValuePair {
@@ -53,4 +52,9 @@ export interface TestInputs {
     field2: boolean;
     field3: string;
     field4: string;
+}
+
+export interface PageState<T> {
+    errors: ErrorInfo[];
+    inputs: T;
 }

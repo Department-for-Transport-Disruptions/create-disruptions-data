@@ -1,3 +1,4 @@
+import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
@@ -10,17 +11,17 @@ interface SelectProps<T> extends FormBase<T> {
 
 const Select = <T extends object>({
     value,
-    inputId,
     inputName,
     display,
     displaySize = "s",
-    errorMessage = "",
     initialErrors = [],
     defaultDisplay,
     selectValues,
     stateUpdater,
+    schema,
 }: SelectProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const inputId = kebabCase(inputName);
 
     const getSelectOptions = (): JSX.Element[] => {
         const options: JSX.Element[] = [
@@ -41,18 +42,17 @@ const Select = <T extends object>({
     };
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
-            <div className="govuk-form-group">
+        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
+            <div className="govuk-form-group" id={inputId}>
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
-                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-select--error">
+                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-select--error">
                     <select
                         className="govuk-select w-3/4"
-                        id={inputId}
                         name={inputName}
-                        defaultValue={value}
-                        onBlur={(e) => handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors)}
+                        defaultValue={value ?? ""}
+                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
                     >
                         {getSelectOptions()}
                     </select>

@@ -1,4 +1,5 @@
-import { ReactElement, useEffect, useState } from "react";
+import kebabCase from "lodash/kebabCase";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -10,30 +11,32 @@ interface TimeSelectorProps<T> extends FormBase<T> {
 
 const TimeSelector = <T extends object>({
     value,
-    inputId,
     display,
     displaySize = "s",
     inputName,
-    errorMessage = "",
     initialErrors = [],
     disabled,
     hint,
-    optional = false,
+    schema,
     stateUpdater,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
-    const [inputValue, setInputValue] = useState(value);
+    const ref = useRef<HTMLInputElement>(null);
+    const inputId = kebabCase(inputName);
 
     useEffect(() => {
         if (disabled) {
             setErrors([]);
-            setInputValue("");
+
+            if (ref.current) {
+                ref.current.value = "";
+            }
         }
     }, [disabled]);
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
-            <div className="govuk-form-group">
+        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
+            <div className="govuk-form-group" id={inputId}>
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
                     {display}
                 </label>
@@ -42,20 +45,17 @@ const TimeSelector = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
+                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                     <input
+                        ref={ref}
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        id={inputId}
                         name={inputName}
                         type="text"
-                        value={inputValue}
+                        defaultValue={value}
                         disabled={disabled}
                         placeholder={disabled ? "N/A" : "hhmm"}
                         aria-describedby={hint ? `${inputId}-hint` : ""}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onBlur={(e) =>
-                            handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors, optional)
-                        }
+                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
                     />
                 </FormElementWrapper>
             </div>
