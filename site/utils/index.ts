@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { NextApiResponse, NextPageContext } from "next";
 import { useEffect, useRef, useState } from "react";
 import { ServerResponse } from "http";
@@ -54,3 +55,5 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 };
+
+export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);

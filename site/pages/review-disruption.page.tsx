@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import dayjs from "dayjs";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -9,21 +8,31 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, SocialMediaPost } from "../interfaces";
+import { convertDateTimeToFormat } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
-interface CreateConsequenceOperatorProps {
+interface ReviewDisruptionProps {
     previousDisruptionInformation: DisruptionPageInputs;
     previousConsequencesInformation: Consequence[];
     previousSocialMediaPosts: SocialMediaPost[];
 }
 
-const CreateConsequenceOperator = ({
+const createChangeLink = (key: string, href: string) => (
+    <Link key={key} className="govuk-link" href={href}>
+        Change
+    </Link>
+);
+
+const isOperatorOrNetworkUrl = (type: string) =>
+    `/create-consequence-${type === "Operator wide" ? "operator" : "network"}`;
+
+const ReviewDisruption = ({
     previousDisruptionInformation,
     previousConsequencesInformation,
     previousSocialMediaPosts,
-}: CreateConsequenceOperatorProps): ReactElement => {
+}: ReviewDisruptionProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/createConsequenceOperator" method="post">
@@ -36,162 +45,98 @@ const CreateConsequenceOperator = ({
                                     header: "Type of disruption",
                                     cells: [
                                         previousDisruptionInformation["type-of-disruption"],
-                                        <Link
-                                            key={"type-of-disruption"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("type-of-disruption", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Summary",
                                     cells: [
                                         previousDisruptionInformation.summary,
-                                        <Link key={"summary"} className="govuk-link" href="/create-disruption">
-                                            Change
-                                        </Link>,
+                                        createChangeLink("summary", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Description",
                                     cells: [
                                         previousDisruptionInformation.description,
-                                        <Link key={"description"} className="govuk-link" href="/create-disruption">
-                                            Change
-                                        </Link>,
+                                        createChangeLink("description", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Associated link",
                                     cells: [
                                         previousDisruptionInformation["associated-link"],
-                                        <Link key={"associated-link"} className="govuk-link" href="/create-disruption">
-                                            Change
-                                        </Link>,
+                                        createChangeLink("associated-link", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
                                         previousDisruptionInformation["disruption-reason"],
-                                        <Link
-                                            key={"disruption-reason"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-reason", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Start date",
                                     cells: [
                                         previousDisruptionInformation["disruption-start-date"],
-                                        <Link
-                                            key={"disruption-start-date"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-start-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Start time",
                                     cells: [
                                         previousDisruptionInformation["disruption-start-time"],
-                                        <Link
-                                            key={"disruption-start-time"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-start-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "End date",
                                     cells: [
                                         previousDisruptionInformation["disruption-end-date"],
-                                        <Link
-                                            key={"disruption-end-date"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-end-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "End time",
                                     cells: [
                                         previousDisruptionInformation["disruption-end-time"],
-                                        <Link
-                                            key={"disruption-end-time"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-end-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Repeating service",
                                     cells: [
                                         previousDisruptionInformation["disruption-repeats"],
-                                        <Link
-                                            key={"disruption-repeats"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("disruption-repeats", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish start date",
                                     cells: [
                                         previousDisruptionInformation["publish-start-date"],
-                                        <Link
-                                            key={"publish-start-date"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("publish-start-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
                                         previousDisruptionInformation["publish-start-time"],
-                                        <Link
-                                            key={"publish-start-time"}
-                                            className="govuk-link"
-                                            href="/create-disruption"
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink("publish-start-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
                                         previousDisruptionInformation["publish-end-date"],
-                                        <Link key={"publish-end-date"} className="govuk-link" href="/create-disruption">
-                                            Change
-                                        </Link>,
+                                        createChangeLink("publish-end-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end time",
                                     cells: [
                                         previousDisruptionInformation["publish-end-time"],
-                                        <Link key={"publish-end-time"} className="govuk-link" href="/create-disruption">
-                                            Change
-                                        </Link>,
+                                        createChangeLink("publish-end-time", "/create-disruption"),
                                     ],
                                 },
                             ]}
@@ -231,34 +176,14 @@ const CreateConsequenceOperator = ({
                                                     header: "Mode of transport",
                                                     cells: [
                                                         consequence["mode-of-transport"],
-                                                        <Link
-                                                            key={"mode-of-transport"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("mode-of-transport", "/type-of-consequence"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Consequence type",
                                                     cells: [
                                                         consequence["consequence-type"],
-                                                        <Link
-                                                            key={"consequence-type"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("consequence-type", "/type-of-consequence"),
                                                     ],
                                                 },
                                                 {
@@ -269,17 +194,10 @@ const CreateConsequenceOperator = ({
                                                                   .map((service) => `${service.id}: ${service.name}`)
                                                                   .join()
                                                             : "N/A",
-                                                        <Link
-                                                            key={"service"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink(
+                                                            "service",
+                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                        ),
                                                     ],
                                                 },
                                                 {
@@ -288,68 +206,40 @@ const CreateConsequenceOperator = ({
                                                         consequence["stops-affected"]
                                                             ? consequence["stops-affected"].join(", ")
                                                             : "N/A",
-                                                        <Link
-                                                            key={"stops-affected"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink(
+                                                            "stops-affected",
+                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Advice to display",
                                                     cells: [
                                                         consequence["advice-to-display"],
-                                                        <Link
-                                                            key={"advice-to-display"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink(
+                                                            "advice-to-display",
+                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Remove from journey planner",
                                                     cells: [
                                                         consequence["remove-from-journey-planners"],
-                                                        <Link
-                                                            key={"remove-from-journey-planners"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink(
+                                                            "remove-from-journey-planners",
+                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Disruption delay",
                                                     cells: [
                                                         consequence["disruption-delay"],
-                                                        <Link
-                                                            key={"disruption-delay"}
-                                                            className="govuk-link"
-                                                            href={`/create-consequence-${
-                                                                consequence["consequence-type"] === "Operator wide"
-                                                                    ? "operator"
-                                                                    : "network"
-                                                            }`}
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink(
+                                                            "disruption-delay",
+                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                        ),
                                                     ],
                                                 },
                                             ]}
@@ -393,52 +283,28 @@ const CreateConsequenceOperator = ({
                                                     header: "Message to appear",
                                                     cells: [
                                                         post["message-to-appear"],
-                                                        <Link
-                                                            key={"message-to-appear"}
-                                                            className="govuk-link"
-                                                            href="/social-media-posts"
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("message-to-appear", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish date",
                                                     cells: [
                                                         post["publish-date"],
-                                                        <Link
-                                                            key={"publish-date"}
-                                                            className="govuk-link"
-                                                            href="/social-media-posts"
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("publish-date", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish time",
                                                     cells: [
                                                         post["publish-time"],
-                                                        <Link
-                                                            key={"publish-time"}
-                                                            className="govuk-link"
-                                                            href="/social-media-posts"
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("publish-time", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Account to publish",
                                                     cells: [
                                                         post["account-to-publish"],
-                                                        <Link
-                                                            key={"account-to-publish"}
-                                                            className="govuk-link"
-                                                            href="/social-media-posts"
-                                                        >
-                                                            Change
-                                                        </Link>,
+                                                        createChangeLink("account-to-publish", "/social-media-posts"),
                                                     ],
                                                 },
                                             ]}
@@ -474,14 +340,14 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {
             "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": dayjs(disruptionInfo["publish-start-date"]).format("DD/MM/YYYY") || "N/A",
-            "publish-time": dayjs(disruptionInfo["publish-start-time"]).format("hh:mm") || "N/A",
+            "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
+            "publish-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
             "account-to-publish": "Example account",
         },
         {
             "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": dayjs(disruptionInfo["publish-start-date"]).format("DD/MM/YYYY") || "N/A",
-            "publish-time": dayjs(disruptionInfo["publish-start-time"]).format("hh:mm") || "N/A",
+            "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
+            "publish-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
             "account-to-publish": "Example account 2",
         },
     ];
@@ -514,20 +380,20 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     ];
 
     const previousDisruptionInformation = {
-        "type-of-disruption": disruptionInfo["type-of-disruption"] || "N/A",
-        summary: disruptionInfo.summary || "N/A",
-        description: disruptionInfo.description || "N/A",
+        "type-of-disruption": disruptionInfo["type-of-disruption"],
+        summary: disruptionInfo.summary,
+        description: disruptionInfo.description,
         "associated-link": disruptionInfo["associated-link"] || "N/A",
-        "disruption-reason": disruptionInfo["disruption-reason"] || "N/A",
-        "disruption-start-date": dayjs(disruptionInfo["disruption-start-date"]).format("DD/MM/YYYY") || "N/A",
-        "disruption-start-time": dayjs(disruptionInfo["disruption-start-time"]).format("hh:mm") || "N/A",
-        "disruption-end-date": dayjs(disruptionInfo["disruption-end-date"]).format("DD/MM/YYYY") || "N/A",
-        "disruption-end-time": dayjs(disruptionInfo["disruption-end-time"]).format("hh:mm") || "N/A",
+        "disruption-reason": disruptionInfo["disruption-reason"],
+        "disruption-start-date": convertDateTimeToFormat(disruptionInfo["disruption-start-date"], "DD/MM/YYYY"),
+        "disruption-start-time": convertDateTimeToFormat(disruptionInfo["disruption-start-time"], "hh:mm"),
+        "disruption-end-date": convertDateTimeToFormat(disruptionInfo["disruption-end-date"], "DD/MM/YYYY") || "N/A",
+        "disruption-end-time": convertDateTimeToFormat(disruptionInfo["disruption-end-time"], "hh:mm") || "N/A",
         "disruption-repeats": disruptionInfo["disruption-repeats"] || "No",
-        "publish-start-date": dayjs(disruptionInfo["publish-start-date"]).format("DD/MM/YYYY") || "N/A",
-        "publish-start-time": dayjs(disruptionInfo["publish-start-time"]).format("hh:mm") || "N/A",
-        "publish-end-date": dayjs(disruptionInfo["publish-end-date"]).format("DD/MM/YYYY") || "N/A",
-        "publish-end-time": dayjs(disruptionInfo["publish-end-time"]).format("hh:mm") || "N/A",
+        "publish-start-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
+        "publish-start-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
+        "publish-end-date": convertDateTimeToFormat(disruptionInfo["publish-end-date"], "DD/MM/YYYY") || "N/A",
+        "publish-end-time": convertDateTimeToFormat(disruptionInfo["publish-end-time"], "hh:mm") || "N/A",
     };
 
     return {
@@ -535,4 +401,4 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     };
 };
 
-export default CreateConsequenceOperator;
+export default ReviewDisruption;
