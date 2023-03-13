@@ -98,7 +98,14 @@ export const COOKIES_DISRUPTION_INFO = "disruption-info";
 
 export const COOKIES_DISRUPTION_ERRORS = "disruption-errors";
 
+export const COOKIES_ADD_CONSEQUENCE_INFO = "cdd-consequence-info";
+
+export const COOKIES_ADD_CONSEQUENCE_ERRORS = "cdd-consequence-errors";
+
 export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 
 export const ERROR_PATH = "/_error";
+
+export const ADD_CONSEQUENCE_PAGE_PATH = "/type-of-consequence";
+
 export const STAGE = process.env.STAGE || "dev";
