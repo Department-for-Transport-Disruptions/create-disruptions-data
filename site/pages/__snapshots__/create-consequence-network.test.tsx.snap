@@ -186,6 +186,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -204,6 +205,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -346,6 +348,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -364,6 +367,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -382,6 +386,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -785,6 +790,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -803,6 +809,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -945,6 +952,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -963,6 +971,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -981,6 +990,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruption-direction"
                       onChange={[Function]}
