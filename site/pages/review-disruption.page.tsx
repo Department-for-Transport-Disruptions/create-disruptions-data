@@ -195,98 +195,175 @@ const CreateConsequenceOperator = ({
                             ]}
                         />
                         <h2 className="govuk-heading-l">Consequences</h2>
-                        <Table
-                            rows={[
-                                {
-                                    header: "Mode of transport",
-                                    cells: [
-                                        previousConsequencesInformation[0]["mode-of-transport"],
-                                        <Link
-                                            key={"mode-of-transport"}
-                                            className="govuk-link"
-                                            href="/type-of-consequence"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Consequence type",
-                                    cells: [
-                                        previousConsequencesInformation[0]["consequence-type"],
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href="/type-of-consequence"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Service",
-                                    cells: [
-                                        previousConsequencesInformation[0].service,
-                                        <Link key={"service"} className="govuk-link" href="/create-consequence-network">
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Stops affected",
-                                    cells: [
-                                        previousConsequencesInformation[0]["stops-affected"],
-                                        <Link
-                                            key={"stops-affected"}
-                                            className="govuk-link"
-                                            href="/create-consequence-network"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Advice to display",
-                                    cells: [
-                                        previousConsequencesInformation[0]["advice-to-display"],
-                                        <Link
-                                            key={"advice-to-display"}
-                                            className="govuk-link"
-                                            href="/create-consequence-network"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Remove from journey planner",
-                                    cells: [
-                                        previousConsequencesInformation[0]["remove-from-journey-planners"],
-                                        <Link
-                                            key={"remove-from-journey-planners"}
-                                            className="govuk-link"
-                                            href="/create-consequence-network"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
-                                    header: "Disruption delay",
-                                    cells: [
-                                        previousConsequencesInformation[0]["disruption-delay"],
-                                        <Link
-                                            key={"disruption-delay"}
-                                            className="govuk-link"
-                                            href="/create-consequence-network"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                            ]}
-                        />
 
+                        <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                            {previousConsequencesInformation.map((consequence, i) => (
+                                <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
+                                    <div className="govuk-accordion__section-header">
+                                        <h2 className="govuk-accordion__section-heading">
+                                            <span
+                                                className="govuk-accordion__section-button"
+                                                id={`accordion-default-heading-${i + 1}`}
+                                            >
+                                                {`Consequence ${i + 1} - ${consequence["mode-of-transport"]} - ${
+                                                    consequence.service
+                                                        ? `Services - ${consequence["service"]
+                                                              .map((service) => service.id)
+                                                              .join(", ")}`
+                                                        : consequence["consequence-type"] === "Operator wide" &&
+                                                          consequence["consequence-operator"]
+                                                        ? `Operator wide - ${consequence["consequence-operator"]}`
+                                                        : "Network wide"
+                                                }`}
+                                            </span>
+                                        </h2>
+                                    </div>
+                                    <div
+                                        id={`accordion-default-content-${i + 1}`}
+                                        className="govuk-accordion__section-content"
+                                        aria-labelledby={`accordion-default-heading-${i + 1}`}
+                                    >
+                                        <Table
+                                            rows={[
+                                                {
+                                                    header: "Mode of transport",
+                                                    cells: [
+                                                        consequence["mode-of-transport"],
+                                                        <Link
+                                                            key={"mode-of-transport"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Consequence type",
+                                                    cells: [
+                                                        consequence["consequence-type"],
+                                                        <Link
+                                                            key={"consequence-type"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Service",
+                                                    cells: [
+                                                        consequence.service
+                                                            ? consequence.service
+                                                                  .map((service) => `${service.id}: ${service.name}`)
+                                                                  .join()
+                                                            : "N/A",
+                                                        <Link
+                                                            key={"service"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Stops affected",
+                                                    cells: [
+                                                        consequence["stops-affected"]
+                                                            ? consequence["stops-affected"].join(", ")
+                                                            : "N/A",
+                                                        <Link
+                                                            key={"stops-affected"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Advice to display",
+                                                    cells: [
+                                                        consequence["advice-to-display"],
+                                                        <Link
+                                                            key={"advice-to-display"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Remove from journey planner",
+                                                    cells: [
+                                                        consequence["remove-from-journey-planners"],
+                                                        <Link
+                                                            key={"remove-from-journey-planners"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Disruption delay",
+                                                    cells: [
+                                                        consequence["disruption-delay"],
+                                                        <Link
+                                                            key={"disruption-delay"}
+                                                            className="govuk-link"
+                                                            href={`/create-consequence-${
+                                                                consequence["consequence-type"] === "Operator wide"
+                                                                    ? "operator"
+                                                                    : "network"
+                                                            }`}
+                                                        >
+                                                            Change
+                                                        </Link>,
+                                                    ],
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <Link
+                            role="button"
+                            href="/type-of-consequence"
+                            className="govuk-button mt-2 govuk-button--secondary"
+                        >
+                            Add another consequence
+                        </Link>
+                        <br />
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
                         </button>
@@ -307,8 +384,23 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         {
             "mode-of-transport": TransportMode.bus,
             "consequence-type": ConsequenceType.networkWide,
-            service: "1: Piccadilly to Manchester central",
-            "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"].join(", "),
+            service: [{ id: "1", name: "Piccadilly to Manchester central" }],
+            "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
+            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+            "remove-from-journey-planners": "Yes",
+            "disruption-delay": "35 minutes",
+        },
+        {
+            "mode-of-transport": TransportMode.bus,
+            "consequence-type": ConsequenceType.networkWide,
+            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+            "remove-from-journey-planners": "Yes",
+            "disruption-delay": "35 minutes",
+        },
+        {
+            "mode-of-transport": TransportMode.bus,
+            "consequence-type": ConsequenceType.operatorWide,
+            "consequence-operator": "Stagecoach",
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
             "remove-from-journey-planners": "Yes",
             "disruption-delay": "35 minutes",
