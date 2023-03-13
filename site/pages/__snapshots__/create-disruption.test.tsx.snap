@@ -82,6 +82,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="type-of-disruption-planned"
                       name="type-of-disruption"
                       onChange={[Function]}
@@ -100,6 +101,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="type-of-disruption-unplanned"
                       name="type-of-disruption"
                       onChange={[Function]}
@@ -566,6 +568,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-repeats-yes"
                       name="disruption-repeats"
                       onChange={[Function]}
@@ -584,6 +587,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="disruption-repeats-no"
                       name="disruption-repeats"
                       onChange={[Function]}
@@ -1172,6 +1176,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="type-of-disruption-planned"
                       name="type-of-disruption"
                       onChange={[Function]}
@@ -1190,6 +1195,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="type-of-disruption-unplanned"
                       name="type-of-disruption"
                       onChange={[Function]}
@@ -1650,6 +1656,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-repeats-yes"
                       name="disruption-repeats"
                       onChange={[Function]}
@@ -1668,6 +1675,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="disruption-repeats-no"
                       name="disruption-repeats"
                       onChange={[Function]}

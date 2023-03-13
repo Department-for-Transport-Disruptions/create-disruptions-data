@@ -13,6 +13,7 @@ const Radios = <T extends object>({
     inputId,
     inputName,
     radioDetail,
+    value,
     initialErrors = [],
     stateUpdater,
     paddingTop,
@@ -41,6 +42,7 @@ const Radios = <T extends object>({
                                     type="radio"
                                     value={input.value}
                                     onChange={(e) => stateUpdater(e.currentTarget.value, inputId)}
+                                    defaultChecked={input.value === value}
                                 />
                                 <label
                                     className="govuk-label govuk-radios__label"
