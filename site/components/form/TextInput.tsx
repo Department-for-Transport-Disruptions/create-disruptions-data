@@ -32,7 +32,7 @@ const TextInput = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
                 {hint ? (
@@ -45,6 +45,7 @@ const TextInput = <T extends object>({
                         <textarea
                             className={`govuk-textarea ${widthClass}`}
                             name={inputName}
+                            id={`${inputId}-input`}
                             rows={rows}
                             maxLength={maxLength}
                             defaultValue={value}
@@ -53,7 +54,7 @@ const TextInput = <T extends object>({
                     ) : (
                         <input
                             className={`govuk-input ${widthClass}`}
-                            id={inputId}
+                            id={`${inputId}-input`}
                             name={inputName}
                             type="text"
                             maxLength={maxLength}

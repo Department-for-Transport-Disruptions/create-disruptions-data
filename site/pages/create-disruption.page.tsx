@@ -17,7 +17,7 @@ import { createDisruptionSchema } from "../schemas/create-disruption.schema";
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
-interface DisruptionPageInputs extends Partial<z.infer<typeof createDisruptionSchema>> {}
+export interface DisruptionPageInputs extends Partial<z.infer<typeof createDisruptionSchema>> {}
 
 const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
     const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);

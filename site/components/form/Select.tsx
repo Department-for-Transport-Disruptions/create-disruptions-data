@@ -44,13 +44,14 @@ const Select = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-select--error">
                     <select
                         className="govuk-select w-3/4"
                         name={inputName}
+                        id={`${inputId}-input`}
                         defaultValue={value ?? ""}
                         onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
                     >

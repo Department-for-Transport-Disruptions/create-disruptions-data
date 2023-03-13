@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 import { destroyCookie, setCookie } from "nookies";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 import { ServerResponse } from "http";
 import { ErrorInfo } from "../../interfaces";
 import logger from "../logger";
@@ -36,53 +36,23 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 
 export const redirectToError = (
     res: NextApiResponse | ServerResponse,
-    message: string,
-    context: string,
-    error: Error,
+    message?: string,
+    context?: string,
+    error?: Error,
 ): void => {
-    logger.error(message, { context, error: error.stack });
-    redirectTo(res, "/error");
-};
-
-export const validateBodyAndRedirect = <T extends z.ZodTypeAny>(
-    res: NextApiResponse,
-    body: unknown,
-    schema: T,
-    dataCookie: string,
-    errorCookie: string,
-    currentPage: string,
-    nextPage: string,
-) => {
-    try {
-        const validatedBody = schema.parse(body) as object;
-        setCookieOnResponseObject(dataCookie, JSON.stringify(validatedBody), res);
-        setCookieOnResponseObject(errorCookie, "", res, 0);
-
-        redirectTo(res, nextPage);
-        return;
-    } catch (e) {
-        if (e instanceof ZodError) {
-            setCookieOnResponseObject(
-                errorCookie,
-                JSON.stringify({
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    inputs: body,
-                    errors: Object.values(
-                        e.flatten<ErrorInfo>((val) => ({
-                            errorMessage: val.message,
-                            id: val.path[0],
-                        })).fieldErrors,
-                    )
-                        .map((item) => item?.[0] ?? null)
-                        .filter((item) => item),
-                }),
-                res,
-            );
-            setCookieOnResponseObject(dataCookie, "", res, 0);
-            redirectTo(res, currentPage);
-            return;
-        }
-
-        redirectTo(res, currentPage);
+    if (message && context && error) {
+        logger.error(message, { context, error: error.stack });
     }
+
+    redirectTo(res, "/500");
 };
+
+export const flattenZodErrors = (errors: ZodError) =>
+    Object.values(
+        errors.flatten<ErrorInfo>((val) => ({
+            errorMessage: val.message,
+            id: val.path[0],
+        })).fieldErrors,
+    )
+        .map((item) => item?.[0] ?? null)
+        .filter((item) => item);

@@ -1,26 +1,41 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-    COOKIES_DISRUPTION_INFO,
-    COOKIES_DISRUPTION_ERRORS,
-    CREATE_DISRUPTION_PAGE_PATH,
-    ERROR_PATH,
-} from "../../constants/index";
+import { ZodError } from "zod";
+import { COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS, CREATE_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
-import { validateBodyAndRedirect } from "../../utils/apiUtils";
-import { checkReferrer } from "../../utils/apiUtils/createDisruptionValidations";
+import { flattenZodErrors, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
-    checkReferrer(req.headers.referer, CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, res);
+    try {
+        const validatedBody = createDisruptionsSchemaRefined.parse(req.body);
+        setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(validatedBody), res);
+        setCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, "", res, 0);
 
-    validateBodyAndRedirect(
-        res,
-        req.body,
-        createDisruptionsSchemaRefined,
-        COOKIES_DISRUPTION_INFO,
-        COOKIES_DISRUPTION_ERRORS,
-        CREATE_DISRUPTION_PAGE_PATH,
-        "/",
-    );
+        redirectTo(res, "/type-of-consequence");
+        return;
+    } catch (e) {
+        if (e instanceof ZodError) {
+            setCookieOnResponseObject(
+                COOKIES_DISRUPTION_ERRORS,
+                JSON.stringify({
+                    inputs: req.body as object,
+                    errors: flattenZodErrors(e),
+                }),
+                res,
+            );
+            setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, "", res, 0);
+            redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
+            return;
+        }
+
+        if (e instanceof Error) {
+            const message = "There was a problem creating a disruption.";
+            redirectToError(res, message, "api.create-disruption", e);
+            return;
+        }
+
+        redirectToError(res);
+        return;
+    }
 };
 
 export default createDisruption;

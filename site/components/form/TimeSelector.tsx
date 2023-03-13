@@ -37,7 +37,7 @@ const TimeSelector = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
                 {hint ? (
@@ -50,12 +50,13 @@ const TimeSelector = <T extends object>({
                         ref={ref}
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
                         name={inputName}
+                        id={`${inputId}-input`}
                         type="text"
                         defaultValue={value}
                         disabled={disabled}
                         placeholder={disabled ? "N/A" : "hhmm"}
                         aria-describedby={hint ? `${inputId}-hint` : ""}
-                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
                     />
                 </FormElementWrapper>
             </div>

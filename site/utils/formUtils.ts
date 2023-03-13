@@ -8,10 +8,11 @@ export const handleBlur = <T>(
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: Dispatch<SetStateAction<ErrorInfo[]>>,
     schema?: z.ZodTypeAny,
+    disabled?: boolean,
 ) => {
     stateUpdater(input, inputName);
 
-    if (schema) {
+    if (schema && !disabled) {
         const parsed = schema.safeParse(input);
 
         if (parsed.success === false) {

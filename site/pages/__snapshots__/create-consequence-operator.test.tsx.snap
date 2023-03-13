@@ -131,10 +131,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
+              id="consequence-operator"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator"
+                htmlFor="consequence-operator-input"
               >
                 Who is the operator?
               </label>
@@ -144,7 +145,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <select
                   className="govuk-select w-3/4"
                   defaultValue="FSYO"
-                  id="consequence-operator"
+                  id="consequence-operator-input"
                   name="consequence-operator"
                   onBlur={[Function]}
                 >
@@ -183,10 +184,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
+              id="description"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="description"
+                htmlFor="description-input"
               >
                 Consequence description
               </label>
@@ -202,7 +204,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <textarea
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
-                  id="description"
+                  id="description-input"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
@@ -216,6 +218,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <fieldset
               className="govuk-fieldset"
+              id="remove-from-journey-planners"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -231,13 +234,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -256,6 +259,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -278,10 +282,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
+              id="disruption-delay"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay"
+                htmlFor="disruption-delay-input"
               >
                 How long is the disruption delay?
               </label>
@@ -297,14 +302,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue="yes"
                   disabled={false}
-                  id="disruption-delay"
+                  id="disruption-delay-input"
                   name="disruption-delay"
                   onBlur={[Function]}
-                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
-                  value="yes"
                 />
               </div>
             </div>
@@ -314,10 +318,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
+              id="disruption-severity"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity"
+                htmlFor="disruption-severity-input"
               >
                 What is the severity of the disruption?
               </label>
@@ -327,7 +332,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 <select
                   className="govuk-select w-3/4"
                   defaultValue="severe"
-                  id="disruption-severity"
+                  id="disruption-severity-input"
                   name="disruption-severity"
                   onBlur={[Function]}
                 >
@@ -376,6 +381,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <fieldset
               className="govuk-fieldset"
+              id="disruption-direction"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -391,13 +397,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -416,6 +422,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -434,6 +441,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -782,10 +790,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
+              id="consequence-operator"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator"
+                htmlFor="consequence-operator-input"
               >
                 Who is the operator?
               </label>
@@ -795,7 +804,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <select
                   className="govuk-select w-3/4"
                   defaultValue=""
-                  id="consequence-operator"
+                  id="consequence-operator-input"
                   name="consequence-operator"
                   onBlur={[Function]}
                 >
@@ -834,10 +843,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
+              id="description"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="description"
+                htmlFor="description-input"
               >
                 Consequence description
               </label>
@@ -853,7 +863,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <textarea
                   className="govuk-textarea w-3/4"
                   defaultValue=""
-                  id="description"
+                  id="description-input"
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
@@ -867,6 +877,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <fieldset
               className="govuk-fieldset"
+              id="remove-from-journey-planners"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -882,13 +893,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -907,6 +918,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="remove-from-journey-planners"
                       onChange={[Function]}
@@ -929,10 +941,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
+              id="disruption-delay"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay"
+                htmlFor="disruption-delay-input"
               >
                 How long is the disruption delay?
               </label>
@@ -948,14 +961,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue=""
                   disabled={false}
-                  id="disruption-delay"
+                  id="disruption-delay-input"
                   name="disruption-delay"
                   onBlur={[Function]}
-                  onChange={[Function]}
                   placeholder="hhmm"
                   type="text"
-                  value=""
                 />
               </div>
             </div>
@@ -965,10 +977,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
+              id="disruption-severity"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity"
+                htmlFor="disruption-severity-input"
               >
                 What is the severity of the disruption?
               </label>
@@ -978,7 +991,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <select
                   className="govuk-select w-3/4"
                   defaultValue=""
-                  id="disruption-severity"
+                  id="disruption-severity-input"
                   name="disruption-severity"
                   onBlur={[Function]}
                 >
@@ -1027,6 +1040,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <fieldset
               className="govuk-fieldset"
+              id="disruption-direction"
             >
               <legend
                 className="govuk-fieldset__legend"
@@ -1042,13 +1056,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               >
                 <div
                   className="govuk-radios"
-                  id="radio-buttons"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -1067,6 +1081,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruption-direction"
                       onChange={[Function]}
@@ -1085,6 +1100,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   >
                     <input
                       className="govuk-radios__input"
+                      defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruption-direction"
                       onChange={[Function]}

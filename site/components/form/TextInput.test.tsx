@@ -2,16 +2,17 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
+import { z } from "zod";
 import TextInput from "./TextInput";
 import { TestInputs } from "../../interfaces";
+import { setZodDefaultError } from "../../utils";
 
 describe("TextInput", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
                 <TextInput<TestInputs>
-                    inputId="field1"
-                    inputName="testField"
+                    inputName="field1"
                     display="Test Field"
                     stateUpdater={vi.fn()}
                     widthClass="w-3/4"
@@ -27,8 +28,7 @@ describe("TextInput", () => {
             .create(
                 <TextInput<TestInputs>
                     initialErrors={[{ errorMessage: "There was an error", id: "summary" }]}
-                    inputId="field1"
-                    inputName="testField"
+                    inputName="field1"
                     display="Test Field"
                     stateUpdater={vi.fn()}
                     widthClass="w-3/4"
@@ -43,8 +43,7 @@ describe("TextInput", () => {
         const tree = renderer
             .create(
                 <TextInput<TestInputs>
-                    inputId="field1"
-                    inputName="testField"
+                    inputName="field1"
                     display="Test Field"
                     stateUpdater={vi.fn()}
                     widthClass="w-3/4"
@@ -60,20 +59,19 @@ describe("TextInput", () => {
     it("should validate input on blur and display error", async () => {
         const { unmount } = render(
             <TextInput<TestInputs>
-                inputId="field1"
-                inputName="testField"
+                inputName="field1"
                 display="Test Field"
-                errorMessage="Test Error Message"
                 stateUpdater={vi.fn()}
                 widthClass="w-3/4"
                 maxLength={50}
+                schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
             />,
         );
 
         await userEvent.click(screen.getByLabelText("Test Field"));
         await userEvent.tab();
 
-        expect(screen.getByText("Test Error Message")).toBeTruthy();
+        expect(screen.getByText("Error: Test Error")).toBeTruthy();
 
         unmount();
     });
@@ -81,21 +79,19 @@ describe("TextInput", () => {
     it("should validate minLength and display error", async () => {
         const { unmount } = render(
             <TextInput<TestInputs>
-                inputId="field2"
-                inputName="testField"
+                inputName="field2"
                 display="Test Field"
-                errorMessage="Test Error Message"
                 stateUpdater={vi.fn()}
                 widthClass="w-3/4"
-                minLength={15}
                 maxLength={50}
+                schema={z.string().min(15, "Error: Too Short")}
             />,
         );
 
         await userEvent.type(screen.getByLabelText("Test Field"), "texttooshort");
         await userEvent.tab();
 
-        expect(screen.getByText("Test Error Message")).toBeTruthy();
+        expect(screen.getByText("Error: Too Short")).toBeTruthy();
 
         unmount();
     });

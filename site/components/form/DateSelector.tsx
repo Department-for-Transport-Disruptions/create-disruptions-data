@@ -22,6 +22,7 @@ const inputBox = <T extends object>(
     inputRef: React.Ref<HTMLInputElement> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
+    inputId: string,
     inputName: Extract<keyof T, string>,
     errors: ErrorInfo[],
     disabled: boolean,
@@ -35,12 +36,13 @@ const inputBox = <T extends object>(
                 <input
                     className="govuk-input govuk-date-input__input govuk-input--width-6"
                     name={inputName}
+                    id={`${inputId}-input`}
                     type="text"
                     ref={inputRef}
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                    onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
                 />
             </FormElementWrapper>
         </div>
@@ -89,7 +91,7 @@ const DateSelector = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group govuk-!-margin-bottom-0" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
                 {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
@@ -105,6 +107,7 @@ const DateSelector = <T extends object>({
                                 inputRef,
                                 inputProps,
                                 InputProps,
+                                inputId,
                                 inputName,
                                 errors,
                                 disabled,

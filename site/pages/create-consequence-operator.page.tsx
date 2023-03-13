@@ -97,24 +97,20 @@ const CreateConsequenceOperator = ({
                         />
 
                         <Select<ConsequenceOperatorPageInputs>
-                            inputId="consequence-operator"
                             inputName="consequence-operator"
                             display="Who is the operator?"
                             displaySize="l"
                             defaultDisplay="Select an operator"
-                            errorMessage="Select an operator from the dropdown"
                             selectValues={OPERATORS}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["consequence-operator"]}
                         />
 
                         <TextInput<ConsequenceOperatorPageInputs>
-                            inputId="description"
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
                             inputName="description"
-                            errorMessage="Enter a description for this consequence"
                             widthClass="w-3/4"
                             textArea
                             rows={3}
@@ -126,7 +122,6 @@ const CreateConsequenceOperator = ({
                         <Radios<ConsequenceOperatorPageInputs>
                             display="Would you like to remove this from journey planners?"
                             displaySize="l"
-                            inputId="remove-from-journey-planners"
                             radioDetail={[
                                 {
                                     value: "yes",
@@ -147,20 +142,16 @@ const CreateConsequenceOperator = ({
                             displaySize="l"
                             hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
                             value={pageState.inputs["disruption-delay"]}
-                            errorMessage="Enter a time for the disruption delay"
                             disabled={false}
-                            inputId="disruption-delay"
                             inputName="disruption-delay"
                             stateUpdater={stateUpdater}
                         />
 
                         <Select<ConsequenceOperatorPageInputs>
-                            inputId="disruption-severity"
                             inputName="disruption-severity"
                             display="What is the severity of the disruption?"
                             displaySize="l"
                             defaultDisplay="Select a severity"
-                            errorMessage="Select a severity from the dropdown"
                             selectValues={DISRUPTION_SEVERITIES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["disruption-severity"]}
@@ -169,7 +160,6 @@ const CreateConsequenceOperator = ({
                         <Radios<ConsequenceOperatorPageInputs>
                             display="What is the direction of the disruption?"
                             displaySize="l"
-                            inputId="disruption-direction"
                             radioDetail={[
                                 {
                                     value: "allDirections",

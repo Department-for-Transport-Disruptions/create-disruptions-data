@@ -14,8 +14,7 @@ describe("Checkbox", () => {
         const tree = renderer
             .create(
                 <Checkbox<PageInputs>
-                    inputId="field1"
-                    inputName="testField"
+                    inputName="field1"
                     display="Display Legend"
                     hideLegend
                     checkboxDetail={[
@@ -36,8 +35,7 @@ describe("Checkbox", () => {
         const tree = renderer
             .create(
                 <Checkbox<PageInputs>
-                    inputId="field1"
-                    inputName="testField"
+                    inputName="field1"
                     display="Display Legend"
                     hideLegend
                     checkboxDetail={[

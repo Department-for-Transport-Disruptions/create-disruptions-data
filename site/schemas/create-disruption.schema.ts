@@ -46,6 +46,32 @@ export const createDisruptionSchema = z.object({
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema
+    .refine(
+        (val) => {
+            if (val.disruptionNoEndDateTime) {
+                return !val.disruptionEndDate && !val.disruptionEndTime;
+            }
+
+            return true;
+        },
+        {
+            path: ["disruptionNoEndDateTime"],
+            message: '"No end date/time" should not be selected when a disruption date and time have been entered',
+        },
+    )
+    .refine(
+        (val) => {
+            if (val.publishNoEndDateTime) {
+                return !val.publishEndDate && !val.publishEndTime;
+            }
+
+            return true;
+        },
+        {
+            path: ["disruptionNoEndDateTime"],
+            message: '"No end date/time" should not be selected when a publish date and time have been entered',
+        },
+    )
     .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
         path: ["disruptionEndTime"],
         message: "Disruption end time must be set when end date is set",
