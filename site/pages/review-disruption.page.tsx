@@ -2,7 +2,7 @@
 import dayjs from "dayjs";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import nookies from "nookies";
+import { parseCookies } from "nookies";
 import { ReactElement } from "react";
 import { DisruptionPageInputs } from "./create-disruption.page";
 import Table from "../components/form/Table";
@@ -200,7 +200,7 @@ const CreateConsequenceOperator = ({ previousDisruptionInformation }: CreateCons
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
-    const cookies = nookies.get(ctx);
+    const cookies = parseCookies(ctx);
     const disruptionInfo: DisruptionPageInputs = cookies["disruption-info"]
         ? JSON.parse(cookies["disruption-info"])
         : "";
