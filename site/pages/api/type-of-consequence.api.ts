@@ -13,8 +13,6 @@ const addConsequence = (req: NextApiRequestWithConsequences, res: NextApiRespons
 
     const formFields: AddConsequenceProps = req.body;
 
-    console.log("formFields----", formFields);
-
     const tenSeconds = 10000;
 
     if (!formFields.consequenceType) {
