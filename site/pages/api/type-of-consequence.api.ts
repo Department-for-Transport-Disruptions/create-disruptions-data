@@ -13,6 +13,8 @@ const addConsequence = (req: NextApiRequestWithConsequences, res: NextApiRespons
 
     const formFields: AddConsequenceProps = req.body;
 
+    console.log("formFields----", formFields);
+
     const tenSeconds = 10000;
 
     if (!formFields.consequenceType) {
@@ -20,7 +22,7 @@ const addConsequence = (req: NextApiRequestWithConsequences, res: NextApiRespons
             id: "consequenceType",
             errorMessage: "Select a consequence type",
         });
-    } else if (!Object.values(ConsequenceType).includes(formFields.consequenceType)) {
+    } else if (!Object.keys(ConsequenceType).includes(formFields.consequenceType)) {
         errors.push({
             id: "consequenceType",
             errorMessage: "Incorrect consequence type selected. Choose a valid value",
@@ -32,7 +34,7 @@ const addConsequence = (req: NextApiRequestWithConsequences, res: NextApiRespons
             id: "modeOfTransport",
             errorMessage: "Select a mode of transport",
         });
-    } else if (!Object.values(TransportMode).includes(formFields.modeOfTransport)) {
+    } else if (!Object.keys(TransportMode).includes(formFields.modeOfTransport)) {
         errors.push({
             id: "modeOfTransport",
             errorMessage: "Incorrect mode of transport selected. Choose a valid value",

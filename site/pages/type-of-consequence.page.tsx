@@ -14,19 +14,19 @@ const description = "Create Consequences page for the Create Transport Disruptio
 
 const modeOfTransportRadio: DisplayValuePair[] = [];
 
-Object.values(TransportMode).forEach((enumValue) => {
+Object.entries(TransportMode).forEach((entry) => {
     modeOfTransportRadio.push({
-        value: enumValue,
-        display: enumValue,
+        value: entry[0],
+        display: entry[1],
     });
 });
 
 const consequenceType: DisplayValuePair[] = [];
 
-Object.values(ConsequenceType).forEach((enumValue) => {
+Object.entries(ConsequenceType).forEach((entry) => {
     consequenceType.push({
-        value: enumValue,
-        display: enumValue,
+        value: entry[0],
+        display: entry[1],
     });
 });
 
