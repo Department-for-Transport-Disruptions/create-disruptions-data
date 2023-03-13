@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment*/
+/* eslint-disable @typescript-eslint/no-unsafe-argument*/
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./type-of-consequence.api";
-import { ConsequenceType, TransportMode } from "../../constants/enum";
 import {
     COOKIES_ADD_CONSEQUENCE_INFO,
     COOKIES_ADD_CONSEQUENCE_ERRORS,
     ADD_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
-import { AddConsequenceProps, ErrorInfo } from "../../interfaces";
+import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 
@@ -25,10 +26,8 @@ describe("addConsequence", () => {
             consequenceType: "operatorWide",
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(1);
@@ -49,10 +48,8 @@ describe("addConsequence", () => {
             { id: "modeOfTransport", errorMessage: "Select a mode of transport" },
         ];
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
@@ -82,10 +79,8 @@ describe("addConsequence", () => {
             { id: "modeOfTransport", errorMessage: "Incorrect mode of transport selected. Choose a valid value" },
         ];
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
