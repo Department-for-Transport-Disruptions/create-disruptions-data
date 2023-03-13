@@ -1,6 +1,6 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { useEffectOnce } from "../utils";
 
 declare global {
     interface Window {
@@ -12,7 +12,7 @@ declare global {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-    useEffect(() => {
+    useEffectOnce(() => {
         document.getElementsByTagName("body")[0].classList.add("js-enabled");
 
         if (window.GOVUKFrontend) {
