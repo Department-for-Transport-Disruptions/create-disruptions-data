@@ -57,3 +57,5 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
 };
 
 export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
+
+export const formatTime = (time: string) => (time ? time.slice(0, -2) + ":" + time.slice(-2) : "");

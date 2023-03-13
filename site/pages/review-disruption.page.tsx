@@ -7,7 +7,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
-import { convertDateTimeToFormat } from "../utils";
+import { convertDateTimeToFormat, formatTime } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -338,13 +338,13 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         {
             "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
             "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-            "publish-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
+            "publish-time": formatTime(disruptionInfo["publish-start-time"]),
             "account-to-publish": "Example account",
         },
         {
             "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
             "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-            "publish-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
+            "publish-time": formatTime(disruptionInfo["publish-start-time"]),
             "account-to-publish": "Example account 2",
         },
     ];
@@ -383,14 +383,14 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         "associated-link": disruptionInfo["associated-link"] || "N/A",
         "disruption-reason": disruptionInfo["disruption-reason"],
         "disruption-start-date": convertDateTimeToFormat(disruptionInfo["disruption-start-date"], "DD/MM/YYYY"),
-        "disruption-start-time": convertDateTimeToFormat(disruptionInfo["disruption-start-time"], "hh:mm"),
+        "disruption-start-time": formatTime(disruptionInfo["disruption-start-time"]),
         "disruption-end-date": convertDateTimeToFormat(disruptionInfo["disruption-end-date"], "DD/MM/YYYY") || "N/A",
-        "disruption-end-time": convertDateTimeToFormat(disruptionInfo["disruption-end-time"], "hh:mm") || "N/A",
+        "disruption-end-time": formatTime(disruptionInfo["disruption-end-time"]) || "N/A",
         "disruption-repeats": disruptionInfo["disruption-repeats"] || "No",
         "publish-start-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-        "publish-start-time": convertDateTimeToFormat(disruptionInfo["publish-start-time"], "hh:mm"),
+        "publish-start-time": formatTime(disruptionInfo["publish-start-time"]),
         "publish-end-date": convertDateTimeToFormat(disruptionInfo["publish-end-date"], "DD/MM/YYYY") || "N/A",
-        "publish-end-time": convertDateTimeToFormat(disruptionInfo["publish-end-time"], "hh:mm") || "N/A",
+        "publish-end-time": formatTime(disruptionInfo["publish-end-time"]) || "N/A",
     };
 
     return {
