@@ -387,8 +387,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         "disruption-start-time": formatTime(disruptionInfo["disruption-start-time"]),
         "disruption-end-date": convertDateTimeToFormat(disruptionInfo["disruption-end-date"], "DD/MM/YYYY") || "N/A",
         "disruption-end-time": formatTime(disruptionInfo["disruption-end-time"]) || "N/A",
-        "disruption-repeats":
-            (startCase(disruptionInfo["disruption-repeats"]) as Disruption["disruption-repeats"]) || "No",
+        "disruption-repeats": startCase(disruptionInfo["disruption-repeats"]) as Disruption["disruption-repeats"],
         "publish-start-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
         "publish-start-time": formatTime(disruptionInfo["publish-start-time"]),
         "publish-end-date": convertDateTimeToFormat(disruptionInfo["publish-end-date"], "DD/MM/YYYY") || "N/A",
