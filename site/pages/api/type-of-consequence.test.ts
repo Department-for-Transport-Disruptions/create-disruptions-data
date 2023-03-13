@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./type-of-consequence.api";
 import { ConsequenceType, TransportMode } from "../../constants/enum";
@@ -25,10 +27,8 @@ describe("addConsequence", () => {
             consequenceType: ConsequenceType.operatorWide,
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         addConsequence(req, res);
 
         expect(setCookieSpy).toHaveBeenCalledTimes(1);

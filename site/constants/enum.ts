@@ -7,7 +7,7 @@ export enum TransportMode {
 
 export enum ConsequenceType {
     services = "Services",
-    networkWide = "Network Wide",
-    operatorWide = "Operator Wide",
+    networkWide = "Network wide",
+    operatorWide = "Operator wide",
     stops = "Stops",
 }
