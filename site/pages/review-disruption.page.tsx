@@ -3,18 +3,17 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
-import { DisruptionPageInputs } from "./create-disruption.page";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
-import { Consequence, SocialMediaPost } from "../interfaces";
+import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
 import { convertDateTimeToFormat } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
 interface ReviewDisruptionProps {
-    previousDisruptionInformation: DisruptionPageInputs;
+    previousDisruptionInformation: Disruption;
     previousConsequencesInformation: Consequence[];
     previousSocialMediaPosts: SocialMediaPost[];
 }
@@ -333,9 +332,7 @@ const ReviewDisruption = ({
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const cookies = parseCookies(ctx);
-    const disruptionInfo: DisruptionPageInputs = cookies["disruption-info"]
-        ? JSON.parse(cookies["disruption-info"])
-        : "";
+    const disruptionInfo: Disruption = cookies["disruption-info"] ? JSON.parse(cookies["disruption-info"]) : "";
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {
@@ -379,7 +376,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         },
     ];
 
-    const previousDisruptionInformation = {
+    const previousDisruptionInformation: Disruption = {
         "type-of-disruption": disruptionInfo["type-of-disruption"],
         summary: disruptionInfo.summary,
         description: disruptionInfo.description,
