@@ -8,13 +8,13 @@ const previousSocialMediaPosts: SocialMediaPost[] = [
     {
         "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
         "publish-date": "13/01/2022",
-        "publish-time": "1300",
+        "publish-time": "13:00",
         "account-to-publish": "Example account",
     },
     {
         "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
         "publish-date": "13/01/2022",
-        "publish-time": "1300",
+        "publish-time": "13:00",
         "account-to-publish": "Example account 2",
     },
 ];
@@ -57,12 +57,12 @@ const previousDisruptionInformation: Disruption = {
     "disruption-start-date": "13/01/2022",
     "disruption-start-time": "13/01/2022",
     "disruption-end-date": "14/01/2022",
-    "disruption-end-time": "1400",
+    "disruption-end-time": "14:00",
     "disruption-repeats": "no",
     "publish-start-date": "13/01/2022",
     "publish-start-time": "1300",
     "publish-end-date": "13/01/2022",
-    "publish-end-time": "1400",
+    "publish-end-time": "14:00",
 };
 
 describe("pages", () => {

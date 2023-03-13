@@ -304,7 +304,7 @@ exports[`pages > ReviewDisruption > should render correctly with with inputs and
                 <td
                   className="govuk-table__cell"
                 >
-                  1400
+                  14:00
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -444,7 +444,7 @@ exports[`pages > ReviewDisruption > should render correctly with with inputs and
                 <td
                   className="govuk-table__cell"
                 >
-                  1400
+                  14:00
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -1302,7 +1302,7 @@ exports[`pages > ReviewDisruption > should render correctly with with inputs and
                       <td
                         className="govuk-table__cell"
                       >
-                        1300
+                        13:00
                       </td>
                       <td
                         className="govuk-table__cell"
@@ -1453,7 +1453,7 @@ exports[`pages > ReviewDisruption > should render correctly with with inputs and
                       <td
                         className="govuk-table__cell"
                       >
-                        1300
+                        13:00
                       </td>
                       <td
                         className="govuk-table__cell"
