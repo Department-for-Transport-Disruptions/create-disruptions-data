@@ -1,11 +1,11 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, SyntheticEvent, useState } from "react";
 import { inspect } from "util";
-import Checkbox from "../components/form/Checkbox";
 import DateSelector from "../components/form/DateSelector";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
+import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
@@ -30,13 +30,11 @@ export interface DisruptionPageInputs {
     "disruption-end-date": string;
     "disruption-start-time": string;
     "disruption-end-time": string;
-    "disruption-no-end-date-time": string;
-    "disruption-repeats": "yes" | "no";
     "publish-start-date": string;
     "publish-end-date": string;
     "publish-start-time": string;
     "publish-end-time": string;
-    "publish-no-end-date-time": string;
+    validity: { id: number; value: string }[];
 }
 
 export interface DisruptionPageState {
@@ -62,6 +60,61 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     ? [...pageState.errors, error]
                     : [...pageState.errors.filter((error) => error.id !== inputName)]),
             ],
+        });
+    };
+
+    const addValidity = (e: SyntheticEvent) => {
+        e.preventDefault();
+        if (
+            pageState.inputs["disruption-start-date"] &&
+            pageState.inputs["disruption-start-time"] &&
+            pageState.inputs["disruption-end-date"] &&
+            pageState.inputs["disruption-end-time"]
+        ) {
+            const validityToAdd = {
+                id: pageState.inputs.validity.length + 1,
+                value: `${pageState.inputs["disruption-start-date"]} ${pageState.inputs["disruption-start-time"]} - ${pageState.inputs["disruption-end-date"]} ${pageState.inputs["disruption-end-time"]}`,
+            };
+            setDisruptionPageState({
+                inputs: {
+                    ...pageState.inputs,
+                    validity: [...pageState.inputs.validity, validityToAdd],
+                    "disruption-start-date": "",
+                    "disruption-end-date": "",
+                    "disruption-start-time": "",
+                    "disruption-end-time": "",
+                },
+                errors: pageState.errors,
+            });
+        }
+    };
+
+    const getValidityRows = () =>
+        pageState.inputs.validity?.map((validity, i) => ({
+            header: `Validity period ${i + 1}`,
+            cells: [
+                validity.value,
+                <button
+                    id={validity.id.toString()}
+                    key={`remove-validity-period-${i + 1}`}
+                    className="govuk-link"
+                    onClick={removeValidity}
+                >
+                    Remove
+                </button>,
+            ],
+        }));
+
+    const removeValidity = (e: SyntheticEvent) => {
+        e.preventDefault();
+        setDisruptionPageState({
+            inputs: {
+                ...pageState.inputs,
+                validity: pageState.inputs.validity.filter(
+                    (validity) => validity.id.toString() !== (e.target as HTMLInputElement).id,
+                ),
+            },
+            errors: pageState.errors,
         });
     };
 
@@ -142,7 +195,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
                         <h2 className="govuk-heading-l">When is the disruption?</h2>
-
+                        <Table rows={getValidityRows()} />
                         <DateSelector<DisruptionPageInputs>
                             display="Start date"
                             hiddenHint="Enter in format DD/MM/YYYY"
@@ -153,6 +206,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputId="disruption-start-date"
                             inputName="disruption-start-date"
                             stateUpdater={stateUpdater}
+                            reset={pageState.inputs["disruption-start-date"] === ""}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
@@ -164,6 +218,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputId="disruption-start-time"
                             inputName="disruption-start-time"
                             stateUpdater={stateUpdater}
+                            reset={pageState.inputs["disruption-start-time"] === ""}
                         />
 
                         <DateSelector<DisruptionPageInputs>
@@ -171,11 +226,12 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs["disruption-end-date"]}
                             errorMessage="Select a date"
-                            disabled={pageState.inputs["disruption-no-end-date-time"] !== ""}
+                            disabled={false}
                             disablePast
                             inputId="disruption-end-date"
                             inputName="disruption-end-date"
                             stateUpdater={stateUpdater}
+                            reset={pageState.inputs["disruption-end-date"] === ""}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
@@ -183,45 +239,19 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs["disruption-end-time"]}
                             errorMessage="Enter an end time for the disruption"
-                            disabled={pageState.inputs["disruption-no-end-date-time"] !== ""}
+                            disabled={false}
                             inputId="disruption-end-time"
                             inputName="disruption-end-time"
                             stateUpdater={stateUpdater}
+                            reset={pageState.inputs["disruption-end-time"] === ""}
                         />
-
-                        <Checkbox<DisruptionPageInputs>
-                            inputId="disruption-no-end-date-time"
-                            inputName="disruption-no-end-date-time"
-                            display="Does the disruption have an end datetime?"
-                            hideLegend
-                            checkboxDetail={[
-                                {
-                                    display: "No end date/time",
-                                    value: "noDisruptionEndDateTime",
-                                    checked: pageState.inputs["disruption-no-end-date-time"] !== "",
-                                },
-                            ]}
-                            stateUpdater={stateUpdater}
-                        />
-
-                        <Radios<DisruptionPageInputs>
-                            display="Does this disruption repeat?"
-                            inputId="disruption-repeats"
-                            value={pageState.inputs["disruption-repeats"]}
-                            inputName="disruption-repeats"
-                            radioDetail={[
-                                {
-                                    value: "yes",
-                                    display: "Yes",
-                                },
-                                {
-                                    value: "no",
-                                    display: "No",
-                                },
-                            ]}
-                            paddingTop={6}
-                            stateUpdater={stateUpdater}
-                        />
+                        <button
+                            className="govuk-button govuk-button--secondary mt-8"
+                            data-module="govuk-button"
+                            onClick={addValidity}
+                        >
+                            Add another validity period
+                        </button>
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
                         <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
@@ -254,7 +284,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs["publish-end-date"]}
                             errorMessage="Select a date"
-                            disabled={pageState.inputs["publish-no-end-date-time"] !== ""}
+                            disabled={false}
                             disablePast
                             inputId="publish-end-date"
                             inputName="publish-end-date"
@@ -266,24 +296,9 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs["publish-end-time"]}
                             errorMessage="Enter a publication end time for the disruption"
-                            disabled={pageState.inputs["publish-no-end-date-time"] !== ""}
+                            disabled={false}
                             inputId="publish-end-time"
                             inputName="publish-end-time"
-                            stateUpdater={stateUpdater}
-                        />
-
-                        <Checkbox<DisruptionPageInputs>
-                            inputId="publish-no-end-date-time"
-                            inputName="publish-no-end-date-time"
-                            display="Does the disruption have an end datetime?"
-                            hideLegend
-                            checkboxDetail={[
-                                {
-                                    display: "No end date/time",
-                                    value: "noPublishEndDateTime",
-                                    checked: pageState.inputs["publish-no-end-date-time"] !== "",
-                                },
-                            ]}
                             stateUpdater={stateUpdater}
                         />
 
@@ -306,17 +321,15 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
             description: "",
             "associated-link": "",
             "disruption-reason": "",
-            "disruption-repeats": "no",
             "disruption-start-date": "",
             "disruption-end-date": "",
             "disruption-start-time": "",
             "disruption-end-time": "",
-            "disruption-no-end-date-time": "",
             "publish-start-date": "",
             "publish-end-date": "",
             "publish-start-time": "",
             "publish-end-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         },
     };
 

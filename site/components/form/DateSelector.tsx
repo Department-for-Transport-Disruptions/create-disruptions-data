@@ -13,6 +13,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
     hiddenHint?: string;
     disablePast: boolean;
+    reset?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -76,9 +77,16 @@ const DateSelector = <T extends object>({
     optional = false,
     disablePast,
     stateUpdater,
+    reset = false,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+
+    useEffect(() => {
+        if (reset) {
+            setDateValue(null);
+        }
+    }, [reset]);
 
     useEffect(() => {
         if (disabled) {
