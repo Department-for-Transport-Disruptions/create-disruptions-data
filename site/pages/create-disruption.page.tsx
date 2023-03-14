@@ -66,7 +66,6 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
-        setValidityClicked(true);
         if (
             pageState.inputs["disruption-start-date"] &&
             pageState.inputs["disruption-start-time"] &&
@@ -89,6 +88,8 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                 errors: pageState.errors,
             });
             setValidityClicked(false);
+        } else {
+            setValidityClicked(true);
         }
     };
 
