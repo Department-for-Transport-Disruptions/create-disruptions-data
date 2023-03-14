@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > ReviewDisruption > should render correctly with with inputs and no errors 1`] = `
+exports[`pages > ReviewDisruption > should render correctly with inputs and no errors 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"

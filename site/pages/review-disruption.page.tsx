@@ -9,6 +9,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
 import { convertDateTimeToFormat, formatTime, splitCamelCaseToString } from "../utils";
+import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -157,10 +158,11 @@ const ReviewDisruption = ({
                                                         ? `Services - ${consequence["service"]
                                                               .map((service) => service.id)
                                                               .join(", ")}`
-                                                        : consequence["consequence-type"] === "Operator wide" &&
+                                                        : consequence["consequence-type"] ===
+                                                              ConsequenceType.operatorWide &&
                                                           consequence["consequence-operator"]
-                                                        ? `Operator wide - ${consequence["consequence-operator"]}`
-                                                        : "Network wide"
+                                                        ? `${ConsequenceType.operatorWide} - ${consequence["consequence-operator"]}`
+                                                        : `${ConsequenceType.networkWide}`
                                                 }`}
                                             </span>
                                         </h2>
@@ -176,14 +178,14 @@ const ReviewDisruption = ({
                                                     header: "Mode of transport",
                                                     cells: [
                                                         consequence["mode-of-transport"],
-                                                        createChangeLink("mode-of-transport", "/type-of-consequence"),
+                                                        createChangeLink("mode-of-transport", ADD_CONSEQUENCE_PAGE_PATH),
                                                     ],
                                                 },
                                                 {
                                                     header: "Consequence type",
                                                     cells: [
                                                         consequence["consequence-type"],
-                                                        createChangeLink("consequence-type", "/type-of-consequence"),
+                                                        createChangeLink("consequence-type", ADD_CONSEQUENCE_PAGE_PATH),
                                                     ],
                                                 },
                                                 {
@@ -250,7 +252,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href="/type-of-consequence"
+                            href={ADD_CONSEQUENCE_PAGE_PATH}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -333,7 +335,7 @@ const ReviewDisruption = ({
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const cookies = parseCookies(ctx);
-    const disruptionInfo: Disruption = cookies["disruption-info"] ? JSON.parse(cookies["disruption-info"]) : "";
+    const disruptionInfo: Disruption = cookies[COOKIES_DISRUPTION_INFO] ? JSON.parse(cookies[COOKIES_DISRUPTION_INFO]) : "";
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {

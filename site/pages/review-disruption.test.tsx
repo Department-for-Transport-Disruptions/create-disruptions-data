@@ -66,7 +66,7 @@ const previousDisruptionInformation: Disruption = {
 
 describe("pages", () => {
     describe("ReviewDisruption", () => {
-        it("should render correctly with with inputs and no errors", () => {
+        it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
                     <ReviewDisruption
