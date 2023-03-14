@@ -7,6 +7,7 @@ interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
     hint?: string;
     reset?: boolean;
+    showError?: boolean;
 }
 
 const TimeSelector = <T extends object>({
@@ -22,6 +23,7 @@ const TimeSelector = <T extends object>({
     optional = false,
     stateUpdater,
     reset = false,
+    showError = false,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const [inputValue, setInputValue] = useState(value);
@@ -38,6 +40,17 @@ const TimeSelector = <T extends object>({
             setInputValue("");
         }
     }, [disabled]);
+
+    useEffect(() => {
+        if (showError) {
+            setErrors([
+                {
+                    id: inputId,
+                    errorMessage,
+                },
+            ]);
+        }
+    }, [showError, errorMessage, inputId]);
 
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>

@@ -14,6 +14,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     hiddenHint?: string;
     disablePast: boolean;
     reset?: boolean;
+    showError?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -78,6 +79,7 @@ const DateSelector = <T extends object>({
     disablePast,
     stateUpdater,
     reset = false,
+    showError = false,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
@@ -94,6 +96,17 @@ const DateSelector = <T extends object>({
             setDateValue(null);
         }
     }, [disabled]);
+
+    useEffect(() => {
+        if (showError) {
+            setErrors([
+                {
+                    id: inputId,
+                    errorMessage,
+                },
+            ]);
+        }
+    }, [showError, errorMessage, inputId]);
 
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={errors}>

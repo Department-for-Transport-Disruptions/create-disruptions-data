@@ -44,6 +44,7 @@ export interface DisruptionPageState {
 
 const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
     const [pageState, setDisruptionPageState] = useState<DisruptionPageState>(inputs);
+    const [validityClicked, setValidityClicked] = useState(false);
 
     const updateDisruptionPageStateForInput = (
         inputName: keyof DisruptionPageInputs,
@@ -65,6 +66,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
+        setValidityClicked(true);
         if (
             pageState.inputs["disruption-start-date"] &&
             pageState.inputs["disruption-start-time"] &&
@@ -86,6 +88,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                 },
                 errors: pageState.errors,
             });
+            setValidityClicked(false);
         }
     };
 
@@ -207,6 +210,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputName="disruption-start-date"
                             stateUpdater={stateUpdater}
                             reset={pageState.inputs["disruption-start-date"] === ""}
+                            showError={pageState.inputs["disruption-start-date"] === "" && validityClicked}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
@@ -219,6 +223,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputName="disruption-start-time"
                             stateUpdater={stateUpdater}
                             reset={pageState.inputs["disruption-start-time"] === ""}
+                            showError={pageState.inputs["disruption-start-time"] === "" && validityClicked}
                         />
 
                         <DateSelector<DisruptionPageInputs>
@@ -232,6 +237,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputName="disruption-end-date"
                             stateUpdater={stateUpdater}
                             reset={pageState.inputs["disruption-end-date"] === ""}
+                            showError={pageState.inputs["disruption-end-date"] === "" && validityClicked}
                         />
 
                         <TimeSelector<DisruptionPageInputs>
@@ -244,6 +250,7 @@ const CreateDisruption = ({ inputs }: CreateDisruptionProps): ReactElement => {
                             inputName="disruption-end-time"
                             stateUpdater={stateUpdater}
                             reset={pageState.inputs["disruption-end-time"] === ""}
+                            showError={pageState.inputs["disruption-end-time"] === "" && validityClicked}
                         />
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
