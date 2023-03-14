@@ -11,17 +11,15 @@ const blankInputs: DisruptionPageState = {
         description: "",
         "associated-link": "",
         "disruption-reason": "",
-        "disruption-repeats": "no",
         "disruption-start-date": "",
         "disruption-end-date": "",
         "disruption-start-time": "",
         "disruption-end-time": "",
-        "disruption-no-end-date-time": "",
         "publish-start-date": "",
         "publish-end-date": "",
         "publish-start-time": "",
         "publish-end-time": "",
-        "publish-no-end-date-time": "",
+        validity: [],
     },
 };
 
@@ -37,13 +35,11 @@ const withInputs: DisruptionPageState = {
         "disruption-end-date": "01/08/2023",
         "disruption-start-time": "0100",
         "disruption-end-time": "0200",
-        "disruption-repeats": "no",
-        "disruption-no-end-date-time": "",
         "publish-start-date": "01/03/2023",
         "publish-end-date": "01/08/2023",
         "publish-start-time": "0200",
         "publish-end-time": "2300",
-        "publish-no-end-date-time": "",
+        validity: [{ id: 1, value: "01/04/2023 0100 - 01/08/2023 0200" }],
     },
 };
 
