@@ -6,10 +6,10 @@ import { parseCookies } from "nookies";
 import { ReactElement } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
+import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
 import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
 import { convertDateTimeToFormat, formatTime, splitCamelCaseToString } from "../utils";
-import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -178,7 +178,10 @@ const ReviewDisruption = ({
                                                     header: "Mode of transport",
                                                     cells: [
                                                         consequence["mode-of-transport"],
-                                                        createChangeLink("mode-of-transport", ADD_CONSEQUENCE_PAGE_PATH),
+                                                        createChangeLink(
+                                                            "mode-of-transport",
+                                                            ADD_CONSEQUENCE_PAGE_PATH,
+                                                        ),
                                                     ],
                                                 },
                                                 {
@@ -335,7 +338,9 @@ const ReviewDisruption = ({
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
     const cookies = parseCookies(ctx);
-    const disruptionInfo: Disruption = cookies[COOKIES_DISRUPTION_INFO] ? JSON.parse(cookies[COOKIES_DISRUPTION_INFO]) : "";
+    const disruptionInfo: Disruption = cookies[COOKIES_DISRUPTION_INFO]
+        ? JSON.parse(cookies[COOKIES_DISRUPTION_INFO])
+        : "";
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {
