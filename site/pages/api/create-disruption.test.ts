@@ -45,13 +45,11 @@ describe("createDisruption", () => {
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
-            "disruption-repeats": "no",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            "publish-end-date": "",
-            "publish-end-time": "",
-            "publish-no-end-date-time": "publishNoEndDateTime",
-            "disruption-no-end-date-time": "yes",
+            "publish-end-date": disruptionEndDate,
+            "publish-end-time": "1100",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -106,15 +104,13 @@ describe("createDisruption", () => {
             "disruption-reason": MiscellaneousReason.roadWorks,
             "disruption-start-date": disruptionStartDate,
             "disruption-start-time": "1000",
-            "disruption-end-date": "",
-            "disruption-end-time": "",
+            "disruption-end-date": publishEndDate,
+            "disruption-end-time": "1100",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
             "publish-end-date": publishEndDate,
             "publish-end-time": "1000",
-            "disruption-no-end-date-time": "disruptionNoEndDateTime",
-            "publish-no-end-date-time": "",
-            "disruption-repeats": "yes",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -159,11 +155,9 @@ describe("createDisruption", () => {
             "disruption-end-time": "1100",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            "publish-no-end-date-time": "publishNoEndDateTime",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-end-date": "",
-            "publish-end-time": "",
+            "publish-end-date": disruptionEndDate,
+            "publish-end-time": "1100",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -204,11 +198,9 @@ describe("createDisruption", () => {
             "disruption-end-time": "1100",
             "publish-start-date": publishStartDate,
             "publish-start-time": "1100",
-            "publish-no-end-date-time": "publishNoEndDateTime",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-end-date": "",
-            "publish-end-time": "",
+            "publish-end-date": disruptionEndDate,
+            "publish-end-time": "1100",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -235,6 +227,7 @@ describe("createDisruption", () => {
         const disruptionStartDate = dayjs().subtract(2, "day").format(CD_DATE_FORMAT).toString();
         const disruptionEndDate = dayjs().subtract(1, "day").format(CD_DATE_FORMAT).toString();
         const publishStartDate = getFutureDateAsString(12, CD_DATE_FORMAT);
+        const publishEndDate = getFutureDateAsString(15, CD_DATE_FORMAT);
 
         const disruptionData: DisruptionPageInputs = {
             "type-of-disruption": "planned",
@@ -243,17 +236,15 @@ describe("createDisruption", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "associated-link": "",
             "disruption-reason": MiscellaneousReason.roadWorks,
-            "disruption-start-date": disruptionStartDate.toString(),
+            "disruption-start-date": disruptionStartDate,
             "disruption-end-date": disruptionEndDate,
             "disruption-start-time": "1000",
             "disruption-end-time": "1100",
             "publish-start-date": publishStartDate,
-            "publish-start-time": "1100",
-            "publish-no-end-date-time": "publishNoEndDateTime",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-end-date": "",
-            "publish-end-time": "",
+            "publish-start-time": "1000",
+            "publish-end-date": publishEndDate,
+            "publish-end-time": "1100",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -265,14 +256,8 @@ describe("createDisruption", () => {
         disruptionData["publish-start-date"] = formatDate(publishStartDate, CD_DATE_FORMAT);
 
         const errors: ErrorInfo[] = [
-            {
-                id: "some-error-id",
-                errorMessage: "The Start date and time should be past the current date and time",
-            },
-            {
-                id: "some-error-id",
-                errorMessage: "The End date and time should be past the current date and time",
-            },
+            { id: "some-error-id", errorMessage: "The Start date and time should be past the current date and time" },
+            { id: "some-error-id", errorMessage: "The End date and time should be past the current date and time" },
         ];
         expect(setCookieSpy).toHaveBeenCalledTimes(2);
         expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_DISRUPTION_INFO, expect.any(String), res);
@@ -301,9 +286,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -352,9 +335,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -399,9 +380,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -446,9 +425,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1100",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -497,9 +474,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "",
             "publish-end-time": "",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -548,9 +523,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -596,9 +569,7 @@ describe("createDisruption", () => {
             "publish-end-date": publishEndDate,
             "publish-start-time": "1000",
             "publish-end-time": "1100",
-            "disruption-repeats": "yes",
-            "disruption-no-end-date-time": "",
-            "publish-no-end-date-time": "",
+            validity: [],
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });

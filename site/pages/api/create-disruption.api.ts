@@ -58,14 +58,12 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const disruptionStartTime = formFields["disruption-start-time"];
     const disruptionEndDate = formFields["disruption-end-date"];
     const disruptionEndTime = formFields["disruption-end-time"];
-    const disruptionIsNoEndDateTime = formFields["disruption-no-end-date-time"];
 
     validateDateTimeSection(
         disruptionStartDate,
         disruptionStartTime,
         disruptionEndDate,
         disruptionEndTime,
-        disruptionIsNoEndDateTime,
         errors,
         "some-error-id",
     );
@@ -73,14 +71,12 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     const publishStartTime = formFields["publish-start-time"];
     const publishEndDate = formFields["publish-end-date"];
     const publishEndTime = formFields["publish-end-time"];
-    const publishIsNoEndDateTime = formFields["publish-no-end-date-time"];
 
     validateDateTimeSection(
         publishStartDate,
         publishStartTime,
         publishEndDate,
         publishEndTime,
-        publishIsNoEndDateTime,
         errors,
         "some-error-id",
     );
@@ -97,13 +93,11 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         "disruption-end-date": disruptionEndDate ? getDateTime(disruptionEndDate).toString() : disruptionEndDate,
         "disruption-start-time": disruptionStartTime,
         "disruption-end-time": disruptionEndTime,
-        "disruption-no-end-date-time": disruptionIsNoEndDateTime,
         "publish-start-date": publishStartDate ? getDateTime(publishStartDate).toString() : publishStartDate,
         "publish-end-date": publishEndDate ? getDateTime(publishEndDate).toString() : publishEndDate,
         "publish-start-time": publishStartTime,
         "publish-end-time": publishEndTime,
-        "publish-no-end-date-time": publishIsNoEndDateTime,
-        "disruption-repeats": formFields["disruption-repeats"],
+        validity: [],
     };
 
     setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(disruptionData), res);

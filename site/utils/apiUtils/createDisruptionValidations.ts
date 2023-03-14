@@ -215,21 +215,18 @@ export const validateDateTimeSection = (
     startTime: string,
     endDate: string,
     endTime: string,
-    isEndDateRequired: string | undefined,
     errors: ErrorInfo[],
     errorId: string,
 ) => {
     validateDateTime(startDate, startTime, errors, errorId, "Start");
-    if (!isEndDateRequired) {
-        const isValid = validateDateTime(endDate, endTime, errors, errorId, "End");
-        const jsEndDateTime: dayjs.Dayjs = getDateTime(endDate, endTime);
-        const jsStartDateTime: dayjs.Dayjs = getDateTime(startDate, startTime);
+    const isValid = validateDateTime(endDate, endTime, errors, errorId, "End");
+    const jsEndDateTime: dayjs.Dayjs = getDateTime(endDate, endTime);
+    const jsStartDateTime: dayjs.Dayjs = getDateTime(startDate, startTime);
 
-        if (isValid && jsEndDateTime.isBefore(jsStartDateTime)) {
-            errors.push({
-                id: errorId,
-                errorMessage: "End Date and time cannot be before the  Start Date and time. Update End Date and time",
-            });
-        }
+    if (isValid && jsEndDateTime.isBefore(jsStartDateTime)) {
+        errors.push({
+            id: errorId,
+            errorMessage: "End Date and time cannot be before the  Start Date and time. Update End Date and time",
+        });
     }
 };
