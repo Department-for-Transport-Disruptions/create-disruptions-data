@@ -26,7 +26,7 @@ const createChangeLink = (key: string, href: string) => (
 );
 
 const isOperatorOrNetworkUrl = (type: string) =>
-    `/create-consequence-${type === "Operator wide" ? "operator" : "network"}`;
+    `/create-consequence-${type === ConsequenceType.operatorWide ? "operator" : "network"}`;
 
 const ReviewDisruption = ({
     previousDisruptionInformation,
