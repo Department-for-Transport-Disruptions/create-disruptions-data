@@ -416,7 +416,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
     }
 
     if (ctx.res) {
-        redirectTo(ctx.res, ADD_CONSEQUENCE_PAGE_PATH);
+        redirectTo(ctx.res, "/");
     }
 
     return;
