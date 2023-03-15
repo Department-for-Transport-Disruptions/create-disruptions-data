@@ -61,7 +61,7 @@ export interface PageState<T> {
 
 export interface Consequence {
     "mode-of-transport": string;
-    "consequence-type": "Network wide" | "Operator wide";
+    "consequence-type": "Network wide" | "Operator wide" | "Services" | "Stops";
     "services-affected"?: { id: string; name: string }[];
     "stops-affected"?: string[];
     "advice-to-display": string;
