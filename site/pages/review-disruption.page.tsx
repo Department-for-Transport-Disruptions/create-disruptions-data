@@ -192,7 +192,7 @@ const ReviewDisruption = ({
                                                     ],
                                                 },
                                                 {
-                                                    header: "Service",
+                                                    header: "Service(s)",
                                                     cells: [
                                                         consequence["services-affected"]
                                                             ? consequence["services-affected"]

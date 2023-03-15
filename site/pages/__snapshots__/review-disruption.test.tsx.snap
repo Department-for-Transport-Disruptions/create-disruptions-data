@@ -570,7 +570,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header"
                         scope="row"
                       >
-                        Service
+                        Service(s)
                       </th>
                       <td
                         className="govuk-table__cell"
@@ -805,7 +805,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header"
                         scope="row"
                       >
-                        Service
+                        Service(s)
                       </th>
                       <td
                         className="govuk-table__cell"
@@ -1040,7 +1040,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header"
                         scope="row"
                       >
-                        Service
+                        Service(s)
                       </th>
                       <td
                         className="govuk-table__cell"
