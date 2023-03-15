@@ -4,9 +4,12 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import kebabCase from "lodash/kebabCase";
 import React, { ReactElement, useEffect, useState } from "react";
+import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
+import { getDate } from "../../utils";
 import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
@@ -19,28 +22,27 @@ const inputBox = <T extends object>(
     inputRef: React.Ref<HTMLInputElement> | undefined,
     inputProps: InputBaseComponentProps | undefined,
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
-    inputId: Extract<keyof T, string>,
-    inputName: string,
-    errorMessage: string,
+    inputId: string,
+    inputName: Extract<keyof T, string>,
     errors: ErrorInfo[],
     disabled: boolean,
-    optional: boolean,
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
+    schema?: z.ZodTypeAny,
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
+            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
                     className="govuk-input govuk-date-input__input govuk-input--width-6"
-                    id={inputId}
                     name={inputName}
+                    id={`${inputId}-input`}
                     type="text"
                     ref={inputRef}
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={(e) => handleBlur(e.target.value, inputId, errorMessage, stateUpdater, setErrors, optional)}
+                    onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
                 />
             </FormElementWrapper>
         </div>
@@ -65,20 +67,19 @@ const renderWeekPickerDay = (
 
 const DateSelector = <T extends object>({
     value,
-    inputId,
     display,
     displaySize = "s",
     inputName,
-    errorMessage = "",
     initialErrors = [],
     disabled,
     hiddenHint,
-    optional = false,
     disablePast,
     stateUpdater,
+    schema,
 }: DateSelectorProps<T>): ReactElement => {
-    const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : new Date(value));
+    const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : getDate(value).toDate());
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const inputId = kebabCase(inputName);
 
     useEffect(() => {
         if (disabled) {
@@ -88,9 +89,9 @@ const DateSelector = <T extends object>({
     }, [disabled]);
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
-            <div className="govuk-form-group govuk-!-margin-bottom-0">
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={inputId}>
+        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
+            <div className="govuk-form-group govuk-!-margin-bottom-0" id={inputId}>
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
                 {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
@@ -108,12 +109,11 @@ const DateSelector = <T extends object>({
                                 InputProps,
                                 inputId,
                                 inputName,
-                                errorMessage,
                                 errors,
                                 disabled,
-                                optional,
                                 stateUpdater,
                                 setErrors,
+                                schema,
                             );
                         }}
                         disablePast={disablePast}

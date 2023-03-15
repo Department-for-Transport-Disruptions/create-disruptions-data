@@ -1,20 +1,31 @@
+import { NextPageContext } from "next";
 import Link from "next/link";
+import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import { z } from "zod";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
-import { DISRUPTION_SEVERITIES } from "../constants";
+import {
+    ADD_CONSEQUENCE_PAGE_PATH,
+    CONSEQUENCE_TYPES,
+    COOKIES_CONSEQUENCE_TYPE_INFO,
+    DISRUPTION_SEVERITIES,
+    VEHICLE_MODES,
+} from "../constants";
 import { ErrorInfo } from "../interfaces";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { redirectTo } from "../utils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceNetworkProps {
     inputs: ConsequenceNetworkPageState;
-    previousConsequenceInformation: { modeOfTransport: string; consequenceType: string };
+    previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema>;
 }
 
 export interface ConsequenceNetworkPageInputs {
@@ -69,7 +80,9 @@ const CreateConsequenceNetwork = ({
                                 {
                                     header: "Mode of transport",
                                     cells: [
-                                        previousConsequenceInformation.modeOfTransport,
+                                        VEHICLE_MODES.find(
+                                            (mode) => mode.value === previousConsequenceInformation.modeOfTransport,
+                                        )?.display,
                                         <Link
                                             key={"mode-of-transport"}
                                             className="govuk-link"
@@ -82,7 +95,9 @@ const CreateConsequenceNetwork = ({
                                 {
                                     header: "Consequence type",
                                     cells: [
-                                        previousConsequenceInformation.consequenceType,
+                                        CONSEQUENCE_TYPES.find(
+                                            (type) => type.value === previousConsequenceInformation.consequenceType,
+                                        )?.display,
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
@@ -96,12 +111,10 @@ const CreateConsequenceNetwork = ({
                         />
 
                         <TextInput<ConsequenceNetworkPageInputs>
-                            inputId="description"
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
                             inputName="description"
-                            errorMessage="Enter a description for this consequence"
                             widthClass="w-3/4"
                             textArea
                             rows={3}
@@ -113,7 +126,6 @@ const CreateConsequenceNetwork = ({
                         <Radios<ConsequenceNetworkPageInputs>
                             display="Would you like to remove this from journey planners?"
                             displaySize="l"
-                            inputId="remove-from-journey-planners"
                             radioDetail={[
                                 {
                                     value: "yes",
@@ -134,20 +146,16 @@ const CreateConsequenceNetwork = ({
                             displaySize="l"
                             hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
                             value={pageState.inputs["disruption-delay"]}
-                            errorMessage="Enter a time for the disruption delay"
                             disabled={false}
-                            inputId="disruption-delay"
                             inputName="disruption-delay"
                             stateUpdater={stateUpdater}
                         />
 
                         <Select<ConsequenceNetworkPageInputs>
-                            inputId="disruption-severity"
                             inputName="disruption-severity"
                             display="What is the severity of the disruption?"
                             displaySize="l"
                             defaultDisplay="Select a severity"
-                            errorMessage="Select a severity from the dropdown"
                             selectValues={DISRUPTION_SEVERITIES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["disruption-severity"]}
@@ -156,7 +164,6 @@ const CreateConsequenceNetwork = ({
                         <Radios<ConsequenceNetworkPageInputs>
                             display="What is the direction of the disruption?"
                             displaySize="l"
-                            inputId="disruption-direction"
                             radioDetail={[
                                 {
                                     value: "allDirections",
@@ -186,7 +193,7 @@ const CreateConsequenceNetwork = ({
     );
 };
 
-export const getServerSideProps = (): { props: object } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
     const inputs: ConsequenceNetworkPageState = {
         errors: [],
         inputs: {
@@ -198,11 +205,23 @@ export const getServerSideProps = (): { props: object } => {
         },
     };
 
-    const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Network wide" };
+    const typeCookie = parseCookies(ctx)[COOKIES_CONSEQUENCE_TYPE_INFO];
 
-    return {
-        props: { inputs, previousConsequenceInformation },
-    };
+    if (typeCookie) {
+        const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+
+        if (previousConsequenceInformation.success) {
+            return {
+                props: { inputs, previousConsequenceInformation: previousConsequenceInformation.data },
+            };
+        }
+    }
+
+    if (ctx.res) {
+        redirectTo(ctx.res, ADD_CONSEQUENCE_PAGE_PATH);
+    }
+
+    return;
 };
 
 export default CreateConsequenceNetwork;

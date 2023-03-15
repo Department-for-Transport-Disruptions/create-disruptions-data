@@ -2,8 +2,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
+import { z } from "zod";
 import TimeSelector from "./TimeSelector";
 import { TestInputs } from "../../interfaces";
+import { setZodDefaultError } from "../../utils";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
@@ -11,12 +13,9 @@ describe("TimeSelector", () => {
             .create(
                 <TimeSelector<TestInputs>
                     display="Start time"
-                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={""}
-                    errorMessage="Enter a start time for the disruption"
                     disabled={false}
-                    inputId="field1"
-                    inputName="disruptionStartTime"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                 />,
             )
@@ -29,12 +28,9 @@ describe("TimeSelector", () => {
             .create(
                 <TimeSelector<TestInputs>
                     display="Start time"
-                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={"0900"}
-                    errorMessage="Enter a start time for the disruption"
                     disabled={false}
-                    inputId="field1"
-                    inputName="disruptionStartTime"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                 />,
             )
@@ -47,13 +43,11 @@ describe("TimeSelector", () => {
             .create(
                 <TimeSelector<TestInputs>
                     display="Start time"
-                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                    hint="Test Hint"
                     value={"three thirty"}
                     initialErrors={[{ errorMessage: "There was an error", id: "disruption-reason" }]}
-                    errorMessage="There was an error"
                     disabled={false}
-                    inputId="field1"
-                    inputName="disruptionStartTime"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                 />,
             )
@@ -66,12 +60,9 @@ describe("TimeSelector", () => {
             .create(
                 <TimeSelector<TestInputs>
                     display="Start time"
-                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                     value={"three thirty"}
-                    errorMessage="There was an error"
                     disabled
-                    inputId="field1"
-                    inputName="disruptionStartTime"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                 />,
             )
@@ -83,20 +74,19 @@ describe("TimeSelector", () => {
         const { unmount } = render(
             <TimeSelector<TestInputs>
                 display="Start time"
-                hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                hint="Test Hint"
                 value={""}
-                errorMessage="Enter a start time for the disruption"
                 disabled={false}
-                inputId="field1"
-                inputName="disruptionStartTime"
+                inputName="field1"
                 stateUpdater={vi.fn()}
+                schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
             />,
         );
 
         await userEvent.click(screen.getByLabelText("Start time"));
         await userEvent.tab();
 
-        expect(screen.getByText("Enter a start time for the disruption")).toBeTruthy();
+        expect(screen.getByText("Error: Test Error")).toBeTruthy();
 
         unmount();
     });
@@ -105,20 +95,19 @@ describe("TimeSelector", () => {
         const { unmount } = render(
             <TimeSelector<TestInputs>
                 display="Start time"
-                hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                hint="Test Hint"
                 value={""}
-                errorMessage="Enter a start time for the disruption"
                 disabled
-                inputId="field1"
-                inputName="disruptionStartTime"
+                inputName="field1"
                 stateUpdater={vi.fn()}
+                schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
             />,
         );
 
         await userEvent.click(screen.getByLabelText("Start time"));
         await userEvent.tab();
 
-        expect(screen.queryByText("Enter a start time for the disruption")).toBeFalsy();
+        expect(screen.queryByText("Error: Test Error")).toBeFalsy();
 
         unmount();
     });

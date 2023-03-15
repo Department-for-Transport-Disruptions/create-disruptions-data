@@ -1,6 +1,8 @@
 import { NextApiResponse } from "next";
-import { destroyCookie, setCookie } from "nookies";
+import { setCookie } from "nookies";
+import { ZodError } from "zod";
 import { ServerResponse } from "http";
+import { ErrorInfo } from "../../interfaces";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -22,7 +24,7 @@ export const setCookieOnResponseObject = (
 };
 
 export const destroyCookieOnResponseObject = (cookieName: string, res: NextApiResponse): void => {
-    destroyCookie({ res }, cookieName);
+    setCookieOnResponseObject(cookieName, "", res, 0);
 };
 
 export const redirectTo = (res: NextApiResponse | ServerResponse, location: string): void => {
@@ -34,10 +36,23 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 
 export const redirectToError = (
     res: NextApiResponse | ServerResponse,
-    message: string,
-    context: string,
-    error: Error,
+    message?: string,
+    context?: string,
+    error?: Error,
 ): void => {
-    logger.error(message, { context, error: error.stack });
-    redirectTo(res, "/error");
+    if (message && context && error) {
+        logger.error(message, { context, error: error.stack });
+    }
+
+    redirectTo(res, "/500");
 };
+
+export const flattenZodErrors = (errors: ZodError) =>
+    Object.values(
+        errors.flatten<ErrorInfo>((val) => ({
+            errorMessage: val.message,
+            id: val.path[0].toString(),
+        })).fieldErrors,
+    )
+        .map((item) => item?.[0] ?? null)
+        .filter((item) => item);
