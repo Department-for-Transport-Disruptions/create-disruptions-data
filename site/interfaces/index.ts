@@ -1,3 +1,4 @@
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
@@ -60,8 +61,8 @@ export interface PageState<T> {
 }
 
 export interface Consequence {
-    "mode-of-transport": TransportMode;
-    "consequence-type": ConsequenceType;
+    "mode-of-transport": VehicleMode;
+    "consequence-type": "Network wide" | "Operator wide";
     "services-affected"?: { id: string; name: string }[];
     "stops-affected"?: string[];
     "advice-to-display": string;
