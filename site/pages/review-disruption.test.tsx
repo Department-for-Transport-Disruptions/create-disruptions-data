@@ -23,7 +23,7 @@ const previousConsequencesInformation: Consequence[] = [
     {
         "mode-of-transport": TransportMode.bus,
         "consequence-type": ConsequenceType.networkWide,
-        service: [{ id: "1", name: "Piccadilly to Manchester central" }],
+        "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
         "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
         "remove-from-journey-planners": "Yes",

@@ -154,8 +154,8 @@ const ReviewDisruption = ({
                                                 id={`accordion-default-heading-${i + 1}`}
                                             >
                                                 {`Consequence ${i + 1} - ${consequence["mode-of-transport"]} - ${
-                                                    consequence.service
-                                                        ? `Services - ${consequence["service"]
+                                                    consequence["services-affected"]
+                                                        ? `Services - ${consequence["services-affected"]
                                                               .map((service) => service.id)
                                                               .join(", ")}`
                                                         : consequence["consequence-type"] ===
@@ -194,8 +194,8 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Service",
                                                     cells: [
-                                                        consequence.service
-                                                            ? consequence.service
+                                                        consequence["services-affected"]
+                                                            ? consequence["services-affected"]
                                                                   .map((service) => `${service.id}: ${service.name}`)
                                                                   .join()
                                                             : "N/A",
@@ -361,7 +361,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         {
             "mode-of-transport": TransportMode.bus,
             "consequence-type": ConsequenceType.networkWide,
-            service: [{ id: "1", name: "Piccadilly to Manchester central" }],
+            "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
             "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
             "remove-from-journey-planners": "Yes",
