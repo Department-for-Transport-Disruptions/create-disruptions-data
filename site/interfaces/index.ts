@@ -58,3 +58,38 @@ export interface PageState<T> {
     errors: ErrorInfo[];
     inputs: T;
 }
+
+export interface Consequence {
+    "mode-of-transport": string;
+    "consequence-type": "Network wide" | "Operator wide" | "Services" | "Stops";
+    "services-affected"?: { id: string; name: string }[];
+    "stops-affected"?: string[];
+    "advice-to-display": string;
+    "remove-from-journey-planners": string;
+    "disruption-delay": string;
+    "consequence-operator"?: string;
+}
+
+export interface SocialMediaPost {
+    "message-to-appear": string;
+    "publish-date": string;
+    "publish-time": string;
+    "account-to-publish": string;
+}
+
+export interface Disruption {
+    "type-of-disruption": "Planned" | "Unplanned" | "";
+    summary: string;
+    description: string;
+    "associated-link": string;
+    "disruption-reason": string;
+    "disruption-start-date": string;
+    "disruption-end-date": string;
+    "disruption-start-time": string;
+    "disruption-end-time": string;
+    "disruption-repeats": "Yes" | "No";
+    "publish-start-date": string;
+    "publish-end-date": string;
+    "publish-start-time": string;
+    "publish-end-time": string;
+}
