@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { destroyCookie, setCookie } from "nookies";
+import { setCookie } from "nookies";
 import { ZodError } from "zod";
 import { ServerResponse } from "http";
 import { ErrorInfo } from "../../interfaces";
@@ -24,7 +24,7 @@ export const setCookieOnResponseObject = (
 };
 
 export const destroyCookieOnResponseObject = (cookieName: string, res: NextApiResponse): void => {
-    destroyCookie({ res }, cookieName);
+    setCookieOnResponseObject(cookieName, "", res, 0);
 };
 
 export const redirectTo = (res: NextApiResponse | ServerResponse, location: string): void => {
@@ -51,7 +51,7 @@ export const flattenZodErrors = (errors: ZodError) =>
     Object.values(
         errors.flatten<ErrorInfo>((val) => ({
             errorMessage: val.message,
-            id: val.path[0],
+            id: val.path[0].toString(),
         })).fieldErrors,
     )
         .map((item) => item?.[0] ?? null)

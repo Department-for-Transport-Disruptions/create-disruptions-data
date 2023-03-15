@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment*/
 /* eslint-disable @typescript-eslint/no-unsafe-argument*/
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./type-of-consequence.api";
 import {
@@ -10,20 +11,24 @@ import {
 } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
-import * as apiUtils from "../../utils/apiUtils";
+import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 describe("addConsequence", () => {
     const writeHeadMock = vi.fn();
-    const setCookieSpy = vi.spyOn(apiUtils, "setCookieOnResponseObject");
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setCookieSpy.mockImplementation(() => {});
+    vi.mock("../../utils/apiUtils", async () => ({
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        setCookieOnResponseObject: vi.fn(),
+        destroyCookieOnResponseObject: vi.fn(),
+    }));
+
     afterEach(() => {
         vi.resetAllMocks();
     });
 
     it("should redirect to operator consequence page when 'Operator wide' selected", () => {
         const disruptionData = {
-            modeOfTransport: "bus",
+            modeOfTransport: VehicleMode.rail,
             consequenceType: "operatorWide",
         };
 
@@ -31,15 +36,15 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_CONSEQUENCE_TYPE_INFO, expect.any(String), res);
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_TYPE_INFO, expect.any(String), res);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-operator" });
     });
 
     it("should redirect to operator consequence page when 'Network wide' selected", () => {
         const disruptionData = {
-            modeOfTransport: "bus",
+            modeOfTransport: VehicleMode.bus,
             consequenceType: "networkWide",
         };
 
@@ -47,8 +52,13 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(1, COOKIES_CONSEQUENCE_TYPE_INFO, expect.any(String), res);
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
+            1,
+            COOKIES_CONSEQUENCE_TYPE_INFO,
+            expect.any(String),
+            res,
+        );
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-network" });
     });
@@ -63,8 +73,8 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
             1,
             COOKIES_CONSEQUENCE_TYPE_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
@@ -89,8 +99,8 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
             1,
             COOKIES_CONSEQUENCE_TYPE_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),

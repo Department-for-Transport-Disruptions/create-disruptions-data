@@ -146,7 +146,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.disruptionEndDate}
                             disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
-                            disablePast
+                            disablePast={false}
                             inputName="disruptionEndDate"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
@@ -229,7 +229,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.publishEndDate}
                             disabled={pageState.inputs.publishNoEndDateTime === "true"}
-                            disablePast
+                            disablePast={false}
                             inputName="publishEndDate"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}

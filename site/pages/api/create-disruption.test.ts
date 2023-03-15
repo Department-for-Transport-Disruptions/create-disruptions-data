@@ -7,7 +7,7 @@ import createDisruption from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
-import * as apiUtils from "../../utils/apiUtils";
+import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { DisruptionPageInputs } from "../create-disruption.page";
 
 dayjs.extend(customParseFormat);
@@ -42,9 +42,13 @@ const defaultDisruptionData: DisruptionPageInputs = {
 
 describe("create-disruption API", () => {
     const writeHeadMock = vi.fn();
-    const setCookieSpy = vi.spyOn(apiUtils, "setCookieOnResponseObject");
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setCookieSpy.mockImplementation(() => {});
+    vi.mock("../../utils/apiUtils", async () => ({
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        setCookieOnResponseObject: vi.fn(),
+        destroyCookieOnResponseObject: vi.fn(),
+    }));
+
     afterEach(() => {
         vi.resetAllMocks();
     });
@@ -54,8 +58,8 @@ describe("create-disruption API", () => {
 
         createDisruption(req, res);
 
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/type-of-consequence" });
     });
@@ -75,9 +79,8 @@ describe("create-disruption API", () => {
             { errorMessage: "Enter a publish start date for the disruption", id: "publishStartDate" },
             { errorMessage: "Enter a publish start time for the disruption", id: "publishStartTime" },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -102,9 +105,8 @@ describe("create-disruption API", () => {
             { errorMessage: "Summary must not exceed 100 characters", id: "summary" },
             { errorMessage: "Description must not exceed 500 characters", id: "description" },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -123,9 +125,8 @@ describe("create-disruption API", () => {
         createDisruption(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Select a reason from the dropdown", id: "disruptionReason" }];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -144,9 +145,8 @@ describe("create-disruption API", () => {
         createDisruption(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Associated link must be a valid URL", id: "associatedLink" }];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -178,9 +178,8 @@ describe("create-disruption API", () => {
             { errorMessage: "Disruption end datetime must be after start datetime", id: "disruptionEndDate" },
             { errorMessage: "Publish end datetime must be after start datetime", id: "publishEndDate" },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -207,9 +206,8 @@ describe("create-disruption API", () => {
             { errorMessage: "Disruption end date must be set when end time is set", id: "disruptionEndDate" },
             { errorMessage: "Publish end time must be set when end date is set", id: "publishEndTime" },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -234,9 +232,8 @@ describe("create-disruption API", () => {
                 id: "disruptionNoEndDateTime",
             },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,
@@ -262,9 +259,8 @@ describe("create-disruption API", () => {
             { errorMessage: "Enter a start date for the disruption", id: "disruptionStartDate" },
             { errorMessage: "Enter a publish start time for the disruption", id: "publishStartTime" },
         ];
-        expect(setCookieSpy).toHaveBeenCalledTimes(2);
-        expect(setCookieSpy).toHaveBeenNthCalledWith(
-            1,
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
             JSON.stringify({ inputs: req.body, errors }),
             res,

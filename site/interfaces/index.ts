@@ -4,7 +4,7 @@ import { ServerResponse } from "http";
 
 export interface ErrorInfo {
     errorMessage: string;
-    id: string | number;
+    id: string;
     userInput?: string;
 }
 
