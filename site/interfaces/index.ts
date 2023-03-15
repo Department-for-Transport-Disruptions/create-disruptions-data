@@ -1,4 +1,3 @@
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
