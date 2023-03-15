@@ -52,7 +52,7 @@ const previousDisruptionInformation: Disruption = {
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     "associated-link": "https://www.flooding.com",
-    "disruption-reason": "Special Event",
+    "disruption-reason": "Special event",
     "disruption-start-date": "13/01/2022",
     "disruption-start-time": "13/01/2022",
     "disruption-end-date": "14/01/2022",

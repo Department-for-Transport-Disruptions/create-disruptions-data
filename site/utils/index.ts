@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { upperFirst, startCase, lowerCase } from "lodash";
 import { NextApiResponse, NextPageContext } from "next";
 import { ServerResponse } from "http";
 import { ErrorInfo, ResponseWithLocals } from "../interfaces";
@@ -25,11 +26,4 @@ export const convertDateTimeToFormat = (dateOrTime: string, format: string) => d
 
 export const formatTime = (time: string) => (time ? time.slice(0, -2) + ":" + time.slice(-2) : "");
 
-export const splitCamelCaseToString = (s: string) => {
-    return s
-        ?.split(/(?=[A-Z])/)
-        .map(function (p) {
-            return p.charAt(0).toUpperCase() + p.slice(1);
-        })
-        .join(" ");
-};
+export const splitCamelCaseToString = (s: string) => (s ? upperFirst(lowerCase(startCase(s))) : "");
