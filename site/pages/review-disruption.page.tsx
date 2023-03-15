@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { startCase, upperFirst } from "lodash";
+import { startCase } from "lodash";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -9,7 +9,8 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
-import { convertDateTimeToFormat, formatTime, splitCamelCaseToString } from "../utils";
+import { createDisruptionSchema } from "../schemas/create-disruption.schema";
+import { convertDateTimeToFormat, formatTime, redirectTo, splitCamelCaseToString } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -335,30 +336,12 @@ const ReviewDisruption = ({
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
-    const cookies = parseCookies(ctx);
-    const disruptionInfo: Disruption = cookies[COOKIES_DISRUPTION_INFO]
-        ? JSON.parse(cookies[COOKIES_DISRUPTION_INFO])
-        : "";
-
-    const previousSocialMediaPosts: SocialMediaPost[] = [
-        {
-            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-            "publish-time": formatTime(disruptionInfo["publish-start-time"]),
-            "account-to-publish": "Example account",
-        },
-        {
-            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-            "publish-time": formatTime(disruptionInfo["publish-start-time"]),
-            "account-to-publish": "Example account 2",
-        },
-    ];
+export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
+    const disruptionInfoCookie = parseCookies(ctx)[COOKIES_DISRUPTION_INFO];
 
     const previousConsequencesInformation: Consequence[] = [
         {
-            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
             "consequence-type": "Network wide",
             "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
             "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
@@ -367,14 +350,14 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
             "disruption-delay": "35 minutes",
         },
         {
-            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
             "consequence-type": "Network wide",
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
             "remove-from-journey-planners": "Yes",
             "disruption-delay": "35 minutes",
         },
         {
-            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
             "consequence-type": "Operator wide",
             "consequence-operator": "Stagecoach",
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
@@ -383,26 +366,60 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
         },
     ];
 
-    const previousDisruptionInformation: Disruption = {
-        "type-of-disruption": startCase(disruptionInfo["type-of-disruption"]) as Disruption["type-of-disruption"],
-        summary: disruptionInfo.summary,
-        description: disruptionInfo.description,
-        "associated-link": disruptionInfo["associated-link"] || "N/A",
-        "disruption-reason": splitCamelCaseToString(disruptionInfo["disruption-reason"]),
-        "disruption-start-date": convertDateTimeToFormat(disruptionInfo["disruption-start-date"], "DD/MM/YYYY"),
-        "disruption-start-time": formatTime(disruptionInfo["disruption-start-time"]),
-        "disruption-end-date": convertDateTimeToFormat(disruptionInfo["disruption-end-date"], "DD/MM/YYYY") || "N/A",
-        "disruption-end-time": formatTime(disruptionInfo["disruption-end-time"]) || "N/A",
-        "disruption-repeats": startCase(disruptionInfo["disruption-repeats"]) as Disruption["disruption-repeats"],
-        "publish-start-date": convertDateTimeToFormat(disruptionInfo["publish-start-date"], "DD/MM/YYYY"),
-        "publish-start-time": formatTime(disruptionInfo["publish-start-time"]),
-        "publish-end-date": convertDateTimeToFormat(disruptionInfo["publish-end-date"], "DD/MM/YYYY") || "N/A",
-        "publish-end-time": formatTime(disruptionInfo["publish-end-time"]) || "N/A",
-    };
+    const previousSocialMediaPosts: SocialMediaPost[] = [
+        {
+            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
+            "publish-date": "11/05/2020",
+            "publish-time": "11:00",
+            "account-to-publish": "Example account",
+        },
+        {
+            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
+            "publish-date": "11/05/2020",
+            "publish-time": "11:00",
+            "account-to-publish": "Example account 2",
+        },
+    ];
 
-    return {
-        props: { previousDisruptionInformation, previousConsequencesInformation, previousSocialMediaPosts },
-    };
+    if (disruptionInfoCookie) {
+        const disruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfoCookie));
+
+        if (disruptionInfo.success) {
+            const disruptionData = disruptionInfo.data;
+            const previousDisruptionInformation = {
+                "type-of-disruption": startCase(disruptionData.disruptionType),
+                summary: disruptionData.summary,
+                description: disruptionData.description,
+                "associated-link": disruptionData.associatedLink || "N/A",
+                "disruption-reason": splitCamelCaseToString(disruptionData.disruptionReason),
+                "disruption-start-date": convertDateTimeToFormat(disruptionData.disruptionStartDate, "DD/MM/YYYY"),
+                "disruption-start-time": formatTime(disruptionData.disruptionStartTime),
+                "disruption-end-date": disruptionData.disruptionEndDate
+                    ? convertDateTimeToFormat(disruptionData.disruptionEndDate, "DD/MM/YYYY")
+                    : "N/A",
+                "disruption-end-time": disruptionData.disruptionEndTime
+                    ? formatTime(disruptionData.disruptionEndTime)
+                    : "N/A",
+                "disruption-repeats": startCase(disruptionData.disruptionRepeats),
+                "publish-start-date": convertDateTimeToFormat(disruptionData.publishStartDate, "DD/MM/YYYY"),
+                "publish-start-time": formatTime(disruptionData.publishStartTime),
+                "publish-end-date": disruptionData.publishEndDate
+                    ? convertDateTimeToFormat(disruptionData.publishEndDate, "DD/MM/YYYY")
+                    : "N/A",
+                "publish-end-time": disruptionData.publishEndTime ? formatTime(disruptionData.publishEndTime) : "N/A",
+            };
+
+            return {
+                props: { previousDisruptionInformation, previousConsequencesInformation, previousSocialMediaPosts },
+            };
+        }
+    }
+
+    if (ctx.res) {
+        redirectTo(ctx.res, ADD_CONSEQUENCE_PAGE_PATH);
+    }
+
+    return;
 };
 
 export default ReviewDisruption;
