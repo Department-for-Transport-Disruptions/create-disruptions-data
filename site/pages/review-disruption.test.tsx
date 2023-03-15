@@ -1,8 +1,8 @@
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { upperFirst } from "lodash";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
-import { VehicleMode } from "../../shared-ts/enums";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces/index";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [

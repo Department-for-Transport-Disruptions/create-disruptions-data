@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { startCase, upperFirst } from "lodash";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
-import { VehicleMode } from "../../shared-ts/enums";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
