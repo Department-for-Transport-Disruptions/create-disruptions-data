@@ -44,7 +44,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceOperator"
+        action="/api/review-disruption"
         method="post"
       >
         <div

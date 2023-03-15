@@ -36,7 +36,7 @@ const ReviewDisruption = ({
 }: ReviewDisruptionProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createConsequenceOperator" method="post">
+            <form action="/api/review-disruption" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
