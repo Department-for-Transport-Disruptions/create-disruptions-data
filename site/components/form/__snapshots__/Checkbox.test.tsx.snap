@@ -6,6 +6,7 @@ exports[`Checkbox > should render correctly when default checked 1`] = `
 >
   <fieldset
     className="govuk-fieldset"
+    id="field-1"
     role="group"
   >
     <legend
@@ -30,15 +31,15 @@ exports[`Checkbox > should render correctly when default checked 1`] = `
           <input
             className="govuk-checkboxes__input"
             defaultChecked={true}
-            id="field1-radioValue"
-            name="testField"
+            id="field-1-radioValue"
+            name="field1"
             onChange={[Function]}
             type="checkbox"
             value="radioValue"
           />
           <label
             className="govuk-label govuk-checkboxes__label"
-            htmlFor="field1-radioValue"
+            htmlFor="field-1-radioValue"
           >
             Radio Label
           </label>
@@ -55,6 +56,7 @@ exports[`Checkbox > should render correctly when not default checked 1`] = `
 >
   <fieldset
     className="govuk-fieldset"
+    id="field-1"
     role="group"
   >
     <legend
@@ -79,15 +81,15 @@ exports[`Checkbox > should render correctly when not default checked 1`] = `
           <input
             className="govuk-checkboxes__input"
             defaultChecked={false}
-            id="field1-radioValue"
-            name="testField"
+            id="field-1-radioValue"
+            name="field1"
             onChange={[Function]}
             type="checkbox"
             value="radioValue"
           />
           <label
             className="govuk-label govuk-checkboxes__label"
-            htmlFor="field1-radioValue"
+            htmlFor="field-1-radioValue"
           >
             Radio Label
           </label>

@@ -2,20 +2,20 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
+import { z } from "zod";
 import Select from "./Select";
 import { DISRUPTION_REASONS } from "../../constants";
 import { TestInputs } from "../../interfaces";
+import { setZodDefaultError } from "../../utils";
 
 describe("Select", () => {
     it("should render correctly with no errors", () => {
         const tree = renderer
             .create(
                 <Select<TestInputs>
-                    inputId="field1"
-                    inputName="disruptionReason"
+                    inputName="field1"
                     display="Reason for disruption"
                     defaultDisplay="Select a reason"
-                    errorMessage="Select a reason from the dropdown"
                     selectValues={DISRUPTION_REASONS}
                     stateUpdater={vi.fn()}
                     value={""}
@@ -29,11 +29,9 @@ describe("Select", () => {
         const tree = renderer
             .create(
                 <Select<TestInputs>
-                    inputId="field1"
-                    inputName="disruptionReason"
+                    inputName="field1"
                     display="Reason for disruption"
                     defaultDisplay="Select a reason"
-                    errorMessage="Select a reason from the dropdown"
                     selectValues={DISRUPTION_REASONS}
                     stateUpdater={vi.fn()}
                     value={""}
@@ -47,21 +45,20 @@ describe("Select", () => {
     it("should validate minLength and display error", async () => {
         const { unmount } = render(
             <Select<TestInputs>
-                inputId="field1"
-                inputName="disruptionReason"
+                inputName="field1"
                 display="Reason for disruption"
                 defaultDisplay="Select a reason"
-                errorMessage="Select a reason from the dropdown"
                 selectValues={DISRUPTION_REASONS}
                 stateUpdater={vi.fn()}
                 value={""}
+                schema={z.literal("test", setZodDefaultError("Error: Select an option"))}
             />,
         );
 
         await userEvent.click(screen.getByText("Select a reason"));
         await userEvent.tab();
 
-        expect(screen.getByText("Select a reason")).toBeTruthy();
+        expect(screen.getByText("Error: Select an option")).toBeTruthy();
 
         unmount();
     });

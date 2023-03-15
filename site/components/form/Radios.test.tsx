@@ -9,7 +9,6 @@ describe("Radios", () => {
             .create(
                 <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="field1"
                     radioDetail={[
                         {
                             value: "planned",
@@ -20,7 +19,7 @@ describe("Radios", () => {
                             display: "Unplanned",
                         },
                     ]}
-                    inputName="typeOfDisruption"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                     value={""}
                 />,
@@ -34,7 +33,6 @@ describe("Radios", () => {
             .create(
                 <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="field1"
                     initialErrors={[{ errorMessage: "There was an error", id: "field1" }]}
                     radioDetail={[
                         {
@@ -46,7 +44,7 @@ describe("Radios", () => {
                             display: "Unplanned",
                         },
                     ]}
-                    inputName="typeOfDisruption"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                     value={""}
                 />,
@@ -60,7 +58,6 @@ describe("Radios", () => {
             .create(
                 <Radios<TestInputs>
                     display="Type of disruption"
-                    inputId="field1"
                     radioDetail={[
                         {
                             value: "planned",
@@ -71,7 +68,7 @@ describe("Radios", () => {
                             display: "Unplanned",
                         },
                     ]}
-                    inputName="typeOfDisruption"
+                    inputName="field1"
                     stateUpdater={vi.fn()}
                     value={""}
                     paddingTop={2}

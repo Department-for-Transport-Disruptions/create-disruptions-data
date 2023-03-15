@@ -6,6 +6,7 @@ exports[`Radios > should render correctly with a padding 1`] = `
 >
   <fieldset
     className="govuk-fieldset"
+    id="field-1"
   >
     <legend
       className="govuk-fieldset__legend govuk-!-padding-top-2"
@@ -21,7 +22,6 @@ exports[`Radios > should render correctly with a padding 1`] = `
     >
       <div
         className="govuk-radios"
-        id="radio-buttons"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -29,15 +29,15 @@ exports[`Radios > should render correctly with a padding 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-planned"
-            name="typeOfDisruption"
+            id="field-1-planned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="planned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-planned"
+            htmlFor="field-1-planned"
           >
             Planned
           </label>
@@ -48,15 +48,15 @@ exports[`Radios > should render correctly with a padding 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-unplanned"
-            name="typeOfDisruption"
+            id="field-1-unplanned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="unplanned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-unplanned"
+            htmlFor="field-1-unplanned"
           >
             Unplanned
           </label>
@@ -73,6 +73,7 @@ exports[`Radios > should render correctly with errors 1`] = `
 >
   <fieldset
     className="govuk-fieldset"
+    id="field-1"
   >
     <legend
       className="govuk-fieldset__legend"
@@ -100,7 +101,6 @@ exports[`Radios > should render correctly with errors 1`] = `
       <div
         aria-describedby="field1-error"
         className="govuk-radios govuk-radios--error"
-        id="radio-buttons"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -108,15 +108,15 @@ exports[`Radios > should render correctly with errors 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-planned"
-            name="typeOfDisruption"
+            id="field-1-planned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="planned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-planned"
+            htmlFor="field-1-planned"
           >
             Planned
           </label>
@@ -127,15 +127,15 @@ exports[`Radios > should render correctly with errors 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-unplanned"
-            name="typeOfDisruption"
+            id="field-1-unplanned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="unplanned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-unplanned"
+            htmlFor="field-1-unplanned"
           >
             Unplanned
           </label>
@@ -152,6 +152,7 @@ exports[`Radios > should render correctly with no errors 1`] = `
 >
   <fieldset
     className="govuk-fieldset"
+    id="field-1"
   >
     <legend
       className="govuk-fieldset__legend"
@@ -167,7 +168,6 @@ exports[`Radios > should render correctly with no errors 1`] = `
     >
       <div
         className="govuk-radios"
-        id="radio-buttons"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
@@ -175,15 +175,15 @@ exports[`Radios > should render correctly with no errors 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-planned"
-            name="typeOfDisruption"
+            id="field-1-planned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="planned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-planned"
+            htmlFor="field-1-planned"
           >
             Planned
           </label>
@@ -194,15 +194,15 @@ exports[`Radios > should render correctly with no errors 1`] = `
           <input
             className="govuk-radios__input"
             defaultChecked={false}
-            id="field1-unplanned"
-            name="typeOfDisruption"
+            id="field-1-unplanned"
+            name="field1"
             onChange={[Function]}
             type="radio"
             value="unplanned"
           />
           <label
             className="govuk-label govuk-radios__label"
-            htmlFor="field1-unplanned"
+            htmlFor="field-1-unplanned"
           >
             Unplanned
           </label>

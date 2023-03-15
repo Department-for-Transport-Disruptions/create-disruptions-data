@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
+import { z } from "zod";
 import { ServerResponse } from "http";
-import { ConsequenceType, TransportMode } from "../constants/enum";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -28,14 +28,12 @@ export interface CookiesApiRequest extends NextApiRequest {
 
 export interface FormBase<T> {
     value?: string;
-    inputId: Extract<keyof T, string>;
     display: string;
     displaySize?: "s" | "m" | "l" | "xl";
-    inputName: string;
-    errorMessage?: string;
+    inputName: Extract<keyof T, string>;
     initialErrors?: ErrorInfo[];
-    optional?: boolean;
     stateUpdater: (change: string, field: keyof T) => void;
+    schema?: z.ZodTypeAny;
 }
 
 export interface DisplayValuePair {
@@ -56,16 +54,7 @@ export interface TestInputs {
     field4: string;
 }
 
-export interface NextApiRequestWithConsequences extends NextApiRequest {
-    body: AddConsequenceProps;
-}
-
-export interface AddConsequenceWithErrors {
+export interface PageState<T> {
     errors: ErrorInfo[];
-    inputs: AddConsequenceProps;
-}
-
-export interface AddConsequenceProps {
-    modeOfTransport?: TransportMode;
-    consequenceType?: ConsequenceType;
+    inputs: T;
 }

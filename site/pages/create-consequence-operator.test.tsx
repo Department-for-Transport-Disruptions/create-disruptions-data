@@ -1,6 +1,9 @@
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import CreateConsequenceOperator, { ConsequenceOperatorPageState } from "./create-consequence-operator.page";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 
 const blankInputs: ConsequenceOperatorPageState = {
     errors: [],
@@ -26,7 +29,10 @@ const withInputs: ConsequenceOperatorPageState = {
     },
 };
 
-const previousConsequenceInformation = { modeOfTransport: "Bus", consequenceType: "Operator wide" };
+const previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema> = {
+    modeOfTransport: VehicleMode.ferryService,
+    consequenceType: "operatorWide",
+};
 
 describe("pages", () => {
     describe("CreateConsequenceOperator", () => {
