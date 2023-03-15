@@ -26,12 +26,12 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
 
-export const convertDateTimeToFormat = (dateOrTime: string, format: string) =>
-    dateOrTime && format ? dayjs(dateOrTime).format(format) : "";
+export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
 
-export const formatTime = (time: string) => (time ? time.slice(0, -2) + ":" + time.slice(-2) : "");
+export const formatTime = (time: string) =>
+    time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : new Error("Time must be 4 digits long");
 
-export const splitCamelCaseToString = (s: string) => (s ? upperFirst(lowerCase(startCase(s))) : "");
+export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 export const getDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
 export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm");
 
