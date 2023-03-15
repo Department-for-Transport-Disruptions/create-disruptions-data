@@ -1,7 +1,8 @@
+import { upperFirst } from "lodash";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
-import { ConsequenceType, TransportMode } from "../constants/enum";
+import { VehicleMode } from "../../shared-ts/enums";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces/index";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
@@ -21,8 +22,8 @@ const previousSocialMediaPosts: SocialMediaPost[] = [
 
 const previousConsequencesInformation: Consequence[] = [
     {
-        "mode-of-transport": TransportMode.bus,
-        "consequence-type": ConsequenceType.networkWide,
+        "mode-of-transport": upperFirst(VehicleMode.bus),
+        "consequence-type": "Network wide",
         "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
         "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
@@ -30,15 +31,15 @@ const previousConsequencesInformation: Consequence[] = [
         "disruption-delay": "35 minutes",
     },
     {
-        "mode-of-transport": TransportMode.bus,
-        "consequence-type": ConsequenceType.networkWide,
+        "mode-of-transport": upperFirst(VehicleMode.bus),
+        "consequence-type": "Network wide",
         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
         "remove-from-journey-planners": "Yes",
         "disruption-delay": "35 minutes",
     },
     {
-        "mode-of-transport": TransportMode.bus,
-        "consequence-type": ConsequenceType.operatorWide,
+        "mode-of-transport": upperFirst(VehicleMode.bus),
+        "consequence-type": "Operator wide",
         "consequence-operator": "Stagecoach",
         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
         "remove-from-journey-planners": "Yes",

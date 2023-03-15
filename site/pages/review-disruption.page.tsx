@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { startCase } from "lodash";
+import { startCase, upperFirst } from "lodash";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
+import { VehicleMode } from "../../shared-ts/enums";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
-import { ConsequenceType, TransportMode } from "../constants/enum";
 import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
 import { convertDateTimeToFormat, formatTime, splitCamelCaseToString } from "../utils";
 
@@ -27,7 +27,7 @@ const createChangeLink = (key: string, href: string) => (
 );
 
 const isOperatorOrNetworkUrl = (type: string) =>
-    `/create-consequence-${type === ConsequenceType.operatorWide ? "operator" : "network"}`;
+    `/create-consequence-${type === "Operator wide" ? "operator" : "network"}`;
 
 const ReviewDisruption = ({
     previousDisruptionInformation,
@@ -158,11 +158,10 @@ const ReviewDisruption = ({
                                                         ? `Services - ${consequence["services-affected"]
                                                               .map((service) => service.id)
                                                               .join(", ")}`
-                                                        : consequence["consequence-type"] ===
-                                                              ConsequenceType.operatorWide &&
+                                                        : consequence["consequence-type"] === "Operator wide" &&
                                                           consequence["consequence-operator"]
-                                                        ? `${ConsequenceType.operatorWide} - ${consequence["consequence-operator"]}`
-                                                        : `${ConsequenceType.networkWide}`
+                                                        ? `${"Operator wide"} - ${consequence["consequence-operator"]}`
+                                                        : `${"Network wide"}`
                                                 }`}
                                             </span>
                                         </h2>
@@ -359,8 +358,8 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
 
     const previousConsequencesInformation: Consequence[] = [
         {
-            "mode-of-transport": TransportMode.bus,
-            "consequence-type": ConsequenceType.networkWide,
+            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "consequence-type": "Network wide",
             "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
             "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
@@ -368,15 +367,15 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } => {
             "disruption-delay": "35 minutes",
         },
         {
-            "mode-of-transport": TransportMode.bus,
-            "consequence-type": ConsequenceType.networkWide,
+            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "consequence-type": "Network wide",
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
             "remove-from-journey-planners": "Yes",
             "disruption-delay": "35 minutes",
         },
         {
-            "mode-of-transport": TransportMode.bus,
-            "consequence-type": ConsequenceType.operatorWide,
+            "mode-of-transport": upperFirst(VehicleMode.bus),
+            "consequence-type": "Operator wide",
             "consequence-operator": "Stagecoach",
             "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
             "remove-from-journey-planners": "Yes",
