@@ -15,6 +15,10 @@ import {
 } from "../../utils/apiUtils";
 
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
+    res.send(req.body);
+
+    // {"disruptionType":"planned","summary":"UI Test - Edit 'other' product Validation","description":"blah blah blah","associatedLink":"","disruptionReason":"routeDiversion","disruptionStartDate":"24/03/2023","disruptionStartTime":"1200","disruptionNoEndDateTime":"true","publishStartDate":"23/03/2023","publishStartTime":"1300","publishNoEndDateTime":"true"}
+
     try {
         const validatedBody = createDisruptionsSchemaRefined.safeParse(req.body);
 

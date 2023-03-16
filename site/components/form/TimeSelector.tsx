@@ -7,6 +7,8 @@ import { handleBlur } from "../../utils/formUtils";
 interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
     hint?: string;
+    reset?: boolean;
+    showError?: boolean;
 }
 
 const TimeSelector = <T extends object>({
@@ -19,20 +21,39 @@ const TimeSelector = <T extends object>({
     hint,
     schema,
     stateUpdater,
+    reset = false,
+    showError = false,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
     const inputId = kebabCase(inputName);
 
     useEffect(() => {
-        if (disabled) {
+        if (disabled || reset) {
             setErrors([]);
 
             if (ref.current) {
                 ref.current.value = "";
             }
         }
-    }, [disabled]);
+    }, [disabled, reset]);
+
+    useEffect(() => {
+        if (showError && schema && !disabled) {
+            const parsed = schema.safeParse(value);
+
+            if (parsed.success === false) {
+                setErrors([
+                    {
+                        id: inputName,
+                        errorMessage: parsed.error.errors[0].message,
+                    },
+                ]);
+            } else {
+                setErrors([]);
+            }
+        }
+    }, [showError, inputId, inputName, schema, value, disabled]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>

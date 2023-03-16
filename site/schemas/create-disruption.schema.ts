@@ -32,33 +32,37 @@ export const createDisruptionSchema = z.object({
         [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
         setZodDefaultError("Select a reason from the dropdown"),
     ),
-    disruptionStartDate: zodDate("Enter a start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a start time for the disruption"),
-    disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    disruptionRepeats: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
     publishStartDate: zodDate("Enter a publish start date for the disruption"),
     publishStartTime: zodTime("Enter a publish start time for the disruption"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     publishNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    validity: z
+        .object({
+            id: z.string(),
+            disruptionStartDate: zodDate("Enter a start date for the disruption"),
+            disruptionStartTime: zodTime("Enter a start time for the disruption"),
+            disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
+            disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
+            disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+        })
+        .array(),
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema
-    .refine(
-        (val) => {
-            if (val.disruptionNoEndDateTime) {
-                return !val.disruptionEndDate && !val.disruptionEndTime;
-            }
+    // .refine(
+    //     (val) => {
+    //         if (val.disruptionNoEndDateTime) {
+    //             return !val.disruptionEndDate && !val.disruptionEndTime;
+    //         }
 
-            return true;
-        },
-        {
-            path: ["disruptionNoEndDateTime"],
-            message: '"No end date/time" should not be selected when a disruption date and time have been entered',
-        },
-    )
+    //         return true;
+    //     },
+    //     {
+    //         path: ["disruptionNoEndDateTime"],
+    //         message: '"No end date/time" should not be selected when a disruption date and time have been entered',
+    //     },
+    // )
     .refine(
         (val) => {
             if (val.publishNoEndDateTime) {
@@ -72,14 +76,14 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: '"No end date/time" should not be selected when a publish date and time have been entered',
         },
     )
-    .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
-        path: ["disruptionEndTime"],
-        message: "Disruption end time must be set when end date is set",
-    })
-    .refine((val) => (val.disruptionEndTime ? !!val.disruptionEndDate : true), {
-        path: ["disruptionEndDate"],
-        message: "Disruption end date must be set when end time is set",
-    })
+    // .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
+    //     path: ["disruptionEndTime"],
+    //     message: "Disruption end time must be set when end date is set",
+    // })
+    // .refine((val) => (val.disruptionEndTime ? !!val.disruptionEndDate : true), {
+    //     path: ["disruptionEndDate"],
+    //     message: "Disruption end date must be set when end time is set",
+    // })
     .refine((val) => (val.publishEndDate ? !!val.publishEndTime : true), {
         path: ["publishEndTime"],
         message: "Publish end time must be set when end date is set",
@@ -88,21 +92,21 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         path: ["publishEndDate"],
         message: "Publish end date must be set when end time is set",
     })
-    .refine(
-        (val) => {
-            if (val.disruptionEndDate && val.disruptionEndTime) {
-                return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
-                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
-                );
-            }
+    // .refine(
+    //     (val) => {
+    //         if (val.disruptionEndDate && val.disruptionEndTime) {
+    //             return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
+    //                 getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
+    //             );
+    //         }
 
-            return true;
-        },
-        {
-            path: ["disruptionEndDate"],
-            message: "Disruption end datetime must be after start datetime",
-        },
-    )
+    //         return true;
+    //     },
+    //     {
+    //         path: ["disruptionEndDate"],
+    //         message: "Disruption end datetime must be after start datetime",
+    //     },
+    // )
     .refine(
         (val) => {
             if (val.publishEndDate && val.publishEndTime) {

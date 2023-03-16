@@ -30,9 +30,9 @@ export interface FormBase<T> {
     value?: string;
     display: string;
     displaySize?: "s" | "m" | "l" | "xl";
-    inputName: Extract<keyof T, string>;
+    inputName: string;
     initialErrors?: ErrorInfo[];
-    stateUpdater: (change: string, field: keyof T) => void;
+    stateUpdater: (change: string, field: string) => void;
     schema?: z.ZodTypeAny;
 }
 
