@@ -22,7 +22,7 @@ import {
 import { ErrorInfo, PageState } from "../interfaces";
 import { createConsequenceOperatorSchema } from "../schemas/create-consequence-operator.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue } from "../utils";
+import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -233,15 +233,11 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
         }
     }
 
-    if (dataCookie) {
-        const parsedData = createConsequenceOperatorSchema.safeParse(JSON.parse(dataCookie));
-
-        if (parsedData.success) {
-            inputs.inputs = parsedData.data;
-        }
-    } else if (errorCookie) {
-        inputs = JSON.parse(errorCookie) as PageState<Partial<ConsequenceOperatorPageInputs>>;
-    }
+    inputs = getPageStateFromCookies<ConsequenceOperatorPageInputs>(
+        dataCookie,
+        errorCookie,
+        createConsequenceOperatorSchema,
+    );
 
     return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
 };

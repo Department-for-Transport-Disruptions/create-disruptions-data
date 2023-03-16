@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
-import { COOKIES_CONSEQUENCE_OPERATOR_ERRORS, COOKIES_CONSEQUENCE_OPERATOR_INFO, Severity } from "../../constants";
+import {
+    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+    COOKIES_CONSEQUENCE_OPERATOR_INFO,
+    CREATE_CONSEQUENCE_OPERATOR_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    Severity,
+} from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -41,7 +47,7 @@ describe("create-consequence-operator API", () => {
             res,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/review-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
     it("should redirect back to /create-consequence-operator when no form inputs are passed to the API", () => {
@@ -61,7 +67,7 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-operator" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
     });
 
     it("should redirect back to /create-consequence-operator when description is too long", () => {
@@ -82,10 +88,10 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-operator" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
     });
 
-    it("should redirect back to /create-consequence-operator when invalid time", () => {
+    it("should redirect back to /create-consequence-operator when invalid time is passed", () => {
         const operatorData: ConsequenceOperatorPageInputs = {
             ...defaultOperatorData,
             disruptionDelay: "7280",
@@ -104,6 +110,6 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-operator" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
     });
 });

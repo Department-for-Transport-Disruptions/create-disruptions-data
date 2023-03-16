@@ -1,7 +1,3 @@
-export interface ConsequenceOperatorPageInputs {
-    "disruption-direction": string;
-}
-
 import { z } from "zod";
 import { Severity } from "../constants";
 import { setZodDefaultError, zodTimeInHoursAndMinutes } from "../utils";

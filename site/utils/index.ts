@@ -4,7 +4,7 @@ import { upperFirst, startCase, lowerCase } from "lodash";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { DisplayValuePair, ErrorInfo, ResponseWithLocals } from "../interfaces";
+import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
 
 dayjs.extend(customParseFormat);
 
@@ -49,7 +49,7 @@ export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorM
 
 const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 const timeRegex = /^([0-1][0-9]|2[0-3])[0-5][0-9]$/;
-const hoursAndMinutesRegex = /^[0-9][0-9][0-5][0-9]$/;
+const hoursAndMinutesRegex = /^([0-9]{0,4})[0-5][0-9]$/;
 
 export const zodDate = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(dateRegex);
@@ -59,3 +59,22 @@ export const zodTime = (defaultError?: string) =>
 
 export const zodTimeInHoursAndMinutes = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(hoursAndMinutesRegex);
+
+export const getPageStateFromCookies = <T>(dataCookie: string, errorCookie: string, schemaObject: z.ZodType<T>) => {
+    let inputsProps: PageState<Partial<T>> = {
+        errors: [],
+        inputs: {},
+    };
+
+    if (dataCookie) {
+        const parsedData = schemaObject.safeParse(JSON.parse(dataCookie));
+
+        if (parsedData.success) {
+            inputsProps.inputs = parsedData.data;
+        }
+    } else if (errorCookie) {
+        inputsProps = JSON.parse(errorCookie) as PageState<Partial<T>>;
+    }
+
+    return inputsProps;
+};
