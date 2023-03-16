@@ -143,7 +143,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
-        await fetch("/api/create-disruption", {
+        const response = await fetch("/api/create-disruption", {
             method: "POST",
             mode: "same-origin",
             cache: "no-cache",
@@ -170,7 +170,12 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                 }),
             }),
         });
-        window.location.reload();
+        if (response.status !== 200) {
+            window.location.reload();
+        }
+        else{
+            window.location.replace('/type-of-consequence')
+        }
     };
 
     return (
