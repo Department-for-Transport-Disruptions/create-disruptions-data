@@ -1,9 +1,8 @@
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import { z } from "zod";
 import CreateConsequenceNetwork, { ConsequenceNetworkPageState } from "./create-consequence-network.page";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 const blankInputs: ConsequenceNetworkPageState = {
     errors: [],
@@ -27,7 +26,7 @@ const withInputs: ConsequenceNetworkPageState = {
     },
 };
 
-const previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema> = {
+const previousConsequenceInformation: ConsequenceType = {
     modeOfTransport: VehicleMode.bus,
     consequenceType: "networkWide",
 };

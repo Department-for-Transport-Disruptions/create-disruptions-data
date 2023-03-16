@@ -3,6 +3,7 @@ import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     COOKIES_CONSEQUENCE_OPERATOR_INFO,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { createConsequenceOperatorSchemaRefined } from "../../schemas/create-consequence-operator.schema";
 import {
@@ -16,6 +17,8 @@ import {
 const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
         const validatedBody = createConsequenceOperatorSchemaRefined.safeParse(req.body);
+
+        console.log("errors---", flattenZodErrors(validatedBody.error));
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
@@ -34,7 +37,7 @@ const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): v
         setCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_INFO, JSON.stringify(validatedBody.data), res);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
-        redirectTo(res, ADD_CONSEQUENCE_PAGE_PATH);
+        redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
@@ -47,3 +50,5 @@ const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): v
         return;
     }
 };
+
+export default createConsequenceOperator;

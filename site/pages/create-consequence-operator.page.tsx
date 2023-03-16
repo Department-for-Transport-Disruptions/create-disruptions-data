@@ -20,7 +20,7 @@ import {
 import { ErrorInfo, PageState } from "../interfaces";
 import { createConsequenceOperatorSchemaRefined } from "../schemas/create-consequence-operator.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { redirectTo } from "../utils";
+import { getDisplayByValue, redirectTo } from "../utils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -64,7 +64,7 @@ const CreateConsequenceOperator = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createConsequenceOperator" method="post">
+            <form action="/api/create-consequence-operator" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
@@ -73,9 +73,10 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Mode of transport",
                                     cells: [
-                                        VEHICLE_MODES.find(
-                                            (mode) => mode.value === previousConsequenceInformation.modeOfTransport,
-                                        )?.display,
+                                        getDisplayByValue(
+                                            VEHICLE_MODES,
+                                            previousConsequenceInformation.modeOfTransport,
+                                        ),
                                         <Link
                                             key={"mode-of-transport"}
                                             className="govuk-link"
@@ -88,9 +89,10 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Consequence type",
                                     cells: [
-                                        CONSEQUENCE_TYPES.find(
-                                            (type) => type.value === previousConsequenceInformation.consequenceType,
-                                        )?.display,
+                                        getDisplayByValue(
+                                            CONSEQUENCE_TYPES,
+                                            previousConsequenceInformation.consequenceType,
+                                        ),
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
-import { ErrorInfo } from "../interfaces";
+import { ErrorInfo, PageState } from "../interfaces";
 
 export const handleBlur = <T>(
     input: string,
@@ -27,3 +27,15 @@ export const handleBlur = <T>(
         }
     }
 };
+
+export const getStateUpdater =
+    <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
+    (change: string, field: keyof T) => {
+        setter({
+            ...state,
+            inputs: {
+                ...state.inputs,
+                [field]: change,
+            },
+        });
+    };

@@ -72,6 +72,7 @@ export default class RootDocument extends Document<DocumentProps> {
                     <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />
                     <Main />
                     <NextScript nonce={nonce} />
+                    <script async nonce={nonce} src="/scripts/all.js" />
                 </body>
             </Html>
         );

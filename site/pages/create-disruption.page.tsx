@@ -1,7 +1,6 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Checkbox from "../components/form/Checkbox";
 import DateSelector from "../components/form/DateSelector";
@@ -11,38 +10,19 @@ import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { ErrorInfo, PageState } from "../interfaces";
-import { createDisruptionSchema } from "../schemas/create-disruption.schema";
+import { PageState } from "../interfaces";
+import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
+import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
-export interface DisruptionPageInputs extends Partial<z.infer<typeof createDisruptionSchema>> {}
+export interface DisruptionPageInputs extends Partial<Disruption> {}
 
 const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
     const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
 
-    const updateDisruptionPageStateForInput = (
-        inputName: keyof DisruptionPageInputs,
-        input: string,
-        error?: ErrorInfo,
-    ): void => {
-        setDisruptionPageState({
-            inputs: {
-                ...pageState.inputs,
-                [inputName]: input,
-            },
-            errors: [
-                ...(error
-                    ? [...pageState.errors, error]
-                    : [...pageState.errors.filter((error) => error.id !== inputName)]),
-            ],
-        });
-    };
-
-    const stateUpdater = (change: string, field: keyof DisruptionPageInputs) => {
-        updateDisruptionPageStateForInput(field, change);
-    };
+    const stateUpdater = getStateUpdater(setDisruptionPageState, pageState);
 
     return (
         <BaseLayout title={title} description={description} errors={initialState.errors}>
