@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Severity } from "../constants";
 import { setZodDefaultError, zodTimeInHoursAndMinutes } from "../utils";
 
-export const createConsequenceOperatorSchemaRefined = z.object({
+export const createConsequenceOperatorSchema = z.object({
     consequenceOperator: z.union(
         [z.literal("FMAN"), z.literal("SCMN"), z.literal("FSYO"), z.literal("SYRK")],
         setZodDefaultError("Select at least one operator"),

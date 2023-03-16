@@ -5,7 +5,7 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { createConsequenceOperatorSchemaRefined } from "../../schemas/create-consequence-operator.schema";
+import { createConsequenceOperatorSchema } from "../../schemas/create-consequence-operator.schema";
 import {
     destroyCookieOnResponseObject,
     redirectTo,
@@ -16,7 +16,7 @@ import {
 
 const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const validatedBody = createConsequenceOperatorSchemaRefined.safeParse(req.body);
+        const validatedBody = createConsequenceOperatorSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
