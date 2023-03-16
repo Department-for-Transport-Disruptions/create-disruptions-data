@@ -18,8 +18,6 @@ const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): v
     try {
         const validatedBody = createConsequenceOperatorSchemaRefined.safeParse(req.body);
 
-        console.log("errors---", flattenZodErrors(validatedBody.error));
-
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,

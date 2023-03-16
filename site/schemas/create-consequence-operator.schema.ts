@@ -18,7 +18,7 @@ export const createConsequenceOperatorSchemaRefined = z.object({
         [z.literal("yes"), z.literal("no")],
         setZodDefaultError("Enter planned or unplanned"),
     ),
-    disruptionDelay: zodTimeInHoursAndMinutes("Enter a time for disruption delay").optional().or(z.literal("")),
+    disruptionDelay: zodTimeInHoursAndMinutes("Enter a valid time for disruption delay").optional().or(z.literal("")),
     disruptionSeverity: z.union(
         [
             z.literal(Severity.unknown),
