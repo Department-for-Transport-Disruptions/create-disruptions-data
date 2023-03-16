@@ -49,6 +49,8 @@ const TimeSelector = <T extends object>({
                     )} for the disruption`,
                 },
             ]);
+        } else {
+            setErrors([]);
         }
     }, [showError, inputName]);
 

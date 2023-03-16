@@ -104,6 +104,8 @@ const DateSelector = <T extends object>({
                     )} for the disruption`,
                 },
             ]);
+        } else {
+            setErrors([]);
         }
     }, [showError, inputName]);
 
