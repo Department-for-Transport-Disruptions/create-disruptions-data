@@ -2,7 +2,6 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { z } from "zod";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
@@ -18,15 +17,15 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { ErrorInfo } from "../interfaces";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { redirectTo } from "../utils";
+import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { getDisplayByValue, redirectTo } from "../utils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceOperatorProps {
     inputs: ConsequenceOperatorPageState;
-    previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema>;
+    previousConsequenceInformation: ConsequenceType;
 }
 
 export interface ConsequenceOperatorPageInputs {
@@ -82,9 +81,10 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Mode of transport",
                                     cells: [
-                                        VEHICLE_MODES.find(
-                                            (mode) => mode.value === previousConsequenceInformation.modeOfTransport,
-                                        )?.display,
+                                        getDisplayByValue(
+                                            VEHICLE_MODES,
+                                            previousConsequenceInformation.modeOfTransport,
+                                        ),
                                         <Link
                                             key={"mode-of-transport"}
                                             className="govuk-link"
@@ -97,9 +97,10 @@ const CreateConsequenceOperator = ({
                                 {
                                     header: "Consequence type",
                                     cells: [
-                                        CONSEQUENCE_TYPES.find(
-                                            (type) => type.value === previousConsequenceInformation.consequenceType,
-                                        )?.display,
+                                        getDisplayByValue(
+                                            CONSEQUENCE_TYPES,
+                                            previousConsequenceInformation.consequenceType,
+                                        ),
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"

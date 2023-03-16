@@ -5,7 +5,7 @@ describe("utils tests", () => {
     it.each([
         ["1100", "11:00"],
         ["0900", "09:00"],
-        ["", new Error("Time must be 4 digits long")],
+        ["", ""],
     ])("should format add a : between provided numbers", (unformattedTime, formattedTime) => {
         expect(formatTime(unformattedTime)).toEqual(formattedTime);
     });

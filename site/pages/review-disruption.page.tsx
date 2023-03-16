@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { startCase } from "lodash";
+import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useRef } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
-import { Consequence, Disruption, SocialMediaPost } from "../interfaces";
-import { createDisruptionSchema } from "../schemas/create-disruption.schema";
-import { convertDateTimeToFormat, formatTime, redirectTo, splitCamelCaseToString } from "../utils";
+import { Consequence, SocialMediaPost } from "../interfaces";
+import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
+import { formatTime, redirectTo, splitCamelCaseToString } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -35,6 +34,16 @@ const ReviewDisruption = ({
     previousConsequencesInformation,
     previousSocialMediaPosts,
 }: ReviewDisruptionProps): ReactElement => {
+    const hasInitialised = useRef(false);
+
+    useEffect(() => {
+        if (window.GOVUKFrontend && !hasInitialised.current) {
+            window.GOVUKFrontend.initAll();
+        }
+
+        hasInitialised.current = true;
+    });
+
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/review-disruption" method="post">
@@ -46,7 +55,7 @@ const ReviewDisruption = ({
                                 {
                                     header: "Type of disruption",
                                     cells: [
-                                        previousDisruptionInformation["type-of-disruption"],
+                                        startCase(previousDisruptionInformation.disruptionType),
                                         createChangeLink("type-of-disruption", "/create-disruption"),
                                     ],
                                 },
@@ -67,77 +76,82 @@ const ReviewDisruption = ({
                                 {
                                     header: "Associated link",
                                     cells: [
-                                        previousDisruptionInformation["associated-link"],
+                                        previousDisruptionInformation.associatedLink || "N/A",
                                         createChangeLink("associated-link", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
-                                        previousDisruptionInformation["disruption-reason"],
+                                        splitCamelCaseToString(previousDisruptionInformation.disruptionReason),
                                         createChangeLink("disruption-reason", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Start date",
                                     cells: [
-                                        previousDisruptionInformation["disruption-start-date"],
+                                        previousDisruptionInformation.disruptionStartDate,
                                         createChangeLink("disruption-start-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Start time",
                                     cells: [
-                                        previousDisruptionInformation["disruption-start-time"],
+                                        formatTime(previousDisruptionInformation.disruptionStartTime),
                                         createChangeLink("disruption-start-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "End date",
                                     cells: [
-                                        previousDisruptionInformation["disruption-end-date"],
+                                        previousDisruptionInformation.disruptionEndDate || "N/A",
                                         createChangeLink("disruption-end-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "End time",
                                     cells: [
-                                        previousDisruptionInformation["disruption-end-time"],
+                                        previousDisruptionInformation.disruptionEndTime
+                                            ? formatTime(previousDisruptionInformation.disruptionEndTime)
+                                            : "N/A",
                                         createChangeLink("disruption-end-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Repeating service",
                                     cells: [
-                                        previousDisruptionInformation["disruption-repeats"],
+                                        startCase(previousDisruptionInformation.disruptionRepeats),
                                         createChangeLink("disruption-repeats", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish start date",
                                     cells: [
-                                        previousDisruptionInformation["publish-start-date"],
+                                        previousDisruptionInformation.publishStartDate,
                                         createChangeLink("publish-start-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
-                                        previousDisruptionInformation["publish-start-time"],
+                                        formatTime(previousDisruptionInformation.publishStartTime),
                                         createChangeLink("publish-start-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
-                                        previousDisruptionInformation["publish-end-date"],
+                                        previousDisruptionInformation.publishEndDate || "N/A",
                                         createChangeLink("publish-end-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end time",
                                     cells: [
-                                        previousDisruptionInformation["publish-end-time"],
+                                        previousDisruptionInformation.publishEndTime
+                                            ? formatTime(previousDisruptionInformation.publishEndTime)
+                                            : "N/A",
+                                        ,
                                         createChangeLink("publish-end-time", "/create-disruption"),
                                     ],
                                 },
@@ -336,7 +350,7 @@ const ReviewDisruption = ({
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
+export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisruptionProps } | void => {
     const disruptionInfoCookie = parseCookies(ctx)[COOKIES_DISRUPTION_INFO];
 
     const previousConsequencesInformation: Consequence[] = [
@@ -386,31 +400,13 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
 
         if (disruptionInfo.success) {
             const disruptionData = disruptionInfo.data;
-            const previousDisruptionInformation = {
-                "type-of-disruption": startCase(disruptionData.disruptionType),
-                summary: disruptionData.summary,
-                description: disruptionData.description,
-                "associated-link": disruptionData.associatedLink || "N/A",
-                "disruption-reason": splitCamelCaseToString(disruptionData.disruptionReason),
-                "disruption-start-date": convertDateTimeToFormat(disruptionData.disruptionStartDate, "DD/MM/YYYY"),
-                "disruption-start-time": formatTime(disruptionData.disruptionStartTime),
-                "disruption-end-date": disruptionData.disruptionEndDate
-                    ? convertDateTimeToFormat(disruptionData.disruptionEndDate, "DD/MM/YYYY")
-                    : "N/A",
-                "disruption-end-time": disruptionData.disruptionEndTime
-                    ? formatTime(disruptionData.disruptionEndTime)
-                    : "N/A",
-                "disruption-repeats": startCase(disruptionData.disruptionRepeats),
-                "publish-start-date": convertDateTimeToFormat(disruptionData.publishStartDate, "DD/MM/YYYY"),
-                "publish-start-time": formatTime(disruptionData.publishStartTime),
-                "publish-end-date": disruptionData.publishEndDate
-                    ? convertDateTimeToFormat(disruptionData.publishEndDate, "DD/MM/YYYY")
-                    : "N/A",
-                "publish-end-time": disruptionData.publishEndTime ? formatTime(disruptionData.publishEndTime) : "N/A",
-            };
 
             return {
-                props: { previousDisruptionInformation, previousConsequencesInformation, previousSocialMediaPosts },
+                props: {
+                    previousDisruptionInformation: disruptionData,
+                    previousConsequencesInformation,
+                    previousSocialMediaPosts,
+                },
             };
         }
     }

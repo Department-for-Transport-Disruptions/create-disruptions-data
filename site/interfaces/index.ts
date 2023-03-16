@@ -76,20 +76,3 @@ export interface SocialMediaPost {
     "publish-time": string;
     "account-to-publish": string;
 }
-
-export interface Disruption {
-    "type-of-disruption": "Planned" | "Unplanned" | "";
-    summary: string;
-    description: string;
-    "associated-link": string;
-    "disruption-reason": string;
-    "disruption-start-date": string;
-    "disruption-end-date": string;
-    "disruption-start-time": string;
-    "disruption-end-time": string;
-    "disruption-repeats": "Yes" | "No";
-    "publish-start-date": string;
-    "publish-end-date": string;
-    "publish-start-time": string;
-    "publish-end-time": string;
-}

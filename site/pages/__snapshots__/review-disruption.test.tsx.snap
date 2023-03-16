@@ -192,7 +192,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 <td
                   className="govuk-table__cell"
                 >
-                  Special event
+                  Flooding
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -248,7 +248,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 <td
                   className="govuk-table__cell"
                 >
-                  13/01/2022
+                  12:00
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -388,7 +388,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 <td
                   className="govuk-table__cell"
                 >
-                  1300
+                  13:00
                 </td>
                 <td
                   className="govuk-table__cell"
