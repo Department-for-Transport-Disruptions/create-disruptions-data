@@ -9,3 +9,5 @@ export const typeOfConsequenceSchema = z.object({
     ),
     modeOfTransport: z.nativeEnum(VehicleMode, setZodDefaultError("Select a mode of transport")),
 });
+
+export type ConsequenceType = z.infer<typeof typeOfConsequenceSchema>;

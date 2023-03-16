@@ -1,9 +1,10 @@
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { EnvironmentReason, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { upperFirst } from "lodash";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
-import { Consequence, Disruption, SocialMediaPost } from "../interfaces/index";
+import { Consequence, SocialMediaPost } from "../interfaces/index";
+import { Disruption } from "../schemas/create-disruption.schema";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
@@ -48,21 +49,21 @@ const previousConsequencesInformation: Consequence[] = [
 ];
 
 const previousDisruptionInformation: Disruption = {
-    "type-of-disruption": "Planned",
+    disruptionType: "planned",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
-    "associated-link": "https://www.flooding.com",
-    "disruption-reason": "Special event",
-    "disruption-start-date": "13/01/2022",
-    "disruption-start-time": "13/01/2022",
-    "disruption-end-date": "14/01/2022",
-    "disruption-end-time": "14:00",
-    "disruption-repeats": "No",
-    "publish-start-date": "13/01/2022",
-    "publish-start-time": "1300",
-    "publish-end-date": "13/01/2022",
-    "publish-end-time": "14:00",
+    associatedLink: "https://www.flooding.com",
+    disruptionReason: EnvironmentReason.flooding,
+    disruptionStartDate: "13/01/2022",
+    disruptionStartTime: "1200",
+    disruptionEndDate: "14/01/2022",
+    disruptionEndTime: "1400",
+    disruptionRepeats: "no",
+    publishStartDate: "13/01/2022",
+    publishStartTime: "1300",
+    publishEndDate: "13/01/2022",
+    publishEndTime: "1400",
 };
 
 describe("pages", () => {

@@ -4,7 +4,7 @@ import { upperFirst, startCase, lowerCase } from "lodash";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { ErrorInfo, ResponseWithLocals } from "../interfaces";
+import { DisplayValuePair, ErrorInfo, ResponseWithLocals } from "../interfaces";
 
 dayjs.extend(customParseFormat);
 
@@ -28,13 +28,16 @@ export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
 
 export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
 
-export const formatTime = (time: string) =>
-    time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : new Error("Time must be 4 digits long");
+export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 export const getDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
 export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm");
 
+export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
+    items.find((item) => item.value === value)?.display;
+
+// Zod
 export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorMap } = (errorMessage: string) => ({
     errorMap: (issue) => {
         switch (issue.code) {
