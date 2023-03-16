@@ -32,13 +32,20 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
         disruptionNoEndDateTime: "",
     };
     const [validity, setValidity] = useState(initialValidity);
-    console.log(pageState, validity);
     const addValidity = (e: SyntheticEvent) => {
-        console.log("hi");
         e.preventDefault();
 
-        const parsed = createDisruptionSchema.shape.validity.safeParse([validity]);
-        console.log(parsed);
+        const filteredValidity =
+            validity.disruptionNoEndDateTime === "true"
+                ? {
+                      ...validity,
+                      disruptionEndDate: "",
+                      disruptionEndTime: "",
+                  }
+                : validity;
+
+        const parsed = createDisruptionSchema.shape.validity.safeParse([filteredValidity]);
+
         if (parsed.success === false) {
             setValidityButtonClicked(true);
         } else {
@@ -49,9 +56,9 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                     validity: pageState.inputs.validity
                         ? [
                               ...pageState.inputs.validity,
-                              { ...validity, id: (pageState.inputs.validity.length + 1).toString() },
+                              { ...filteredValidity, id: (pageState.inputs.validity.length + 1).toString() },
                           ]
-                        : [validity],
+                        : [filteredValidity],
                 },
                 errors: [
                     ...pageState.errors.filter(
@@ -64,16 +71,13 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                     ),
                 ],
             });
-            if (!validity.disruptionNoEndDateTime) {
-                setValidity(initialValidity);
-            }
+
+            setValidity(initialValidity);
         }
     };
 
     const removeValidity = (e: SyntheticEvent) => {
         e.preventDefault();
-        console.log(e.target);
-        console.log(pageState.inputs.validity.filter((validity) => validity.id !== (e.target as HTMLInputElement).id));
         if (pageState.inputs.validity) {
             setDisruptionPageState({
                 inputs: {
@@ -86,7 +90,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
             });
         }
     };
-    console.log("showError", validityButtonClicked && !validity.disruptionStartDate);
+
     const getValidityRows = () => {
         if (pageState.inputs.validity) {
             return pageState.inputs.validity.map((validity, i) => ({
@@ -137,8 +141,36 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
         }
     };
 
-    const handleSubmit = (e: SyntheticEvent) => {
+    const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+        await fetch("/api/create-disruption", {
+            method: "POST",
+            mode: "same-origin",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({
+                ...pageState.inputs,
+                ...(pageState.inputs.validity && {
+                    validity: pageState.inputs.validity.map((validity) => {
+                        if (validity.disruptionNoEndDateTime === "true") {
+                            return {
+                                ...validity,
+                                disruptionEndDate: "",
+                                disruptionEndTime: "",
+                            };
+                        } else {
+                            return validity;
+                        }
+                    }),
+                }),
+            }),
+        });
+        window.location.reload();
     };
 
     return (
@@ -250,7 +282,6 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionEndDate"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            showError={validityButtonClicked && !validity.disruptionEndDate}
                             reset={!validity.disruptionEndDate}
                         />
 
@@ -262,7 +293,6 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionEndTime"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            showError={validityButtonClicked && !validity.disruptionEndTime}
                             reset={!validity.disruptionEndTime}
                         />
 

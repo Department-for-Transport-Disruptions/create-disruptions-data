@@ -46,23 +46,85 @@ export const createDisruptionSchema = z.object({
             disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
             disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
         })
-        .array(),
+        .refine(
+            (val) => {
+                if (val.disruptionNoEndDateTime) {
+                    return !val.disruptionEndDate && !val.disruptionEndTime;
+                }
+
+                return true;
+            },
+            {
+                path: ["disruptionNoEndDateTime"],
+                message: '"No end date/time" should not be selected when a disruption date and time have been entered',
+            },
+        )
+        .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
+            path: ["disruptionEndTime"],
+            message: "Disruption end time must be set when end date is set",
+        })
+        .refine((val) => (val.disruptionEndTime ? !!val.disruptionEndDate : true), {
+            path: ["disruptionEndDate"],
+            message: "Disruption end date must be set when end time is set",
+        })
+        .refine(
+            (val) => {
+                if (val.disruptionEndDate && val.disruptionEndTime) {
+                    return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
+                        getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
+                    );
+                }
+
+                return true;
+            },
+            {
+                path: ["disruptionEndDate"],
+                message: "Disruption end datetime must be after start datetime",
+            },
+        )
+        .refine((val) => val.disruptionEndDate || val.disruptionEndTime || val.disruptionNoEndDateTime, {
+            path: ["disruptionNoEndDateTime"],
+            message: '"No end date/time" should be selected or a disruption date and time should be entered',
+        })
+        .array()
+        .refine((arr) => arr && arr.length >= 1, {
+            path: ["disruptionStartDate"],
+            message: "At least one validity period must be provided",
+        })
+        .refine(
+            (arr) => {
+                const hasNoEndDateTime = arr.findIndex((val) => val.disruptionNoEndDateTime === "true");
+                return hasNoEndDateTime === arr.length - 1 || hasNoEndDateTime === -1;
+            },
+            {
+                path: ["disruptionStartDate"],
+                message: "A validity period with no end time must be the last validity",
+            },
+        )
+        .refine(
+            (arr) => {
+                let valid = true;
+                for (let i = arr.length - 1; i >= 1; i--) {
+                    if (arr[i - 1].disruptionEndDate && arr[i - 1].disruptionEndTime) {
+                        if (
+                            getDatetimeFromDateAndTime(arr[i].disruptionStartDate, arr[i].disruptionStartTime).isBefore(
+                                getDatetimeFromDateAndTime(arr[i - 1].disruptionEndDate, arr[i - 1].disruptionEndTime),
+                            )
+                        ) {
+                            valid = false;
+                        }
+                    }
+                }
+                return valid;
+            },
+            {
+                path: ["disruptionStartDate"],
+                message: "Validity periods cannot overlap",
+            },
+        ),
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema
-    // .refine(
-    //     (val) => {
-    //         if (val.disruptionNoEndDateTime) {
-    //             return !val.disruptionEndDate && !val.disruptionEndTime;
-    //         }
-
-    //         return true;
-    //     },
-    //     {
-    //         path: ["disruptionNoEndDateTime"],
-    //         message: '"No end date/time" should not be selected when a disruption date and time have been entered',
-    //     },
-    // )
     .refine(
         (val) => {
             if (val.publishNoEndDateTime) {
@@ -76,14 +138,6 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: '"No end date/time" should not be selected when a publish date and time have been entered',
         },
     )
-    // .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
-    //     path: ["disruptionEndTime"],
-    //     message: "Disruption end time must be set when end date is set",
-    // })
-    // .refine((val) => (val.disruptionEndTime ? !!val.disruptionEndDate : true), {
-    //     path: ["disruptionEndDate"],
-    //     message: "Disruption end date must be set when end time is set",
-    // })
     .refine((val) => (val.publishEndDate ? !!val.publishEndTime : true), {
         path: ["publishEndTime"],
         message: "Publish end time must be set when end date is set",
@@ -92,21 +146,7 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         path: ["publishEndDate"],
         message: "Publish end date must be set when end time is set",
     })
-    // .refine(
-    //     (val) => {
-    //         if (val.disruptionEndDate && val.disruptionEndTime) {
-    //             return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
-    //                 getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
-    //             );
-    //         }
 
-    //         return true;
-    //     },
-    //     {
-    //         path: ["disruptionEndDate"],
-    //         message: "Disruption end datetime must be after start datetime",
-    //     },
-    // )
     .refine(
         (val) => {
             if (val.publishEndDate && val.publishEndTime) {
@@ -122,10 +162,7 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: "Publish end datetime must be after start datetime",
         },
     )
-    .refine((val) => val.disruptionEndDate || val.disruptionEndTime || val.disruptionNoEndDateTime, {
-        path: ["disruptionNoEndDateTime"],
-        message: '"No end date/time" should be selected or a disruption date and time should be entered',
-    })
+
     .refine((val) => val.publishEndDate || val.publishEndTime || val.publishNoEndDateTime, {
         path: ["publishNoEndDateTime"],
         message: '"No end date/time" should be selected or a publish date and time should be entered',
