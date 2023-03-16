@@ -5,6 +5,7 @@ import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { startCase, lowerCase } from "lodash";
 import kebabCase from "lodash/kebabCase";
 import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
@@ -81,7 +82,6 @@ const DateSelector = <T extends object>({
     schema,
     reset = false,
     showError = false,
-    index,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : getDate(value).toDate());
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
@@ -95,21 +95,17 @@ const DateSelector = <T extends object>({
     }, [disabled, reset]);
 
     useEffect(() => {
-        if (showError && schema && !disabled) {
-            const parsed = schema.safeParse(value);
-
-            if (parsed.success === false) {
-                setErrors([
-                    {
-                        id: inputName,
-                        errorMessage: parsed.error.errors[0].message,
-                    },
-                ]);
-            } else {
-                setErrors([]);
-            }
+        if (showError) {
+            setErrors([
+                {
+                    id: inputName,
+                    errorMessage: `Enter a ${lowerCase(
+                        startCase(inputName.replace("disruption", "")),
+                    )} for the disruption`,
+                },
+            ]);
         }
-    }, [showError, inputId, inputName, schema, value, disabled]);
+    }, [showError, inputName]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
