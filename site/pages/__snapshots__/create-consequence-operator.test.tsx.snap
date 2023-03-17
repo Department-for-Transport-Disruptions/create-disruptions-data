@@ -296,7 +296,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in the format hhmm. For example 4800 is 48 hours
+                Enter the time in minutes
               </div>
               <div
                 className=""
@@ -309,7 +309,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   id="disruption-delay-input"
                   name="disruptionDelay"
                   onBlur={[Function]}
-                  placeholder="hhmm"
+                  placeholder=""
                   type="text"
                 />
               </div>
@@ -959,7 +959,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in the format hhmm. For example 4800 is 48 hours
+                Enter the time in minutes
               </div>
               <div
                 className=""
@@ -971,7 +971,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   id="disruption-delay-input"
                   name="disruptionDelay"
                   onBlur={[Function]}
-                  placeholder="hhmm"
+                  placeholder=""
                   type="text"
                 />
               </div>
