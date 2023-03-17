@@ -7,14 +7,11 @@ import createDisruption from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
+import { getFutureDateAsString } from "../../utils";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { DisruptionPageInputs } from "../create-disruption.page";
 
 dayjs.extend(customParseFormat);
-
-const getFutureDateAsString = (addDays: number, dateFormat: string) => {
-    return dayjs().add(addDays, "day").format(dateFormat).toString();
-};
 
 const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);

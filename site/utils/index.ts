@@ -78,3 +78,7 @@ export const getPageStateFromCookies = <T>(dataCookie: string, errorCookie: stri
 
     return inputsProps;
 };
+
+export const getFutureDateAsString = (addDays: number, dateFormat: string) => {
+    return dayjs().add(addDays, "day").format(dateFormat).toString();
+};
