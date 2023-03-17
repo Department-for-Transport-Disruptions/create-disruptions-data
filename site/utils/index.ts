@@ -51,9 +51,23 @@ const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 const timeRegex = /^([0-1][0-9]|2[0-3])[0-5][0-9]$/;
 const minutesRegex = /^[0-9]{0,3}$/;
 
+/**
+ * Verify if the input value is of date format DD/MM/YYYY.
+ * @param {defaultError} defaultError Error message when the validation fails.
+ *
+ * @returns {z.ZodString} Indicates an error if the input format is not DD/MM/YYYY.
+ */
+
 export const zodDate = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(dateRegex);
 
+/**
+ * Verify if the input value is of format hhmm where hh is 0-23 and mm is 0-59.
+ * @param {defaultError} defaultError Error message when the validation fails.
+ *
+ * @returns {z.ZodString} Indicates an error if the regex match fails and the value
+ *  is not of format hhmm.
+ */
 export const zodTime = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(timeRegex);
 
