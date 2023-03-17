@@ -96,9 +96,22 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
             return pageState.inputs.validity.map((validity, i) => ({
                 header: `Validity period ${i + 1}`,
                 cells: [
-                    validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                        ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                        : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
+                    <TextInput
+                        key={`validity-input-${i + 1}`}
+                        value={
+                            validity.disruptionEndDate &&
+                            validity.disruptionEndTime &&
+                            !validity.disruptionNoEndDateTime
+                                ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                                : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
+                        }
+                        inputName={`validityPeriod${i + 1}`}
+                        display=""
+                        maxLength={20}
+                        stateUpdater={() => {}}
+                        widthClass="w-3/4"
+                        readOnly={true}
+                    />,
                     <button
                         id={`${i + 1}`}
                         key={`remove-validity-period-${i + 1}`}
@@ -141,46 +154,9 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
         }
     };
 
-    const handleSubmit = async (e: SyntheticEvent) => {
-        e.preventDefault();
-        const response = await fetch("/api/create-disruption", {
-            method: "POST",
-            mode: "same-origin",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({
-                ...pageState.inputs,
-                ...(pageState.inputs.validity && {
-                    validity: pageState.inputs.validity.map((validity) => {
-                        if (validity.disruptionNoEndDateTime === "true") {
-                            return {
-                                ...validity,
-                                disruptionEndDate: "",
-                                disruptionEndTime: "",
-                            };
-                        } else {
-                            return validity;
-                        }
-                    }),
-                }),
-            }),
-        });
-        if (response.status !== 200) {
-            window.location.reload();
-        }
-        else{
-            window.location.replace('/type-of-consequence')
-        }
-    };
-
     return (
         <BaseLayout title={title} description={description} errors={initialState.errors}>
-            <form action="/api/create-disruption" method="post" onSubmit={handleSubmit}>
+            <form action="/api/create-disruption" method="post">
                 <>
                     <ErrorSummary errors={initialState.errors} />
                     <div className="govuk-form-group">

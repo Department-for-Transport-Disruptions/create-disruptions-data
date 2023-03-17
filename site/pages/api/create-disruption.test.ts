@@ -8,7 +8,6 @@ import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } fr
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { DisruptionPageInputs } from "../create-disruption.page";
 
 dayjs.extend(customParseFormat);
 
@@ -20,28 +19,43 @@ const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
 const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
-const defaultDisruptionData: DisruptionPageInputs = {
+const defaultDisruptionData = {
     disruptionType: "unplanned",
     summary: "Lorem ipsum dolor sit amet",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     associatedLink: "",
     disruptionReason: MiscellaneousReason.roadWorks,
-    validity: [
-        {
-            id: "1",
-            disruptionStartDate: defaultDisruptionStartDate,
-            disruptionEndDate: defaultDisruptionEndDate,
-            disruptionStartTime: "1000",
-            disruptionEndTime: "1100",
-            disruptionNoEndDateTime: "",
-        },
-    ],
+    validityPeriod1: `${defaultDisruptionStartDate} 1100 - ${defaultDisruptionEndDate} 1000`,
     publishStartDate: defaultPublishStartDate,
     publishStartTime: "1100",
     publishEndDate: "",
     publishEndTime: "",
     publishNoEndDateTime: "true",
+};
+
+const formatBody = (body: object) => {
+    const validity = Object.entries(body)
+        .filter((item) => item.toString().startsWith("validity"))
+        .map((arr: string[], i) => {
+            const splitValidityString: string[] = arr[1]
+                .replace("-", "")
+                .replace("No end date/time", "")
+                .split(" ")
+                .filter((v: string) => v);
+            return {
+                id: (i + 1).toString(),
+                disruptionStartDate: splitValidityString[0],
+                disruptionStartTime: splitValidityString[1],
+                disruptionEndDate: splitValidityString.length > 2 ? splitValidityString[2] : "",
+                disruptionEndTime: splitValidityString.length > 2 ? splitValidityString[3] : "",
+            };
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
+    );
+    return { ...cleansedBody, validity };
 };
 
 describe("create-disruption API", () => {
@@ -64,6 +78,7 @@ describe("create-disruption API", () => {
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/type-of-consequence" });
     });
 
     it("should redirect back to /create-disruption when no form inputs are passed to the API", () => {
@@ -77,18 +92,19 @@ describe("create-disruption API", () => {
             { errorMessage: "Select a reason from the dropdown", id: "disruptionReason" },
             { errorMessage: "Enter a publish start date for the disruption", id: "publishStartDate" },
             { errorMessage: "Enter a publish start time for the disruption", id: "publishStartTime" },
-            { errorMessage: "Required", id: "validity" },
+            { errorMessage: "At least one validity period must be provided", id: "validity" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
     it("should redirect back to /create-disruption when summary or description are too long", () => {
-        const disruptionData: DisruptionPageInputs = {
+        const disruptionData = {
             ...defaultDisruptionData,
             summary:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -107,9 +123,10 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
     it("should redirect back to /create-disruption when invalid reason passed", () => {
@@ -126,13 +143,14 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
     it("should redirect back to /create-disruption when invalid URL passed for associated link", () => {
-        const disruptionData: DisruptionPageInputs = {
+        const disruptionData = {
             ...defaultDisruptionData,
             associatedLink: "http://test<>/",
         };
@@ -145,32 +163,16 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
     it("should redirect back to /create-disruption when validity has duplicates/overlaps", () => {
-        const disruptionData: DisruptionPageInputs = {
+        const disruptionData = {
             ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/03/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "11/05/2020",
-                    disruptionEndTime: "1200",
-                    disruptionNoEndDateTime: "",
-                },
-                {
-                    id: "2",
-                    disruptionStartDate: "11/03/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "11/05/2020",
-                    disruptionEndTime: "1200",
-                    disruptionNoEndDateTime: "",
-                },
-            ],
+            validityPeriod2: defaultDisruptionData.validityPeriod1,
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -181,212 +183,33 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
-
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", () => {
-        const disruptionData: DisruptionPageInputs = {
+        const disruptionData = {
             ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/03/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "",
-                    disruptionEndTime: "",
-                    disruptionNoEndDateTime: "true",
-                },
-                {
-                    id: "2",
-                    disruptionStartDate: "12/05/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "13/06/2020",
-                    disruptionEndTime: "1200",
-                    disruptionNoEndDateTime: "",
-                },
-            ],
+            validityPeriod1: "24/03/2002 1200 - No end date/time",
+            validityPeriod2: defaultDisruptionData.validityPeriod1,
         };
-
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "A validity period with no end time must be the last validity", id: "validity" },
+            {
+                errorMessage: '"No end date/time" should be selected or a disruption date and time should be entered',
+                id: "validity",
+            },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({ inputs: formatBody(req.body), errors }),
             res,
         );
-    });
-
-    it("should redirect back to /create-disruption when validity is empty", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "At least one validity period must be provided", id: "validity" }];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
-            res,
-        );
-    });
-
-    it("should redirect back to /create-disruption when validity start date is empty", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "",
-                    disruptionEndTime: "",
-                    disruptionNoEndDateTime: "true",
-                },
-            ],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "Enter a start date for the disruption", id: "validity" }];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
-            res,
-        );
-    });
-
-    it("should redirect back to /create-disruption when validity start date is empty", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/05/2020",
-                    disruptionStartTime: "",
-                    disruptionEndDate: "",
-                    disruptionEndTime: "",
-                    disruptionNoEndDateTime: "true",
-                },
-            ],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "Enter a start time for the disruption", id: "validity" }];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
-            res,
-        );
-    });
-
-    it("should redirect back to /create-disruption when validity end date is empty and end time is defined", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/05/2020",
-                    disruptionStartTime: "1000",
-                    disruptionEndDate: "",
-                    disruptionEndTime: "1100",
-                    disruptionNoEndDateTime: "",
-                },
-            ],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Disruption end date must be set when end time is set", id: "validity" },
-        ];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
-            res,
-        );
-    });
-
-    it("should redirect back to /create-disruption when validity end time is empty and end date is defined", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/05/2020",
-                    disruptionStartTime: "1000",
-                    disruptionEndDate: "11/06/2030",
-                    disruptionEndTime: "",
-                    disruptionNoEndDateTime: "",
-                },
-            ],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Disruption end time must be set when end date is set", id: "validity" },
-        ];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
-            res,
-        );
-    });
-
-    it("should redirect to /type-of-consequence when validity is valid", () => {
-        const disruptionData: DisruptionPageInputs = {
-            ...defaultDisruptionData,
-            validity: [
-                {
-                    id: "1",
-                    disruptionStartDate: "11/03/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "11/05/2020",
-                    disruptionEndTime: "1100",
-                    disruptionNoEndDateTime: "",
-                },
-                {
-                    id: "2",
-                    disruptionStartDate: "12/05/2020",
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: "",
-                    disruptionEndTime: "",
-                    disruptionNoEndDateTime: "true",
-                },
-            ],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        createDisruption(req, res);
-
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 });

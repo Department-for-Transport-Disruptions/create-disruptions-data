@@ -10,6 +10,7 @@ interface TextInputProps<T> extends FormBase<T> {
     textArea?: boolean;
     rows?: number;
     hint?: string;
+    readOnly?: boolean;
 }
 
 const TextInput = <T extends object>({
@@ -25,6 +26,7 @@ const TextInput = <T extends object>({
     hint,
     stateUpdater,
     schema,
+    readOnly = false,
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -43,23 +45,25 @@ const TextInput = <T extends object>({
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                     {textArea ? (
                         <textarea
-                            className={`govuk-textarea ${widthClass}`}
+                            className={readOnly ? widthClass : `govuk-textarea ${widthClass}`}
                             name={inputName}
                             id={`${inputId}-input`}
                             rows={rows}
                             maxLength={maxLength}
                             defaultValue={value}
                             onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            readOnly={readOnly}
                         />
                     ) : (
                         <input
-                            className={`govuk-input ${widthClass}`}
+                            className={readOnly ? widthClass : `govuk-input ${widthClass}`}
                             id={`${inputId}-input`}
                             name={inputName}
                             type="text"
                             maxLength={maxLength}
                             defaultValue={value}
                             onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            readOnly={readOnly}
                         />
                     )}
                 </FormElementWrapper>

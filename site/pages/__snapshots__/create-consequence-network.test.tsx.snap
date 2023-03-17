@@ -155,6 +155,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
+                  readOnly={false}
                   rows={3}
                 />
               </div>
@@ -761,6 +762,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
+                  readOnly={false}
                   rows={3}
                 />
               </div>

@@ -39,7 +39,7 @@ export const createDisruptionSchema = z.object({
     publishNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
     validity: z
         .object({
-            id: z.string(),
+            id: z.string({ required_error: "Each validity period must be indexed by id" }),
             disruptionStartDate: zodDate("Enter a start date for the disruption"),
             disruptionStartTime: zodTime("Enter a start time for the disruption"),
             disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),

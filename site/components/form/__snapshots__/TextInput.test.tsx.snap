@@ -23,6 +23,7 @@ exports[`TextInput > should render correctly as a text area with rows 1`] = `
         maxLength={50}
         name="field1"
         onBlur={[Function]}
+        readOnly={false}
         rows={3}
       />
     </div>
@@ -53,6 +54,7 @@ exports[`TextInput > should render correctly with errors 1`] = `
         maxLength={50}
         name="field1"
         onBlur={[Function]}
+        readOnly={false}
         type="text"
       />
     </div>
@@ -83,6 +85,7 @@ exports[`TextInput > should render correctly with no errors 1`] = `
         maxLength={50}
         name="field1"
         onBlur={[Function]}
+        readOnly={false}
         type="text"
       />
     </div>
