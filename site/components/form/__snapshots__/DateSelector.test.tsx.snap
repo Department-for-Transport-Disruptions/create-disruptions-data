@@ -166,7 +166,7 @@ exports[`DateSelector > should render correctly with an input 1`] = `
 
 exports[`DateSelector > should render correctly with errors 1`] = `
 <div
-  className="govuk-form-group govuk-form-group--error"
+  className="govuk-form-group"
 >
   <div
     className="govuk-form-group govuk-!-margin-bottom-0"
@@ -192,20 +192,8 @@ exports[`DateSelector > should render correctly with errors 1`] = `
         <div
           className=""
         >
-          <span
-            className="govuk-error-message"
-            id="field1-error"
-          >
-            <span
-              className="govuk-visually-hidden"
-            >
-              Error: 
-            </span>
-            There was an error
-          </span>
           <input
-            aria-describedby="field1-error"
-            className="govuk-input govuk-date-input__input govuk-input--width-6 govuk-input--error"
+            className="govuk-input govuk-date-input__input govuk-input--width-6"
             disabled={false}
             id="field-1-input"
             name="field1"

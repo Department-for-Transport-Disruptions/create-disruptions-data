@@ -46,6 +46,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       <form
         action="/api/create-disruption"
         method="post"
+        onSubmit={[Function]}
       >
         <div
           className="govuk-form-group"
@@ -265,6 +266,20 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           >
             When is the disruption?
           </h2>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
           <div
             className="govuk-form-group"
           >
@@ -301,7 +316,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value="01/04/2023"
+                      value=""
                     />
                   </div>
                 </div>
@@ -309,7 +324,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date, selected date is Apr 1, 2023"
+                    aria-label="Choose date"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -372,7 +387,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0100"
+                  defaultValue=""
                   disabled={false}
                   id="disruption-start-time-input"
                   name="disruptionStartTime"
@@ -419,7 +434,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value="01/08/2023"
+                      value=""
                     />
                   </div>
                 </div>
@@ -427,7 +442,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date, selected date is Aug 1, 2023"
+                    aria-label="Choose date"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -490,7 +505,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="0200"
+                  defaultValue=""
                   disabled={false}
                   id="disruption-end-time-input"
                   name="disruptionEndTime"
@@ -548,70 +563,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </fieldset>
           </div>
-          <div
-            className="govuk-form-group"
+          <button
+            className="govuk-button govuk-button--secondary mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
           >
-            <fieldset
-              className="govuk-fieldset"
-              id="disruption-repeats"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-!-padding-top-6"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does this disruption repeat?
-                </span>
-              </legend>
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-radios"
-                >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-repeats-yes"
-                      name="disruptionRepeats"
-                      onChange={[Function]}
-                      type="radio"
-                      value="yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={true}
-                      id="disruption-repeats-no"
-                      name="disruptionRepeats"
-                      onChange={[Function]}
-                      type="radio"
-                      value="no"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats-no"
-                    >
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
+            Add another validity period
+          </button>
         </div>
         <div
           className="govuk-form-group govuk-!-padding-top-3"
@@ -1150,6 +1108,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       <form
         action="/api/create-disruption"
         method="post"
+        onSubmit={[Function]}
       >
         <div
           className="govuk-form-group"
@@ -1366,6 +1325,20 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           >
             When is the disruption?
           </h2>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
           <div
             className="govuk-form-group"
           >
@@ -1470,6 +1443,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue=""
                   disabled={false}
                   id="disruption-start-time-input"
                   name="disruptionStartTime"
@@ -1584,6 +1558,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
+                  defaultValue=""
                   disabled={false}
                   id="disruption-end-time-input"
                   name="disruptionEndTime"
@@ -1641,70 +1616,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </fieldset>
           </div>
-          <div
-            className="govuk-form-group"
+          <button
+            className="govuk-button govuk-button--secondary mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
           >
-            <fieldset
-              className="govuk-fieldset"
-              id="disruption-repeats"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-!-padding-top-6"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does this disruption repeat?
-                </span>
-              </legend>
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-radios"
-                >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-repeats-yes"
-                      name="disruptionRepeats"
-                      onChange={[Function]}
-                      type="radio"
-                      value="yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-repeats-no"
-                      name="disruptionRepeats"
-                      onChange={[Function]}
-                      type="radio"
-                      value="no"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-repeats-no"
-                    >
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
+            Add another validity period
+          </button>
         </div>
         <div
           className="govuk-form-group govuk-!-padding-top-3"
