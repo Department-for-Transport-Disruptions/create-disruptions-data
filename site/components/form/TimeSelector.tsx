@@ -1,4 +1,3 @@
-import { lowerCase, startCase } from "lodash";
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
@@ -23,7 +22,6 @@ const TimeSelector = <T extends object>({
     schema,
     stateUpdater,
     reset = false,
-    showError = false,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -40,19 +38,8 @@ const TimeSelector = <T extends object>({
     }, [disabled, reset]);
 
     useEffect(() => {
-        if (showError) {
-            setErrors([
-                {
-                    id: inputName,
-                    errorMessage: `Enter a ${lowerCase(
-                        startCase(inputName.replace("disruption", "")),
-                    )} for the disruption`,
-                },
-            ]);
-        } else {
-            setErrors([]);
-        }
-    }, [showError, inputName]);
+        setErrors(initialErrors);
+    }, [initialErrors]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>

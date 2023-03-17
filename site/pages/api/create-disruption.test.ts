@@ -3,7 +3,7 @@ import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import createDisruption from "./create-disruption.api";
+import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
@@ -26,36 +26,12 @@ const defaultDisruptionData = {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     associatedLink: "",
     disruptionReason: MiscellaneousReason.roadWorks,
-    validityPeriod1: `${defaultDisruptionStartDate} 1100 - ${defaultDisruptionEndDate} 1000`,
+    validity1: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
     publishStartDate: defaultPublishStartDate,
     publishStartTime: "1100",
     publishEndDate: "",
     publishEndTime: "",
     publishNoEndDateTime: "true",
-};
-
-const formatBody = (body: object) => {
-    const validity = Object.entries(body)
-        .filter((item) => item.toString().startsWith("validity"))
-        .map((arr: string[], i) => {
-            const splitValidityString: string[] = arr[1]
-                .replace("-", "")
-                .replace("No end date/time", "")
-                .split(" ")
-                .filter((v: string) => v);
-            return {
-                id: (i + 1).toString(),
-                disruptionStartDate: splitValidityString[0],
-                disruptionStartTime: splitValidityString[1],
-                disruptionEndDate: splitValidityString.length > 2 ? splitValidityString[2] : "",
-                disruptionEndTime: splitValidityString.length > 2 ? splitValidityString[3] : "",
-            };
-        });
-
-    const cleansedBody = Object.fromEntries(
-        Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
-    );
-    return { ...cleansedBody, validity };
 };
 
 describe("create-disruption API", () => {
@@ -97,7 +73,7 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -123,7 +99,7 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -143,7 +119,7 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -163,7 +139,7 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
@@ -172,7 +148,7 @@ describe("create-disruption API", () => {
     it("should redirect back to /create-disruption when validity has duplicates/overlaps", () => {
         const disruptionData = {
             ...defaultDisruptionData,
-            validityPeriod2: defaultDisruptionData.validityPeriod1,
+            validity2: defaultDisruptionData.validity1,
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -183,16 +159,17 @@ describe("create-disruption API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
+
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", () => {
         const disruptionData = {
             ...defaultDisruptionData,
-            validityPeriod1: "24/03/2002 1200 - No end date/time",
-            validityPeriod2: defaultDisruptionData.validityPeriod1,
+            validity1: ["24/03/2002", "1200", "", "", "true"],
+            validity2: defaultDisruptionData.validity1,
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
@@ -200,14 +177,14 @@ describe("create-disruption API", () => {
 
         const errors: ErrorInfo[] = [
             {
-                errorMessage: '"No end date/time" should be selected or a disruption date and time should be entered',
+                errorMessage: "A validity period with no end time must be the last validity",
                 id: "validity",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs: formatBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateDisruptionBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });

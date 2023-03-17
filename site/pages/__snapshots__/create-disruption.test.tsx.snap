@@ -293,33 +293,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <td
                   className="govuk-table__cell"
                 >
-                  <div
-                    className="govuk-form-group"
-                  >
-                    <div
-                      className="govuk-form-group"
-                      id="validity-period-1"
-                    >
-                      <label
-                        className="govuk-label govuk-label--s"
-                        htmlFor="validity-period-1-input"
-                      />
-                      <div
-                        className=""
-                      >
-                        <input
-                          className="w-3/4"
-                          defaultValue="01/04/2023 0100 - 01/08/2023 0200"
-                          id="validity-period-1-input"
-                          maxLength={20}
-                          name="validityPeriod1"
-                          onBlur={[Function]}
-                          readOnly={true}
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  01/04/2023 0100 - 01/08/2023 0200
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -335,6 +309,31 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </tr>
             </tbody>
           </table>
+          <input
+            name="validity1"
+            type="hidden"
+            value="01/04/2023"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+            value="0100"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+            value="01/08/2023"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+            value="0200"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+            value=""
+          />
           <div
             className="govuk-form-group"
           >

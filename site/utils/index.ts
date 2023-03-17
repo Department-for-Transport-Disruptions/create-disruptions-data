@@ -1,11 +1,15 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { NextApiResponse, NextPageContext } from "next";
-import { z, ZodErrorMap } from "zod";
+import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { ErrorInfo, ResponseWithLocals } from "../interfaces";
 
 dayjs.extend(customParseFormat);
+
+const notEmpty = <T>(value: T | null | undefined): value is T => {
+    return value !== null && value !== undefined;
+};
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     if (errors.length > 0) {
@@ -45,3 +49,13 @@ export const zodDate = (defaultError?: string) =>
 
 export const zodTime = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(timeRegex);
+
+export const flattenZodErrors = (errors: ZodError) =>
+    Object.values(
+        errors.flatten<ErrorInfo>((val) => ({
+            errorMessage: val.message,
+            id: val.path[0].toString(),
+        })).fieldErrors,
+    )
+        .map((item) => item?.[0] ?? null)
+        .filter(notEmpty);

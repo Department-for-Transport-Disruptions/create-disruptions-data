@@ -4,8 +4,8 @@ import { ErrorInfo } from "../interfaces";
 
 export const handleBlur = <T>(
     input: string,
-    inputName: string,
-    stateUpdater: (change: string, field: string) => void,
+    inputName: Extract<keyof T, string>,
+    stateUpdater: (change: string, field: keyof T) => void,
     setErrors: Dispatch<SetStateAction<ErrorInfo[]>>,
     schema?: z.ZodTypeAny,
     disabled?: boolean,

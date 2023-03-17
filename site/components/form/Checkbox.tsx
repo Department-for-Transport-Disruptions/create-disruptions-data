@@ -1,11 +1,12 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
 
 interface CheckboxProps<T> extends FormBase<T> {
     checkboxDetail: DisplayValuePair[];
     hideLegend?: boolean;
+    reset?: boolean;
 }
 
 const Checkbox = <T extends object>({
@@ -15,10 +16,26 @@ const Checkbox = <T extends object>({
     hideLegend = false,
     checkboxDetail,
     initialErrors = [],
+    reset,
     stateUpdater,
 }: CheckboxProps<T>): ReactElement => {
-    const [errors] = useState<ErrorInfo[]>(initialErrors);
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const ref = useRef<HTMLInputElement>(null);
     const inputId = kebabCase(inputName);
+
+    useEffect(() => {
+        if (reset) {
+            setErrors([]);
+
+            if (ref.current) {
+                ref.current.checked = false;
+            }
+        }
+    }, [reset]);
+
+    useEffect(() => {
+        setErrors(initialErrors);
+    }, [initialErrors]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
@@ -35,14 +52,17 @@ const Checkbox = <T extends object>({
                                         className="govuk-checkboxes__input"
                                         id={`${inputId}-${item.value}`}
                                         name={inputName}
+                                        ref={ref}
                                         type="checkbox"
                                         value={item.value}
-                                        onChange={(e) =>
+                                        onChange={(e) => {
                                             stateUpdater(
                                                 e.currentTarget.checked ? e.currentTarget.value : "",
                                                 inputName,
-                                            )
-                                        }
+                                            );
+
+                                            setErrors([]);
+                                        }}
                                         defaultChecked={item.checked}
                                     />
                                     <label
