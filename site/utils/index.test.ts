@@ -39,8 +39,6 @@ describe("utils tests", () => {
     ])("should convert date/time into format given", (dateOrTime, format, result) => {
         expect(convertDateTimeToFormat(dateOrTime, format)).toEqual(result);
     });
-
-    it("should match time in format hhmm", () => {});
 });
 
 describe("page state from cookies test", () => {
