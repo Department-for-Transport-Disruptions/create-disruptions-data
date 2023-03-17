@@ -55,7 +55,7 @@ describe("create-consequence-operator API", () => {
             { errorMessage: "Enter a consequence description", id: "description" },
             { errorMessage: "Enter planned or unplanned", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
-            { errorMessage: "Select atleast one direction", id: "disruptionDirection" },
+            { errorMessage: "Select at least one direction", id: "disruptionDirection" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

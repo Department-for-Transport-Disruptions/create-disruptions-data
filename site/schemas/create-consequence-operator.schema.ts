@@ -28,6 +28,6 @@ export const createConsequenceOperatorSchema = z.object({
     ),
     disruptionDirection: z.union(
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select atleast one direction"),
+        setZodDefaultError("Select at least one direction"),
     ),
 });
