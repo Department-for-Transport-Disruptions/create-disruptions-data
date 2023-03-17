@@ -278,7 +278,34 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             </thead>
             <tbody
               className="govuk-table__body"
-            />
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header"
+                  scope="row"
+                >
+                  Validity period 1
+                </th>
+                <td
+                  className="govuk-table__cell"
+                >
+                  01/04/2023 0100 - 01/08/2023 0200
+                </td>
+                <td
+                  className="govuk-table__cell"
+                >
+                  <button
+                    className="govuk-link"
+                    id="1"
+                    onClick={[Function]}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <div
             className="govuk-form-group"
@@ -566,6 +593,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <button
             className="govuk-button govuk-button--secondary mt-8"
             data-module="govuk-button"
+            disabled={false}
             onClick={[Function]}
           >
             Add another validity period
