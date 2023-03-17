@@ -139,6 +139,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="bus"
@@ -158,6 +159,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="tram"
@@ -177,6 +179,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="ferryService"
@@ -196,6 +199,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="rail"
@@ -253,6 +257,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -272,6 +277,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -291,6 +297,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -310,6 +317,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"
@@ -622,6 +630,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="bus"
@@ -641,6 +650,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="tram"
@@ -660,6 +670,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="ferryService"
@@ -679,6 +690,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="rail"
@@ -724,6 +736,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -743,6 +756,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -762,6 +776,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -781,6 +796,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"
@@ -1093,6 +1109,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="bus"
@@ -1112,6 +1129,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="tram"
@@ -1131,6 +1149,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="ferryService"
@@ -1150,6 +1169,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="rail"
@@ -1195,6 +1215,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -1214,6 +1235,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-networkWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -1233,6 +1255,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -1252,6 +1275,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
+                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"

@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceNetwork"
+        action="/api/create-consequence-network"
         method="post"
       >
         <div
@@ -189,7 +189,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       className="govuk-radios__input"
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -208,7 +209,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -252,7 +254,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   defaultValue="yes"
                   disabled={false}
                   id="disruption-delay-input"
-                  name="disruption-delay"
+                  name="disruptionDelay"
                   onBlur={[Function]}
                   placeholder="hhmm"
                   type="text"
@@ -280,7 +282,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   className="govuk-select w-3/4"
                   defaultValue="severe"
                   id="disruption-severity-input"
-                  name="disruption-severity"
+                  name="disruptionSeverity"
                   onBlur={[Function]}
                 >
                   <option
@@ -350,9 +352,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       className="govuk-radios__input"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -371,7 +374,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-inbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -390,7 +394,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-outbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -650,7 +655,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceNetwork"
+        action="/api/create-consequence-network"
         method="post"
       >
         <div
@@ -756,7 +761,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               >
                 <textarea
                   className="govuk-textarea w-3/4"
-                  defaultValue=""
                   id="description-input"
                   maxLength={500}
                   name="description"
@@ -795,7 +799,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -814,7 +819,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -855,10 +861,9 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-delay-input"
-                  name="disruption-delay"
+                  name="disruptionDelay"
                   onBlur={[Function]}
                   placeholder="hhmm"
                   type="text"
@@ -886,7 +891,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   className="govuk-select w-3/4"
                   defaultValue=""
                   id="disruption-severity-input"
-                  name="disruption-severity"
+                  name="disruptionSeverity"
                   onBlur={[Function]}
                 >
                   <option
@@ -958,7 +963,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-allDirections"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -977,7 +983,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-inbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -996,7 +1003,8 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-outbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"

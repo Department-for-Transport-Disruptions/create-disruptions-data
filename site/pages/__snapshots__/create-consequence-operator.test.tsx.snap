@@ -243,6 +243,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -262,6 +263,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -406,6 +408,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -425,6 +428,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -444,6 +448,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -901,6 +906,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -920,6 +926,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1063,6 +1070,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -1082,6 +1090,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -1101,6 +1110,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
