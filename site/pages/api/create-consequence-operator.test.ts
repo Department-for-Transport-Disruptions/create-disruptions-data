@@ -94,7 +94,7 @@ describe("create-consequence-operator API", () => {
     it("should redirect back to /create-consequence-operator when invalid time is passed", () => {
         const operatorData: ConsequenceOperatorPageInputs = {
             ...defaultOperatorData,
-            disruptionDelay: "7280",
+            disruptionDelay: "7280909",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: operatorData, mockWriteHeadFn: writeHeadMock });
