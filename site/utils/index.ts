@@ -57,6 +57,12 @@ export const zodDate = (defaultError?: string) =>
 export const zodTime = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(timeRegex);
 
+/**
+ * Verify if the input value is a number between 0-999 minutes.
+ * @param {defaultError} defaultError Error message when the validation fails.
+ *
+ * @returns {z.ZodString} Indicates an error if the regex match fails.
+ */
 export const zodTimeInMinutes = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(minutesRegex);
 
