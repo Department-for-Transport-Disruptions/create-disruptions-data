@@ -13,7 +13,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import {
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIES_CONSEQUENCE_OPERATOR_INFO,
+    COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     OPERATORS,
@@ -222,7 +222,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
 
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_INFO];
+    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
 
     if (typeCookie) {
