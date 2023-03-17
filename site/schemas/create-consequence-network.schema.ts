@@ -8,7 +8,7 @@ export const createConsequenceNetworkSchema = z.object({
     }),
     removeFromJourneyPlanners: z.union(
         [z.literal("yes"), z.literal("no")],
-        setZodDefaultError("Enter planned or unplanned"),
+        setZodDefaultError("Select planned or unplanned"),
     ),
     disruptionDelay: zodTimeInHoursAndMinutes("Enter a valid time for disruption delay").optional().or(z.literal("")),
     disruptionSeverity: z.union(
@@ -24,6 +24,6 @@ export const createConsequenceNetworkSchema = z.object({
     ),
     disruptionDirection: z.union(
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select at least one direction"),
+        setZodDefaultError("Select a direction"),
     ),
 });

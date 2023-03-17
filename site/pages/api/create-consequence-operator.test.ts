@@ -53,9 +53,9 @@ describe("create-consequence-operator API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Select at least one operator", id: "consequenceOperator" },
             { errorMessage: "Enter a consequence description", id: "description" },
-            { errorMessage: "Enter planned or unplanned", id: "removeFromJourneyPlanners" },
+            { errorMessage: "Select planned or unplanned", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
-            { errorMessage: "Select at least one direction", id: "disruptionDirection" },
+            { errorMessage: "Select a direction", id: "disruptionDirection" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

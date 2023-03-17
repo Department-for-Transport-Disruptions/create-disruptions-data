@@ -134,7 +134,7 @@ describe("create-disruption API", () => {
     it("should redirect back to /create-disruption when invalid URL passed for associated link", () => {
         const disruptionData: DisruptionPageInputs = {
             ...defaultDisruptionData,
-            associatedLink: "http://incorrectlink<>/",
+            associatedLink: "http://google.com<>/",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });

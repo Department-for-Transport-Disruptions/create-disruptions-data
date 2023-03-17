@@ -42,7 +42,7 @@ describe("utils tests", () => {
 });
 
 describe("page state from cookies test", () => {
-    it("should parse to epected type for DisruptionPageInputs", () => {
+    it("should parse to expected type for DisruptionPageInputs", () => {
         const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
         const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
@@ -73,7 +73,7 @@ describe("page state from cookies test", () => {
         expect(parsedInput.inputs).toEqual(disruptionData);
     });
 
-    it("should parse to epected type for DisruptionPageInputs", () => {
+    it("should parse to expected type for DisruptionPageInputs", () => {
         const operatorData: ConsequenceOperatorPageInputs = {
             consequenceOperator: "FMAN",
             description:
