@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Severity } from "../constants";
-import { setZodDefaultError, zodTimeInHoursAndMinutes } from "../utils";
+import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
 export const createConsequenceOperatorSchema = z.object({
     consequenceOperator: z.union(
@@ -14,7 +14,7 @@ export const createConsequenceOperatorSchema = z.object({
         [z.literal("yes"), z.literal("no")],
         setZodDefaultError("Select planned or unplanned"),
     ),
-    disruptionDelay: zodTimeInHoursAndMinutes("Enter a valid time for disruption delay").optional().or(z.literal("")),
+    disruptionDelay: zodTimeInMinutes("Enter a valid time for disruption delay").optional().or(z.literal("")),
     disruptionSeverity: z.union(
         [
             z.literal(Severity.unknown),

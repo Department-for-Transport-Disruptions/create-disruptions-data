@@ -157,13 +157,14 @@ const CreateConsequenceOperator = ({
                         <TimeSelector<ConsequenceOperatorPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
-                            hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
+                            hint="Enter the time in minutes"
                             value={pageState.inputs["disruptionDelay"]}
                             disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
                             schema={createConsequenceOperatorSchema.shape.disruptionDelay}
+                            placeholderValue=""
                         />
 
                         <Select<ConsequenceOperatorPageInputs>

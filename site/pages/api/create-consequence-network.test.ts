@@ -89,7 +89,7 @@ describe("create-consequence-network API", () => {
     it("should redirect back to /create-consequence-network when invalid time is passed", () => {
         const networkData: ConsequenceNetworkPageInputs = {
             ...defaultNetworkData,
-            disruptionDelay: "7280909",
+            disruptionDelay: "7280",
         };
 
         const { req, res } = getMockRequestAndResponse({ body: networkData, mockWriteHeadFn: writeHeadMock });
