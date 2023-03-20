@@ -2,6 +2,7 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
+import { handleBlur } from "../../utils/formUtils";
 
 interface RadiosProps<T> extends FormBase<T> {
     radioDetail: DisplayValuePair[];
@@ -17,8 +18,9 @@ const Radios = <T extends object>({
     initialErrors = [],
     stateUpdater,
     paddingTop,
+    schema,
 }: RadiosProps<T>): ReactElement => {
-    const [errors] = useState<ErrorInfo[]>(initialErrors);
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
     return (
@@ -42,6 +44,9 @@ const Radios = <T extends object>({
                                     name={inputName}
                                     type="radio"
                                     value={input.value}
+                                    onBlur={(e) =>
+                                        handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
+                                    }
                                     onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
                                     defaultChecked={input.value === value}
                                 />

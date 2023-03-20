@@ -9,6 +9,7 @@ interface TimeSelectorProps<T> extends FormBase<T> {
     hint?: string;
     reset?: boolean;
     showError?: boolean;
+    placeholderValue?: string;
 }
 
 const TimeSelector = <T extends object>({
@@ -22,6 +23,7 @@ const TimeSelector = <T extends object>({
     schema,
     stateUpdater,
     reset = false,
+    placeholderValue = "hhmm",
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -61,7 +63,7 @@ const TimeSelector = <T extends object>({
                         type="text"
                         defaultValue={value}
                         disabled={disabled}
-                        placeholder={disabled ? "N/A" : "hhmm"}
+                        placeholder={disabled ? "N/A" : placeholderValue}
                         aria-describedby={hint ? `${inputId}-hint` : ""}
                         onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
                     />

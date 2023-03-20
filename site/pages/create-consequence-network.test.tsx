@@ -1,28 +1,24 @@
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceNetwork, { ConsequenceNetworkPageState } from "./create-consequence-network.page";
+import CreateConsequenceNetwork, { ConsequenceNetworkPageInputs } from "./create-consequence-network.page";
+import { Severity } from "../constants";
+import { PageState } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
-const blankInputs: ConsequenceNetworkPageState = {
+const blankInputs: PageState<Partial<ConsequenceNetworkPageInputs>> = {
     errors: [],
-    inputs: {
-        description: "",
-        "remove-from-journey-planners": "",
-        "disruption-delay": "",
-        "disruption-severity": "",
-        "disruption-direction": "",
-    },
+    inputs: {},
 };
 
-const withInputs: ConsequenceNetworkPageState = {
+const withInputs: PageState<Partial<ConsequenceNetworkPageInputs>> = {
     errors: [],
     inputs: {
         description: "A truck broke down on a bridge",
-        "remove-from-journey-planners": "yes",
-        "disruption-delay": "yes",
-        "disruption-severity": "severe",
-        "disruption-direction": "yes",
+        removeFromJourneyPlanners: "yes",
+        disruptionDelay: "yes",
+        disruptionSeverity: Severity.severe,
+        disruptionDirection: "allDirections",
     },
 };
 

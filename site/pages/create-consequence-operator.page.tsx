@@ -2,6 +2,8 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import { z } from "zod";
+import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
@@ -9,44 +11,35 @@ import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
 import {
-    ADD_CONSEQUENCE_PAGE_PATH,
     CONSEQUENCE_TYPES,
+    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+    COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     OPERATORS,
     VEHICLE_MODES,
 } from "../constants";
-import { ErrorInfo } from "../interfaces";
-import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue, redirectTo } from "../utils";
+import { ErrorInfo, PageState } from "../interfaces";
+import { createConsequenceOperatorSchema } from "../schemas/create-consequence-operator.schema";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
 
 interface CreateConsequenceOperatorProps {
-    inputs: ConsequenceOperatorPageState;
-    previousConsequenceInformation: ConsequenceType;
+    inputs: PageState<Partial<ConsequenceOperatorPageInputs>>;
+    previousConsequenceInformation: z.infer<typeof typeOfConsequenceSchema>;
 }
 
-export interface ConsequenceOperatorPageInputs {
-    "consequence-operator": string;
-    description: string;
-    "remove-from-journey-planners": string;
-    "disruption-delay": string;
-    "disruption-severity": string;
-    "disruption-direction": string;
-}
-
-export interface ConsequenceOperatorPageState {
-    errors: ErrorInfo[];
-    inputs: ConsequenceOperatorPageInputs;
-}
+export interface ConsequenceOperatorPageInputs extends Partial<z.infer<typeof createConsequenceOperatorSchema>> {}
 
 const CreateConsequenceOperator = ({
     inputs,
     previousConsequenceInformation,
 }: CreateConsequenceOperatorProps): ReactElement => {
-    const [pageState, setConsequenceOperatorPageState] = useState<ConsequenceOperatorPageState>(inputs);
+    const [pageState, setConsequenceOperatorPageState] =
+        useState<PageState<Partial<ConsequenceOperatorPageInputs>>>(inputs);
 
     const updateConsequenceOperatorPageStateForInput = (
         inputName: keyof ConsequenceOperatorPageInputs,
@@ -72,8 +65,9 @@ const CreateConsequenceOperator = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/createConsequenceOperator" method="post">
+            <form action="/api/create-consequence-operator" method="post">
                 <>
+                    <ErrorSummary errors={inputs.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -114,13 +108,15 @@ const CreateConsequenceOperator = ({
                         />
 
                         <Select<ConsequenceOperatorPageInputs>
-                            inputName="consequence-operator"
+                            inputName="consequenceOperator"
                             display="Who is the operator?"
                             displaySize="l"
                             defaultDisplay="Select an operator"
                             selectValues={OPERATORS}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["consequence-operator"]}
+                            value={pageState.inputs["consequenceOperator"]}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.consequenceOperator}
                         />
 
                         <TextInput<ConsequenceOperatorPageInputs>
@@ -134,6 +130,8 @@ const CreateConsequenceOperator = ({
                             maxLength={500}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.description}
                         />
 
                         <Radios<ConsequenceOperatorPageInputs>
@@ -149,29 +147,36 @@ const CreateConsequenceOperator = ({
                                     display: "No",
                                 },
                             ]}
-                            inputName="remove-from-journey-planners"
+                            inputName="removeFromJourneyPlanners"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["remove-from-journey-planners"]}
+                            value={pageState.inputs["removeFromJourneyPlanners"]}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.removeFromJourneyPlanners}
                         />
 
                         <TimeSelector<ConsequenceOperatorPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
-                            hint="Enter the time in the format hhmm. For example 4800 is 48 hours"
-                            value={pageState.inputs["disruption-delay"]}
+                            hint="Enter the time in minutes"
+                            value={pageState.inputs["disruptionDelay"]}
                             disabled={false}
-                            inputName="disruption-delay"
+                            inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.disruptionDelay}
+                            placeholderValue=""
                         />
 
                         <Select<ConsequenceOperatorPageInputs>
-                            inputName="disruption-severity"
+                            inputName="disruptionSeverity"
                             display="What is the severity of the disruption?"
                             displaySize="l"
                             defaultDisplay="Select a severity"
                             selectValues={DISRUPTION_SEVERITIES}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["disruption-severity"]}
+                            value={pageState.inputs["disruptionSeverity"]}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.disruptionSeverity}
                         />
 
                         <Radios<ConsequenceOperatorPageInputs>
@@ -191,9 +196,11 @@ const CreateConsequenceOperator = ({
                                     display: "Outbound",
                                 },
                             ]}
-                            inputName="disruption-direction"
+                            inputName="disruptionDirection"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["disruption-direction"]}
+                            value={pageState.inputs["disruptionDirection"]}
+                            initialErrors={pageState.errors}
+                            schema={createConsequenceOperatorSchema.shape.disruptionDirection}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -207,35 +214,33 @@ const CreateConsequenceOperator = ({
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
-    const inputs: ConsequenceOperatorPageState = {
+    let inputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
         errors: [],
-        inputs: {
-            "consequence-operator": "",
-            description: "",
-            "remove-from-journey-planners": "",
-            "disruption-delay": "",
-            "disruption-severity": "",
-            "disruption-direction": "",
-        },
+        inputs: {},
     };
 
-    const typeCookie = parseCookies(ctx)[COOKIES_CONSEQUENCE_TYPE_INFO];
+    let previousConsequenceInformationData = {};
+
+    const cookies = parseCookies(ctx);
+    const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
+    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
 
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
 
         if (previousConsequenceInformation.success) {
-            return {
-                props: { inputs, previousConsequenceInformation: previousConsequenceInformation.data },
-            };
+            previousConsequenceInformationData = previousConsequenceInformation.data;
         }
     }
 
-    if (ctx.res) {
-        redirectTo(ctx.res, ADD_CONSEQUENCE_PAGE_PATH);
-    }
+    inputs = getPageStateFromCookies<ConsequenceOperatorPageInputs>(
+        dataCookie,
+        errorCookie,
+        createConsequenceOperatorSchema,
+    );
 
-    return;
+    return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
 };
 
 export default CreateConsequenceOperator;

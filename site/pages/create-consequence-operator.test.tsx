@@ -1,30 +1,25 @@
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { ConsequenceOperatorPageState } from "./create-consequence-operator.page";
+import CreateConsequenceOperator, { ConsequenceOperatorPageInputs } from "./create-consequence-operator.page";
+import { Severity } from "../constants";
+import { PageState } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
-const blankInputs: ConsequenceOperatorPageState = {
+const blankInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
     errors: [],
-    inputs: {
-        "consequence-operator": "",
-        description: "",
-        "remove-from-journey-planners": "",
-        "disruption-delay": "",
-        "disruption-severity": "",
-        "disruption-direction": "",
-    },
+    inputs: {},
 };
 
-const withInputs: ConsequenceOperatorPageState = {
+const withInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
     errors: [],
     inputs: {
-        "consequence-operator": "FSYO",
+        consequenceOperator: "FSYO",
         description: "A truck broke down on a bridge",
-        "remove-from-journey-planners": "yes",
-        "disruption-delay": "yes",
-        "disruption-severity": "severe",
-        "disruption-direction": "yes",
+        removeFromJourneyPlanners: "yes",
+        disruptionDelay: "yes",
+        disruptionSeverity: Severity.severe,
+        disruptionDirection: "allDirections",
     },
 };
 
