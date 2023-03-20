@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceOperator"
+        action="/api/create-consequence-operator"
         method="post"
       >
         <div
@@ -146,7 +146,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-select w-3/4"
                   defaultValue="FSYO"
                   id="consequence-operator-input"
-                  name="consequence-operator"
+                  name="consequenceOperator"
                   onBlur={[Function]}
                 >
                   <option
@@ -242,7 +242,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       className="govuk-radios__input"
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -261,7 +262,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -294,7 +296,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in the format hhmm. For example 4800 is 48 hours
+                Enter the time in minutes
               </div>
               <div
                 className=""
@@ -305,9 +307,9 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue="yes"
                   disabled={false}
                   id="disruption-delay-input"
-                  name="disruption-delay"
+                  name="disruptionDelay"
                   onBlur={[Function]}
-                  placeholder="hhmm"
+                  placeholder=""
                   type="text"
                 />
               </div>
@@ -333,7 +335,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-select w-3/4"
                   defaultValue="severe"
                   id="disruption-severity-input"
-                  name="disruption-severity"
+                  name="disruptionSeverity"
                   onBlur={[Function]}
                 >
                   <option
@@ -403,9 +405,10 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       className="govuk-radios__input"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -424,7 +427,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-inbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -443,7 +447,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-outbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -703,7 +708,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/createConsequenceOperator"
+        action="/api/create-consequence-operator"
         method="post"
       >
         <div
@@ -805,7 +810,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-select w-3/4"
                   defaultValue=""
                   id="consequence-operator-input"
-                  name="consequence-operator"
+                  name="consequenceOperator"
                   onBlur={[Function]}
                 >
                   <option
@@ -862,7 +867,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               >
                 <textarea
                   className="govuk-textarea w-3/4"
-                  defaultValue=""
                   id="description-input"
                   maxLength={500}
                   name="description"
@@ -901,7 +905,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -920,7 +925,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
-                      name="remove-from-journey-planners"
+                      name="removeFromJourneyPlanners"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -953,7 +959,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in the format hhmm. For example 4800 is 48 hours
+                Enter the time in minutes
               </div>
               <div
                 className=""
@@ -961,12 +967,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <input
                   aria-describedby="disruption-delay-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
                   disabled={false}
                   id="disruption-delay-input"
-                  name="disruption-delay"
+                  name="disruptionDelay"
                   onBlur={[Function]}
-                  placeholder="hhmm"
+                  placeholder=""
                   type="text"
                 />
               </div>
@@ -992,7 +997,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-select w-3/4"
                   defaultValue=""
                   id="disruption-severity-input"
-                  name="disruption-severity"
+                  name="disruptionSeverity"
                   onBlur={[Function]}
                 >
                   <option
@@ -1064,7 +1069,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-allDirections"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -1083,7 +1089,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-inbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -1102,7 +1109,8 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       className="govuk-radios__input"
                       defaultChecked={false}
                       id="disruption-direction-outbound"
-                      name="disruption-direction"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
