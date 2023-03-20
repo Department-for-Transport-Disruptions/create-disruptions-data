@@ -10,7 +10,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { getDate } from "../../utils";
+import { convertDateTimeToFormat, getDate } from "../../utils";
 import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
@@ -109,7 +109,7 @@ const DateSelector = <T extends object>({
                         onChange={(newValue) => {
                             setDateValue(newValue);
                             if (newValue) {
-                                stateUpdater(dayjs(newValue).format("DD/MM/YYYY"), inputName);
+                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
                             }
                         }}
                         renderInput={({ inputRef, inputProps, InputProps }) => {

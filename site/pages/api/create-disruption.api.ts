@@ -54,7 +54,6 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
                 }),
                 res,
             );
-            console.log(JSON.stringify(flattenZodErrors(validatedBody.error)));
 
             destroyCookieOnResponseObject(COOKIES_DISRUPTION_INFO, res);
             redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);

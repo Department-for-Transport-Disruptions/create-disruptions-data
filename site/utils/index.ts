@@ -30,7 +30,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
 
-export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
 
 export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
 
