@@ -297,7 +297,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 >
                   <button
                     className="govuk-link"
-                    id="1"
+                    id="remove-validity-period-1"
                     onClick={[Function]}
                   >
                     Remove

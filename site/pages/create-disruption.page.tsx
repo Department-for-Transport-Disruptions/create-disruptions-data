@@ -28,9 +28,8 @@ export interface DisruptionPageInputs extends Partial<z.infer<typeof createDisru
 
 const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
     const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
-    const [validityButtonClicked, setValidityButtonClicked] = useState(false);
+
     const initialValidity: Validity = {
-        id: "1",
         disruptionStartDate: "",
         disruptionEndDate: "",
         disruptionStartTime: "",
@@ -53,8 +52,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
 
         const parsed = validitySchemaRefined.safeParse(filteredValidity);
 
-        if (parsed.success === false) {
-            setValidityButtonClicked(true);
+        if (!parsed.success) {
             setDisruptionPageState({
                 ...pageState,
                 errors: [
@@ -63,16 +61,10 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                 ],
             });
         } else {
-            setValidityButtonClicked(false);
             setDisruptionPageState({
                 inputs: {
                     ...pageState.inputs,
-                    validity: pageState.inputs.validity
-                        ? [
-                              ...pageState.inputs.validity,
-                              { ...filteredValidity, id: (pageState.inputs.validity.length + 1).toString() },
-                          ]
-                        : [filteredValidity],
+                    validity: [...(pageState.inputs.validity ?? []), filteredValidity],
                 },
                 errors: [...pageState.errors.filter((err) => !Object.keys(validitySchema.shape).includes(err.id))],
             });
@@ -81,15 +73,16 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
         }
     };
 
-    const removeValidity = (e: SyntheticEvent) => {
+    const removeValidity = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
         if (pageState.inputs.validity) {
+            const validity = [...pageState.inputs.validity];
+            validity.splice(index, 1);
+
             setDisruptionPageState({
                 inputs: {
                     ...pageState.inputs,
-                    validity: pageState.inputs.validity.filter(
-                        (validity) => validity.id !== (e.target as HTMLInputElement).id,
-                    ),
+                    validity,
                 },
                 errors: pageState.errors,
             });
@@ -105,10 +98,10 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                         ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
                         : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
                     <button
-                        id={`${i + 1}`}
+                        id={`remove-validity-period-${i + 1}`}
                         key={`remove-validity-period-${i + 1}`}
                         className="govuk-link"
-                        onClick={removeValidity}
+                        onClick={(e) => removeValidity(e, i)}
                     >
                         Remove
                     </button>,
@@ -249,7 +242,6 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionStartTime"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            showError={validityButtonClicked && !validity.disruptionStartTime}
                             reset={!validity.disruptionStartTime}
                             schema={validitySchema.shape.disruptionStartTime}
                         />

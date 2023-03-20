@@ -21,7 +21,6 @@ export const formatCreateDisruptionBody = (body: object) => {
             const [, values] = arr;
 
             return {
-                id: (i + 1).toString(),
                 disruptionStartDate: values[0],
                 disruptionStartTime: values[1],
                 disruptionEndDate: values[2],

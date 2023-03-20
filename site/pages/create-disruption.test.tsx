@@ -19,7 +19,6 @@ const withInputs: PageState<DisruptionPageInputs> = {
         disruptionReason: MiscellaneousReason.routeDiversion,
         validity: [
             {
-                id: "1",
                 disruptionStartDate: "01/04/2023",
                 disruptionEndDate: "01/08/2023",
                 disruptionStartTime: "0100",
