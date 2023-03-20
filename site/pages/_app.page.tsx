@@ -14,10 +14,6 @@ declare global {
 const App = ({ Component, pageProps }: AppProps) => {
     useEffect(() => {
         document.getElementsByTagName("body")[0].classList.add("js-enabled");
-
-        if (window.GOVUKFrontend) {
-            window.GOVUKFrontend.initAll();
-        }
     });
 
     return <Component {...pageProps} />;

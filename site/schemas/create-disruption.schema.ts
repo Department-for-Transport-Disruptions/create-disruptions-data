@@ -175,3 +175,5 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         path: ["publishNoEndDateTime"],
         message: '"No end date/time" should be selected or a publish date and time should be entered',
     });
+
+export type Disruption = z.infer<typeof createDisruptionSchema>;

@@ -1,7 +1,6 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 import { TwoThirdsLayout } from "../components/layout/Layout";
@@ -11,38 +10,19 @@ import {
     VEHICLE_MODES,
     CONSEQUENCE_TYPES,
 } from "../constants/index";
-import { ErrorInfo, PageState } from "../interfaces/index";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { PageState } from "../interfaces/index";
+import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-export interface ConsequenceTypePageInputs extends Partial<z.infer<typeof typeOfConsequenceSchema>> {}
+export interface ConsequenceTypePageInputs extends Partial<ConsequenceType> {}
 
 const TypeOfConsequence = (initialState: PageState<Partial<ConsequenceTypePageInputs>>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceTypePageInputs>>>(initialState);
 
-    const updatePageStateForInput = (
-        inputName: keyof ConsequenceTypePageInputs,
-        input: string,
-        error?: ErrorInfo,
-    ): void => {
-        setPageState({
-            inputs: {
-                ...pageState.inputs,
-                [inputName]: input,
-            },
-            errors: [
-                ...(error
-                    ? [...pageState.errors, error]
-                    : [...pageState.errors.filter((error) => error.id !== inputName)]),
-            ],
-        });
-    };
-
-    const stateUpdater = (change: string, field: keyof ConsequenceTypePageInputs) => {
-        updatePageStateForInput(field, change);
-    };
+    const stateUpdater = getStateUpdater(setPageState, pageState);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={initialState.errors}>
