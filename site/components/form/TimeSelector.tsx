@@ -8,7 +8,6 @@ interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
     hint?: string;
     reset?: boolean;
-    showError?: boolean;
     placeholderValue?: string;
 }
 
