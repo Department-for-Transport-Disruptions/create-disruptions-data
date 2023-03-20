@@ -6,45 +6,51 @@ import {
     ADD_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
+import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    flattenZodErrors,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
+export const formatCreateDisruptionBody = (body: object) => {
+    const validity = Object.entries(body)
+        .filter((item) => item.toString().startsWith("validity"))
+        .map((arr: string[], i) => {
+            const [, values] = arr;
+
+            return {
+                id: (i + 1).toString(),
+                disruptionStartDate: values[0],
+                disruptionStartTime: values[1],
+                disruptionEndDate: values[2],
+                disruptionEndTime: values[3],
+                disruptionNoEndDateTime: values[4],
+            };
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
+    );
+
+    return {
+        ...cleansedBody,
+        validity,
+    };
+};
+
 const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const validity = Object.entries(req.body as object)
-            .filter((item) => item.toString().startsWith("validity"))
-            .map((arr: string[], i) => {
-                const splitValidityString: string[] = arr[1]
-                    .replace("-", "")
-                    .replace("No end date/time", "")
-                    .split(" ")
-                    .filter((v: string) => v);
-                return {
-                    id: (i + 1).toString(),
-                    disruptionStartDate: splitValidityString[0],
-                    disruptionStartTime: splitValidityString[1],
-                    disruptionEndDate: splitValidityString.length > 2 ? splitValidityString[2] : "",
-                    disruptionEndTime: splitValidityString.length > 2 ? splitValidityString[3] : "",
-                    disruptionNoEndDateTime: splitValidityString.length > 2 ? "" : "true",
-                };
-            });
+        const formattedBody = formatCreateDisruptionBody(req.body as object);
 
-        const cleansedBody = Object.fromEntries(
-            Object.entries(req.body as object).filter((item) => !item.toString().startsWith("validity")),
-        );
-
-        const validatedBody = createDisruptionsSchemaRefined.safeParse({ ...cleansedBody, validity });
+        const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_DISRUPTION_ERRORS,
                 JSON.stringify({
-                    inputs: { ...cleansedBody, validity },
+                    inputs: formattedBody,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,

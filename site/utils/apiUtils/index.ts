@@ -1,8 +1,6 @@
 import { NextApiResponse } from "next";
 import { setCookie } from "nookies";
-import { ZodError } from "zod";
 import { ServerResponse } from "http";
-import { ErrorInfo } from "../../interfaces";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -46,13 +44,3 @@ export const redirectToError = (
 
     redirectTo(res, "/500");
 };
-
-export const flattenZodErrors = (errors: ZodError) =>
-    Object.values(
-        errors.flatten<ErrorInfo>((val) => ({
-            errorMessage: val.message,
-            id: val.path[0].toString(),
-        })).fieldErrors,
-    )
-        .map((item) => item?.[0] ?? null)
-        .filter((item) => item);

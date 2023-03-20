@@ -86,6 +86,7 @@ describe("DateSelector", () => {
                 disabled={false}
                 disablePast={false}
                 inputName="field1"
+                initialErrors={[]}
                 stateUpdater={vi.fn()}
                 schema={z.string(setZodDefaultError("Error: Select a date")).min(1)}
             />,
