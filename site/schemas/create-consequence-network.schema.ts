@@ -10,7 +10,9 @@ export const createConsequenceNetworkSchema = z.object({
         [z.literal("yes"), z.literal("no")],
         setZodDefaultError("Select planned or unplanned"),
     ),
-    disruptionDelay: zodTimeInMinutes("Enter a valid time for disruption delay").optional().or(z.literal("")),
+    disruptionDelay: zodTimeInMinutes("Enter a number between 0 to 999 for disruption delay")
+        .optional()
+        .or(z.literal("")),
     disruptionSeverity: z.union(
         [
             z.literal(Severity.unknown),
