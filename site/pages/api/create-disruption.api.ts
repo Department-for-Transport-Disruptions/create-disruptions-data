@@ -17,7 +17,7 @@ import {
 export const formatCreateDisruptionBody = (body: object) => {
     const validity = Object.entries(body)
         .filter((item) => item.toString().startsWith("validity"))
-        .map((arr: string[], i) => {
+        .map((arr: string[]) => {
             const [, values] = arr;
 
             return {

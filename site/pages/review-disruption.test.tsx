@@ -57,7 +57,6 @@ const previousDisruptionInformation: Disruption = {
     disruptionReason: EnvironmentReason.flooding,
     validity: [
         {
-            id: "1",
             disruptionStartDate: "13/01/2022",
             disruptionStartTime: "1200",
             disruptionEndDate: "14/01/2022",
@@ -65,7 +64,6 @@ const previousDisruptionInformation: Disruption = {
             disruptionNoEndDateTime: "",
         },
         {
-            id: "2",
             disruptionStartDate: "15/01/2022",
             disruptionStartTime: "1200",
             disruptionEndDate: "17/01/2022",

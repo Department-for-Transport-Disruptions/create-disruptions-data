@@ -64,7 +64,7 @@ export const flattenZodErrors = (errors: ZodError) =>
     Object.values(
         errors.flatten<ErrorInfo>((val) => ({
             errorMessage: val.message,
-            id: val.path[0].toString(),
+            id: val.path.at(-1)?.toString() ?? "",
         })).fieldErrors,
     )
         .map((item) => item?.[0] ?? null)
