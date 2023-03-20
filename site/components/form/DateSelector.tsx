@@ -4,7 +4,6 @@ import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { DatePicker, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs from "dayjs";
 import kebabCase from "lodash/kebabCase";
 import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
