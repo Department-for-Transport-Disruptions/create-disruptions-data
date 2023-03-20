@@ -68,7 +68,7 @@ describe("create-disruption API", () => {
             { errorMessage: "Select a reason from the dropdown", id: "disruptionReason" },
             { errorMessage: "Enter a publish start date for the disruption", id: "publishStartDate" },
             { errorMessage: "Enter a publish start time for the disruption", id: "publishStartTime" },
-            { errorMessage: "At least one validity period must be provided", id: "validity" },
+            { errorMessage: "At least one validity period must be provided", id: "disruptionStartDate" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
@@ -155,7 +155,7 @@ describe("create-disruption API", () => {
 
         createDisruption(req, res);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Validity periods cannot overlap", id: "validity" }];
+        const errors: ErrorInfo[] = [{ errorMessage: "Validity periods cannot overlap", id: "disruptionStartDate" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
@@ -176,10 +176,7 @@ describe("create-disruption API", () => {
         createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
-            {
-                errorMessage: "A validity period with no end time must be the last validity",
-                id: "validity",
-            },
+            { errorMessage: "A validity period with no end time must be the last validity", id: "disruptionStartDate" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
