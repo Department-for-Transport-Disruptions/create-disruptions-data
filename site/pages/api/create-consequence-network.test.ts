@@ -97,7 +97,7 @@ describe("create-consequence-network API", () => {
         createConsequenceNetwork(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Enter a valid time for disruption delay", id: "disruptionDelay" },
+            { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
