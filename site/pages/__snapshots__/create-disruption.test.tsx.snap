@@ -142,7 +142,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   maxLength={50}
                   name="summary"
                   onBlur={[Function]}
-                  readOnly={false}
                   type="text"
                 />
               </div>
@@ -171,7 +170,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  readOnly={false}
                   rows={3}
                 />
               </div>
@@ -200,7 +198,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   maxLength={50}
                   name="associatedLink"
                   onBlur={[Function]}
-                  readOnly={false}
                   type="text"
                 />
               </div>
@@ -1258,7 +1255,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   maxLength={50}
                   name="summary"
                   onBlur={[Function]}
-                  readOnly={false}
                   type="text"
                 />
               </div>
@@ -1286,7 +1282,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   maxLength={500}
                   name="description"
                   onBlur={[Function]}
-                  readOnly={false}
                   rows={3}
                 />
               </div>
@@ -1314,7 +1309,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   maxLength={50}
                   name="associatedLink"
                   onBlur={[Function]}
-                  readOnly={false}
                   type="text"
                 />
               </div>
