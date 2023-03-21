@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+    DayType,
+    EnvironmentReason,
+    MiscellaneousReason,
+    PersonnelReason,
+    Progress,
+    SourceType,
+} from "@create-disruptions-data/shared-ts/enums";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextPageContext } from "next";
 import React from "react";
@@ -115,3 +123,104 @@ export interface GetMockRequestAndResponse {
     url?: any;
     query?: any;
 }
+
+export const databaseData = [
+    {
+        CreationTime: "2023-01-01T01:10:00Z",
+        ParticipantRef: "ref",
+        SituationNumber: "aaaaa-bbbbb-ccccc",
+        Version: 1,
+        Source: {
+            SourceType: SourceType.feed,
+            TimeOfCommunication: "2023-01-01T01:10:00Z",
+        },
+        Progress: Progress.open,
+        ValidityPeriod: {
+            StartTime: "2023-03-03T01:10:00Z",
+        },
+        PublicationWindow: {
+            StartTime: "2023-03-02T10:10:00Z",
+            EndTime: "2023-03-09T10:10:00Z",
+        },
+        ReasonType: "PersonnelReason",
+        PersonnelReason: PersonnelReason.staffSickness,
+        Planned: true,
+        Summary: "Disruption Summary",
+        Description: "Disruption Description",
+    },
+    {
+        PublicationWindow: {
+            StartTime: "2023-03-05T10:10:00Z",
+            EndTime: "2023-05-09T10:10:00Z",
+        },
+        Source: {
+            SourceType: SourceType.directReport,
+            TimeOfCommunication: "2023-02-02T10:10:00Z",
+        },
+        ReasonType: "MiscellaneousReason",
+        MiscellaneousReason: MiscellaneousReason.vegetation,
+        CreationTime: "2023-02-02T05:10:00Z",
+        ParticipantRef: "ref2",
+        SituationNumber: "11111-22222-33333",
+        Version: 2,
+        Progress: Progress.closing,
+        ValidityPeriod: {
+            StartTime: "2023-03-03T01:10:00Z",
+            EndTime: "2023-05-01T01:10:00Z",
+        },
+        Planned: false,
+        Summary: "Disruption Summary 2",
+        Description: "Disruption Description 2",
+        InfoLinks: [
+            {
+                InfoLink: {
+                    Uri: "https://example.com",
+                },
+            },
+            {
+                InfoLink: {
+                    Uri: "https://example.com/2",
+                },
+            },
+        ],
+        References: [
+            {
+                RelatedToRef: {
+                    ParticipantRef: "ref",
+                    CreationTime: "2023-01-01T01:10:00Z",
+                    SituationNumber: "aaaaa-bbbbb-ccccc",
+                },
+            },
+        ],
+    },
+    {
+        PublicationWindow: {
+            StartTime: "2023-03-05T10:10:00Z",
+        },
+        Source: {
+            SourceType: SourceType.directReport,
+            TimeOfCommunication: "2023-02-02T10:10:00Z",
+        },
+        ReasonType: "EnvironmentReason",
+        EnvironmentReason: EnvironmentReason.grassFire,
+        CreationTime: "2023-03-05T05:10:00Z",
+        ParticipantRef: "ref3",
+        SituationNumber: "ddddd-eeeee-fffff",
+        Version: 1,
+        Progress: Progress.published,
+        ValidityPeriod: {
+            StartTime: "2023-03-03T01:10:00Z",
+        },
+        Planned: true,
+        Summary: "Disruption Summary 3",
+        Description: "Disruption Description 3",
+        Repetitions: [
+            {
+                DayType: DayType.saturday,
+            },
+            {
+                DayType: DayType.sunday,
+            },
+        ],
+    },
+];

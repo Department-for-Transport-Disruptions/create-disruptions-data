@@ -9,7 +9,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { getDate } from "../../utils";
+import { getFormattedDate } from "../../utils/dates";
 import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
@@ -77,7 +77,9 @@ const DateSelector = <T extends object>({
     stateUpdater,
     schema,
 }: DateSelectorProps<T>): ReactElement => {
-    const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : getDate(value).toDate());
+    const [dateValue, setDateValue] = useState<Date | null>(
+        !!disabled || !value ? null : getFormattedDate(value).toDate(),
+    );
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 

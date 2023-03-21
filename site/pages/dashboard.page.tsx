@@ -1,0 +1,189 @@
+import Link from "next/link";
+import { ReactElement, useEffect, useRef } from "react";
+import Table from "../components/form/Table";
+import { BaseLayout } from "../components/layout/Layout";
+import Tabs from "../components/Tabs";
+import { getDdbDocumentClient, getDisruptionsDataFromDynamo } from "../data/dynamo";
+import { convertDateTimeToFormat, getDate } from "../utils/dates";
+
+const ddbDocClient = getDdbDocumentClient();
+
+const title = "Create Disruptions Dashboard";
+const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
+
+export interface DashboardDisruption {
+    id: string;
+    summary: string;
+    validityPeriod: {
+        startTime: string;
+        endTime: string | null;
+    };
+}
+
+export interface DashboardProps {
+    liveDisruptions: DashboardDisruption[];
+    upComingDisruptions: DashboardDisruption[];
+}
+
+const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
+    return disruptions.map((disruption) => {
+        const startTime = convertDateTimeToFormat(disruption.validityPeriod.startTime, "DD/MM/YYYY");
+        const endTime = !!disruption.validityPeriod.endTime
+            ? convertDateTimeToFormat(disruption.validityPeriod.endTime, "DD/MM/YYYY")
+            : null;
+
+        return {
+            header: (
+                <Link className="govuk-link" href="/dashboard">
+                    {disruption.id}
+                </Link>
+            ),
+            cells: [disruption.summary, `${startTime}${!!endTime ? ` - ${endTime}` : " onwards"}`],
+        };
+    });
+};
+
+const Dashboard = ({ liveDisruptions, upComingDisruptions }: DashboardProps): ReactElement => {
+    const hasInitialised = useRef(false);
+
+    useEffect(() => {
+        if (window.GOVUKFrontend && !hasInitialised.current) {
+            window.GOVUKFrontend.initAll();
+        }
+
+        hasInitialised.current = true;
+    });
+
+    return (
+        <BaseLayout title={title} description={description} errors={[]}>
+            <h1 className="govuk-heading-xl">Dashboard</h1>
+            <Link
+                href="/create-disruption"
+                role="button"
+                draggable="false"
+                className="govuk-button govuk-button--start"
+                data-module="govuk-button"
+                id="create-new-button"
+            >
+                Create new disruption
+                <svg
+                    className="govuk-button__start-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17.5"
+                    height="19"
+                    viewBox="0 0 33 40"
+                    role="presentation"
+                    focusable="false"
+                >
+                    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                </svg>
+            </Link>
+
+            <Tabs
+                tabs={[
+                    {
+                        tabHeader: "Live",
+                        content: (
+                            <Table
+                                caption="Live disruptions"
+                                columns={["ID", "Summary", "Affected dates"]}
+                                rows={formatDisruptionsIntoRows(liveDisruptions)}
+                            />
+                        ),
+                    },
+                    {
+                        tabHeader: "Upcoming",
+                        content: (
+                            <Table
+                                caption="Upcoming disruptions"
+                                columns={["ID", "Summary", "Affected dates"]}
+                                rows={formatDisruptionsIntoRows(upComingDisruptions)}
+                            />
+                        ),
+                    },
+                ]}
+                tabsTitle="Disruptions"
+            />
+            <Link className="govuk-link" href="/dashboard">
+                <h2 className="govuk-heading-s text-govBlue">View all disruptions</h2>
+            </Link>
+
+            <Link className="govuk-link" href="/dashboard">
+                <h2 className="govuk-heading-s text-govBlue">View all social media</h2>
+            </Link>
+
+            <Link className="govuk-link" href="/dashboard">
+                <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
+            </Link>
+
+            <div className="govuk-!-padding-top-5">
+                <h2 className="govuk-heading-s">Reviews</h2>
+                <p className="govuk-body">You have nothing to review</p>
+                <Link className="govuk-link" href="/dashboard">
+                    <h2 className="govuk-heading-s text-govBlue">View all</h2>
+                </Link>
+            </div>
+        </BaseLayout>
+    );
+};
+
+export const getServerSideProps = async (): Promise<{ props: DashboardProps }> => {
+    const data = await getDisruptionsDataFromDynamo(ddbDocClient, process.env.TABLE_NAME as string);
+
+    if (data) {
+        const shortenedData: DashboardDisruption[] = data.map((entry) => {
+            return {
+                id: entry.SituationNumber,
+                summary: entry.Summary,
+                validityPeriod: {
+                    startTime: entry.ValidityPeriod.StartTime,
+                    endTime: entry.ValidityPeriod.EndTime || null,
+                },
+            };
+        });
+
+        const liveDisruptions: DashboardDisruption[] = [];
+        const upComingDisruptions: DashboardDisruption[] = [];
+        const today = getDate();
+
+        shortenedData.forEach((disruption) => {
+            const { startTime, endTime } = disruption.validityPeriod;
+
+            const startTimeDayJs = getDate(startTime);
+
+            // end time before today --> dont show
+            const shouldNotDisplayDisruption = !!endTime && getDate(endTime).isBefore(today);
+
+            if (!shouldNotDisplayDisruption) {
+                // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
+                if (
+                    !startTimeDayJs.isAfter(today) &&
+                    (!endTime || (!!endTime && getDate(endTime).isSameOrAfter(today)))
+                ) {
+                    liveDisruptions.push(disruption);
+                }
+
+                // start time after today --> upcoming
+                if (startTimeDayJs.isAfter(today)) {
+                    upComingDisruptions.push(disruption);
+                }
+            }
+        });
+
+        return {
+            props: {
+                liveDisruptions,
+                upComingDisruptions,
+            },
+        };
+    }
+
+    return {
+        props: {
+            liveDisruptions: [],
+            upComingDisruptions: [],
+        },
+    };
+};
+
+export default Dashboard;

@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import { getFutureDateAsString } from "../../utils/dates";
 import { DisruptionPageInputs } from "../create-disruption.page";
-
-dayjs.extend(customParseFormat);
-
-const getFutureDateAsString = (addDays: number, dateFormat: string) => {
-    return dayjs().add(addDays, "day").format(dateFormat).toString();
-};
 
 const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
