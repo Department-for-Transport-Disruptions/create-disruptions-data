@@ -54,17 +54,20 @@ describe("page state from cookies test", () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             associatedLink: "",
             disruptionReason: MiscellaneousReason.roadWorks,
-            disruptionStartDate: defaultDisruptionStartDate,
-            disruptionEndDate: defaultDisruptionEndDate,
-            disruptionStartTime: "1000",
-            disruptionEndTime: "1100",
-            disruptionRepeats: "no",
             publishStartDate: defaultPublishStartDate,
             publishStartTime: "1100",
             publishEndDate: "",
             publishEndTime: "",
             publishNoEndDateTime: "true",
-            disruptionNoEndDateTime: "",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionEndDate: defaultDisruptionEndDate,
+                    disruptionStartTime: "1000",
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                },
+            ],
         };
 
         const parsedInput = getPageStateFromCookies(JSON.stringify(disruptionData), "", createDisruptionSchema);

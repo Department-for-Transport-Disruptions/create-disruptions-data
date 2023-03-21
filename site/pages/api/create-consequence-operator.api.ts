@@ -6,12 +6,12 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { createConsequenceOperatorSchema } from "../../schemas/create-consequence-operator.schema";
+import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
-    flattenZodErrors,
 } from "../../utils/apiUtils";
 
 const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
