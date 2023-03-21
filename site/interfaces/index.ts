@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
+import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -75,4 +76,9 @@ export interface SocialMediaPost {
     "publish-date": string;
     "publish-time": string;
     "account-to-publish": string;
+}
+
+export interface CreateConsequenceProps<T> {
+    inputs: PageState<Partial<T>>;
+    previousConsequenceInformation: ConsequenceType;
 }
