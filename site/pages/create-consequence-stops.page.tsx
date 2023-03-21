@@ -120,21 +120,18 @@ const CreateConsequenceStops = ({
                             isSearchable
                             name="emoji"
                             options={colourOptions}
-                            theme={(theme) => ({
-                                ...theme,
-                                borderRadius: 0,
-                                colors: {
-                                    ...theme.colors,
-                                    primary25: "#3399ff",
-                                    primary: "black",
-                                },
-                            })}
                             styles={{
                                 control: (baseStyles, state) => ({
                                     ...baseStyles,
                                     fontFamily: "Arial",
                                     border: state.isFocused ? "yellow solid 3px" : "black solid 3px",
                                     marginBottom: "20px",
+                                    "&:hover": { borderColor: "black" },
+                                }),
+                                option: (provided, state) => ({
+                                    ...provided,
+                                    color: "black",
+                                    backgroundColor: state.isFocused ? "#3399ff" : "white",
                                 }),
                             }}
                         />
