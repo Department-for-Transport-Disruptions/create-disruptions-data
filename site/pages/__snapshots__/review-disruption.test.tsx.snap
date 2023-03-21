@@ -215,12 +215,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Start date
+                  Validity period 1
                 </th>
                 <td
                   className="govuk-table__cell"
                 >
-                  13/01/2022
+                  13/01/2022 1200 - 14/01/2022 1400
                 </td>
                 <td
                   className="govuk-table__cell"
@@ -243,96 +243,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   className="govuk-table__header"
                   scope="row"
                 >
-                  Start time
+                  Validity period 2
                 </th>
                 <td
                   className="govuk-table__cell"
                 >
-                  12:00
-                </td>
-                <td
-                  className="govuk-table__cell"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/create-disruption"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header"
-                  scope="row"
-                >
-                  End date
-                </th>
-                <td
-                  className="govuk-table__cell"
-                >
-                  14/01/2022
-                </td>
-                <td
-                  className="govuk-table__cell"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/create-disruption"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header"
-                  scope="row"
-                >
-                  End time
-                </th>
-                <td
-                  className="govuk-table__cell"
-                >
-                  14:00
-                </td>
-                <td
-                  className="govuk-table__cell"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/create-disruption"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header"
-                  scope="row"
-                >
-                  Repeating service
-                </th>
-                <td
-                  className="govuk-table__cell"
-                >
-                  No
+                  15/01/2022 1200 - 17/01/2022 1400
                 </td>
                 <td
                   className="govuk-table__cell"

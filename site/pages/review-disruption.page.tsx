@@ -45,6 +45,18 @@ const ReviewDisruption = ({
         hasInitialised.current = true;
     });
 
+    const getValidityRows = () => {
+        return previousDisruptionInformation.validity.map((validity, i) => ({
+            header: `Validity period ${i + 1}`,
+            cells: [
+                validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
+                    ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                    : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
+                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+            ],
+        }));
+    };
+
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/review-disruption" method="post">
@@ -88,43 +100,7 @@ const ReviewDisruption = ({
                                         createChangeLink("disruption-reason", "/create-disruption"),
                                     ],
                                 },
-                                {
-                                    header: "Start date",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionStartDate,
-                                        createChangeLink("disruption-start-date", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "Start time",
-                                    cells: [
-                                        formatTime(previousDisruptionInformation.disruptionStartTime),
-                                        createChangeLink("disruption-start-time", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "End date",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionEndDate || "N/A",
-                                        createChangeLink("disruption-end-date", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "End time",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionEndTime
-                                            ? formatTime(previousDisruptionInformation.disruptionEndTime)
-                                            : "N/A",
-                                        createChangeLink("disruption-end-time", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "Repeating service",
-                                    cells: [
-                                        startCase(previousDisruptionInformation.disruptionRepeats),
-                                        createChangeLink("disruption-repeats", "/create-disruption"),
-                                    ],
-                                },
+                                ...getValidityRows(),
                                 {
                                     header: "Publish start date",
                                     cells: [

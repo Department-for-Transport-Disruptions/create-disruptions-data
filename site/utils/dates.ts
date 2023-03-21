@@ -7,7 +7,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
 
 export const getDate = (input?: string) => dayjs(!!input ? input : undefined);
 
