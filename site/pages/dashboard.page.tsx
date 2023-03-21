@@ -3,10 +3,8 @@ import { ReactElement, useEffect, useRef } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/Tabs";
-import { getDdbDocumentClient, getDisruptionsDataFromDynamo } from "../data/dynamo";
+import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { convertDateTimeToFormat, getDate } from "../utils/dates";
-
-const ddbDocClient = getDdbDocumentClient();
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -128,7 +126,7 @@ const Dashboard = ({ liveDisruptions, upComingDisruptions }: DashboardProps): Re
 };
 
 export const getServerSideProps = async (): Promise<{ props: DashboardProps }> => {
-    const data = await getDisruptionsDataFromDynamo(ddbDocClient, process.env.TABLE_NAME as string);
+    const data = await getDisruptionsDataFromDynamo();
 
     if (data) {
         const shortenedData: DashboardDisruption[] = data.map((entry) => {
