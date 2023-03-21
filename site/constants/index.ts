@@ -135,6 +135,7 @@ export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 export const ADD_CONSEQUENCE_PAGE_PATH = "/type-of-consequence";
 export const CREATE_CONSEQUENCE_OPERATOR_PATH = "/create-consequence-operator";
 export const CREATE_CONSEQUENCE_NETWORK_PATH = "/create-consequence-network";
+export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 
 // COOKIES
