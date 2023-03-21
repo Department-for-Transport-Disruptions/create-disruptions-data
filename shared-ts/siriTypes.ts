@@ -15,7 +15,7 @@ import {
     siriSchema,
     situationElementRefSchema,
     situationExchangeDeliverySchema,
-    situationSchema,
+    situationsSchema,
     sourceSchema,
     stopPointsSchema,
 } from "./siriTypes.zod";
@@ -50,7 +50,7 @@ export type BasePtSituationElement = z.infer<typeof basePtSituationElementSchema
 
 export type PtSituationElement = z.infer<typeof ptSituationElementSchema>;
 
-export type Situation = z.infer<typeof situationSchema>;
+export type Situations = z.infer<typeof situationsSchema>;
 
 export type SituationExchangeDelivery = z.infer<typeof situationExchangeDeliverySchema>;
 

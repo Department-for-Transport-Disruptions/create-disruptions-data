@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceNetwork from "./create-consequence-network.api";
 import {
@@ -20,13 +20,14 @@ const defaultNetworkData: ConsequenceNetworkPageInputs = {
     disruptionDelay: "",
     disruptionSeverity: Severity.slight,
     disruptionDirection: "allDirections",
+    vehicleMode: VehicleMode.bus,
+    consequenceType: "networkWide",
 };
 
 describe("create-consequence-network API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));
@@ -52,9 +53,11 @@ describe("create-consequence-network API", () => {
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
-            { errorMessage: "Select planned or unplanned", id: "removeFromJourneyPlanners" },
+            { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
             { errorMessage: "Select a direction", id: "disruptionDirection" },
+            { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

@@ -204,6 +204,11 @@ const CreateConsequenceOperator = ({
                         />
 
                         <input type="hidden" name="consequenceType" value="operatorWide" />
+                        <input
+                            type="hidden"
+                            name="vehicleMode"
+                            value={previousConsequenceInformation.modeOfTransport}
+                        />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue

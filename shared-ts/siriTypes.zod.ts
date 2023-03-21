@@ -52,15 +52,15 @@ export const situationElementRefSchema = z.object({
 });
 
 export const referenceSchema = z.object({
-    RelatedToRef: situationElementRefSchema,
+    RelatedToRef: z.array(situationElementRefSchema),
 });
 
 export const repetitionsSchema = z.object({
-    DayType: dayTypeSchema,
+    DayType: z.array(dayTypeSchema),
 });
 
 export const infoLinksSchema = z.object({
-    InfoLink: infoLinkSchema,
+    InfoLink: z.array(infoLinkSchema),
 });
 
 export const affectedOperatorSchema = z.object({
@@ -86,9 +86,9 @@ export const networksSchema = z.object({
     }),
 });
 
-export const stopPointsSchema = z.array(
-    z.object({
-        AffectedStopPoint: z.object({
+export const stopPointsSchema = z.object({
+    AffectedStopPoint: z.array(
+        z.object({
             StopPointRef: z.string(),
             StopPointName: z.string(),
             Location: z.object({
@@ -101,19 +101,21 @@ export const stopPointsSchema = z.array(
                 }),
             }),
         }),
-    }),
-);
+    ),
+});
 
 export const consequenceSchema = z.object({
-    Consequence: z.object({
-        Condition: z.literal("unknown"),
-        Severity: z.nativeEnum(Severity),
-        Affects: z.object({
-            Operators: operatorsSchema.optional(),
-            Networks: networksSchema.optional(),
-            StopPoints: stopPointsSchema.optional(),
+    Consequence: z.array(
+        z.object({
+            Condition: z.literal("unknown"),
+            Severity: z.nativeEnum(Severity),
+            Affects: z.object({
+                Operators: operatorsSchema.optional(),
+                Networks: networksSchema.optional(),
+                StopPoints: stopPointsSchema.optional(),
+            }),
         }),
-    }),
+    ),
 });
 
 export const basePtSituationElementSchema = z.object({
@@ -121,11 +123,11 @@ export const basePtSituationElementSchema = z.object({
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
     SituationNumber: situationElementRefSchema.shape.SituationNumber,
     Version: z.number().optional(),
-    References: z.array(referenceSchema).optional(),
+    References: referenceSchema.optional(),
     Source: sourceSchema,
     Progress: progressSchema,
-    ValidityPeriod: periodSchema,
-    Repetitions: z.array(repetitionsSchema).optional(),
+    ValidityPeriod: z.array(periodSchema),
+    Repetitions: repetitionsSchema.optional(),
     PublicationWindow: periodSchema,
 });
 
@@ -145,8 +147,8 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
                 Planned: z.boolean(),
                 Summary: z.string(),
                 Description: z.string(),
-                InfoLinks: z.array(infoLinksSchema).optional(),
-                Consequences: z.array(consequenceSchema).optional(),
+                InfoLinks: infoLinksSchema.optional(),
+                Consequences: consequenceSchema.optional(),
             }),
         ),
 );
@@ -159,15 +161,15 @@ export const ptSituationElementSchemaWithTransform = ptSituationElementSchema.tr
     return val;
 });
 
-export const situationSchema = z.object({
-    PtSituationElement: ptSituationElementSchemaWithTransform,
+export const situationsSchema = z.object({
+    PtSituationElement: z.array(ptSituationElementSchemaWithTransform),
 });
 
 export const situationExchangeDeliverySchema = z.object({
     ResponseTimestamp: z.string().datetime(),
     Status: z.boolean().optional(),
     ShortestPossibleCycle: z.string().optional(),
-    Situations: z.array(situationSchema),
+    Situations: situationsSchema,
 });
 
 export const serviceDeliverySchema = z.object({

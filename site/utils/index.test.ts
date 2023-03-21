@@ -1,4 +1,4 @@
-import { MiscellaneousReason, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
 import { CD_DATE_FORMAT } from "../constants";
 import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-operator.page";
@@ -53,18 +53,21 @@ describe("page state from cookies test", () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             associatedLink: "",
-            disruptionReason: MiscellaneousReason.roadWorks,
-            disruptionStartDate: defaultDisruptionStartDate,
-            disruptionEndDate: defaultDisruptionEndDate,
-            disruptionStartTime: "1000",
-            disruptionEndTime: "1100",
-            disruptionRepeats: "no",
+            disruptionReason: MiscellaneousReason.roadworks,
             publishStartDate: defaultPublishStartDate,
             publishStartTime: "1100",
             publishEndDate: "",
             publishEndTime: "",
             publishNoEndDateTime: "true",
-            disruptionNoEndDateTime: "",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionEndDate: defaultDisruptionEndDate,
+                    disruptionStartTime: "1000",
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                },
+            ],
         };
 
         const parsedInput = getPageStateFromCookies(JSON.stringify(disruptionData), "", createDisruptionSchema);
@@ -73,7 +76,7 @@ describe("page state from cookies test", () => {
         expect(parsedInput.inputs).toEqual(disruptionData);
     });
 
-    it("should parse to expected type for DisruptionPageInputs", () => {
+    it("should parse to expected type for ConsequenceOperatorPageInputs", () => {
         const operatorData: ConsequenceOperatorPageInputs = {
             consequenceOperator: "FMAN",
             description:
@@ -82,6 +85,8 @@ describe("page state from cookies test", () => {
             disruptionDelay: "",
             disruptionSeverity: Severity.slight,
             disruptionDirection: "allDirections",
+            vehicleMode: VehicleMode.bus,
+            consequenceType: "operatorWide",
         };
 
         const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", operatorConsequenceSchema);

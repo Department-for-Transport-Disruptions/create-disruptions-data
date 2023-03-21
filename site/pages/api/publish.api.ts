@@ -10,32 +10,23 @@ import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies } from "nookies";
 import { randomUUID } from "crypto";
-import {
-    COOKIES_CONSEQUENCE_INFO,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
-    COOKIES_DISRUPTION_INFO,
-    CREATE_DISRUPTION_PAGE_PATH,
-} from "../../constants";
+import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, CREATE_DISRUPTION_PAGE_PATH } from "../../constants";
 import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import { consequenceSchema } from "../../schemas/consequence.schema";
 import { createDisruptionSchema } from "../../schemas/create-disruption.schema";
-import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { getDatetimeFromDateAndTime } from "../../utils";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const {
-            [COOKIES_DISRUPTION_INFO]: disruptionInfo,
-            [COOKIES_CONSEQUENCE_TYPE_INFO]: consequenceType,
-            [COOKIES_CONSEQUENCE_INFO]: consequenceInfo,
-        } = parseCookies({ req });
+        const { [COOKIES_DISRUPTION_INFO]: disruptionInfo, [COOKIES_CONSEQUENCE_INFO]: consequenceInfo } = parseCookies(
+            { req },
+        );
 
         const parsedDisruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfo));
-        const parsedConsequenceType = typeOfConsequenceSchema.safeParse(JSON.parse(consequenceType));
         const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));
 
-        if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success || !parsedConsequenceType.success) {
+        if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success) {
             redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
             return;
         }
@@ -65,20 +56,20 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                       }
                     : {}),
             },
-            ValidityPeriod: {
+            ValidityPeriod: parsedDisruptionInfo.data.validity.map((period) => ({
                 StartTime: getDatetimeFromDateAndTime(
-                    parsedDisruptionInfo.data.disruptionStartDate,
-                    parsedDisruptionInfo.data.disruptionStartTime,
+                    period.disruptionStartDate,
+                    period.disruptionStartTime,
                 ).toISOString(),
-                ...(parsedDisruptionInfo.data.disruptionEndDate && parsedDisruptionInfo.data.disruptionEndTime
+                ...(period.disruptionEndDate && period.disruptionEndTime
                     ? {
                           EndTime: getDatetimeFromDateAndTime(
-                              parsedDisruptionInfo.data.disruptionEndDate,
-                              parsedDisruptionInfo.data.disruptionEndTime,
+                              period.disruptionEndDate,
+                              period.disruptionEndTime,
                           ).toISOString(),
                       }
                     : {}),
-            },
+            })),
             Progress: Progress.open,
             Source: {
                 SourceType: SourceType.feed,
@@ -86,18 +77,18 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             },
             ...(parsedDisruptionInfo.data.associatedLink
                 ? {
-                      InfoLinks: [
-                          {
-                              InfoLink: {
+                      InfoLinks: {
+                          InfoLink: [
+                              {
                                   Uri: parsedDisruptionInfo.data.associatedLink,
                               },
-                          },
-                      ],
+                          ],
+                      },
                   }
                 : {}),
-            Consequences: [
-                {
-                    Consequence: {
+            Consequences: {
+                Consequence: [
+                    {
                         Condition: "unknown",
                         Severity: parsedConsequenceInfo.data.disruptionSeverity,
                         Affects: {
@@ -106,7 +97,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 ? {
                                       Networks: {
                                           AffectedNetwork: {
-                                              VehicleMode: parsedConsequenceType.data.modeOfTransport,
+                                              VehicleMode: parsedConsequenceInfo.data.vehicleMode,
                                               AllLines: "",
                                           },
                                       },
@@ -121,8 +112,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 : {}),
                         },
                     },
-                },
-            ],
+                ],
+            },
         };
 
         let completePtSituationElement: PtSituationElement;
@@ -155,7 +146,9 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await insertPublishedDisruptionIntoDynamo(completePtSituationElement);
 
-        res.status(200).json({});
+        cleardownCookies(req, res);
+
+        redirectTo(res, "/");
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";

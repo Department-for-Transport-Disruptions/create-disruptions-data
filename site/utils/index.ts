@@ -1,12 +1,18 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { upperFirst, startCase, lowerCase } from "lodash";
+import lowerCase from "lodash/lowerCase";
+import startCase from "lodash/startCase";
+import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
-import { z, ZodErrorMap } from "zod";
+import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
 
 dayjs.extend(customParseFormat);
+
+const notEmpty = <T>(value: T | null | undefined): value is T => {
+    return value !== null && value !== undefined;
+};
 
 export const buildTitle = (errors: ErrorInfo[], title: string): string => {
     if (errors.length > 0) {
@@ -26,7 +32,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
 
-export const convertDateTimeToFormat = (dateOrTime: string, format: string) => dayjs(dateOrTime).format(format);
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
 
 export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
 
@@ -71,6 +77,15 @@ export const zodDate = (defaultError?: string) =>
 export const zodTime = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(timeRegex);
 
+export const flattenZodErrors = (errors: ZodError) =>
+    Object.values(
+        errors.flatten<ErrorInfo>((val) => ({
+            errorMessage: val.message,
+            id: val.path.at(-1)?.toString() ?? "",
+        })).fieldErrors,
+    )
+        .map((item) => item?.[0] ?? null)
+        .filter(notEmpty);
 /**
  * Verify if the input value is a number between 0-999 minutes.
  * @param {defaultError} defaultError Error message when the validation fails.

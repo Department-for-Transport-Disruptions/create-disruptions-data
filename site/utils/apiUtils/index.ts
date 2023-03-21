@@ -1,8 +1,7 @@
-import { NextApiResponse } from "next";
-import { setCookie } from "nookies";
-import { ZodError } from "zod";
+import { NextApiRequest, NextApiResponse } from "next";
+import { parseCookies, setCookie } from "nookies";
 import { ServerResponse } from "http";
-import { ErrorInfo } from "../../interfaces";
+import { COOKIES_POLICY_COOKIE, COOKIE_CSRF, COOKIE_ID_TOKEN, COOKIE_PREFERENCES_COOKIE } from "../../constants";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -47,12 +46,14 @@ export const redirectToError = (
     redirectTo(res, "/500");
 };
 
-export const flattenZodErrors = (errors: ZodError) =>
-    Object.values(
-        errors.flatten<ErrorInfo>((val) => ({
-            errorMessage: val.message,
-            id: val.path[0].toString(),
-        })).fieldErrors,
-    )
-        .map((item) => item?.[0] ?? null)
-        .filter((item) => item);
+export const cleardownCookies = (req: NextApiRequest, res: NextApiResponse) => {
+    const cookies = parseCookies({ req });
+
+    const saveList = [COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, COOKIE_ID_TOKEN, COOKIE_CSRF];
+
+    Object.keys(cookies).forEach((cookie) => {
+        if (!saveList.includes(cookie)) {
+            destroyCookieOnResponseObject(cookie, res);
+        }
+    });
+};

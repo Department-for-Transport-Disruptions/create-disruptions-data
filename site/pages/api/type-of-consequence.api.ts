@@ -7,9 +7,9 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
 } from "../../constants/index";
 import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
+import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    flattenZodErrors,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,

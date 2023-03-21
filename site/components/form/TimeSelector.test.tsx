@@ -79,6 +79,7 @@ describe("TimeSelector", () => {
                 disabled={false}
                 inputName="field1"
                 stateUpdater={vi.fn()}
+                initialErrors={[]}
                 schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
             />,
         );

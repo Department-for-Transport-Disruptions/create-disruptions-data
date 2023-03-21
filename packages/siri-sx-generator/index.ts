@@ -1,8 +1,8 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
-import { siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { DynamoDBStreamEvent } from "aws-lambda";
-import { toXML } from "jstoxml";
+import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
 import { randomUUID } from "crypto";
@@ -10,6 +10,10 @@ import { getDdbDocumentClient, getS3Client, uploadToS3 } from "./util/awsClient"
 
 const s3Client = getS3Client();
 const ddbDocClient = getDdbDocumentClient();
+
+const notEmpty = <T>(value: T | null | undefined): value is T => {
+    return value !== null && value !== undefined;
+};
 
 export const generateSiriSxAndUploadToS3 = async (
     s3Client: S3Client,
@@ -28,12 +32,19 @@ export const generateSiriSxAndUploadToS3 = async (
             }),
         );
 
-        const cleanData = dbScanData.Items?.map((item) => {
-            delete item.PK;
-            delete item.SK;
+        const cleanData =
+            dbScanData.Items?.map((item) => {
+                const parseResult = ptSituationElementSchema.safeParse(item);
 
-            return item;
-        });
+                if (!parseResult.success) {
+                    const disruptionId = item?.SituationNumber as string;
+                    logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
+                    logger.error(parseResult.error);
+                    return null;
+                }
+
+                return parseResult.data;
+            }).filter(notEmpty) ?? [];
 
         const jsonToXmlObject = {
             ServiceDelivery: {
@@ -42,9 +53,9 @@ export const generateSiriSxAndUploadToS3 = async (
                 ResponseMessageIdentifier: responseMessageIdentifier,
                 SituationExchangeDelivery: {
                     ResponseTimestamp: currentTime,
-                    Situations: cleanData?.map((data) => ({
-                        PtSituationElement: data,
-                    })),
+                    Situations: {
+                        PtSituationElement: cleanData,
+                    },
                 },
             },
         };
@@ -52,22 +63,23 @@ export const generateSiriSxAndUploadToS3 = async (
         logger.info(`Verifying JSON against schema...`);
         const verifiedObject = siriSchema.parse(jsonToXmlObject);
 
-        verifiedObject.ServiceDelivery.SituationExchangeDelivery.Situations[0].PtSituationElement.ReasonType;
-
         const completeObject = {
-            _name: "Siri",
-            _attrs: {
+            "@": {
                 version: "2.0",
                 xmlns: "http://www.siri.org.uk/siri",
                 "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
                 "xsi:schemaLocation": "http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd",
             },
-            _content: verifiedObject,
+            ...verifiedObject,
         };
 
-        const xmlData = toXML(completeObject, {
-            header: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
-            indent: "    ",
+        const xmlData = parse("Siri", completeObject, {
+            declaration: {
+                version: "1.0",
+                encoding: "UTF-8",
+                standalone: "yes",
+            },
+            useSelfClosingTagIfEmpty: true,
         });
 
         await uploadToS3(

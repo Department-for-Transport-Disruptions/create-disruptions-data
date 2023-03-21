@@ -9,13 +9,14 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { getDate } from "../../utils";
+import { convertDateTimeToFormat, getDate } from "../../utils";
 import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
     hiddenHint?: string;
     disablePast: boolean;
+    reset?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -76,17 +77,22 @@ const DateSelector = <T extends object>({
     disablePast,
     stateUpdater,
     schema,
+    reset = false,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(!!disabled || !value ? null : getDate(value).toDate());
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
     useEffect(() => {
-        if (disabled) {
+        if (disabled || reset) {
             setErrors([]);
             setDateValue(null);
         }
-    }, [disabled]);
+    }, [disabled, reset]);
+
+    useEffect(() => {
+        setErrors(initialErrors);
+    }, [initialErrors]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
@@ -101,6 +107,9 @@ const DateSelector = <T extends object>({
                         value={dateValue}
                         onChange={(newValue) => {
                             setDateValue(newValue);
+                            if (newValue) {
+                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                            }
                         }}
                         renderInput={({ inputRef, inputProps, InputProps }) => {
                             return inputBox(

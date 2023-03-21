@@ -21,9 +21,11 @@ export const testDisruptionsJson: PtSituationElement[] = [
             TimeOfCommunication: "2023-01-01T01:10:00Z",
         },
         Progress: Progress.open,
-        ValidityPeriod: {
-            StartTime: "2023-03-03T01:10:00Z",
-        },
+        ValidityPeriod: [
+            {
+                StartTime: "2023-03-03T01:10:00Z",
+            },
+        ],
         PublicationWindow: {
             StartTime: "2023-03-02T10:10:00Z",
             EndTime: "2023-03-09T10:10:00Z",
@@ -33,9 +35,9 @@ export const testDisruptionsJson: PtSituationElement[] = [
         Planned: true,
         Summary: "Disruption Summary",
         Description: "Disruption Description",
-        Consequences: [
-            {
-                Consequence: {
+        Consequences: {
+            Consequence: [
+                {
                     Condition: "unknown",
                     Severity: Severity.verySlight,
                     Affects: {
@@ -47,8 +49,8 @@ export const testDisruptionsJson: PtSituationElement[] = [
                         },
                     },
                 },
-            },
-        ],
+            ],
+        },
     },
     {
         PublicationWindow: {
@@ -66,16 +68,22 @@ export const testDisruptionsJson: PtSituationElement[] = [
         SituationNumber: "11111-22222-33333",
         Version: 2,
         Progress: Progress.closing,
-        ValidityPeriod: {
-            StartTime: "2023-03-03T01:10:00Z",
-            EndTime: "2023-05-01T01:10:00Z",
-        },
+        ValidityPeriod: [
+            {
+                StartTime: "2023-03-03T01:10:00Z",
+                EndTime: "2023-05-01T01:10:00Z",
+            },
+            {
+                StartTime: "2023-06-01T01:10:00Z",
+                EndTime: "2023-06-22T11:10:00Z",
+            },
+        ],
         Planned: false,
         Summary: "Disruption Summary 2",
         Description: "Disruption Description 2",
-        Consequences: [
-            {
-                Consequence: {
+        Consequences: {
+            Consequence: [
+                {
                     Condition: "unknown",
                     Severity: Severity.verySlight,
                     Affects: {
@@ -93,29 +101,29 @@ export const testDisruptionsJson: PtSituationElement[] = [
                         },
                     },
                 },
-            },
-        ],
-        InfoLinks: [
-            {
-                InfoLink: {
+            ],
+        },
+
+        InfoLinks: {
+            InfoLink: [
+                {
                     Uri: "https://example.com",
                 },
-            },
-            {
-                InfoLink: {
+                {
                     Uri: "https://example.com/2",
                 },
-            },
-        ],
-        References: [
-            {
-                RelatedToRef: {
+            ],
+        },
+
+        References: {
+            RelatedToRef: [
+                {
                     ParticipantRef: "ref",
                     CreationTime: "2023-01-01T01:10:00Z",
                     SituationNumber: "aaaaa-bbbbb-ccccc",
                 },
-            },
-        ],
+            ],
+        },
     },
     {
         PublicationWindow: {
@@ -132,20 +140,17 @@ export const testDisruptionsJson: PtSituationElement[] = [
         SituationNumber: "ddddd-eeeee-fffff",
         Version: 1,
         Progress: Progress.published,
-        ValidityPeriod: {
-            StartTime: "2023-03-03T01:10:00Z",
-        },
+        ValidityPeriod: [
+            {
+                StartTime: "2023-03-03T01:10:00Z",
+            },
+        ],
         Planned: true,
         Summary: "Disruption Summary 3",
         Description: "Disruption Description 3",
-        Repetitions: [
-            {
-                DayType: DayType.saturday,
-            },
-            {
-                DayType: DayType.sunday,
-            },
-        ],
+        Repetitions: {
+            DayType: [DayType.saturday, DayType.sunday],
+        },
     },
 ];
 

@@ -190,6 +190,11 @@ const CreateConsequenceNetwork = ({
                         />
 
                         <input type="hidden" name="consequenceType" value="networkWide" />
+                        <input
+                            type="hidden"
+                            name="vehicleMode"
+                            value={previousConsequenceInformation.modeOfTransport}
+                        />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue

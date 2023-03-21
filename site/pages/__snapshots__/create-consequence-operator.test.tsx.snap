@@ -464,6 +464,16 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               </div>
             </fieldset>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="operatorWide"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="ferryService"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1126,6 +1136,16 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               </div>
             </fieldset>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="operatorWide"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="ferryService"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

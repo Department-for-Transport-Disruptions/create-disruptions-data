@@ -137,3 +137,4 @@ export const COOKIES_CONSEQUENCE_NETWORK_ERRORS = "cdd-consequence-network-error
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";
+export const COOKIE_CSRF = "_csrf";

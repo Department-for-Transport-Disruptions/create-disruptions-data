@@ -411,6 +411,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               </div>
             </fieldset>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="networkWide"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="bus"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1020,6 +1030,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               </div>
             </fieldset>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="networkWide"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="bus"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

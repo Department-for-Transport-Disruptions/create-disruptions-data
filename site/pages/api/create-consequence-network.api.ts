@@ -6,9 +6,9 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { networkConsequenceSchema } from "../../schemas/consequence.schema";
+import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    flattenZodErrors,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,

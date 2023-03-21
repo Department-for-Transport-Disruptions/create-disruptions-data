@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
@@ -21,6 +21,8 @@ const defaultOperatorData: ConsequenceOperatorPageInputs = {
     disruptionDelay: "",
     disruptionSeverity: Severity.slight,
     disruptionDirection: "allDirections",
+    vehicleMode: VehicleMode.bus,
+    consequenceType: "operatorWide",
 };
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
@@ -50,12 +52,15 @@ describe("create-consequence-operator API", () => {
         createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select at least one operator", id: "consequenceOperator" },
             { errorMessage: "Enter a consequence description", id: "description" },
-            { errorMessage: "Select planned or unplanned", id: "removeFromJourneyPlanners" },
+            { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
             { errorMessage: "Select a direction", id: "disruptionDirection" },
+            { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
+            { errorMessage: "Select an operator", id: "consequenceOperator" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_OPERATOR_ERRORS,

@@ -1,4 +1,3 @@
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -6,10 +5,19 @@ import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
-import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
-import { Consequence, SocialMediaPost } from "../interfaces";
+import {
+    ADD_CONSEQUENCE_PAGE_PATH,
+    CONSEQUENCE_TYPES,
+    COOKIES_CONSEQUENCE_INFO,
+    COOKIES_CONSEQUENCE_TYPE_INFO,
+    COOKIES_DISRUPTION_INFO,
+    CREATE_DISRUPTION_PAGE_PATH,
+} from "../constants";
+import { SocialMediaPost } from "../interfaces";
+import { Consequence, consequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
-import { formatTime, redirectTo, splitCamelCaseToString } from "../utils";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { formatTime, getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -26,8 +34,18 @@ const createChangeLink = (key: string, href: string) => (
     </Link>
 );
 
-const isOperatorOrNetworkUrl = (type: string) =>
-    `/create-consequence-${type === "Operator wide" ? "operator" : "network"}`;
+const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
+    switch (type) {
+        case "networkWide":
+            return "/create-consequence-network";
+        case "operatorWide":
+            return "/create-consequence-operator";
+        case "stops":
+            return "/create-consequence-stops";
+        case "services":
+            return "/create-consequence-services";
+    }
+};
 
 const ReviewDisruption = ({
     previousDisruptionInformation,
@@ -44,9 +62,21 @@ const ReviewDisruption = ({
         hasInitialised.current = true;
     });
 
+    const getValidityRows = () => {
+        return previousDisruptionInformation.validity.map((validity, i) => ({
+            header: `Validity period ${i + 1}`,
+            cells: [
+                validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
+                    ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                    : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
+                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+            ],
+        }));
+    };
+
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/review-disruption" method="post">
+            <form action="/api/publish" method="post">
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
@@ -87,43 +117,7 @@ const ReviewDisruption = ({
                                         createChangeLink("disruption-reason", "/create-disruption"),
                                     ],
                                 },
-                                {
-                                    header: "Start date",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionStartDate,
-                                        createChangeLink("disruption-start-date", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "Start time",
-                                    cells: [
-                                        formatTime(previousDisruptionInformation.disruptionStartTime),
-                                        createChangeLink("disruption-start-time", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "End date",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionEndDate || "N/A",
-                                        createChangeLink("disruption-end-date", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "End time",
-                                    cells: [
-                                        previousDisruptionInformation.disruptionEndTime
-                                            ? formatTime(previousDisruptionInformation.disruptionEndTime)
-                                            : "N/A",
-                                        createChangeLink("disruption-end-time", "/create-disruption"),
-                                    ],
-                                },
-                                {
-                                    header: "Repeating service",
-                                    cells: [
-                                        startCase(previousDisruptionInformation.disruptionRepeats),
-                                        createChangeLink("disruption-repeats", "/create-disruption"),
-                                    ],
-                                },
+                                ...getValidityRows(),
                                 {
                                     header: "Publish start date",
                                     cells: [
@@ -168,14 +162,16 @@ const ReviewDisruption = ({
                                                 className="govuk-accordion__section-button"
                                                 id={`accordion-default-heading-${i + 1}`}
                                             >
-                                                {`Consequence ${i + 1} - ${consequence["mode-of-transport"]} - ${
-                                                    consequence["services-affected"]
-                                                        ? `Services - ${consequence["services-affected"]
+                                                {`Consequence ${i + 1} - ${splitCamelCaseToString(
+                                                    consequence.vehicleMode,
+                                                )} - ${
+                                                    consequence.consequenceType === "services"
+                                                        ? `Services - ${consequence.services
                                                               .map((service) => service.id)
                                                               .join(", ")}`
-                                                        : consequence["consequence-type"] === "Operator wide" &&
-                                                          consequence["consequence-operator"]
-                                                        ? `${"Operator wide"} - ${consequence["consequence-operator"]}`
+                                                        : consequence.consequenceType === "operatorWide" &&
+                                                          consequence.consequenceOperator
+                                                        ? `Operator wide - ${consequence.consequenceOperator}`
                                                         : `${"Network wide"}`
                                                 }`}
                                             </span>
@@ -191,7 +187,7 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Mode of transport",
                                                     cells: [
-                                                        consequence["mode-of-transport"],
+                                                        splitCamelCaseToString(consequence.vehicleMode),
                                                         createChangeLink(
                                                             "mode-of-transport",
                                                             ADD_CONSEQUENCE_PAGE_PATH,
@@ -201,63 +197,66 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Consequence type",
                                                     cells: [
-                                                        consequence["consequence-type"],
+                                                        getDisplayByValue(
+                                                            CONSEQUENCE_TYPES,
+                                                            consequence.consequenceType,
+                                                        ),
                                                         createChangeLink("consequence-type", ADD_CONSEQUENCE_PAGE_PATH),
                                                     ],
                                                 },
                                                 {
                                                     header: "Service(s)",
                                                     cells: [
-                                                        consequence["services-affected"]
-                                                            ? consequence["services-affected"]
+                                                        consequence.consequenceType === "services"
+                                                            ? consequence.services
                                                                   .map((service) => `${service.id}: ${service.name}`)
                                                                   .join()
                                                             : "N/A",
                                                         createChangeLink(
                                                             "service",
-                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                            getConsequenceUrl(consequence.consequenceType),
                                                         ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Stops affected",
                                                     cells: [
-                                                        consequence["stops-affected"]
-                                                            ? consequence["stops-affected"].join(", ")
+                                                        consequence.consequenceType === "stops"
+                                                            ? consequence.stops.join(", ")
                                                             : "N/A",
                                                         createChangeLink(
                                                             "stops-affected",
-                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                            getConsequenceUrl(consequence.consequenceType),
                                                         ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Advice to display",
                                                     cells: [
-                                                        consequence["advice-to-display"],
+                                                        consequence.description,
                                                         createChangeLink(
                                                             "advice-to-display",
-                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                            getConsequenceUrl(consequence.consequenceType),
                                                         ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Remove from journey planner",
                                                     cells: [
-                                                        consequence["remove-from-journey-planners"],
+                                                        splitCamelCaseToString(consequence.removeFromJourneyPlanners),
                                                         createChangeLink(
                                                             "remove-from-journey-planners",
-                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                            getConsequenceUrl(consequence.consequenceType),
                                                         ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Disruption delay",
                                                     cells: [
-                                                        consequence["disruption-delay"],
+                                                        `${consequence.disruptionDelay} minutes`,
                                                         createChangeLink(
                                                             "disruption-delay",
-                                                            isOperatorOrNetworkUrl(consequence["consequence-type"]),
+                                                            getConsequenceUrl(consequence.consequenceType),
                                                         ),
                                                     ],
                                                 },
@@ -301,28 +300,28 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Message to appear",
                                                     cells: [
-                                                        post["message-to-appear"],
+                                                        post.messageToAppear,
                                                         createChangeLink("message-to-appear", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish date",
                                                     cells: [
-                                                        post["publish-date"],
+                                                        post.publishDate,
                                                         createChangeLink("publish-date", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish time",
                                                     cells: [
-                                                        post["publish-time"],
+                                                        post.publishTime,
                                                         createChangeLink("publish-time", "/social-media-posts"),
                                                     ],
                                                 },
                                                 {
                                                     header: "Account to publish",
                                                     cells: [
-                                                        post["account-to-publish"],
+                                                        post.accountToPublish,
                                                         createChangeLink("account-to-publish", "/social-media-posts"),
                                                     ],
                                                 },
@@ -351,71 +350,73 @@ const ReviewDisruption = ({
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisruptionProps } | void => {
-    const disruptionInfoCookie = parseCookies(ctx)[COOKIES_DISRUPTION_INFO];
+    const {
+        [COOKIES_DISRUPTION_INFO]: disruptionInfo,
+        [COOKIES_CONSEQUENCE_TYPE_INFO]: consequenceType,
+        [COOKIES_CONSEQUENCE_INFO]: consequenceInfo,
+    } = parseCookies(ctx);
 
-    const previousConsequencesInformation: Consequence[] = [
-        {
-            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-            "consequence-type": "Network wide",
-            "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
-            "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
-            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-            "remove-from-journey-planners": "Yes",
-            "disruption-delay": "35 minutes",
-        },
-        {
-            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-            "consequence-type": "Network wide",
-            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-            "remove-from-journey-planners": "Yes",
-            "disruption-delay": "35 minutes",
-        },
-        {
-            "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-            "consequence-type": "Operator wide",
-            "consequence-operator": "Stagecoach",
-            "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-            "remove-from-journey-planners": "Yes",
-            "disruption-delay": "35 minutes",
-        },
-    ];
+    const parsedDisruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfo));
+    const parsedConsequenceType = typeOfConsequenceSchema.safeParse(JSON.parse(consequenceType));
+    const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));
+
+    if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success || !parsedConsequenceType.success) {
+        if (ctx.res) {
+            redirectTo(ctx.res, CREATE_DISRUPTION_PAGE_PATH);
+        }
+
+        return;
+    }
+
+    // const previousConsequencesInformation: Consequence[] = [
+    //     {
+    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
+    //         "consequence-type": "Network wide",
+    //         "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
+    //         "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
+    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+    //         "remove-from-journey-planners": "Yes",
+    //         "disruption-delay": "35 minutes",
+    //     },
+    //     {
+    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
+    //         "consequence-type": "Network wide",
+    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+    //         "remove-from-journey-planners": "Yes",
+    //         "disruption-delay": "35 minutes",
+    //     },
+    //     {
+    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
+    //         "consequence-type": "Operator wide",
+    //         "consequence-operator": "Stagecoach",
+    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
+    //         "remove-from-journey-planners": "Yes",
+    //         "disruption-delay": "35 minutes",
+    //     },
+    // ];
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {
-            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": "11/05/2020",
-            "publish-time": "11:00",
-            "account-to-publish": "Example account",
+            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
+            publishDate: "11/05/2020",
+            publishTime: "11:00",
+            accountToPublish: "Example account",
         },
         {
-            "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-            "publish-date": "11/05/2020",
-            "publish-time": "11:00",
-            "account-to-publish": "Example account 2",
+            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
+            publishDate: "11/05/2020",
+            publishTime: "11:00",
+            accountToPublish: "Example account 2",
         },
     ];
 
-    if (disruptionInfoCookie) {
-        const disruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfoCookie));
-
-        if (disruptionInfo.success) {
-            const disruptionData = disruptionInfo.data;
-
-            return {
-                props: {
-                    previousDisruptionInformation: disruptionData,
-                    previousConsequencesInformation,
-                    previousSocialMediaPosts,
-                },
-            };
-        }
-    }
-
-    if (ctx.res) {
-        redirectTo(ctx.res, "/");
-    }
-
-    return;
+    return {
+        props: {
+            previousDisruptionInformation: parsedDisruptionInfo.data,
+            previousConsequencesInformation: [parsedConsequenceInfo.data],
+            previousSocialMediaPosts,
+        },
+    };
 };
 
 export default ReviewDisruption;
