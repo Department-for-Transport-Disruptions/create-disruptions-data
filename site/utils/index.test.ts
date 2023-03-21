@@ -1,9 +1,9 @@
-import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import { MiscellaneousReason, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
-import { CD_DATE_FORMAT, Severity } from "../constants";
+import { CD_DATE_FORMAT } from "../constants";
 import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-operator.page";
 import { DisruptionPageInputs } from "../pages/create-disruption.page";
-import { createConsequenceOperatorSchema } from "../schemas/create-consequence-operator.schema";
+import { operatorConsequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema } from "../schemas/create-disruption.schema";
 import {
     formatTime,
@@ -84,7 +84,7 @@ describe("page state from cookies test", () => {
             disruptionDirection: "allDirections",
         };
 
-        const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", createConsequenceOperatorSchema);
+        const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", operatorConsequenceSchema);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);

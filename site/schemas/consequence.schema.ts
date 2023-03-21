@@ -1,8 +1,8 @@
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
-import { Severity } from "../constants";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
-export const createConsequenceNetworkSchema = z.object({
+const baseConsequence = {
     description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(500, {
         message: "Description must not exceed 500 characters",
     }),
@@ -28,4 +28,29 @@ export const createConsequenceNetworkSchema = z.object({
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
         setZodDefaultError("Select a direction"),
     ),
+};
+
+export const networkConsequenceSchema = z.object({
+    ...baseConsequence,
+    consequenceType: z.literal("networkWide"),
 });
+
+export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
+
+export const operatorConsequenceSchema = z.object({
+    ...baseConsequence,
+    consequenceOperator: z.union(
+        [z.literal("FMAN"), z.literal("SCMN"), z.literal("FSYO"), z.literal("SYRK")],
+        setZodDefaultError("Select at least one operator"),
+    ),
+    consequenceType: z.literal("operatorWide"),
+});
+
+export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
+
+export const consequenceSchema = z.discriminatedUnion("consequenceType", [
+    networkConsequenceSchema,
+    operatorConsequenceSchema,
+]);
+
+export type Consequence = z.infer<typeof consequenceSchema>;

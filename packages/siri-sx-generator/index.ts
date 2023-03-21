@@ -37,7 +37,7 @@ export const generateSiriSxAndUploadToS3 = async (
 
         const jsonToXmlObject = {
             ServiceDelivery: {
-                ProducerRef: "DfT",
+                ProducerRef: "DepartmentForTransport",
                 ResponseTimestamp: currentTime,
                 ResponseMessageIdentifier: responseMessageIdentifier,
                 SituationExchangeDelivery: {

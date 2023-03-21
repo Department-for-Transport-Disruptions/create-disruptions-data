@@ -7,7 +7,9 @@ import {
     MiscellaneousReason,
     PersonnelReason,
     Progress,
+    Severity,
     SourceType,
+    VehicleMode,
 } from "./enums";
 
 export const sourceTypeSchema = z.nativeEnum(SourceType);
@@ -61,6 +63,59 @@ export const infoLinksSchema = z.object({
     InfoLink: infoLinkSchema,
 });
 
+export const affectedOperatorSchema = z.object({
+    OperatorRef: z.string(),
+    OperatorName: z.string(),
+});
+
+export const operatorsSchema = z.object({
+    AllOperators: z.literal("").optional(),
+    AffectedOperator: affectedOperatorSchema.optional(),
+});
+
+export const networksSchema = z.object({
+    AffectedNetwork: z.object({
+        VehicleMode: z.nativeEnum(VehicleMode),
+        AllLines: z.literal("").optional(),
+        AffectedLine: z
+            .object({
+                AffectedOperator: affectedOperatorSchema,
+                LineRef: z.string(),
+            })
+            .optional(),
+    }),
+});
+
+export const stopPointsSchema = z.array(
+    z.object({
+        AffectedStopPoint: z.object({
+            StopPointRef: z.string(),
+            StopPointName: z.string(),
+            Location: z.object({
+                Longitude: z.number(),
+                Latitude: z.number(),
+            }),
+            AffectedModes: z.object({
+                Mode: z.object({
+                    VehicleMode: z.nativeEnum(VehicleMode),
+                }),
+            }),
+        }),
+    }),
+);
+
+export const consequenceSchema = z.object({
+    Consequence: z.object({
+        Condition: z.literal("unknown"),
+        Severity: z.nativeEnum(Severity),
+        Affects: z.object({
+            Operators: operatorsSchema.optional(),
+            Networks: networksSchema.optional(),
+            StopPoints: stopPointsSchema.optional(),
+        }),
+    }),
+});
+
 export const basePtSituationElementSchema = z.object({
     CreationTime: situationElementRefSchema.shape.CreationTime,
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
@@ -91,6 +146,7 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
                 Summary: z.string(),
                 Description: z.string(),
                 InfoLinks: z.array(infoLinksSchema).optional(),
+                Consequences: z.array(consequenceSchema).optional(),
             }),
         ),
 );

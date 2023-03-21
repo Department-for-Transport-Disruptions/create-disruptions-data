@@ -26,7 +26,6 @@ export enum MiscellaneousReason {
     accident = "accident",
     securityAlert = "securityAlert",
     congestion = "congestion",
-    roadWorks = "roadWorks",
     roadClosed = "roadClosed",
     bombExplosion = "bombExplosion",
     incident = "incident",
@@ -209,4 +208,15 @@ export enum VehicleMode {
     tram = "tram",
     ferryService = "ferryService",
     rail = "rail",
+}
+
+export enum Severity {
+    undefined = "undefined",
+    unknown = "unknown",
+    noImpact = "noImpact",
+    normal = "normal",
+    verySlight = "verySlight",
+    slight = "slight",
+    severe = "severe",
+    verySevere = "verySevere",
 }

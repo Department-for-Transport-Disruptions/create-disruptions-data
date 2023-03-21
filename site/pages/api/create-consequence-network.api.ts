@@ -5,7 +5,7 @@ import {
     CREATE_CONSEQUENCE_NETWORK_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { createConsequenceNetworkSchema } from "../../schemas/create-consequence-network.schema";
+import { networkConsequenceSchema } from "../../schemas/consequence.schema";
 import {
     destroyCookieOnResponseObject,
     flattenZodErrors,
@@ -16,7 +16,7 @@ import {
 
 const createConsequenceNetwork = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const validatedBody = createConsequenceNetworkSchema.safeParse(req.body);
+        const validatedBody = networkConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(

@@ -1,8 +1,7 @@
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import CreateConsequenceOperator, { ConsequenceOperatorPageInputs } from "./create-consequence-operator.page";
-import { Severity } from "../constants";
 import { PageState } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 

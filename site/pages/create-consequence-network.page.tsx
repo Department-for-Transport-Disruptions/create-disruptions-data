@@ -2,7 +2,6 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
@@ -19,7 +18,7 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { ErrorInfo, PageState } from "../interfaces";
-import { createConsequenceNetworkSchema } from "../schemas/create-consequence-network.schema";
+import { NetworkConsequence, networkConsequenceSchema } from "../schemas/consequence.schema";
 import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 
@@ -31,7 +30,7 @@ interface CreateConsequenceNetworkProps {
     previousConsequenceInformation: ConsequenceType;
 }
 
-export interface ConsequenceNetworkPageInputs extends Partial<z.infer<typeof createConsequenceNetworkSchema>> {}
+export interface ConsequenceNetworkPageInputs extends Partial<NetworkConsequence> {}
 
 const CreateConsequenceNetwork = ({
     inputs,
@@ -118,7 +117,7 @@ const CreateConsequenceNetwork = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceNetworkSchema.shape.description}
+                            schema={networkConsequenceSchema.shape.description}
                         />
 
                         <Radios<ConsequenceNetworkPageInputs>
@@ -136,21 +135,21 @@ const CreateConsequenceNetwork = ({
                             ]}
                             inputName="removeFromJourneyPlanners"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["removeFromJourneyPlanners"]}
+                            value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceNetworkSchema.shape.removeFromJourneyPlanners}
+                            schema={networkConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
                         <TimeSelector<ConsequenceNetworkPageInputs>
                             display="How long is the disruption delay?"
                             displaySize="l"
                             hint="Enter the time in minutes"
-                            value={pageState.inputs["disruptionDelay"]}
+                            value={pageState.inputs.disruptionDelay}
                             disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceNetworkSchema.shape.disruptionDelay}
+                            schema={networkConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
@@ -161,9 +160,9 @@ const CreateConsequenceNetwork = ({
                             defaultDisplay="Select a severity"
                             selectValues={DISRUPTION_SEVERITIES}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["disruptionSeverity"]}
+                            value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceNetworkSchema.shape.disruptionSeverity}
+                            schema={networkConsequenceSchema.shape.disruptionSeverity}
                         />
 
                         <Radios<ConsequenceNetworkPageInputs>
@@ -185,10 +184,12 @@ const CreateConsequenceNetwork = ({
                             ]}
                             inputName="disruptionDirection"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["disruptionDirection"]}
+                            value={pageState.inputs.disruptionDirection}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceNetworkSchema.shape.disruptionDirection}
+                            schema={networkConsequenceSchema.shape.disruptionDirection}
                         />
+
+                        <input type="hidden" name="consequenceType" value="networkWide" />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -221,11 +222,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
         }
     }
 
-    inputs = getPageStateFromCookies<ConsequenceNetworkPageInputs>(
-        dataCookie,
-        errorCookie,
-        createConsequenceNetworkSchema,
-    );
+    inputs = getPageStateFromCookies<ConsequenceNetworkPageInputs>(dataCookie, errorCookie, networkConsequenceSchema);
 
     return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
 };

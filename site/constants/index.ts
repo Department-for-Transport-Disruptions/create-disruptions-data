@@ -4,8 +4,10 @@ import {
     EnvironmentReason,
     EquipmentReason,
     VehicleMode,
+    Severity,
 } from "@create-disruptions-data/shared-ts/enums";
 import { DisplayValuePair } from "../interfaces";
+import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
@@ -13,12 +15,11 @@ export const SERVICE_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
 export const SUPPORT_PHONE_NUMBER = "0800 123 1234";
 
-export const DISRUPTION_REASONS: {
-    value: MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason;
-    display: string;
-}[] = [
+export const DISRUPTION_REASONS: DisplayValuePair<
+    MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason
+>[] = [
     {
-        value: MiscellaneousReason.roadWorks,
+        value: MiscellaneousReason.roadworks,
         display: "Road Works",
     },
     {
@@ -35,19 +36,7 @@ export const DISRUPTION_REASONS: {
     },
 ];
 
-export enum Severity {
-    unknown = "unknown",
-    verySlight = "verySlight",
-    slight = "slight",
-    normal = "normal",
-    severe = "severe",
-    verySevere = "verySevere",
-}
-
-export const DISRUPTION_SEVERITIES: {
-    value: Severity;
-    display: string;
-}[] = [
+export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [
     { value: Severity.unknown, display: "Unknown" },
     { value: Severity.verySlight, display: "Very slight" },
     {
@@ -65,7 +54,7 @@ export const DISRUPTION_SEVERITIES: {
     { value: Severity.verySevere, display: "Very severe" },
 ];
 
-export const OPERATORS = [
+export const OPERATORS: DisplayValuePair[] = [
     {
         value: "FMAN",
         display: "First Greater Manchester",
@@ -81,7 +70,7 @@ export const OPERATORS = [
     { value: "SYRK", display: "Stagecoach Yorkshire" },
 ];
 
-export const VEHICLE_MODES: DisplayValuePair[] = [
+export const VEHICLE_MODES: DisplayValuePair<VehicleMode>[] = [
     {
         value: VehicleMode.bus,
         display: "Bus",
@@ -100,7 +89,7 @@ export const VEHICLE_MODES: DisplayValuePair[] = [
     },
 ];
 
-export const CONSEQUENCE_TYPES: DisplayValuePair[] = [
+export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
     {
         value: "services",
         display: "Services",

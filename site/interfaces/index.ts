@@ -36,9 +36,9 @@ export interface FormBase<T> {
     schema?: z.ZodTypeAny;
 }
 
-export interface DisplayValuePair {
+export interface DisplayValuePair<T = string> {
     display: string;
-    value: string;
+    value: T;
     checked?: boolean;
 }
 

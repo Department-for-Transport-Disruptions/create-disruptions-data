@@ -23,7 +23,7 @@ const defaultDisruptionData: DisruptionPageInputs = {
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     associatedLink: "",
-    disruptionReason: MiscellaneousReason.roadWorks,
+    disruptionReason: MiscellaneousReason.roadworks,
     disruptionStartDate: defaultDisruptionStartDate,
     disruptionEndDate: defaultDisruptionEndDate,
     disruptionStartTime: "1000",

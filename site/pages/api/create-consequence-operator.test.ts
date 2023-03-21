@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
@@ -6,7 +7,6 @@ import {
     COOKIES_CONSEQUENCE_INFO,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-    Severity,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
@@ -25,8 +25,7 @@ const defaultOperatorData: ConsequenceOperatorPageInputs = {
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));

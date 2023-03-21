@@ -2,8 +2,9 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import { describe, expect, it, beforeEach, beforeAll } from "vitest";
+import formatXml from "xml-formatter";
 import { ZodError } from "zod";
-import { expectedSiriSx, invalidDisruptionJsonExamples, testDisruptionsJson } from "./test/testData";
+import { invalidDisruptionJsonExamples, testDisruptionsJson } from "./test/testData";
 import { generateSiriSxAndUploadToS3 } from ".";
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
@@ -21,7 +22,6 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates SIRI-SX XML", async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         ddbMock.on(ScanCommand).resolves({ Items: testDisruptionsJson });
 
         await generateSiriSxAndUploadToS3(
@@ -35,10 +35,13 @@ describe("SIRI-SX Generator", () => {
 
         const s3PutCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
         const putData = (s3PutCommand.input.Body as string).replace(/(?:\r\n|\r|\n)/g, "");
-        const expectedData = expectedSiriSx.toString().replace(/(?:\r\n|\r|\n)/g, "");
 
         expect(s3PutCommand.input.Key).toBe("1678104000000-unvalidated-siri.xml");
-        expect(putData).toBe(expectedData);
+        expect(
+            formatXml(putData, {
+                collapseContent: true,
+            }),
+        ).toMatchSnapshot();
     });
 
     it.each(invalidDisruptionJsonExamples)("handles invalid disruptions JSON - %s", async (_description, input) => {
