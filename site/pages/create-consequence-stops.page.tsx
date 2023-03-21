@@ -23,6 +23,8 @@ import { createConsequenceStopsSchema } from "../schemas/create-consequence-stop
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
+import SelectSearch from "react-select-search";
+import "react-select-search/style.css";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -35,6 +37,17 @@ const CreateConsequenceStops = ({
 }: CreateConsequenceProps<ConsequenceStopsPageInputs>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    const options = [
+        {},
+        { name: "Swedish", value: "sv" },
+        { name: "English", value: "en" },
+        {
+            type: "group",
+            name: "Group name",
+            items: [{ name: "Spanish", value: "es" }],
+        },
+    ];
 
     return (
         <BaseLayout title={title} description={description}>
@@ -79,6 +92,11 @@ const CreateConsequenceStops = ({
                                 },
                             ]}
                         />
+
+                        <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
+                            Stops Impacted
+                        </label>
+                        <SelectSearch options={options} id="language" placeholder="Choose your language" />
 
                         <TextInput<ConsequenceStopsPageInputs>
                             display="Consequence description"
