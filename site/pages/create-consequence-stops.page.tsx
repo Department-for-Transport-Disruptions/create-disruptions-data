@@ -5,7 +5,7 @@ import { ReactElement, useState } from "react";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
-import Select from "../components/form/Select";
+//import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
@@ -24,7 +24,8 @@ import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
 import SelectSearch from "react-select-search";
-import "react-select-search/style.css";
+import Select, { components, ContainerProps, ControlProps, Props, StylesConfig } from "react-select";
+import { buildFeedbackContent } from "../utils/apiUtils/feedbackEmailer";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -38,16 +39,34 @@ const CreateConsequenceStops = ({
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const options = [
-        {},
-        { name: "Swedish", value: "sv" },
-        { name: "English", value: "en" },
-        {
-            type: "group",
-            name: "Group name",
-            items: [{ name: "Spanish", value: "es" }],
-        },
+    interface ColourOption {
+        readonly value: string;
+        readonly label: string;
+        readonly color: string;
+        readonly isFixed?: boolean;
+        readonly isDisabled?: boolean;
+    }
+
+    const colourOptions: readonly ColourOption[] = [
+        { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
+        { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
+        { value: "purple", label: "Purple", color: "#5243AA" },
+        { value: "red", label: "Red", color: "#FF5630", isFixed: true },
+        { value: "orange", label: "Orange", color: "#FF8B00" },
+        { value: "yellow", label: "Yellow", color: "#FFC400" },
+        { value: "green", label: "Green", color: "#36B37E" },
+        { value: "forest", label: "Forest", color: "#00875A" },
+        { value: "slate", label: "Slate", color: "#253858" },
+        { value: "silver", label: "Silver", color: "#666666" },
     ];
+
+    const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
+        return <components.Control {...props}>{children}</components.Control>;
+    };
+
+    const styles: StylesConfig<ColourOption, false> = {
+        control: (css) => ({ ...css, paddingLeft: "1rem", border: "2px solid black" }),
+    };
 
     return (
         <BaseLayout title={title} description={description}>
@@ -96,7 +115,29 @@ const CreateConsequenceStops = ({
                         <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
                             Stops Impacted
                         </label>
-                        <SelectSearch options={options} id="language" placeholder="Choose your language" />
+                        <Select
+                            components={{ Control }}
+                            isSearchable
+                            name="emoji"
+                            options={colourOptions}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 0,
+                                colors: {
+                                    ...theme.colors,
+                                    primary25: "#3399ff",
+                                    primary: "black",
+                                },
+                            })}
+                            styles={{
+                                control: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    fontFamily: "Arial",
+                                    border: state.isFocused ? "yellow solid 3px" : "black solid 3px",
+                                    marginBottom: "20px",
+                                }),
+                            }}
+                        />
 
                         <TextInput<ConsequenceStopsPageInputs>
                             display="Consequence description"
