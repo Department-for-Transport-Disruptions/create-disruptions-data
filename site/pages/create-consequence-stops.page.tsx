@@ -193,8 +193,9 @@ const CreateConsequenceStops = ({
                             styles={{
                                 control: (baseStyles, state) => ({
                                     ...baseStyles,
-                                    fontFamily: "Arial",
-                                    border: state.isFocused ? "yellow solid 3px" : "black solid 3px",
+                                    fontFamily: "GDS Transport, arial, sans-serif",
+                                    border: "black solid 3px",
+                                    outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
                                     marginBottom: "20px",
                                     "&:hover": { borderColor: "black" },
                                     width: "75%",
@@ -218,6 +219,8 @@ const CreateConsequenceStops = ({
                             id="dropdown-search"
                             instanceId="dropdown-search"
                             inputId="dropdown-search-value"
+                            menuPlacement="auto"
+                            menuPosition="fixed"
                         />
                         <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
                         {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
