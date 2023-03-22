@@ -1,11 +1,15 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, SyntheticEvent, useCallback, useEffect, useState } from "react";
+import { components, ContainerProps, ControlProps, InputActionMeta, Props, StylesConfig } from "react-select";
+import AsyncSelect from "react-select/async";
+
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 //import Select from "../components/form/Select";
+import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
@@ -19,12 +23,10 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
-import { createConsequenceStopsSchema } from "../schemas/create-consequence-stops.schema";
+import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/create-consequence-stops.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue, getPageStateFromCookies } from "../utils";
+import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
-import Select, { components, ContainerProps, ControlProps, Props, StylesConfig } from "react-select";
-import { buildFeedbackContent } from "../utils/apiUtils/feedbackEmailer";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -37,35 +39,68 @@ const CreateConsequenceStops = ({
 }: CreateConsequenceProps<ConsequenceStopsPageInputs>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
+    const [searchInput, setSearchInput] = useState("");
+    const [options, setOptions] = useState([]);
+    const [selected, setSelected] = useState(null);
 
-    interface ColourOption {
-        readonly value: string;
-        readonly label: string;
-        readonly color: string;
-        readonly isFixed?: boolean;
-        readonly isDisabled?: boolean;
-    }
-
-    const colourOptions: readonly ColourOption[] = [
-        { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-        { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
-        { value: "purple", label: "Purple", color: "#5243AA" },
-        { value: "red", label: "Red", color: "#FF5630", isFixed: true },
-        { value: "orange", label: "Orange", color: "#FF8B00" },
-        { value: "yellow", label: "Yellow", color: "#FFC400" },
-        { value: "green", label: "Green", color: "#36B37E" },
-        { value: "forest", label: "Forest", color: "#00875A" },
-        { value: "slate", label: "Slate", color: "#253858" },
-        { value: "silver", label: "Silver", color: "#666666" },
-    ];
-
-    const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
-        return <components.Control {...props}>{children}</components.Control>;
+    const selectAllStops = () => {
+        //TODO
     };
 
-    const styles: StylesConfig<ColourOption, false> = {
-        control: (css) => ({ ...css, paddingLeft: "1rem", border: "2px solid black" }),
+    // handle input change event
+    const handleInputChange = (value) => {
+        setSearchInput(value);
     };
+
+    // handle selection
+    const handleChange = (value) => {
+        console.log(value);
+        setSelected(value);
+        addStop(value);
+    };
+
+    // load options using API call
+    const loadOptions = async (inputValue) => {
+        const searchApiUrl = `https://ruij3gt6v7.execute-api.eu-west-2.amazonaws.com/stops?adminAreaCode=099`;
+        console.log(inputValue);
+        const limit = 10;
+        const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
+        const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
+        return await fetch(fetchURL, { method: "GET" }).then((res) => {
+            const result = res.json();
+            setOptions(result);
+            console.log(result, result.length);
+            return result;
+        });
+    };
+    useEffect(() => {
+        console.log(pageState);
+    }, [pageState]);
+
+    const addStop = (stopToAdd) => {
+        //TODO
+
+        const parsed = stopsImpactedSchema.safeParse(stopToAdd);
+
+        if (!parsed.success) {
+            setPageState({
+                ...pageState,
+                errors: [
+                    ...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id)),
+                    ...flattenZodErrors(parsed.error),
+                ],
+            });
+        } else {
+            setPageState({
+                inputs: {
+                    ...pageState.inputs,
+                    stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd],
+                },
+                errors: [...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id))],
+            });
+        }
+    };
+    // console.log(searchInput, selected, options);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -114,11 +149,8 @@ const CreateConsequenceStops = ({
                         <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
                             Stops Impacted
                         </label>
-                        <Select
-                            components={{ Control }}
+                        <AsyncSelect
                             isSearchable
-                            name="emoji"
-                            options={colourOptions}
                             styles={{
                                 control: (baseStyles, state) => ({
                                     ...baseStyles,
@@ -134,8 +166,28 @@ const CreateConsequenceStops = ({
                                     backgroundColor: state.isFocused ? "#3399ff" : "white",
                                 }),
                             }}
+                            cacheOptions
+                            defaultOptions
+                            value={selected}
+                            getOptionLabel={(e) => `${e.commonName} ${e.indicator} ${e.atcoCode}`}
+                            getOptionValue={(e) => e.id}
+                            loadOptions={loadOptions}
+                            onInputChange={handleInputChange}
+                            options={options}
+                            inputValue={searchInput}
+                            onChange={handleChange}
+                            id="dropdown-search"
+                            instanceId="dropdown-search"
+                            inputId="dropdown-search-value"
                         />
 
+                        <button
+                            className="govuk-button govuk-button--secondary mt-8"
+                            data-module="govuk-button"
+                            onClick={selectAllStops}
+                        >
+                            Select all stops
+                        </button>
                         <TextInput<ConsequenceStopsPageInputs>
                             display="Consequence description"
                             displaySize="l"
