@@ -154,84 +154,136 @@ export const testDisruptionsJson: PtSituationElement[] = [
     },
 ];
 
-export const invalidDisruptionJsonExamples: [string, object][] = [
+export const invalidDisruptionJsonExamples: [string, object[]][] = [
     [
-        "Missing field (ParticipantRef)",
-        {
-            CreationTime: "2023-01-01T01:10:00Z",
-            SituationNumber: "aaaaa-bbbbb-ccccc",
-            Version: 1,
-            Source: {
-                SourceType: SourceType.feed,
-                TimeOfCommunication: "2023-01-01T01:10:00Z",
+        "Missing field (ParticipantRef) with valid disruption as well",
+        [
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: {
+                    SourceType: SourceType.feed,
+                    TimeOfCommunication: "2023-01-01T01:10:00Z",
+                },
+                Progress: Progress.open,
+                ValidityPeriod: [
+                    {
+                        StartTime: "2023-03-03T01:10:00Z",
+                    },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-03-09T10:10:00Z",
+                },
+                ReasonType: "PersonnelReason",
+                PersonnelReason: PersonnelReason.staffSickness,
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
             },
-            Progress: Progress.open,
-            ValidityPeriod: {
-                StartTime: "2023-03-03T01:10:00Z",
+            {
+                PublicationWindow: {
+                    StartTime: "2023-03-05T10:10:00Z",
+                },
+                Source: {
+                    SourceType: SourceType.directReport,
+                    TimeOfCommunication: "2023-02-02T10:10:00Z",
+                },
+                ReasonType: "EnvironmentReason",
+                EnvironmentReason: EnvironmentReason.grassFire,
+                CreationTime: "2023-03-05T05:10:00Z",
+                ParticipantRef: "ref3",
+                SituationNumber: "ddddd-eeeee-fffff",
+                Version: 1,
+                Progress: Progress.published,
+                ValidityPeriod: [
+                    {
+                        StartTime: "2023-03-03T01:10:00Z",
+                    },
+                ],
+                Planned: true,
+                Summary: "Disruption Summary 3",
+                Description: "Disruption Description 3",
+                Repetitions: {
+                    DayType: [DayType.saturday, DayType.sunday],
+                },
             },
-            PublicationWindow: {
-                StartTime: "2023-03-02T10:10:00Z",
-                EndTime: "2023-03-09T10:10:00Z",
-            },
-            ReasonType: "PersonnelReason",
-            PersonnelReason: PersonnelReason.staffSickness,
-            Planned: true,
-            Summary: "Disruption Summary",
-            Description: "Disruption Description",
-        },
+        ],
     ],
 
     [
         "Invalid enum value (EnvironmentReason)",
-        {
-            CreationTime: "2023-01-01T01:10:00Z",
-            SituationNumber: "aaaaa-bbbbb-ccccc",
-            Version: 1,
-            Source: {
-                SourceType: SourceType.feed,
-                TimeOfCommunication: "2023-01-01T01:10:00Z",
+        [
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: {
+                    SourceType: SourceType.feed,
+                    TimeOfCommunication: "2023-01-01T01:10:00Z",
+                },
+                Progress: Progress.open,
+                ValidityPeriod: [
+                    {
+                        StartTime: "2023-03-03T01:10:00Z",
+                    },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-03-09T10:10:00Z",
+                },
+                ReasonType: "EnvironmentReason",
+                EnvironmentReason: "EnvironmentReason",
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
+                ParticipantRef: "ref",
             },
-            Progress: Progress.open,
-            ValidityPeriod: {
-                StartTime: "2023-03-03T01:10:00Z",
-            },
-            PublicationWindow: {
-                StartTime: "2023-03-02T10:10:00Z",
-                EndTime: "2023-03-09T10:10:00Z",
-            },
-            ReasonType: "EnvironmentReason",
-            EnvironmentReason: "EnvironmentReason",
-            Planned: true,
-            Summary: "Disruption Summary",
-            Description: "Disruption Description",
-            ParticipantRef: "ref",
-        },
+        ],
     ],
 
     [
         "EndTime before StartTime",
-        {
-            CreationTime: "2023-01-01T01:10:00Z",
-            SituationNumber: "aaaaa-bbbbb-ccccc",
-            Version: 1,
-            Source: {
-                SourceType: SourceType.feed,
-                TimeOfCommunication: "2023-01-01T01:10:00Z",
+        [
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: {
+                    SourceType: SourceType.feed,
+                    TimeOfCommunication: "2023-01-01T01:10:00Z",
+                },
+                Progress: Progress.open,
+                ValidityPeriod: [
+                    {
+                        StartTime: "2023-03-03T01:10:00Z",
+                    },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-02-09T10:10:00Z",
+                },
+                ReasonType: "EnvironmentReason",
+                EnvironmentReason: EnvironmentReason.sewerOverflow,
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
+                ParticipantRef: "ref",
             },
-            Progress: Progress.open,
-            ValidityPeriod: {
-                StartTime: "2023-03-03T01:10:00Z",
-            },
-            PublicationWindow: {
-                StartTime: "2023-03-02T10:10:00Z",
-                EndTime: "2023-02-09T10:10:00Z",
-            },
-            ReasonType: "EnvironmentReason",
-            EnvironmentReason: EnvironmentReason.sewerOverflow,
-            Planned: true,
-            Summary: "Disruption Summary",
-            Description: "Disruption Description",
-            ParticipantRef: "ref",
-        },
+        ],
     ],
 ];
+
+export const emptySiri = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <Siri version="2.0" xmlns="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd">
+     <ServiceDelivery>
+         <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
+         <ProducerRef>DepartmentForTransport</ProducerRef>
+         <ResponseMessageIdentifier>abcde-fghij-klmno-pqrst</ResponseMessageIdentifier>
+         <SituationExchangeDelivery>
+            <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
+            <Situations/>
+         </SituationExchangeDelivery>
+     </ServiceDelivery>
+ </Siri>`;

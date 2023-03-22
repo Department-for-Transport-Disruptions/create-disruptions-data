@@ -3,7 +3,6 @@ import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import { describe, expect, it, beforeEach, beforeAll } from "vitest";
 import formatXml from "xml-formatter";
-import { ZodError } from "zod";
 import { invalidDisruptionJsonExamples, testDisruptionsJson } from "./test/testData";
 import { generateSiriSxAndUploadToS3 } from ".";
 
@@ -45,28 +44,24 @@ describe("SIRI-SX Generator", () => {
     });
 
     it.each(invalidDisruptionJsonExamples)("handles invalid disruptions JSON - %s", async (_description, input) => {
-        ddbMock.on(ScanCommand).resolves({ Items: [input] });
+        ddbMock.on(ScanCommand).resolves({ Items: input });
 
-        await expect(
-            generateSiriSxAndUploadToS3(
-                s3Mock as unknown as S3Client,
-                ddbMock as unknown as DynamoDBDocumentClient,
-                "test-table",
-                "test-bucket",
-                "abcde-fghij-klmno-pqrst",
-                "2023-03-06T12:00:00Z",
-            ),
-        ).rejects.toThrowError(ZodError);
+        await generateSiriSxAndUploadToS3(
+            s3Mock as unknown as S3Client,
+            ddbMock as unknown as DynamoDBDocumentClient,
+            "test-table",
+            "test-bucket",
+            "abcde-fghij-klmno-pqrst",
+            "2023-03-06T12:00:00Z",
+        );
 
-        await expect(
-            generateSiriSxAndUploadToS3(
-                s3Mock as unknown as S3Client,
-                ddbMock as unknown as DynamoDBDocumentClient,
-                "test-table",
-                "test-bucket",
-                "abcde-fghij-klmno-pqrst",
-                "2023-03-06T12:00:00Z",
-            ),
-        ).rejects.toThrowErrorMatchingSnapshot();
+        const s3PutCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
+        const putData = (s3PutCommand.input.Body as string).replace(/(?:\r\n|\r|\n)/g, "");
+
+        expect(
+            formatXml(putData, {
+                collapseContent: true,
+            }),
+        ).toMatchSnapshot();
     });
 });

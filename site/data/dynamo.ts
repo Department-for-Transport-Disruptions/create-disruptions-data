@@ -1,23 +1,20 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { ptSituationElementSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
-export const getDdbClient = (): DynamoDBClient => new DynamoDBClient({ region: "eu-west-2" });
+const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
-export const getDdbDocumentClient = (ddbClient = getDdbClient()): DynamoDBDocumentClient =>
-    DynamoDBDocumentClient.from(ddbClient);
-
-const ddbDocClient = getDdbDocumentClient();
-const TABLE_NAME = process.env.TABLE_NAME || "";
+const tableName = process.env.TABLE_NAME as string;
 
 export const getDisruptionsDataFromDynamo = async () => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: TABLE_NAME,
+            TableName: tableName,
             KeyConditionExpression: "PK = :i",
             ExpressionAttributeValues: {
                 ":i": "1",
@@ -26,11 +23,16 @@ export const getDisruptionsDataFromDynamo = async () => {
     );
 
     return dbData.Items?.map((item) => {
-        delete item.PK;
-        delete item.SK;
+        const parsedItem = ptSituationElementSchema.safeParse(item);
 
-        return ptSituationElementSchema.parse(item);
-    });
+        if (!parsedItem.success) {
+            logger.error("Error parsing disruption from dynamo");
+            logger.error(parsedItem.error.stack);
+            return null;
+        }
+
+        return parsedItem.data;
+    }).filter(notEmpty);
 };
 
 export const insertPublishedDisruptionIntoDynamo = async (disruption: PtSituationElement) => {
@@ -38,7 +40,7 @@ export const insertPublishedDisruptionIntoDynamo = async (disruption: PtSituatio
 
     await ddbDocClient.send(
         new PutCommand({
-            TableName: TABLE_NAME,
+            TableName: tableName,
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
                 SK: disruption.SituationNumber,

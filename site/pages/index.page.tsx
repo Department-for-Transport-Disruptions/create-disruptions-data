@@ -28,7 +28,7 @@ const Home = () => {
             </ul>
 
             <Link
-                href="/create-disruption"
+                href="/dashboard"
                 role="button"
                 draggable="false"
                 className="govuk-button govuk-button--start"

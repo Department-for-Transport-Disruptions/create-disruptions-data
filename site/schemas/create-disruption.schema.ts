@@ -5,7 +5,8 @@ import {
     personnelReasonSchema,
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { z } from "zod";
-import { getDatetimeFromDateAndTime, setZodDefaultError, zodDate, zodTime } from "../utils";
+import { setZodDefaultError, zodDate, zodTime } from "../utils";
+import { getDatetimeFromDateAndTime } from "../utils/dates";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Enter a start date for the disruption"),

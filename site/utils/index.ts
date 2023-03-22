@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
@@ -8,9 +6,7 @@ import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
 
-dayjs.extend(customParseFormat);
-
-const notEmpty = <T>(value: T | null | undefined): value is T => {
+export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
 };
 
@@ -32,13 +28,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
     (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
 
-export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
-
-export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
-
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
-export const getDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
-export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm");
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
     items.find((item) => item.value === value)?.display;
@@ -112,8 +102,4 @@ export const getPageStateFromCookies = <T>(dataCookie: string, errorCookie: stri
     }
 
     return inputsProps;
-};
-
-export const getFutureDateAsString = (addDays: number, dateFormat: string) => {
-    return dayjs().add(addDays, "day").format(dateFormat).toString();
 };

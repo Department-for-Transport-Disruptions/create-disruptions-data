@@ -17,7 +17,8 @@ import { SocialMediaPost } from "../interfaces";
 import { Consequence, consequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { formatTime, getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
+import { getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
+import { formatTime } from "../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -253,7 +254,9 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Disruption delay",
                                                     cells: [
-                                                        `${consequence.disruptionDelay} minutes`,
+                                                        consequence.disruptionDelay
+                                                            ? `${consequence.disruptionDelay} minutes`
+                                                            : "N/A",
                                                         createChangeLink(
                                                             "disruption-delay",
                                                             getConsequenceUrl(consequence.consequenceType),
@@ -367,33 +370,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisrupt
 
         return;
     }
-
-    // const previousConsequencesInformation: Consequence[] = [
-    //     {
-    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-    //         "consequence-type": "Network wide",
-    //         "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
-    //         "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
-    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-    //         "remove-from-journey-planners": "Yes",
-    //         "disruption-delay": "35 minutes",
-    //     },
-    //     {
-    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-    //         "consequence-type": "Network wide",
-    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-    //         "remove-from-journey-planners": "Yes",
-    //         "disruption-delay": "35 minutes",
-    //     },
-    //     {
-    //         "mode-of-transport": splitCamelCaseToString(VehicleMode.bus),
-    //         "consequence-type": "Operator wide",
-    //         "consequence-operator": "Stagecoach",
-    //         "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-    //         "remove-from-journey-planners": "Yes",
-    //         "disruption-delay": "35 minutes",
-    //     },
-    // ];
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
         {

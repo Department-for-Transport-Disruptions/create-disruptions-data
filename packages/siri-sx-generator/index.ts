@@ -39,7 +39,7 @@ export const generateSiriSxAndUploadToS3 = async (
                 if (!parseResult.success) {
                     const disruptionId = item?.SituationNumber as string;
                     logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
-                    logger.error(parseResult.error);
+                    logger.error(parseResult.error.stack || "");
                     return null;
                 }
 

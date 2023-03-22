@@ -14,8 +14,8 @@ import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, CREATE_DISRUPTION_PA
 import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import { consequenceSchema } from "../../schemas/consequence.schema";
 import { createDisruptionSchema } from "../../schemas/create-disruption.schema";
-import { getDatetimeFromDateAndTime } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { getDatetimeFromDateAndTime } from "../../utils/dates";
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {

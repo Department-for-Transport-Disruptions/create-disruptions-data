@@ -3,7 +3,7 @@ import { ReactElement, ReactNode } from "react";
 interface TableProps {
     caption?: string;
     columns?: string[];
-    rows: { header: string; cells: string[] | ReactNode[] }[];
+    rows: { header: string | ReactNode; cells: string[] | ReactNode[] }[];
 }
 
 const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
@@ -20,8 +20,8 @@ const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
                 </tr>
             </thead>
             <tbody className="govuk-table__body">
-                {rows.map((row) => (
-                    <tr className="govuk-table__row" key={row.header}>
+                {rows.map((row, index) => (
+                    <tr className="govuk-table__row" key={typeof row.header === "string" ? row.header : index}>
                         <th scope="row" className="govuk-table__header">
                             {row.header}
                         </th>
