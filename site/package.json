@@ -6,7 +6,7 @@
         "dev": "sst env \"next dev\"",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
+        "lint": "eslint .",
         "test": "vitest",
         "coverage": "vitest run --coverage",
         "test:updateSnapshots": "vitest -u",

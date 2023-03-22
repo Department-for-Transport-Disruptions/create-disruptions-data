@@ -8,9 +8,7 @@ import {
     Progress,
     SourceType,
 } from "@create-disruptions-data/shared-ts/enums";
-import {
-    PtSituationElement
-} from "@create-disruptions-data/shared-ts/siriTypes";
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextPageContext } from "next";
 import React from "react";
