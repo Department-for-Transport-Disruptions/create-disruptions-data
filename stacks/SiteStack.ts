@@ -12,7 +12,7 @@ export function SiteStack({ stack }: StackContext) {
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         environment: {
-            TABLE_ARN: table.tableArn,
+            TABLE_NAME: table.tableName,
         },
         customDomain: {
             domainName: `${subDomain}${hostedZone.zoneName}`,

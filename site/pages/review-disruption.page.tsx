@@ -9,7 +9,8 @@ import { BaseLayout } from "../components/layout/Layout";
 import { ADD_CONSEQUENCE_PAGE_PATH, COOKIES_DISRUPTION_INFO } from "../constants";
 import { Consequence, SocialMediaPost } from "../interfaces";
 import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
-import { formatTime, redirectTo, splitCamelCaseToString } from "../utils";
+import { redirectTo, splitCamelCaseToString } from "../utils";
+import { formatTime } from "../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";

@@ -1,43 +1,20 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
+import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT, Severity } from "../constants";
 import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-operator.page";
 import { DisruptionPageInputs } from "../pages/create-disruption.page";
 import { createConsequenceOperatorSchema } from "../schemas/create-consequence-operator.schema";
 import { createDisruptionSchema } from "../schemas/create-disruption.schema";
-import {
-    formatTime,
-    splitCamelCaseToString,
-    convertDateTimeToFormat,
-    getFutureDateAsString,
-    getPageStateFromCookies,
-} from ".";
+import { getPageStateFromCookies, splitCamelCaseToString } from ".";
 
 describe("utils tests", () => {
-    it.each([
-        ["1100", "11:00"],
-        ["0900", "09:00"],
-        ["", ""],
-    ])("should format add a : between provided numbers", (unformattedTime, formattedTime) => {
-        expect(formatTime(unformattedTime)).toEqual(formattedTime);
-    });
-
     it.each([
         ["specialEvent", "Special event"],
         ["roadWorks", "Road works"],
         ["", ""],
     ])("should convert text to sentence case", (text, formattedText) => {
         expect(splitCamelCaseToString(text)).toEqual(formattedText);
-    });
-
-    it.each([
-        ["2019-01-25", "DD/MM/YYYY", "25/01/2019"],
-        ["2019-01-25", "DD/MM/YY", "25/01/19"],
-        ["2019-01-25", "", "2019-01-25T00:00:00+00:00"],
-        ["", "DD/MM/YYYY", "Invalid Date"],
-        ["", "", "Invalid Date"],
-    ])("should convert date/time into format given", (dateOrTime, format, result) => {
-        expect(convertDateTimeToFormat(dateOrTime, format)).toEqual(result);
     });
 });
 

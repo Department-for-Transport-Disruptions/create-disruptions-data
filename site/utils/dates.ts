@@ -1,0 +1,22 @@
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
+
+export const getDate = (input?: string) => dayjs(!!input ? input : undefined);
+
+export const getFormattedDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
+
+export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
+
+export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm");
+
+export const getFutureDateAsString = (addDays: number, dateFormat: string) => {
+    return dayjs().add(addDays, "day").format(dateFormat).toString();
+};
