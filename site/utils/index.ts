@@ -4,7 +4,7 @@ import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
 
-const notEmpty = <T>(value: T | null | undefined): value is T => {
+export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
 };
 

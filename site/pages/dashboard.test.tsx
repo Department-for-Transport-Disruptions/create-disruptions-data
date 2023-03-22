@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
@@ -7,6 +5,7 @@ import * as dynamo from "../data/dynamo";
 import { databaseData } from "../testData/mockData";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
+vi.mock("../data/dynamo");
 
 const disruptions: DashboardDisruption[] = [
     {
@@ -38,17 +37,17 @@ const disruptions: DashboardDisruption[] = [
 describe("pages", () => {
     describe("dashboard", () => {
         it("should render correctly when there are no disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={[]} upComingDisruptions={[]} />).toJSON();
+            const tree = renderer.create(<Dashboard liveDisruptions={[]} upcomingDisruptions={[]} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are only live disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={disruptions} upComingDisruptions={[]} />).toJSON();
+            const tree = renderer.create(<Dashboard liveDisruptions={disruptions} upcomingDisruptions={[]} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are only upcoming disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={[]} upComingDisruptions={disruptions} />).toJSON();
+            const tree = renderer.create(<Dashboard liveDisruptions={[]} upcomingDisruptions={disruptions} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -57,7 +56,7 @@ describe("pages", () => {
                 .create(
                     <Dashboard
                         liveDisruptions={[disruptions[0]]}
-                        upComingDisruptions={[disruptions[1], disruptions[2]]}
+                        upcomingDisruptions={[disruptions[1], disruptions[2]]}
                     />,
                 )
                 .toJSON();
@@ -73,11 +72,11 @@ describe("pages", () => {
                 getDisruptionsSpy.mockResolvedValue(undefined);
 
                 const actualProps = await getServerSideProps();
-                expect(actualProps.props).toStrictEqual({ liveDisruptions: [], upComingDisruptions: [] });
+                expect(actualProps.props).toStrictEqual({ liveDisruptions: [], upcomingDisruptions: [] });
             });
 
             it("should return live disruptions if the data returned from the database has live dates", async () => {
-                getDisruptionsSpy.mockResolvedValue(databaseData as any);
+                getDisruptionsSpy.mockResolvedValue(databaseData);
 
                 const actualProps = await getServerSideProps();
                 expect(actualProps.props).toStrictEqual({
@@ -107,7 +106,7 @@ describe("pages", () => {
                             },
                         },
                     ],
-                    upComingDisruptions: [],
+                    upcomingDisruptions: [],
                 });
             });
 
@@ -122,12 +121,12 @@ describe("pages", () => {
                     };
                 });
 
-                getDisruptionsSpy.mockResolvedValue(modifiedData as any);
+                getDisruptionsSpy.mockResolvedValue(modifiedData);
 
                 const actualProps = await getServerSideProps();
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
-                    upComingDisruptions: [
+                    upcomingDisruptions: [
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
@@ -166,7 +165,7 @@ describe("pages", () => {
                         },
                     };
                 });
-                getDisruptionsSpy.mockResolvedValue([...databaseData, ...modifiedData] as any);
+                getDisruptionsSpy.mockResolvedValue([...databaseData, ...modifiedData]);
 
                 const actualProps = await getServerSideProps();
                 expect(actualProps.props).toStrictEqual({
@@ -196,7 +195,7 @@ describe("pages", () => {
                             },
                         },
                     ],
-                    upComingDisruptions: [
+                    upcomingDisruptions: [
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",

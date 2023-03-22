@@ -20,7 +20,7 @@ export interface DashboardDisruption {
 
 export interface DashboardProps {
     liveDisruptions: DashboardDisruption[];
-    upComingDisruptions: DashboardDisruption[];
+    upcomingDisruptions: DashboardDisruption[];
 }
 
 const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
@@ -41,7 +41,7 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
     });
 };
 
-const Dashboard = ({ liveDisruptions, upComingDisruptions }: DashboardProps): ReactElement => {
+const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
 
     useEffect(() => {
@@ -95,7 +95,7 @@ const Dashboard = ({ liveDisruptions, upComingDisruptions }: DashboardProps): Re
                             <Table
                                 caption="Upcoming disruptions"
                                 columns={["ID", "Summary", "Affected dates"]}
-                                rows={formatDisruptionsIntoRows(upComingDisruptions)}
+                                rows={formatDisruptionsIntoRows(upcomingDisruptions)}
                             />
                         ),
                     },
@@ -141,7 +141,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
         });
 
         const liveDisruptions: DashboardDisruption[] = [];
-        const upComingDisruptions: DashboardDisruption[] = [];
+        const upcomingDisruptions: DashboardDisruption[] = [];
         const today = getDate();
 
         shortenedData.forEach((disruption) => {
@@ -163,7 +163,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
 
                 // start time after today --> upcoming
                 if (startTimeDayJs.isAfter(today)) {
-                    upComingDisruptions.push(disruption);
+                    upcomingDisruptions.push(disruption);
                 }
             }
         });
@@ -171,7 +171,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
         return {
             props: {
                 liveDisruptions,
-                upComingDisruptions,
+                upcomingDisruptions,
             },
         };
     }
@@ -179,7 +179,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
     return {
         props: {
             liveDisruptions: [],
-            upComingDisruptions: [],
+            upcomingDisruptions: [],
         },
     };
 };

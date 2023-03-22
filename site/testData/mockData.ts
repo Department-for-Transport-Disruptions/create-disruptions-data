@@ -8,6 +8,9 @@ import {
     Progress,
     SourceType,
 } from "@create-disruptions-data/shared-ts/enums";
+import {
+    PtSituationElement
+} from "@create-disruptions-data/shared-ts/siriTypes";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextPageContext } from "next";
 import React from "react";
@@ -124,7 +127,7 @@ export interface GetMockRequestAndResponse {
     query?: any;
 }
 
-export const databaseData = [
+export const databaseData: PtSituationElement[] = [
     {
         CreationTime: "2023-01-01T01:10:00Z",
         ParticipantRef: "ref",
