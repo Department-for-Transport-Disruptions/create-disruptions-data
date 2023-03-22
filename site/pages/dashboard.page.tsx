@@ -155,7 +155,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
             if (!shouldNotDisplayDisruption) {
                 // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
                 if (
-                    !startTimeDayJs.isAfter(today) &&
+                    startTimeDayJs.isSameOrBefore(today) &&
                     (!endTime || (!!endTime && getDate(endTime).isSameOrAfter(today)))
                 ) {
                     liveDisruptions.push(disruption);
