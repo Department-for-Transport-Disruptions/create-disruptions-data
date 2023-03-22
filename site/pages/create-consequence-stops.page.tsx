@@ -23,7 +23,6 @@ import { createConsequenceStopsSchema } from "../schemas/create-consequence-stop
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
-import SelectSearch from "react-select-search";
 import Select, { components, ContainerProps, ControlProps, Props, StylesConfig } from "react-select";
 import { buildFeedbackContent } from "../utils/apiUtils/feedbackEmailer";
 
@@ -127,6 +126,7 @@ const CreateConsequenceStops = ({
                                     border: state.isFocused ? "yellow solid 3px" : "black solid 3px",
                                     marginBottom: "20px",
                                     "&:hover": { borderColor: "black" },
+                                    width: "75%",
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
