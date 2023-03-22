@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useCallback, useEffect, useState } from "react";
+import { Fragment, ReactElement, SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { components, ContainerProps, ControlProps, InputActionMeta, Props, StylesConfig } from "react-select";
 import AsyncSelect from "react-select/async";
 
@@ -73,6 +73,45 @@ const CreateConsequenceStops = ({
             return result;
         });
     };
+
+    const removeStop = (e: SyntheticEvent, index: number) => {
+        e.preventDefault();
+        if (pageState.inputs.stopsImpacted) {
+            const stopsImpacted = [...pageState.inputs.stopsImpacted];
+            stopsImpacted.splice(index, 1);
+
+            setPageState({
+                inputs: {
+                    ...pageState.inputs,
+                    stopsImpacted,
+                },
+                errors: pageState.errors,
+            });
+        }
+    };
+
+    const getStopRows = () => {
+        if (pageState.inputs.stopsImpacted) {
+            return pageState.inputs.stopsImpacted.map((stop, i) => ({
+                header: `Stop ${i + 1}`,
+                cells: [
+                    stop.commonName && stop.indicator && !stop.atcoCode
+                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                        : `${stop.commonName} ${stop.atcoCode}`,
+                    <button
+                        id={`remove-stop-${i + 1}`}
+                        key={`remove-stop-${i + 1}`}
+                        className="govuk-link"
+                        onClick={(e) => removeStop(e, i)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
+        }
+        return [];
+    };
+
     useEffect(() => {
         console.log(pageState);
     }, [pageState]);
@@ -180,7 +219,16 @@ const CreateConsequenceStops = ({
                             instanceId="dropdown-search"
                             inputId="dropdown-search-value"
                         />
-
+                        <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
+                        {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
+                            <Fragment key={`stop-${index}`}>
+                                <input
+                                    type="hidden"
+                                    name={`stop${index + 1}`}
+                                    value={`${stop.commonName} ${stop.indicator} ${stop.atcoCode}`}
+                                />
+                            </Fragment>
+                        ))}
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
