@@ -352,7 +352,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
-    console.log("dataCookie", dataCookie);
+
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
 
