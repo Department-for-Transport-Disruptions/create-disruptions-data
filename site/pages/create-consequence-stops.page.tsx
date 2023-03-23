@@ -2,6 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
+import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 
 import { z } from "zod";
@@ -31,6 +32,7 @@ const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
 export interface ConsequenceStopsPageInputs extends Partial<z.infer<typeof createConsequenceStopsSchema>> {}
+export interface Stop extends z.infer<typeof stopsImpactedSchema> {}
 
 const CreateConsequenceStops = ({
     inputs,
@@ -40,17 +42,27 @@ const CreateConsequenceStops = ({
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [searchInput, setSearchInput] = useState("");
     const [options, setOptions] = useState([]);
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState<SingleValue<Stop>>(null);
+
+    const getOptionLabel = (e: Stop) => {
+        if (e.commonName && e.indicator && e.atcoCode) {
+            return `${e.commonName} ${e.indicator} ${e.atcoCode}`;
+        } else if (e.commonName && e.atcoCode) {
+            return `${e.commonName} ${e.atcoCode}`;
+        } else {
+            return "";
+        }
+    };
 
     const selectAllStops = () => {
         //TODO
     };
 
-    const handleInputChange = (value) => {
+    const handleInputChange = (value: string) => {
         setSearchInput(value);
     };
 
-    const handleChange = (value) => {
+    const handleChange = (value: SingleValue<Stop>) => {
         setSelected(value);
         if (
             !pageState.inputs.stopsImpacted ||
@@ -60,7 +72,8 @@ const CreateConsequenceStops = ({
         }
     };
 
-    const loadOptions = async (inputValue) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
         if (inputValue && inputValue.length >= 3) {
             const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
             const limit = 10;
@@ -69,8 +82,7 @@ const CreateConsequenceStops = ({
 
             return await fetch(fetchURL, { method: "GET" })
                 .then((response) => response.json())
-                .then((values) => {
-                    console.log(values);
+                .then((values: Stop[]) => {
                     setOptions(values);
                     return values;
                 });
@@ -117,7 +129,7 @@ const CreateConsequenceStops = ({
         return [];
     };
 
-    const addStop = (stopToAdd) => {
+    const addStop = (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopsImpactedSchema.safeParse(stopToAdd);
 
         if (!parsed.success) {
@@ -129,13 +141,17 @@ const CreateConsequenceStops = ({
                 ],
             });
         } else {
-            setPageState({
-                inputs: {
-                    ...pageState.inputs,
-                    stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd],
-                },
-                errors: [...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id))],
-            });
+            if (stopToAdd) {
+                setPageState({
+                    inputs: {
+                        ...pageState.inputs,
+                        stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd],
+                    },
+                    errors: [
+                        ...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id)),
+                    ],
+                });
+            }
         }
     };
 
@@ -215,8 +231,8 @@ const CreateConsequenceStops = ({
                                     defaultOptions
                                     value={selected}
                                     placeholder="Select stops"
-                                    getOptionLabel={(e) => `${e.commonName} ${e.indicator} ${e.atcoCode}`}
-                                    getOptionValue={(e) => e.id}
+                                    getOptionLabel={getOptionLabel}
+                                    getOptionValue={(e: Stop) => (e.id ? e.id.toString() : "")}
                                     loadOptions={loadOptions}
                                     onInputChange={handleInputChange}
                                     options={options}
