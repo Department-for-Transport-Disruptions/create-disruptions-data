@@ -6,7 +6,6 @@ import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 
 import { z } from "zod";
-import { json } from "stream/consumers";
 import ErrorSummary from "../components/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Radios from "../components/form/Radios";
@@ -42,7 +41,6 @@ const CreateConsequenceStops = ({
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [searchInput, setSearchInput] = useState("");
-    const [options, setOptions] = useState([]);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
     const getOptionLabel = (e: Stop) => {
@@ -67,10 +65,11 @@ const CreateConsequenceStops = ({
         setSelected(value);
         if (
             !pageState.inputs.stopsImpacted ||
-            pageState.inputs.stopsImpacted.filter((data) => data.id === value.id).length === 0
+            pageState.inputs.stopsImpacted.filter((data) => data.id === value?.id).length === 0
         ) {
             addStop(value);
         }
+        setSelected(null);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -84,11 +83,9 @@ const CreateConsequenceStops = ({
             return await fetch(fetchURL, { method: "GET" })
                 .then((response) => response.json())
                 .then((values: Stop[]) => {
-                    setOptions(values);
                     return values;
                 });
         }
-        setOptions([]);
         return [];
     };
 
@@ -236,7 +233,6 @@ const CreateConsequenceStops = ({
                                     getOptionValue={(e: Stop) => (e.id ? e.id.toString() : "")}
                                     loadOptions={loadOptions}
                                     onInputChange={handleInputChange}
-                                    options={options}
                                     inputValue={searchInput}
                                     onChange={handleChange}
                                     id="stopsImpacted"
@@ -259,6 +255,7 @@ const CreateConsequenceStops = ({
                                         atcoCode: stop.atcoCode,
                                         longitude: stop.longitude,
                                         latitude: stop.latitude,
+                                        id: stop.id,
                                     })}
                                 />
                             </Fragment>
