@@ -15,7 +15,7 @@ import {
 } from "../../utils/apiUtils";
 
 export const formatCreateConsequenceStopsBody = (body: object) => {
-    const stops = Object.entries(body)
+    const stopsImpacted = Object.entries(body)
         .filter((item) => item.toString().startsWith("stop"))
         .map((arr: string[]) => {
             const [, values] = arr;
@@ -31,7 +31,7 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
     return {
         ...cleansedBody,
-        stops,
+        stopsImpacted,
     };
 };
 
