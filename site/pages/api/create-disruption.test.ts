@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
+/* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
@@ -18,7 +18,7 @@ const defaultDisruptionData = {
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     associatedLink: "",
-    disruptionReason: MiscellaneousReason.roadWorks,
+    disruptionReason: MiscellaneousReason.roadworks,
     validity1: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
     publishStartDate: defaultPublishStartDate,
     publishStartTime: "1100",

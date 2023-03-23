@@ -31,7 +31,7 @@ exports[`Select > should render correctly with errors 1`] = `
           Select a reason
         </option>
         <option
-          value="roadWorks"
+          value="roadworks"
         >
           Road Works
         </option>
@@ -87,7 +87,7 @@ exports[`Select > should render correctly with no errors 1`] = `
           Select a reason
         </option>
         <option
-          value="roadWorks"
+          value="roadworks"
         >
           Road Works
         </option>

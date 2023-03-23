@@ -7,7 +7,9 @@ import {
     MiscellaneousReason,
     PersonnelReason,
     Progress,
+    Severity,
     SourceType,
+    VehicleMode,
 } from "./enums";
 
 export const sourceTypeSchema = z.nativeEnum(SourceType);
@@ -50,15 +52,82 @@ export const situationElementRefSchema = z.object({
 });
 
 export const referenceSchema = z.object({
-    RelatedToRef: situationElementRefSchema,
+    RelatedToRef: z.array(situationElementRefSchema),
 });
 
 export const repetitionsSchema = z.object({
-    DayType: dayTypeSchema,
+    DayType: z.array(dayTypeSchema),
 });
 
 export const infoLinksSchema = z.object({
-    InfoLink: infoLinkSchema,
+    InfoLink: z.array(infoLinkSchema),
+});
+
+export const affectedOperatorSchema = z.object({
+    OperatorRef: z.string(),
+    OperatorName: z.string().optional(),
+});
+
+export const operatorsSchema = z.object({
+    AllOperators: z.literal("").optional(),
+    AffectedOperator: affectedOperatorSchema.optional(),
+});
+
+export const networksSchema = z.object({
+    AffectedNetwork: z.object({
+        VehicleMode: z.nativeEnum(VehicleMode),
+        AllLines: z.literal("").optional(),
+        AffectedLine: z
+            .object({
+                AffectedOperator: affectedOperatorSchema,
+                LineRef: z.string(),
+            })
+            .optional(),
+    }),
+});
+
+export const stopPointsSchema = z.object({
+    AffectedStopPoint: z.array(
+        z.object({
+            StopPointRef: z.string(),
+            StopPointName: z.string(),
+            Location: z.object({
+                Longitude: z.number(),
+                Latitude: z.number(),
+            }),
+            AffectedModes: z.object({
+                Mode: z.object({
+                    VehicleMode: z.nativeEnum(VehicleMode),
+                }),
+            }),
+        }),
+    ),
+});
+
+export const consequenceSchema = z.object({
+    Consequence: z.array(
+        z.object({
+            Condition: z.literal("unknown"),
+            Severity: z.nativeEnum(Severity),
+            Affects: z.object({
+                Operators: operatorsSchema.optional(),
+                Networks: networksSchema.optional(),
+                StopPoints: stopPointsSchema.optional(),
+            }),
+            Advice: z.object({
+                Details: z.string(),
+            }),
+            Blocking: z.object({
+                JourneyPlanner: z.boolean(),
+            }),
+            Delays: z
+                .object({
+                    // Requires Delay to be in ISO 8601 notation, eg. PT10M represents 10 minutes
+                    Delay: z.string().regex(/^PT\d+M$/),
+                })
+                .optional(),
+        }),
+    ),
 });
 
 export const basePtSituationElementSchema = z.object({
@@ -66,11 +135,11 @@ export const basePtSituationElementSchema = z.object({
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
     SituationNumber: situationElementRefSchema.shape.SituationNumber,
     Version: z.number().optional(),
-    References: z.array(referenceSchema).optional(),
+    References: referenceSchema.optional(),
     Source: sourceSchema,
     Progress: progressSchema,
-    ValidityPeriod: periodSchema,
-    Repetitions: z.array(repetitionsSchema).optional(),
+    ValidityPeriod: z.array(periodSchema),
+    Repetitions: repetitionsSchema.optional(),
     PublicationWindow: periodSchema,
 });
 
@@ -90,7 +159,8 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
                 Planned: z.boolean(),
                 Summary: z.string(),
                 Description: z.string(),
-                InfoLinks: z.array(infoLinksSchema).optional(),
+                InfoLinks: infoLinksSchema.optional(),
+                Consequences: consequenceSchema.optional(),
             }),
         ),
 );
@@ -103,15 +173,15 @@ export const ptSituationElementSchemaWithTransform = ptSituationElementSchema.tr
     return val;
 });
 
-export const situationSchema = z.object({
-    PtSituationElement: ptSituationElementSchemaWithTransform,
+export const situationsSchema = z.object({
+    PtSituationElement: z.array(ptSituationElementSchemaWithTransform),
 });
 
 export const situationExchangeDeliverySchema = z.object({
     ResponseTimestamp: z.string().datetime(),
     Status: z.boolean().optional(),
     ShortestPossibleCycle: z.string().optional(),
-    Situations: z.array(situationSchema),
+    Situations: situationsSchema,
 });
 
 export const serviceDeliverySchema = z.object({

@@ -1,10 +1,10 @@
-import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
 import { getFutureDateAsString } from "./dates";
-import { CD_DATE_FORMAT, Severity } from "../constants";
+import { CD_DATE_FORMAT } from "../constants";
 import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-operator.page";
 import { DisruptionPageInputs } from "../pages/create-disruption.page";
-import { createConsequenceOperatorSchema } from "../schemas/create-consequence-operator.schema";
+import { operatorConsequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema } from "../schemas/create-disruption.schema";
 import { getPageStateFromCookies, splitCamelCaseToString } from ".";
 
@@ -30,7 +30,7 @@ describe("page state from cookies test", () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             associatedLink: "",
-            disruptionReason: MiscellaneousReason.roadWorks,
+            disruptionReason: MiscellaneousReason.roadworks,
             publishStartDate: defaultPublishStartDate,
             publishStartTime: "1100",
             publishEndDate: "",
@@ -53,7 +53,7 @@ describe("page state from cookies test", () => {
         expect(parsedInput.inputs).toEqual(disruptionData);
     });
 
-    it("should parse to expected type for DisruptionPageInputs", () => {
+    it("should parse to expected type for ConsequenceOperatorPageInputs", () => {
         const operatorData: ConsequenceOperatorPageInputs = {
             consequenceOperator: "FMAN",
             description:
@@ -62,9 +62,11 @@ describe("page state from cookies test", () => {
             disruptionDelay: "",
             disruptionSeverity: Severity.slight,
             disruptionDirection: "allDirections",
+            vehicleMode: VehicleMode.bus,
+            consequenceType: "operatorWide",
         };
 
-        const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", createConsequenceOperatorSchema);
+        const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", operatorConsequenceSchema);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);

@@ -2,6 +2,7 @@
 import renderer from "react-test-renderer";
 import { vi, describe, it, expect, afterEach } from "vitest";
 import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies.page";
+import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE } from "../constants";
 import { CookiePolicy } from "../interfaces";
 import { getMockContext } from "../testData/mockData";
 
@@ -34,9 +35,13 @@ describe("pages", () => {
         it("should return the expected props when a user saves their preferences to allow tracking", () => {
             const mockCookiePolicy: CookiePolicy = { essential: true, usage: true };
             const ctx = getMockContext({
-                cookies: { cookieSettingsSaved: "true", cookiePolicy: mockCookiePolicy },
+                cookies: {
+                    [COOKIE_PREFERENCES_COOKIE]: "true",
+                    [COOKIES_POLICY_COOKIE]: JSON.stringify(mockCookiePolicy),
+                },
                 query: { settingsSaved: "true" },
             });
+
             const expectedProps: { props: CookiePreferencesProps } = {
                 props: {
                     settingsSaved: true,

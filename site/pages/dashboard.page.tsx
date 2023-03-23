@@ -15,7 +15,7 @@ export interface DashboardDisruption {
     validityPeriod: {
         startTime: string;
         endTime: string | null;
-    };
+    }[];
 }
 
 export interface DashboardProps {
@@ -25,10 +25,12 @@ export interface DashboardProps {
 
 const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
     return disruptions.map((disruption) => {
-        const startTime = convertDateTimeToFormat(disruption.validityPeriod.startTime, "DD/MM/YYYY");
-        const endTime = !!disruption.validityPeriod.endTime
-            ? convertDateTimeToFormat(disruption.validityPeriod.endTime, "DD/MM/YYYY")
-            : null;
+        const dateStrings = disruption.validityPeriod.map((period) => (
+            <div key={period.startTime} className="pb-2 last:pb-0">
+                {convertDateTimeToFormat(period.startTime)}{" "}
+                {period.endTime ? `- ${convertDateTimeToFormat(period.endTime)}` : " onwards"}
+            </div>
+        ));
 
         return {
             header: (
@@ -36,7 +38,7 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
                     {disruption.id}
                 </Link>
             ),
-            cells: [disruption.summary, `${startTime}${!!endTime ? ` - ${endTime}` : " onwards"}`],
+            cells: [disruption.summary, dateStrings],
         };
     });
 };
@@ -133,10 +135,10 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
             return {
                 id: entry.SituationNumber,
                 summary: entry.Summary,
-                validityPeriod: {
-                    startTime: entry.ValidityPeriod.StartTime,
-                    endTime: entry.ValidityPeriod.EndTime || null,
-                },
+                validityPeriod: entry.ValidityPeriod.map((period) => ({
+                    startTime: period.StartTime,
+                    endTime: period.EndTime || null,
+                })),
             };
         });
 
@@ -145,24 +147,32 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
         const today = getDate();
 
         shortenedData.forEach((disruption) => {
-            const { startTime, endTime } = disruption.validityPeriod;
-
-            const startTimeDayJs = getDate(startTime);
-
             // end time before today --> dont show
-            const shouldNotDisplayDisruption = !!endTime && getDate(endTime).isBefore(today);
+            const shouldNotDisplayDisruption = disruption.validityPeriod.every(
+                (period) => !!period.endTime && getDate(period.endTime).isBefore(today),
+            );
 
             if (!shouldNotDisplayDisruption) {
                 // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                if (
-                    startTimeDayJs.isSameOrBefore(today) &&
-                    (!endTime || (!!endTime && getDate(endTime).isSameOrAfter(today)))
-                ) {
+                const isLive = disruption.validityPeriod.some((period) => {
+                    const startTime = getDate(period.startTime);
+
+                    return (
+                        startTime.isSameOrBefore(today) &&
+                        (!period.endTime || (!!period.endTime && getDate(period.endTime).isSameOrAfter(today)))
+                    );
+                });
+
+                if (isLive) {
                     liveDisruptions.push(disruption);
                 }
 
                 // start time after today --> upcoming
-                if (startTimeDayJs.isAfter(today)) {
+                const isUpcoming = disruption.validityPeriod.every((period) =>
+                    getDate(period.startTime).isAfter(today),
+                );
+
+                if (isUpcoming) {
                     upcomingDisruptions.push(disruption);
                 }
             }

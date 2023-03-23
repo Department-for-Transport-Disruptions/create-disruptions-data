@@ -16,13 +16,13 @@ exports[`Table > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="col"
       >
         test col 2
@@ -36,13 +36,13 @@ exports[`Table > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="row"
       >
         test row 1
       </th>
       <td
-        className="govuk-table__cell"
+        className="govuk-table__cell align-middle"
       >
         1
       </td>
@@ -51,13 +51,13 @@ exports[`Table > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="row"
       >
         test row 2
       </th>
       <td
-        className="govuk-table__cell"
+        className="govuk-table__cell align-middle"
       >
         2
       </td>
@@ -82,13 +82,13 @@ exports[`Table > should render correctly with jsx element 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="col"
       >
         test col 2
@@ -102,13 +102,13 @@ exports[`Table > should render correctly with jsx element 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="row"
       >
         test row 1
       </th>
       <td
-        className="govuk-table__cell"
+        className="govuk-table__cell align-middle"
       >
         <p>
           test 1
@@ -119,13 +119,13 @@ exports[`Table > should render correctly with jsx element 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header"
+        className="govuk-table__header align-middle"
         scope="row"
       >
         test row 2
       </th>
       <td
-        className="govuk-table__cell"
+        className="govuk-table__cell align-middle"
       >
         2
       </td>

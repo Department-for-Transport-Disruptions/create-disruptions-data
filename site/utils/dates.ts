@@ -2,12 +2,14 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { CD_DATE_FORMAT } from "../constants";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string) => dayjs(dateOrTime).format(format);
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = CD_DATE_FORMAT) =>
+    dayjs(dateOrTime).format(format);
 
 export const getDate = (input?: string) => dayjs(!!input ? input : undefined);
 

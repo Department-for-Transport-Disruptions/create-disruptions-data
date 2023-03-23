@@ -127,19 +127,19 @@ exports[`pages > dashboard > should render correctly when there are both live an
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -153,7 +153,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -167,14 +167,20 @@ exports[`pages > dashboard > should render correctly when there are both live an
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 onwards
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -199,19 +205,19 @@ exports[`pages > dashboard > should render correctly when there are both live an
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -225,7 +231,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -239,21 +245,27 @@ exports[`pages > dashboard > should render correctly when there are both live an
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 - 22/03/2023
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                    - 22/03/2023
+                  </div>
                 </td>
               </tr>
               <tr
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -267,14 +279,27 @@ exports[`pages > dashboard > should render correctly when there are both live an
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/04/2023 - 22/03/2024
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/04/2023
+                     
+                    - 22/03/2024
+                  </div>
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    22/04/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -666,19 +691,19 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -709,19 +734,19 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -1119,19 +1144,19 @@ exports[`pages > dashboard > should render correctly when there are only live di
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -1145,7 +1170,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1159,21 +1184,27 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 onwards
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
               <tr
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1187,21 +1218,27 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 - 22/03/2023
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                    - 22/03/2023
+                  </div>
                 </td>
               </tr>
               <tr
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1215,14 +1252,27 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/04/2023 - 22/03/2024
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/04/2023
+                     
+                    - 22/03/2024
+                  </div>
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    22/04/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -1247,19 +1297,19 @@ exports[`pages > dashboard > should render correctly when there are only live di
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -1657,19 +1707,19 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -1700,19 +1750,19 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   ID
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Summary
                 </th>
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="col"
                 >
                   Affected dates
@@ -1726,7 +1776,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1740,21 +1790,27 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 onwards
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
               <tr
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1768,21 +1824,27 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/03/2023 - 22/03/2023
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/03/2023
+                     
+                    - 22/03/2023
+                  </div>
                 </td>
               </tr>
               <tr
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   <a
@@ -1796,14 +1858,27 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
-                  21/04/2023 - 22/03/2024
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    21/04/2023
+                     
+                    - 22/03/2024
+                  </div>
+                  <div
+                    className="pb-2 last:pb-0"
+                  >
+                    22/04/2023
+                     
+                     onwards
+                  </div>
                 </td>
               </tr>
             </tbody>

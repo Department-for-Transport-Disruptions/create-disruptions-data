@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment*/
-/* eslint-disable @typescript-eslint/no-unsafe-argument*/
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./type-of-consequence.api";
@@ -16,8 +14,7 @@ import { setCookieOnResponseObject } from "../../utils/apiUtils";
 describe("addConsequence", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));

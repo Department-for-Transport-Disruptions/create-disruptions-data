@@ -1,50 +1,60 @@
-import { EnvironmentReason, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { upperFirst } from "lodash";
+import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
-import { Consequence, SocialMediaPost } from "../interfaces/index";
+import { SocialMediaPost } from "../interfaces/index";
+import { Consequence } from "../schemas/consequence.schema";
 import { Disruption } from "../schemas/create-disruption.schema";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
-        "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-        "publish-date": "13/01/2022",
-        "publish-time": "13:00",
-        "account-to-publish": "Example account",
+        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
+        publishDate: "13/01/2022",
+        publishTime: "13:00",
+        accountToPublish: "Example account",
     },
     {
-        "message-to-appear": "The road is closed for the following reasons: Example, example, example, example",
-        "publish-date": "13/01/2022",
-        "publish-time": "13:00",
-        "account-to-publish": "Example account 2",
+        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
+        publishDate: "13/01/2022",
+        publishTime: "13:00",
+        accountToPublish: "Example account 2",
     },
 ];
 
 const previousConsequencesInformation: Consequence[] = [
     {
-        "mode-of-transport": upperFirst(VehicleMode.bus),
-        "consequence-type": "Network wide",
-        "services-affected": [{ id: "1", name: "Piccadilly to Manchester central" }],
-        "stops-affected": ["Shudehill SW", "Bolton NW", "Risehill SW", "Picadilly NE", "Noma NW"],
-        "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-        "remove-from-journey-planners": "Yes",
-        "disruption-delay": "35 minutes",
+        vehicleMode: VehicleMode.bus,
+        consequenceType: "networkWide",
+        description: "The road is closed for the following reasons: Example, example, example, example",
+        removeFromJourneyPlanners: "yes",
+        disruptionDelay: "33",
+        disruptionDirection: "inbound",
+        disruptionSeverity: Severity.severe,
     },
     {
-        "mode-of-transport": upperFirst(VehicleMode.bus),
-        "consequence-type": "Network wide",
-        "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-        "remove-from-journey-planners": "Yes",
-        "disruption-delay": "35 minutes",
+        vehicleMode: VehicleMode.tram,
+        consequenceType: "operatorWide",
+        consequenceOperator: "FSYO",
+        description: "The road is closed for the following reasons: Example, example, example, example",
+        removeFromJourneyPlanners: "yes",
+        disruptionDelay: "50",
+        disruptionDirection: "inbound",
+        disruptionSeverity: Severity.slight,
     },
     {
-        "mode-of-transport": upperFirst(VehicleMode.bus),
-        "consequence-type": "Operator wide",
-        "consequence-operator": "Stagecoach",
-        "advice-to-display": "The road is closed for the following reasons: Example, example, example, example",
-        "remove-from-journey-planners": "Yes",
-        "disruption-delay": "35 minutes",
+        vehicleMode: VehicleMode.bus,
+        consequenceType: "services",
+        services: [
+            {
+                id: "1",
+                name: "Test",
+            },
+        ],
+        description: "The road is closed for the following reasons: Example, example, example, example",
+        removeFromJourneyPlanners: "yes",
+        disruptionDelay: "12",
+        disruptionDirection: "outbound",
+        disruptionSeverity: Severity.verySlight,
     },
 ];
 

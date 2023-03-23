@@ -1,6 +1,7 @@
-import { NextApiResponse } from "next";
-import { setCookie } from "nookies";
+import { NextApiRequest, NextApiResponse } from "next";
+import { parseCookies, setCookie } from "nookies";
 import { ServerResponse } from "http";
+import { COOKIES_POLICY_COOKIE, COOKIE_CSRF, COOKIE_ID_TOKEN, COOKIE_PREFERENCES_COOKIE } from "../../constants";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -43,4 +44,16 @@ export const redirectToError = (
     }
 
     redirectTo(res, "/500");
+};
+
+export const cleardownCookies = (req: NextApiRequest, res: NextApiResponse) => {
+    const cookies = parseCookies({ req });
+
+    const saveList = [COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, COOKIE_ID_TOKEN, COOKIE_CSRF];
+
+    Object.keys(cookies).forEach((cookie) => {
+        if (!saveList.includes(cookie)) {
+            destroyCookieOnResponseObject(cookie, res);
+        }
+    });
 };

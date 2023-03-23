@@ -1,4 +1,6 @@
-import { upperFirst, startCase, lowerCase } from "lodash";
+import lowerCase from "lodash/lowerCase";
+import startCase from "lodash/startCase";
+import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";

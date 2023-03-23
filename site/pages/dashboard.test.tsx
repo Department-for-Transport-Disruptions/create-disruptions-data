@@ -11,26 +11,36 @@ const disruptions: DashboardDisruption[] = [
     {
         id: "12",
         summary: "A bad disruption",
-        validityPeriod: {
-            startTime: "2023-03-21T11:23:24.529Z",
-            endTime: null,
-        },
+        validityPeriod: [
+            {
+                startTime: "2023-03-21T11:23:24.529Z",
+                endTime: null,
+            },
+        ],
     },
     {
         id: "33",
         summary: "A more ok disruption",
-        validityPeriod: {
-            startTime: "2023-03-21T11:23:24.529Z",
-            endTime: "2023-03-22T11:23:24.529Z",
-        },
+        validityPeriod: [
+            {
+                startTime: "2023-03-21T11:23:24.529Z",
+                endTime: "2023-03-22T11:23:24.529Z",
+            },
+        ],
     },
     {
         id: "44",
         summary: "Another disruption",
-        validityPeriod: {
-            startTime: "2023-04-21T11:23:24.529Z",
-            endTime: "2024-03-22T11:23:24.529Z",
-        },
+        validityPeriod: [
+            {
+                startTime: "2023-04-21T11:23:24.529Z",
+                endTime: "2024-03-22T11:23:24.529Z",
+            },
+            {
+                startTime: "2023-04-22T11:23:24.529Z",
+                endTime: null,
+            },
+        ],
     },
 ];
 
@@ -84,26 +94,36 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: {
-                                endTime: "2023-05-01T01:10:00Z",
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: "2023-05-01T01:10:00Z",
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-05-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                     ],
                     upcomingDisruptions: [],
@@ -114,10 +134,12 @@ describe("pages", () => {
                 const modifiedData = databaseData.map((data, index) => {
                     return {
                         ...data,
-                        ValidityPeriod: {
-                            StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
-                            EndTime: data.ValidityPeriod.EndTime,
-                        },
+                        ValidityPeriod: [
+                            {
+                                StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
+                                EndTime: data.ValidityPeriod[0].EndTime,
+                            },
+                        ],
                     };
                 });
 
@@ -130,26 +152,32 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2026-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2026-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: {
-                                endTime: "2023-05-01T01:10:00Z",
-                                startTime: "2027-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: "2023-05-01T01:10:00Z",
+                                    startTime: "2027-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2028-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2028-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                     ],
                 });
@@ -159,10 +187,12 @@ describe("pages", () => {
                 const modifiedData = databaseData.map((data, index) => {
                     return {
                         ...data,
-                        ValidityPeriod: {
-                            StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
-                            EndTime: data.ValidityPeriod.EndTime,
-                        },
+                        ValidityPeriod: [
+                            {
+                                StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
+                                EndTime: data.ValidityPeriod[0].EndTime,
+                            },
+                        ],
                     };
                 });
                 getDisruptionsSpy.mockResolvedValue([...databaseData, ...modifiedData]);
@@ -173,52 +203,68 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: {
-                                endTime: "2023-05-01T01:10:00Z",
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: "2023-05-01T01:10:00Z",
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-05-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2023-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                     ],
                     upcomingDisruptions: [
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2026-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2026-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: {
-                                endTime: "2023-05-01T01:10:00Z",
-                                startTime: "2027-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: "2023-05-01T01:10:00Z",
+                                    startTime: "2027-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: {
-                                endTime: null,
-                                startTime: "2028-03-03T01:10:00Z",
-                            },
+                            validityPeriod: [
+                                {
+                                    endTime: null,
+                                    startTime: "2028-03-03T01:10:00Z",
+                                },
+                            ],
                         },
                     ],
                 });
