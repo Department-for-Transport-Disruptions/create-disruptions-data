@@ -122,6 +122,7 @@ export const consequenceSchema = z.object({
             }),
             Delays: z
                 .object({
+                    // Requires Delay to be in ISO 8601 notation, eg. PT10M represents 10 minutes
                     Delay: z.string().regex(/^PT\d+M$/),
                 })
                 .optional(),

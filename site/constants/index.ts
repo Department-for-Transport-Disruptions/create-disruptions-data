@@ -119,7 +119,7 @@ export const oneYearInSeconds = 31556952;
 export const STAGE = process.env.STAGE || "dev";
 
 // PAGES
-export const ERROR_PATH = "/_error";
+export const ERROR_PATH = "/500";
 export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
 export const ADD_CONSEQUENCE_PAGE_PATH = "/type-of-consequence";
 export const CREATE_CONSEQUENCE_OPERATOR_PATH = "/create-consequence-operator";

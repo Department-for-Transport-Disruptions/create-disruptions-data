@@ -36,7 +36,7 @@ export const getDisruptionsDataFromDynamo = async () => {
 };
 
 export const insertPublishedDisruptionIntoDynamo = async (disruption: PtSituationElement) => {
-    logger.info("Inserting disruptions data into DynamoDB table...");
+    logger.info(`Inserting published disruption (${disruption.SituationNumber}) into DynamoDB table...`);
 
     await ddbDocClient.send(
         new PutCommand({

@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
-import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, CREATE_DISRUPTION_PAGE_PATH } from "../../constants/index";
+import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, ERROR_PATH } from "../../constants/index";
 import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import * as dynamo from "../../data/dynamo";
 import {
@@ -71,7 +71,7 @@ describe("publish", () => {
         await publish(req, res);
 
         expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_DISRUPTION_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
     it("should redirect to start page if consequence info cookie is invalid", async () => {
@@ -89,7 +89,7 @@ describe("publish", () => {
         await publish(req, res);
 
         expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_DISRUPTION_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
     it.each([

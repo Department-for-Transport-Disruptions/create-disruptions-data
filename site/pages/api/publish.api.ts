@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies } from "nookies";
 import { randomUUID } from "crypto";
-import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, CREATE_DISRUPTION_PAGE_PATH } from "../../constants";
+import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO } from "../../constants";
 import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import { consequenceSchema } from "../../schemas/consequence.schema";
 import { createDisruptionSchema } from "../../schemas/create-disruption.schema";
@@ -27,8 +27,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));
 
         if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success) {
-            redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
-            return;
+            throw new Error("Invalid cookie data");
         }
 
         const disruptionId = randomUUID();
@@ -164,6 +163,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         cleardownCookies(req, res);
 
         redirectTo(res, "/dashboard");
+        return;
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";

@@ -37,7 +37,7 @@ const disruptions: DashboardDisruption[] = [
                 endTime: "2024-03-22T11:23:24.529Z",
             },
             {
-                startTime: "2023-04-21T11:23:24.529Z",
+                startTime: "2023-04-22T11:23:24.529Z",
                 endTime: null,
             },
         ],

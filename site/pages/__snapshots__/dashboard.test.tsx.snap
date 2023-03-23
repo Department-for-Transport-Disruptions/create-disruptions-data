@@ -296,7 +296,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                   <div
                     className="pb-2 last:pb-0"
                   >
-                    21/04/2023
+                    22/04/2023
                      
                      onwards
                   </div>
@@ -1269,7 +1269,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   <div
                     className="pb-2 last:pb-0"
                   >
-                    21/04/2023
+                    22/04/2023
                      
                      onwards
                   </div>
@@ -1875,7 +1875,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   <div
                     className="pb-2 last:pb-0"
                   >
-                    21/04/2023
+                    22/04/2023
                      
                      onwards
                   </div>
