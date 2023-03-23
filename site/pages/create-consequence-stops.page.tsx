@@ -1,14 +1,13 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, SyntheticEvent, useCallback, useEffect, useState } from "react";
-import { components, ContainerProps, ControlProps, InputActionMeta, Props, StylesConfig } from "react-select";
+import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
 import AsyncSelect from "react-select/async";
 
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
+import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Radios from "../components/form/Radios";
-//import Select from "../components/form/Select";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
@@ -16,7 +15,6 @@ import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
 import {
     CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
@@ -28,7 +26,6 @@ import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/cr
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
-import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -49,14 +46,11 @@ const CreateConsequenceStops = ({
         //TODO
     };
 
-    // handle input change event
     const handleInputChange = (value) => {
         setSearchInput(value);
     };
 
-    // handle selection
     const handleChange = (value) => {
-        console.log("Object----", pageState.inputs.stopsImpacted);
         setSelected(value);
         if (
             !pageState.inputs.stopsImpacted ||
@@ -66,11 +60,9 @@ const CreateConsequenceStops = ({
         }
     };
 
-    // load options using API call
     const loadOptions = async (inputValue) => {
         if (inputValue && inputValue.length >= 3) {
             const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
-            console.log("inputValue-----");
             const limit = 10;
             const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
             const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
@@ -125,13 +117,7 @@ const CreateConsequenceStops = ({
         return [];
     };
 
-    useEffect(() => {
-        console.log(pageState);
-    }, [pageState]);
-
     const addStop = (stopToAdd) => {
-        //TODO
-
         const parsed = stopsImpactedSchema.safeParse(stopToAdd);
 
         if (!parsed.success) {
@@ -152,7 +138,6 @@ const CreateConsequenceStops = ({
             });
         }
     };
-    // console.log(searchInput, selected, options);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -345,7 +330,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
-    console.log("Errors----", errorCookie);
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
 
