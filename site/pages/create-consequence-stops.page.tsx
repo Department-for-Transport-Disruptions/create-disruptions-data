@@ -21,12 +21,14 @@ import {
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
+    COOKIES_CONSEQUENCE_STOPS_ERRORS,
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
 import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/create-consequence-stops.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
+import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -54,24 +56,35 @@ const CreateConsequenceStops = ({
 
     // handle selection
     const handleChange = (value) => {
-        console.log(value);
+        console.log("Object----", pageState.inputs.stopsImpacted);
         setSelected(value);
-        addStop(value);
+        if (
+            !pageState.inputs.stopsImpacted ||
+            pageState.inputs.stopsImpacted.filter((data) => data.id === value.id).length === 0
+        ) {
+            addStop(value);
+        }
     };
 
     // load options using API call
     const loadOptions = async (inputValue) => {
-        const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
-        console.log(inputValue);
-        const limit = 10;
-        const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
-        const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
-        return await fetch(fetchURL, { method: "GET" }).then((res) => {
-            const result = res.json();
-            setOptions(result);
-            console.log(result, result.length);
-            return result;
-        });
+        if (inputValue && inputValue.length >= 3) {
+            const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
+            console.log("inputValue-----");
+            const limit = 10;
+            const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
+            const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
+
+            return await fetch(fetchURL, { method: "GET" })
+                .then((response) => response.json())
+                .then((values) => {
+                    console.log(values);
+                    setOptions(values);
+                    return values;
+                });
+        }
+        setOptions([]);
+        return [];
     };
 
     const removeStop = (e: SyntheticEvent, index: number) => {
@@ -143,7 +156,7 @@ const CreateConsequenceStops = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/create-consequence-network" method="post">
+            <form action="/api/create-consequence-stops" method="post">
                 <>
                     <ErrorSummary errors={inputs.errors} />
                     <div className="govuk-form-group">
@@ -188,41 +201,50 @@ const CreateConsequenceStops = ({
                         <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
                             Stops Impacted
                         </label>
-                        <AsyncSelect
-                            isSearchable
-                            styles={{
-                                control: (baseStyles, state) => ({
-                                    ...baseStyles,
-                                    fontFamily: "GDS Transport, arial, sans-serif",
-                                    border: "black solid 3px",
-                                    outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-                                    color: state.isFocused ? "white" : "black",
-                                    marginBottom: "20px",
-                                    "&:hover": { borderColor: "black" },
-                                    width: "75%",
-                                }),
-                                option: (provided, state) => ({
-                                    ...provided,
-                                    color: state.isFocused ? "white" : "black",
-                                    backgroundColor: state.isFocused ? "#3399ff" : "white",
-                                }),
-                            }}
-                            cacheOptions
-                            defaultOptions
-                            value={selected}
-                            getOptionLabel={(e) => `${e.commonName} ${e.indicator} ${e.atcoCode}`}
-                            getOptionValue={(e) => e.id}
-                            loadOptions={loadOptions}
-                            onInputChange={handleInputChange}
-                            options={options}
-                            inputValue={searchInput}
-                            onChange={handleChange}
-                            id="dropdown-search"
-                            instanceId="dropdown-search"
-                            inputId="dropdown-search-value"
-                            menuPlacement="auto"
-                            menuPosition="fixed"
-                        />
+                        <FormGroupWrapper errorIds={["stopsImpacted"]} errors={pageState.errors}>
+                            <FormElementWrapper
+                                errors={pageState.errors}
+                                errorId={"stopsImpacted"}
+                                errorClass="govuk-input--error"
+                            >
+                                <AsyncSelect
+                                    isSearchable
+                                    styles={{
+                                        control: (baseStyles, state) => ({
+                                            ...baseStyles,
+                                            fontFamily: "GDS Transport, arial, sans-serif",
+                                            border: "black solid 3px",
+                                            outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
+                                            color: state.isFocused ? "white" : "black",
+                                            marginBottom: "20px",
+                                            "&:hover": { borderColor: "black" },
+                                            width: "75%",
+                                        }),
+                                        option: (provided, state) => ({
+                                            ...provided,
+                                            color: state.isFocused ? "white" : "black",
+                                            backgroundColor: state.isFocused ? "#3399ff" : "white",
+                                        }),
+                                    }}
+                                    cacheOptions
+                                    defaultOptions
+                                    value={selected}
+                                    placeholder="Select stops"
+                                    getOptionLabel={(e) => `${e.commonName} ${e.indicator} ${e.atcoCode}`}
+                                    getOptionValue={(e) => e.id}
+                                    loadOptions={loadOptions}
+                                    onInputChange={handleInputChange}
+                                    options={options}
+                                    inputValue={searchInput}
+                                    onChange={handleChange}
+                                    id="stopsImpacted"
+                                    instanceId="dropdown-search"
+                                    inputId="dropdown-search-value"
+                                    menuPlacement="auto"
+                                    menuPosition="fixed"
+                                />
+                            </FormElementWrapper>
+                        </FormGroupWrapper>
                         <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
                         {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
                             <Fragment key={`stop-${index}`}>
@@ -321,8 +343,9 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
-    const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
+    console.log("Errors----", errorCookie);
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
 
