@@ -45,7 +45,11 @@ const CreateConsequenceStops = ({
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
     const getOptionLabel = (e: Stop) => {
-        if (e.commonName && e.indicator && e.atcoCode) {
+        if (e.commonName && e.indicator && e.atcoCode && e.longitude && e.latitude) {
+            return `${e.commonName} ${e.atcoCode} ${e.longitude} ${e.latitude} ${e.indicator}`;
+        } else if (e.commonName && e.atcoCode && e.longitude && e.latitude) {
+            return `${e.commonName} ${e.atcoCode} ${e.longitude} ${e.latitude}`;
+        } else if (e.commonName && e.indicator && e.atcoCode) {
             return `${e.commonName} ${e.indicator} ${e.atcoCode}`;
         } else if (e.commonName && e.atcoCode) {
             return `${e.commonName} ${e.atcoCode}`;
@@ -249,11 +253,7 @@ const CreateConsequenceStops = ({
                         <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
                         {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
                             <Fragment key={`stop-${index}`}>
-                                <input
-                                    type="hidden"
-                                    name={`stop${index + 1}`}
-                                    value={`${stop.commonName} ${stop.indicator} ${stop.atcoCode}`}
-                                />
+                                <input type="hidden" name={`stop${index + 1}`} value={getOptionLabel(stop)} />
                             </Fragment>
                         ))}
                         <button

@@ -54,18 +54,14 @@ export const stopsImpactedSchema = z.object({
             invalid_type_error: "Parent locality name must be a string",
         })
         .optional(),
-    longitude: z
-        .string({
-            required_error: "Longitude is required",
-            invalid_type_error: "Longitude must be a string",
-        })
-        .optional(),
-    latitude: z
-        .string({
-            required_error: "Latitude is required",
-            invalid_type_error: "Latitude must be a string",
-        })
-        .optional(),
+    longitude: z.string({
+        required_error: "Longitude is required",
+        invalid_type_error: "Longitude must be a string",
+    }),
+    latitude: z.string({
+        required_error: "Latitude is required",
+        invalid_type_error: "Latitude must be a string",
+    }),
     stopType: z
         .string({
             required_error: "Stop type is required",

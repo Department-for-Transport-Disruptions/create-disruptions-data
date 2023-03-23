@@ -22,8 +22,10 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
             return {
                 commonName: values[0],
-                indicator: values[1],
-                atcoCode: values[2],
+                atcoCode: values[1],
+                longitude: values[2],
+                latitude: values[3],
+                indicator: values[4],
             };
         });
 
