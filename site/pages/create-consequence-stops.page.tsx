@@ -6,6 +6,7 @@ import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 
 import { z } from "zod";
+import { json } from "stream/consumers";
 import ErrorSummary from "../components/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Radios from "../components/form/Radios";
@@ -45,11 +46,7 @@ const CreateConsequenceStops = ({
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
     const getOptionLabel = (e: Stop) => {
-        if (e.commonName && e.indicator && e.atcoCode && e.longitude && e.latitude) {
-            return `${e.commonName} ${e.atcoCode} ${e.longitude} ${e.latitude} ${e.indicator}`;
-        } else if (e.commonName && e.atcoCode && e.longitude && e.latitude) {
-            return `${e.commonName} ${e.atcoCode} ${e.longitude} ${e.latitude}`;
-        } else if (e.commonName && e.indicator && e.atcoCode) {
+        if (e.commonName && e.indicator && e.atcoCode) {
             return `${e.commonName} ${e.indicator} ${e.atcoCode}`;
         } else if (e.commonName && e.atcoCode) {
             return `${e.commonName} ${e.atcoCode}`;
@@ -253,7 +250,17 @@ const CreateConsequenceStops = ({
                         <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
                         {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
                             <Fragment key={`stop-${index}`}>
-                                <input type="hidden" name={`stop${index + 1}`} value={getOptionLabel(stop)} />
+                                <input
+                                    type="hidden"
+                                    name={`stop${index + 1}`}
+                                    value={JSON.stringify({
+                                        commonName: stop.commonName,
+                                        indicator: stop.indicator,
+                                        atcoCode: stop.atcoCode,
+                                        longitude: stop.longitude,
+                                        latitude: stop.latitude,
+                                    })}
+                                />
                             </Fragment>
                         ))}
                         <button
@@ -345,7 +352,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
-
+    console.log("dataCookie", dataCookie);
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
 

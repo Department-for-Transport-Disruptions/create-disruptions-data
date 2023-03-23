@@ -13,24 +13,17 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { Stop } from "../create-consequence-stops.page";
 
 export const formatCreateConsequenceStopsBody = (body: object) => {
     const stopsImpacted = Object.entries(body)
         .filter((item) => item.toString().startsWith("stop"))
         .map((arr: string[]) => {
             const [, values] = arr;
-
-            return {
-                commonName: values[0],
-                atcoCode: values[1],
-                longitude: values[2],
-                latitude: values[3],
-                indicator: values[4],
-            };
+            return JSON.parse(values);
         });
 
     const cleansedBody = Object.fromEntries(Object.entries(body).filter((item) => !item.toString().startsWith("stop")));
-
     return {
         ...cleansedBody,
         stopsImpacted,
@@ -47,7 +40,7 @@ const createConsequenceStops = (req: NextApiRequest, res: NextApiResponse): void
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_STOPS_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: formattedBody,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
