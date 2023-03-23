@@ -202,7 +202,7 @@ const CreateConsequenceStops = ({
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
-                                    color: "black",
+                                    color: state.isFocused ? "white" : "black",
                                     backgroundColor: state.isFocused ? "#3399ff" : "white",
                                 }),
                             }}
