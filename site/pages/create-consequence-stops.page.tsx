@@ -61,7 +61,7 @@ const CreateConsequenceStops = ({
 
     // load options using API call
     const loadOptions = async (inputValue) => {
-        const searchApiUrl = `https://ruij3gt6v7.execute-api.eu-west-2.amazonaws.com/stops?adminAreaCode=099`;
+        const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
         console.log(inputValue);
         const limit = 10;
         const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
@@ -196,13 +196,14 @@ const CreateConsequenceStops = ({
                                     fontFamily: "GDS Transport, arial, sans-serif",
                                     border: "black solid 3px",
                                     outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
+                                    color: state.isFocused ? "white" : "black",
                                     marginBottom: "20px",
                                     "&:hover": { borderColor: "black" },
                                     width: "75%",
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
-                                    color: "black",
+                                    color: state.isFocused ? "white" : "black",
                                     backgroundColor: state.isFocused ? "#3399ff" : "white",
                                 }),
                             }}
