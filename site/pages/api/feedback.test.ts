@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import Mail from "nodemailer/lib/mailer";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import feedback, { requestIsEmpty, redactEmailAddress } from "./feedback.api";

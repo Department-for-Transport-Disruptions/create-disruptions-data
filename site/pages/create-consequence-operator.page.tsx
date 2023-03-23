@@ -19,10 +19,11 @@ import {
     OPERATORS,
     VEHICLE_MODES,
 } from "../constants";
-import { ErrorInfo, PageState } from "../interfaces";
+import { PageState } from "../interfaces";
 import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
+import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -41,27 +42,7 @@ const CreateConsequenceOperator = ({
     const [pageState, setConsequenceOperatorPageState] =
         useState<PageState<Partial<ConsequenceOperatorPageInputs>>>(inputs);
 
-    const updateConsequenceOperatorPageStateForInput = (
-        inputName: keyof ConsequenceOperatorPageInputs,
-        input: string,
-        error?: ErrorInfo,
-    ): void => {
-        setConsequenceOperatorPageState({
-            inputs: {
-                ...pageState.inputs,
-                [inputName]: input,
-            },
-            errors: [
-                ...(error
-                    ? [...pageState.errors, error]
-                    : [...pageState.errors.filter((error) => error.id !== inputName)]),
-            ],
-        });
-    };
-
-    const stateUpdater = (change: string, field: keyof ConsequenceOperatorPageInputs) => {
-        updateConsequenceOperatorPageStateForInput(field, change);
-    };
+    const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
     return (
         <BaseLayout title={title} description={description}>

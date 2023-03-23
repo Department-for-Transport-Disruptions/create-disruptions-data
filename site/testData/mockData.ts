@@ -1,19 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
 import {
     DayType,
     EnvironmentReason,
     MiscellaneousReason,
     PersonnelReason,
     Progress,
+    Severity,
     SourceType,
+    VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { mockRequest, mockResponse } from "mock-req-res";
-import { NextPageContext } from "next";
+import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
+import { Consequence } from "../schemas/consequence.schema";
+import { Disruption } from "../schemas/create-disruption.schema";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -36,7 +39,7 @@ export const getMockRequestAndResponse = ({
     isLoggedin = true,
     url = null,
     query = null,
-}: GetMockRequestAndResponse = {}): { req: any; res: any } => {
+}: GetMockRequestAndResponse = {}): { req: NextApiRequest; res: NextApiResponse } => {
     const res = mockResponse({ writeHead: mockWriteHeadFn, end: mockEndFn });
 
     const {
@@ -51,9 +54,15 @@ export const getMockRequestAndResponse = ({
 
     let cookieString = "";
 
-    cookieString += isLoggedin ? `${COOKIE_ID_TOKEN}=${idToken as string};` : "";
+    cookieString += isLoggedin ? `${COOKIE_ID_TOKEN}=${idToken};` : "";
 
     cookieString += cookiePolicy ? `${COOKIES_POLICY_COOKIE}=${encodeURI(JSON.stringify(cookiePolicy))}` : "";
+
+    if (cookieValues) {
+        Object.entries(cookieValues).forEach((value) => {
+            cookieString += `${value[0]}=${encodeURI(value[1])};`;
+        });
+    }
 
     const req = mockRequest({
         connection: {
@@ -77,7 +86,7 @@ export const getMockRequestAndResponse = ({
         req.query = query;
     }
 
-    return { req, res };
+    return { req: req as unknown as NextApiRequest, res: res as unknown as NextApiResponse };
 };
 
 export const getMockContext = ({
@@ -114,7 +123,7 @@ export const getMockContext = ({
 };
 
 export interface GetMockRequestAndResponse {
-    cookieValues?: any;
+    cookieValues?: { [key: string]: string };
     body?: any;
     uuid?: any;
     mockWriteHeadFn?: Mock<any, any>;
@@ -228,3 +237,64 @@ export const databaseData: PtSituationElement[] = [
         },
     },
 ];
+
+export const disruptionInfoTestCookie: Disruption = {
+    description: "Test description",
+    disruptionType: "planned",
+    summary: "Some summary",
+    associatedLink: "https://example.com",
+    disruptionReason: EnvironmentReason.grassFire,
+    validity: [
+        {
+            disruptionStartDate: "10/03/2023",
+            disruptionStartTime: "1200",
+            disruptionNoEndDateTime: "true",
+        },
+    ],
+    publishStartDate: "10/03/2023",
+    publishStartTime: "1200",
+    publishNoEndDateTime: "true",
+};
+
+export const disruptionInfoMultipleValidityTestCookie: Disruption = {
+    description: "Test description",
+    disruptionType: "planned",
+    summary: "Some summary",
+    disruptionReason: PersonnelReason.staffInWrongPlace,
+    validity: [
+        {
+            disruptionStartDate: "10/03/2023",
+            disruptionStartTime: "1200",
+            disruptionEndDate: "17/03/2023",
+            disruptionEndTime: "1700",
+        },
+        {
+            disruptionStartDate: "18/03/2023",
+            disruptionStartTime: "1200",
+            disruptionNoEndDateTime: "true",
+        },
+    ],
+    publishStartDate: "10/03/2023",
+    publishStartTime: "1200",
+    publishNoEndDateTime: "true",
+};
+
+export const consequenceInfoOperatorTestCookie: Consequence = {
+    consequenceType: "operatorWide",
+    consequenceOperator: "FSYO",
+    description: "Some consequence description",
+    disruptionDirection: "inbound",
+    disruptionSeverity: Severity.severe,
+    vehicleMode: VehicleMode.bus,
+    removeFromJourneyPlanners: "yes",
+    disruptionDelay: "40",
+};
+
+export const consequenceInfoNetworkTestCookie: Consequence = {
+    consequenceType: "networkWide",
+    description: "Some consequence description",
+    disruptionDirection: "allDirections",
+    disruptionSeverity: Severity.slight,
+    vehicleMode: VehicleMode.tram,
+    removeFromJourneyPlanners: "no",
+};

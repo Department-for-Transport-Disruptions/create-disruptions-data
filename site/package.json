@@ -59,6 +59,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-vitest": "^0.0.48",
         "jsdom": "^21.1.0",
+        "mockdate": "^3.0.5",
         "nodemailer": "^6.9.1",
         "postcss": "^8.4.21",
         "react-test-renderer": "^18.2.0",

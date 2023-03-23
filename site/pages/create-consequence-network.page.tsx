@@ -17,10 +17,11 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
 } from "../constants";
-import { ErrorInfo, PageState } from "../interfaces";
+import { PageState } from "../interfaces";
 import { NetworkConsequence, networkConsequenceSchema } from "../schemas/consequence.schema";
 import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
+import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
@@ -39,27 +40,7 @@ const CreateConsequenceNetwork = ({
     const [pageState, setConsequenceNetworkPageState] =
         useState<PageState<Partial<ConsequenceNetworkPageInputs>>>(inputs);
 
-    const updateConsequenceNetworkPageStateForInput = (
-        inputName: keyof ConsequenceNetworkPageInputs,
-        input: string,
-        error?: ErrorInfo,
-    ): void => {
-        setConsequenceNetworkPageState({
-            inputs: {
-                ...pageState.inputs,
-                [inputName]: input,
-            },
-            errors: [
-                ...(error
-                    ? [...pageState.errors, error]
-                    : [...pageState.errors.filter((error) => error.id !== inputName)]),
-            ],
-        });
-    };
-
-    const stateUpdater = (change: string, field: keyof ConsequenceNetworkPageInputs) => {
-        updateConsequenceNetworkPageStateForInput(field, change);
-    };
+    const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
     return (
         <BaseLayout title={title} description={description}>
