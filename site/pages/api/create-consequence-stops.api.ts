@@ -13,7 +13,6 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
-import { Stop } from "../create-consequence-stops.page";
 
 export const formatCreateConsequenceStopsBody = (body: object) => {
     const stopsImpacted = Object.entries(body)
