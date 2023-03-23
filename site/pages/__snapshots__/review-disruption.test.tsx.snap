@@ -72,18 +72,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Type of disruption
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Planned
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -100,18 +100,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Summary
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -128,18 +128,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Description
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -156,18 +156,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Associated link
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   https://www.flooding.com
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -184,18 +184,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Reason for disruption
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Flooding
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -212,18 +212,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Validity period 1
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   13/01/2022 1200 - 14/01/2022 1400
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -240,18 +240,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Validity period 2
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   15/01/2022 1200 - 17/01/2022 1400
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -268,18 +268,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Publish start date
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -296,18 +296,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Publish start time
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   13:00
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -324,18 +324,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Publish end date
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -352,18 +352,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Publish end time
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   14:00
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -427,18 +427,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -455,18 +455,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Network wide
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -483,18 +483,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -511,18 +511,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -539,18 +539,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -567,18 +567,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -595,18 +595,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         33 minutes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -662,18 +662,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Tram
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -690,18 +690,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Operator wide
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -718,18 +718,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -746,18 +746,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -774,18 +774,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -802,18 +802,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -830,18 +830,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         50 minutes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -897,18 +897,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -925,18 +925,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Services
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -953,18 +953,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         1: Test
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -981,18 +981,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1009,18 +1009,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1037,18 +1037,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1065,18 +1065,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         12 minutes
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1154,18 +1154,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1182,18 +1182,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         13/01/2022
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1210,18 +1210,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         13:00
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1238,18 +1238,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Account to publish
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Example account
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1305,18 +1305,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1333,18 +1333,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         13/01/2022
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1361,18 +1361,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         13:00
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
@@ -1389,18 +1389,18 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       className="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header"
+                        className="govuk-table__header align-middle"
                         scope="row"
                       >
                         Account to publish
                       </th>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         Example account 2
                       </td>
                       <td
-                        className="govuk-table__cell"
+                        className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"

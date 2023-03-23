@@ -14,7 +14,7 @@ export interface DashboardDisruption {
     summary: string;
     validityPeriod: {
         startTime: string;
-        endTime: string | null | undefined;
+        endTime: string | null;
     }[];
 }
 
@@ -25,12 +25,12 @@ export interface DashboardProps {
 
 const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
     return disruptions.map((disruption) => {
-        const dateStrings = disruption.validityPeriod.map(
-            (period) =>
-                `${convertDateTimeToFormat(period.startTime)}${
-                    period.endTime ? `- ${convertDateTimeToFormat(period.endTime)}` : " onwards"
-                }`,
-        );
+        const dateStrings = disruption.validityPeriod.map((period) => (
+            <div key={period.startTime} className="pb-2 last:pb-0">
+                {convertDateTimeToFormat(period.startTime)}{" "}
+                {period.endTime ? `- ${convertDateTimeToFormat(period.endTime)}` : " onwards"}
+            </div>
+        ));
 
         return {
             header: (
@@ -38,7 +38,7 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
                     {disruption.id}
                 </Link>
             ),
-            cells: [disruption.summary, dateStrings.join("\n")],
+            cells: [disruption.summary, dateStrings],
         };
     });
 };
@@ -137,7 +137,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
                 summary: entry.Summary,
                 validityPeriod: entry.ValidityPeriod.map((period) => ({
                     startTime: period.StartTime,
-                    endTime: period.EndTime,
+                    endTime: period.EndTime || null,
                 })),
             };
         });
@@ -162,6 +162,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
                         (!period.endTime || (!!period.endTime && getDate(period.endTime).isSameOrAfter(today)))
                     );
                 });
+
                 if (isLive) {
                     liveDisruptions.push(disruption);
                 }

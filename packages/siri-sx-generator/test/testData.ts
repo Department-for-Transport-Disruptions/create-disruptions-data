@@ -48,6 +48,15 @@ export const testDisruptionsJson: PtSituationElement[] = [
                             },
                         },
                     },
+                    Advice: {
+                        Details: "Some Advice",
+                    },
+                    Blocking: {
+                        JourneyPlanner: false,
+                    },
+                    Delays: {
+                        Delay: "PT10M",
+                    },
                 },
             ],
         },
@@ -99,6 +108,12 @@ export const testDisruptionsJson: PtSituationElement[] = [
                                 AllLines: "",
                             },
                         },
+                    },
+                    Advice: {
+                        Details: "Some More Advice",
+                    },
+                    Blocking: {
+                        JourneyPlanner: true,
                     },
                 },
             ],

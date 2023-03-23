@@ -359,6 +359,14 @@ export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisrupt
         [COOKIES_CONSEQUENCE_INFO]: consequenceInfo,
     } = parseCookies(ctx);
 
+    if (!disruptionInfo || !consequenceInfo || !consequenceType) {
+        if (ctx.res) {
+            redirectTo(ctx.res, CREATE_DISRUPTION_PAGE_PATH);
+        }
+
+        return;
+    }
+
     const parsedDisruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfo));
     const parsedConsequenceType = typeOfConsequenceSchema.safeParse(JSON.parse(consequenceType));
     const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));

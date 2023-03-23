@@ -14,7 +14,7 @@ const disruptions: DashboardDisruption[] = [
         validityPeriod: [
             {
                 startTime: "2023-03-21T11:23:24.529Z",
-                endTime: undefined,
+                endTime: null,
             },
         ],
     },
@@ -38,7 +38,7 @@ const disruptions: DashboardDisruption[] = [
             },
             {
                 startTime: "2023-04-21T11:23:24.529Z",
-                endTime: undefined,
+                endTime: null,
             },
         ],
     },
@@ -96,7 +96,7 @@ describe("pages", () => {
                             summary: "Disruption Summary",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                             ],
@@ -110,7 +110,7 @@ describe("pages", () => {
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-05-03T01:10:00Z",
                                 },
                             ],
@@ -120,7 +120,7 @@ describe("pages", () => {
                             summary: "Disruption Summary 3",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                             ],
@@ -154,7 +154,7 @@ describe("pages", () => {
                             summary: "Disruption Summary",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2026-03-03T01:10:00Z",
                                 },
                             ],
@@ -174,7 +174,7 @@ describe("pages", () => {
                             summary: "Disruption Summary 3",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2028-03-03T01:10:00Z",
                                 },
                             ],
@@ -205,7 +205,7 @@ describe("pages", () => {
                             summary: "Disruption Summary",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                             ],
@@ -219,7 +219,7 @@ describe("pages", () => {
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-05-03T01:10:00Z",
                                 },
                             ],
@@ -229,7 +229,7 @@ describe("pages", () => {
                             summary: "Disruption Summary 3",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
                                 },
                             ],
@@ -241,7 +241,7 @@ describe("pages", () => {
                             summary: "Disruption Summary",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2026-03-03T01:10:00Z",
                                 },
                             ],
@@ -261,7 +261,7 @@ describe("pages", () => {
                             summary: "Disruption Summary 3",
                             validityPeriod: [
                                 {
-                                    endTime: undefined,
+                                    endTime: null,
                                     startTime: "2028-03-03T01:10:00Z",
                                 },
                             ],

@@ -65,7 +65,7 @@ export const infoLinksSchema = z.object({
 
 export const affectedOperatorSchema = z.object({
     OperatorRef: z.string(),
-    OperatorName: z.string(),
+    OperatorName: z.string().optional(),
 });
 
 export const operatorsSchema = z.object({
@@ -114,6 +114,17 @@ export const consequenceSchema = z.object({
                 Networks: networksSchema.optional(),
                 StopPoints: stopPointsSchema.optional(),
             }),
+            Advice: z.object({
+                Details: z.string(),
+            }),
+            Blocking: z.object({
+                JourneyPlanner: z.boolean(),
+            }),
+            Delays: z
+                .object({
+                    Delay: z.string().regex(/^PT\d+M$/),
+                })
+                .optional(),
         }),
     ),
 });

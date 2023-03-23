@@ -72,18 +72,18 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Mode of transport
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Ferry
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -100,18 +100,18 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Operator wide
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -746,18 +746,18 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Mode of transport
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Ferry
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"
@@ -774,18 +774,18 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header"
+                  className="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   Operator wide
                 </td>
                 <td
-                  className="govuk-table__cell"
+                  className="govuk-table__cell align-middle"
                 >
                   <a
                     className="govuk-link"

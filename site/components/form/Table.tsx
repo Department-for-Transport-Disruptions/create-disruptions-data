@@ -13,7 +13,7 @@ const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
             <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                     {columns.map((column) => (
-                        <th scope="col" className="govuk-table__header" key={column}>
+                        <th scope="col" className="govuk-table__header align-middle" key={column}>
                             {column}
                         </th>
                     ))}
@@ -22,11 +22,11 @@ const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
             <tbody className="govuk-table__body">
                 {rows.map((row, index) => (
                     <tr className="govuk-table__row" key={typeof row.header === "string" ? row.header : index}>
-                        <th scope="row" className="govuk-table__header">
+                        <th scope="row" className="govuk-table__header align-middle">
                             {row.header}
                         </th>
                         {row.cells.map((cell, i) => (
-                            <td className="govuk-table__cell" key={i}>
+                            <td className="govuk-table__cell align-middle" key={i}>
                                 {cell}
                             </td>
                         ))}

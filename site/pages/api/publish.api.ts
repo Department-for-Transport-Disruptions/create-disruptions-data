@@ -33,30 +33,34 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const disruptionId = randomUUID();
         const currentTime = dayjs().toISOString();
-        const reason = parsedDisruptionInfo.data.disruptionReason;
+
+        const disruptionData = parsedDisruptionInfo.data;
+        const consequenceData = parsedConsequenceInfo.data;
+
+        const reason = disruptionData.disruptionReason;
 
         const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
             CreationTime: currentTime,
-            Planned: parsedDisruptionInfo.data.disruptionType === "planned",
-            Summary: parsedDisruptionInfo.data.summary,
-            Description: parsedDisruptionInfo.data.description,
+            Planned: disruptionData.disruptionType === "planned",
+            Summary: disruptionData.summary,
+            Description: disruptionData.description,
             ParticipantRef: "DepartmentForTransport",
             SituationNumber: disruptionId,
             PublicationWindow: {
                 StartTime: getDatetimeFromDateAndTime(
-                    parsedDisruptionInfo.data.publishStartDate,
-                    parsedDisruptionInfo.data.publishStartTime,
+                    disruptionData.publishStartDate,
+                    disruptionData.publishStartTime,
                 ).toISOString(),
-                ...(parsedDisruptionInfo.data.publishEndDate && parsedDisruptionInfo.data.publishEndTime
+                ...(disruptionData.publishEndDate && disruptionData.publishEndTime
                     ? {
                           EndTime: getDatetimeFromDateAndTime(
-                              parsedDisruptionInfo.data.publishEndDate,
-                              parsedDisruptionInfo.data.publishEndTime,
+                              disruptionData.publishEndDate,
+                              disruptionData.publishEndTime,
                           ).toISOString(),
                       }
                     : {}),
             },
-            ValidityPeriod: parsedDisruptionInfo.data.validity.map((period) => ({
+            ValidityPeriod: disruptionData.validity.map((period) => ({
                 StartTime: getDatetimeFromDateAndTime(
                     period.disruptionStartDate,
                     period.disruptionStartTime,
@@ -75,12 +79,12 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 SourceType: SourceType.feed,
                 TimeOfCommunication: currentTime,
             },
-            ...(parsedDisruptionInfo.data.associatedLink
+            ...(disruptionData.associatedLink
                 ? {
                       InfoLinks: {
                           InfoLink: [
                               {
-                                  Uri: parsedDisruptionInfo.data.associatedLink,
+                                  Uri: disruptionData.associatedLink,
                               },
                           ],
                       },
@@ -90,27 +94,38 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 Consequence: [
                     {
                         Condition: "unknown",
-                        Severity: parsedConsequenceInfo.data.disruptionSeverity,
+                        Severity: consequenceData.disruptionSeverity,
                         Affects: {
-                            ...(parsedConsequenceInfo.data.consequenceType === "networkWide" ||
-                            parsedConsequenceInfo.data.consequenceType === "operatorWide"
+                            ...(consequenceData.consequenceType === "networkWide" ||
+                            consequenceData.consequenceType === "operatorWide"
                                 ? {
                                       Networks: {
                                           AffectedNetwork: {
-                                              VehicleMode: parsedConsequenceInfo.data.vehicleMode,
+                                              VehicleMode: consequenceData.vehicleMode,
                                               AllLines: "",
                                           },
                                       },
                                   }
                                 : {}),
-                            ...(parsedConsequenceInfo.data.consequenceType === "operatorWide"
+                            ...(consequenceData.consequenceType === "operatorWide"
                                 ? {
                                       Operators: {
-                                          AllOperators: "",
+                                          AffectedOperator: {
+                                              OperatorRef: consequenceData.consequenceOperator,
+                                          },
                                       },
                                   }
                                 : {}),
                         },
+                        Advice: {
+                            Details: consequenceData.description,
+                        },
+                        Blocking: {
+                            JourneyPlanner: consequenceData.removeFromJourneyPlanners === "yes",
+                        },
+                        ...(consequenceData.disruptionDelay
+                            ? { Delays: { Delay: `PT${consequenceData.disruptionDelay}M` } }
+                            : {}),
                     },
                 ],
             },
@@ -148,7 +163,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         cleardownCookies(req, res);
 
-        redirectTo(res, "/");
+        redirectTo(res, "/dashboard");
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";

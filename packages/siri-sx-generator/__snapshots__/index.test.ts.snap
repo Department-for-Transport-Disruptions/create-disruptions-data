@@ -43,6 +43,15 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                     </AffectedNetwork>
                                 </Networks>
                             </Affects>
+                            <Advice>
+                                <Details>Some Advice</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>false</JourneyPlanner>
+                            </Blocking>
+                            <Delays>
+                                <Delay>PT10M</Delay>
+                            </Delays>
                         </Consequence>
                     </Consequences>
                 </PtSituationElement>
@@ -105,6 +114,12 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                     </AffectedNetwork>
                                 </Networks>
                             </Affects>
+                            <Advice>
+                                <Details>Some More Advice</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>true</JourneyPlanner>
+                            </Blocking>
                         </Consequence>
                     </Consequences>
                 </PtSituationElement>
