@@ -92,6 +92,7 @@ def main(event, context):
                 download_path,
                 os.getenv("SIRI_SX_BUCKET_NAME"),
                 "SIRI-SX.xml",
+                ExtraArgs={'ContentType': "application/xml"}
             )
 
         except Exception as e:

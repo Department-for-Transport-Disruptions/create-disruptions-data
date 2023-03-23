@@ -89,6 +89,7 @@ export const generateSiriSxAndUploadToS3 = async (
             }),
             `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
             bucketName,
+            "application/xml",
         );
     } catch (e) {
         throw e;

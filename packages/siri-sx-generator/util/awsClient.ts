@@ -10,7 +10,13 @@ export const getDdbDocumentClient = (ddbClient = getDdbClient()): DynamoDBDocume
 
 export const getS3Client = (): S3Client => new S3Client({ region: "eu-west-2" });
 
-export const uploadToS3 = async (s3Client: S3Client, data: string, keyName: string, bucketName: string | undefined) => {
+export const uploadToS3 = async (
+    s3Client: S3Client,
+    data: string,
+    keyName: string,
+    bucketName: string | undefined,
+    contentType = "application/xml",
+) => {
     if (!bucketName) {
         throw Error("No bucket name provided");
     }
@@ -19,6 +25,7 @@ export const uploadToS3 = async (s3Client: S3Client, data: string, keyName: stri
         Bucket: bucketName,
         Key: keyName,
         Body: data,
+        ContentType: contentType,
     });
 
     await s3Client.send(putCommand);
