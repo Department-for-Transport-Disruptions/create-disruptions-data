@@ -310,7 +310,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      Temple Meads Stn 0100BRP90310
+                      Temple Meads Stn T3 0100BRP90310
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
@@ -330,7 +330,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      Temple Meads Stn 0100BRP90311
+                      Temple Meads Stn T7 0100BRP90311
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
@@ -1054,7 +1054,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      Temple Meads Stn 0100BRP90310
+                      Temple Meads Stn T3 0100BRP90310
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
@@ -1074,7 +1074,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      Temple Meads Stn 0100BRP90311
+                      Temple Meads Stn T7 0100BRP90311
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
