@@ -27,6 +27,7 @@ import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/cr
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
+import SearchSelect from "../components/form/SearchSelect";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -80,11 +81,17 @@ const CreateConsequenceStops = ({
             const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
             const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
 
-            return await fetch(fetchURL, { method: "GET" })
-                .then((response) => response.json())
-                .then((values: Stop[]) => {
-                    return values;
-                });
+            // return fetch(fetchURL, { method: "GET" })
+            //     .then((response) => response.json())
+            //     .then((values: Stop[]) => {
+            //         console.log("values.data----", values);
+            //         return values ?? [];
+            //     });
+            const res = await fetch(fetchURL, { method: "GET" });
+            const data: Stop[] = z.array(stopsImpactedSchema).parse(await res.json());
+            if (data) {
+                return data;
+            }
         }
         return [];
     };
@@ -126,6 +133,8 @@ const CreateConsequenceStops = ({
         }
         return [];
     };
+
+    const getOptionValue = (e: Stop) => (e.id ? e.id.toString() : "");
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopsImpactedSchema.safeParse(stopToAdd);
@@ -200,7 +209,7 @@ const CreateConsequenceStops = ({
                         <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
                             Stops Impacted
                         </label>
-                        <FormGroupWrapper errorIds={["stopsImpacted"]} errors={pageState.errors}>
+                        {/* <FormGroupWrapper errorIds={["stopsImpacted"]} errors={pageState.errors}>
                             <FormElementWrapper
                                 errors={pageState.errors}
                                 errorId={"stopsImpacted"}
@@ -246,20 +255,21 @@ const CreateConsequenceStops = ({
                         <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
                         {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
                             <Fragment key={`stop-${index}`}>
-                                <input
-                                    type="hidden"
-                                    name={`stop${index + 1}`}
-                                    value={JSON.stringify({
-                                        commonName: stop.commonName,
-                                        indicator: stop.indicator,
-                                        atcoCode: stop.atcoCode,
-                                        longitude: stop.longitude,
-                                        latitude: stop.latitude,
-                                        id: stop.id,
-                                    })}
-                                />
+                                <input type="hidden" name={`stop${index + 1}`} value={JSON.stringify(stop)} />
                             </Fragment>
-                        ))}
+                        ))} */}
+                        <SearchSelect<Stop>
+                            selected={selected}
+                            inputName="stopsImpacted"
+                            initialErrors={pageState.errors}
+                            placeholder="Select stops"
+                            getOptionLabel={getOptionLabel}
+                            loadOptions={loadOptions}
+                            handleChange={handleChange}
+                            impacted={pageState.inputs.stopsImpacted}
+                            getRows={getStopRows}
+                            getOptionValue={getOptionValue}
+                        />
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"

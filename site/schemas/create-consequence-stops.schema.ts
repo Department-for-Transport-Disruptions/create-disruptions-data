@@ -94,7 +94,7 @@ export const stopsImpactedSchema = z.object({
         .optional(),
 });
 
-export type Stops = z.infer<typeof stopsImpactedSchema>;
+export type Stop = z.infer<typeof stopsImpactedSchema>;
 
 export const createConsequenceStopsSchema = z.object({
     stopsImpacted: stopsImpactedSchema
