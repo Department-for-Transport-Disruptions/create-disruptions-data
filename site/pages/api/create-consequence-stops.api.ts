@@ -35,6 +35,8 @@ const createConsequenceStops = (req: NextApiRequest, res: NextApiResponse): void
 
         const validatedBody = createConsequenceStopsSchema.safeParse(formattedBody);
 
+        console.log("validatedBody----", validatedBody);
+        console.log("errors----", flattenZodErrors(validatedBody.error));
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_STOPS_ERRORS,

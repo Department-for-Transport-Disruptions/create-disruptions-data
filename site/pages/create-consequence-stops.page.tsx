@@ -1,14 +1,12 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, SyntheticEvent, useEffect, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
-import AsyncSelect from "react-select/async";
-
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
-import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Radios from "../components/form/Radios";
+import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
@@ -27,7 +25,6 @@ import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/cr
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
-import SearchSelect from "../components/form/SearchSelect";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -41,12 +38,7 @@ const CreateConsequenceStops = ({
 }: CreateConsequenceProps<ConsequenceStopsPageInputs>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
-    const [searchInput, setSearchInput] = useState("");
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
-
-    useEffect(() => {
-        console.log("Selected------", selected);
-    }, [selected]);
 
     const getOptionLabel = (e: Stop) => {
         if (e.commonName && e.indicator && e.atcoCode) {
@@ -62,12 +54,7 @@ const CreateConsequenceStops = ({
         //TODO
     };
 
-    const handleInputChange = (value: string) => {
-        setSearchInput(value);
-    };
-
     const handleChange = (value: SingleValue<Stop>) => {
-        //setSelected(value);
         if (
             !pageState.inputs.stopsImpacted ||
             pageState.inputs.stopsImpacted.filter((data) => data.id === value?.id).length === 0
@@ -84,13 +71,6 @@ const CreateConsequenceStops = ({
             const limit = 10;
             const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
             const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
-
-            // return fetch(fetchURL, { method: "GET" })
-            //     .then((response) => response.json())
-            //     .then((values: Stop[]) => {
-            //         console.log("values.data----", values);
-            //         return values ?? [];
-            //     });
             const res = await fetch(fetchURL, { method: "GET" });
             const data: Stop[] = z.array(stopsImpactedSchema).parse(await res.json());
             if (data) {
@@ -147,7 +127,9 @@ const CreateConsequenceStops = ({
             setPageState({
                 ...pageState,
                 errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id)),
+                    ...pageState.errors.filter(
+                        (err) => !Object.keys(createConsequenceStopsSchema.shape).includes(err.id),
+                    ),
                     ...flattenZodErrors(parsed.error),
                 ],
             });
@@ -159,7 +141,9 @@ const CreateConsequenceStops = ({
                         stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd],
                     },
                     errors: [
-                        ...pageState.errors.filter((err) => !Object.keys(stopsImpactedSchema.shape).includes(err.id)),
+                        ...pageState.errors.filter(
+                            (err) => !Object.keys(createConsequenceStopsSchema.shape).includes(err.id),
+                        ),
                     ],
                 });
             }
@@ -210,60 +194,8 @@ const CreateConsequenceStops = ({
                             ]}
                         />
 
-                        <label className={`govuk-label govuk-label--l`} htmlFor="my-autocomplete">
-                            Stops Impacted
-                        </label>
-                        {/* <FormGroupWrapper errorIds={["stopsImpacted"]} errors={pageState.errors}>
-                            <FormElementWrapper
-                                errors={pageState.errors}
-                                errorId={"stopsImpacted"}
-                                errorClass="govuk-input--error"
-                            >
-                                <AsyncSelect
-                                    isSearchable
-                                    styles={{
-                                        control: (baseStyles, state) => ({
-                                            ...baseStyles,
-                                            fontFamily: "GDS Transport, arial, sans-serif",
-                                            border: "black solid 3px",
-                                            outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-                                            color: state.isFocused ? "white" : "black",
-                                            marginBottom: "20px",
-                                            "&:hover": { borderColor: "black" },
-                                            width: "75%",
-                                        }),
-                                        option: (provided, state) => ({
-                                            ...provided,
-                                            color: state.isFocused ? "white" : "black",
-                                            backgroundColor: state.isFocused ? "#3399ff" : "white",
-                                        }),
-                                    }}
-                                    cacheOptions
-                                    defaultOptions
-                                    value={selected}
-                                    placeholder="Select stops"
-                                    getOptionLabel={getOptionLabel}
-                                    getOptionValue={(e: Stop) => (e.id ? e.id.toString() : "")}
-                                    loadOptions={loadOptions}
-                                    onInputChange={handleInputChange}
-                                    inputValue={searchInput}
-                                    onChange={handleChange}
-                                    id="stopsImpacted"
-                                    instanceId="dropdown-search"
-                                    inputId="dropdown-search-value"
-                                    menuPlacement="auto"
-                                    menuPosition="fixed"
-                                />
-                            </FormElementWrapper>
-                        </FormGroupWrapper>
-                        <Table rows={pageState.inputs.stopsImpacted ? getStopRows() : []} />
-                        {(pageState.inputs.stopsImpacted || []).map((stop, index) => (
-                            <Fragment key={`stop-${index}`}>
-                                <input type="hidden" name={`stop${index + 1}`} value={JSON.stringify(stop)} />
-                            </Fragment>
-                        ))} */}
                         <SearchSelect<Stop>
-                            //selected={selected}
+                            selected={selected}
                             inputName="stopsImpacted"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
@@ -273,6 +205,9 @@ const CreateConsequenceStops = ({
                             impacted={pageState.inputs.stopsImpacted}
                             getRows={getStopRows}
                             getOptionValue={getOptionValue}
+                            display="Stops Impacted"
+                            displaySize="l"
+                            inputId="stopsImpacted"
                         />
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
