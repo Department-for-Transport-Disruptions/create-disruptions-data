@@ -40,11 +40,11 @@ const CreateConsequenceStops = ({
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
-    const getOptionLabel = (e: Stop) => {
-        if (e.commonName && e.indicator && e.atcoCode) {
-            return `${e.commonName} ${e.indicator} ${e.atcoCode}`;
-        } else if (e.commonName && e.atcoCode) {
-            return `${e.commonName} ${e.atcoCode}`;
+    const getOptionLabel = (stop: Stop) => {
+        if (stop.commonName && stop.indicator && stop.atcoCode) {
+            return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
+        } else if (stop.commonName && stop.atcoCode) {
+            return `${stop.commonName} ${stop.atcoCode}`;
         } else {
             return "";
         }
@@ -63,13 +63,13 @@ const CreateConsequenceStops = ({
     const production = process.env.NODE_ENV === "production";
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
+    const loadOptions = async (inputValue: string | undefined, _callback: (options: Stop[]) => void) => {
         if (inputValue && inputValue.length >= 3) {
             const searchApiUrl = !production
                 ? "https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099"
                 : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
             const limit = 10;
-            const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
+            const queryAdder = !searchApiUrl.includes("?") ? "?" : "&";
             const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
             const res = await fetch(fetchURL, { method: "GET" });
             const data: Stop[] = z.array(stopsImpactedSchema).parse(await res.json());
@@ -82,7 +82,7 @@ const CreateConsequenceStops = ({
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.stopsImpacted) {
+        if (pageState.inputs.stopsImpacted && pageState.inputs.stopsImpacted.length > 0) {
             const stopsImpacted = [...pageState.inputs.stopsImpacted];
             stopsImpacted.splice(index, 1);
 
@@ -117,7 +117,7 @@ const CreateConsequenceStops = ({
         return [];
     };
 
-    const getOptionValue = (e: Stop) => (e.id ? e.id.toString() : "");
+    const getOptionValue = (stop: Stop) => stop.id.toString();
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopsImpactedSchema.safeParse(stopToAdd);

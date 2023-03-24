@@ -3,12 +3,10 @@ import { z } from "zod";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
 export const stopsImpactedSchema = z.object({
-    id: z
-        .number({
-            required_error: "Id is required",
-            invalid_type_error: "Id must be a number",
-        })
-        .optional(),
+    id: z.number({
+        required_error: "Id is required",
+        invalid_type_error: "Id must be a number",
+    }),
     atcoCode: z.string({
         required_error: "Atco code is required",
         invalid_type_error: "Atco code must be a string",
