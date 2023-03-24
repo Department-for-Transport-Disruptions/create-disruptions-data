@@ -99,7 +99,6 @@ const CreateConsequenceStops = ({
     const getStopRows = () => {
         if (pageState.inputs.stopsImpacted) {
             return pageState.inputs.stopsImpacted.map((stop, i) => ({
-                header: `Stop ${i + 1}`,
                 cells: [
                     stop.commonName && stop.indicator && !stop.atcoCode
                         ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
@@ -232,7 +231,7 @@ const CreateConsequenceStops = ({
                         />
 
                         <Radios<ConsequenceStopsPageInputs>
-                            display="Would you like to remove this from journey planners?"
+                            display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
                                 {
@@ -266,7 +265,7 @@ const CreateConsequenceStops = ({
 
                         <Select<ConsequenceStopsPageInputs>
                             inputName="disruptionSeverity"
-                            display="What is the severity of the disruption?"
+                            display="Disruption severity"
                             displaySize="l"
                             defaultDisplay="Select severity"
                             selectValues={DISRUPTION_SEVERITIES}

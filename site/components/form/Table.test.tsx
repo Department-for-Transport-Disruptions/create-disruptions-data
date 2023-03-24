@@ -24,6 +24,25 @@ describe("Table", () => {
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
+    it("should render correctly without a header", () => {
+        const tree = renderer
+            .create(
+                <Table
+                    caption="test table"
+                    columns={["test col 1", "test col 2"]}
+                    rows={[
+                        {
+                            cells: ["1"],
+                        },
+                        {
+                            cells: ["2"],
+                        },
+                    ]}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
     it("should render correctly with jsx element", () => {
         const tree = renderer
             .create(

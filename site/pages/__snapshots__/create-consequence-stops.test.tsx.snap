@@ -307,12 +307,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   <tr
                     className="govuk-table__row"
                   >
-                    <th
-                      className="govuk-table__header"
-                      scope="row"
-                    >
-                      Stop 1
-                    </th>
                     <td
                       className="govuk-table__cell"
                     >
@@ -333,12 +327,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   <tr
                     className="govuk-table__row"
                   >
-                    <th
-                      className="govuk-table__header"
-                      scope="row"
-                    >
-                      Stop 2
-                    </th>
                     <td
                       className="govuk-table__cell"
                     >
@@ -435,7 +423,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Would you like to remove this from journey planners?
+                  Remove from journey planners
                 </span>
               </legend>
               <div
@@ -547,7 +535,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                What is the severity of the disruption?
+                Disruption severity
               </label>
               <div
                 className=""
@@ -1070,12 +1058,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   <tr
                     className="govuk-table__row"
                   >
-                    <th
-                      className="govuk-table__header"
-                      scope="row"
-                    >
-                      Stop 1
-                    </th>
                     <td
                       className="govuk-table__cell"
                     >
@@ -1096,12 +1078,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   <tr
                     className="govuk-table__row"
                   >
-                    <th
-                      className="govuk-table__header"
-                      scope="row"
-                    >
-                      Stop 2
-                    </th>
                     <td
                       className="govuk-table__cell"
                     >
@@ -1187,7 +1163,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Would you like to remove this from journey planners?
+                  Remove from journey planners
                 </span>
               </legend>
               <div
@@ -1287,7 +1263,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                What is the severity of the disruption?
+                Disruption severity
               </label>
               <div
                 className=""
@@ -1863,7 +1839,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Would you like to remove this from journey planners?
+                  Remove from journey planners
                 </span>
               </legend>
               <div
@@ -1962,7 +1938,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                What is the severity of the disruption?
+                Disruption severity
               </label>
               <div
                 className=""
