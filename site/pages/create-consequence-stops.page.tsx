@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
+import { ReactElement, SyntheticEvent, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";

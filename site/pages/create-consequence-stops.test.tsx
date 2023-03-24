@@ -1,7 +1,10 @@
 import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { ConsequenceType } from "../schemas/type-of-consequence.schema";
-import { ConsequenceStopsPageInputs } from "./create-consequence-stops.page";
+import renderer from "react-test-renderer";
+import { describe, it, expect } from "vitest";
+import CreateConsequenceStops, { ConsequenceStopsPageInputs } from "./create-consequence-stops.page";
+import { Severity } from "../constants";
 import { PageState } from "../interfaces";
+import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
     modeOfTransport: VehicleMode.ferryService,
@@ -16,11 +19,96 @@ const blankInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
 const withInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
     errors: [],
     inputs: {
-        consequenceOperator: "FSYO",
+        stopsImpacted: [
+            {
+                atcoCode: "0100BRP90310",
+                commonName: "Temple Meads Stn",
+                id: 1,
+                indicator: "T3",
+                latitude: "51.44901",
+                longitude: "-2.58569",
+            },
+            {
+                atcoCode: "0100BRP90311",
+                commonName: "Temple Meads Stn",
+                id: 2,
+                indicator: "T7",
+                latitude: "51.45014",
+                longitude: "-2.5856",
+            },
+        ],
         description: "A truck broke down on a bridge",
         removeFromJourneyPlanners: "yes",
-        disruptionDelay: "yes",
+        disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
-        disruptionDirection: "allDirections",
     },
 };
+
+const withInputsAndErrors: PageState<Partial<ConsequenceStopsPageInputs>> = {
+    errors: [
+        { errorMessage: "Enter a description for this disruption", id: "description" },
+        { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
+    ],
+    inputs: {
+        stopsImpacted: [
+            {
+                atcoCode: "0100BRP90310",
+                commonName: "Temple Meads Stn",
+                id: 1,
+                indicator: "T3",
+                latitude: "51.44901",
+                longitude: "-2.58569",
+            },
+            {
+                atcoCode: "0100BRP90311",
+                commonName: "Temple Meads Stn",
+                id: 2,
+                indicator: "T7",
+                latitude: "51.45014",
+                longitude: "-2.5856",
+            },
+        ],
+        disruptionDelay: "45",
+        disruptionSeverity: Severity.severe,
+    },
+};
+
+describe("pages", () => {
+    describe("CreateConsequenceStops", () => {
+        it("should render correctly with no inputs", () => {
+            const tree = renderer
+                .create(
+                    <CreateConsequenceStops
+                        inputs={blankInputs}
+                        previousConsequenceInformation={previousConsequenceInformation}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs", () => {
+            const tree = renderer
+                .create(
+                    <CreateConsequenceStops
+                        inputs={withInputs}
+                        previousConsequenceInformation={previousConsequenceInformation}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with errors and incorrect inputs", () => {
+            const tree = renderer
+                .create(
+                    <CreateConsequenceStops
+                        inputs={withInputsAndErrors}
+                        previousConsequenceInformation={previousConsequenceInformation}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+    });
+});
