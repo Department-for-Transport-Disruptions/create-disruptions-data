@@ -3,7 +3,7 @@ import { ReactElement, ReactNode } from "react";
 interface TableProps {
     caption?: string;
     columns?: string[];
-    rows: { header?: string; cells: string[] | ReactNode[] }[];
+    rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[];
 }
 
 const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
@@ -13,22 +13,22 @@ const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
             <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                     {columns.map((column) => (
-                        <th scope="col" className="govuk-table__header" key={column}>
+                        <th scope="col" className="govuk-table__header align-middle" key={column}>
                             {column}
                         </th>
                     ))}
                 </tr>
             </thead>
             <tbody className="govuk-table__body">
-                {rows.map((row, i) => (
-                    <tr className="govuk-table__row" key={`row-${i}`}>
+                {rows.map((row, index) => (
+                    <tr className="govuk-table__row" key={`row-${index}`}>
                         {row.header && (
-                            <th scope="row" className="govuk-table__header">
+                            <th scope="row" className="govuk-table__header align-middle">
                                 {row.header}
                             </th>
                         )}
                         {row.cells.map((cell, i) => (
-                            <td className="govuk-table__cell" key={i}>
+                            <td className="govuk-table__cell align-middle" key={i}>
                                 {cell}
                             </td>
                         ))}

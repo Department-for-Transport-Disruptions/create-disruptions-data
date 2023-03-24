@@ -1,5 +1,5 @@
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
-import { Severity } from "../constants";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
 export const stopsImpactedSchema = z.object({

@@ -37,9 +37,9 @@ export interface FormBase<T> {
     schema?: z.ZodTypeAny;
 }
 
-export interface DisplayValuePair {
+export interface DisplayValuePair<T = string> {
     display: string;
-    value: string;
+    value: T;
     checked?: boolean;
 }
 
@@ -60,22 +60,11 @@ export interface PageState<T> {
     inputs: T;
 }
 
-export interface Consequence {
-    "mode-of-transport": string;
-    "consequence-type": "Network wide" | "Operator wide" | "Services" | "Stops";
-    "services-affected"?: { id: string; name: string }[];
-    "stops-affected"?: string[];
-    "advice-to-display": string;
-    "remove-from-journey-planners": string;
-    "disruption-delay": string;
-    "consequence-operator"?: string;
-}
-
 export interface SocialMediaPost {
-    "message-to-appear": string;
-    "publish-date": string;
-    "publish-time": string;
-    "account-to-publish": string;
+    messageToAppear: string;
+    publishDate: string;
+    publishTime: string;
+    accountToPublish: string;
 }
 
 export interface CreateConsequenceProps<T> {

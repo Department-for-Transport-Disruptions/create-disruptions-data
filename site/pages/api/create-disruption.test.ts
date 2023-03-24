@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
+/* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO, CD_DATE_FORMAT } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
-import { getFutureDateAsString } from "../../utils";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-
-dayjs.extend(customParseFormat);
+import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
@@ -22,7 +18,7 @@ const defaultDisruptionData = {
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     associatedLink: "",
-    disruptionReason: MiscellaneousReason.roadWorks,
+    disruptionReason: MiscellaneousReason.roadworks,
     validity1: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
     publishStartDate: defaultPublishStartDate,
     publishStartTime: "1100",

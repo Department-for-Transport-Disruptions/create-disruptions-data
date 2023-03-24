@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from "next/document";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -77,7 +78,7 @@ export default class RootDocument extends Document<DocumentProps> {
                     <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />
                     <Main />
                     <NextScript nonce={nonce} />
-                    <script async nonce={nonce} src="/scripts/all.js" />
+                    <script nonce={nonce} src="/scripts/all.js" />
                 </body>
             </Html>
         );

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
@@ -6,7 +7,6 @@ import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-    Severity,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";

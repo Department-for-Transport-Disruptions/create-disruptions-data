@@ -5,7 +5,7 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { createConsequenceOperatorSchema } from "../../schemas/create-consequence-operator.schema";
+import { operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -16,7 +16,7 @@ import {
 
 const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const validatedBody = createConsequenceOperatorSchema.safeParse(req.body);
+        const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
