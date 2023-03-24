@@ -1,10 +1,9 @@
 import { Fragment, ReactElement, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
-import AsyncSelect from "react-select/async";
-import { Stop } from "../../pages/create-consequence-stops.page";
-import Table from "./Table";
-import { ErrorInfo, FormBase } from "../../interfaces";
 import { SingleValue } from "react-select";
+import AsyncSelect from "react-select/async";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
+import Table from "./Table";
+import { ErrorInfo } from "../../interfaces";
 
 interface SearchSelectProps<T> {
     placeholder?: string;
@@ -20,6 +19,10 @@ interface SearchSelectProps<T> {
     }[];
     selected: SingleValue<T>;
     getOptionValue: (value: T) => string;
+    display: string;
+    displaySize?: string;
+    inputId: string;
+    hint?: string;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -32,6 +35,10 @@ const SearchSelect = <T extends object>({
     impacted,
     getRows,
     getOptionValue,
+    hint,
+    inputId,
+    display,
+    displaySize = "s",
 }: SearchSelectProps<T>): ReactElement => {
     const [searchInput, setSearchInput] = useState("");
 
@@ -42,6 +49,14 @@ const SearchSelect = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
             <div className="govuk-form-group">
+                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
+                    {display}
+                </label>
+                {hint ? (
+                    <div id={`${inputId}-hint`} className="govuk-hint">
+                        {hint}
+                    </div>
+                ) : null}
                 <FormElementWrapper errors={initialErrors} errorId={inputName} errorClass="govuk-input--error">
                     <AsyncSelect
                         isSearchable
