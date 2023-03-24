@@ -1,8 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
-import SearchSelect from "./SearchSelect";
-import { TestInputs } from "../../interfaces";
-import { SingleValue } from "react-select";
 import renderer from "react-test-renderer";
+import { describe, it, expect } from "vitest";
+import SearchSelect from "./SearchSelect";
 
 interface ColourOption {
     readonly value: string;
@@ -24,7 +22,7 @@ describe("SearchSelect", () => {
                         ])
                     }
                     handleChange={() => null}
-                    impacted={[]}
+                    tableData={[]}
                     getRows={() => {
                         return [
                             {
@@ -60,7 +58,7 @@ describe("SearchSelect", () => {
                         ])
                     }
                     handleChange={() => null}
-                    impacted={[]}
+                    tableData={[]}
                     getRows={() => {
                         return [
                             {

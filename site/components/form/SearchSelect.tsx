@@ -1,10 +1,9 @@
-import { Fragment, ReactElement, useEffect, useState } from "react";
+import { Fragment, ReactElement, useState } from "react";
 import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
 import { ErrorInfo } from "../../interfaces";
-import { createConsequenceStopsSchema } from "../../schemas/create-consequence-stops.schema";
 
 interface SearchSelectProps<T> {
     placeholder?: string;
@@ -13,7 +12,7 @@ interface SearchSelectProps<T> {
     getOptionLabel?: (value: T) => string;
     loadOptions: (inputValue: string, _callback: (options: T[]) => void) => Promise<T[]>;
     handleChange: (value: SingleValue<T>) => void;
-    impacted: T[] | undefined;
+    tableData: T[] | undefined;
     getRows: () => {
         header: string;
         cells: (string | JSX.Element)[];
@@ -33,7 +32,7 @@ const SearchSelect = <T extends object>({
     getOptionLabel,
     loadOptions,
     handleChange,
-    impacted,
+    tableData,
     getRows,
     getOptionValue,
     hint,
@@ -96,8 +95,8 @@ const SearchSelect = <T extends object>({
                     />
                 </FormElementWrapper>
 
-                <Table rows={impacted ? getRows() : []} />
-                {(impacted || []).map((stop, index) => (
+                <Table rows={tableData ? getRows() : []} />
+                {(tableData || []).map((stop, index) => (
                     <Fragment key={`stop-${index}`}>
                         <input type="hidden" name={`stop${index + 1}`} value={JSON.stringify(stop)} />
                     </Fragment>

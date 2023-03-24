@@ -11,7 +11,6 @@ import {
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { ConsequenceStopsPageInputs } from "../create-consequence-stops.page";
 
 const defaultStopsData = {
     stop1: JSON.stringify({
