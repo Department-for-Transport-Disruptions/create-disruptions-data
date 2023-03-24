@@ -28,7 +28,7 @@ const generateCsp = (): { csp: string; nonce: string } => {
         img-src * 'self' data: https;
         object-src 'none';
         script-src-attr 'none';
-        style-src 'self' 'unsafe-inline' 'self' https://rsms.me/inter/inter.css;
+        style-src 'self' 'unsafe-inline';
         upgrade-insecure-requests;
     `
         .replace(/\s{2,}/g, " ")
