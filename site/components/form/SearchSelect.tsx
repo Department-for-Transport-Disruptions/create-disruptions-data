@@ -14,7 +14,7 @@ interface SearchSelectProps<T> {
     handleChange: (value: SingleValue<T>) => void;
     tableData: T[] | undefined;
     getRows: () => {
-        header: string;
+        header?: string;
         cells: (string | JSX.Element)[];
     }[];
     selected: SingleValue<T>;
