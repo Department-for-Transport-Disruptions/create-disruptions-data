@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
+import { Fragment, ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 
@@ -44,6 +44,10 @@ const CreateConsequenceStops = ({
     const [searchInput, setSearchInput] = useState("");
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
+    useEffect(() => {
+        console.log("Selected------", selected);
+    }, [selected]);
+
     const getOptionLabel = (e: Stop) => {
         if (e.commonName && e.indicator && e.atcoCode) {
             return `${e.commonName} ${e.indicator} ${e.atcoCode}`;
@@ -63,7 +67,7 @@ const CreateConsequenceStops = ({
     };
 
     const handleChange = (value: SingleValue<Stop>) => {
-        setSelected(value);
+        //setSelected(value);
         if (
             !pageState.inputs.stopsImpacted ||
             pageState.inputs.stopsImpacted.filter((data) => data.id === value?.id).length === 0
@@ -259,7 +263,7 @@ const CreateConsequenceStops = ({
                             </Fragment>
                         ))} */}
                         <SearchSelect<Stop>
-                            selected={selected}
+                            //selected={selected}
                             inputName="stopsImpacted"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
