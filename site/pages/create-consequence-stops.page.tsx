@@ -82,7 +82,7 @@ const CreateConsequenceStops = ({
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.stopsImpacted && pageState.inputs.stopsImpacted.length > 0) {
+        if (pageState.inputs.stopsImpacted) {
             const stopsImpacted = [...pageState.inputs.stopsImpacted];
             stopsImpacted.splice(index, 1);
 
