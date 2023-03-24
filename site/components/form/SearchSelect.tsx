@@ -41,33 +41,14 @@ const SearchSelect = <T extends object>({
     display,
     displaySize = "s",
 }: SearchSelectProps<T>): ReactElement => {
-    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const [searchInput, setSearchInput] = useState("");
-    //const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
 
     const handleInputChange = (value: string) => {
         setSearchInput(value);
     };
 
-    useEffect(() => {
-        if (createConsequenceStopsSchema.shape.stopsImpacted) {
-            const parsed = createConsequenceStopsSchema.shape.stopsImpacted.safeParse(impacted);
-
-            if (parsed.success === false) {
-                setErrors([
-                    {
-                        id: inputName,
-                        errorMessage: parsed.error.errors[0].message,
-                    },
-                ]);
-            } else {
-                setErrors([]);
-            }
-        }
-    }, [impacted, inputName]);
-    
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
+        <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
             <div className="govuk-form-group">
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
@@ -77,7 +58,7 @@ const SearchSelect = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                <FormElementWrapper errors={initialErrors} errorId={inputName} errorClass="govuk-input--error">
                     <AsyncSelect
                         isSearchable
                         styles={{
