@@ -15,7 +15,11 @@ const generateCsp = (): { csp: string; nonce: string } => {
     const csp = `
         default-src 'self';
         script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
-        connect-src 'self' https://api.test.ref-data.dft-create-data.com/;
+        connect-src 'self'  ${
+            !production
+                ? "https://api.test.ref-data.dft-create-data.com/"
+                : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/`
+        };
         frame-src 'self';
         base-uri 'self';
         block-all-mixed-content;

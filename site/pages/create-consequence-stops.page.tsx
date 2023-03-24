@@ -64,10 +64,14 @@ const CreateConsequenceStops = ({
         setSelected(null);
     };
 
+    const production = process.env.NODE_ENV === "production";
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
         if (inputValue && inputValue.length >= 3) {
-            const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
+            const searchApiUrl = !production
+                ? "https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099"
+                : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
             const limit = 10;
             const queryAdder = searchApiUrl.indexOf("?") === -1 ? "?" : "&";
             const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
