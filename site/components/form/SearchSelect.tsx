@@ -4,6 +4,7 @@ import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
 import { ErrorInfo } from "../../interfaces";
+import { createConsequenceStopsSchema } from "../../schemas/create-consequence-stops.schema";
 
 interface SearchSelectProps<T> {
     placeholder?: string;
@@ -40,6 +41,7 @@ const SearchSelect = <T extends object>({
     display,
     displaySize = "s",
 }: SearchSelectProps<T>): ReactElement => {
+    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const [searchInput, setSearchInput] = useState("");
     //const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
 
@@ -47,8 +49,25 @@ const SearchSelect = <T extends object>({
         setSearchInput(value);
     };
 
+    useEffect(() => {
+        if (createConsequenceStopsSchema.shape.stopsImpacted) {
+            const parsed = createConsequenceStopsSchema.shape.stopsImpacted.safeParse(impacted);
+
+            if (parsed.success === false) {
+                setErrors([
+                    {
+                        id: inputName,
+                        errorMessage: parsed.error.errors[0].message,
+                    },
+                ]);
+            } else {
+                setErrors([]);
+            }
+        }
+    }, [impacted, inputName]);
+    
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
+        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group">
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
@@ -58,7 +77,7 @@ const SearchSelect = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <FormElementWrapper errors={initialErrors} errorId={inputName} errorClass="govuk-input--error">
+                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                     <AsyncSelect
                         isSearchable
                         styles={{
