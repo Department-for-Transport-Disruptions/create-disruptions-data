@@ -100,7 +100,7 @@ const CreateConsequenceStops = ({
         if (pageState.inputs.stopsImpacted) {
             return pageState.inputs.stopsImpacted.map((stop, i) => ({
                 cells: [
-                    stop.commonName && stop.indicator && !stop.atcoCode
+                    stop.commonName && stop.indicator && stop.atcoCode
                         ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
                         : `${stop.commonName} ${stop.atcoCode}`,
                     <button
@@ -137,7 +137,17 @@ const CreateConsequenceStops = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd],
+                        stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd].sort((a, b) => {
+                            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
+                                return (
+                                    a.commonName.localeCompare(b.commonName) ||
+                                    a.indicator.localeCompare(b.indicator) ||
+                                    a.atcoCode.localeCompare(b.atcoCode)
+                                );
+                            } else {
+                                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
+                            }
+                        }),
                     },
                     errors: [
                         ...pageState.errors.filter(
