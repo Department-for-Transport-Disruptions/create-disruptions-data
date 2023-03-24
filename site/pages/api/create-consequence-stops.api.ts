@@ -53,7 +53,7 @@ const createConsequenceStops = (req: NextApiRequest, res: NextApiResponse): void
         setCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, JSON.stringify(validatedBody.data), res);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
-        redirectTo(res, CREATE_CONSEQUENCE_STOPS_PATH);
+        redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

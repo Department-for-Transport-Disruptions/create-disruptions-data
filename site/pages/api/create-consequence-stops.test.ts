@@ -6,6 +6,7 @@ import {
     COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
@@ -57,7 +58,7 @@ describe("create-consequence-stops API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
     it("should redirect back to /create-consequence-stops when no form inputs are passed to the API", () => {
