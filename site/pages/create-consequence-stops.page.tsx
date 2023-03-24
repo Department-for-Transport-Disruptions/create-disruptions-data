@@ -63,8 +63,8 @@ const CreateConsequenceStops = ({
     const production = process.env.NODE_ENV === "production";
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const loadOptions = async (inputValue: string | undefined, _callback: (options: Stop[]) => void) => {
-        if (inputValue && inputValue.length >= 3) {
+    const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
+        if (inputValue.length >= 3) {
             const searchApiUrl = !production
                 ? "https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099"
                 : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
