@@ -50,10 +50,6 @@ const CreateConsequenceStops = ({
         }
     };
 
-    const selectAllStops = () => {
-        //TODO
-    };
-
     const handleChange = (value: SingleValue<Stop>) => {
         if (
             !pageState.inputs.stopsImpacted ||
@@ -212,13 +208,7 @@ const CreateConsequenceStops = ({
                             displaySize="l"
                             inputId="stopsImpacted"
                         />
-                        <button
-                            className="govuk-button govuk-button--secondary mt-8"
-                            data-module="govuk-button"
-                            onClick={selectAllStops}
-                        >
-                            Select all stops
-                        </button>
+
                         <TextInput<ConsequenceStopsPageInputs>
                             display="Consequence description"
                             displaySize="l"
