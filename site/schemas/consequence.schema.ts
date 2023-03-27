@@ -83,7 +83,10 @@ export const servicesConsequenceSchema = z.object({
         path: ["stops"],
         message: "At least one stop must be added",
     }),
-    services: z.array(serviceSchema),
+    services: z.array(serviceSchema).refine((arr) => arr && arr.length >= 1, {
+        path: ["services"],
+        message: "At least one service must be added",
+    }),
     disruptionDirection: z.union(
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
         setZodDefaultError("Select a direction"),
