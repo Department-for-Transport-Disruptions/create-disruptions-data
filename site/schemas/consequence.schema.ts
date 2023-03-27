@@ -69,11 +69,24 @@ export type Stop = z.infer<typeof stopSchema>;
 
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 
+export const serviceSchema = z.object({
+    id: z.number(),
+    lineName: z.string(),
+    operatorShortName: z.string(),
+    destination: z.string(),
+});
+
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
-    services: z.array(z.object({ id: z.string(), name: z.string() })),
+    stops: z.array(stopSchema).refine((arr) => arr && arr.length >= 1, {
+        path: ["stops"],
+        message: "At least one stop must be added",
+    }),
+    services: z.array(serviceSchema),
 });
+
+export type Service = z.infer<typeof serviceSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 

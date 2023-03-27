@@ -6,6 +6,7 @@ import {
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    CREATE_CONSEQUENCE_SERVICES_PATH,
 } from "../../constants/index";
 import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -46,6 +47,9 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 return;
             case "stops":
                 redirectTo(res, CREATE_CONSEQUENCE_STOPS_PATH);
+                return;
+            case "services":
+                redirectTo(res, CREATE_CONSEQUENCE_SERVICES_PATH);
                 return;
             default:
                 redirectTo(res, ADD_CONSEQUENCE_PAGE_PATH);
