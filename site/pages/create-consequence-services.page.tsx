@@ -310,6 +310,7 @@ const CreateConsequenceServices = ({
                             hint="Services"
                             displaySize="l"
                             inputId="services"
+                            isClearable
                         />
 
                         <SearchSelect<Stop>

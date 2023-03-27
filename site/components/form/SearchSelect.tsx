@@ -23,6 +23,7 @@ interface SearchSelectProps<T> {
     displaySize?: string;
     inputId: string;
     hint?: string;
+    isClearable?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -39,6 +40,7 @@ const SearchSelect = <T extends object>({
     inputId,
     display,
     displaySize = "s",
+    isClearable = false,
 }: SearchSelectProps<T>): ReactElement => {
     const [searchInput, setSearchInput] = useState("");
 
@@ -92,6 +94,7 @@ const SearchSelect = <T extends object>({
                         inputId={`dropdown-${inputName}-value`}
                         menuPlacement="auto"
                         menuPosition="fixed"
+                        isClearable={isClearable}
                     />
                 </FormElementWrapper>
 
