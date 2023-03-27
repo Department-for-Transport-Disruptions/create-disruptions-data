@@ -140,3 +140,6 @@ export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";
 export const COOKIE_CSRF = "_csrf";
+
+export const API_BASE_URL = process.env.API_BASE_URL || "";
+export const ADMIN_AREA_CODE = "099";

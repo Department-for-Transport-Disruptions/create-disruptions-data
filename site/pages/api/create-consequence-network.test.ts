@@ -55,9 +55,9 @@ describe("create-consequence-network API", () => {
             { errorMessage: "Enter a consequence description", id: "description" },
             { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
-            { errorMessage: "Select a direction", id: "disruptionDirection" },
             { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
+            { errorMessage: "Select a direction", id: "disruptionDirection" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

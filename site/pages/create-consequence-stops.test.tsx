@@ -1,8 +1,9 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceStops, { ConsequenceStopsPageInputs } from "./create-consequence-stops.page";
+import CreateConsequenceStops from "./create-consequence-stops.page";
 import { PageState } from "../interfaces";
+import { StopsConsequence } from "../schemas/consequence.schema";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
@@ -10,19 +11,18 @@ const previousConsequenceInformation: ConsequenceType = {
     consequenceType: "operatorWide",
 };
 
-const blankInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
+const blankInputs: PageState<Partial<StopsConsequence>> = {
     errors: [],
     inputs: {},
 };
 
-const withInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
+const withInputs: PageState<Partial<StopsConsequence>> = {
     errors: [],
     inputs: {
-        stopsImpacted: [
+        stops: [
             {
                 atcoCode: "0100BRP90310",
                 commonName: "Temple Meads Stn",
-                id: 1,
                 indicator: "T3",
                 latitude: "51.44901",
                 longitude: "-2.58569",
@@ -30,7 +30,6 @@ const withInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
             {
                 atcoCode: "0100BRP90311",
                 commonName: "Temple Meads Stn",
-                id: 2,
                 indicator: "T7",
                 latitude: "51.45014",
                 longitude: "-2.5856",
@@ -43,17 +42,16 @@ const withInputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
     },
 };
 
-const withInputsAndErrors: PageState<Partial<ConsequenceStopsPageInputs>> = {
+const withInputsAndErrors: PageState<Partial<StopsConsequence>> = {
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
     ],
     inputs: {
-        stopsImpacted: [
+        stops: [
             {
                 atcoCode: "0100BRP90310",
                 commonName: "Temple Meads Stn",
-                id: 1,
                 indicator: "T3",
                 latitude: "51.44901",
                 longitude: "-2.58569",
@@ -61,7 +59,6 @@ const withInputsAndErrors: PageState<Partial<ConsequenceStopsPageInputs>> = {
             {
                 atcoCode: "0100BRP90311",
                 commonName: "Temple Meads Stn",
-                id: 2,
                 indicator: "T7",
                 latitude: "51.45014",
                 longitude: "-2.5856",

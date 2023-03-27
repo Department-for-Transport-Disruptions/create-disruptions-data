@@ -5,6 +5,7 @@ import { ReactElement } from "react";
 import { v4 } from "uuid";
 import crypto from "node:crypto";
 import Header from "../components/layout/Header";
+import { API_BASE_URL } from "../constants";
 
 const generateCsp = (): { csp: string; nonce: string } => {
     const production = process.env.NODE_ENV === "production";
@@ -16,11 +17,7 @@ const generateCsp = (): { csp: string; nonce: string } => {
     const csp = `
         default-src 'self';
         script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
-        connect-src 'self'  ${
-            !production
-                ? "https://api.test.ref-data.dft-create-data.com/"
-                : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/`
-        };
+        connect-src 'self' ${API_BASE_URL};
         frame-src 'self';
         base-uri 'self';
         block-all-mixed-content;

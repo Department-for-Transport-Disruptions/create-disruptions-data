@@ -19,16 +19,16 @@ const baseConsequence = {
         ],
         setZodDefaultError("Select the severity from the dropdown"),
     ),
-    disruptionDirection: z.union(
-        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select a direction"),
-    ),
     vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a vehicle mode")),
 };
 
 export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
+    disruptionDirection: z.union(
+        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
+        setZodDefaultError("Select a direction"),
+    ),
 });
 
 export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
@@ -40,15 +40,32 @@ export const operatorConsequenceSchema = z.object({
         setZodDefaultError("Select an operator"),
     ),
     consequenceType: z.literal("operatorWide", setZodDefaultError("Select a consequence type")),
+    disruptionDirection: z.union(
+        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
+        setZodDefaultError("Select a direction"),
+    ),
 });
 
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
 
+export const stopSchema = z.object({
+    atcoCode: z.string({}),
+    commonName: z.string({}),
+    indicator: z.string().optional(),
+    longitude: z.string({}),
+    latitude: z.string({}),
+});
+
 export const stopsConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("stops", setZodDefaultError("Select a consequence type")),
-    stops: z.array(z.string()),
+    stops: z.array(stopSchema).refine((arr) => arr && arr.length >= 1, {
+        path: ["stops"],
+        message: "At least one stop must be added",
+    }),
 });
+
+export type Stop = z.infer<typeof stopSchema>;
 
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 

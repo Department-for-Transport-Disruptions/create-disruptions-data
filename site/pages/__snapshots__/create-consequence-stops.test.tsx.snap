@@ -170,7 +170,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stopsImpacted-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -179,12 +179,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stopsImpacted"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stopsImpacted-live-region"
+                    id="react-select-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -202,7 +202,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stopsImpacted-placeholder"
+                        id="react-select-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -212,7 +212,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stopsImpacted-placeholder"
+                          aria-describedby="react-select-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -220,7 +220,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stopsImpacted-value"
+                          id="dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -349,12 +349,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"id\\":1,\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"id\\":2,\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
             </div>
           </div>
@@ -580,6 +580,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               </div>
             </div>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="stops"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="ferryService"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -914,7 +924,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stopsImpacted-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -923,12 +933,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stopsImpacted"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stopsImpacted-live-region"
+                    id="react-select-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -946,7 +956,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stopsImpacted-placeholder"
+                        id="react-select-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -956,7 +966,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stopsImpacted-placeholder"
+                          aria-describedby="react-select-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -964,7 +974,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stopsImpacted-value"
+                          id="dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1093,12 +1103,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"id\\":1,\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"id\\":2,\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
             </div>
           </div>
@@ -1301,6 +1311,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               </div>
             </div>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="stops"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="ferryService"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1635,7 +1655,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stopsImpacted-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -1644,12 +1664,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stopsImpacted"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stopsImpacted-live-region"
+                    id="react-select-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1667,7 +1687,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stopsImpacted-placeholder"
+                        id="react-select-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -1677,7 +1697,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stopsImpacted-placeholder"
+                          aria-describedby="react-select-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1685,7 +1705,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stopsImpacted-value"
+                          id="dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1969,6 +1989,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="stops"
+          />
+          <input
+            name="vehicleMode"
+            type="hidden"
+            value="ferryService"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

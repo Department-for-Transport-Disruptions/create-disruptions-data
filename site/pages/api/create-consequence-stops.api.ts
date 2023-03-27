@@ -5,7 +5,7 @@ import {
     CREATE_CONSEQUENCE_STOPS_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { Stop, createConsequenceStopsSchema } from "../../schemas/create-consequence-stops.schema";
+import { Stop, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -15,7 +15,7 @@ import {
 } from "../../utils/apiUtils";
 
 export const formatCreateConsequenceStopsBody = (body: object) => {
-    const stopsImpacted = Object.entries(body)
+    const stops = Object.entries(body)
         .filter((item) => item.toString().startsWith("stop"))
         .map((arr: string[]) => {
             const [, values] = arr;
@@ -25,7 +25,7 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
     const cleansedBody = Object.fromEntries(Object.entries(body).filter((item) => !item.toString().startsWith("stop")));
     return {
         ...cleansedBody,
-        stopsImpacted,
+        stops,
     };
 };
 
@@ -33,7 +33,7 @@ const createConsequenceStops = (req: NextApiRequest, res: NextApiResponse): void
     try {
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
-        const validatedBody = createConsequenceStopsSchema.safeParse(formattedBody);
+        const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(

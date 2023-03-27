@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
@@ -35,6 +35,8 @@ const defaultStopsData = {
     removeFromJourneyPlanners: "no",
     disruptionDelay: "45",
     disruptionSeverity: Severity.severe,
+    vehicleMode: VehicleMode.bus,
+    consequenceType: "stops",
 };
 
 describe("create-consequence-stops API", () => {
@@ -66,10 +68,12 @@ describe("create-consequence-stops API", () => {
         createConsequenceStops(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "At least one stop must be added", id: "stopsImpacted" },
-            { errorMessage: "Enter a description for this disruption", id: "description" },
-            { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
+            { errorMessage: "Enter a consequence description", id: "description" },
+            { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
+            { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
+            { errorMessage: "At least one stop must be added", id: "stops" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

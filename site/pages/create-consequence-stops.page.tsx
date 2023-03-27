@@ -19,9 +19,11 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
+    API_BASE_URL,
+    ADMIN_AREA_CODE,
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
-import { createConsequenceStopsSchema, stopsImpactedSchema } from "../schemas/create-consequence-stops.schema";
+import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
@@ -29,14 +31,11 @@ import { getStateUpdater } from "../utils/formUtils";
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
-export interface ConsequenceStopsPageInputs extends Partial<z.infer<typeof createConsequenceStopsSchema>> {}
-export interface Stop extends z.infer<typeof stopsImpactedSchema> {}
-
 const CreateConsequenceStops = ({
     inputs,
     previousConsequenceInformation,
-}: CreateConsequenceProps<ConsequenceStopsPageInputs>): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<ConsequenceStopsPageInputs>>>(inputs);
+}: CreateConsequenceProps<StopsConsequence>): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
@@ -51,28 +50,18 @@ const CreateConsequenceStops = ({
     };
 
     const handleChange = (value: SingleValue<Stop>) => {
-        if (
-            !pageState.inputs.stopsImpacted ||
-            pageState.inputs.stopsImpacted.filter((data) => data.id === value?.id).length === 0
-        ) {
+        if (!pageState.inputs.stops || pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
         }
         setSelected(null);
     };
 
-    const production = process.env.NODE_ENV === "production";
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
         if (inputValue.length >= 3) {
-            const searchApiUrl = !production
-                ? "https://api.test.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099"
-                : `https://api.${process.env.NODE_ENV}.ref-data.dft-create-data.com/v1/stops?adminAreaCode=099`;
-            const limit = 10;
-            const queryAdder = !searchApiUrl.includes("?") ? "?" : "&";
-            const fetchURL = `${searchApiUrl}${queryAdder}search=${inputValue}&limit=${limit}`;
-            const res = await fetch(fetchURL, { method: "GET" });
-            const data: Stop[] = z.array(stopsImpactedSchema).parse(await res.json());
+            const searchApiUrl = `${API_BASE_URL}/stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
+            const res = await fetch(searchApiUrl, { method: "GET" });
+            const data: Stop[] = z.array(stopSchema).parse(await res.json());
             if (data) {
                 return data;
             }
@@ -82,14 +71,14 @@ const CreateConsequenceStops = ({
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.stopsImpacted) {
-            const stopsImpacted = [...pageState.inputs.stopsImpacted];
-            stopsImpacted.splice(index, 1);
+        if (pageState.inputs.stops) {
+            const stops = [...pageState.inputs.stops];
+            stops.splice(index, 1);
 
             setPageState({
                 inputs: {
                     ...pageState.inputs,
-                    stopsImpacted,
+                    stops,
                 },
                 errors: pageState.errors,
             });
@@ -97,8 +86,8 @@ const CreateConsequenceStops = ({
     };
 
     const getStopRows = () => {
-        if (pageState.inputs.stopsImpacted) {
-            return pageState.inputs.stopsImpacted.map((stop, i) => ({
+        if (pageState.inputs.stops) {
+            return pageState.inputs.stops.map((stop, i) => ({
                 cells: [
                     stop.commonName && stop.indicator && stop.atcoCode
                         ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
@@ -117,18 +106,16 @@ const CreateConsequenceStops = ({
         return [];
     };
 
-    const getOptionValue = (stop: Stop) => stop.id.toString();
+    const getOptionValue = (stop: Stop) => stop.atcoCode.toString();
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
-        const parsed = stopsImpactedSchema.safeParse(stopToAdd);
+        const parsed = stopSchema.safeParse(stopToAdd);
 
         if (!parsed.success) {
             setPageState({
                 ...pageState,
                 errors: [
-                    ...pageState.errors.filter(
-                        (err) => !Object.keys(createConsequenceStopsSchema.shape).includes(err.id),
-                    ),
+                    ...pageState.errors.filter((err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id)),
                     ...flattenZodErrors(parsed.error),
                 ],
             });
@@ -137,7 +124,7 @@ const CreateConsequenceStops = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        stopsImpacted: [...(pageState.inputs.stopsImpacted ?? []), stopToAdd].sort((a, b) => {
+                        stops: [...(pageState.inputs.stops ?? []), stopToAdd].sort((a, b) => {
                             if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
                                 return (
                                     a.commonName.localeCompare(b.commonName) ||
@@ -151,7 +138,7 @@ const CreateConsequenceStops = ({
                     },
                     errors: [
                         ...pageState.errors.filter(
-                            (err) => !Object.keys(createConsequenceStopsSchema.shape).includes(err.id),
+                            (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
                         ),
                     ],
                 });
@@ -205,21 +192,21 @@ const CreateConsequenceStops = ({
 
                         <SearchSelect<Stop>
                             selected={selected}
-                            inputName="stopsImpacted"
+                            inputName="stops"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getOptionLabel}
                             loadOptions={loadOptions}
                             handleChange={handleChange}
-                            tableData={pageState.inputs.stopsImpacted}
+                            tableData={pageState.inputs.stops}
                             getRows={getStopRows}
                             getOptionValue={getOptionValue}
                             display="Stops Impacted"
                             displaySize="l"
-                            inputId="stopsImpacted"
+                            inputId="stops"
                         />
 
-                        <TextInput<ConsequenceStopsPageInputs>
+                        <TextInput<StopsConsequence>
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
@@ -231,10 +218,10 @@ const CreateConsequenceStops = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceStopsSchema.shape.description}
+                            schema={stopsConsequenceSchema.shape.description}
                         />
 
-                        <Radios<ConsequenceStopsPageInputs>
+                        <Radios<StopsConsequence>
                             display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
@@ -251,10 +238,10 @@ const CreateConsequenceStops = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["removeFromJourneyPlanners"]}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceStopsSchema.shape.removeFromJourneyPlanners}
+                            schema={stopsConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
-                        <TimeSelector<ConsequenceStopsPageInputs>
+                        <TimeSelector<StopsConsequence>
                             display="Delay (minutes)"
                             displaySize="l"
                             hint="Enter the time in minutes"
@@ -263,11 +250,11 @@ const CreateConsequenceStops = ({
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceStopsSchema.shape.disruptionDelay}
+                            schema={stopsConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
-                        <Select<ConsequenceStopsPageInputs>
+                        <Select<StopsConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
                             displaySize="l"
@@ -276,7 +263,14 @@ const CreateConsequenceStops = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={createConsequenceStopsSchema.shape.disruptionSeverity}
+                            schema={stopsConsequenceSchema.shape.disruptionSeverity}
+                        />
+
+                        <input type="hidden" name="consequenceType" value="stops" />
+                        <input
+                            type="hidden"
+                            name="vehicleMode"
+                            value={previousConsequenceInformation.modeOfTransport}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -290,7 +284,7 @@ const CreateConsequenceStops = ({
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
-    let inputs: PageState<Partial<ConsequenceStopsPageInputs>> = {
+    let inputs: PageState<Partial<StopsConsequence>> = {
         errors: [],
         inputs: {},
     };
@@ -310,7 +304,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
         }
     }
 
-    inputs = getPageStateFromCookies<ConsequenceStopsPageInputs>(dataCookie, errorCookie, createConsequenceStopsSchema);
+    inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
 };
