@@ -68,7 +68,7 @@ const CreateConsequenceServices = ({
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
-        if (inputValue.length >= 3) {
+        if (inputValue.length >= 3 && selectedService) {
             const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
             const res = await fetch(searchApiUrl, { method: "GET" });
             const data: Stop[] = z.array(stopSchema).parse(await res.json());
@@ -130,7 +130,7 @@ const CreateConsequenceServices = ({
                 ],
             });
         } else {
-            if (stopToAdd) {
+            if (stopToAdd && selectedService) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
