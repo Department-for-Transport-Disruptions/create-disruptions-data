@@ -84,6 +84,10 @@ export const servicesConsequenceSchema = z.object({
         message: "At least one stop must be added",
     }),
     services: z.array(serviceSchema),
+    disruptionDirection: z.union(
+        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
+        setZodDefaultError("Select a direction"),
+    ),
 });
 
 export type Service = z.infer<typeof serviceSchema>;

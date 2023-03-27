@@ -313,6 +313,13 @@ const CreateConsequenceServices = ({
                             isClearable
                         />
 
+                        <button
+                            className="govuk-button govuk-button--secondary mt-8"
+                            data-module="govuk-button"
+                        >
+                            Select all stops
+                        </button>
+
                         <SearchSelect<Stop>
                             selected={selected}
                             inputName="stops"
@@ -388,6 +395,30 @@ const CreateConsequenceServices = ({
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
                             schema={stopsConsequenceSchema.shape.disruptionSeverity}
+                        />
+
+                        <Radios<ServicesConsequence>
+                            display="Direction of disruption"
+                            displaySize="l"
+                            radioDetail={[
+                                {
+                                    value: "allDirections",
+                                    display: "All directions",
+                                },
+                                {
+                                    value: "inbound",
+                                    display: "Inbound",
+                                },
+                                {
+                                    value: "outbound",
+                                    display: "Outbound",
+                                },
+                            ]}
+                            inputName="disruptionDirection"
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.disruptionDirection}
+                            initialErrors={pageState.errors}
+                            schema={servicesConsequenceSchema.shape.disruptionDirection}
                         />
 
                         <input type="hidden" name="consequenceType" value="services" />
