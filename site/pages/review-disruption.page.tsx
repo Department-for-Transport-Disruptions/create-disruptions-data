@@ -223,7 +223,13 @@ const ReviewDisruption = ({
                                                     header: "Stops affected",
                                                     cells: [
                                                         consequence.consequenceType === "stops"
-                                                            ? consequence.stops.join(", ")
+                                                            ? consequence.stops
+                                                                  .map((stop) =>
+                                                                      stop.commonName && stop.indicator && stop.atcoCode
+                                                                          ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                                                                          : `${stop.commonName} ${stop.atcoCode}`,
+                                                                  )
+                                                                  .join(", ")
                                                             : "N/A",
                                                         createChangeLink(
                                                             "stops-affected",

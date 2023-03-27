@@ -50,7 +50,7 @@ const CreateConsequenceStops = ({
     };
 
     const handleChange = (value: SingleValue<Stop>) => {
-        if (!pageState.inputs.stops || pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
+        if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
         }
         setSelected(null);
@@ -306,7 +306,9 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
 
     inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
-    return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
+    return {
+        props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData },
+    };
 };
 
 export default CreateConsequenceStops;

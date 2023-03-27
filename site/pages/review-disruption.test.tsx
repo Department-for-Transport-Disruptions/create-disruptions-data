@@ -55,7 +55,7 @@ const previousConsequencesInformation: Consequence[] = [
         disruptionDelay: "12",
         disruptionDirection: "outbound",
         disruptionSeverity: Severity.verySlight,
-    },
+    } as Consequence,
 ];
 
 const previousDisruptionInformation: Disruption = {
