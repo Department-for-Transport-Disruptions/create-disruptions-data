@@ -313,10 +313,7 @@ const CreateConsequenceServices = ({
                             isClearable
                         />
 
-                        <button
-                            className="govuk-button govuk-button--secondary mt-8"
-                            data-module="govuk-button"
-                        >
+                        <button className="govuk-button govuk-button--secondary mt-2" data-module="govuk-button">
                             Select all stops
                         </button>
 
