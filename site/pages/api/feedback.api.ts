@@ -1,3 +1,4 @@
+import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { NextApiRequest, NextApiResponse } from "next";
 import Mail from "nodemailer/lib/mailer";
 import {
@@ -11,7 +12,6 @@ import { createMailTransporter, setFeedbackMailOptions } from "../../utils/apiUt
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 import { removeExcessWhiteSpace } from "../../utils/apiUtils/validator";
 import logger from "../../utils/logger";
-import { SendEmailCommand } from "@aws-sdk/client-ses";
 
 interface FeedbackApiRequest extends NextApiRequest {
     body: {
