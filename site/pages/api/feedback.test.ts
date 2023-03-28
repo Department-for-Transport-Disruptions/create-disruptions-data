@@ -10,7 +10,7 @@ describe("feedback", () => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to the feedback page with query string true if feedback was submitted properly", () => {
+    it("should redirect to the feedback page with query string true if feedback was submitted properly", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 contactQuestion: "Yes",
@@ -20,14 +20,14 @@ describe("feedback", () => {
             },
             mockWriteHeadFn: writeHeadMock,
         });
-        feedback(req, res);
+        await feedback(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: "/feedback?feedbackSubmitted=true",
         });
     });
 
-    it("should redirect to the feedback page with query string false if feedback was empty", () => {
+    it("should redirect to the feedback page with query string false if feedback was empty", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 hearAboutServiceQuestion: "",
@@ -35,7 +35,7 @@ describe("feedback", () => {
             },
             mockWriteHeadFn: writeHeadMock,
         });
-        feedback(req, res);
+        await feedback(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: "/feedback?feedbackSubmitted=false",

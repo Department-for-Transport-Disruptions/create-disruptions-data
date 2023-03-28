@@ -13,6 +13,8 @@ export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
 export const SERVICE_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 
+export const FEEDBACK_EMAIL_ADDRESS = "feedback@dft-create-data.com";
+
 export const SUPPORT_PHONE_NUMBER = "0800 123 1234";
 
 export const DISRUPTION_REASONS: DisplayValuePair<

@@ -13,6 +13,7 @@
         "tsc:build": "tsc --noemit"
     },
     "dependencies": {
+        "@aws-sdk/client-ses": "^3.300.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@emotion/react": "^11.10.6",
         "@emotion/styled": "^11.10.6",
@@ -61,7 +62,6 @@
         "eslint-plugin-vitest": "^0.0.48",
         "jsdom": "^21.1.0",
         "mockdate": "^3.0.5",
-        "nodemailer": "^6.9.1",
         "postcss": "^8.4.21",
         "react-test-renderer": "^18.2.0",
         "sass": "^1.57.1",
