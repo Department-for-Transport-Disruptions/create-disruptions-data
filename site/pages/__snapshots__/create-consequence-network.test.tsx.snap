@@ -173,7 +173,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Would you like to remove this from journey planners?
+                  Remove from journey planners?
                 </span>
               </legend>
               <div
@@ -237,19 +237,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                How long is the disruption delay?
+                Delay (minutes)
               </label>
-              <div
-                className="govuk-hint"
-                id="disruption-delay-hint"
-              >
-                Enter the time in minutes
-              </div>
               <div
                 className=""
               >
                 <input
-                  aria-describedby="disruption-delay-hint"
+                  aria-describedby=""
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   defaultValue="yes"
                   disabled={false}
@@ -273,7 +267,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                What is the severity of the disruption?
+                Disruption Severity
               </label>
               <div
                 className=""
@@ -289,7 +283,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                     disabled={true}
                     value=""
                   >
-                    Select a severity
+                    Select severity
                   </option>
                   <option
                     value="unknown"
@@ -324,92 +318,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 </select>
               </div>
             </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="disruption-direction"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
-                >
-                  What is the direction of the disruption?
-                </span>
-              </legend>
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-radios"
-                >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={true}
-                      id="disruption-direction-allDirections"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="allDirections"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-allDirections"
-                    >
-                      All directions
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-direction-inbound"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="inbound"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-inbound"
-                    >
-                      Inbound
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-direction-outbound"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="outbound"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-outbound"
-                    >
-                      Outbound
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
           </div>
           <input
             name="consequenceType"
@@ -793,7 +701,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Would you like to remove this from journey planners?
+                  Remove from journey planners?
                 </span>
               </legend>
               <div
@@ -857,19 +765,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                How long is the disruption delay?
+                Delay (minutes)
               </label>
-              <div
-                className="govuk-hint"
-                id="disruption-delay-hint"
-              >
-                Enter the time in minutes
-              </div>
               <div
                 className=""
               >
                 <input
-                  aria-describedby="disruption-delay-hint"
+                  aria-describedby=""
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
                   disabled={false}
                   id="disruption-delay-input"
@@ -892,7 +794,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                What is the severity of the disruption?
+                Disruption Severity
               </label>
               <div
                 className=""
@@ -908,7 +810,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                     disabled={true}
                     value=""
                   >
-                    Select a severity
+                    Select severity
                   </option>
                   <option
                     value="unknown"
@@ -943,92 +845,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 </select>
               </div>
             </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="disruption-direction"
-            >
-              <legend
-                className="govuk-fieldset__legend"
-              >
-                <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
-                >
-                  What is the direction of the disruption?
-                </span>
-              </legend>
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-radios"
-                >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-direction-allDirections"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="allDirections"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-allDirections"
-                    >
-                      All directions
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-direction-inbound"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="inbound"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-inbound"
-                    >
-                      Inbound
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="disruption-direction-outbound"
-                      name="disruptionDirection"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="outbound"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="disruption-direction-outbound"
-                    >
-                      Outbound
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
           </div>
           <input
             name="consequenceType"
