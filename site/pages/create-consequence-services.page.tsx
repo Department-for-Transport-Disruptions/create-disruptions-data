@@ -66,10 +66,9 @@ const CreateConsequenceServices = ({
         setSelected(null);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const loadOptions = async (inputValue: string, _callback: (options: Stop[]) => void) => {
-        if (inputValue.length >= 3 && selectedService) {
-            const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
+    const loadOptions = async () => {
+        if (selectedService) {
+            const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/stops`;
             const res = await fetch(searchApiUrl, { method: "GET" });
             const data: Stop[] = z.array(stopSchema).parse(await res.json());
             if (data) {
@@ -159,13 +158,11 @@ const CreateConsequenceServices = ({
     const getServiceLabel = (service: Service) =>
         `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
-    const getServiceValue = (service: Service) =>
-        `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
+    const getServiceValue = (service: Service) => service.id.toString();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const loadServices = async (inputValue: string, _callback: (options: Service[]) => void) => {
+    const loadServices = async (inputValue: string) => {
         if (inputValue.length >= 3) {
-            const searchApiUrl = `${API_BASE_URL}operators/FSYO/services`;
+            const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
             const res = await fetch(searchApiUrl, { method: "GET" });
             const data: Service[] = z.array(serviceSchema).parse(await res.json());
             if (data) {
