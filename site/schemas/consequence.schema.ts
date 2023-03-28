@@ -79,10 +79,7 @@ export const serviceSchema = z.object({
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
-    stops: z.array(stopSchema).refine((arr) => arr && arr.length >= 1, {
-        path: ["stops"],
-        message: "At least one stop must be added",
-    }),
+    stops: z.array(stopSchema),
     services: z.array(serviceSchema).refine((arr) => arr && arr.length >= 1, {
         path: ["services"],
         message: "At least one service must be added",
