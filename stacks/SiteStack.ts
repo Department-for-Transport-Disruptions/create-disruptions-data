@@ -18,6 +18,8 @@ export function SiteStack({ stack }: StackContext) {
         environment: {
             TABLE_NAME: table.tableName,
             API_BASE_URL: apiUrl,
+            EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
+            AWS_SES_TEST_IDENTITY: process.env.AWS_SES_TEST_IDENTITY || "",
         },
         customDomain: {
             domainName: `${subDomain}${hostedZone.zoneName}`,
@@ -34,6 +36,10 @@ export function SiteStack({ stack }: StackContext) {
                     "dynamodb:BatchGetItem",
                     "dynamodb:BatchWriteItem",
                 ],
+            }),
+            new PolicyStatement({
+                resources: ["*"],
+                actions: ["ses:SendRawEmail"],
             }),
         ],
     });
