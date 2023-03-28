@@ -395,30 +395,6 @@ const CreateConsequenceServices = ({
                             schema={stopsConsequenceSchema.shape.disruptionSeverity}
                         />
 
-                        <Radios<ServicesConsequence>
-                            display="Direction of disruption"
-                            displaySize="l"
-                            radioDetail={[
-                                {
-                                    value: "allDirections",
-                                    display: "All directions",
-                                },
-                                {
-                                    value: "inbound",
-                                    display: "Inbound",
-                                },
-                                {
-                                    value: "outbound",
-                                    display: "Outbound",
-                                },
-                            ]}
-                            inputName="disruptionDirection"
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.disruptionDirection}
-                            initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.disruptionDirection}
-                        />
-
                         <input type="hidden" name="consequenceType" value="services" />
                         <input
                             type="hidden"
