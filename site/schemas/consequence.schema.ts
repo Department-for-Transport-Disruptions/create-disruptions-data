@@ -74,6 +74,7 @@ export const serviceSchema = z.object({
     lineName: z.string(),
     operatorShortName: z.string(),
     destination: z.string(),
+    origin: z.string(),
 });
 
 export const servicesConsequenceSchema = z.object({

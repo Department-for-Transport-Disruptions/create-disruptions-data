@@ -157,10 +157,10 @@ const CreateConsequenceServices = ({
     };
 
     const getServiceLabel = (service: Service) =>
-        `${service.lineName} - ${service.destination} (${service.operatorShortName})`;
+        `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
     const getServiceValue = (service: Service) =>
-        `${service.lineName} - ${service.destination} (${service.operatorShortName})`;
+        `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const loadServices = async (inputValue: string, _callback: (options: Service[]) => void) => {
@@ -201,6 +201,7 @@ const CreateConsequenceServices = ({
                         services: [...(pageState.inputs.services ?? []), serviceToAdd].sort((a, b) => {
                             return (
                                 a.lineName.localeCompare(b.lineName) ||
+                                a.origin.localeCompare(b.origin) ||
                                 a.destination.localeCompare(b.destination) ||
                                 a.operatorShortName.localeCompare(b.operatorShortName)
                             );
