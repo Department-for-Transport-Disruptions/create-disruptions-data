@@ -18,7 +18,6 @@ const withInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "yes",
         disruptionSeverity: Severity.severe,
-        disruptionDirection: "allDirections",
     },
 };
 

@@ -90,9 +90,9 @@ const CreateConsequenceOperator = ({
 
                         <Select<ConsequenceOperatorPageInputs>
                             inputName="consequenceOperator"
-                            display="Who is the operator?"
+                            display="Operators impacted"
                             displaySize="l"
-                            defaultDisplay="Select an operator"
+                            defaultDisplay="Select operator"
                             selectValues={OPERATORS}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.consequenceOperator}
@@ -116,7 +116,7 @@ const CreateConsequenceOperator = ({
                         />
 
                         <Radios<ConsequenceOperatorPageInputs>
-                            display="Would you like to remove this from journey planners?"
+                            display="Remove from journey planners?"
                             displaySize="l"
                             radioDetail={[
                                 {
@@ -136,9 +136,8 @@ const CreateConsequenceOperator = ({
                         />
 
                         <TimeSelector<ConsequenceOperatorPageInputs>
-                            display="How long is the disruption delay?"
+                            display="Delay (minutes)"
                             displaySize="l"
-                            hint="Enter the time in minutes"
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}
                             inputName="disruptionDelay"
@@ -150,38 +149,14 @@ const CreateConsequenceOperator = ({
 
                         <Select<ConsequenceOperatorPageInputs>
                             inputName="disruptionSeverity"
-                            display="What is the severity of the disruption?"
+                            display="Disruption Severity"
                             displaySize="l"
-                            defaultDisplay="Select a severity"
+                            defaultDisplay="Select severity"
                             selectValues={DISRUPTION_SEVERITIES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.disruptionSeverity}
-                        />
-
-                        <Radios<ConsequenceOperatorPageInputs>
-                            display="What is the direction of the disruption?"
-                            displaySize="l"
-                            radioDetail={[
-                                {
-                                    value: "allDirections",
-                                    display: "All directions",
-                                },
-                                {
-                                    value: "inbound",
-                                    display: "Inbound",
-                                },
-                                {
-                                    value: "outbound",
-                                    display: "Outbound",
-                                },
-                            ]}
-                            inputName="disruptionDirection"
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.disruptionDirection}
-                            initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.disruptionDirection}
                         />
 
                         <input type="hidden" name="consequenceType" value="operatorWide" />

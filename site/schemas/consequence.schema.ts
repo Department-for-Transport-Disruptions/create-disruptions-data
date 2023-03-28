@@ -19,10 +19,7 @@ const baseConsequence = {
         ],
         setZodDefaultError("Select the severity from the dropdown"),
     ),
-    disruptionDirection: z.union(
-        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select a direction"),
-    ),
+
     vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a vehicle mode")),
 };
 
