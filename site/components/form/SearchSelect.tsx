@@ -10,7 +10,7 @@ interface SearchSelectProps<T> {
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
-    loadOptions: (inputValue: string, _callback: (options: T[]) => void) => Promise<T[]>;
+    loadOptions: (inputValue: string) => Promise<T[]>;
     handleChange: (value: SingleValue<T>) => void;
     tableData: T[] | undefined;
     getRows: () => {

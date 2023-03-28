@@ -14,8 +14,7 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    loadOptions={(_inputValue: string, _callback: (options: ColourOption[]) => void) =>
+                    loadOptions={() =>
                         new Promise(() => [
                             { value: "blue", label: "Blue" },
                             { value: "purple", label: "Purple" },
@@ -50,8 +49,7 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    loadOptions={(_inputValue: string, _callback: (options: ColourOption[]) => void) =>
+                    loadOptions={() =>
                         new Promise(() => [
                             { value: "blue", label: "Blue" },
                             { value: "purple", label: "Purple" },
