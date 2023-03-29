@@ -2,6 +2,7 @@ import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { NextApiRequest, NextApiResponse } from "next";
 import Mail from "nodemailer/lib/mailer";
 import {
+    AWS_SES_IDENTITY_ARN,
     CONTACT_FEEDBACK_QUESTION,
     GENERAL_FEEDBACK_QUESTION,
     HEAR_ABOUT_US_FEEDBACK_QUESTION,
@@ -107,7 +108,7 @@ const feedback = async (req: FeedbackApiRequest, res: NextApiResponse): Promise<
         const feedback: Feedback[] = buildFeedbackForEmail(req);
         mailOptions = setFeedbackMailOptions(feedback);
 
-        if (process.env.NODE_ENV !== "production") {
+        if (!AWS_SES_IDENTITY_ARN) {
             logger.info("mailOptions", {
                 context: "api.feedback",
                 mailOptions: {

@@ -1,5 +1,5 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import { STAGE } from "../../constants";
+import { AWS_SES_IDENTITY_ARN, FEEDBACK_EMAIL_ADDRESS, STAGE } from "../../constants";
 import { Feedback } from "../../interfaces";
 
 export const buildFeedbackContent = (feedbackQuestions: Feedback[]): string => {
@@ -16,7 +16,7 @@ export const setFeedbackMailOptions = (feedback: Feedback[]): SendEmailCommand =
     return new SendEmailCommand({
         Destination: {
             /* required */
-            ToAddresses: process.env.EMAIL_ADDRESS ? [process.env.EMAIL_ADDRESS] : [],
+            ToAddresses: FEEDBACK_EMAIL_ADDRESS ? [FEEDBACK_EMAIL_ADDRESS] : [],
         },
         Message: {
             /* required */
@@ -32,8 +32,8 @@ export const setFeedbackMailOptions = (feedback: Feedback[]): SendEmailCommand =
                 Data: subject,
             },
         },
-        Source: process.env.EMAIL_ADDRESS,
-        SourceArn: process.env.AWS_SES_TEST_IDENTITY,
+        Source: FEEDBACK_EMAIL_ADDRESS,
+        SourceArn: AWS_SES_IDENTITY_ARN,
     });
 };
 

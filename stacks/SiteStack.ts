@@ -17,9 +17,10 @@ export function SiteStack({ stack }: StackContext) {
         path: "site/",
         environment: {
             TABLE_NAME: table.tableName,
+            STAGE: stack.stage,
             API_BASE_URL: apiUrl,
-            EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
-            AWS_SES_TEST_IDENTITY: process.env.AWS_SES_TEST_IDENTITY || "",
+            FEEDBACK_EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
+            AWS_SES_IDENTITY_ARN: process.env.AWS_SES_IDENTITY_ARN || "",
         },
         customDomain: {
             domainName: `${subDomain}${hostedZone.zoneName}`,
@@ -39,7 +40,7 @@ export function SiteStack({ stack }: StackContext) {
             }),
             new PolicyStatement({
                 resources: ["*"],
-                actions: ["ses:SendRawEmail"],
+                actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
         ],
     });
