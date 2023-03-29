@@ -184,7 +184,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -202,7 +202,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -212,7 +212,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -220,7 +220,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -347,12 +347,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 </tbody>
               </table>
               <input
-                name="stop1"
+                name="stops1"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
-                name="stop2"
+                name="stops2"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
@@ -938,7 +938,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -956,7 +956,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -966,7 +966,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -974,7 +974,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1101,12 +1101,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 </tbody>
               </table>
               <input
-                name="stop1"
+                name="stops1"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
-                name="stop2"
+                name="stops2"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
@@ -1669,7 +1669,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1687,7 +1687,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -1697,7 +1697,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1705,7 +1705,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}

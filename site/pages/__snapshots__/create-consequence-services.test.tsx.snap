@@ -170,13 +170,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="services-input"
+                htmlFor="service-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="services-hint"
+                id="service-hint"
               >
                 Services
               </div>
@@ -185,7 +185,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="services"
+                  id="service"
                   onKeyDown={[Function]}
                 >
                   <span
@@ -257,20 +257,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -333,7 +319,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 </tbody>
               </table>
               <input
-                name="stop1"
+                name="service1"
                 type="hidden"
                 value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\"}"
               />
@@ -353,11 +339,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               />
               <div
                 className="govuk-hint"
-                id="stops-hint"
+                id="stop-hint"
               >
                 Stops
               </div>
@@ -366,12 +352,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -389,7 +375,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -399,7 +385,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -407,7 +393,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1111,13 +1097,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="services-input"
+                htmlFor="service-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="services-hint"
+                id="service-hint"
               >
                 Services
               </div>
@@ -1126,7 +1112,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="services"
+                  id="service"
                   onKeyDown={[Function]}
                 >
                   <span
@@ -1198,20 +1184,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1274,7 +1246,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 </tbody>
               </table>
               <input
-                name="stop1"
+                name="service1"
                 type="hidden"
                 value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\"}"
               />
@@ -1294,11 +1266,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               />
               <div
                 className="govuk-hint"
-                id="stops-hint"
+                id="stop-hint"
               >
                 Stops
               </div>
@@ -1307,12 +1279,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1330,7 +1302,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -1340,7 +1312,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1348,7 +1320,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2029,13 +2001,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="services-input"
+                htmlFor="service-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="services-hint"
+                id="service-hint"
               >
                 Services
               </div>
@@ -2044,7 +2016,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="services"
+                  id="service"
                   onKeyDown={[Function]}
                 >
                   <span
@@ -2116,20 +2088,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -2186,11 +2144,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               />
               <div
                 className="govuk-hint"
-                id="stops-hint"
+                id="stop-hint"
               >
                 Stops
               </div>
@@ -2199,12 +2157,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stops-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -2222,7 +2180,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stops-placeholder"
                       >
                         Select stops
                       </div>
@@ -2232,7 +2190,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stops-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -2240,7 +2198,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="async-dropdown-stops-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}

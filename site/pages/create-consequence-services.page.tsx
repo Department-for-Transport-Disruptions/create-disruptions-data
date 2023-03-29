@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, SyntheticEvent, useCallback, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
@@ -43,6 +43,7 @@ const description = "Create Consequence Services page for the Create Transport D
 const CreateConsequenceServices = ({
     inputs,
     previousConsequenceInformation,
+    services,
 }: CreateConsequenceProps<ServicesConsequence>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
@@ -66,7 +67,7 @@ const CreateConsequenceServices = ({
         setSelected(null);
     };
 
-    const loadOptions = async () => {
+    const loadOptions = useCallback(async () => {
         if (selectedService) {
             const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/stops`;
             const res = await fetch(searchApiUrl, { method: "GET" });
@@ -76,7 +77,7 @@ const CreateConsequenceServices = ({
             }
         }
         return [];
-    };
+    }, [selectedService]);
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
@@ -159,18 +160,6 @@ const CreateConsequenceServices = ({
         `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
     const getServiceValue = (service: Service) => service.id.toString();
-
-    const loadServices = async (inputValue: string) => {
-        if (inputValue.length >= 3) {
-            const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
-            const res = await fetch(searchApiUrl, { method: "GET" });
-            const data: Service[] = z.array(serviceSchema).parse(await res.json());
-            if (data) {
-                return data;
-            }
-        }
-        return [];
-    };
 
     const handleServiceChange = (value: SingleValue<Service>) => {
         setSelectedService(value);
@@ -299,7 +288,7 @@ const CreateConsequenceServices = ({
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            loadOptions={loadServices}
+                            options={services}
                             handleChange={handleServiceChange}
                             tableData={pageState.inputs.services}
                             getRows={getServiceRows}
@@ -307,8 +296,9 @@ const CreateConsequenceServices = ({
                             display="Services impacted"
                             hint="Services"
                             displaySize="l"
-                            inputId="services"
+                            inputId="service"
                             isClearable
+                            isAsync={false}
                         />
 
                         <button className="govuk-button govuk-button--secondary mt-2" data-module="govuk-button">
@@ -329,7 +319,7 @@ const CreateConsequenceServices = ({
                             display=""
                             hint="Stops"
                             displaySize="l"
-                            inputId="stops"
+                            inputId="stop"
                         />
 
                         <TextInput<ServicesConsequence>
@@ -409,7 +399,7 @@ const CreateConsequenceServices = ({
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
     let inputs: PageState<Partial<StopsConsequence>> = {
         errors: [],
         inputs: {},
@@ -432,8 +422,16 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
 
     inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
+    let services: Service[] = [];
+    const searchApiUrl = `${API_BASE_URL}services?adminCodes=${ADMIN_AREA_CODE}`;
+    const res = await fetch(searchApiUrl, { method: "GET" });
+    const data: Service[] = z.array(serviceSchema).parse(await res.json());
+    if (data) {
+        services = data;
+    }
+
     return {
-        props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData },
+        props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData, services },
     };
 };
 
