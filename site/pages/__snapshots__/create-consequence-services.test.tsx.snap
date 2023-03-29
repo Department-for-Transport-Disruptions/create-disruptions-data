@@ -309,7 +309,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <button
                         className="govuk-link"
-                        id="remove-service-1"
+                        id="remove-service-23127"
                         onClick={[Function]}
                       >
                         Remove
@@ -491,7 +491,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-1"
+                        id="remove-stop-0100BRP90310"
                         onClick={[Function]}
                       >
                         Remove
@@ -511,7 +511,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-2"
+                        id="remove-stop-0100BRP90311"
                         onClick={[Function]}
                       >
                         Remove
@@ -1237,7 +1237,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <button
                         className="govuk-link"
-                        id="remove-service-1"
+                        id="remove-service-23127"
                         onClick={[Function]}
                       >
                         Remove
@@ -1419,7 +1419,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-1"
+                        id="remove-stop-0100BRP90310"
                         onClick={[Function]}
                       >
                         Remove
@@ -1439,7 +1439,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-2"
+                        id="remove-stop-0100BRP90311"
                         onClick={[Function]}
                       >
                         Remove

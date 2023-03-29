@@ -106,8 +106,8 @@ const CreateConsequenceServices = ({
                         ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
                         : `${stop.commonName} ${stop.atcoCode}`,
                     <button
-                        id={`remove-stop-${i + 1}`}
-                        key={`remove-stop-${i + 1}`}
+                        id={`remove-stop-${stop.atcoCode}`}
+                        key={`remove-stop-${stop.atcoCode}`}
                         className="govuk-link"
                         onClick={(e) => removeStop(e, i)}
                     >
@@ -228,8 +228,8 @@ const CreateConsequenceServices = ({
                 cells: [
                     `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
                     <button
-                        id={`remove-service-${i + 1}`}
-                        key={`remove-service-${i + 1}`}
+                        id={`remove-service-${service.id}`}
+                        key={`remove-service-${service.id}`}
                         className="govuk-link"
                         onClick={(e) => removeService(e, i)}
                     >
