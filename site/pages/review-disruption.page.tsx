@@ -64,15 +64,17 @@ const ReviewDisruption = ({
     });
 
     const getValidityRows = () => {
-        return previousDisruptionInformation.validity.map((validity, i) => ({
-            header: `Validity period ${i + 1}`,
-            cells: [
-                validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                    ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                    : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
-            ],
-        }));
+        return previousDisruptionInformation.validity
+            ? previousDisruptionInformation.validity.map((validity, i) => ({
+                  header: `Validity period ${i + 1}`,
+                  cells: [
+                      validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
+                          ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                          : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
+                      createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+                  ],
+              }))
+            : [];
     };
 
     return (
