@@ -26,7 +26,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
         .filter((item) => item.toString().startsWith("service"))
         .map((arr: string[]) => {
             const [, values] = arr;
-            return values;
+            return JSON.parse(values) as Service;
         });
 
     const cleansedBody = Object.fromEntries(

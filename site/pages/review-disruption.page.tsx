@@ -168,7 +168,7 @@ const ReviewDisruption = ({
                                                 )} - ${
                                                     consequence.consequenceType === "services"
                                                         ? `Services - ${consequence.services
-                                                              .map((service) => service.id)
+                                                              .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperator
@@ -210,7 +210,10 @@ const ReviewDisruption = ({
                                                     cells: [
                                                         consequence.consequenceType === "services"
                                                             ? consequence.services
-                                                                  .map((service) => `${service.id}: ${service.name}`)
+                                                                  .map(
+                                                                      (service) =>
+                                                                          `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
+                                                                  )
                                                                   .join()
                                                             : "N/A",
                                                         createChangeLink(

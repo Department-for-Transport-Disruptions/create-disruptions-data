@@ -13,13 +13,13 @@ import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultServicesData = {
-    service1: {
+    service1: JSON.stringify({
         id: 23127,
         lineName: "1",
         operatorShortName: "First South Yorkshire",
         origin: "Jordanthorpe",
         destination: "HigH Green",
-    },
+    }),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",

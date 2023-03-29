@@ -46,8 +46,11 @@ const previousConsequencesInformation: Consequence[] = [
         consequenceType: "services",
         services: [
             {
-                id: "1",
-                name: "Test",
+                id: 23127,
+                lineName: "1",
+                operatorShortName: "First South Yorkshire",
+                origin: "Jordanthorpe",
+                destination: "HigH Green",
             },
         ],
         description: "The road is closed for the following reasons: Example, example, example, example",
