@@ -116,7 +116,7 @@ const CreateConsequenceOperator = ({
                         />
 
                         <Radios<ConsequenceOperatorPageInputs>
-                            display="Remove from journey planners?"
+                            display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
                                 {
@@ -149,7 +149,7 @@ const CreateConsequenceOperator = ({
 
                         <Select<ConsequenceOperatorPageInputs>
                             inputName="disruptionSeverity"
-                            display="Disruption Severity"
+                            display="Disruption severity"
                             displaySize="l"
                             defaultDisplay="Select severity"
                             selectValues={DISRUPTION_SEVERITIES}

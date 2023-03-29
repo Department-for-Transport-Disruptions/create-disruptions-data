@@ -102,7 +102,7 @@ const CreateConsequenceNetwork = ({
                         />
 
                         <Radios<ConsequenceNetworkPageInputs>
-                            display="Remove from journey planners?"
+                            display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
                                 {
@@ -135,7 +135,7 @@ const CreateConsequenceNetwork = ({
 
                         <Select<ConsequenceNetworkPageInputs>
                             inputName="disruptionSeverity"
-                            display="Disruption Severity"
+                            display="Disruption severity"
                             displaySize="l"
                             defaultDisplay="Select severity"
                             selectValues={DISRUPTION_SEVERITIES}
