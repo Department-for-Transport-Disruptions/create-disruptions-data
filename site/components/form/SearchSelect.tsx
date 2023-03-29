@@ -52,7 +52,7 @@ const SearchSelect = <T extends object>({
     };
 
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
