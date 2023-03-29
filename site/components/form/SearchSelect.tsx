@@ -47,7 +47,7 @@ const SearchSelect = <T extends object>({
     };
 
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
+        <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
@@ -57,7 +57,7 @@ const SearchSelect = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <FormElementWrapper errors={initialErrors} errorId={inputName} errorClass="govuk-input--error">
+                <FormElementWrapper errors={initialErrors} errorId={inputId} errorClass="govuk-input--error">
                     <AsyncSelect
                         isSearchable
                         styles={{
