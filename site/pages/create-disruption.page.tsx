@@ -292,9 +292,10 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             data-module="govuk-button"
                             onClick={addValidity}
                             disabled={
-                                pageState.inputs.validity &&
-                                pageState.inputs.validity[pageState.inputs.validity.length - 1]
-                                    ?.disruptionNoEndDateTime === "true"
+                                validity.disruptionNoEndDateTime === "true" ||
+                                (pageState.inputs.validity &&
+                                    pageState.inputs.validity[pageState.inputs.validity.length - 1]
+                                        ?.disruptionNoEndDateTime === "true")
                             }
                         >
                             Add another validity period

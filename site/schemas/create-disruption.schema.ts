@@ -90,12 +90,13 @@ export const createDisruptionSchema = z.object({
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     publishNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionStartDate: zodDate("Enter a publish start date for the validity"),
+    disruptionStartTime: zodTime("Enter a publish start time for the validity"),
+    disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
+    disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
     validity: validitySchemaRefined
         .array()
-        .refine((arr) => arr && arr.length >= 1, {
-            path: ["disruptionStartDate"],
-            message: "At least one validity period must be provided",
-        })
         .refine(
             (arr) => {
                 const hasNoEndDateTime = arr.findIndex((val) => val.disruptionNoEndDateTime === "true");
@@ -109,17 +110,20 @@ export const createDisruptionSchema = z.object({
         .refine(
             (arr) => {
                 let valid = true;
-                for (let i = arr.length - 1; i >= 1; i--) {
-                    const endDate = arr[i - 1].disruptionEndDate;
-                    const endTime = arr[i - 1].disruptionEndTime;
+                for (let i = 0; i < arr.length; i++) {
+                    for (let j = i + 1; j < arr.length; j++) {
+                        const endDate = arr[i].disruptionEndDate;
+                        const endTime = arr[i].disruptionEndTime;
 
-                    if (endDate && endTime) {
-                        if (
-                            getDatetimeFromDateAndTime(arr[i].disruptionStartDate, arr[i].disruptionStartTime).isBefore(
-                                getDatetimeFromDateAndTime(endDate, endTime),
-                            )
-                        ) {
-                            valid = false;
+                        if (endDate && endTime) {
+                            if (
+                                getDatetimeFromDateAndTime(
+                                    arr[j].disruptionStartDate,
+                                    arr[j].disruptionStartTime,
+                                ).isBefore(getDatetimeFromDateAndTime(endDate, endTime))
+                            ) {
+                                valid = false;
+                            }
                         }
                     }
                 }
@@ -129,7 +133,8 @@ export const createDisruptionSchema = z.object({
                 path: ["disruptionStartDate"],
                 message: "Validity periods cannot overlap",
             },
-        ),
+        )
+        .optional(),
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema

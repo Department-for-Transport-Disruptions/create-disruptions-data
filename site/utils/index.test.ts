@@ -36,15 +36,11 @@ describe("page state from cookies test", () => {
             publishEndDate: "",
             publishEndTime: "",
             publishNoEndDateTime: "true",
-            validity: [
-                {
-                    disruptionStartDate: defaultDisruptionStartDate,
-                    disruptionEndDate: defaultDisruptionEndDate,
-                    disruptionStartTime: "1000",
-                    disruptionEndTime: "1100",
-                    disruptionNoEndDateTime: "",
-                },
-            ],
+            disruptionStartDate: defaultDisruptionStartDate,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionStartTime: "1000",
+            disruptionEndTime: "1100",
+            disruptionNoEndDateTime: "",
         };
 
         const parsedInput = getPageStateFromCookies(JSON.stringify(disruptionData), "", createDisruptionSchema);

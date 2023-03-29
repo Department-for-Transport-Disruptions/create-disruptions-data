@@ -59,20 +59,22 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                       }
                     : {}),
             },
-            ValidityPeriod: disruptionData.validity.map((period) => ({
-                StartTime: getDatetimeFromDateAndTime(
-                    period.disruptionStartDate,
-                    period.disruptionStartTime,
-                ).toISOString(),
-                ...(period.disruptionEndDate && period.disruptionEndTime
-                    ? {
-                          EndTime: getDatetimeFromDateAndTime(
-                              period.disruptionEndDate,
-                              period.disruptionEndTime,
-                          ).toISOString(),
-                      }
-                    : {}),
-            })),
+            ValidityPeriod: disruptionData.validity
+                ? disruptionData.validity.map((period) => ({
+                      StartTime: getDatetimeFromDateAndTime(
+                          period.disruptionStartDate,
+                          period.disruptionStartTime,
+                      ).toISOString(),
+                      ...(period.disruptionEndDate && period.disruptionEndTime
+                          ? {
+                                EndTime: getDatetimeFromDateAndTime(
+                                    period.disruptionEndDate,
+                                    period.disruptionEndTime,
+                                ).toISOString(),
+                            }
+                          : {}),
+                  }))
+                : [],
             Progress: Progress.open,
             Source: {
                 SourceType: SourceType.feed,
