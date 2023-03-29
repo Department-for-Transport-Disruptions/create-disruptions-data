@@ -54,6 +54,7 @@ export const stopSchema = z.object({
     indicator: z.string().optional(),
     longitude: z.string({}),
     latitude: z.string({}),
+    serviceId: z.number({}).optional(),
 });
 
 export const stopsConsequenceSchema = z.object({

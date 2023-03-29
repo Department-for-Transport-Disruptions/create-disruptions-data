@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useCallback, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
@@ -69,19 +69,6 @@ const CreateConsequenceServices = ({
         setSelected(null);
     };
 
-    const loadOptions = useCallback(async () => {
-        if (selectedService) {
-            const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/stops`;
-            const res = await fetch(searchApiUrl, { method: "GET" });
-            const data: Stop[] = z.array(stopSchema).parse(await res.json());
-            if (data) {
-                setStopOptions(data);
-                return data;
-            }
-        }
-        return [];
-    }, [selectedService]);
-
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
         if (pageState.inputs.stops) {
@@ -100,21 +87,23 @@ const CreateConsequenceServices = ({
 
     const getStopRows = () => {
         if (pageState.inputs.stops) {
-            return pageState.inputs.stops.map((stop, i) => ({
-                cells: [
-                    stop.commonName && stop.indicator && stop.atcoCode
-                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                        : `${stop.commonName} ${stop.atcoCode}`,
-                    <button
-                        id={`remove-stop-${stop.atcoCode}`}
-                        key={`remove-stop-${stop.atcoCode}`}
-                        className="govuk-link"
-                        onClick={(e) => removeStop(e, i)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
+            return pageState.inputs.stops
+                .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
+                .map((stop, i) => ({
+                    cells: [
+                        stop.commonName && stop.indicator && stop.atcoCode
+                            ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                            : `${stop.commonName} ${stop.atcoCode}`,
+                        <button
+                            id={`remove-stop-${stop.atcoCode}`}
+                            key={`remove-stop-${stop.atcoCode}`}
+                            className="govuk-link"
+                            onClick={(e) => removeStop(e, i)}
+                        >
+                            Remove
+                        </button>,
+                    ],
+                }));
         }
         return [];
     };
@@ -159,6 +148,12 @@ const CreateConsequenceServices = ({
         }
     };
 
+    useEffect(() => {
+        if (!selectedService) {
+            setSelectAll(true);
+        }
+    }, [selectedService]);
+
     const getServiceLabel = (service: Service) =>
         `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
@@ -170,6 +165,27 @@ const CreateConsequenceServices = ({
             addService(value);
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (selectedService) {
+                const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/stops`;
+                const res = await fetch(searchApiUrl, { method: "GET" });
+                const data: Stop[] = z.array(stopSchema).parse(await res.json());
+                if (data) {
+                    const dataWithServiceId = data.map((stop) => ({
+                        ...stop,
+                        ...(selectedService.id && { serviceId: selectedService.id }),
+                    }));
+                    setStopOptions(dataWithServiceId);
+                }
+            }
+        };
+
+        fetchData()
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+    }, [selectedService]);
 
     const addService = (serviceToAdd: SingleValue<Service>) => {
         const parsed = serviceSchema.safeParse(serviceToAdd);
@@ -210,16 +226,30 @@ const CreateConsequenceServices = ({
         e.preventDefault();
         if (pageState.inputs.services) {
             const services = [...pageState.inputs.services];
-            services.splice(index, 1);
 
-            setPageState({
-                inputs: {
-                    ...pageState.inputs,
-                    services,
-                },
-                errors: pageState.errors,
-            });
+            if (pageState.inputs.stops) {
+                const stops = [...pageState.inputs.stops].filter((stop) => stop.serviceId !== services[index].id);
+                setPageState({
+                    inputs: {
+                        ...pageState.inputs,
+                        stops,
+                        services,
+                    },
+                    errors: pageState.errors,
+                });
+            } else {
+                setPageState({
+                    inputs: {
+                        ...pageState.inputs,
+                        services,
+                    },
+                    errors: pageState.errors,
+                });
+            }
+            services.splice(index, 1);
         }
+        setSelectedService(null);
+        setStopOptions([]);
     };
 
     const getServiceRows = () => {
@@ -267,24 +297,23 @@ const CreateConsequenceServices = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        stops: [
-                            ...(pageState.inputs.stops ?? []),
-                            ...stopOptions.filter((stop) =>
-                                pageState.inputs.stops
-                                    ? !pageState.inputs.stops.map((stop) => stop.atcoCode).includes(stop.atcoCode)
-                                    : stop,
-                            ),
-                        ].sort((a, b) => {
-                            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
-                                return (
-                                    a.commonName.localeCompare(b.commonName) ||
-                                    a.indicator.localeCompare(b.indicator) ||
-                                    a.atcoCode.localeCompare(b.atcoCode)
-                                );
-                            } else {
-                                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
-                            }
-                        }),
+                        stops: [...(pageState.inputs.stops ?? []), ...stopOptions]
+                            .filter(
+                                (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                            )
+                            .sort((a, b) => {
+                                if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
+                                    return (
+                                        a.commonName.localeCompare(b.commonName) ||
+                                        a.indicator.localeCompare(b.indicator) ||
+                                        a.atcoCode.localeCompare(b.atcoCode)
+                                    );
+                                } else {
+                                    return (
+                                        a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode)
+                                    );
+                                }
+                            }),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -374,7 +403,6 @@ const CreateConsequenceServices = ({
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getOptionLabel}
-                            loadOptions={loadOptions}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
@@ -383,6 +411,8 @@ const CreateConsequenceServices = ({
                             hint="Stops"
                             displaySize="l"
                             inputId="stops"
+                            options={stopOptions}
+                            isAsync={false}
                         />
 
                         <TextInput<ServicesConsequence>

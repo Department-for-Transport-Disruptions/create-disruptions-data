@@ -31,7 +31,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
 
     const cleansedBody = Object.fromEntries(
         Object.entries(body).filter(
-            (item) => !item.toString().startsWith("stop") || !item.toString().startsWith("service"),
+            (item) => !item.toString().startsWith("stop") && !item.toString().startsWith("service"),
         ),
     );
 
