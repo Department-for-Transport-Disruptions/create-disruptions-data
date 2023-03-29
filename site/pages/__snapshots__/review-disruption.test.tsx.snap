@@ -243,34 +243,6 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Validity period 2
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  15/01/2022 1200 - 17/01/2022 1400
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/create-disruption"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Publish start date
                 </th>
                 <td
