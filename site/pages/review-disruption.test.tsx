@@ -53,9 +53,8 @@ const previousConsequencesInformation: Consequence[] = [
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "12",
-        disruptionDirection: "outbound",
         disruptionSeverity: Severity.verySlight,
-    } as Consequence,
+    },
 ];
 
 const previousDisruptionInformation: Disruption = {

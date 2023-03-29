@@ -317,7 +317,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-1"
+                        id="remove-stop-0100BRP90310"
                         onClick={[Function]}
                       >
                         Remove
@@ -337,7 +337,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-2"
+                        id="remove-stop-0100BRP90311"
                         onClick={[Function]}
                       >
                         Remove
@@ -1071,7 +1071,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-1"
+                        id="remove-stop-0100BRP90310"
                         onClick={[Function]}
                       >
                         Remove
@@ -1091,7 +1091,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <button
                         className="govuk-link"
-                        id="remove-stop-2"
+                        id="remove-stop-0100BRP90311"
                         onClick={[Function]}
                       >
                         Remove
