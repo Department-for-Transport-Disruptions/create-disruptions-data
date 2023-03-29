@@ -302,7 +302,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      1 - HigH Green (First South Yorkshire)
+                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
@@ -328,6 +328,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
           <button
             className="govuk-button govuk-button--secondary mt-2"
             data-module="govuk-button"
+            onClick={[Function]}
           >
             Select all stops
           </button>
@@ -1229,7 +1230,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     <td
                       className="govuk-table__cell align-middle"
                     >
-                      1 - HigH Green (First South Yorkshire)
+                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
                     </td>
                     <td
                       className="govuk-table__cell align-middle"
@@ -1255,6 +1256,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
           <button
             className="govuk-button govuk-button--secondary mt-2"
             data-module="govuk-button"
+            onClick={[Function]}
           >
             Select all stops
           </button>
@@ -2133,6 +2135,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
           <button
             className="govuk-button govuk-button--secondary mt-2"
             data-module="govuk-button"
+            onClick={[Function]}
           >
             Select all stops
           </button>

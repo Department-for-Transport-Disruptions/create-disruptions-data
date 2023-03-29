@@ -49,6 +49,8 @@ const CreateConsequenceServices = ({
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
+    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [selectAll, setSelectAll] = useState<boolean>(true);
 
     const getOptionLabel = (stop: Stop) => {
         if (stop.commonName && stop.indicator && stop.atcoCode) {
@@ -73,6 +75,7 @@ const CreateConsequenceServices = ({
             const res = await fetch(searchApiUrl, { method: "GET" });
             const data: Stop[] = z.array(stopSchema).parse(await res.json());
             if (data) {
+                setStopOptions(data);
                 return data;
             }
         }
@@ -223,7 +226,7 @@ const CreateConsequenceServices = ({
         if (pageState.inputs.services) {
             return pageState.inputs.services.map((service, i) => ({
                 cells: [
-                    `${service.lineName} - ${service.destination} (${service.operatorShortName})`,
+                    `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
                     <button
                         id={`remove-service-${i + 1}`}
                         key={`remove-service-${i + 1}`}
@@ -236,6 +239,55 @@ const CreateConsequenceServices = ({
             }));
         }
         return [];
+    };
+
+    const selectAllStops = (e: SyntheticEvent) => {
+        e.preventDefault();
+        const parsed = servicesConsequenceSchema.shape.stops.safeParse(stopOptions);
+
+        if (!selectAll) {
+            setPageState({
+                inputs: {
+                    ...pageState.inputs,
+                    stops: [],
+                },
+                errors: pageState.errors,
+            });
+        }
+        if (!parsed.success) {
+            setPageState({
+                ...pageState,
+                errors: [
+                    ...pageState.errors.filter((err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id)),
+                    ...flattenZodErrors(parsed.error),
+                ],
+            });
+        } else {
+            if (stopOptions && stopOptions.length > 0 && selectedService && selectAll) {
+                setPageState({
+                    inputs: {
+                        ...pageState.inputs,
+                        stops: [...(pageState.inputs.stops ?? []), ...stopOptions].sort((a, b) => {
+                            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
+                                return (
+                                    a.commonName.localeCompare(b.commonName) ||
+                                    a.indicator.localeCompare(b.indicator) ||
+                                    a.atcoCode.localeCompare(b.atcoCode)
+                                );
+                            } else {
+                                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
+                            }
+                        }),
+                    },
+                    errors: [
+                        ...pageState.errors.filter(
+                            (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
+                        ),
+                    ],
+                });
+            }
+        }
+        setSelectAll(!selectAll);
     };
 
     return (
@@ -301,8 +353,12 @@ const CreateConsequenceServices = ({
                             isAsync={false}
                         />
 
-                        <button className="govuk-button govuk-button--secondary mt-2" data-module="govuk-button">
-                            Select all stops
+                        <button
+                            className="govuk-button govuk-button--secondary mt-2"
+                            data-module="govuk-button"
+                            onClick={selectAllStops}
+                        >
+                            {!selectAll ? "Unselect all stops" : "Select all stops"}
                         </button>
 
                         <SearchSelect<Stop>
