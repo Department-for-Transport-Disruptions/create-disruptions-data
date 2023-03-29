@@ -358,7 +358,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -376,7 +376,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -386,7 +386,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -394,7 +394,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -425,20 +425,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1286,7 +1272,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1304,7 +1290,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -1314,7 +1300,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1322,7 +1308,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1353,20 +1339,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -2165,7 +2137,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -2183,7 +2155,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -2193,7 +2165,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -2201,7 +2173,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2232,20 +2204,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
