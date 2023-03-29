@@ -18,7 +18,7 @@ import {
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
-    COOKIES_CONSEQUENCE_STOPS_ERRORS,
+    COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
 } from "../constants";
@@ -410,7 +410,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
-    const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
