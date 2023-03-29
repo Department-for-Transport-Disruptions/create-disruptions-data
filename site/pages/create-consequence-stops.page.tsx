@@ -191,7 +191,7 @@ const CreateConsequenceStops = ({
 
                         <SearchSelect<Stop>
                             selected={selected}
-                            inputName="stops"
+                            inputName="stop"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getOptionLabel}
@@ -202,7 +202,7 @@ const CreateConsequenceStops = ({
                             getOptionValue={getOptionValue}
                             display="Stops Impacted"
                             displaySize="l"
-                            inputId="stop"
+                            inputId="stops"
                         />
 
                         <TextInput<StopsConsequence>

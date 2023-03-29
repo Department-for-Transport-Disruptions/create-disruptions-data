@@ -170,7 +170,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -179,12 +179,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -202,7 +202,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -212,7 +212,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -220,7 +220,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -924,7 +924,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -933,12 +933,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -956,7 +956,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -966,7 +966,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -974,7 +974,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1655,7 +1655,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               >
                 Stops Impacted
               </label>
@@ -1664,12 +1664,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-stops-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1687,7 +1687,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-stops-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -1697,7 +1697,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-stops-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1705,7 +1705,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stops-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}

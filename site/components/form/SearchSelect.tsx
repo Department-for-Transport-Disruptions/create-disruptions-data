@@ -97,8 +97,8 @@ const SearchSelect = <T extends object>({
 
                 <Table rows={tableData ? getRows() : []} />
                 {(tableData || []).map((element, index) => (
-                    <Fragment key={`${inputId}-${index}`}>
-                        <input type="hidden" name={`${inputId}${index + 1}`} value={JSON.stringify(element)} />
+                    <Fragment key={`${inputName}-${index}`}>
+                        <input type="hidden" name={`${inputName}${index + 1}`} value={JSON.stringify(element)} />
                     </Fragment>
                 ))}
             </div>
