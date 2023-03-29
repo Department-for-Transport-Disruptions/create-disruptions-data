@@ -284,7 +284,7 @@ const CreateConsequenceServices = ({
 
                         <SearchSelect<Service>
                             selected={selectedService}
-                            inputName="services"
+                            inputName="service"
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
@@ -296,7 +296,7 @@ const CreateConsequenceServices = ({
                             display="Services impacted"
                             hint="Services"
                             displaySize="l"
-                            inputId="service"
+                            inputId="services"
                             isClearable
                             isAsync={false}
                         />
@@ -307,7 +307,7 @@ const CreateConsequenceServices = ({
 
                         <SearchSelect<Stop>
                             selected={selected}
-                            inputName="stops"
+                            inputName="stop"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getOptionLabel}
@@ -319,7 +319,7 @@ const CreateConsequenceServices = ({
                             display=""
                             hint="Stops"
                             displaySize="l"
-                            inputId="stop"
+                            inputId="stops"
                         />
 
                         <TextInput<ServicesConsequence>

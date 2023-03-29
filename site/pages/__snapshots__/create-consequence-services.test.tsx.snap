@@ -170,13 +170,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="service-input"
+                htmlFor="services-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="service-hint"
+                id="services-hint"
               >
                 Services
               </div>
@@ -185,12 +185,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="service"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-services-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -208,7 +208,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-services-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
                         Select services
                       </div>
@@ -218,7 +218,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-services-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -226,7 +226,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-services-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -339,11 +339,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               />
               <div
                 className="govuk-hint"
-                id="stop-hint"
+                id="stops-hint"
               >
                 Stops
               </div>
@@ -352,12 +352,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -375,7 +375,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -385,7 +385,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -393,7 +393,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stops-value"
+                          id="async-dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1097,13 +1097,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="service-input"
+                htmlFor="services-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="service-hint"
+                id="services-hint"
               >
                 Services
               </div>
@@ -1112,12 +1112,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="service"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-services-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1135,7 +1135,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-services-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
                         Select services
                       </div>
@@ -1145,7 +1145,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-services-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1153,7 +1153,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-services-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1266,11 +1266,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               />
               <div
                 className="govuk-hint"
-                id="stop-hint"
+                id="stops-hint"
               >
                 Stops
               </div>
@@ -1279,12 +1279,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1302,7 +1302,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -1312,7 +1312,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1320,7 +1320,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stops-value"
+                          id="async-dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2001,13 +2001,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="service-input"
+                htmlFor="services-input"
               >
                 Services impacted
               </label>
               <div
                 className="govuk-hint"
-                id="service-hint"
+                id="services-hint"
               >
                 Services
               </div>
@@ -2016,12 +2016,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="service"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-dropdown-services-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -2039,7 +2039,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-dropdown-services-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
                         Select services
                       </div>
@@ -2049,7 +2049,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-dropdown-services-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -2057,7 +2057,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-services-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2144,11 +2144,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stop-input"
+                htmlFor="stops-input"
               />
               <div
                 className="govuk-hint"
-                id="stop-hint"
+                id="stops-hint"
               >
                 Stops
               </div>
@@ -2157,12 +2157,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stop"
+                  id="stops"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stops-live-region"
+                    id="react-select-async-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -2180,7 +2180,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stops-placeholder"
+                        id="react-select-async-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -2190,7 +2190,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stops-placeholder"
+                          aria-describedby="react-select-async-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -2198,7 +2198,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stops-value"
+                          id="async-dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
