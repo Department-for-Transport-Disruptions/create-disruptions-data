@@ -267,7 +267,14 @@ const CreateConsequenceServices = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        stops: [...(pageState.inputs.stops ?? []), ...stopOptions].sort((a, b) => {
+                        stops: [
+                            ...(pageState.inputs.stops ?? []),
+                            ...stopOptions.filter((stop) =>
+                                pageState.inputs.stops
+                                    ? !pageState.inputs.stops.map((stop) => stop.atcoCode).includes(stop.atcoCode)
+                                    : stop,
+                            ),
+                        ].sort((a, b) => {
                             if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
                                 return (
                                     a.commonName.localeCompare(b.commonName) ||
@@ -481,11 +488,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminCodes=${ADMIN_AREA_CODE}`;
     const res = await fetch(searchApiUrl, { method: "GET" });
-    const data: Service[] = z.array(serviceSchema).parse(await res.json());
-    if (data) {
-        services = data;
+    const parse = z.array(serviceSchema).safeParse(await res.json());
+    if (parse.success) {
+        services = parse.data;
     }
-
     return {
         props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData, services },
     };
