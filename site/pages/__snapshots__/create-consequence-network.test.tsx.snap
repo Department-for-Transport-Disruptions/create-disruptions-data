@@ -173,7 +173,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Remove from journey planners?
+                  Remove from journey planners
                 </span>
               </legend>
               <div
@@ -267,7 +267,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                Disruption Severity
+                Disruption severity
               </label>
               <div
                 className=""
@@ -701,7 +701,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Remove from journey planners?
+                  Remove from journey planners
                 </span>
               </legend>
               <div
@@ -794,7 +794,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-severity-input"
               >
-                Disruption Severity
+                Disruption severity
               </label>
               <div
                 className=""
