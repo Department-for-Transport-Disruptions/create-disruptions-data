@@ -170,7 +170,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               >
                 Stops Impacted
               </label>
@@ -179,7 +179,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span
@@ -347,12 +347,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 </tbody>
               </table>
               <input
-                name="stops1"
+                name="stop1"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
-                name="stops2"
+                name="stop2"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
@@ -924,7 +924,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               >
                 Stops Impacted
               </label>
@@ -933,7 +933,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span
@@ -1101,12 +1101,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 </tbody>
               </table>
               <input
-                name="stops1"
+                name="stop1"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
               />
               <input
-                name="stops2"
+                name="stop2"
                 type="hidden"
                 value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
               />
@@ -1655,7 +1655,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="stop-input"
               >
                 Stops Impacted
               </label>
@@ -1664,7 +1664,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="stop"
                   onKeyDown={[Function]}
                 >
                   <span

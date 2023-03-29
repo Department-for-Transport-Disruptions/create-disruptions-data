@@ -203,7 +203,7 @@ const CreateConsequenceStops = ({
                             getOptionValue={getOptionValue}
                             display="Stops Impacted"
                             displaySize="l"
-                            inputId="stops"
+                            inputId="stop"
                         />
 
                         <TextInput<StopsConsequence>
