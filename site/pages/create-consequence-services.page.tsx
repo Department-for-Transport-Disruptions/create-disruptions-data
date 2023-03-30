@@ -36,7 +36,7 @@ import {
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater, getStateUpdaterWithErrors } from "../utils/formUtils";
+import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
