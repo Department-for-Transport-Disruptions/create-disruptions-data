@@ -185,6 +185,28 @@ exports[`pages > dashboard > should render correctly when there are both live an
               </tr>
             </tbody>
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+              <li
+                className="govuk-pagination__item govuk-pagination__item--current"
+              >
+                <a
+                  aria-label="Page 1"
+                  className="govuk-link govuk-pagination__link"
+                  href="#"
+                  onClick={[Function]}
+                >
+                  1
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -304,6 +326,28 @@ exports[`pages > dashboard > should render correctly when there are both live an
               </tr>
             </tbody>
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+              <li
+                className="govuk-pagination__item govuk-pagination__item--current"
+              >
+                <a
+                  aria-label="Page 1"
+                  className="govuk-link govuk-pagination__link"
+                  href="#"
+                  onClick={[Function]}
+                >
+                  1
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       <a
@@ -714,6 +758,46 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
               className="govuk-table__body"
             />
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+            </ul>
+            <div
+              className="govuk-pagination__next"
+            >
+              <a
+                className="govuk-link govuk-pagination__link"
+                href=""
+                onClick={[Function]}
+                rel="next"
+              >
+                <span
+                  className="govuk-pagination__link-title"
+                >
+                  Next
+                </span>
+                 
+                <svg
+                  aria-hidden="true"
+                  className="govuk-pagination__icon govuk-pagination__icon--next"
+                  focusable="false"
+                  height="13"
+                  viewBox="0 0 15 13"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -757,6 +841,46 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
               className="govuk-table__body"
             />
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+            </ul>
+            <div
+              className="govuk-pagination__next"
+            >
+              <a
+                className="govuk-link govuk-pagination__link"
+                href=""
+                onClick={[Function]}
+                rel="next"
+              >
+                <span
+                  className="govuk-pagination__link-title"
+                >
+                  Next
+                </span>
+                 
+                <svg
+                  aria-hidden="true"
+                  className="govuk-pagination__icon govuk-pagination__icon--next"
+                  focusable="false"
+                  height="13"
+                  viewBox="0 0 15 13"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </nav>
         </div>
       </div>
       <a
@@ -1277,6 +1401,28 @@ exports[`pages > dashboard > should render correctly when there are only live di
               </tr>
             </tbody>
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+              <li
+                className="govuk-pagination__item govuk-pagination__item--current"
+              >
+                <a
+                  aria-label="Page 1"
+                  className="govuk-link govuk-pagination__link"
+                  href="#"
+                  onClick={[Function]}
+                >
+                  1
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -1320,6 +1466,46 @@ exports[`pages > dashboard > should render correctly when there are only live di
               className="govuk-table__body"
             />
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+            </ul>
+            <div
+              className="govuk-pagination__next"
+            >
+              <a
+                className="govuk-link govuk-pagination__link"
+                href=""
+                onClick={[Function]}
+                rel="next"
+              >
+                <span
+                  className="govuk-pagination__link-title"
+                >
+                  Next
+                </span>
+                 
+                <svg
+                  aria-hidden="true"
+                  className="govuk-pagination__icon govuk-pagination__icon--next"
+                  focusable="false"
+                  height="13"
+                  viewBox="0 0 15 13"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </nav>
         </div>
       </div>
       <a
@@ -1730,6 +1916,46 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
               className="govuk-table__body"
             />
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+            </ul>
+            <div
+              className="govuk-pagination__next"
+            >
+              <a
+                className="govuk-link govuk-pagination__link"
+                href=""
+                onClick={[Function]}
+                rel="next"
+              >
+                <span
+                  className="govuk-pagination__link-title"
+                >
+                  Next
+                </span>
+                 
+                <svg
+                  aria-hidden="true"
+                  className="govuk-pagination__icon govuk-pagination__icon--next"
+                  focusable="false"
+                  height="13"
+                  viewBox="0 0 15 13"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -1883,6 +2109,28 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
               </tr>
             </tbody>
           </table>
+          <nav
+            className="govuk-pagination"
+            role="navigation"
+          >
+            <ul
+              className="govuk-pagination__list"
+            >
+               
+              <li
+                className="govuk-pagination__item govuk-pagination__item--current"
+              >
+                <a
+                  aria-label="Page 1"
+                  className="govuk-link govuk-pagination__link"
+                  href="#"
+                  onClick={[Function]}
+                >
+                  1
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       <a
