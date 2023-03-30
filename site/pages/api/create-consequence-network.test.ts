@@ -19,7 +19,6 @@ const defaultNetworkData: ConsequenceNetworkPageInputs = {
     removeFromJourneyPlanners: "no",
     disruptionDelay: "",
     disruptionSeverity: Severity.slight,
-    disruptionDirection: "allDirections",
     vehicleMode: VehicleMode.bus,
     consequenceType: "networkWide",
 };
@@ -57,7 +56,6 @@ describe("create-consequence-network API", () => {
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
             { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
-            { errorMessage: "Select a direction", id: "disruptionDirection" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

@@ -80,7 +80,7 @@ describe("publish", () => {
                 [COOKIES_DISRUPTION_INFO]: JSON.stringify(disruptionInfoTestCookie),
                 [COOKIES_CONSEQUENCE_INFO]: JSON.stringify({
                     ...consequenceInfoOperatorTestCookie,
-                    disruptionDirection: "invalidDirection",
+                    disruptionSeverity: "notSevere",
                 }),
             },
             mockWriteHeadFn: writeHeadMock,

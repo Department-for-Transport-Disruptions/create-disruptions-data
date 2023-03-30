@@ -28,7 +28,6 @@ const previousConsequencesInformation: Consequence[] = [
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "33",
-        disruptionDirection: "inbound",
         disruptionSeverity: Severity.severe,
     },
     {
@@ -38,7 +37,6 @@ const previousConsequencesInformation: Consequence[] = [
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "50",
-        disruptionDirection: "inbound",
         disruptionSeverity: Severity.slight,
     },
     {

@@ -283,7 +283,6 @@ export const consequenceInfoOperatorTestCookie: Consequence = {
     consequenceType: "operatorWide",
     consequenceOperator: "FSYO",
     description: "Some consequence description",
-    disruptionDirection: "inbound",
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
     removeFromJourneyPlanners: "yes",
@@ -293,7 +292,6 @@ export const consequenceInfoOperatorTestCookie: Consequence = {
 export const consequenceInfoNetworkTestCookie: Consequence = {
     consequenceType: "networkWide",
     description: "Some consequence description",
-    disruptionDirection: "allDirections",
     disruptionSeverity: Severity.slight,
     vehicleMode: VehicleMode.tram,
     removeFromJourneyPlanners: "no",

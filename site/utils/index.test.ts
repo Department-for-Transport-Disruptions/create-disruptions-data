@@ -61,7 +61,6 @@ describe("page state from cookies test", () => {
             removeFromJourneyPlanners: "no",
             disruptionDelay: "",
             disruptionSeverity: Severity.slight,
-            disruptionDirection: "allDirections",
             vehicleMode: VehicleMode.bus,
             consequenceType: "operatorWide",
         };

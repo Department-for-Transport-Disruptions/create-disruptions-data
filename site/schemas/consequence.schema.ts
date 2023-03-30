@@ -8,27 +8,13 @@ const baseConsequence = {
     }),
     removeFromJourneyPlanners: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
     disruptionDelay: zodTimeInMinutes("Enter a number between 0 to 999 for disruption delay").optional(),
-    disruptionSeverity: z.union(
-        [
-            z.literal(Severity.unknown),
-            z.literal(Severity.verySlight),
-            z.literal(Severity.slight),
-            z.literal(Severity.normal),
-            z.literal(Severity.severe),
-            z.literal(Severity.verySevere),
-        ],
-        setZodDefaultError("Select the severity from the dropdown"),
-    ),
+    disruptionSeverity: z.nativeEnum(Severity, setZodDefaultError("Select the severity from the dropdown")),
     vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a vehicle mode")),
 };
 
 export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
-    disruptionDirection: z.union(
-        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select a direction"),
-    ),
 });
 
 export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
@@ -40,10 +26,6 @@ export const operatorConsequenceSchema = z.object({
         setZodDefaultError("Select an operator"),
     ),
     consequenceType: z.literal("operatorWide", setZodDefaultError("Select a consequence type")),
-    disruptionDirection: z.union(
-        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
-        setZodDefaultError("Select a direction"),
-    ),
 });
 
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
