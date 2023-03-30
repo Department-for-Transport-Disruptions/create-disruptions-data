@@ -1,5 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`PageNumbers > should not render anything when there are no pages 1`] = `null`;
+
 exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 1 1`] = `
 <nav
   className="govuk-pagination"
