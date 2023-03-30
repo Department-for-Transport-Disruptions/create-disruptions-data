@@ -70,18 +70,16 @@ const previousDisruptionInformation: Disruption = {
             disruptionEndTime: "1400",
             disruptionNoEndDateTime: "",
         },
-        {
-            disruptionStartDate: "15/01/2022",
-            disruptionStartTime: "1200",
-            disruptionEndDate: "17/01/2022",
-            disruptionEndTime: "1400",
-            disruptionNoEndDateTime: "",
-        },
     ],
     publishStartDate: "13/01/2022",
     publishStartTime: "1300",
     publishEndDate: "13/01/2022",
     publishEndTime: "1400",
+    disruptionStartDate: "15/01/2022",
+    disruptionStartTime: "1200",
+    disruptionEndDate: "17/01/2022",
+    disruptionEndTime: "1400",
+    disruptionNoEndDateTime: "",
 };
 
 describe("pages", () => {

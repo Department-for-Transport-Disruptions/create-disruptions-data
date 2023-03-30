@@ -27,19 +27,22 @@ const description = "Create Disruptions page for the Create Transport Disruption
 export interface DisruptionPageInputs extends Partial<z.infer<typeof createDisruptionSchema>> {}
 
 const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
-    const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
-
     const initialValidity: Validity = {
-        disruptionStartDate: "",
-        disruptionEndDate: "",
-        disruptionStartTime: "",
-        disruptionEndTime: "",
-        disruptionNoEndDateTime: "",
+        disruptionStartDate: initialState.inputs.disruptionStartDate || "",
+        disruptionEndDate: initialState.inputs.disruptionEndDate || "",
+        disruptionStartTime: initialState.inputs.disruptionStartTime || "",
+        disruptionEndTime: initialState.inputs.disruptionEndTime || "",
+        disruptionNoEndDateTime: initialState.inputs.disruptionNoEndDateTime || "",
     };
+
+    const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
     const [validity, setValidity] = useState<Validity>(initialValidity);
+    const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
+
+        setAddValidityClicked(false);
 
         const filteredValidity =
             validity.disruptionNoEndDateTime === "true"
@@ -70,6 +73,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
             });
 
             setValidity(initialValidity);
+            setAddValidityClicked(true);
         }
     };
 
@@ -230,7 +234,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName={"disruptionStartDate"}
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={!validity.disruptionStartDate}
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionStartDate}
                         />
 
@@ -242,7 +246,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionStartTime"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={!validity.disruptionStartTime}
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionStartTime}
                         />
 
@@ -255,7 +259,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionEndDate"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={!validity.disruptionEndDate}
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionEndDate}
                         />
 
@@ -267,7 +271,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             inputName="disruptionEndTime"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={!validity.disruptionEndTime}
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionEndTime}
                         />
 
@@ -284,18 +288,14 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             ]}
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={!validity.disruptionNoEndDateTime}
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
                             onClick={addValidity}
-                            disabled={
-                                pageState.inputs.validity &&
-                                pageState.inputs.validity[pageState.inputs.validity.length - 1]
-                                    ?.disruptionNoEndDateTime === "true"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                         >
                             Add another validity period
                         </button>

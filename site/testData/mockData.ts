@@ -244,16 +244,12 @@ export const disruptionInfoTestCookie: Disruption = {
     summary: "Some summary",
     associatedLink: "https://example.com",
     disruptionReason: EnvironmentReason.grassFire,
-    validity: [
-        {
-            disruptionStartDate: "10/03/2023",
-            disruptionStartTime: "1200",
-            disruptionNoEndDateTime: "true",
-        },
-    ],
     publishStartDate: "10/03/2023",
     publishStartTime: "1200",
     publishNoEndDateTime: "true",
+    disruptionStartDate: "10/03/2023",
+    disruptionStartTime: "1200",
+    disruptionNoEndDateTime: "true",
 };
 
 export const disruptionInfoMultipleValidityTestCookie: Disruption = {
@@ -268,15 +264,13 @@ export const disruptionInfoMultipleValidityTestCookie: Disruption = {
             disruptionEndDate: "17/03/2023",
             disruptionEndTime: "1700",
         },
-        {
-            disruptionStartDate: "18/03/2023",
-            disruptionStartTime: "1200",
-            disruptionNoEndDateTime: "true",
-        },
     ],
     publishStartDate: "10/03/2023",
     publishStartTime: "1200",
     publishNoEndDateTime: "true",
+    disruptionStartDate: "18/03/2023",
+    disruptionStartTime: "1200",
+    disruptionNoEndDateTime: "true",
 };
 
 export const consequenceInfoOperatorTestCookie: Consequence = {
