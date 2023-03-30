@@ -5,7 +5,7 @@ import { ReactElement, SyntheticEvent, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
-import MapBox from "../components/form/Map";
+import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -205,7 +205,7 @@ const CreateConsequenceStops = ({
                             inputId="stops"
                         />
 
-                        <MapBox
+                        <Map
                             initialViewState={{
                                 longitude: -1.7407941662903283,
                                 latitude: 53.05975866591879,
