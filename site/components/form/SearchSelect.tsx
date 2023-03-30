@@ -1,5 +1,5 @@
 import { Fragment, ReactElement, useState } from "react";
-import Select, { SingleValue } from "react-select";
+import Select, { ControlProps, GroupBase, OptionProps, SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -51,6 +51,21 @@ const SearchSelect = <T extends object>({
         setSearchInput(value);
     };
 
+    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>) => ({
+        fontFamily: "GDS Transport, arial, sans-serif",
+        border: "black solid 3px",
+        outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
+        color: state.isFocused ? "white" : "black",
+        marginBottom: "20px",
+        "&:hover": { borderColor: "black" },
+        width: "75%",
+    });
+
+    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>) => ({
+        color: state.isFocused ? "white" : "black",
+        backgroundColor: state.isFocused ? "#3399ff" : "white",
+    });
+
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
@@ -69,18 +84,11 @@ const SearchSelect = <T extends object>({
                             styles={{
                                 control: (baseStyles, state) => ({
                                     ...baseStyles,
-                                    fontFamily: "GDS Transport, arial, sans-serif",
-                                    border: "black solid 3px",
-                                    outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-                                    color: state.isFocused ? "white" : "black",
-                                    marginBottom: "20px",
-                                    "&:hover": { borderColor: "black" },
-                                    width: "75%",
+                                    ...controlStyles(state),
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
-                                    color: state.isFocused ? "white" : "black",
-                                    backgroundColor: state.isFocused ? "#3399ff" : "white",
+                                    ...optionStyles(state),
                                 }),
                             }}
                             cacheOptions
@@ -106,18 +114,11 @@ const SearchSelect = <T extends object>({
                             styles={{
                                 control: (baseStyles, state) => ({
                                     ...baseStyles,
-                                    fontFamily: "GDS Transport, arial, sans-serif",
-                                    border: "black solid 3px",
-                                    outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-                                    color: state.isFocused ? "white" : "black",
-                                    marginBottom: "20px",
-                                    "&:hover": { borderColor: "black" },
-                                    width: "75%",
+                                    ...controlStyles(state),
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
-                                    color: state.isFocused ? "white" : "black",
-                                    backgroundColor: state.isFocused ? "#3399ff" : "white",
+                                    ...optionStyles(state),
                                 }),
                             }}
                             value={selected}
