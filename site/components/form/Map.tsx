@@ -1,5 +1,5 @@
 import { CSSProperties, ReactElement } from "react";
-import Map, { ViewState } from "react-map-gl";
+import MapBox, { ViewState } from "react-map-gl";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -7,11 +7,11 @@ interface MapProps {
     mapStyle: string;
 }
 
-const MapBox = ({ initialViewState, style, mapStyle }: MapProps): ReactElement | null => {
+const Map = ({ initialViewState, style, mapStyle }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
     return mapboxAccessToken ? (
-        <Map
+        <MapBox
             initialViewState={initialViewState}
             style={style}
             mapStyle={mapStyle}
@@ -20,4 +20,4 @@ const MapBox = ({ initialViewState, style, mapStyle }: MapProps): ReactElement |
     ) : null;
 };
 
-export default MapBox;
+export default Map;
