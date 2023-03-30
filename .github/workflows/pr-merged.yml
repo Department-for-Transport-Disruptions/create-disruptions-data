@@ -57,6 +57,7 @@ jobs:
         env:
           ROOT_DOMAIN: ${{ vars.ROOT_DOMAIN }}
           AWS_SES_IDENTITY_ARN: ${{ vars.AWS_SES_IDENTITY_ARN }}
+          MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
           npm run build -- --stage test
           npm run cdk -- deploy --require-approval never --app ./.sst/dist --all

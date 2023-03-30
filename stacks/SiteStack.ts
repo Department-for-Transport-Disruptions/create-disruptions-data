@@ -19,6 +19,7 @@ export function SiteStack({ stack }: StackContext) {
             TABLE_NAME: table.tableName,
             STAGE: stack.stage,
             API_BASE_URL: apiUrl,
+            MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN || "",
             FEEDBACK_EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
             AWS_SES_IDENTITY_ARN: process.env.AWS_SES_IDENTITY_ARN || "",
         },
