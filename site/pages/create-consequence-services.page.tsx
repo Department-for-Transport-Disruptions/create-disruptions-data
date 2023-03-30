@@ -4,6 +4,7 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
+import { getStopLabel, getStopValue } from "./create-consequence-stops.page";
 import ErrorSummary from "../components/ErrorSummary";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
@@ -35,7 +36,7 @@ import {
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+import { getStateUpdater, getStateUpdaterWithErrors } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -52,17 +53,7 @@ const CreateConsequenceServices = ({
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
 
-    const getOptionLabel = (stop: Stop) => {
-        if (stop.commonName && stop.indicator && stop.atcoCode) {
-            return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
-        } else if (stop.commonName && stop.atcoCode) {
-            return `${stop.commonName} ${stop.atcoCode}`;
-        } else {
-            return "";
-        }
-    };
-
-    const handleChange = (value: SingleValue<Stop>) => {
+    const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
         }
@@ -108,7 +99,19 @@ const CreateConsequenceServices = ({
         return [];
     };
 
-    const getOptionValue = (stop: Stop) => stop.atcoCode.toString();
+    const sortStops = (stops: Stop[]) => {
+        return stops.sort((a, b) => {
+            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
+                return (
+                    a.commonName.localeCompare(b.commonName) ||
+                    a.indicator.localeCompare(b.indicator) ||
+                    a.atcoCode.localeCompare(b.atcoCode)
+                );
+            } else {
+                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
+            }
+        });
+    };
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
@@ -126,17 +129,7 @@ const CreateConsequenceServices = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        stops: [...(pageState.inputs.stops ?? []), stopToAdd].sort((a, b) => {
-                            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
-                                return (
-                                    a.commonName.localeCompare(b.commonName) ||
-                                    a.indicator.localeCompare(b.indicator) ||
-                                    a.atcoCode.localeCompare(b.atcoCode)
-                                );
-                            } else {
-                                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
-                            }
-                        }),
+                        stops: sortStops([...(pageState.inputs.stops ?? []), stopToAdd]),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -203,14 +196,7 @@ const CreateConsequenceServices = ({
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
-                        services: [...(pageState.inputs.services ?? []), serviceToAdd].sort((a, b) => {
-                            return (
-                                a.lineName.localeCompare(b.lineName) ||
-                                a.origin.localeCompare(b.origin) ||
-                                a.destination.localeCompare(b.destination) ||
-                                a.operatorShortName.localeCompare(b.operatorShortName)
-                            );
-                        }),
+                        services: sortServices([...(pageState.inputs.services ?? []), serviceToAdd]),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -222,30 +208,33 @@ const CreateConsequenceServices = ({
         }
     };
 
+    const sortServices = (services: Service[]) => {
+        return services.sort((a, b) => {
+            return (
+                a.lineName.localeCompare(b.lineName) ||
+                a.origin.localeCompare(b.origin) ||
+                a.destination.localeCompare(b.destination) ||
+                a.operatorShortName.localeCompare(b.operatorShortName)
+            );
+        });
+    };
+
     const removeService = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
         if (pageState.inputs.services) {
             const services = [...pageState.inputs.services];
 
-            if (pageState.inputs.stops) {
-                const stops = [...pageState.inputs.stops].filter((stop) => stop.serviceId !== services[index].id);
-                setPageState({
-                    inputs: {
-                        ...pageState.inputs,
-                        stops,
-                        services,
-                    },
-                    errors: pageState.errors,
-                });
-            } else {
-                setPageState({
-                    inputs: {
-                        ...pageState.inputs,
-                        services,
-                    },
-                    errors: pageState.errors,
-                });
-            }
+            setPageState({
+                inputs: {
+                    ...pageState.inputs,
+                    ...(pageState.inputs.stops && {
+                        stops: [...pageState.inputs.stops].filter((stop) => stop.serviceId !== services[index].id),
+                    }),
+                    services,
+                },
+                errors: pageState.errors,
+            });
+
             services.splice(index, 1);
         }
         setSelectedService(null);
@@ -273,7 +262,6 @@ const CreateConsequenceServices = ({
 
     const selectAllStops = (e: SyntheticEvent) => {
         e.preventDefault();
-        const parsed = servicesConsequenceSchema.shape.stops.safeParse(stopOptions);
 
         if (!selectAll) {
             setPageState({
@@ -283,44 +271,37 @@ const CreateConsequenceServices = ({
                 },
                 errors: pageState.errors,
             });
-        }
-        if (!parsed.success) {
-            setPageState({
-                ...pageState,
-                errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id)),
-                    ...flattenZodErrors(parsed.error),
-                ],
-            });
         } else {
-            if (stopOptions && stopOptions.length > 0 && selectedService && selectAll) {
+            const parsed = servicesConsequenceSchema.shape.stops.safeParse(stopOptions);
+            if (!parsed.success) {
                 setPageState({
-                    inputs: {
-                        ...pageState.inputs,
-                        stops: [...(pageState.inputs.stops ?? []), ...stopOptions]
-                            .filter(
-                                (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                            )
-                            .sort((a, b) => {
-                                if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
-                                    return (
-                                        a.commonName.localeCompare(b.commonName) ||
-                                        a.indicator.localeCompare(b.indicator) ||
-                                        a.atcoCode.localeCompare(b.atcoCode)
-                                    );
-                                } else {
-                                    return (
-                                        a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode)
-                                    );
-                                }
-                            }),
-                    },
+                    ...pageState,
                     errors: [
                         ...pageState.errors.filter(
                             (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
                         ),
+                        ...flattenZodErrors(parsed.error),
                     ],
                 });
+            } else {
+                if (stopOptions.length > 0 && selectedService && selectAll) {
+                    setPageState({
+                        inputs: {
+                            ...pageState.inputs,
+                            stops: sortStops(
+                                [...(pageState.inputs.stops ?? []), ...stopOptions].filter(
+                                    (value, index, self) =>
+                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                ),
+                            ),
+                        },
+                        errors: [
+                            ...pageState.errors.filter(
+                                (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
+                            ),
+                        ],
+                    });
+                }
             }
         }
         setSelectAll(!selectAll);
@@ -402,11 +383,11 @@ const CreateConsequenceServices = ({
                             inputName="stop"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
-                            getOptionLabel={getOptionLabel}
-                            handleChange={handleChange}
+                            getOptionLabel={getStopLabel}
+                            handleChange={handleStopChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
-                            getOptionValue={getOptionValue}
+                            getOptionValue={getStopValue}
                             display=""
                             hint="Stops"
                             displaySize="l"

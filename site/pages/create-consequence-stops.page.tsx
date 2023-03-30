@@ -31,6 +31,18 @@ import { getStateUpdater } from "../utils/formUtils";
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
+export const getStopLabel = (stop: Stop) => {
+    if (stop.commonName && stop.indicator && stop.atcoCode) {
+        return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
+    } else if (stop.commonName && stop.atcoCode) {
+        return `${stop.commonName} ${stop.atcoCode}`;
+    } else {
+        return "";
+    }
+};
+
+export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
+
 const CreateConsequenceStops = ({
     inputs,
     previousConsequenceInformation,
@@ -38,16 +50,6 @@ const CreateConsequenceStops = ({
     const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
-
-    const getOptionLabel = (stop: Stop) => {
-        if (stop.commonName && stop.indicator && stop.atcoCode) {
-            return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
-        } else if (stop.commonName && stop.atcoCode) {
-            return `${stop.commonName} ${stop.atcoCode}`;
-        } else {
-            return "";
-        }
-    };
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -104,8 +106,6 @@ const CreateConsequenceStops = ({
         }
         return [];
     };
-
-    const getOptionValue = (stop: Stop) => stop.atcoCode.toString();
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
@@ -194,12 +194,12 @@ const CreateConsequenceStops = ({
                             inputName="stop"
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
-                            getOptionLabel={getOptionLabel}
+                            getOptionLabel={getStopLabel}
                             loadOptions={loadOptions}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
-                            getOptionValue={getOptionValue}
+                            getOptionValue={getStopValue}
                             display="Stops Impacted"
                             displaySize="l"
                             inputId="stops"
