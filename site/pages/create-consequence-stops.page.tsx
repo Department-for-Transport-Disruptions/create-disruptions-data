@@ -5,6 +5,7 @@ import { ReactElement, SyntheticEvent, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
+import MapBox from "../components/form/MapBox";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -188,7 +189,6 @@ const CreateConsequenceStops = ({
                                 },
                             ]}
                         />
-
                         <SearchSelect<Stop>
                             selected={selected}
                             inputName="stop"
@@ -203,6 +203,16 @@ const CreateConsequenceStops = ({
                             display="Stops Impacted"
                             displaySize="l"
                             inputId="stops"
+                        />
+
+                        <MapBox
+                            initialViewState={{
+                                longitude: -100,
+                                latitude: 40,
+                                zoom: 3.5,
+                            }}
+                            style={{ width: 600, height: 400, marginBottom: 20 }}
+                            mapStyle="mapbox://styles/mapbox/streets-v12"
                         />
 
                         <TextInput<StopsConsequence>
@@ -239,7 +249,6 @@ const CreateConsequenceStops = ({
                             initialErrors={pageState.errors}
                             schema={stopsConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
-
                         <TimeSelector<StopsConsequence>
                             display="Delay (minutes)"
                             displaySize="l"
@@ -252,7 +261,6 @@ const CreateConsequenceStops = ({
                             schema={stopsConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
-
                         <Select<StopsConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
@@ -264,14 +272,12 @@ const CreateConsequenceStops = ({
                             initialErrors={pageState.errors}
                             schema={stopsConsequenceSchema.shape.disruptionSeverity}
                         />
-
                         <input type="hidden" name="consequenceType" value="stops" />
                         <input
                             type="hidden"
                             name="vehicleMode"
                             value={previousConsequenceInformation.modeOfTransport}
                         />
-
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
