@@ -359,6 +359,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             </div>
           </div>
           <div
+            style={
+              {
+                "height": 400,
+                "marginBottom": 20,
+                "position": "relative",
+                "width": 600,
+              }
+            }
+          />
+          <div
             className="govuk-form-group govuk-form-group--error"
           >
             <div
@@ -1113,6 +1123,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             </div>
           </div>
           <div
+            style={
+              {
+                "height": 400,
+                "marginBottom": 20,
+                "position": "relative",
+                "width": 600,
+              }
+            }
+          />
+          <div
             className="govuk-form-group"
           >
             <div
@@ -1792,6 +1812,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </table>
             </div>
           </div>
+          <div
+            style={
+              {
+                "height": 400,
+                "marginBottom": 20,
+                "position": "relative",
+                "width": 600,
+              }
+            }
+          />
           <div
             className="govuk-form-group"
           >
