@@ -86,7 +86,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         },
     });
 }
-
+const promises = [];
 const chunkSize = 25;
 
 for (let i = 0; i < requests.length; i += chunkSize) {
@@ -98,12 +98,10 @@ for (let i = 0; i < requests.length; i += chunkSize) {
         },
     };
 
-    try {
-        const data = await ddbDocClient.send(new BatchWriteCommand(params));
-        console.log("Success, items inserted", data);
-    } catch (err) {
-        console.log("Error", err);
-    }
+    promises.push(ddbDocClient.send(new BatchWriteCommand(params)));
 }
 
-[{ M: { StartTime: { S: "2024-01-30T08:55:22.201Z" } } }];
+Promise.all(promises)
+    .then()
+    // eslint-disable-next-line no-console
+    .catch((e) => console.error(e));
