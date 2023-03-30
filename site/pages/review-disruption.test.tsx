@@ -57,7 +57,7 @@ const previousConsequencesInformation: Consequence[] = [
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "12",
         disruptionSeverity: Severity.verySlight,
-    } as Consequence,
+    },
 ];
 
 const previousDisruptionInformation: Disruption = {
