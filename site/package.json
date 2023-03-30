@@ -13,6 +13,7 @@
         "tsc:build": "tsc --noemit"
     },
     "dependencies": {
+        "@aws-sdk/client-ses": "^3.301.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@emotion/react": "^11.10.6",
         "@emotion/styled": "^11.10.6",

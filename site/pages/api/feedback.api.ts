@@ -1,13 +1,15 @@
+import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { NextApiRequest, NextApiResponse } from "next";
 import Mail from "nodemailer/lib/mailer";
 import {
+    AWS_SES_IDENTITY_ARN,
     CONTACT_FEEDBACK_QUESTION,
     GENERAL_FEEDBACK_QUESTION,
     HEAR_ABOUT_US_FEEDBACK_QUESTION,
     SOLVE_FEEDBACK_QUESTION,
 } from "../../constants";
 import { Feedback } from "../../interfaces";
-import { setFeedbackMailOptions } from "../../utils/apiUtils/feedbackEmailer";
+import { createMailTransporter, setFeedbackMailOptions } from "../../utils/apiUtils/feedbackEmailer";
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 import { removeExcessWhiteSpace } from "../../utils/apiUtils/validator";
 import logger from "../../utils/logger";
@@ -95,8 +97,8 @@ export const redactEmailAddress = (
     return "*****@*****.***";
 };
 
-const feedback = (req: FeedbackApiRequest, res: NextApiResponse): void => {
-    let mailOptions: Mail.Options = {};
+const feedback = async (req: FeedbackApiRequest, res: NextApiResponse): Promise<void> => {
+    let mailOptions: SendEmailCommand | undefined;
     try {
         if (requestIsEmpty(req)) {
             redirectTo(res, "/feedback?feedbackSubmitted=false");
@@ -104,35 +106,50 @@ const feedback = (req: FeedbackApiRequest, res: NextApiResponse): void => {
         }
 
         const feedback: Feedback[] = buildFeedbackForEmail(req);
-        const feedbackSubmitterEmailAddress = "UNKNOWN";
-        mailOptions = setFeedbackMailOptions(feedbackSubmitterEmailAddress, feedback);
+        mailOptions = setFeedbackMailOptions(feedback);
 
-        if (process.env.NODE_ENV !== "production") {
+        if (!AWS_SES_IDENTITY_ARN) {
             logger.info("mailOptions", {
                 context: "api.feedback",
                 mailOptions: {
-                    from: mailOptions.from,
-                    to: redactEmailAddress(mailOptions.to),
-                    subject: mailOptions.subject,
-                    text: mailOptions.text,
+                    from: mailOptions.input.Source,
+                    to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
+                    subject: mailOptions.input.Message?.Subject,
+                    text: mailOptions.input.Message?.Body,
                 },
                 message: "Sending of emails disabled, email not sent",
+            });
+        } else {
+            const mailTransporter = createMailTransporter();
+
+            await mailTransporter.send(mailOptions);
+            logger.info({
+                context: "api.feedback",
+                mailOptions: {
+                    from: mailOptions.input.Source,
+                    to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
+                    subject: mailOptions.input.Message?.Subject,
+                    text: mailOptions.input.Message?.Body,
+                },
+                message: "Sending of emails enabled, email sent",
             });
         }
 
         redirectTo(res, "/feedback?feedbackSubmitted=true");
         return;
     } catch (error) {
-        logger.error({
-            context: "api.feedback",
-            mailOptions: {
-                from: mailOptions?.from,
-                to: redactEmailAddress(mailOptions?.to),
-                subject: mailOptions?.subject,
-                text: mailOptions?.text,
-            },
-            message: "Sending of emails failed, email probably not sent",
-        });
+        if (mailOptions) {
+            logger.error({
+                context: "api.feedback",
+                mailOptions: {
+                    from: mailOptions.input.Source,
+                    to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
+                    subject: mailOptions.input.Message?.Subject,
+                    text: mailOptions.input.Message?.Body,
+                },
+                message: "Sending of emails failed, email probably not sent",
+            });
+        }
         const message = "There was a problem receiving the user feedback.";
         redirectToError(res, message, "api.feedback", error as Error);
     }

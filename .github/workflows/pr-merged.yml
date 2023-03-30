@@ -56,6 +56,7 @@ jobs:
       - name: Deploy to test
         env:
           ROOT_DOMAIN: ${{ vars.ROOT_DOMAIN }}
+          AWS_SES_IDENTITY_ARN: ${{ vars.AWS_SES_IDENTITY_ARN }}
         run: |
           npm run build -- --stage test
           npm run cdk -- deploy --require-approval never --app ./.sst/dist --all
