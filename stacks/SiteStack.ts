@@ -9,10 +9,18 @@ export function SiteStack({ stack }: StackContext) {
 
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "" : `${stack.stage}.`;
 
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1/"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1/`;
+
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         environment: {
             TABLE_NAME: table.tableName,
+            STAGE: stack.stage,
+            API_BASE_URL: apiUrl,
+            FEEDBACK_EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
+            AWS_SES_IDENTITY_ARN: process.env.AWS_SES_IDENTITY_ARN || "",
         },
         customDomain: {
             domainName: `${subDomain}${hostedZone.zoneName}`,
@@ -29,6 +37,10 @@ export function SiteStack({ stack }: StackContext) {
                     "dynamodb:BatchGetItem",
                     "dynamodb:BatchWriteItem",
                 ],
+            }),
+            new PolicyStatement({
+                resources: ["*"],
+                actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
         ],
     });
