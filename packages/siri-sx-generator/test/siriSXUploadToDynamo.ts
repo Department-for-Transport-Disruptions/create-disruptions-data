@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
 import { randomUUID } from "crypto";
 import { baseDisruptionJson } from "./testData";
