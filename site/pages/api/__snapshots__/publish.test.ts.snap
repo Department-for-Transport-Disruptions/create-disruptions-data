@@ -47,7 +47,11 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
     "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
   },
   "Summary": "Some summary",
-  "ValidityPeriod": [],
+  "ValidityPeriod": [
+    {
+      "StartTime": "2023-03-10T12:00:00.000Z",
+    },
+  ],
 }
 `;
 
@@ -106,7 +110,11 @@ exports[`publish > should write the correct disruptions data to dynamoDB 2`] = `
     "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
   },
   "Summary": "Some summary",
-  "ValidityPeriod": [],
+  "ValidityPeriod": [
+    {
+      "StartTime": "2023-03-10T12:00:00.000Z",
+    },
+  ],
 }
 `;
 
@@ -154,6 +162,9 @@ exports[`publish > should write the correct disruptions data to dynamoDB 3`] = `
     {
       "EndTime": "2023-03-17T17:00:00.000Z",
       "StartTime": "2023-03-10T12:00:00.000Z",
+    },
+    {
+      "StartTime": "2023-03-18T12:00:00.000Z",
     },
   ],
 }

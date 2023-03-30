@@ -29,14 +29,6 @@ export const formatCreateDisruptionBody = (body: object) => {
             };
         });
 
-    validity.push({
-        disruptionStartDate: Object.values(body)[Object.keys(body).indexOf("disruptionStartDate")] as string,
-        disruptionStartTime: Object.values(body)[Object.keys(body).indexOf("disruptionStartTime")] as string,
-        disruptionEndDate: Object.values(body)[Object.keys(body).indexOf("disruptionEndDate")] as string,
-        disruptionEndTime: Object.values(body)[Object.keys(body).indexOf("disruptionEndTime")] as string,
-        disruptionNoEndDateTime: Object.values(body)[Object.keys(body).indexOf("disruptionNoEndDateTime")] as string,
-    });
-
     const cleansedBody = Object.fromEntries(
         Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
     );
@@ -54,7 +46,6 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
 
         if (!validatedBody.success) {
-            formattedBody.validity.pop();
             setCookieOnResponseObject(
                 COOKIES_DISRUPTION_ERRORS,
                 JSON.stringify({

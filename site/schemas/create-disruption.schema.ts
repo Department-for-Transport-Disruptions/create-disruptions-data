@@ -90,50 +90,17 @@ export const createDisruptionSchema = z.object({
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     publishNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    disruptionStartDate: zodDate("Enter a publish start date for the validity"),
-    disruptionStartTime: zodTime("Enter a publish start time for the validity"),
+    disruptionStartDate: zodDate("Enter a validity start date for the disruption"),
+    disruptionStartTime: zodTime("Enter a validity start time for the disruption"),
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    validity: validitySchemaRefined
-        .array()
-        .refine(
-            (arr) => {
-                const hasNoEndDateTime = arr.findIndex((val) => val.disruptionNoEndDateTime === "true");
-                return hasNoEndDateTime === arr.length - 1 || hasNoEndDateTime === -1;
-            },
-            {
-                path: ["disruptionStartDate"],
-                message: "A validity period with no end time must be the last validity",
-            },
-        )
-        .refine(
-            (arr) => {
-                let valid = true;
-                for (let i = 0; i < arr.length; i++) {
-                    for (let j = i + 1; j < arr.length; j++) {
-                        const endDate = arr[i].disruptionEndDate;
-                        const endTime = arr[i].disruptionEndTime;
-
-                        if (endDate && endTime) {
-                            if (
-                                getDatetimeFromDateAndTime(
-                                    arr[j].disruptionStartDate,
-                                    arr[j].disruptionStartTime,
-                                ).isBefore(getDatetimeFromDateAndTime(endDate, endTime))
-                            ) {
-                                valid = false;
-                            }
-                        }
-                    }
-                }
-                return valid;
-            },
-            {
-                path: ["disruptionStartDate"],
-                message: "Validity periods cannot overlap",
-            },
-        )
+    validity: z
+        .array(validitySchemaRefined)
+        .refine((arr) => !arr.some((val) => val.disruptionNoEndDateTime === "true"), {
+            path: ["disruptionStartDate"],
+            message: "A validity period with no end time must be the last validity",
+        })
         .optional(),
 });
 
@@ -175,10 +142,54 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: "Publish end datetime must be after start datetime",
         },
     )
-
     .refine((val) => val.publishEndDate || val.publishEndTime || val.publishNoEndDateTime, {
         path: ["publishNoEndDateTime"],
         message: '"No end date/time" should be selected or a publish date and time should be entered',
-    });
+    })
+    .refine(
+        (val) => {
+            const {
+                validity = [],
+                disruptionStartDate,
+                disruptionStartTime,
+                disruptionEndDate,
+                disruptionEndTime,
+            } = val;
+
+            const combinedValidity = [
+                ...validity,
+                {
+                    disruptionStartDate,
+                    disruptionStartTime,
+                    disruptionEndDate,
+                    disruptionEndTime,
+                },
+            ];
+
+            let valid = true;
+            for (let i = 0; i < combinedValidity.length; i++) {
+                for (let j = i + 1; j < combinedValidity.length; j++) {
+                    const endDate = combinedValidity[i].disruptionEndDate;
+                    const endTime = combinedValidity[i].disruptionEndTime;
+
+                    if (endDate && endTime) {
+                        if (
+                            getDatetimeFromDateAndTime(
+                                combinedValidity[j].disruptionStartDate,
+                                combinedValidity[j].disruptionStartTime,
+                            ).isBefore(getDatetimeFromDateAndTime(endDate, endTime))
+                        ) {
+                            valid = false;
+                        }
+                    }
+                }
+            }
+            return valid;
+        },
+        {
+            path: ["disruptionStartDate"],
+            message: "Validity periods cannot overlap",
+        },
+    );
 
 export type Disruption = z.infer<typeof createDisruptionSchema>;

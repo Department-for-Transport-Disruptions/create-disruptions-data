@@ -15,7 +15,7 @@ import {
 } from "../constants";
 import { SocialMediaPost } from "../interfaces";
 import { Consequence, consequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
+import { createDisruptionSchema, Disruption, Validity } from "../schemas/create-disruption.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
 import { formatTime } from "../utils/dates";
@@ -64,17 +64,25 @@ const ReviewDisruption = ({
     });
 
     const getValidityRows = () => {
-        return previousDisruptionInformation.validity
-            ? previousDisruptionInformation.validity.map((validity, i) => ({
-                  header: `Validity period ${i + 1}`,
-                  cells: [
-                      validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                          ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                          : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                      createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
-                  ],
-              }))
-            : [];
+        const validity: Validity[] = [
+            ...(previousDisruptionInformation.validity ?? []),
+            {
+                disruptionStartDate: previousDisruptionInformation.disruptionStartDate,
+                disruptionStartTime: previousDisruptionInformation.disruptionStartTime,
+                disruptionEndDate: previousDisruptionInformation.disruptionEndDate,
+                disruptionEndTime: previousDisruptionInformation.disruptionEndTime,
+            },
+        ];
+
+        return validity.map((validity, i) => ({
+            header: `Validity period ${i + 1}`,
+            cells: [
+                validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
+                    ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                    : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
+                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+            ],
+        }));
     };
 
     return (

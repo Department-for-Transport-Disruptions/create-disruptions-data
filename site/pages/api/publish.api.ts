@@ -5,6 +5,7 @@ import {
     isPersonnelReason,
     PtSituationElement,
     Reason,
+    Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -13,9 +14,18 @@ import { randomUUID } from "crypto";
 import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO } from "../../constants";
 import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import { consequenceSchema } from "../../schemas/consequence.schema";
-import { createDisruptionSchema } from "../../schemas/create-disruption.schema";
+import { createDisruptionSchema, Validity } from "../../schemas/create-disruption.schema";
 import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getDatetimeFromDateAndTime } from "../../utils/dates";
+
+const getValidityPeriod = (period: Validity): Period => ({
+    StartTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
+    ...(period.disruptionEndDate && period.disruptionEndTime
+        ? {
+              EndTime: getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString(),
+          }
+        : {}),
+});
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -37,6 +47,13 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const consequenceData = parsedConsequenceInfo.data;
 
         const reason = disruptionData.disruptionReason;
+
+        const validityPeriod = getValidityPeriod({
+            disruptionStartDate: disruptionData.disruptionStartDate,
+            disruptionStartTime: disruptionData.disruptionStartTime,
+            disruptionEndDate: disruptionData.disruptionEndDate,
+            disruptionEndTime: disruptionData.disruptionEndTime,
+        });
 
         const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
             CreationTime: currentTime,
@@ -60,21 +77,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                     : {}),
             },
             ValidityPeriod: disruptionData.validity
-                ? disruptionData.validity.map((period) => ({
-                      StartTime: getDatetimeFromDateAndTime(
-                          period.disruptionStartDate,
-                          period.disruptionStartTime,
-                      ).toISOString(),
-                      ...(period.disruptionEndDate && period.disruptionEndTime
-                          ? {
-                                EndTime: getDatetimeFromDateAndTime(
-                                    period.disruptionEndDate,
-                                    period.disruptionEndTime,
-                                ).toISOString(),
-                            }
-                          : {}),
-                  }))
-                : [],
+                ? [...disruptionData.validity.map((period) => getValidityPeriod(period)), validityPeriod]
+                : [validityPeriod],
             Progress: Progress.open,
             Source: {
                 SourceType: SourceType.feed,
