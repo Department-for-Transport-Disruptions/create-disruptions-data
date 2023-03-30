@@ -7,17 +7,17 @@ interface MapBoxProps {
     mapStyle: string;
 }
 
-const MapBox = ({ initialViewState, style, mapStyle }: MapBoxProps): ReactElement => {
-    const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN || "";
+const MapBox = ({ initialViewState, style, mapStyle }: MapBoxProps): ReactElement | null => {
+    const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
-    return (
+    return mapboxAccessToken ? (
         <Map
             initialViewState={initialViewState}
             style={style}
             mapStyle={mapStyle}
             mapboxAccessToken={mapboxAccessToken}
         />
-    );
+    ) : null;
 };
 
 export default MapBox;

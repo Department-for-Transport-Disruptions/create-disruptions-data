@@ -5,7 +5,7 @@ import { ReactElement, SyntheticEvent, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
-import MapBox from "../components/form/MapBox";
+import MapBox from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -207,11 +207,11 @@ const CreateConsequenceStops = ({
 
                         <MapBox
                             initialViewState={{
-                                longitude: -100,
-                                latitude: 40,
-                                zoom: 3.5,
+                                longitude: -1.7407941662903283,
+                                latitude: 53.05975866591879,
+                                zoom: 4.5,
                             }}
-                            style={{ width: 600, height: 400, marginBottom: 20 }}
+                            style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
                         />
 
