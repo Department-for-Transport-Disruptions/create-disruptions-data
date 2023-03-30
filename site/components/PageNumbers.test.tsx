@@ -3,7 +3,6 @@ import { describe, it, expect, vi } from "vitest";
 import PageNumbers from "./PageNumbers";
 
 describe("PageNumbers", () => {
-
     it("should not render anything when there are no pages", () => {
         const tree = renderer
             .create(<PageNumbers currentPage={0} numberOfPages={0} setCurrentPage={vi.fn()} />)
