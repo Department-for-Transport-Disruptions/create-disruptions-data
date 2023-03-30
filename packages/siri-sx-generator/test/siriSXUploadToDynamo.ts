@@ -7,7 +7,6 @@ import { getDdbDocumentClient } from "../util/awsClient";
 const [stageName, itemsToCreate] = process.argv.slice(2);
 
 if (!stageName) {
-    // eslint-disable-next-line no-console
     console.log("Please provide Serverless Stack Stage name.");
     process.exit(0);
 }
@@ -103,5 +102,4 @@ for (let i = 0; i < requests.length; i += chunkSize) {
 
 Promise.all(promises)
     .then()
-    // eslint-disable-next-line no-console
     .catch((e) => console.error(e));
