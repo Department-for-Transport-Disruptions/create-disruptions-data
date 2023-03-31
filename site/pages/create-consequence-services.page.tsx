@@ -240,7 +240,7 @@ const CreateConsequenceServices = ({
 
     const getServiceRows = () => {
         if (pageState.inputs.services) {
-            return pageState.inputs.services.map((service, i) => ({
+            return pageState.inputs.services.map((service) => ({
                 cells: [
                     `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
                     <button
