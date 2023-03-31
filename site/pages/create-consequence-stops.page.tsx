@@ -2,6 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useState } from "react";
+import { Marker } from "react-map-gl";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
@@ -39,6 +40,8 @@ const CreateConsequenceStops = ({
     const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(inputs);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
+    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [searchInput, setSearchInput] = useState("");
 
     const getOptionLabel = (stop: Stop) => {
         if (stop.commonName && stop.indicator && stop.atcoCode) {
@@ -63,12 +66,15 @@ const CreateConsequenceStops = ({
             const res = await fetch(searchApiUrl, { method: "GET" });
             const data: Stop[] = z.array(stopSchema).parse(await res.json());
             if (data) {
+                setStopOptions(data);
                 return data;
             }
         }
+        setStopOptions([]);
         return [];
     };
-
+    console.log(API_BASE_URL);
+    console.log(stopOptions, searchInput);
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
         if (pageState.inputs.stops) {
@@ -146,6 +152,22 @@ const CreateConsequenceStops = ({
         }
     };
 
+    const getMarkers = () => {
+        if (pageState.inputs.stops && pageState.inputs.stops.length > 0) {
+            return pageState.inputs.stops.map((stop: Stop) => (
+                <Marker
+                    key={stop.atcoCode}
+                    longitude={Number(stop.longitude)}
+                    latitude={Number(stop.latitude)}
+                    anchor="bottom"
+                    // color="grey"
+                />
+            ));
+        }
+        return null;
+    };
+
+    console.log(getMarkers);
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/create-consequence-stops" method="post">
@@ -203,6 +225,8 @@ const CreateConsequenceStops = ({
                             display="Stops Impacted"
                             displaySize="l"
                             inputId="stops"
+                            inputValue={searchInput}
+                            setSearchInput={setSearchInput}
                         />
 
                         <Map
@@ -213,7 +237,9 @@ const CreateConsequenceStops = ({
                             }}
                             style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                        />
+                        >
+                            {getMarkers()}
+                        </Map>
 
                         <TextInput<StopsConsequence>
                             display="Consequence description"

@@ -1,4 +1,4 @@
-import { Fragment, ReactElement, useState } from "react";
+import { Dispatch, Fragment, ReactElement, SetStateAction, useState } from "react";
 import { SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
@@ -23,6 +23,8 @@ interface SearchSelectProps<T> {
     displaySize?: string;
     inputId: string;
     hint?: string;
+    inputValue?: string;
+    setSearchInput?: Dispatch<SetStateAction<string>>;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -39,13 +41,13 @@ const SearchSelect = <T extends object>({
     inputId,
     display,
     displaySize = "s",
+    inputValue = "",
+    setSearchInput = (value) => value,
 }: SearchSelectProps<T>): ReactElement => {
-    const [searchInput, setSearchInput] = useState("");
-
-    const handleInputChange = (value: string) => {
+    const handleInputChange = (value: string, { action }) => {
         setSearchInput(value);
     };
-
+    console.log("iv", inputValue);
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
@@ -85,7 +87,7 @@ const SearchSelect = <T extends object>({
                         getOptionValue={getOptionValue}
                         loadOptions={loadOptions}
                         onInputChange={handleInputChange}
-                        inputValue={searchInput}
+                        inputValue={inputValue}
                         onChange={handleChange}
                         id={inputId}
                         instanceId={`dropdown-${inputName}`}
