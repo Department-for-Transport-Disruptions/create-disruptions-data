@@ -27,6 +27,7 @@ const defaultServicesData = {
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
     consequenceType: "services",
+    disruptionDirection: "inbound",
 };
 
 describe("create-consequence-services API", () => {
@@ -95,6 +96,7 @@ describe("create-consequence-services API", () => {
             { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
             { errorMessage: "At least one service must be added", id: "services" },
+            { errorMessage: "Select a direction", id: "disruptionDirection" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

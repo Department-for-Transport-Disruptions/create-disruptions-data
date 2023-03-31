@@ -27,22 +27,10 @@ import { CreateConsequenceProps, PageState } from "../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
-
-export const getStopLabel = (stop: Stop) => {
-    if (stop.commonName && stop.indicator && stop.atcoCode) {
-        return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
-    } else if (stop.commonName && stop.atcoCode) {
-        return `${stop.commonName} ${stop.atcoCode}`;
-    } else {
-        return "";
-    }
-};
-
-export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
 
 const CreateConsequenceStops = ({
     inputs,

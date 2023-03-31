@@ -49,6 +49,7 @@ const withInputs: PageState<Partial<ServicesConsequence>> = {
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
+        disruptionDirection: "inbound",
     },
 };
 

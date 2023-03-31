@@ -4,7 +4,6 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
-import { getStopLabel, getStopValue } from "./create-consequence-stops.page";
 import ErrorSummary from "../components/ErrorSummary";
 import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
@@ -37,7 +36,7 @@ import {
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -171,7 +170,7 @@ const CreateConsequenceServices = ({
                         ...stop,
                         ...(selectedService.id && { serviceId: selectedService.id }),
                     }));
-                    setStopOptions(dataWithServiceId);
+                    setStopOptions(sortStops([...stopOptions, ...dataWithServiceId]));
                 }
             }
         };
@@ -179,6 +178,7 @@ const CreateConsequenceServices = ({
         fetchData()
             // eslint-disable-next-line no-console
             .catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedService]);
 
     const addService = (serviceToAdd: SingleValue<Service>) => {
@@ -220,26 +220,22 @@ const CreateConsequenceServices = ({
         });
     };
 
-    const removeService = (e: SyntheticEvent, index: number) => {
+    const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
         if (pageState.inputs.services) {
-            const services = [...pageState.inputs.services];
-
             setPageState({
                 inputs: {
                     ...pageState.inputs,
                     ...(pageState.inputs.stops && {
-                        stops: [...pageState.inputs.stops].filter((stop) => stop.serviceId !== services[index].id),
+                        stops: [...pageState.inputs.stops].filter((stop) => stop.serviceId !== serviceId),
                     }),
-                    services,
+                    services: [...pageState.inputs.services].filter((service) => service.id !== serviceId),
                 },
                 errors: pageState.errors,
             });
-
-            services.splice(index, 1);
         }
         setSelectedService(null);
-        setStopOptions([]);
+        setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
 
     const getServiceRows = () => {
@@ -251,7 +247,7 @@ const CreateConsequenceServices = ({
                         id={`remove-service-${service.id}`}
                         key={`remove-service-${service.id}`}
                         className="govuk-link"
-                        onClick={(e) => removeService(e, i)}
+                        onClick={(e) => removeService(e, service.id)}
                     >
                         Remove
                     </button>,
@@ -273,7 +269,7 @@ const CreateConsequenceServices = ({
                 errors: pageState.errors,
             });
         } else {
-            const parsed = servicesConsequenceSchema.shape.stops.safeParse(stopOptions);
+            const parsed = z.array(stopSchema).safeParse(stopOptions);
             if (!parsed.success) {
                 setPageState({
                     ...pageState,
@@ -294,7 +290,7 @@ const CreateConsequenceServices = ({
                                     (value, index, self) =>
                                         index === self.findIndex((s) => s.atcoCode === value.atcoCode),
                                 ),
-                            ),
+                            ).slice(0, 100),
                         },
                         errors: [
                             ...pageState.errors.filter(
@@ -467,6 +463,30 @@ const CreateConsequenceServices = ({
                             schema={stopsConsequenceSchema.shape.disruptionSeverity}
                         />
 
+                        <Radios<ServicesConsequence>
+                            display="Direction of disruption"
+                            displaySize="l"
+                            radioDetail={[
+                                {
+                                    value: "allDirections",
+                                    display: "All directions",
+                                },
+                                {
+                                    value: "inbound",
+                                    display: "Inbound",
+                                },
+                                {
+                                    value: "outbound",
+                                    display: "Outbound",
+                                },
+                            ]}
+                            inputName="disruptionDirection"
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.disruptionDirection}
+                            initialErrors={pageState.errors}
+                            schema={servicesConsequenceSchema.shape.disruptionDirection}
+                        />
+
                         <input type="hidden" name="consequenceType" value="services" />
                         <input
                             type="hidden"
@@ -508,7 +528,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     let services: Service[] = [];
-    const searchApiUrl = `${API_BASE_URL}services?adminCodes=${ADMIN_AREA_CODE}`;
+    const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
     const res = await fetch(searchApiUrl, { method: "GET" });
     const parse = z.array(serviceSchema).safeParse(await res.json());
     if (parse.success) {
