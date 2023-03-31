@@ -91,12 +91,41 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
   className="govuk-pagination"
   role="navigation"
 >
+  <div
+    className="govuk-pagination__prev"
+  >
+    <a
+      className="govuk-link govuk-pagination__link"
+      href=""
+      onClick={[Function]}
+      rel="prev"
+    >
+      <svg
+        aria-hidden="true"
+        className="govuk-pagination__icon govuk-pagination__icon--prev"
+        focusable="false"
+        height="13"
+        viewBox="0 0 15 13"
+        width="15"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"
+        />
+      </svg>
+      <span
+        className="govuk-pagination__link-title"
+      >
+        Previous
+      </span>
+    </a>
+  </div>
   <ul
     className="govuk-pagination__list"
   >
      
     <li
-      className="govuk-pagination__item govuk-pagination__item--current"
+      className="govuk-pagination__item"
     >
       <a
         aria-label="Page 1"
@@ -108,15 +137,44 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       </a>
     </li>
     <li
+      className="govuk-pagination__item govuk-pagination__item--ellipses"
+    >
+      ...
+    </li>
+    <li
       className="govuk-pagination__item"
     >
       <a
-        aria-label="Page 2"
+        aria-label="Page 4"
         className="govuk-link govuk-pagination__link"
         href="#"
         onClick={[Function]}
       >
-        2
+        4
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item govuk-pagination__item--current"
+    >
+      <a
+        aria-label="Page 5"
+        className="govuk-link govuk-pagination__link"
+        href="#"
+        onClick={[Function]}
+      >
+        5
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 6"
+        className="govuk-link govuk-pagination__link"
+        href="#"
+        onClick={[Function]}
+      >
+        6
       </a>
     </li>
     <li

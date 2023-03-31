@@ -26,7 +26,7 @@ describe("PageNumbers", () => {
 
     it("should render correctly when there are 10 pages and the current page is 5", () => {
         const tree = renderer
-            .create(<PageNumbers currentPage={1} numberOfPages={10} setCurrentPage={vi.fn()} />)
+            .create(<PageNumbers currentPage={5} numberOfPages={10} setCurrentPage={vi.fn()} />)
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
