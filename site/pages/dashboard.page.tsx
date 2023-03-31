@@ -44,14 +44,8 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
     });
 };
 
-const sortEarliestDate = (firstDate: string, secondDate: string) =>  
+const sortEarliestDate = (firstDate: string, secondDate: string) =>
     getDate(firstDate).isBefore(getDate(secondDate)) ? -1 : 1;
-    if (getDate(firstDate).isBefore(getDate(secondDate))) {
-        return -1;
-    }
-
-    return 1;
-};
 
 export const sortDisruptionsByStartDate = (disruptions: DashboardDisruption[]): DashboardDisruption[] => {
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
