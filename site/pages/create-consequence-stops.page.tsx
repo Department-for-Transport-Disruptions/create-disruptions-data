@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, ReactNode, SyntheticEvent, useEffect, useState } from "react";
 import { Marker } from "react-map-gl";
 import { SingleValue } from "react-select";
 import { z } from "zod";
@@ -60,21 +60,27 @@ const CreateConsequenceStops = ({
         setSelected(null);
     };
 
-    const loadOptions = async (inputValue: string) => {
-        if (inputValue.length >= 3) {
-            const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
-            const res = await fetch(searchApiUrl, { method: "GET" });
-            const data: Stop[] = z.array(stopSchema).parse(await res.json());
-            if (data) {
-                setStopOptions(data);
-                return data;
+    useEffect(() => {
+        const loadOptions = async () => {
+            if (searchInput.length >= 3) {
+                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${searchInput}`;
+                const res = await fetch(searchApiUrl, { method: "GET" });
+                const data: Stop[] = z.array(stopSchema).parse(await res.json());
+                if (data) {
+                    setStopOptions(data);
+                }
+            } else {
+                setStopOptions([]);
             }
-        }
-        setStopOptions([]);
-        return [];
-    };
-    console.log(API_BASE_URL);
-    console.log(stopOptions, searchInput);
+        };
+
+        // call the function
+        loadOptions()
+            // make sure to catch any error
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+    }, [searchInput]);
+
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
         if (pageState.inputs.stops) {
@@ -153,21 +159,43 @@ const CreateConsequenceStops = ({
     };
 
     const getMarkers = () => {
-        if (pageState.inputs.stops && pageState.inputs.stops.length > 0) {
-            return pageState.inputs.stops.map((stop: Stop) => (
+        const stopsInTable =
+            pageState.inputs.stops && pageState.inputs.stops.length > 0
+                ? pageState.inputs.stops.map((stop) => (
+                      <Marker
+                          key={stop.atcoCode}
+                          longitude={Number(stop.longitude)}
+                          latitude={Number(stop.latitude)}
+                          anchor="bottom"
+                          color="blue"
+                      />
+                  ))
+                : [];
+        const stopsWithoutStopsInTable = stopOptions
+            .filter((stopToFilter: Stop) =>
+                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
+                    : stopToFilter,
+            )
+            .map((stop) => (
                 <Marker
                     key={stop.atcoCode}
                     longitude={Number(stop.longitude)}
                     latitude={Number(stop.latitude)}
                     anchor="bottom"
-                    // color="grey"
+                    color="grey"
                 />
             ));
-        }
-        return null;
+
+        const markers = [...stopsInTable, ...stopsWithoutStopsInTable];
+
+        console.log("sit", stopsInTable);
+        console.log("snit", stopsWithoutStopsInTable);
+        console.log("markers", markers);
+        return markers.length > 0 ? markers : null;
     };
 
-    console.log(getMarkers);
+    //interesting bug when I add the temple and then type temple again and add the second one it stays grey rather than being blue even tough the state updated then i add another and that is grey too
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/create-consequence-stops" method="post">
@@ -217,7 +245,6 @@ const CreateConsequenceStops = ({
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getOptionLabel}
-                            loadOptions={loadOptions}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
@@ -227,6 +254,9 @@ const CreateConsequenceStops = ({
                             inputId="stops"
                             inputValue={searchInput}
                             setSearchInput={setSearchInput}
+                            isAsync={false}
+                            isClearable
+                            options={stopOptions}
                         />
 
                         <Map
