@@ -211,9 +211,7 @@ export enum VehicleMode {
 }
 
 export enum Severity {
-    undefined = "undefined",
     unknown = "unknown",
-    noImpact = "noImpact",
     normal = "normal",
     verySlight = "verySlight",
     slight = "slight",

@@ -19,6 +19,6 @@ export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -
 
 export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm");
 
-export const getFutureDateAsString = (addDays: number, dateFormat: string) => {
+export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORMAT) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };

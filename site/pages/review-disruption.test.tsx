@@ -28,7 +28,6 @@ const previousConsequencesInformation: Consequence[] = [
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "33",
-        disruptionDirection: "inbound",
         disruptionSeverity: Severity.severe,
     },
     {
@@ -38,7 +37,6 @@ const previousConsequencesInformation: Consequence[] = [
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "50",
-        disruptionDirection: "inbound",
         disruptionSeverity: Severity.slight,
     },
     {
@@ -75,18 +73,16 @@ const previousDisruptionInformation: Disruption = {
             disruptionEndTime: "1400",
             disruptionNoEndDateTime: "",
         },
-        {
-            disruptionStartDate: "15/01/2022",
-            disruptionStartTime: "1200",
-            disruptionEndDate: "17/01/2022",
-            disruptionEndTime: "1400",
-            disruptionNoEndDateTime: "",
-        },
     ],
     publishStartDate: "13/01/2022",
     publishStartTime: "1300",
     publishEndDate: "13/01/2022",
     publishEndTime: "1400",
+    disruptionStartDate: "15/01/2022",
+    disruptionStartTime: "1200",
+    disruptionEndDate: "17/01/2022",
+    disruptionEndTime: "1400",
+    disruptionNoEndDateTime: "",
 };
 
 describe("pages", () => {

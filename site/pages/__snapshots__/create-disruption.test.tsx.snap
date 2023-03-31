@@ -1674,6 +1674,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <button
             className="govuk-button govuk-button--secondary mt-8"
             data-module="govuk-button"
+            disabled={false}
             onClick={[Function]}
           >
             Add another validity period

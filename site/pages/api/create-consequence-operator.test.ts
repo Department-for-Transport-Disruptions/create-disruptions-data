@@ -20,7 +20,6 @@ const defaultOperatorData: ConsequenceOperatorPageInputs = {
     removeFromJourneyPlanners: "no",
     disruptionDelay: "",
     disruptionSeverity: Severity.slight,
-    disruptionDirection: "allDirections",
     vehicleMode: VehicleMode.bus,
     consequenceType: "operatorWide",
 };
@@ -58,7 +57,6 @@ describe("create-consequence-operator API", () => {
             { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
             { errorMessage: "Select an operator", id: "consequenceOperator" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
-            { errorMessage: "Select a direction", id: "disruptionDirection" },
         ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);

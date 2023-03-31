@@ -6,6 +6,7 @@ import { SingleValue } from "react-select";
 import { z } from "zod";
 import { getStopLabel, getStopValue } from "./create-consequence-stops.page";
 import ErrorSummary from "../components/ErrorSummary";
+import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -394,6 +395,16 @@ const CreateConsequenceServices = ({
                             inputId="stops"
                             options={stopOptions}
                             isAsync={false}
+                        />
+
+                        <Map
+                            initialViewState={{
+                                longitude: -1.7407941662903283,
+                                latitude: 53.05975866591879,
+                                zoom: 4.5,
+                            }}
+                            style={{ width: "100%", height: 400, marginBottom: 20 }}
+                            mapStyle="mapbox://styles/mapbox/streets-v12"
                         />
 
                         <TextInput<ServicesConsequence>
