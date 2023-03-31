@@ -25,9 +25,7 @@ import {
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
 import {
-    StopsConsequence,
     Stop,
-    stopsConsequenceSchema,
     stopSchema,
     ServicesConsequence,
     Service,
@@ -120,7 +118,7 @@ const CreateConsequenceServices = ({
             setPageState({
                 ...pageState,
                 errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id)),
+                    ...pageState.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
                     ...flattenZodErrors(parsed.error),
                 ],
             });
@@ -133,7 +131,7 @@ const CreateConsequenceServices = ({
                     },
                     errors: [
                         ...pageState.errors.filter(
-                            (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
+                            (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
                         ),
                     ],
                 });
@@ -275,7 +273,7 @@ const CreateConsequenceServices = ({
                     ...pageState,
                     errors: [
                         ...pageState.errors.filter(
-                            (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
+                            (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
                         ),
                         ...flattenZodErrors(parsed.error),
                     ],
@@ -294,7 +292,7 @@ const CreateConsequenceServices = ({
                         },
                         errors: [
                             ...pageState.errors.filter(
-                                (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
+                                (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
                             ),
                         ],
                     });
@@ -415,7 +413,7 @@ const CreateConsequenceServices = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.description}
+                            schema={servicesConsequenceSchema.shape.description}
                         />
 
                         <Radios<ServicesConsequence>
@@ -435,7 +433,7 @@ const CreateConsequenceServices = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["removeFromJourneyPlanners"]}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.removeFromJourneyPlanners}
+                            schema={servicesConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
                         <TimeSelector<ServicesConsequence>
@@ -447,7 +445,7 @@ const CreateConsequenceServices = ({
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.disruptionDelay}
+                            schema={servicesConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
@@ -460,7 +458,7 @@ const CreateConsequenceServices = ({
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.disruptionSeverity}
+                            schema={servicesConsequenceSchema.shape.disruptionSeverity}
                         />
 
                         <Radios<ServicesConsequence>
@@ -505,7 +503,7 @@ const CreateConsequenceServices = ({
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
-    let inputs: PageState<Partial<StopsConsequence>> = {
+    let inputs: PageState<Partial<ServicesConsequence>> = {
         errors: [],
         inputs: {},
     };
@@ -525,7 +523,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         }
     }
 
-    inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
+    inputs = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
 
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
