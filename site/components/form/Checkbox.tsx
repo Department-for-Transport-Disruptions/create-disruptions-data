@@ -25,8 +25,6 @@ const Checkbox = <T extends object>({
     const ref = useRef<HTMLInputElement>(null);
     const inputId = kebabCase(inputName);
 
-    console.log(`${inputName}-----checkboxDetail----`, checkboxDetail);
-
     useEffect(() => {
         if (reset) {
             setErrors([]);
@@ -36,6 +34,20 @@ const Checkbox = <T extends object>({
             }
         }
     }, [reset]);
+
+    useEffect(() => {
+        checkboxDetail.forEach((checkbox) => {
+            //setErrors([]);
+
+            //console.log(`${inputName}---current ref----`, ref.current.checked);
+            if (ref.current) {
+                ref.current.checked = checkbox.checked || false;
+            }
+            //console.log(`${inputName}---after ref----`, ref.current.checked);
+
+            //if (checkbox.checked) setErrors([]);
+        });
+    }, [checkboxDetail]);
 
     useEffect(() => {
         setErrors(initialErrors);
@@ -66,7 +78,6 @@ const Checkbox = <T extends object>({
                                             );
                                             setErrors([]);
                                         }}
-                                        defaultChecked={item.checked}
                                         disabled={disabled}
                                     />
                                     <label

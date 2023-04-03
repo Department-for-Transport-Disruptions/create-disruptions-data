@@ -190,6 +190,23 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             path: ["disruptionStartDate"],
             message: "Validity periods cannot overlap",
         },
-    );
+    )
+    .refine(
+        (val) => {
+            if (val.disruptionNoEndDateTime) {
+                return !val.disruptionEndDate && !val.disruptionEndTime;
+            }
+
+            return true;
+        },
+        {
+            path: ["disruptionNoEndDateTime"],
+            message: '"No end date/time" should not be selected when a disruption date and time have been entered',
+        },
+    )
+    .refine((val) => val.disruptionEndDate || val.disruptionEndTime || val.disruptionNoEndDateTime, {
+        path: ["disruptionNoEndDateTime"],
+        message: '"No end date/time" should be selected or a disruption date and time should be entered',
+    });
 
 export type Disruption = z.infer<typeof createDisruptionSchema>;
