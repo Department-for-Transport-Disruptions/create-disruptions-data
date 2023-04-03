@@ -36,26 +36,56 @@ export const stopSchema = z.object({
     indicator: z.string().optional(),
     longitude: z.string({}),
     latitude: z.string({}),
+    serviceId: z.number({}).optional(),
 });
 
 export const stopsConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("stops", setZodDefaultError("Select a consequence type")),
-    stops: z.array(stopSchema).refine((arr) => arr && arr.length >= 1, {
-        path: ["stops"],
-        message: "At least one stop must be added",
-    }),
+    stops: z
+        .array(stopSchema)
+        .min(1, {
+            message: "At least one stop must be added",
+        })
+        .max(100, {
+            message: "Only up to 100 stops can be added",
+        }),
 });
 
 export type Stop = z.infer<typeof stopSchema>;
 
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 
+export const serviceSchema = z.object({
+    id: z.number(),
+    lineName: z.string(),
+    operatorShortName: z.string(),
+    destination: z.string(),
+    origin: z.string(),
+});
+
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
-    services: z.array(z.object({ id: z.string(), name: z.string() })),
+    stops: z
+        .array(stopSchema)
+        .max(100, {
+            message: "Only up to 100 stops can be added",
+        })
+        .optional(),
+    services: z
+        .array(serviceSchema)
+        .min(1, {
+            message: "At least one service must be added",
+        })
+        .max(100, { message: "Only up to 100 services can be added" }),
+    disruptionDirection: z.union(
+        [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
+        setZodDefaultError("Select a direction"),
+    ),
 });
+
+export type Service = z.infer<typeof serviceSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 

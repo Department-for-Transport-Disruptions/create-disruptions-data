@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > CreateConsequenceStops > should render correctly with errors and incorrect inputs 1`] = `
+exports[`pages > CreateConsequenceServices > should render correctly with errors and incorrect inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-stops"
+        action="/api/create-consequence-services"
         method="post"
       >
         <div
@@ -144,7 +144,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Stops
+                  Services
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -170,21 +170,27 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="services-input"
               >
-                Stops Impacted
+                Services impacted
               </label>
+              <div
+                className="govuk-hint"
+                id="services-hint"
+              >
+                Services
+              </div>
               <div
                 className=""
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -202,9 +208,9 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
-                        Select stops
+                        Select services
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -212,7 +218,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -220,7 +226,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -251,20 +257,174 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
+                      <span
+                        className=" css-1u9des2-indicatorSeparator"
+                      />
                       <div
                         aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
+                        className=" css-1xc3v61-indicatorContainer"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
                       >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
+                        <svg
+                          aria-hidden="true"
+                          className="css-tj5bde-Svg"
+                          focusable="false"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                className="govuk-table"
+              >
+                <thead
+                  className="govuk-table__head"
+                >
+                  <tr
+                    className="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  className="govuk-table__body"
+                >
+                  <tr
+                    className="govuk-table__row"
+                  >
+                    <td
+                      className="govuk-table__cell align-middle"
+                    >
+                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                    </td>
+                    <td
+                      className="govuk-table__cell align-middle"
+                    >
+                      <button
+                        className="govuk-link"
+                        id="remove-service-23127"
+                        onClick={[Function]}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input
+                name="service1"
+                type="hidden"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\"}"
+              />
+            </div>
+          </div>
+          <button
+            className="govuk-button govuk-button--secondary mt-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Select all stops
+          </button>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="stops-input"
+              />
+              <div
+                className="govuk-hint"
+                id="stops-hint"
+              >
+                Stops
+              </div>
+              <div
+                className=""
+              >
+                <div
+                  className=" css-b62m3t-container"
+                  id="stops"
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="css-1f43avz-a11yText-A11yText"
+                    id="react-select-dropdown-stop-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    className="css-1f43avz-a11yText-A11yText"
+                  />
+                  <div
+                    className=" css-1kxfjwu-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-1fdsijx-ValueContainer"
+                    >
+                      <div
+                        className=" css-1jqq78o-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
+                      >
+                        Select stops
+                      </div>
+                      <div
+                        className=" css-qbdosj-Input"
+                        data-value=""
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          autoCapitalize="none"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className=""
+                          disabled={false}
+                          id="dropdown-stop-value"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          role="combobox"
+                          spellCheck="false"
+                          style={
+                            {
+                              "background": 0,
+                              "border": 0,
+                              "color": "inherit",
+                              "font": "inherit",
+                              "gridArea": "1 / 2",
+                              "label": "input",
+                              "margin": 0,
+                              "minWidth": "2px",
+                              "opacity": 1,
+                              "outline": 0,
+                              "padding": 0,
+                              "width": "100%",
+                            }
+                          }
+                          tabIndex={0}
+                          type="text"
+                          value=""
                         />
                       </div>
+                    </div>
+                    <div
+                      className=" css-1hb7zxy-IndicatorsContainer"
+                    >
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -580,10 +740,96 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               </div>
             </div>
           </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-direction"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Direction of disruption
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-allDirections"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="allDirections"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-allDirections"
+                    >
+                      All directions
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-inbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="inbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-inbound"
+                    >
+                      Inbound
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-outbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="outbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-outbound"
+                    >
+                      Outbound
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <input
             name="consequenceType"
             type="hidden"
-            value="stops"
+            value="services"
           />
           <input
             name="vehicleMode"
@@ -790,7 +1036,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
 ]
 `;
 
-exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`] = `
+exports[`pages > CreateConsequenceServices > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -834,7 +1080,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-stops"
+        action="/api/create-consequence-services"
         method="post"
       >
         <div
@@ -898,7 +1144,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Stops
+                  Services
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -924,21 +1170,27 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="services-input"
               >
-                Stops Impacted
+                Services impacted
               </label>
+              <div
+                className="govuk-hint"
+                id="services-hint"
+              >
+                Services
+              </div>
               <div
                 className=""
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -956,9 +1208,9 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
-                        Select stops
+                        Select services
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -966,7 +1218,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -974,7 +1226,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1005,20 +1257,174 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
+                      <span
+                        className=" css-1u9des2-indicatorSeparator"
+                      />
                       <div
                         aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
+                        className=" css-1xc3v61-indicatorContainer"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
                       >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
+                        <svg
+                          aria-hidden="true"
+                          className="css-tj5bde-Svg"
+                          focusable="false"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                className="govuk-table"
+              >
+                <thead
+                  className="govuk-table__head"
+                >
+                  <tr
+                    className="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  className="govuk-table__body"
+                >
+                  <tr
+                    className="govuk-table__row"
+                  >
+                    <td
+                      className="govuk-table__cell align-middle"
+                    >
+                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                    </td>
+                    <td
+                      className="govuk-table__cell align-middle"
+                    >
+                      <button
+                        className="govuk-link"
+                        id="remove-service-23127"
+                        onClick={[Function]}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input
+                name="service1"
+                type="hidden"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\"}"
+              />
+            </div>
+          </div>
+          <button
+            className="govuk-button govuk-button--secondary mt-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Select all stops
+          </button>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="stops-input"
+              />
+              <div
+                className="govuk-hint"
+                id="stops-hint"
+              >
+                Stops
+              </div>
+              <div
+                className=""
+              >
+                <div
+                  className=" css-b62m3t-container"
+                  id="stops"
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="css-1f43avz-a11yText-A11yText"
+                    id="react-select-dropdown-stop-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    className="css-1f43avz-a11yText-A11yText"
+                  />
+                  <div
+                    className=" css-1kxfjwu-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-1fdsijx-ValueContainer"
+                    >
+                      <div
+                        className=" css-1jqq78o-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
+                      >
+                        Select stops
+                      </div>
+                      <div
+                        className=" css-qbdosj-Input"
+                        data-value=""
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          autoCapitalize="none"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className=""
+                          disabled={false}
+                          id="dropdown-stop-value"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          role="combobox"
+                          spellCheck="false"
+                          style={
+                            {
+                              "background": 0,
+                              "border": 0,
+                              "color": "inherit",
+                              "font": "inherit",
+                              "gridArea": "1 / 2",
+                              "label": "input",
+                              "margin": 0,
+                              "minWidth": "2px",
+                              "opacity": 1,
+                              "outline": 0,
+                              "padding": 0,
+                              "width": "100%",
+                            }
+                          }
+                          tabIndex={0}
+                          type="text"
+                          value=""
                         />
                       </div>
+                    </div>
+                    <div
+                      className=" css-1hb7zxy-IndicatorsContainer"
+                    >
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1311,10 +1717,96 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               </div>
             </div>
           </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-direction"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Direction of disruption
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-allDirections"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="allDirections"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-allDirections"
+                    >
+                      All directions
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={true}
+                      id="disruption-direction-inbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="inbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-inbound"
+                    >
+                      Inbound
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-outbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="outbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-outbound"
+                    >
+                      Outbound
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <input
             name="consequenceType"
             type="hidden"
-            value="stops"
+            value="services"
           />
           <input
             name="vehicleMode"
@@ -1521,7 +2013,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
 ]
 `;
 
-exports[`pages > CreateConsequenceStops > should render correctly with no inputs 1`] = `
+exports[`pages > CreateConsequenceServices > should render correctly with no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -1565,7 +2057,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-stops"
+        action="/api/create-consequence-services"
         method="post"
       >
         <div
@@ -1629,7 +2121,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Stops
+                  Services
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -1655,21 +2147,27 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="stops-input"
+                htmlFor="services-input"
               >
-                Stops Impacted
+                Services impacted
               </label>
+              <div
+                className="govuk-hint"
+                id="services-hint"
+              >
+                Services
+              </div>
               <div
                 className=""
               >
                 <div
                   className=" css-b62m3t-container"
-                  id="stops"
+                  id="services"
                   onKeyDown={[Function]}
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-service-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1687,9 +2185,9 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-service-placeholder"
                       >
-                        Select stops
+                        Select services
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -1697,7 +2195,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1705,7 +2203,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-service-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1736,20 +2234,148 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
+                      <span
+                        className=" css-1u9des2-indicatorSeparator"
+                      />
                       <div
                         aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
+                        className=" css-1xc3v61-indicatorContainer"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
                       >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
+                        <svg
+                          aria-hidden="true"
+                          className="css-tj5bde-Svg"
+                          focusable="false"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                className="govuk-table"
+              >
+                <thead
+                  className="govuk-table__head"
+                >
+                  <tr
+                    className="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  className="govuk-table__body"
+                />
+              </table>
+            </div>
+          </div>
+          <button
+            className="govuk-button govuk-button--secondary mt-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Select all stops
+          </button>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="stops-input"
+              />
+              <div
+                className="govuk-hint"
+                id="stops-hint"
+              >
+                Stops
+              </div>
+              <div
+                className=""
+              >
+                <div
+                  className=" css-b62m3t-container"
+                  id="stops"
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="css-1f43avz-a11yText-A11yText"
+                    id="react-select-dropdown-stop-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    className="css-1f43avz-a11yText-A11yText"
+                  />
+                  <div
+                    className=" css-1kxfjwu-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-1fdsijx-ValueContainer"
+                    >
+                      <div
+                        className=" css-1jqq78o-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
+                      >
+                        Select stops
+                      </div>
+                      <div
+                        className=" css-qbdosj-Input"
+                        data-value=""
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          autoCapitalize="none"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className=""
+                          disabled={false}
+                          id="dropdown-stop-value"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          role="combobox"
+                          spellCheck="false"
+                          style={
+                            {
+                              "background": 0,
+                              "border": 0,
+                              "color": "inherit",
+                              "font": "inherit",
+                              "gridArea": "1 / 2",
+                              "label": "input",
+                              "margin": 0,
+                              "minWidth": "2px",
+                              "opacity": 1,
+                              "outline": 0,
+                              "padding": 0,
+                              "width": "100%",
+                            }
+                          }
+                          tabIndex={0}
+                          type="text"
+                          value=""
                         />
                       </div>
+                    </div>
+                    <div
+                      className=" css-1hb7zxy-IndicatorsContainer"
+                    >
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1989,10 +2615,96 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-direction"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Direction of disruption
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-allDirections"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="allDirections"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-allDirections"
+                    >
+                      All directions
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-inbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="inbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-inbound"
+                    >
+                      Inbound
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="disruption-direction-outbound"
+                      name="disruptionDirection"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="outbound"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-direction-outbound"
+                    >
+                      Outbound
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <input
             name="consequenceType"
             type="hidden"
-            value="stops"
+            value="services"
           />
           <input
             name="vehicleMode"

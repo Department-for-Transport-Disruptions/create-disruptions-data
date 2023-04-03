@@ -34,7 +34,7 @@ exports[`SearchSelect > should render correctly with errors 1`] = `
       >
         <span
           className="css-1f43avz-a11yText-A11yText"
-          id="react-select-dropdown-test-id-live-region"
+          id="react-select-async-dropdown-test-id-live-region"
         />
         <span
           aria-atomic="false"
@@ -68,7 +68,7 @@ exports[`SearchSelect > should render correctly with errors 1`] = `
                 autoCorrect="off"
                 className=""
                 disabled={false}
-                id="dropdown-test-id-value"
+                id="async-dropdown-test-id-value"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -211,7 +211,7 @@ exports[`SearchSelect > should render correctly with no errors 1`] = `
       >
         <span
           className="css-1f43avz-a11yText-A11yText"
-          id="react-select-dropdown-test-id-live-region"
+          id="react-select-async-dropdown-test-id-live-region"
         />
         <span
           aria-atomic="false"
@@ -245,7 +245,7 @@ exports[`SearchSelect > should render correctly with no errors 1`] = `
                 autoCorrect="off"
                 className=""
                 disabled={false}
-                id="dropdown-test-id-value"
+                id="async-dropdown-test-id-value"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}

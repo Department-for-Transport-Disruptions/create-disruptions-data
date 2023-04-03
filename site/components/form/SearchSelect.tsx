@@ -1,5 +1,5 @@
 import { Fragment, ReactElement, useState } from "react";
-import { SingleValue } from "react-select";
+import Select, { ControlProps, GroupBase, OptionProps, SingleValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -10,7 +10,7 @@ interface SearchSelectProps<T> {
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
-    loadOptions: (inputValue: string) => Promise<T[]>;
+    loadOptions?: (inputValue: string) => Promise<T[]>;
     handleChange: (value: SingleValue<T>) => void;
     tableData: T[] | undefined;
     getRows: () => {
@@ -23,6 +23,9 @@ interface SearchSelectProps<T> {
     displaySize?: string;
     inputId: string;
     hint?: string;
+    isClearable?: boolean;
+    isAsync?: boolean;
+    options?: T[] | undefined;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -39,12 +42,29 @@ const SearchSelect = <T extends object>({
     inputId,
     display,
     displaySize = "s",
+    isClearable = false,
+    isAsync = true,
+    options = [],
 }: SearchSelectProps<T>): ReactElement => {
     const [searchInput, setSearchInput] = useState("");
-
     const handleInputChange = (value: string) => {
         setSearchInput(value);
     };
+
+    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>) => ({
+        fontFamily: "GDS Transport, arial, sans-serif",
+        border: "black solid 3px",
+        outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
+        color: state.isFocused ? "white" : "black",
+        marginBottom: "20px",
+        "&:hover": { borderColor: "black" },
+        width: "75%",
+    });
+
+    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>) => ({
+        color: state.isFocused ? "white" : "black",
+        backgroundColor: state.isFocused ? "#3399ff" : "white",
+    });
 
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
@@ -58,41 +78,65 @@ const SearchSelect = <T extends object>({
                     </div>
                 ) : null}
                 <FormElementWrapper errors={initialErrors} errorId={inputId} errorClass="govuk-input--error">
-                    <AsyncSelect
-                        isSearchable
-                        styles={{
-                            control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                fontFamily: "GDS Transport, arial, sans-serif",
-                                border: "black solid 3px",
-                                outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-                                color: state.isFocused ? "white" : "black",
-                                marginBottom: "20px",
-                                "&:hover": { borderColor: "black" },
-                                width: "75%",
-                            }),
-                            option: (provided, state) => ({
-                                ...provided,
-                                color: state.isFocused ? "white" : "black",
-                                backgroundColor: state.isFocused ? "#3399ff" : "white",
-                            }),
-                        }}
-                        cacheOptions
-                        defaultOptions
-                        value={selected}
-                        placeholder={placeholder}
-                        getOptionLabel={getOptionLabel}
-                        getOptionValue={getOptionValue}
-                        loadOptions={loadOptions}
-                        onInputChange={handleInputChange}
-                        inputValue={searchInput}
-                        onChange={handleChange}
-                        id={inputId}
-                        instanceId={`dropdown-${inputName}`}
-                        inputId={`dropdown-${inputName}-value`}
-                        menuPlacement="auto"
-                        menuPosition="fixed"
-                    />
+                    {isAsync ? (
+                        <AsyncSelect
+                            isSearchable
+                            styles={{
+                                control: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    ...controlStyles(state),
+                                }),
+                                option: (provided, state) => ({
+                                    ...provided,
+                                    ...optionStyles(state),
+                                }),
+                            }}
+                            cacheOptions
+                            defaultOptions
+                            value={selected}
+                            placeholder={placeholder}
+                            getOptionLabel={getOptionLabel}
+                            getOptionValue={getOptionValue}
+                            loadOptions={loadOptions}
+                            onInputChange={handleInputChange}
+                            inputValue={searchInput}
+                            onChange={handleChange}
+                            id={inputId}
+                            instanceId={`async-dropdown-${inputName}`}
+                            inputId={`async-dropdown-${inputName}-value`}
+                            menuPlacement="auto"
+                            menuPosition="fixed"
+                            isClearable={isClearable}
+                        />
+                    ) : (
+                        <Select
+                            isSearchable
+                            styles={{
+                                control: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    ...controlStyles(state),
+                                }),
+                                option: (provided, state) => ({
+                                    ...provided,
+                                    ...optionStyles(state),
+                                }),
+                            }}
+                            value={selected}
+                            placeholder={placeholder}
+                            getOptionLabel={getOptionLabel}
+                            getOptionValue={getOptionValue}
+                            options={options}
+                            onInputChange={handleInputChange}
+                            inputValue={searchInput}
+                            onChange={handleChange}
+                            id={inputId}
+                            instanceId={`dropdown-${inputName}`}
+                            inputId={`dropdown-${inputName}-value`}
+                            menuPlacement="auto"
+                            menuPosition="fixed"
+                            isClearable={isClearable}
+                        />
+                    )}
                 </FormElementWrapper>
 
                 <Table rows={tableData ? getRows() : []} />
