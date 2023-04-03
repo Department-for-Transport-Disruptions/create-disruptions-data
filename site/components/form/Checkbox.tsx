@@ -7,6 +7,7 @@ interface CheckboxProps<T> extends FormBase<T> {
     checkboxDetail: DisplayValuePair[];
     hideLegend?: boolean;
     reset?: boolean;
+    disabled?: boolean;
 }
 
 const Checkbox = <T extends object>({
@@ -18,10 +19,13 @@ const Checkbox = <T extends object>({
     initialErrors = [],
     reset,
     stateUpdater,
+    disabled,
 }: CheckboxProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
     const inputId = kebabCase(inputName);
+
+    console.log(`${inputName}-----checkboxDetail----`, checkboxDetail);
 
     useEffect(() => {
         if (reset) {
@@ -60,10 +64,10 @@ const Checkbox = <T extends object>({
                                                 e.currentTarget.checked ? e.currentTarget.value : "",
                                                 inputName,
                                             );
-
                                             setErrors([]);
                                         }}
                                         defaultChecked={item.checked}
+                                        disabled={disabled}
                                     />
                                     <label
                                         className="govuk-label govuk-checkboxes__label"
