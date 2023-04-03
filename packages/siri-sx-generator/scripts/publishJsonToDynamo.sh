@@ -4,7 +4,8 @@
 cdd_root_folder_path=$(git rev-parse --show-toplevel)
 
 stage_name=$(cat ${cdd_root_folder_path}/.sst/stage)
+num_disruptions=$1
 
 cd $cdd_root_folder_path/packages/siri-sx-generator
 
-npm run dynamo-publish-json $stage_name
+npm run dynamo-publish-json $stage_name $num_disruptions
