@@ -10,6 +10,13 @@ describe("PageNumbers", () => {
         expect(tree).toMatchSnapshot();
     });
 
+    it("should not render anything when there is one pages", () => {
+        const tree = renderer
+            .create(<PageNumbers currentPage={1} numberOfPages={1} setCurrentPage={vi.fn()} />)
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
     it("should render correctly when there are less than 10 pages", () => {
         const tree = renderer
             .create(<PageNumbers currentPage={1} numberOfPages={8} setCurrentPage={vi.fn()} />)

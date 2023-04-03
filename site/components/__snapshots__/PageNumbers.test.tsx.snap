@@ -2,6 +2,8 @@
 
 exports[`PageNumbers > should not render anything when there are no pages 1`] = `null`;
 
+exports[`PageNumbers > should not render anything when there is one pages 1`] = `null`;
+
 exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 1 1`] = `
 <nav
   className="govuk-pagination"
@@ -17,8 +19,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 1"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         1
       </a>
@@ -29,8 +36,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 2"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         2
       </a>
@@ -46,8 +58,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 10"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         10
       </a>
@@ -57,10 +74,16 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
     className="govuk-pagination__next"
   >
     <a
+      aria-label="Page 10"
       className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
       href=""
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
       rel="next"
+      role="button"
     >
       <span
         className="govuk-pagination__link-title"
@@ -95,10 +118,16 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
     className="govuk-pagination__prev"
   >
     <a
+      aria-label="Page 10"
       className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
       href=""
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
       rel="prev"
+      role="button"
     >
       <svg
         aria-hidden="true"
@@ -130,8 +159,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 1"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         1
       </a>
@@ -147,8 +181,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 4"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         4
       </a>
@@ -159,8 +198,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 5"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         5
       </a>
@@ -171,8 +215,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 6"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         6
       </a>
@@ -188,8 +237,13 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
       <a
         aria-label="Page 10"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         10
       </a>
@@ -199,10 +253,16 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
     className="govuk-pagination__next"
   >
     <a
+      aria-label="Page 10"
       className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
       href=""
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
       rel="next"
+      role="button"
     >
       <span
         className="govuk-pagination__link-title"
@@ -243,10 +303,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 1"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         1
+         
       </a>
     </li>
     <li
@@ -255,10 +321,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 2"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         2
+         
       </a>
     </li>
     <li
@@ -267,10 +339,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 3"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         3
+         
       </a>
     </li>
     <li
@@ -279,10 +357,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 4"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         4
+         
       </a>
     </li>
     <li
@@ -291,10 +375,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 5"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         5
+         
       </a>
     </li>
     <li
@@ -303,10 +393,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 6"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         6
+         
       </a>
     </li>
     <li
@@ -315,10 +411,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 7"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         7
+         
       </a>
     </li>
     <li
@@ -327,10 +429,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
       <a
         aria-label="Page 8"
         className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
         href="#"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
       >
         8
+         
       </a>
     </li>
   </ul>
@@ -338,10 +446,16 @@ exports[`PageNumbers > should render correctly when there are less than 10 pages
     className="govuk-pagination__next"
   >
     <a
+      aria-label="Page 8"
       className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
       href=""
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
       rel="next"
+      role="button"
     >
       <span
         className="govuk-pagination__link-title"

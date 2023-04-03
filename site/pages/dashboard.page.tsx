@@ -61,7 +61,7 @@ export const sortDisruptionsByStartDate = (disruptions: DashboardDisruption[]): 
     });
 };
 
-export const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisruption[]): DashboardDisruption[] => {
+const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisruption[]): DashboardDisruption[] => {
     const startPoint = (pageNumber - 1) * 10;
     const endPoint = pageNumber * 10;
     return disruptions.slice(startPoint, endPoint);

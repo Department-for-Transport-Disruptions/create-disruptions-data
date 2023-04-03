@@ -185,28 +185,6 @@ exports[`pages > dashboard > should render correctly when there are both live an
               </tr>
             </tbody>
           </table>
-          <nav
-            className="govuk-pagination"
-            role="navigation"
-          >
-            <ul
-              className="govuk-pagination__list"
-            >
-               
-              <li
-                className="govuk-pagination__item govuk-pagination__item--current"
-              >
-                <a
-                  aria-label="Page 1"
-                  className="govuk-link govuk-pagination__link"
-                  href="#"
-                  onClick={[Function]}
-                >
-                  1
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -326,28 +304,6 @@ exports[`pages > dashboard > should render correctly when there are both live an
               </tr>
             </tbody>
           </table>
-          <nav
-            className="govuk-pagination"
-            role="navigation"
-          >
-            <ul
-              className="govuk-pagination__list"
-            >
-               
-              <li
-                className="govuk-pagination__item govuk-pagination__item--current"
-              >
-                <a
-                  aria-label="Page 1"
-                  className="govuk-link govuk-pagination__link"
-                  href="#"
-                  onClick={[Function]}
-                >
-                  1
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
       <a
@@ -1321,28 +1277,6 @@ exports[`pages > dashboard > should render correctly when there are only live di
               </tr>
             </tbody>
           </table>
-          <nav
-            className="govuk-pagination"
-            role="navigation"
-          >
-            <ul
-              className="govuk-pagination__list"
-            >
-               
-              <li
-                className="govuk-pagination__item govuk-pagination__item--current"
-              >
-                <a
-                  aria-label="Page 1"
-                  className="govuk-link govuk-pagination__link"
-                  href="#"
-                  onClick={[Function]}
-                >
-                  1
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
@@ -1949,28 +1883,6 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
               </tr>
             </tbody>
           </table>
-          <nav
-            className="govuk-pagination"
-            role="navigation"
-          >
-            <ul
-              className="govuk-pagination__list"
-            >
-               
-              <li
-                className="govuk-pagination__item govuk-pagination__item--current"
-              >
-                <a
-                  aria-label="Page 1"
-                  className="govuk-link govuk-pagination__link"
-                  href="#"
-                  onClick={[Function]}
-                >
-                  1
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
       <a
