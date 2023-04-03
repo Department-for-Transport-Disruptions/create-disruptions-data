@@ -10,6 +10,57 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 
+export const baseDisruptionJson: PtSituationElement = {
+    CreationTime: "2023-01-01T01:10:00Z",
+    ParticipantRef: "ref",
+    SituationNumber: "aaaaa-bbbbb-ccccc",
+    Version: 1,
+    Source: {
+        SourceType: SourceType.feed,
+        TimeOfCommunication: "2023-01-01T01:10:00Z",
+    },
+    Progress: Progress.open,
+    ValidityPeriod: [
+        {
+            StartTime: "2023-03-03T01:10:00Z",
+        },
+    ],
+    PublicationWindow: {
+        StartTime: "2023-03-02T10:10:00Z",
+        EndTime: "2023-03-09T10:10:00Z",
+    },
+    ReasonType: "PersonnelReason",
+    PersonnelReason: PersonnelReason.staffSickness,
+    Planned: true,
+    Summary: "Disruption Summary",
+    Description: "Disruption Description",
+    Consequences: {
+        Consequence: [
+            {
+                Condition: "unknown",
+                Severity: Severity.verySlight,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.bus,
+                            AllLines: "",
+                        },
+                    },
+                },
+                Advice: {
+                    Details: "Some Advice",
+                },
+                Blocking: {
+                    JourneyPlanner: false,
+                },
+                Delays: {
+                    Delay: "PT10M",
+                },
+            },
+        ],
+    },
+};
+
 export const testDisruptionsJson: PtSituationElement[] = [
     {
         CreationTime: "2023-01-01T01:10:00Z",
