@@ -22,6 +22,7 @@ import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
 import {
@@ -33,22 +34,40 @@ import {
     servicesConsequenceSchema,
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
+import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
 import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
 
+const fetchStops = async (serviceId: number): Promise<Stop[]> => {
+    if (serviceId) {
+        const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
+        const res = await fetch(searchApiUrl, { method: "GET" });
+        const data: Stop[] = z.array(stopSchema).parse(await res.json());
+
+        if (data) {
+            return data.map((stop) => ({
+                ...stop,
+                ...(serviceId && { serviceId }),
+            }));
+        }
+    }
+
+    return [];
+};
+
 const CreateConsequenceServices = ({
-    inputs,
+    initialPageState,
     previousConsequenceInformation,
-    services,
+    initialServices,
+    initialStops,
 }: CreateConsequenceProps<ServicesConsequence>): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(inputs);
+    const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(initialPageState);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
-    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [stopOptions, setStopOptions] = useState<Stop[]>(initialStops || []);
     const [selectAll, setSelectAll] = useState<boolean>(true);
 
     const handleStopChange = (value: SingleValue<Stop>) => {
@@ -123,7 +142,7 @@ const CreateConsequenceServices = ({
                 ],
             });
         } else {
-            if (stopToAdd && selectedService) {
+            if (stopToAdd) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
@@ -158,24 +177,13 @@ const CreateConsequenceServices = ({
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (selectedService) {
-                const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/stops`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    const dataWithServiceId = data.map((stop) => ({
-                        ...stop,
-                        ...(selectedService.id && { serviceId: selectedService.id }),
-                    }));
-                    setStopOptions(sortStops([...stopOptions, ...dataWithServiceId]));
-                }
-            }
-        };
+        if (selectedService) {
+            fetchStops(selectedService.id)
+                .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
+                // eslint-disable-next-line no-console
+                .catch(console.error);
+        }
 
-        fetchData()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedService]);
 
@@ -279,7 +287,7 @@ const CreateConsequenceServices = ({
                     ],
                 });
             } else {
-                if (stopOptions.length > 0 && selectedService && selectAll) {
+                if (stopOptions.length > 0 && selectAll) {
                     setPageState({
                         inputs: {
                             ...pageState.inputs,
@@ -288,7 +296,7 @@ const CreateConsequenceServices = ({
                                     (value, index, self) =>
                                         index === self.findIndex((s) => s.atcoCode === value.atcoCode),
                                 ),
-                            ).slice(0, 100),
+                            ),
                         },
                         errors: [
                             ...pageState.errors.filter(
@@ -306,7 +314,7 @@ const CreateConsequenceServices = ({
         <BaseLayout title={title} description={description}>
             <form action="/api/create-consequence-services" method="post">
                 <>
-                    <ErrorSummary errors={inputs.errors} />
+                    <ErrorSummary errors={initialPageState.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -352,7 +360,7 @@ const CreateConsequenceServices = ({
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={services}
+                            options={initialServices}
                             handleChange={handleServiceChange}
                             tableData={pageState.inputs.services}
                             getRows={getServiceRows}
@@ -502,38 +510,64 @@ const CreateConsequenceServices = ({
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
-    let inputs: PageState<Partial<ServicesConsequence>> = {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: CreateConsequenceProps<ServicesConsequence> } | void> => {
+    let pageState: PageState<Partial<ServicesConsequence>> = {
         errors: [],
         inputs: {},
     };
-
-    let previousConsequenceInformationData = {};
 
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
-    if (typeCookie) {
-        const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
-
-        if (previousConsequenceInformation.success) {
-            previousConsequenceInformationData = previousConsequenceInformation.data;
+    if (!typeCookie && ctx.res) {
+        if (ctx.res) {
+            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
         }
+
+        return;
     }
 
-    inputs = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
+    const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+
+    if (!previousConsequenceInformation.success) {
+        if (ctx.res) {
+            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
+        }
+
+        return;
+    }
+
+    const previousConsequenceInformationData = previousConsequenceInformation.data;
+
+    pageState = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
 
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
     const res = await fetch(searchApiUrl, { method: "GET" });
     const parse = z.array(serviceSchema).safeParse(await res.json());
+
     if (parse.success) {
         services = parse.data;
     }
+
+    let stops: Stop[] = [];
+
+    if (pageState.inputs.services) {
+        const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
+        stops = (await Promise.all(stopPromises)).flat();
+    }
+
     return {
-        props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData, services },
+        props: {
+            initialPageState: pageState,
+            previousConsequenceInformation: previousConsequenceInformationData,
+            initialServices: services,
+            initialStops: stops,
+        },
     };
 };
 

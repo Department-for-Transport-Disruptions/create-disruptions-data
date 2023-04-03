@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    ADD_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -31,7 +31,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
             );
             destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_INFO, res);
-            redirectTo(res, ADD_CONSEQUENCE_PAGE_PATH);
+            redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
             return;
         }
 
@@ -52,7 +52,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 redirectTo(res, CREATE_CONSEQUENCE_SERVICES_PATH);
                 return;
             default:
-                redirectTo(res, ADD_CONSEQUENCE_PAGE_PATH);
+                redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
                 return;
         }
     } catch (e) {

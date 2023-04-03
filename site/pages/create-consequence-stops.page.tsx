@@ -22,21 +22,22 @@ import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../constants";
 import { CreateConsequenceProps, PageState } from "../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies } from "../utils";
+import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
 import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
 const CreateConsequenceStops = ({
-    inputs,
+    initialPageState,
     previousConsequenceInformation,
 }: CreateConsequenceProps<StopsConsequence>): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(inputs);
+    const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(initialPageState);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
 
@@ -138,7 +139,7 @@ const CreateConsequenceStops = ({
         <BaseLayout title={title} description={description}>
             <form action="/api/create-consequence-stops" method="post">
                 <>
-                    <ErrorSummary errors={inputs.errors} />
+                    <ErrorSummary errors={initialPageState.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -276,31 +277,41 @@ const CreateConsequenceStops = ({
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
-    let inputs: PageState<Partial<StopsConsequence>> = {
+export const getServerSideProps = (
+    ctx: NextPageContext,
+): { props: CreateConsequenceProps<StopsConsequence> } | void => {
+    let pageState: PageState<Partial<StopsConsequence>> = {
         errors: [],
         inputs: {},
     };
-
-    let previousConsequenceInformationData = {};
 
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
-    if (typeCookie) {
-        const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
-
-        if (previousConsequenceInformation.success) {
-            previousConsequenceInformationData = previousConsequenceInformation.data;
+    if (!typeCookie && ctx.res) {
+        if (ctx.res) {
+            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
         }
+
+        return;
     }
 
-    inputs = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
+    const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+
+    if (!previousConsequenceInformation.success) {
+        if (ctx.res) {
+            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
+        }
+
+        return;
+    }
+
+    pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     return {
-        props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData },
+        props: { initialPageState: pageState, previousConsequenceInformation: previousConsequenceInformation.data },
     };
 };
 

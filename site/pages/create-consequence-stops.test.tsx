@@ -75,7 +75,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateConsequenceStops
-                        inputs={blankInputs}
+                        initialPageState={blankInputs}
                         previousConsequenceInformation={previousConsequenceInformation}
                     />,
                 )
@@ -87,7 +87,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateConsequenceStops
-                        inputs={withInputs}
+                        initialPageState={withInputs}
                         previousConsequenceInformation={previousConsequenceInformation}
                     />,
                 )
@@ -99,7 +99,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateConsequenceStops
-                        inputs={withInputsAndErrors}
+                        initialPageState={withInputsAndErrors}
                         previousConsequenceInformation={previousConsequenceInformation}
                     />,
                 )

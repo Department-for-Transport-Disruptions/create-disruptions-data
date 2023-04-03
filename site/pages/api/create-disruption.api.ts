@@ -3,7 +3,7 @@ import {
     COOKIES_DISRUPTION_INFO,
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
-    ADD_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
@@ -63,7 +63,7 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
         setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(validatedBody.data), res);
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        redirectTo(res, ADD_CONSEQUENCE_PAGE_PATH);
+        redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
