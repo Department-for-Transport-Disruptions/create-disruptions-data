@@ -170,8 +170,11 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             for (let i = 0; i < combinedValidity.length; i++) {
                 for (let j = i + 1; j < combinedValidity.length; j++) {
                     if (
-                        /* Equivalent checkOverlap(firstStartDate, firstEndDate, secondStartDate, secondEndDate) 
-                           The ternary operator is to accommodate when "No end date/time" is selected for a validity */
+                        /* Equivalent to checkOverlap(firstStartDate: dayjs.Dayjs,
+                         *                             firstEndDate: dayjs.Dayjs,
+                         *                             secondStartDate: dayjs.Dayjs,
+                         *                             secondEndDate: dayjs.Dayjs)
+                         *  The ternary operator is to accommodate when "No end date/time" is selected for a validity */
                         checkOverlap(
                             getDatetimeFromDateAndTime(
                                 combinedValidity[i].disruptionStartDate,

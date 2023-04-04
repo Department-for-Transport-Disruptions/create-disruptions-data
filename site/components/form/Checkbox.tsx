@@ -60,6 +60,7 @@ const Checkbox = <T extends object>({
                                                 e.currentTarget.checked ? e.currentTarget.value : "",
                                                 inputName,
                                             );
+
                                             setErrors([]);
                                         }}
                                         defaultChecked={item.checked}
