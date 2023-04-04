@@ -8,7 +8,7 @@ interface MapProps<T> {
     mapStyle: string;
     selected?: T[];
     searched?: T[];
-    inputId: keyof T;
+    inputId?: keyof T;
 }
 
 const Map = <T extends object>({
@@ -21,7 +21,7 @@ const Map = <T extends object>({
 }: MapProps<T>): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
-    const getMarkers = (selected: T[], searched: T[]): ReactNode => {
+    const getMarkers = (selected: T[], searched: T[], inputId: keyof T): ReactNode => {
         const inTable =
             selected && selected.length > 0
                 ? selected.map((s) => (
@@ -61,7 +61,7 @@ const Map = <T extends object>({
             mapStyle={mapStyle}
             mapboxAccessToken={mapboxAccessToken}
         >
-            {selected && searched ? getMarkers(selected, searched) : null}
+            {inputId && selected && searched ? getMarkers(selected, searched, inputId) : null}
         </MapBox>
     ) : null;
 };
