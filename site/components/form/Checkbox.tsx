@@ -36,20 +36,6 @@ const Checkbox = <T extends object>({
     }, [reset]);
 
     useEffect(() => {
-        checkboxDetail.forEach((checkbox) => {
-            //setErrors([]);
-
-            //console.log(`${inputName}---current ref----`, ref.current.checked);
-            if (ref.current) {
-                ref.current.checked = checkbox.checked || false;
-            }
-            //console.log(`${inputName}---after ref----`, ref.current.checked);
-
-            //if (checkbox.checked) setErrors([]);
-        });
-    }, [checkboxDetail]);
-
-    useEffect(() => {
         setErrors(initialErrors);
     }, [initialErrors]);
 

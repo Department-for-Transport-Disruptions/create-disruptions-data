@@ -207,6 +207,44 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
     .refine((val) => val.disruptionEndDate || val.disruptionEndTime || val.disruptionNoEndDateTime, {
         path: ["disruptionNoEndDateTime"],
         message: '"No end date/time" should be selected or a disruption date and time should be entered',
+    })
+    .superRefine((val, ctx) => {
+        const {
+            validity = [],
+            disruptionStartDate,
+            disruptionStartTime,
+            disruptionEndDate,
+            disruptionEndTime,
+            publishStartDate,
+            publishStartTime,
+            publishEndDate,
+            publishEndTime,
+        } = val;
+
+        const combinedValidity = [
+            ...validity,
+            {
+                disruptionStartDate,
+                disruptionStartTime,
+                disruptionEndDate,
+                disruptionEndTime,
+            },
+        ];
+        if (val.disruptionStartDate) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `No duplicates allowed.`,
+                path: ["disruptionStartDate"],
+            });
+        }
+
+        if (val.disruptionStartTime) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `No duplicates allowed222.`,
+                path: ["disruptionStartTime"],
+            });
+        }
     });
 
 export type Disruption = z.infer<typeof createDisruptionSchema>;
