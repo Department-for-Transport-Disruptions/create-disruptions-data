@@ -370,7 +370,6 @@ const CreateConsequenceServices = ({
                             displaySize="l"
                             inputId="services"
                             isClearable
-                            isAsync={false}
                         />
 
                         <button
@@ -396,7 +395,6 @@ const CreateConsequenceServices = ({
                             displaySize="l"
                             inputId="stops"
                             options={stopOptions}
-                            isAsync={false}
                         />
 
                         <Map

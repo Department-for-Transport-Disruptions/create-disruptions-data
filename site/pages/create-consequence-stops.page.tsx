@@ -1,4 +1,4 @@
-import { uniqueId } from "lodash";
+import uniqueId from "lodash/uniqueId";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -66,9 +66,7 @@ const CreateConsequenceStops = ({
             }
         };
 
-        // call the function
         loadOptions()
-            // make sure to catch any error
             // eslint-disable-next-line no-console
             .catch(console.error);
     }, [searchInput]);
@@ -179,7 +177,7 @@ const CreateConsequenceStops = ({
 
         const markers = [...stopsInTable, ...stopsWithoutStopsInTable];
 
-        return markers.length > 0 ? markers : null;
+        return markers.length > 0 ? markers.splice(100) : null;
     };
 
     return (
@@ -240,12 +238,11 @@ const CreateConsequenceStops = ({
                             inputId="stops"
                             inputValue={searchInput}
                             setSearchInput={setSearchInput}
-                            isAsync={false}
                             isClearable
                             options={stopOptions}
                         />
 
-                        <Map
+                        <Map<Stop>
                             initialViewState={{
                                 longitude: -1.7407941662903283,
                                 latitude: 53.05975866591879,
@@ -253,10 +250,18 @@ const CreateConsequenceStops = ({
                             }}
                             style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                        >
-                            {getMarkers()}
-                        </Map>
-
+                            selected={
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? pageState.inputs.stops
+                                    : []
+                            }
+                            searched={stopOptions.filter((stopToFilter: Stop) =>
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
+                                    : stopToFilter,
+                            )}
+                            inputId="atcoCode"
+                        />
                         <TextInput<StopsConsequence>
                             display="Consequence description"
                             displaySize="l"
