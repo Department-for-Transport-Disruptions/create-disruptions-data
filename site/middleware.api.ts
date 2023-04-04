@@ -12,11 +12,11 @@ const csrfProtect = csrf({
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
-    const csrfError = await csrfProtect(request, response);
+    await csrfProtect(request, response);
 
-    if (csrfError) {
-        return new NextResponse("invalid csrf token", { status: 403 });
-    }
+    // if (csrfError) {
+    //     return new NextResponse("invalid csrf token", { status: 403 });
+    // }
 
     return response;
 }

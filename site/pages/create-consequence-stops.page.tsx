@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
@@ -40,6 +40,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
+    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [searchInput, setSearchInput] = useState("");
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -48,17 +50,24 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         setSelected(null);
     };
 
-    const loadOptions = async (inputValue: string) => {
-        if (inputValue.length >= 3) {
-            const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
-            const res = await fetch(searchApiUrl, { method: "GET" });
-            const data: Stop[] = z.array(stopSchema).parse(await res.json());
-            if (data) {
-                return data;
+    useEffect(() => {
+        const loadOptions = async () => {
+            if (searchInput.length >= 3) {
+                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${searchInput}`;
+                const res = await fetch(searchApiUrl, { method: "GET" });
+                const data: Stop[] = z.array(stopSchema).parse(await res.json());
+                if (data) {
+                    setStopOptions(data);
+                }
+            } else {
+                setStopOptions([]);
             }
-        }
-        return [];
-    };
+        };
+
+        loadOptions()
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+    }, [searchInput]);
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
@@ -184,7 +193,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getStopLabel}
-                            loadOptions={loadOptions}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
@@ -192,6 +200,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             display="Stops Impacted"
                             displaySize="l"
                             inputId="stops"
+                            inputValue={searchInput}
+                            setSearchInput={setSearchInput}
+                            isClearable
+                            options={stopOptions}
                         />
 
                         <Map
@@ -202,8 +214,17 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             }}
                             style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
+                            selected={
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? pageState.inputs.stops
+                                    : []
+                            }
+                            searched={stopOptions.filter((stopToFilter: Stop) =>
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
+                                    : stopToFilter,
+                            )}
                         />
-
                         <TextInput<StopsConsequence>
                             display="Consequence description"
                             displaySize="l"
