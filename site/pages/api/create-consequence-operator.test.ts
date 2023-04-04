@@ -9,11 +9,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
+import { OperatorConsequence } from "../../schemas/consequence.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { ConsequenceOperatorPageInputs } from "../create-consequence-operator.page";
 
-const defaultOperatorData: ConsequenceOperatorPageInputs = {
+const defaultOperatorData: OperatorConsequence = {
     consequenceOperator: "FMAN",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -69,7 +69,7 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect back to /create-consequence-operator when description is too long", () => {
-        const operatorData: ConsequenceOperatorPageInputs = {
+        const operatorData: OperatorConsequence = {
             ...defaultOperatorData,
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -90,7 +90,7 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect back to /create-consequence-operator when invalid time is passed", () => {
-        const operatorData: ConsequenceOperatorPageInputs = {
+        const operatorData: OperatorConsequence = {
             ...defaultOperatorData,
             disruptionDelay: "7280",
         };

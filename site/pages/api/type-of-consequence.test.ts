@@ -62,8 +62,8 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "consequenceType" },
             { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
@@ -88,8 +88,8 @@ describe("addConsequence", () => {
         };
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "consequenceType" },
             { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });

@@ -9,11 +9,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
+import { NetworkConsequence } from "../../schemas/consequence.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { ConsequenceNetworkPageInputs } from "../create-consequence-network.page";
 
-const defaultNetworkData: ConsequenceNetworkPageInputs = {
+const defaultNetworkData: NetworkConsequence = {
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
@@ -67,7 +67,7 @@ describe("create-consequence-network API", () => {
     });
 
     it("should redirect back to /create-consequence-network when description is too long", () => {
-        const networkData: ConsequenceNetworkPageInputs = {
+        const networkData: NetworkConsequence = {
             ...defaultNetworkData,
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -88,7 +88,7 @@ describe("create-consequence-network API", () => {
     });
 
     it("should redirect back to /create-consequence-network when invalid time is passed", () => {
-        const networkData: ConsequenceNetworkPageInputs = {
+        const networkData: NetworkConsequence = {
             ...defaultNetworkData,
             disruptionDelay: "7280",
         };

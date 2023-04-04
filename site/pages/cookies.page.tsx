@@ -2,10 +2,9 @@ import Link from "next/link";
 import { NextPageContext } from "next/types";
 import { parseCookies } from "nookies";
 import { ReactElement } from "react";
-import CsrfForm from "../components/CsrfForm";
+import CsrfForm from "../components/form/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_POLICY_COOKIE } from "../constants";
-import { getCsrfToken } from "../utils";
 
 const title = "Cookies - Create Transport Disruption Data Service";
 const description = "Cookies Preferences page of the Create Transport Disruption Data Service";
@@ -13,7 +12,7 @@ const description = "Cookies Preferences page of the Create Transport Disruption
 export interface CookiePreferencesProps {
     settingsSaved: boolean;
     trackingDefaultValue: "on" | "off";
-    csrfToken: string;
+    csrfToken?: string;
 }
 
 const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePreferencesProps): ReactElement => (
@@ -129,7 +128,6 @@ const Cookies = ({ settingsSaved, trackingDefaultValue, csrfToken }: CookiePrefe
 );
 
 export const getServerSideProps = (ctx: NextPageContext): { props: CookiePreferencesProps } => {
-    const csrfToken = getCsrfToken(ctx);
     const cookies = parseCookies(ctx);
 
     const settingsSaved = ctx.query?.settingsSaved === "true";
@@ -139,7 +137,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: CookiePrefere
 
     const trackingDefaultValue = tracking ? "on" : "off";
 
-    return { props: { settingsSaved, trackingDefaultValue, csrfToken } };
+    return { props: { settingsSaved, trackingDefaultValue } };
 };
 
 export default Cookies;
