@@ -25,27 +25,23 @@ describe("date/time tests", () => {
             getDatetimeFromDateAndTime("04/04/2019", "1000"),
             getDatetimeFromDateAndTime("07/04/2019", "1000"),
             getDatetimeFromDateAndTime("03/04/2019", "1000"),
-            getDatetimeFromDateAndTime("12/04/2019", "1000"),
         ],
         [
             getDatetimeFromDateAndTime("04/04/2019", "1000"),
             getDatetimeFromDateAndTime("07/04/2019", "1000"),
             getDatetimeFromDateAndTime("03/04/2019", "1000"),
-            getDatetimeFromDateAndTime("05/04/2019", "1000"),
         ],
         [
             getDatetimeFromDateAndTime("04/04/2019", "1000"),
             getDatetimeFromDateAndTime("07/04/2019", "1000"),
             getDatetimeFromDateAndTime("05/04/2019", "1000"),
-            getDatetimeFromDateAndTime("10/04/2019", "1000"),
         ],
         [
             getDatetimeFromDateAndTime("02/04/2019", "1000"),
             getDatetimeFromDateAndTime("15/04/2019", "1000"),
             getDatetimeFromDateAndTime("05/04/2019", "1000"),
-            getDatetimeFromDateAndTime("10/04/2019", "1000"),
         ],
-    ])("should confirm that the dates overlap", (firstStartDate, firstEndDate, secondStartDate, secondEndDate) => {
-        expect(checkOverlap(firstStartDate, firstEndDate, secondStartDate, secondEndDate)).toEqual(true);
+    ])("should confirm that the dates overlap", (firstStartDate, firstEndDate, secondStartDate) => {
+        expect(checkOverlap(firstStartDate, firstEndDate, secondStartDate)).toEqual(true);
     });
 });
