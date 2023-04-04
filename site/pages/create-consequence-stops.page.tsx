@@ -206,7 +206,7 @@ const CreateConsequenceStops = ({
                             options={stopOptions}
                         />
 
-                        <Map<Stop>
+                        <Map
                             initialViewState={{
                                 longitude: -1.7407941662903283,
                                 latitude: 53.05975866591879,
@@ -224,7 +224,6 @@ const CreateConsequenceStops = ({
                                     ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
                                     : stopToFilter,
                             )}
-                            inputId="atcoCode"
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"

@@ -1,49 +1,43 @@
 import uniqueId from "lodash/uniqueId";
 import { CSSProperties, ReactElement, ReactNode } from "react";
 import MapBox, { Marker, ViewState } from "react-map-gl";
+import { Stop } from "../../schemas/consequence.schema";
 
-interface MapProps<T> {
+interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selected?: T[];
-    searched?: T[];
-    inputId?: keyof T;
+    selected?: Stop[];
+    searched?: Stop[];
+    inputId?: keyof Stop;
 }
 
-const Map = <T extends object>({
-    initialViewState,
-    style,
-    mapStyle,
-    selected,
-    searched,
-    inputId,
-}: MapProps<T>): ReactElement | null => {
+const Map = ({ initialViewState, style, mapStyle, selected, searched }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
-    const getMarkers = (selected: T[], searched: T[], inputId: keyof T): ReactNode => {
+    const getMarkers = (selected: Stop[], searched: Stop[]): ReactNode => {
         const inTable =
             selected && selected.length > 0
-                ? selected.map((s) => (
+                ? selected.map((s: Stop) => (
                       <Marker
-                          key={uniqueId(s[inputId])}
-                          longitude={Number(s["longitude" as keyof T])}
-                          latitude={Number(s["latitude" as keyof T])}
+                          key={uniqueId(s.atcoCode)}
+                          longitude={Number(s.longitude)}
+                          latitude={Number(s.latitude)}
                           anchor="bottom"
                       />
                   ))
                 : [];
         const notInTable = searched
-            .filter((sToFilter: T) =>
+            .filter((sToFilter: Stop) =>
                 selected && selected.length > 0
-                    ? !selected.map((s) => s[inputId]).includes(sToFilter[inputId])
+                    ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                     : sToFilter,
             )
             .map((s) => (
                 <Marker
-                    key={uniqueId(s[inputId])}
-                    longitude={Number(s["longitude" as keyof T])}
-                    latitude={Number(s["latitude" as keyof T])}
+                    key={uniqueId(s.atcoCode)}
+                    longitude={Number(s.longitude)}
+                    latitude={Number(s.latitude)}
                     anchor="bottom"
                     color="grey"
                 />
@@ -61,7 +55,7 @@ const Map = <T extends object>({
             mapStyle={mapStyle}
             mapboxAccessToken={mapboxAccessToken}
         >
-            {inputId && selected && searched ? getMarkers(selected, searched, inputId) : null}
+            {selected && searched ? getMarkers(selected, searched) : null}
         </MapBox>
     ) : null;
 };
