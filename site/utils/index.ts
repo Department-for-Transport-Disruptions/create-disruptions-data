@@ -6,7 +6,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDate } from "./dates";
-import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
+import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
 
 export const sortDisruptionsByStartDate = (disruptions: PtSituationElement[]): PtSituationElement[] => {
     const sortEarliestDate = (firstDate: string, secondDate: string) =>
@@ -53,7 +53,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 };
 
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
-    (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
+    ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 

@@ -50,9 +50,14 @@ exports[`pages > feedback > should render correctly after feedback has been succ
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback?_csrf="
+            action="/api/feedback"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <div
               className="block p-5 mb-12.5 border-4 border-govGreen"
             >
@@ -491,9 +496,14 @@ exports[`pages > feedback > should render correctly after the user tries to subm
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback?_csrf="
+            action="/api/feedback"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <div
               className="block p-5 mb-12.5 border-4 border-govRed"
             >
@@ -932,9 +942,14 @@ exports[`pages > feedback > should render correctly when the page is first visit
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback?_csrf="
+            action="/api/feedback"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <h1
               className="govuk-heading-l"
             >

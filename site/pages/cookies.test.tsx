@@ -25,7 +25,6 @@ describe("pages", () => {
                 props: {
                     settingsSaved: false,
                     trackingDefaultValue: "off",
-                    csrfToken: "",
                 },
             };
             const props = getServerSideProps(ctx);
@@ -46,7 +45,6 @@ describe("pages", () => {
                 props: {
                     settingsSaved: true,
                     trackingDefaultValue: "on",
-                    csrfToken: "",
                 },
             };
             const props = getServerSideProps(ctx);

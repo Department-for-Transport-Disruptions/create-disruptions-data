@@ -14,12 +14,6 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    loadOptions={() =>
-                        new Promise(() => [
-                            { value: "blue", label: "Blue" },
-                            { value: "purple", label: "Purple" },
-                        ])
-                    }
                     handleChange={() => null}
                     tableData={[]}
                     getRows={() => {
@@ -49,12 +43,6 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    loadOptions={() =>
-                        new Promise(() => [
-                            { value: "blue", label: "Blue" },
-                            { value: "purple", label: "Purple" },
-                        ])
-                    }
                     handleChange={() => null}
                     tableData={[]}
                     getRows={() => {

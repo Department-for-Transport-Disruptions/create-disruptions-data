@@ -109,9 +109,14 @@ exports[`pages > cookies > should display a confirmation box when the user saves
               We use 2 types of cookie. You can choose which cookies you're happy for us to use.
             </p>
             <form
-              action="/api/cookies?_csrf="
+              action="/api/cookies"
               method="post"
             >
+              <input
+                name="csrf_token"
+                type="hidden"
+                value=""
+              />
               <div
                 className="govuk-form-group"
               >

@@ -3,10 +3,8 @@ import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes
 import { describe, it, expect } from "vitest";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
-import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-operator.page";
-import { DisruptionPageInputs } from "../pages/create-disruption.page";
-import { operatorConsequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema } from "../schemas/create-disruption.schema";
+import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
+import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
 import { databaseData } from "../testData/mockData";
 import { getPageStateFromCookies, sortDisruptionsByStartDate, splitCamelCaseToString } from ".";
 
@@ -26,7 +24,7 @@ describe("page state from cookies test", () => {
         const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
-        const disruptionData: DisruptionPageInputs = {
+        const disruptionData: Disruption = {
             disruptionType: "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -52,7 +50,7 @@ describe("page state from cookies test", () => {
     });
 
     it("should parse to expected type for ConsequenceOperatorPageInputs", () => {
-        const operatorData: ConsequenceOperatorPageInputs = {
+        const operatorData: OperatorConsequence = {
             consequenceOperator: "FMAN",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

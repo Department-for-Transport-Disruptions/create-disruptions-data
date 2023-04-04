@@ -47,6 +47,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
         action="/api/create-consequence-operator"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -629,6 +634,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
         action="/api/create-consequence-operator"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >

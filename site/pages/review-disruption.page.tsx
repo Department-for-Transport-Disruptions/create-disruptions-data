@@ -3,6 +3,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef } from "react";
+import CsrfForm from "../components/form/CsrfForm";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import {
@@ -27,6 +28,7 @@ interface ReviewDisruptionProps {
     previousDisruptionInformation: Disruption;
     previousConsequencesInformation: Consequence[];
     previousSocialMediaPosts: SocialMediaPost[];
+    csrfToken?: string;
 }
 
 const createChangeLink = (key: string, href: string) => (
@@ -52,6 +54,7 @@ const ReviewDisruption = ({
     previousDisruptionInformation,
     previousConsequencesInformation,
     previousSocialMediaPosts,
+    csrfToken,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
 
@@ -87,7 +90,7 @@ const ReviewDisruption = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/publish" method="post">
+            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
@@ -371,7 +374,7 @@ const ReviewDisruption = ({
                         </button>
                     </div>
                 </>
-            </form>
+            </CsrfForm>
         </BaseLayout>
     );
 };

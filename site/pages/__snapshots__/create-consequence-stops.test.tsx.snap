@@ -47,6 +47,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           aria-labelledby="error-summary-title"
           className="govuk-error-summary"
@@ -184,7 +189,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -202,7 +207,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -212,7 +217,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -220,7 +225,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -251,20 +256,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -349,12 +340,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
               />
             </div>
           </div>
@@ -837,6 +828,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -938,7 +934,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -956,7 +952,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -966,7 +962,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -974,7 +970,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1005,20 +1001,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1103,12 +1085,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
               />
             </div>
           </div>
@@ -1568,6 +1550,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -1669,7 +1656,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 >
                   <span
                     className="css-1f43avz-a11yText-A11yText"
-                    id="react-select-async-dropdown-stop-live-region"
+                    id="react-select-dropdown-stop-live-region"
                   />
                   <span
                     aria-atomic="false"
@@ -1687,7 +1674,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     >
                       <div
                         className=" css-1jqq78o-placeholder"
-                        id="react-select-async-dropdown-stop-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
                       </div>
@@ -1697,7 +1684,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       >
                         <input
                           aria-autocomplete="list"
-                          aria-describedby="react-select-async-dropdown-stop-placeholder"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
                           autoCapitalize="none"
@@ -1705,7 +1692,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="async-dropdown-stop-value"
+                          id="dropdown-stop-value"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1736,20 +1723,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />

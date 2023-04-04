@@ -1,10 +1,11 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
+import CsrfForm from "../components/form/CsrfForm";
 import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
@@ -33,13 +34,14 @@ import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils"
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
-const CreateConsequenceStops = ({
-    initialPageState,
-    previousConsequenceInformation,
-}: CreateConsequenceProps<StopsConsequence>): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(initialPageState);
+export interface CreateConsequenceStopsProps extends PageState<Partial<StopsConsequence>>, CreateConsequenceProps {}
+
+const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
+    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [searchInput, setSearchInput] = useState("");
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -48,17 +50,24 @@ const CreateConsequenceStops = ({
         setSelected(null);
     };
 
-    const loadOptions = async (inputValue: string) => {
-        if (inputValue.length >= 3) {
-            const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${inputValue}`;
-            const res = await fetch(searchApiUrl, { method: "GET" });
-            const data: Stop[] = z.array(stopSchema).parse(await res.json());
-            if (data) {
-                return data;
+    useEffect(() => {
+        const loadOptions = async () => {
+            if (searchInput.length >= 3) {
+                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${searchInput}`;
+                const res = await fetch(searchApiUrl, { method: "GET" });
+                const data: Stop[] = z.array(stopSchema).parse(await res.json());
+                if (data) {
+                    setStopOptions(data);
+                }
+            } else {
+                setStopOptions([]);
             }
-        }
-        return [];
-    };
+        };
+
+        loadOptions()
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+    }, [searchInput]);
 
     const removeStop = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
@@ -137,9 +146,9 @@ const CreateConsequenceStops = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/create-consequence-stops" method="post">
+            <CsrfForm action="/api/create-consequence-stops" method="post" csrfToken={props.csrfToken}>
                 <>
-                    <ErrorSummary errors={initialPageState.errors} />
+                    <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -149,7 +158,7 @@ const CreateConsequenceStops = ({
                                     cells: [
                                         getDisplayByValue(
                                             VEHICLE_MODES,
-                                            previousConsequenceInformation.modeOfTransport,
+                                            props.previousConsequenceInformation.modeOfTransport,
                                         ),
                                         <Link
                                             key={"mode-of-transport"}
@@ -165,7 +174,7 @@ const CreateConsequenceStops = ({
                                     cells: [
                                         getDisplayByValue(
                                             CONSEQUENCE_TYPES,
-                                            previousConsequenceInformation.consequenceType,
+                                            props.previousConsequenceInformation.consequenceType,
                                         ),
                                         <Link
                                             key={"consequence-type"}
@@ -184,7 +193,6 @@ const CreateConsequenceStops = ({
                             initialErrors={pageState.errors}
                             placeholder="Select stops"
                             getOptionLabel={getStopLabel}
-                            loadOptions={loadOptions}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
@@ -192,6 +200,10 @@ const CreateConsequenceStops = ({
                             display="Stops Impacted"
                             displaySize="l"
                             inputId="stops"
+                            inputValue={searchInput}
+                            setSearchInput={setSearchInput}
+                            isClearable
+                            options={stopOptions}
                         />
 
                         <Map
@@ -202,8 +214,17 @@ const CreateConsequenceStops = ({
                             }}
                             style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
+                            selected={
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? pageState.inputs.stops
+                                    : []
+                            }
+                            searched={stopOptions.filter((stopToFilter: Stop) =>
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
+                                    : stopToFilter,
+                            )}
                         />
-
                         <TextInput<StopsConsequence>
                             display="Consequence description"
                             displaySize="l"
@@ -265,26 +286,19 @@ const CreateConsequenceStops = ({
                         <input
                             type="hidden"
                             name="vehicleMode"
-                            value={previousConsequenceInformation.modeOfTransport}
+                            value={props.previousConsequenceInformation.modeOfTransport}
                         />
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
                     </div>
                 </>
-            </form>
+            </CsrfForm>
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = (
-    ctx: NextPageContext,
-): { props: CreateConsequenceProps<StopsConsequence> } | void => {
-    let pageState: PageState<Partial<StopsConsequence>> = {
-        errors: [],
-        inputs: {},
-    };
-
+export const getServerSideProps = (ctx: NextPageContext): { props: CreateConsequenceStopsProps } | void => {
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
@@ -308,10 +322,10 @@ export const getServerSideProps = (
         return;
     }
 
-    pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
+    const pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     return {
-        props: { initialPageState: pageState, previousConsequenceInformation: previousConsequenceInformation.data },
+        props: { ...pageState, previousConsequenceInformation: previousConsequenceInformation.data },
     };
 };
 
