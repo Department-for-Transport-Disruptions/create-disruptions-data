@@ -1,9 +1,7 @@
-import uniqueId from "lodash/uniqueId";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { Marker } from "react-map-gl";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
@@ -144,40 +142,6 @@ const CreateConsequenceStops = ({
                 });
             }
         }
-    };
-
-    const getMarkers = () => {
-        const stopsInTable =
-            pageState.inputs.stops && pageState.inputs.stops.length > 0
-                ? pageState.inputs.stops.map((stop) => (
-                      <Marker
-                          key={uniqueId(stop.atcoCode)}
-                          longitude={Number(stop.longitude)}
-                          latitude={Number(stop.latitude)}
-                          anchor="bottom"
-                          color="blue"
-                      />
-                  ))
-                : [];
-        const stopsWithoutStopsInTable = stopOptions
-            .filter((stopToFilter: Stop) =>
-                pageState.inputs.stops && pageState.inputs.stops.length > 0
-                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
-                    : stopToFilter,
-            )
-            .map((stop) => (
-                <Marker
-                    key={uniqueId(stop.atcoCode)}
-                    longitude={Number(stop.longitude)}
-                    latitude={Number(stop.latitude)}
-                    anchor="bottom"
-                    color="grey"
-                />
-            ));
-
-        const markers = [...stopsInTable, ...stopsWithoutStopsInTable];
-
-        return markers.length > 0 ? markers.splice(100) : null;
     };
 
     return (
