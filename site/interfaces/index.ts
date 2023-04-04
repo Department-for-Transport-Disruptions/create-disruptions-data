@@ -59,6 +59,7 @@ export interface TestInputs {
 export interface PageState<T> {
     errors: ErrorInfo[];
     inputs: T;
+    csrfToken?: string;
 }
 
 export interface SocialMediaPost {
@@ -68,8 +69,7 @@ export interface SocialMediaPost {
     accountToPublish: string;
 }
 
-export interface CreateConsequenceProps<T> {
-    initialPageState: PageState<Partial<T>>;
+export interface CreateConsequenceProps {
     previousConsequenceInformation: ConsequenceType;
     initialServices?: Service[];
     initialStops?: Stop[];
