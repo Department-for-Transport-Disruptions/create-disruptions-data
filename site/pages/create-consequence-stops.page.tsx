@@ -1,7 +1,8 @@
+import { uniqueId } from "lodash";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, ReactNode, SyntheticEvent, useEffect, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { Marker } from "react-map-gl";
 import { SingleValue } from "react-select";
 import { z } from "zod";
@@ -163,7 +164,7 @@ const CreateConsequenceStops = ({
             pageState.inputs.stops && pageState.inputs.stops.length > 0
                 ? pageState.inputs.stops.map((stop) => (
                       <Marker
-                          key={stop.atcoCode}
+                          key={uniqueId(stop.atcoCode)}
                           longitude={Number(stop.longitude)}
                           latitude={Number(stop.latitude)}
                           anchor="bottom"
@@ -179,7 +180,7 @@ const CreateConsequenceStops = ({
             )
             .map((stop) => (
                 <Marker
-                    key={stop.atcoCode}
+                    key={uniqueId(stop.atcoCode)}
                     longitude={Number(stop.longitude)}
                     latitude={Number(stop.latitude)}
                     anchor="bottom"
@@ -189,13 +190,9 @@ const CreateConsequenceStops = ({
 
         const markers = [...stopsInTable, ...stopsWithoutStopsInTable];
 
-        console.log("sit", stopsInTable);
-        console.log("snit", stopsWithoutStopsInTable);
-        console.log("markers", markers);
         return markers.length > 0 ? markers : null;
     };
 
-    //interesting bug when I add the temple and then type temple again and add the second one it stays grey rather than being blue even tough the state updated then i add another and that is grey too
     return (
         <BaseLayout title={title} description={description}>
             <form action="/api/create-consequence-stops" method="post">
