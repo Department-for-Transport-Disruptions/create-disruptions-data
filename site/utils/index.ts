@@ -4,7 +4,7 @@ import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { DisplayValuePair, ErrorInfo, PageState, ResponseWithLocals } from "../interfaces";
+import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
@@ -26,7 +26,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 };
 
 export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
-    (ctx.res as ResponseWithLocals)?.locals?.csrfToken ?? "";
+    ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 

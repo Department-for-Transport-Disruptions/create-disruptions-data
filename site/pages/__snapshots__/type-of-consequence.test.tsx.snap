@@ -53,6 +53,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
             action="/api/type-of-consequence"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <div
               aria-labelledby="error-summary-title"
               className="govuk-error-summary"
@@ -592,6 +597,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
             action="/api/type-of-consequence"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <div
               className="govuk-form-group"
             >
@@ -1071,6 +1081,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
             action="/api/type-of-consequence"
             method="post"
           >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
             <div
               className="govuk-form-group"
             >

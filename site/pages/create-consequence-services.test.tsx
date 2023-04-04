@@ -1,9 +1,7 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceServices from "./create-consequence-services.page";
-import { PageState } from "../interfaces";
-import { ServicesConsequence } from "../schemas/consequence.schema";
+import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./create-consequence-services.page";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
@@ -11,12 +9,13 @@ const previousConsequenceInformation: ConsequenceType = {
     consequenceType: "services",
 };
 
-const blankInputs: PageState<Partial<ServicesConsequence>> = {
+const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
+    previousConsequenceInformation,
 };
 
-const withInputs: PageState<Partial<ServicesConsequence>> = {
+const withInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {
         stops: [
@@ -51,9 +50,10 @@ const withInputs: PageState<Partial<ServicesConsequence>> = {
         disruptionSeverity: Severity.severe,
         disruptionDirection: "inbound",
     },
+    previousConsequenceInformation,
 };
 
-const withInputsAndErrors: PageState<Partial<ServicesConsequence>> = {
+const withInputsAndErrors: CreateConsequenceServicesProps = {
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
@@ -87,43 +87,23 @@ const withInputsAndErrors: PageState<Partial<ServicesConsequence>> = {
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
+    previousConsequenceInformation,
 };
 
 describe("pages", () => {
     describe("CreateConsequenceServices", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateConsequenceServices
-                        initialPageState={blankInputs}
-                        previousConsequenceInformation={previousConsequenceInformation}
-                    />,
-                )
-                .toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateConsequenceServices
-                        initialPageState={withInputs}
-                        previousConsequenceInformation={previousConsequenceInformation}
-                    />,
-                )
-                .toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with errors and incorrect inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateConsequenceServices
-                        initialPageState={withInputsAndErrors}
-                        previousConsequenceInformation={previousConsequenceInformation}
-                    />,
-                )
-                .toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...withInputsAndErrors} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

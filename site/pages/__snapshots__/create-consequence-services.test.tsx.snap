@@ -47,6 +47,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
         action="/api/create-consequence-services"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           aria-labelledby="error-summary-title"
           className="govuk-error-summary"
@@ -1083,6 +1088,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
         action="/api/create-consequence-services"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -2060,6 +2070,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
         action="/api/create-consequence-services"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >

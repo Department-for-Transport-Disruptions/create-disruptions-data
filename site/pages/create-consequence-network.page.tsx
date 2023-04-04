@@ -3,6 +3,7 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../components/ErrorSummary";
+import CsrfForm from "../components/form/CsrfForm";
 import Radios from "../components/form/Radios";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
@@ -17,36 +18,27 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
 } from "../constants";
-import { PageState } from "../interfaces";
+import { CreateConsequenceProps, PageState } from "../interfaces";
 import { NetworkConsequence, networkConsequenceSchema } from "../schemas/consequence.schema";
-import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
+import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
 
-interface CreateConsequenceNetworkProps {
-    inputs: PageState<Partial<ConsequenceNetworkPageInputs>>;
-    previousConsequenceInformation: ConsequenceType;
-}
+export interface CreateConsequenceNetworkProps extends PageState<Partial<NetworkConsequence>>, CreateConsequenceProps {}
 
-export interface ConsequenceNetworkPageInputs extends Partial<NetworkConsequence> {}
-
-const CreateConsequenceNetwork = ({
-    inputs,
-    previousConsequenceInformation,
-}: CreateConsequenceNetworkProps): ReactElement => {
-    const [pageState, setConsequenceNetworkPageState] =
-        useState<PageState<Partial<ConsequenceNetworkPageInputs>>>(inputs);
+const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactElement => {
+    const [pageState, setConsequenceNetworkPageState] = useState<PageState<Partial<NetworkConsequence>>>(props);
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/create-consequence-network" method="post">
+            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
                 <>
-                    <ErrorSummary errors={inputs.errors} />
+                    <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -56,7 +48,7 @@ const CreateConsequenceNetwork = ({
                                     cells: [
                                         getDisplayByValue(
                                             VEHICLE_MODES,
-                                            previousConsequenceInformation.modeOfTransport,
+                                            props.previousConsequenceInformation.modeOfTransport,
                                         ),
                                         <Link
                                             key={"mode-of-transport"}
@@ -72,7 +64,7 @@ const CreateConsequenceNetwork = ({
                                     cells: [
                                         getDisplayByValue(
                                             CONSEQUENCE_TYPES,
-                                            previousConsequenceInformation.consequenceType,
+                                            props.previousConsequenceInformation.consequenceType,
                                         ),
                                         <Link
                                             key={"consequence-type"}
@@ -86,7 +78,7 @@ const CreateConsequenceNetwork = ({
                             ]}
                         />
 
-                        <TextInput<ConsequenceNetworkPageInputs>
+                        <TextInput<NetworkConsequence>
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
@@ -101,7 +93,7 @@ const CreateConsequenceNetwork = ({
                             schema={networkConsequenceSchema.shape.description}
                         />
 
-                        <Radios<ConsequenceNetworkPageInputs>
+                        <Radios<NetworkConsequence>
                             display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
@@ -121,7 +113,7 @@ const CreateConsequenceNetwork = ({
                             schema={networkConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
-                        <TimeSelector<ConsequenceNetworkPageInputs>
+                        <TimeSelector<NetworkConsequence>
                             display="Delay (minutes)"
                             displaySize="l"
                             value={pageState.inputs.disruptionDelay}
@@ -133,7 +125,7 @@ const CreateConsequenceNetwork = ({
                             placeholderValue=""
                         />
 
-                        <Select<ConsequenceNetworkPageInputs>
+                        <Select<NetworkConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
                             displaySize="l"
@@ -149,7 +141,7 @@ const CreateConsequenceNetwork = ({
                         <input
                             type="hidden"
                             name="vehicleMode"
-                            value={previousConsequenceInformation.modeOfTransport}
+                            value={props.previousConsequenceInformation.modeOfTransport}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -157,17 +149,12 @@ const CreateConsequenceNetwork = ({
                         </button>
                     </div>
                 </>
-            </form>
+            </CsrfForm>
         </BaseLayout>
     );
 };
 
 export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
-    let inputs: PageState<Partial<ConsequenceNetworkPageInputs>> = {
-        errors: [],
-        inputs: {},
-    };
-
     let previousConsequenceInformationData = {};
 
     const cookies = parseCookies(ctx);
@@ -183,9 +170,9 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
         }
     }
 
-    inputs = getPageStateFromCookies<ConsequenceNetworkPageInputs>(dataCookie, errorCookie, networkConsequenceSchema);
+    const pageState = getPageStateFromCookies<NetworkConsequence>(dataCookie, errorCookie, networkConsequenceSchema);
 
-    return { props: { inputs: inputs, previousConsequenceInformation: previousConsequenceInformationData } };
+    return { props: { ...pageState, previousConsequenceInformation: previousConsequenceInformationData } };
 };
 
 export default CreateConsequenceNetwork;

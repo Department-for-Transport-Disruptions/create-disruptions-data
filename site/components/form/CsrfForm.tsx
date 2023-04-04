@@ -3,14 +3,14 @@ import { ReactElement, ReactNode } from "react";
 interface CsrfFormProps {
     action: string;
     method: string;
-    csrfToken: string;
+    csrfToken?: string;
     children: ReactNode;
     [props: string]: unknown;
 }
 
 const CsrfForm = ({ action, method, csrfToken, children, ...props }: CsrfFormProps): ReactElement => (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <form action={`${action}?_csrf=${csrfToken}`} method={method} {...props}>
+    <form action={action} method={method} {...props}>
+        <input type="hidden" name="csrf_token" value={csrfToken || ""} />
         {children}
     </form>
 );
