@@ -1,5 +1,5 @@
-import { Dispatch, Fragment, ReactElement, SetStateAction, useEffect } from "react";
-import Select, { ControlProps, GroupBase, OptionProps, SingleValue } from "react-select";
+import { Dispatch, Fragment, ReactElement, SetStateAction } from "react";
+import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta } from "react-select";
 import AsyncSelect from "react-select/async";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -50,7 +50,7 @@ const SearchSelect = <T extends object>({
     inputValue = "",
     setSearchInput = (value) => value,
 }: SearchSelectProps<T>): ReactElement => {
-    const handleInputChange = (value: string, { action }) => {
+    const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action !== "input-blur" && action !== "menu-close") {
             setSearchInput(value);
             if (value.trim() === "") {
