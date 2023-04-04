@@ -1,7 +1,7 @@
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
-import { NextApiResponse, NextPageContext } from "next";
+import { NextApiResponse } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
@@ -25,8 +25,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
     res.end();
 };
 
-export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
-    ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
+export const getCsrfToken = (res?: ServerResponse): string => res?.getHeader("x-csrf-token")?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 

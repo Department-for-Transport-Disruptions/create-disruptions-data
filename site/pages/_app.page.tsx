@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import "../styles/globals.scss";
 import type { AppContext, AppInitialProps, AppProps } from "next/app";
 import App from "next/app";
 import { useEffect } from "react";
+import { ServerResponse } from "http";
 import { getCsrfToken } from "../utils";
 
 declare global {
@@ -14,13 +16,17 @@ declare global {
 }
 
 type ExtendedAppProps = {
-    csrfToken: string;
+    pageResponse?: ServerResponse;
 };
 
-const CustomApp = ({ Component, pageProps, csrfToken }: AppProps & ExtendedAppProps) => {
+const CustomApp = ({ Component, pageProps, pageResponse }: AppProps & ExtendedAppProps) => {
     useEffect(() => {
         document.getElementsByTagName("body")[0].classList.add("js-enabled");
     });
+
+    console.log(pageResponse);
+
+    const csrfToken = getCsrfToken(pageResponse);
 
     return <Component {...pageProps} csrfToken={csrfToken} />;
 };
@@ -28,7 +34,9 @@ const CustomApp = ({ Component, pageProps, csrfToken }: AppProps & ExtendedAppPr
 CustomApp.getInitialProps = async (context: AppContext): Promise<AppInitialProps & ExtendedAppProps> => {
     const ctx = await App.getInitialProps(context);
 
-    return { ...ctx, csrfToken: getCsrfToken(context.ctx) };
+    console.log(ctx);
+
+    return { ...ctx, pageResponse: context.ctx.res };
 };
 
 export default CustomApp;
