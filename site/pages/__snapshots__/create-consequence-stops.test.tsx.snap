@@ -251,20 +251,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1005,20 +991,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
@@ -1736,20 +1708,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     <div
                       className=" css-1hb7zxy-IndicatorsContainer"
                     >
-                      <div
-                        aria-hidden="true"
-                        className=" css-pogzpp-loadingIndicator"
-                      >
-                        <span
-                          className="css-1xtdfmb-LoadingDot"
-                        />
-                        <span
-                          className="css-zoievk-LoadingDot"
-                        />
-                        <span
-                          className="css-x748d8-LoadingDot"
-                        />
-                      </div>
                       <span
                         className=" css-1u9des2-indicatorSeparator"
                       />
