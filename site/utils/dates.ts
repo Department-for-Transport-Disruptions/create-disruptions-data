@@ -31,7 +31,8 @@ export const checkOverlap = (
     secondEndDate: dayjs.Dayjs,
 ) => {
     return (
-        firstStartDate.isBetween(secondStartDate, secondEndDate) ||
-        secondStartDate.isBetween(firstStartDate, firstEndDate)
+        firstStartDate.isBetween(secondStartDate, firstEndDate) ||
+        secondStartDate.isBetween(firstStartDate, firstEndDate) ||
+        firstStartDate.isSame(secondStartDate)
     );
 };
