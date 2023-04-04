@@ -35,8 +35,7 @@ const defaultDisruptionData = {
 describe("create-disruption API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        ...((await vi.importActual("../../utils/apiUtils")) as object),
+        ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));

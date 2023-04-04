@@ -6,7 +6,7 @@ import { ReactElement, useEffect, useRef } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import {
-    ADD_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
@@ -178,7 +178,7 @@ const ReviewDisruption = ({
                                                 )} - ${
                                                     consequence.consequenceType === "services"
                                                         ? `Services - ${consequence.services
-                                                              .map((service) => service.id)
+                                                              .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperator
@@ -201,7 +201,7 @@ const ReviewDisruption = ({
                                                         splitCamelCaseToString(consequence.vehicleMode),
                                                         createChangeLink(
                                                             "mode-of-transport",
-                                                            ADD_CONSEQUENCE_PAGE_PATH,
+                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                                         ),
                                                     ],
                                                 },
@@ -212,7 +212,10 @@ const ReviewDisruption = ({
                                                             CONSEQUENCE_TYPES,
                                                             consequence.consequenceType,
                                                         ),
-                                                        createChangeLink("consequence-type", ADD_CONSEQUENCE_PAGE_PATH),
+                                                        createChangeLink(
+                                                            "consequence-type",
+                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                                        ),
                                                     ],
                                                 },
                                                 {
@@ -220,8 +223,11 @@ const ReviewDisruption = ({
                                                     cells: [
                                                         consequence.consequenceType === "services"
                                                             ? consequence.services
-                                                                  .map((service) => `${service.id}: ${service.name}`)
-                                                                  .join()
+                                                                  .map(
+                                                                      (service) =>
+                                                                          `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
+                                                                  )
+                                                                  .join(", ")
                                                             : "N/A",
                                                         createChangeLink(
                                                             "service",
@@ -232,7 +238,9 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Stops affected",
                                                     cells: [
-                                                        consequence.consequenceType === "stops"
+                                                        (consequence.consequenceType === "stops" ||
+                                                            consequence.consequenceType === "services") &&
+                                                        consequence.stops
                                                             ? consequence.stops
                                                                   .map((stop) =>
                                                                       stop.commonName && stop.indicator && stop.atcoCode
@@ -287,7 +295,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={ADD_CONSEQUENCE_PAGE_PATH}
+                            href={TYPE_OF_CONSEQUENCE_PAGE_PATH}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
