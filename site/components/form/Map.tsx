@@ -9,25 +9,24 @@ interface MapProps {
     mapStyle: string;
     selected?: Stop[];
     searched?: Stop[];
-    inputId?: keyof Stop;
 }
 
 const Map = ({ initialViewState, style, mapStyle, selected, searched }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
     const getMarkers = (selected: Stop[], searched: Stop[]): ReactNode => {
-        const inTable =
+        const selectedMarkers =
             selected && selected.length > 0
                 ? selected.map((s: Stop) => (
                       <Marker
                           key={uniqueId(s.atcoCode)}
-                          longitude={Number(s.longitude)}
-                          latitude={Number(s.latitude)}
+                          longitude={s.longitude}
+                          latitude={s.latitude}
                           anchor="bottom"
                       />
                   ))
                 : [];
-        const notInTable = searched
+        const searchedMarkers = searched
             .filter((sToFilter: Stop) =>
                 selected && selected.length > 0
                     ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
@@ -36,14 +35,14 @@ const Map = ({ initialViewState, style, mapStyle, selected, searched }: MapProps
             .map((s) => (
                 <Marker
                     key={uniqueId(s.atcoCode)}
-                    longitude={Number(s.longitude)}
-                    latitude={Number(s.latitude)}
+                    longitude={s.longitude}
+                    latitude={s.latitude}
                     anchor="bottom"
                     color="grey"
                 />
             ));
 
-        const markers = [...inTable, ...notInTable];
+        const markers = [...selectedMarkers, ...searchedMarkers];
 
         return markers.length > 0 ? markers.slice(0, 100) : null;
     };
