@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { ErrorInfo, PageState } from "../interfaces";
+import { Stop } from "../schemas/consequence.schema";
 
 export const handleBlur = <T>(
     input: string,
@@ -39,3 +40,15 @@ export const getStateUpdater =
             },
         });
     };
+
+export const getStopLabel = (stop: Stop) => {
+    if (stop.commonName && stop.indicator && stop.atcoCode) {
+        return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
+    } else if (stop.commonName && stop.atcoCode) {
+        return `${stop.commonName} ${stop.atcoCode}`;
+    } else {
+        return "";
+    }
+};
+
+export const getStopValue = (stop: Stop) => stop.atcoCode.toString();

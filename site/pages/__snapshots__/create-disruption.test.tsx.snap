@@ -47,6 +47,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
         action="/api/create-disruption"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -1116,6 +1121,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         action="/api/create-disruption"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >

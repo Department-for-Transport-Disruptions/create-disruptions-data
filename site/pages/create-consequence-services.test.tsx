@@ -1,21 +1,21 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./create-consequence-stops.page";
+import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./create-consequence-services.page";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
     modeOfTransport: VehicleMode.ferryService,
-    consequenceType: "stops",
+    consequenceType: "services",
 };
 
-const blankInputs: CreateConsequenceStopsProps = {
+const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
     previousConsequenceInformation,
 };
 
-const withInputs: CreateConsequenceStopsProps = {
+const withInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {
         stops: [
@@ -34,15 +34,26 @@ const withInputs: CreateConsequenceStopsProps = {
                 longitude: "-2.5856",
             },
         ],
+        services: [
+            {
+                id: 23127,
+                lineName: "1",
+                operatorShortName: "First South Yorkshire",
+                origin: "Jordanthorpe",
+                destination: "HigH Green",
+            },
+        ],
+
         description: "A truck broke down on a bridge",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
+        disruptionDirection: "inbound",
     },
     previousConsequenceInformation,
 };
 
-const withInputsAndErrors: CreateConsequenceStopsProps = {
+const withInputsAndErrors: CreateConsequenceServicesProps = {
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
@@ -64,6 +75,15 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
                 longitude: "-2.5856",
             },
         ],
+        services: [
+            {
+                id: 23127,
+                lineName: "1",
+                operatorShortName: "First South Yorkshire",
+                origin: "Jordanthorpe",
+                destination: "HigH Green",
+            },
+        ],
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
@@ -71,19 +91,19 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
 };
 
 describe("pages", () => {
-    describe("CreateConsequenceStops", () => {
+    describe("CreateConsequenceServices", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceStops {...blankInputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateConsequenceStops {...withInputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with errors and incorrect inputs", () => {
-            const tree = renderer.create(<CreateConsequenceStops {...withInputsAndErrors} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceServices {...withInputsAndErrors} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

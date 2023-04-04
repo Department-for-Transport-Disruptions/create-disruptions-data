@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
+import { Service, Stop } from "../schemas/consequence.schema";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 export interface ErrorInfo {
@@ -58,6 +59,7 @@ export interface TestInputs {
 export interface PageState<T> {
     errors: ErrorInfo[];
     inputs: T;
+    csrfToken?: string;
 }
 
 export interface SocialMediaPost {
@@ -67,7 +69,8 @@ export interface SocialMediaPost {
     accountToPublish: string;
 }
 
-export interface CreateConsequenceProps<T> {
-    inputs: PageState<Partial<T>>;
+export interface CreateConsequenceProps {
     previousConsequenceInformation: ConsequenceType;
+    initialServices?: Service[];
+    initialStops?: Stop[];
 }

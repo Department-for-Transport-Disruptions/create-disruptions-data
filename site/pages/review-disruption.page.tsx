@@ -3,10 +3,11 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef } from "react";
+import CsrfForm from "../components/form/CsrfForm";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import {
-    ADD_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
@@ -27,6 +28,7 @@ interface ReviewDisruptionProps {
     previousDisruptionInformation: Disruption;
     previousConsequencesInformation: Consequence[];
     previousSocialMediaPosts: SocialMediaPost[];
+    csrfToken?: string;
 }
 
 const createChangeLink = (key: string, href: string) => (
@@ -52,6 +54,7 @@ const ReviewDisruption = ({
     previousDisruptionInformation,
     previousConsequencesInformation,
     previousSocialMediaPosts,
+    csrfToken,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
 
@@ -87,7 +90,7 @@ const ReviewDisruption = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/publish" method="post">
+            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
@@ -178,7 +181,7 @@ const ReviewDisruption = ({
                                                 )} - ${
                                                     consequence.consequenceType === "services"
                                                         ? `Services - ${consequence.services
-                                                              .map((service) => service.id)
+                                                              .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperator
@@ -201,7 +204,7 @@ const ReviewDisruption = ({
                                                         splitCamelCaseToString(consequence.vehicleMode),
                                                         createChangeLink(
                                                             "mode-of-transport",
-                                                            ADD_CONSEQUENCE_PAGE_PATH,
+                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                                         ),
                                                     ],
                                                 },
@@ -212,7 +215,10 @@ const ReviewDisruption = ({
                                                             CONSEQUENCE_TYPES,
                                                             consequence.consequenceType,
                                                         ),
-                                                        createChangeLink("consequence-type", ADD_CONSEQUENCE_PAGE_PATH),
+                                                        createChangeLink(
+                                                            "consequence-type",
+                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                                        ),
                                                     ],
                                                 },
                                                 {
@@ -220,8 +226,11 @@ const ReviewDisruption = ({
                                                     cells: [
                                                         consequence.consequenceType === "services"
                                                             ? consequence.services
-                                                                  .map((service) => `${service.id}: ${service.name}`)
-                                                                  .join()
+                                                                  .map(
+                                                                      (service) =>
+                                                                          `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
+                                                                  )
+                                                                  .join(", ")
                                                             : "N/A",
                                                         createChangeLink(
                                                             "service",
@@ -232,7 +241,9 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Stops affected",
                                                     cells: [
-                                                        consequence.consequenceType === "stops"
+                                                        (consequence.consequenceType === "stops" ||
+                                                            consequence.consequenceType === "services") &&
+                                                        consequence.stops
                                                             ? consequence.stops
                                                                   .map((stop) =>
                                                                       stop.commonName && stop.indicator && stop.atcoCode
@@ -287,7 +298,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={ADD_CONSEQUENCE_PAGE_PATH}
+                            href={TYPE_OF_CONSEQUENCE_PAGE_PATH}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -363,7 +374,7 @@ const ReviewDisruption = ({
                         </button>
                     </div>
                 </>
-            </form>
+            </CsrfForm>
         </BaseLayout>
     );
 };

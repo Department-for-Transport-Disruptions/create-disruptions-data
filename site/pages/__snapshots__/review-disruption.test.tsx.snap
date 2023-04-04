@@ -47,6 +47,11 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
         action="/api/publish"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -961,7 +966,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        1: Test
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </td>
                       <td
                         className="govuk-table__cell align-middle"

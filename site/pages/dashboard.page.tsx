@@ -24,19 +24,22 @@ export interface DashboardProps {
     upcomingDisruptions: DashboardDisruption[];
 }
 
-const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
-    return disruptions.map((disruption) => {
-        const dateStrings = disruption.validityPeriod.map((period) => (
-            <div key={period.startTime} className="pb-2 last:pb-0">
-                {convertDateTimeToFormat(period.startTime)}{" "}
-                {period.endTime ? `- ${convertDateTimeToFormat(period.endTime)}` : " onwards"}
+const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number) => {
+    return disruptions.map((disruption, index) => {
+        const earliestPeriod = disruption.validityPeriod[0];
+        const latestPeriod = disruption.validityPeriod[disruption.validityPeriod.length - 1].endTime;
+
+        const dateStrings = (
+            <div key={earliestPeriod.startTime} className="pb-2 last:pb-0">
+                {convertDateTimeToFormat(earliestPeriod.startTime)}{" "}
+                {latestPeriod ? `- ${convertDateTimeToFormat(latestPeriod)}` : " onwards"}
             </div>
-        ));
+        );
 
         return {
             header: (
-                <Link className="govuk-link" href="/dashboard">
-                    {disruption.id}
+                <Link className="govuk-link" href="/dashboard" key={disruption.id}>
+                    {index + 1 + offset}
                 </Link>
             ),
             cells: [disruption.summary, dateStrings],
@@ -130,7 +133,10 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): Re
                                 <Table
                                     caption="Live disruptions"
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(liveDisruptionsToDisplay)}
+                                    rows={formatDisruptionsIntoRows(
+                                        liveDisruptionsToDisplay,
+                                        (currentLivePage - 1) * 10,
+                                    )}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfLiveDisruptionsPages}
@@ -147,7 +153,10 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): Re
                                 <Table
                                     caption="Upcoming disruptions"
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(upcomingDisruptionsToDisplay)}
+                                    rows={formatDisruptionsIntoRows(
+                                        upcomingDisruptionsToDisplay,
+                                        (currentUpcomingPage - 1) * 10,
+                                    )}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfUpcomingDisruptionsPages}

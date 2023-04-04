@@ -1,15 +1,14 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateDisruption, { DisruptionPageInputs } from "./create-disruption.page";
-import { PageState } from "../interfaces";
+import CreateDisruption, { DisruptionPageProps } from "./create-disruption.page";
 
-const blankInputs: PageState<Partial<DisruptionPageInputs>> = {
+const blankInputs: DisruptionPageProps = {
     errors: [],
     inputs: {},
 };
 
-const withInputs: PageState<DisruptionPageInputs> = {
+const withInputs: DisruptionPageProps = {
     errors: [],
     inputs: {
         disruptionType: "planned",

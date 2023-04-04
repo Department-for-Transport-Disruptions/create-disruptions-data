@@ -121,10 +121,11 @@ export const STAGE = process.env.STAGE || "dev";
 // PAGES
 export const ERROR_PATH = "/500";
 export const CREATE_DISRUPTION_PAGE_PATH = "/create-disruption";
-export const ADD_CONSEQUENCE_PAGE_PATH = "/type-of-consequence";
+export const TYPE_OF_CONSEQUENCE_PAGE_PATH = "/type-of-consequence";
 export const CREATE_CONSEQUENCE_OPERATOR_PATH = "/create-consequence-operator";
 export const CREATE_CONSEQUENCE_NETWORK_PATH = "/create-consequence-network";
 export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
+export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 
 // COOKIES
@@ -136,6 +137,7 @@ export const COOKIES_CONSEQUENCE_INFO = "cdd-consequence-info";
 export const COOKIES_CONSEQUENCE_OPERATOR_ERRORS = "cdd-consequence-operator-errors";
 export const COOKIES_CONSEQUENCE_NETWORK_ERRORS = "cdd-consequence-network-errors";
 export const COOKIES_CONSEQUENCE_STOPS_ERRORS = "cdd-consequence-stops-errors";
+export const COOKIES_CONSEQUENCE_SERVICES_ERRORS = "cdd-consequence-services-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";

@@ -1,16 +1,21 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { ConsequenceOperatorPageInputs } from "./create-consequence-operator.page";
-import { PageState } from "../interfaces";
+import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./create-consequence-operator.page";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
-const blankInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
-    errors: [],
-    inputs: {},
+const previousConsequenceInformation: ConsequenceType = {
+    modeOfTransport: VehicleMode.ferryService,
+    consequenceType: "operatorWide",
 };
 
-const withInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
+const blankInputs = {
+    errors: [],
+    inputs: {},
+    previousConsequenceInformation,
+};
+
+const withInputs: CreateConsequenceOperatorProps = {
     errors: [],
     inputs: {
         consequenceOperator: "FSYO",
@@ -19,36 +24,18 @@ const withInputs: PageState<Partial<ConsequenceOperatorPageInputs>> = {
         disruptionDelay: "yes",
         disruptionSeverity: Severity.severe,
     },
-};
-
-const previousConsequenceInformation: ConsequenceType = {
-    modeOfTransport: VehicleMode.ferryService,
-    consequenceType: "operatorWide",
+    previousConsequenceInformation,
 };
 
 describe("pages", () => {
     describe("CreateConsequenceOperator", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateConsequenceOperator
-                        inputs={blankInputs}
-                        previousConsequenceInformation={previousConsequenceInformation}
-                    />,
-                )
-                .toJSON();
+            const tree = renderer.create(<CreateConsequenceOperator {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateConsequenceOperator
-                        inputs={withInputs}
-                        previousConsequenceInformation={previousConsequenceInformation}
-                    />,
-                )
-                .toJSON();
+            const tree = renderer.create(<CreateConsequenceOperator {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";
-import CsrfForm from "../components/CsrfForm";
+import CsrfForm from "../components/form/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import {
     CONTACT_FEEDBACK_QUESTION,
@@ -9,13 +9,12 @@ import {
     HEAR_ABOUT_US_FEEDBACK_QUESTION,
     GENERAL_FEEDBACK_QUESTION,
 } from "../constants";
-import { getCsrfToken } from "../utils";
 
 const title = "Feedback - Create Transport Disruption Data Service";
 const description = "Feedback page of the Create Transport Disruption Data Service";
 
 interface FeedbackProps {
-    csrfToken: string;
+    csrfToken?: string;
     feedbackSubmitted: "submitted" | "not submitted" | "false";
 }
 
@@ -162,7 +161,6 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
 );
 
 export const getServerSideProps = (ctx: NextPageContext): { props: FeedbackProps } => {
-    const csrfToken = getCsrfToken(ctx);
     const feedbackSubmittedQueryString = ctx.query?.feedbackSubmitted;
     let feedbackSubmitted: "submitted" | "not submitted" | "false" = "false";
     if (feedbackSubmittedQueryString) {
@@ -171,7 +169,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: FeedbackProps
     return {
         props: {
             feedbackSubmitted,
-            csrfToken,
         },
     };
 };

@@ -3,7 +3,7 @@ import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import addConsequence from "./type-of-consequence.api";
 import {
-    ADD_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     COOKIES_CONSEQUENCE_TYPE_INFO,
 } from "../../constants/index";
@@ -62,8 +62,8 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "consequenceType" },
             { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
@@ -78,7 +78,7 @@ describe("addConsequence", () => {
             res,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_CONSEQUENCE_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: TYPE_OF_CONSEQUENCE_PAGE_PATH });
     });
 
     it("should redirect back to add consequence page (/type-of-consequence) when incorrect values are passed", () => {
@@ -88,8 +88,8 @@ describe("addConsequence", () => {
         };
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "consequenceType" },
             { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -104,6 +104,6 @@ describe("addConsequence", () => {
             res,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_CONSEQUENCE_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: TYPE_OF_CONSEQUENCE_PAGE_PATH });
     });
 });
