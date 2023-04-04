@@ -23,7 +23,6 @@ const defaultDisruptionData = {
     publishStartTime: "1100",
     publishEndDate: "",
     publishEndTime: "",
-    publishNoEndDateTime: "true",
     disruptionStartDate: defaultDisruptionEndDate,
     disruptionStartTime: "1100",
     disruptionEndDate: "",

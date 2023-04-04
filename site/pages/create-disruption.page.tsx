@@ -1,6 +1,6 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, SyntheticEvent, useEffect, useState } from "react";
+import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import Checkbox from "../components/form/Checkbox";
@@ -12,7 +12,7 @@ import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
 import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { ErrorInfo, PageState } from "../interfaces";
+import { PageState } from "../interfaces";
 import {
     createDisruptionSchema,
     validitySchemaRefined,
@@ -29,14 +29,15 @@ export interface DisruptionPageInputs extends Partial<z.infer<typeof createDisru
 
 const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>): ReactElement => {
     const initialValidity: Validity = {
-        disruptionStartDate: "",
-        disruptionEndDate: "",
-        disruptionStartTime: "",
-        disruptionEndTime: "",
-        disruptionNoEndDateTime: "",
+        disruptionStartDate: initialState.inputs.disruptionStartDate || "",
+        disruptionEndDate: initialState.inputs.disruptionEndDate || "",
+        disruptionStartTime: initialState.inputs.disruptionStartTime || "",
+        disruptionEndTime: initialState.inputs.disruptionEndTime || "",
+        disruptionNoEndDateTime: initialState.inputs.disruptionNoEndDateTime || "",
     };
 
     const [pageState, setDisruptionPageState] = useState<PageState<Partial<DisruptionPageInputs>>>(initialState);
+    const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const addValidity = (e: SyntheticEvent) => {
@@ -44,13 +45,14 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
 
         setAddValidityClicked(false);
 
-        const filteredValidity = {
-            disruptionStartDate: pageState.inputs.disruptionStartDate,
-            disruptionStartTime: pageState.inputs.disruptionStartTime,
-            disruptionEndDate: pageState.inputs.disruptionEndDate,
-            disruptionEndTime: pageState.inputs.disruptionEndTime,
-            disruptionNoEndDateTime: pageState.inputs.disruptionNoEndDateTime,
-        };
+        const filteredValidity =
+            validity.disruptionNoEndDateTime === "true"
+                ? {
+                      ...validity,
+                      disruptionEndDate: "",
+                      disruptionEndTime: "",
+                  }
+                : validity;
 
         const parsed = validitySchemaRefined.safeParse(filteredValidity);
 
@@ -66,13 +68,18 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
             setDisruptionPageState({
                 inputs: {
                     ...pageState.inputs,
-                    validity: [...(pageState.inputs.validity ?? []), parsed.data],
-                    ...initialValidity,
+                    validity: [...(pageState.inputs.validity ?? []), filteredValidity],
                 },
                 errors: [...pageState.errors.filter((err) => !Object.keys(validitySchema.shape).includes(err.id))],
             });
 
-            //setValidity(initialValidity);
+            setValidity({
+                disruptionStartDate: "",
+                disruptionEndDate: "",
+                disruptionStartTime: "",
+                disruptionEndTime: "",
+                disruptionNoEndDateTime: "",
+            });
             setAddValidityClicked(true);
         }
     };
@@ -116,6 +123,10 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
     };
 
     const stateUpdater = getStateUpdater(setDisruptionPageState, pageState);
+
+    const validityStateUpdater = (change: string, field: string) => {
+        setValidity({ ...validity, [field]: change });
+    };
 
     return (
         <BaseLayout title={title} description={description} errors={initialState.errors}>
@@ -204,54 +215,57 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                                 />
                             </Fragment>
                         ))}
-                        <input type="hidden" name="testValidity" value={JSON.stringify(pageState.inputs.validity)} />
 
                         <DateSelector<Validity>
                             display="Start date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs.disruptionStartDate}
+                            value={validity.disruptionStartDate}
                             disabled={false}
                             disablePast={false}
                             inputName={"disruptionStartDate"}
-                            stateUpdater={stateUpdater}
+                            stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionStartDate}
                         />
+
                         <TimeSelector<Validity>
                             display="Start time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs.disruptionStartTime}
+                            value={validity.disruptionStartTime}
                             disabled={false}
                             inputName="disruptionStartTime"
-                            stateUpdater={stateUpdater}
+                            stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionStartTime}
                         />
+
                         <DateSelector<Validity>
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs.disruptionEndDate}
-                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
+                            value={validity.disruptionEndDate}
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             disablePast={false}
                             inputName="disruptionEndDate"
-                            stateUpdater={stateUpdater}
+                            stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionEndDate}
                         />
+
                         <TimeSelector<Validity>
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs.disruptionEndTime}
-                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
+                            value={validity.disruptionEndTime}
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             inputName="disruptionEndTime"
-                            stateUpdater={stateUpdater}
+                            stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionEndTime}
                         />
+
                         <Checkbox<Validity>
                             inputName="disruptionNoEndDateTime"
                             display="Does the disruption have an end datetime?"
@@ -260,10 +274,10 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                                 {
                                     display: "No end date/time",
                                     value: "true",
-                                    checked: pageState.inputs.disruptionNoEndDateTime === "true",
+                                    checked: validity.disruptionNoEndDateTime === "true",
                                 },
                             ]}
-                            stateUpdater={stateUpdater}
+                            stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionNoEndDateTime}
@@ -272,7 +286,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
                             onClick={addValidity}
-                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                         >
                             Add another validity period
                         </button>
@@ -307,10 +321,7 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.publishEndDate}
-                            disabled={
-                                pageState.inputs.publishNoEndDateTime === "true" ||
-                                pageState.inputs.disruptionNoEndDateTime === "true"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             disablePast={false}
                             inputName="publishEndDate"
                             stateUpdater={stateUpdater}
@@ -322,32 +333,11 @@ const CreateDisruption = (initialState: PageState<Partial<DisruptionPageInputs>>
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs.publishEndTime}
-                            disabled={
-                                pageState.inputs.publishNoEndDateTime === "true" ||
-                                pageState.inputs.disruptionNoEndDateTime === "true"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             inputName="publishEndTime"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
                             schema={createDisruptionSchema.shape.publishEndTime}
-                        />
-
-                        <Checkbox<DisruptionPageInputs>
-                            inputName="publishNoEndDateTime"
-                            display="Does the disruption have an end datetime?"
-                            hideLegend
-                            checkboxDetail={[
-                                {
-                                    display: "No end date/time",
-                                    value: "true",
-                                    checked:
-                                        pageState.inputs.publishNoEndDateTime === "true" ||
-                                        pageState.inputs.disruptionNoEndDateTime === "true",
-                                },
-                            ]}
-                            stateUpdater={stateUpdater}
-                            initialErrors={pageState.errors}
-                            disabled={pageState.inputs.disruptionNoEndDateTime === "true"}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">

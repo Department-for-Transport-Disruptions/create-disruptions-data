@@ -35,7 +35,6 @@ describe("page state from cookies test", () => {
             publishStartTime: "1100",
             publishEndDate: "",
             publishEndTime: "",
-            publishNoEndDateTime: "true",
             disruptionStartDate: defaultDisruptionStartDate,
             disruptionEndDate: defaultDisruptionEndDate,
             disruptionStartTime: "1000",

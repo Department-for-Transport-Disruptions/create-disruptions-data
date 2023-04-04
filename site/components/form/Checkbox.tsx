@@ -64,7 +64,7 @@ const Checkbox = <T extends object>({
                                             );
                                             setErrors([]);
                                         }}
-                                        disabled={disabled}
+                                        defaultChecked={item.checked}
                                     />
                                     <label
                                         className="govuk-label govuk-checkboxes__label"

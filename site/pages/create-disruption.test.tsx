@@ -30,7 +30,6 @@ const withInputs: PageState<DisruptionPageInputs> = {
         publishEndDate: "01/08/2023",
         publishStartTime: "0200",
         publishEndTime: "2300",
-        publishNoEndDateTime: "",
     },
 };
 
