@@ -1,4 +1,5 @@
 import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { describe, it, expect } from "vitest";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
@@ -6,7 +7,8 @@ import { ConsequenceOperatorPageInputs } from "../pages/create-consequence-opera
 import { DisruptionPageInputs } from "../pages/create-disruption.page";
 import { operatorConsequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema } from "../schemas/create-disruption.schema";
-import { getPageStateFromCookies, splitCamelCaseToString } from ".";
+import { databaseData } from "../testData/mockData";
+import { getPageStateFromCookies, sortDisruptionsByStartDate, splitCamelCaseToString } from ".";
 
 describe("utils tests", () => {
     it.each([
@@ -65,5 +67,125 @@ describe("page state from cookies test", () => {
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);
+    });
+});
+
+describe("sortDisruptionsByStartDate", () => {
+    const mixedUpDisruptions: PtSituationElement[] = [
+        {
+            ...databaseData[0],
+            ValidityPeriod: [
+                {
+                    StartTime: "2023-03-25T11:23:24.529Z",
+                    EndTime: undefined,
+                },
+                {
+                    StartTime: "2022-12-25T11:23:24.529Z",
+                    EndTime: undefined,
+                },
+                {
+                    StartTime: "2024-03-25T11:23:24.529Z",
+                    EndTime: undefined,
+                },
+            ],
+        },
+        {
+            ...databaseData[0],
+            ValidityPeriod: [
+                {
+                    StartTime: "2025-03-21T11:23:24.529Z",
+                    EndTime: "2023-03-22T11:23:24.529Z",
+                },
+            ],
+        },
+        {
+            ...databaseData[0],
+            ValidityPeriod: [
+                {
+                    StartTime: "2022-04-24T11:23:24.529Z",
+                    EndTime: "2024-03-22T11:23:24.529Z",
+                },
+                {
+                    StartTime: "2022-04-22T11:23:24.529Z",
+                    EndTime: undefined,
+                },
+            ],
+        },
+    ];
+
+    it("sorts disruptions into start date order", () => {
+        const result = sortDisruptionsByStartDate(mixedUpDisruptions);
+
+        expect(result).toStrictEqual([
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                ParticipantRef: "ref",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
+                Progress: "open",
+                ValidityPeriod: [
+                    { StartTime: "2022-04-22T11:23:24.529Z", EndTime: undefined },
+                    {
+                        StartTime: "2022-04-24T11:23:24.529Z",
+                        EndTime: "2024-03-22T11:23:24.529Z",
+                    },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-03-09T10:10:00Z",
+                },
+                ReasonType: "PersonnelReason",
+                PersonnelReason: "staffSickness",
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
+            },
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                ParticipantRef: "ref",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
+                Progress: "open",
+                ValidityPeriod: [
+                    { StartTime: "2022-12-25T11:23:24.529Z", EndTime: undefined },
+                    { StartTime: "2023-03-25T11:23:24.529Z", EndTime: undefined },
+                    { StartTime: "2024-03-25T11:23:24.529Z", EndTime: undefined },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-03-09T10:10:00Z",
+                },
+                ReasonType: "PersonnelReason",
+                PersonnelReason: "staffSickness",
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
+            },
+            {
+                CreationTime: "2023-01-01T01:10:00Z",
+                ParticipantRef: "ref",
+                SituationNumber: "aaaaa-bbbbb-ccccc",
+                Version: 1,
+                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
+                Progress: "open",
+                ValidityPeriod: [
+                    {
+                        StartTime: "2025-03-21T11:23:24.529Z",
+                        EndTime: "2023-03-22T11:23:24.529Z",
+                    },
+                ],
+                PublicationWindow: {
+                    StartTime: "2023-03-02T10:10:00Z",
+                    EndTime: "2023-03-09T10:10:00Z",
+                },
+                ReasonType: "PersonnelReason",
+                PersonnelReason: "staffSickness",
+                Planned: true,
+                Summary: "Disruption Summary",
+                Description: "Disruption Description",
+            },
+        ]);
     });
 });
