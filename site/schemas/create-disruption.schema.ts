@@ -187,12 +187,6 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                                 combinedValidity[j].disruptionStartDate,
                                 combinedValidity[j].disruptionStartTime,
                             ),
-                            combinedValidity[j].disruptionEndDate
-                                ? getDatetimeFromDateAndTime(
-                                      combinedValidity[j].disruptionEndDate || "",
-                                      combinedValidity[j].disruptionEndTime || "",
-                                  )
-                                : dayjs().add(100, "year"),
                         )
                     )
                         valid = false;

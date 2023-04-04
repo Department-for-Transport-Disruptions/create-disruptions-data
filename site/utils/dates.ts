@@ -24,12 +24,7 @@ export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(
 export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORMAT) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
-export const checkOverlap = (
-    firstStartDate: dayjs.Dayjs,
-    firstEndDate: dayjs.Dayjs,
-    secondStartDate: dayjs.Dayjs,
-    secondEndDate: dayjs.Dayjs,
-) => {
+export const checkOverlap = (firstStartDate: dayjs.Dayjs, firstEndDate: dayjs.Dayjs, secondStartDate: dayjs.Dayjs) => {
     return (
         firstStartDate.isBetween(secondStartDate, firstEndDate) ||
         secondStartDate.isBetween(firstStartDate, firstEndDate) ||
