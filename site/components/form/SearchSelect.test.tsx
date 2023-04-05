@@ -31,6 +31,13 @@ describe("SearchSelect", () => {
                     display="Test Data"
                     displaySize="l"
                     inputId="test-id"
+                    inputValue=""
+                    setSearchInput={() => ""}
+                    placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();
@@ -61,6 +68,13 @@ describe("SearchSelect", () => {
                     displaySize="l"
                     inputId="test-id"
                     initialErrors={[{ errorMessage: "There was an error", id: "test-id" }]}
+                    inputValue=""
+                    setSearchInput={() => ""}
+                    placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();
