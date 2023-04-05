@@ -5,7 +5,7 @@ import Table from "./Table";
 import { ErrorInfo } from "../../interfaces";
 
 interface SearchSelectProps<T> {
-    placeholder?: string;
+    placeholder: string;
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
@@ -22,9 +22,9 @@ interface SearchSelectProps<T> {
     inputId: string;
     hint?: string;
     isClearable?: boolean;
-    options?: T[] | undefined;
-    inputValue?: string;
-    setSearchInput?: Dispatch<SetStateAction<string>>;
+    options: T[] | undefined;
+    inputValue: string;
+    setSearchInput: Dispatch<SetStateAction<string>>;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -41,7 +41,7 @@ const SearchSelect = <T extends object>({
     display,
     displaySize = "s",
     isClearable = false,
-    options = [],
+    options,
     inputValue = "",
     setSearchInput = (value) => value,
 }: SearchSelectProps<T>): ReactElement => {
