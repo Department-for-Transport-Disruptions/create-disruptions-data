@@ -2,6 +2,7 @@ import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import { point, polygon } from "@turf/helpers";
 import { GeoJsonProperties, Feature, Polygon, MultiPolygon } from "geojson";
 import uniqueId from "lodash/uniqueId";
+import inside from "point-in-polygon";
 import { CSSProperties, ReactElement, ReactNode, useCallback, useEffect, useState } from "react";
 import MapBox, { Marker, ViewState } from "react-map-gl";
 import DrawControl from "./DrawControl";
@@ -65,8 +66,8 @@ const Map = ({ initialViewState, style, mapStyle, selected, searched, stops }: M
 
     useEffect(() => {
         if (features && Object.values(features).length > 0 && stops) {
-            const poly = polygon(Object.values(features)[0].geometry.coordinates);
-
+            // const poly = polygon(Object.values(features)[0].geometry.coordinates);
+            // console.log(Object.values(features)[0].geometry.coordinates);
             // const markers = stops.filter((stop) => {
             //     const pt = point([Number(stop.longitude), Number(stop.latitude)]);
             //     if (booleanPointInPolygon(pt, poly)) {
@@ -76,7 +77,10 @@ const Map = ({ initialViewState, style, mapStyle, selected, searched, stops }: M
             // });
 
             const markers: Stop[] = stops.filter((stop) =>
-                booleanPointInPolygon([Number(stop.longitude), Number(stop.latitude)], poly),
+                inside(
+                    [Number(stop.longitude), Number(stop.latitude)],
+                    Object.values(features)[0].geometry.coordinates[0],
+                ),
             );
             console.log(markers);
         }
