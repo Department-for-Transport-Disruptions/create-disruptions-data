@@ -8,7 +8,7 @@ interface SearchSelectProps<T> {
     placeholder: string;
     inputName: string;
     initialErrors?: ErrorInfo[];
-    getOptionLabel: (value: T) => string;
+    getOptionLabel?: (value: T) => string;
     handleChange: (value: SingleValue<T>) => void;
     tableData: T[] | undefined;
     getRows: () => {
@@ -16,7 +16,7 @@ interface SearchSelectProps<T> {
         cells: (string | JSX.Element)[];
     }[];
     selected: SingleValue<T>;
-    getOptionValue: (value: T) => string;
+    getOptionValue?: (value: T) => string;
     display: string;
     displaySize?: string;
     inputId: string;

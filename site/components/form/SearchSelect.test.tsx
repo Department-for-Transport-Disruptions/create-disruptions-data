@@ -33,8 +33,6 @@ describe("SearchSelect", () => {
                     inputId="test-id"
                     inputValue=""
                     setSearchInput={() => ""}
-                    getOptionLabel={() => ""}
-                    getOptionValue={() => ""}
                     placeholder="placeholder"
                 />,
             )
@@ -68,8 +66,6 @@ describe("SearchSelect", () => {
                     initialErrors={[{ errorMessage: "There was an error", id: "test-id" }]}
                     inputValue=""
                     setSearchInput={() => ""}
-                    getOptionLabel={() => ""}
-                    getOptionValue={() => ""}
                     placeholder="placeholder"
                 />,
             )
