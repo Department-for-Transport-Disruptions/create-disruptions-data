@@ -34,6 +34,10 @@ describe("SearchSelect", () => {
                     inputValue=""
                     setSearchInput={() => ""}
                     placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();
@@ -67,6 +71,10 @@ describe("SearchSelect", () => {
                     inputValue=""
                     setSearchInput={() => ""}
                     placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();

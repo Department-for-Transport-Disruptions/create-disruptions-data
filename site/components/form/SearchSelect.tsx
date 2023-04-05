@@ -22,7 +22,7 @@ interface SearchSelectProps<T> {
     inputId: string;
     hint?: string;
     isClearable?: boolean;
-    options?: T[] | undefined;
+    options: T[] | undefined;
     inputValue: string;
     setSearchInput: Dispatch<SetStateAction<string>>;
 }
@@ -41,7 +41,7 @@ const SearchSelect = <T extends object>({
     display,
     displaySize = "s",
     isClearable = false,
-    options = [],
+    options,
     inputValue = "",
     setSearchInput = (value) => value,
 }: SearchSelectProps<T>): ReactElement => {
