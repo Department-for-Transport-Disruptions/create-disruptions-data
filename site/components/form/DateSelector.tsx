@@ -41,7 +41,11 @@ const inputBox = <T extends object>(
                 {...inputProps}
                 disabled={disabled}
                 placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
+                onBlur={(e) => {
+                    if (!e.target.value) {
+                        handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled);
+                    }
+                }}
             />
         </div>
         {InputProps?.endAdornment}
@@ -106,10 +110,16 @@ const DateSelector = <T extends object>({
                             renderDay={renderWeekPickerDay}
                             value={dateValue}
                             onChange={(newValue) => {
-                                setErrors([]);
                                 setDateValue(newValue);
-                                if (newValue) {
-                                    stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+
+                                if (newValue && newValue.toString() !== "Invalid Date") {
+                                    handleBlur(
+                                        convertDateTimeToFormat(newValue, "DD/MM/YYYY"),
+                                        inputName,
+                                        stateUpdater,
+                                        setErrors,
+                                        schema,
+                                    );
                                 }
                             }}
                             renderInput={({ inputRef, inputProps, InputProps }) => {

@@ -8,8 +8,9 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = CD_DATE_FORMAT) =>
-    dayjs(dateOrTime).format(format);
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = CD_DATE_FORMAT) => {
+    return dayjs(dateOrTime).format(format);
+};
 
 export const getDate = (input?: string) => dayjs(!!input ? input : undefined);
 
