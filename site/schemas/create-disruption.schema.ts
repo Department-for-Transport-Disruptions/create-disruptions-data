@@ -128,6 +128,29 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: "Disruption end datetime must be after start datetime",
         },
     )
+    .refine((val) => (val.disruptionEndDate ? !!val.disruptionEndTime : true), {
+        path: ["disruptionEndTime"],
+        message: "Disruption end time must be set when end date is set",
+    })
+    .refine((val) => (val.disruptionEndTime ? !!val.disruptionEndDate : true), {
+        path: ["disruptionEndDate"],
+        message: "Disruption end date must be set when end time is set",
+    })
+    .refine(
+        (val) => {
+            if (val.disruptionEndDate && val.disruptionEndTime) {
+                return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
+                );
+            }
+
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "Disruption end datetime must be after start datetime",
+        },
+    )
     .refine(
         (val) => {
             if (val.disruptionNoEndDateTime) {
