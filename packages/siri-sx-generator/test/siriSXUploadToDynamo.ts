@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import { BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
+import { Severity, VehicleMode, Progress } from "@create-disruptions-data/shared-ts/enums";
 import { randomUUID } from "crypto";
 import { baseDisruptionJson } from "./testData";
 import { getDdbDocumentClient } from "../util/awsClient";
-import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
-import { Severity, VehicleMode, Progress } from "@create-disruptions-data/shared-ts/enums";
 
 const [stageName, itemsToCreate] = process.argv.slice(2);
 
