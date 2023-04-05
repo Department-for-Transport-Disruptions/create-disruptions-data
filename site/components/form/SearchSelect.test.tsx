@@ -33,6 +33,9 @@ describe("SearchSelect", () => {
                     inputId="test-id"
                     inputValue=""
                     setSearchInput={() => ""}
+                    getOptionLabel={() => ""}
+                    getOptionValue={() => ""}
+                    placeholder="placeholder"
                 />,
             )
             .toJSON();
@@ -65,6 +68,9 @@ describe("SearchSelect", () => {
                     initialErrors={[{ errorMessage: "There was an error", id: "test-id" }]}
                     inputValue=""
                     setSearchInput={() => ""}
+                    getOptionLabel={() => ""}
+                    getOptionValue={() => ""}
+                    placeholder="placeholder"
                 />,
             )
             .toJSON();
