@@ -61,48 +61,50 @@ export const validitySchemaRefined = validitySchema
         message: '"No end date/time" should be selected or a disruption date and time should be entered',
     });
 
-export const createDisruptionSchema = z.object({
-    disruptionType: z.union(
-        [z.literal("planned"), z.literal("unplanned")],
-        setZodDefaultError("Select a disruption type"),
-    ),
-    summary: z.string(setZodDefaultError("Enter a summary for this disruption")).min(1).max(100, {
-        message: "Summary must not exceed 100 characters",
-    }),
-    description: z.string(setZodDefaultError("Enter a description for this disruption")).min(1).max(500, {
-        message: "Description must not exceed 500 characters",
-    }),
-    associatedLink: z
-        .string()
-        .url({
-            message: "Associated link must be a valid URL",
-        })
-        .max(500, {
-            message: "Associated link must not exceed 500 characters",
-        })
-        .optional()
-        .or(z.literal("")),
-    disruptionReason: z.union(
-        [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
-        setZodDefaultError("Select a reason from the dropdown"),
-    ),
-    publishStartDate: zodDate("Enter a publish start date for the disruption"),
-    publishStartTime: zodTime("Enter a publish start time for the disruption"),
-    publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
-    disruptionStartDate: zodDate("Enter a validity start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a validity start time for the disruption"),
-    disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    validity: z
-        .array(validitySchemaRefined)
-        .refine((arr) => !arr.some((val) => val.disruptionNoEndDateTime === "true"), {
-            path: ["disruptionStartDate"],
-            message: "A validity period with no end time must be the last validity",
-        })
-        .optional(),
-});
+export const createDisruptionSchema = z
+    .object({
+        disruptionType: z.union(
+            [z.literal("planned"), z.literal("unplanned")],
+            setZodDefaultError("Select a disruption type"),
+        ),
+        summary: z.string(setZodDefaultError("Enter a summary for this disruption")).min(1).max(100, {
+            message: "Summary must not exceed 100 characters",
+        }),
+        description: z.string(setZodDefaultError("Enter a description for this disruption")).min(1).max(500, {
+            message: "Description must not exceed 500 characters",
+        }),
+        associatedLink: z
+            .string()
+            .url({
+                message: "Associated link must be a valid URL",
+            })
+            .max(500, {
+                message: "Associated link must not exceed 500 characters",
+            })
+            .optional()
+            .or(z.literal("")),
+        disruptionReason: z.union(
+            [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
+            setZodDefaultError("Select a reason from the dropdown"),
+        ),
+        publishStartDate: zodDate("Enter a publish start date for the disruption"),
+        publishStartTime: zodTime("Enter a publish start time for the disruption"),
+        publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
+        publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+        disruptionStartDate: zodDate("Enter a validity start date for the disruption"),
+        disruptionStartTime: zodTime("Enter a validity start time for the disruption"),
+        disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
+        disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+        disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+        validity: z
+            .array(validitySchemaRefined)
+            .refine((arr) => !arr.some((val) => val.disruptionNoEndDateTime === "true"), {
+                path: ["disruptionStartDate"],
+                message: "A validity period with no end time must be the last validity",
+            })
+            .optional(),
+    })
+    .and(validitySchemaRefined);
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema
     .refine(
@@ -126,7 +128,6 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         path: ["publishEndDate"],
         message: "Publish end date must be set when end time is set",
     })
-
     .refine(
         (val) => {
             if (val.publishEndDate && val.publishEndTime) {
@@ -251,7 +252,7 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         });
 
         if (
-            getDatetimeFromDateAndTime(publishStartDate, publishStartTime).isSameOrAfter(
+            getDatetimeFromDateAndTime(publishStartDate, publishStartTime).isAfter(
                 getDatetimeFromDateAndTime(
                     sortedValidity[0].disruptionStartDate,
                     sortedValidity[0].disruptionStartTime,
@@ -269,7 +270,7 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             sortedValidity[sortedValidity.length - 1].disruptionEndDate &&
             publishEndDate &&
             publishEndTime &&
-            getDatetimeFromDateAndTime(publishEndDate, publishEndTime).isSameOrBefore(
+            getDatetimeFromDateAndTime(publishEndDate, publishEndTime).isBefore(
                 getDatetimeFromDateAndTime(
                     sortedValidity[sortedValidity.length - 1].disruptionEndDate || "",
                     sortedValidity[sortedValidity.length - 1].disruptionEndTime || "",
