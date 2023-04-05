@@ -33,9 +33,20 @@ import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils"
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
+const fetchStops = async () => {
+    const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}`;
+    const res = await fetch(searchApiUrl, { method: "GET" });
+    const data: Stop[] = z.array(stopSchema).parse(await res.json());
+    if (data) {
+        return data;
+    }
+    return [];
+};
+
 const CreateConsequenceStops = ({
     initialPageState,
     previousConsequenceInformation,
+    allStops = [],
 }: CreateConsequenceProps<StopsConsequence>): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(initialPageState);
     const stateUpdater = getStateUpdater(setPageState, pageState);
@@ -219,11 +230,8 @@ const CreateConsequenceStops = ({
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions.filter((stopToFilter: Stop) =>
-                                pageState.inputs.stops && pageState.inputs.stops.length > 0
-                                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
-                                    : stopToFilter,
-                            )}
+                            searched={stopOptions}
+                            stops={allStops}
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"
@@ -298,9 +306,9 @@ const CreateConsequenceStops = ({
     );
 };
 
-export const getServerSideProps = (
+export const getServerSideProps = async (
     ctx: NextPageContext,
-): { props: CreateConsequenceProps<StopsConsequence> } | void => {
+): Promise<{ props: CreateConsequenceProps<StopsConsequence> } | void> => {
     let pageState: PageState<Partial<StopsConsequence>> = {
         errors: [],
         inputs: {},
@@ -329,10 +337,16 @@ export const getServerSideProps = (
         return;
     }
 
+    const allStops = await fetchStops();
+
     pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     return {
-        props: { initialPageState: pageState, previousConsequenceInformation: previousConsequenceInformation.data },
+        props: {
+            initialPageState: pageState,
+            previousConsequenceInformation: previousConsequenceInformation.data,
+            allStops,
+        },
     };
 };
 
