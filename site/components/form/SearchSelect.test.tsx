@@ -14,12 +14,6 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    loadOptions={() =>
-                        new Promise(() => [
-                            { value: "blue", label: "Blue" },
-                            { value: "purple", label: "Purple" },
-                        ])
-                    }
                     handleChange={() => null}
                     tableData={[]}
                     getRows={() => {
@@ -37,6 +31,13 @@ describe("SearchSelect", () => {
                     display="Test Data"
                     displaySize="l"
                     inputId="test-id"
+                    inputValue=""
+                    setSearchInput={() => ""}
+                    placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();
@@ -49,12 +50,6 @@ describe("SearchSelect", () => {
                 <SearchSelect<ColourOption>
                     selected={{ value: "ocean", label: "Ocean" }}
                     inputName="test-id"
-                    loadOptions={() =>
-                        new Promise(() => [
-                            { value: "blue", label: "Blue" },
-                            { value: "purple", label: "Purple" },
-                        ])
-                    }
                     handleChange={() => null}
                     tableData={[]}
                     getRows={() => {
@@ -73,6 +68,13 @@ describe("SearchSelect", () => {
                     displaySize="l"
                     inputId="test-id"
                     initialErrors={[{ errorMessage: "There was an error", id: "test-id" }]}
+                    inputValue=""
+                    setSearchInput={() => ""}
+                    placeholder="placeholder"
+                    options={[
+                        { value: "ocean", label: "Ocean" },
+                        { value: "blue", label: "Blue" },
+                    ]}
                 />,
             )
             .toJSON();

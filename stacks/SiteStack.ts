@@ -44,6 +44,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
         ],
+        buildCommand: "npx -w @create-disruptions-data/site open-next@0.7.0 build",
     });
 
     stack.addOutputs({

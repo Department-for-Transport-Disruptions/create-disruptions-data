@@ -34,8 +34,8 @@ export const stopSchema = z.object({
     atcoCode: z.string({}),
     commonName: z.string({}),
     indicator: z.string().optional(),
-    longitude: z.string({}),
-    latitude: z.string({}),
+    longitude: z.coerce.number(),
+    latitude: z.coerce.number(),
     serviceId: z.number({}).optional(),
 });
 
