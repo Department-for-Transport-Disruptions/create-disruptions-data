@@ -69,6 +69,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
+    const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -370,6 +372,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             displaySize="l"
                             inputId="services"
                             isClearable
+                            inputValue={servicesSearchInput}
+                            setSearchInput={setServicesSearchInput}
                         />
 
                         <button
@@ -395,6 +399,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             displaySize="l"
                             inputId="stops"
                             options={stopOptions}
+                            inputValue={stopsSearchInput}
+                            setSearchInput={setStopsSearchInput}
                         />
 
                         <Map

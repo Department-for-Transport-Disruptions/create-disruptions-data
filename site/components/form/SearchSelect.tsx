@@ -23,8 +23,8 @@ interface SearchSelectProps<T> {
     hint?: string;
     isClearable?: boolean;
     options?: T[] | undefined;
-    inputValue?: string;
-    setSearchInput?: Dispatch<SetStateAction<string>>;
+    inputValue: string;
+    setSearchInput: Dispatch<SetStateAction<string>>;
 }
 const SearchSelect = <T extends object>({
     selected,

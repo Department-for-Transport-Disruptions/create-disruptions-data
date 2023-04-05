@@ -31,6 +31,8 @@ describe("SearchSelect", () => {
                     display="Test Data"
                     displaySize="l"
                     inputId="test-id"
+                    inputValue=""
+                    setSearchInput={() => ""}
                 />,
             )
             .toJSON();
@@ -61,6 +63,8 @@ describe("SearchSelect", () => {
                     displaySize="l"
                     inputId="test-id"
                     initialErrors={[{ errorMessage: "There was an error", id: "test-id" }]}
+                    inputValue=""
+                    setSearchInput={() => ""}
                 />,
             )
             .toJSON();
