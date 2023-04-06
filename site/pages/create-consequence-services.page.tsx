@@ -35,7 +35,7 @@ import {
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
-import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -114,20 +114,6 @@ const CreateConsequenceServices = ({
                 }));
         }
         return [];
-    };
-
-    const sortStops = (stops: Stop[]) => {
-        return stops.sort((a, b) => {
-            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
-                return (
-                    a.commonName.localeCompare(b.commonName) ||
-                    a.indicator.localeCompare(b.indicator) ||
-                    a.atcoCode.localeCompare(b.atcoCode)
-                );
-            } else {
-                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
-            }
-        });
     };
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {

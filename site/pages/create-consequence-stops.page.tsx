@@ -232,6 +232,9 @@ const CreateConsequenceStops = ({
                             }
                             searched={stopOptions}
                             stops={allStops}
+                            showSelectAllButton
+                            stateUpdater={setPageState}
+                            state={pageState}
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"
