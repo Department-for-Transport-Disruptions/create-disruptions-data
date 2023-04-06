@@ -255,9 +255,19 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Congestion
                   </option>
                   <option
+                    value="constructionWork"
+                  >
+                    Construction Work
+                  </option>
+                  <option
                     value="emergencyEngineeringWork"
                   >
                     Emergency Engineering Work
+                  </option>
+                  <option
+                    value="flooding"
+                  >
+                    Flooding
                   </option>
                   <option
                     value="fog"
@@ -265,9 +275,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Fog
                   </option>
                   <option
-                    value="flooding"
+                    value="heavyRain"
                   >
-                    Flooding
+                    Heavy Rain
                   </option>
                   <option
                     value="heavySnowFall"
@@ -280,14 +290,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     High Temperatures
                   </option>
                   <option
-                    value="heavyRain"
-                  >
-                    Heavy Rain
-                  </option>
-                  <option
                     value="ice"
                   >
-                    Vandalism
+                    Ice
                   </option>
                   <option
                     value="incident"
@@ -295,9 +300,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Incident
                   </option>
                   <option
-                    value="securityAlert"
+                    value="industrialAction"
                   >
-                    Security Alert
+                    Industrial Action
                   </option>
                   <option
                     value="maintenanceWork"
@@ -315,9 +320,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Overcrowded
                   </option>
                   <option
-                    value="signalProblem"
+                    value="repairWork"
                   >
-                    Signal Problem
+                    Repair Work
                   </option>
                   <option
                     value="roadClosed"
@@ -335,34 +340,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Route Diversion
                   </option>
                   <option
-                    value="specialEvent"
+                    value="securityAlert"
                   >
-                    Special Event
-                  </option>
-                  <option
-                    value="roadworks"
-                  >
-                    Road Works
-                  </option>
-                  <option
-                    value="vandalism"
-                  >
-                    Vandalism
-                  </option>
-                  <option
-                    value="routeDiversion"
-                  >
-                    Route Diversion
-                  </option>
-                  <option
-                    value="specialEvent"
-                  >
-                    Special Event
-                  </option>
-                  <option
-                    value="industrialAction"
-                  >
-                    Industrial Action
+                    Security Alert
                   </option>
                   <option
                     value="signalFailure"
@@ -370,19 +350,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Signal Failure
                   </option>
                   <option
-                    value="repairWork"
+                    value="signalProblem"
                   >
-                    Repair Work
+                    Signal Problem
                   </option>
                   <option
-                    value="vandalism"
+                    value="specialEvent"
                   >
-                    Vandalism
+                    Special Event
                   </option>
                   <option
                     value="unknown"
                   >
                     Unknown
+                  </option>
+                  <option
+                    value="vandalism"
+                  >
+                    Vandalism
                   </option>
                 </select>
               </div>
@@ -1498,9 +1483,19 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Congestion
                   </option>
                   <option
+                    value="constructionWork"
+                  >
+                    Construction Work
+                  </option>
+                  <option
                     value="emergencyEngineeringWork"
                   >
                     Emergency Engineering Work
+                  </option>
+                  <option
+                    value="flooding"
+                  >
+                    Flooding
                   </option>
                   <option
                     value="fog"
@@ -1508,9 +1503,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Fog
                   </option>
                   <option
-                    value="flooding"
+                    value="heavyRain"
                   >
-                    Flooding
+                    Heavy Rain
                   </option>
                   <option
                     value="heavySnowFall"
@@ -1523,14 +1518,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     High Temperatures
                   </option>
                   <option
-                    value="heavyRain"
-                  >
-                    Heavy Rain
-                  </option>
-                  <option
                     value="ice"
                   >
-                    Vandalism
+                    Ice
                   </option>
                   <option
                     value="incident"
@@ -1538,9 +1528,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Incident
                   </option>
                   <option
-                    value="securityAlert"
+                    value="industrialAction"
                   >
-                    Security Alert
+                    Industrial Action
                   </option>
                   <option
                     value="maintenanceWork"
@@ -1558,9 +1548,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Overcrowded
                   </option>
                   <option
-                    value="signalProblem"
+                    value="repairWork"
                   >
-                    Signal Problem
+                    Repair Work
                   </option>
                   <option
                     value="roadClosed"
@@ -1578,34 +1568,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Route Diversion
                   </option>
                   <option
-                    value="specialEvent"
+                    value="securityAlert"
                   >
-                    Special Event
-                  </option>
-                  <option
-                    value="roadworks"
-                  >
-                    Road Works
-                  </option>
-                  <option
-                    value="vandalism"
-                  >
-                    Vandalism
-                  </option>
-                  <option
-                    value="routeDiversion"
-                  >
-                    Route Diversion
-                  </option>
-                  <option
-                    value="specialEvent"
-                  >
-                    Special Event
-                  </option>
-                  <option
-                    value="industrialAction"
-                  >
-                    Industrial Action
+                    Security Alert
                   </option>
                   <option
                     value="signalFailure"
@@ -1613,19 +1578,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Signal Failure
                   </option>
                   <option
-                    value="repairWork"
+                    value="signalProblem"
                   >
-                    Repair Work
+                    Signal Problem
                   </option>
                   <option
-                    value="vandalism"
+                    value="specialEvent"
                   >
-                    Vandalism
+                    Special Event
                   </option>
                   <option
                     value="unknown"
                   >
                     Unknown
+                  </option>
+                  <option
+                    value="vandalism"
+                  >
+                    Vandalism
                   </option>
                 </select>
               </div>

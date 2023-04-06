@@ -46,6 +46,11 @@ exports[`Select > should render correctly with errors 1`] = `
           Congestion
         </option>
         <option
+          value="constructionWork"
+        >
+          Construction Work
+        </option>
+        <option
           value="emergencyEngineeringWork"
         >
           Emergency Engineering Work
@@ -78,7 +83,7 @@ exports[`Select > should render correctly with errors 1`] = `
         <option
           value="ice"
         >
-          Vandalism
+          Ice
         </option>
         <option
           value="incident"
@@ -119,26 +124,6 @@ exports[`Select > should render correctly with errors 1`] = `
           value="roadworks"
         >
           Roadworks
-        </option>
-        <option
-          value="routeDiversion"
-        >
-          Route Diversion
-        </option>
-        <option
-          value="specialEvent"
-        >
-          Special Event
-        </option>
-        <option
-          value="roadworks"
-        >
-          Road Works
-        </option>
-        <option
-          value="vandalism"
-        >
-          Vandalism
         </option>
         <option
           value="routeDiversion"
@@ -227,6 +212,11 @@ exports[`Select > should render correctly with no errors 1`] = `
           Congestion
         </option>
         <option
+          value="constructionWork"
+        >
+          Construction Work
+        </option>
+        <option
           value="emergencyEngineeringWork"
         >
           Emergency Engineering Work
@@ -259,7 +249,7 @@ exports[`Select > should render correctly with no errors 1`] = `
         <option
           value="ice"
         >
-          Vandalism
+          Ice
         </option>
         <option
           value="incident"
@@ -300,26 +290,6 @@ exports[`Select > should render correctly with no errors 1`] = `
           value="roadworks"
         >
           Roadworks
-        </option>
-        <option
-          value="routeDiversion"
-        >
-          Route Diversion
-        </option>
-        <option
-          value="specialEvent"
-        >
-          Special Event
-        </option>
-        <option
-          value="roadworks"
-        >
-          Road Works
-        </option>
-        <option
-          value="vandalism"
-        >
-          Vandalism
         </option>
         <option
           value="routeDiversion"
