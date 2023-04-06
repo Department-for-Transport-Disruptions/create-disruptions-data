@@ -1,4 +1,5 @@
-import { GeoJsonProperties } from "geojson";
+import { DrawCreateEvent, DrawDeleteEvent, DrawUpdateEvent } from "@mapbox/mapbox-gl-draw";
+import { Feature, GeoJsonProperties, Geometry, Polygon } from "geojson";
 import uniqueId from "lodash/uniqueId";
 import {
     CSSProperties,
@@ -44,7 +45,7 @@ const Map = ({
     state,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
-    const [features, setFeatures] = useState<GeoJsonProperties>({});
+    const [features, setFeatures] = useState<{ [key: string]: Feature<Geometry, GeoJsonProperties> }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
 
@@ -91,7 +92,7 @@ const Map = ({
 
     useEffect(() => {
         if (features && Object.values(features).length > 0 && stops) {
-            const polygon = Object.values(features)[0].geometry.coordinates[0] as GeolocationCoordinates;
+            const polygon = Object.values(features as { [key: string]: Feature<Polygon> })[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
                     polygon,
@@ -111,22 +112,26 @@ const Map = ({
         }
     }, [features, stops]);
 
-    const onUpdate = useCallback((e) => {
+    const onUpdate = useCallback((evt: DrawUpdateEvent | DrawCreateEvent) => {
         setFeatures((currFeatures) => {
             const newFeatures = { ...currFeatures };
-            for (const f of e.features) {
-                newFeatures[f.id] = f;
+            for (const f of evt.features) {
+                if (f.id) {
+                    newFeatures[f.id] = f;
+                }
             }
             return newFeatures;
         });
         setSelectAll(true);
     }, []);
 
-    const onDelete = useCallback((e) => {
+    const onDelete = useCallback((evt: DrawDeleteEvent) => {
         setFeatures((currFeatures) => {
             const newFeatures = { ...currFeatures };
-            for (const f of e.features) {
-                delete newFeatures[f.id];
+            for (const f of evt.features) {
+                if (f.id) {
+                    delete newFeatures[f.id];
+                }
             }
             return newFeatures;
         });
@@ -134,8 +139,8 @@ const Map = ({
         setMarkerData([]);
     }, []);
 
-    const selectAllStops = (e: SyntheticEvent) => {
-        e.preventDefault();
+    const selectAllStops = (evt: SyntheticEvent) => {
+        evt.preventDefault();
         if (!selectAll && state) {
             stateUpdater({
                 inputs: {
@@ -205,9 +210,15 @@ const Map = ({
                         trash: true,
                     }}
                     defaultMode="draw_polygon"
-                    onCreate={onUpdate}
-                    onUpdate={onUpdate}
-                    onDelete={onDelete}
+                    onCreate={(evt) => {
+                        onUpdate(evt as DrawCreateEvent);
+                    }}
+                    onUpdate={(evt) => {
+                        onUpdate(evt as DrawUpdateEvent);
+                    }}
+                    onDelete={(evt) => {
+                        onDelete(evt as DrawDeleteEvent);
+                    }}
                 />
             </MapBox>
         </>
