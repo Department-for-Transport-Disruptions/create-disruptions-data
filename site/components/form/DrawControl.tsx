@@ -1,16 +1,15 @@
-import MapboxDraw from "@mapbox/mapbox-gl-draw";
+import MapboxDraw, { MapboxDrawControls } from "@mapbox/mapbox-gl-draw";
+import { MapEventType } from "mapbox-gl";
 import { useControl } from "react-map-gl";
-
 import type { MapRef, ControlPosition } from "react-map-gl";
-import { ControlProps } from "react-select";
 
 type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
     position?: ControlPosition;
-    controls?: ControlProps;
+    controls?: MapboxDrawControls | undefined;
     displayControlsDefault?: boolean;
-    onCreate?: (evt: { features: object[] }) => void;
-    onUpdate?: (evt: { features: object[]; action: string }) => void;
-    onDelete?: (evt: { features: object[] }) => void;
+    onCreate: (evt: { features: object[] }) => void;
+    onUpdate: (evt: { features: object[]; action: string }) => void;
+    onDelete: (evt: { features: object[] }) => void;
 };
 
 const DrawControl = ({
@@ -22,16 +21,16 @@ const DrawControl = ({
     displayControlsDefault,
 }: DrawControlProps): null => {
     useControl<MapboxDraw>(
-        () => new MapboxDraw({ onCreate, onUpdate, onDelete, position, controls, displayControlsDefault }),
+        () => new MapboxDraw({ controls, displayControlsDefault }),
         ({ map }: { map: MapRef }) => {
-            map.on("draw.create", onCreate);
-            map.on("draw.update", onUpdate);
-            map.on("draw.delete", onDelete);
+            map.on("draw.create" as keyof MapEventType, onCreate);
+            map.on("draw.update" as keyof MapEventType, onUpdate);
+            map.on("draw.delete" as keyof MapEventType, onDelete);
         },
         ({ map }: { map: MapRef }) => {
-            map.off("draw.create", onCreate);
-            map.off("draw.update", onUpdate);
-            map.off("draw.delete", onDelete);
+            map.off("draw.create" as keyof MapEventType, onCreate);
+            map.off("draw.update" as keyof MapEventType, onUpdate);
+            map.off("draw.delete" as keyof MapEventType, onDelete);
         },
         {
             position: position,
