@@ -30,6 +30,11 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         value: MiscellaneousReason.congestion,
         display: "Congestion",
     },
+    ,
+    {
+        value: MiscellaneousReason.constructionWork,
+        display: "Construction Work",
+    },
     {
         value: EquipmentReason.emergencyEngineeringWork,
         display: "Emergency Engineering Work",
@@ -56,7 +61,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
     },
     {
         value: EnvironmentReason.ice,
-        display: "Vandalism",
+        display: "Ice",
     },
     {
         value: MiscellaneousReason.incident,
@@ -89,22 +94,6 @@ export const DISRUPTION_REASONS: DisplayValuePair<
     {
         value: MiscellaneousReason.roadworks,
         display: "Roadworks",
-    },
-    {
-        value: MiscellaneousReason.routeDiversion,
-        display: "Route Diversion",
-    },
-    {
-        value: MiscellaneousReason.specialEvent,
-        display: "Special Event",
-    },
-    {
-        value: MiscellaneousReason.roadworks,
-        display: "Road Works",
-    },
-    {
-        value: MiscellaneousReason.vandalism,
-        display: "Vandalism",
     },
     {
         value: MiscellaneousReason.routeDiversion,

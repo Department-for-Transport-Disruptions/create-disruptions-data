@@ -202,7 +202,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             inputName="disruptionReason"
                             display="Reason for disruption"
                             defaultDisplay="Select a reason"
-                            selectValues={DISRUPTION_REASONS}
+                            selectValues={DISRUPTION_REASONS.sort((a, b) => a.value.localeCompare(b.value))}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionReason}
                             initialErrors={pageState.errors}
