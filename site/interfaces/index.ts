@@ -73,5 +73,5 @@ export interface CreateConsequenceProps<T> {
     previousConsequenceInformation: ConsequenceType;
     initialServices?: Service[];
     initialStops?: Stop[];
-    allStops?: Stop[]
+    allStops?: Stop[];
 }
