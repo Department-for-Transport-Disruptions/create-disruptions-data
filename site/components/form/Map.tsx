@@ -27,7 +27,7 @@ interface MapProps {
     selected?: Stop[];
     searched?: Stop[];
     inputId?: keyof Stop;
-    stops: Stop[];
+    stops?: Stop[];
     showSelectAllButton?: boolean;
     stateUpdater?: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
     state?: PageState<Partial<StopsConsequence>>;
@@ -39,7 +39,7 @@ const Map = ({
     mapStyle,
     selected,
     searched,
-    stops,
+    stops = [],
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
