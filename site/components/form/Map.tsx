@@ -49,46 +49,51 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
 
-    const getMarkers = (selected: Stop[], searched: Stop[]): ReactNode => {
-        const inTable =
-            selected && selected.length > 0
-                ? selected.map((s: Stop) => (
-                      <Marker
-                          key={uniqueId(s.atcoCode)}
-                          longitude={Number(s.longitude)}
-                          latitude={Number(s.latitude)}
-                      />
-                  ))
-                : [];
-        const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
-            selected && selected.length > 0 ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode) : sToFilter,
-        );
-
-        const notInTable = searched
-            .filter((sToFilter: Stop) =>
+    const getMarkers = useCallback(
+        (selected: Stop[], searched: Stop[]): ReactNode => {
+            const inTable =
+                selected && selected.length > 0
+                    ? selected.map((s: Stop) => (
+                          <Marker
+                              key={uniqueId(s.atcoCode)}
+                              longitude={Number(s.longitude)}
+                              latitude={Number(s.latitude)}
+                          />
+                      ))
+                    : [];
+            const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
                 selected && selected.length > 0
                     ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                     : sToFilter,
-            )
-            .filter((sToFilter: Stop) =>
-                markerData && markerData.length > 0
-                    ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                    : sToFilter,
             );
 
-        const greyMarkers = [...dataFromPolygon, ...notInTable].map((s) => (
-            <Marker
-                key={uniqueId(s.atcoCode)}
-                longitude={Number(s.longitude)}
-                latitude={Number(s.latitude)}
-                color="grey"
-            />
-        ));
+            const notInTable = searched
+                .filter((sToFilter: Stop) =>
+                    selected && selected.length > 0
+                        ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                        : sToFilter,
+                )
+                .filter((sToFilter: Stop) =>
+                    markerData && markerData.length > 0
+                        ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                        : sToFilter,
+                );
 
-        const markers = [...inTable, ...greyMarkers];
+            const greyMarkers = [...dataFromPolygon, ...notInTable].map((s) => (
+                <Marker
+                    key={uniqueId(s.atcoCode)}
+                    longitude={Number(s.longitude)}
+                    latitude={Number(s.latitude)}
+                    color="grey"
+                />
+            ));
 
-        return markers.length > 0 ? markers.slice(0, 100) : null;
-    };
+            const markers = [...inTable, ...greyMarkers];
+
+            return markers.length > 0 ? markers.slice(0, 100) : null;
+        },
+        [markerData],
+    );
 
     useEffect(() => {
         if (features && Object.values(features).length > 0 && stops) {
@@ -145,7 +150,11 @@ const Map = ({
             stateUpdater({
                 inputs: {
                     ...state.inputs,
-                    stops: [],
+                    stops: selected?.filter((sToFilter: Stop) =>
+                        markerData && markerData.length > 0
+                            ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                            : sToFilter,
+                    ),
                 },
                 errors: state.errors,
             });
@@ -177,7 +186,6 @@ const Map = ({
                             ),
                         ],
                     });
-                    setMarkerData([]);
                 }
             }
         }
