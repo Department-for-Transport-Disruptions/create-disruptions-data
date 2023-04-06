@@ -78,10 +78,17 @@ export const networksSchema = z.object({
         VehicleMode: z.nativeEnum(VehicleMode),
         AllLines: z.literal("").optional(),
         AffectedLine: z
-            .object({
-                AffectedOperator: affectedOperatorSchema,
-                LineRef: z.string(),
-            })
+            .array(
+                z.object({
+                    AffectedOperator: affectedOperatorSchema,
+                    LineRef: z.string(),
+                    Direction: z
+                        .object({
+                            DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
+                        })
+                        .optional(),
+                }),
+            )
             .optional(),
     }),
 });
