@@ -30,7 +30,6 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         value: MiscellaneousReason.congestion,
         display: "Congestion",
     },
-    ,
     {
         value: MiscellaneousReason.constructionWork,
         display: "Construction Work",
