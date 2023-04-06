@@ -47,6 +47,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
         action="/api/create-disruption"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -869,53 +874,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="publish-no-end-date-time"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-visually-hidden"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does the disruption have an end datetime?
-                </span>
-              </legend>
-              <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
-                data-module="govuk-checkboxes"
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className="govuk-checkboxes__item"
-                  >
-                    <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
-                      id="publish-no-end-date-time-true"
-                      name="publishNoEndDateTime"
-                      onChange={[Function]}
-                      type="checkbox"
-                      value="true"
-                    />
-                    <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="publish-no-end-date-time-true"
-                    >
-                      No end date/time
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1163,6 +1121,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         action="/api/create-disruption"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -1915,53 +1878,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 />
               </div>
             </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="publish-no-end-date-time"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-visually-hidden"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does the disruption have an end datetime?
-                </span>
-              </legend>
-              <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
-                data-module="govuk-checkboxes"
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className="govuk-checkboxes__item"
-                  >
-                    <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
-                      id="publish-no-end-date-time-true"
-                      name="publishNoEndDateTime"
-                      onChange={[Function]}
-                      type="checkbox"
-                      value="true"
-                    />
-                    <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="publish-no-end-date-time-true"
-                    >
-                      No end date/time
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
           </div>
           <button
             className="govuk-button mt-8"

@@ -163,7 +163,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    12
+                    1
                   </a>
                 </th>
                 <td
@@ -241,7 +241,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    33
+                    1
                   </a>
                 </th>
                 <td
@@ -275,7 +275,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    44
+                    2
                   </a>
                 </th>
                 <td
@@ -290,13 +290,6 @@ exports[`pages > dashboard > should render correctly when there are both live an
                     className="pb-2 last:pb-0"
                   >
                     21/04/2023
-                     
-                    - 22/03/2024
-                  </div>
-                  <div
-                    className="pb-2 last:pb-0"
-                  >
-                    22/04/2023
                      
                      onwards
                   </div>
@@ -1180,7 +1173,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    12
+                    1
                   </a>
                 </th>
                 <td
@@ -1214,7 +1207,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    33
+                    2
                   </a>
                 </th>
                 <td
@@ -1248,7 +1241,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    44
+                    3
                   </a>
                 </th>
                 <td
@@ -1263,13 +1256,6 @@ exports[`pages > dashboard > should render correctly when there are only live di
                     className="pb-2 last:pb-0"
                   >
                     21/04/2023
-                     
-                    - 22/03/2024
-                  </div>
-                  <div
-                    className="pb-2 last:pb-0"
-                  >
-                    22/04/2023
                      
                      onwards
                   </div>
@@ -1786,7 +1772,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    12
+                    1
                   </a>
                 </th>
                 <td
@@ -1820,7 +1806,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    33
+                    2
                   </a>
                 </th>
                 <td
@@ -1854,7 +1840,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
                   >
-                    44
+                    3
                   </a>
                 </th>
                 <td
@@ -1869,13 +1855,6 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                     className="pb-2 last:pb-0"
                   >
                     21/04/2023
-                     
-                    - 22/03/2024
-                  </div>
-                  <div
-                    className="pb-2 last:pb-0"
-                  >
-                    22/04/2023
                      
                      onwards
                   </div>

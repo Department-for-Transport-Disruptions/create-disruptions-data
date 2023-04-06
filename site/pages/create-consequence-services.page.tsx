@@ -5,6 +5,7 @@ import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
+import CsrfForm from "../components/form/CsrfForm";
 import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
@@ -57,18 +58,19 @@ const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     return [];
 };
 
-const CreateConsequenceServices = ({
-    initialPageState,
-    previousConsequenceInformation,
-    initialServices,
-    initialStops,
-}: CreateConsequenceProps<ServicesConsequence>): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(initialPageState);
+export interface CreateConsequenceServicesProps
+    extends PageState<Partial<ServicesConsequence>>,
+        CreateConsequenceProps {}
+
+const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
-    const [stopOptions, setStopOptions] = useState<Stop[]>(initialStops || []);
+    const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
+    const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -298,9 +300,9 @@ const CreateConsequenceServices = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            <form action="/api/create-consequence-services" method="post">
+            <CsrfForm action="/api/create-consequence-services" method="post" csrfToken={props.csrfToken}>
                 <>
-                    <ErrorSummary errors={initialPageState.errors} />
+                    <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Add a consequence</h1>
                         <Table
@@ -310,7 +312,7 @@ const CreateConsequenceServices = ({
                                     cells: [
                                         getDisplayByValue(
                                             VEHICLE_MODES,
-                                            previousConsequenceInformation.modeOfTransport,
+                                            props.previousConsequenceInformation.modeOfTransport,
                                         ),
                                         <Link
                                             key={"mode-of-transport"}
@@ -326,7 +328,7 @@ const CreateConsequenceServices = ({
                                     cells: [
                                         getDisplayByValue(
                                             CONSEQUENCE_TYPES,
-                                            previousConsequenceInformation.consequenceType,
+                                            props.previousConsequenceInformation.consequenceType,
                                         ),
                                         <Link
                                             key={"consequence-type"}
@@ -346,7 +348,7 @@ const CreateConsequenceServices = ({
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={initialServices}
+                            options={props.initialServices}
                             handleChange={handleServiceChange}
                             tableData={pageState.inputs.services}
                             getRows={getServiceRows}
@@ -356,6 +358,8 @@ const CreateConsequenceServices = ({
                             displaySize="l"
                             inputId="services"
                             isClearable
+                            inputValue={servicesSearchInput}
+                            setSearchInput={setServicesSearchInput}
                         />
 
                         <button
@@ -381,6 +385,8 @@ const CreateConsequenceServices = ({
                             displaySize="l"
                             inputId="stops"
                             options={stopOptions}
+                            inputValue={stopsSearchInput}
+                            setSearchInput={setStopsSearchInput}
                         />
 
                         <Map
@@ -481,7 +487,7 @@ const CreateConsequenceServices = ({
                         <input
                             type="hidden"
                             name="vehicleMode"
-                            value={previousConsequenceInformation.modeOfTransport}
+                            value={props.previousConsequenceInformation.modeOfTransport}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -489,19 +495,14 @@ const CreateConsequenceServices = ({
                         </button>
                     </div>
                 </>
-            </form>
+            </CsrfForm>
         </BaseLayout>
     );
 };
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceProps<ServicesConsequence> } | void> => {
-    let pageState: PageState<Partial<ServicesConsequence>> = {
-        errors: [],
-        inputs: {},
-    };
-
+): Promise<{ props: CreateConsequenceServicesProps } | void> => {
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
@@ -527,7 +528,7 @@ export const getServerSideProps = async (
 
     const previousConsequenceInformationData = previousConsequenceInformation.data;
 
-    pageState = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
+    const pageState = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
 
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
@@ -547,7 +548,7 @@ export const getServerSideProps = async (
 
     return {
         props: {
-            initialPageState: pageState,
+            ...pageState,
             previousConsequenceInformation: previousConsequenceInformationData,
             initialServices: services,
             initialStops: stops,

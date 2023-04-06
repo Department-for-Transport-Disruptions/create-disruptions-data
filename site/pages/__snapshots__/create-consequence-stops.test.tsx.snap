@@ -47,6 +47,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           aria-labelledby="error-summary-title"
           className="govuk-error-summary"
@@ -335,12 +340,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
               />
             </div>
           </div>
@@ -823,6 +828,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
@@ -1075,12 +1085,12 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":\\"51.44901\\",\\"longitude\\":\\"-2.58569\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":\\"51.45014\\",\\"longitude\\":\\"-2.5856\\"}"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
               />
             </div>
           </div>
@@ -1540,6 +1550,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
         action="/api/create-consequence-stops"
         method="post"
       >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
         <div
           className="govuk-form-group"
         >
