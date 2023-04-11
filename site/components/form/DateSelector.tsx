@@ -112,7 +112,7 @@ const DateSelector = <T extends object>({
                             onChange={(newValue) => {
                                 setDateValue(newValue);
 
-                                if (newValue && newValue.toString() !== "Invalid Date") {
+                                if (newValue) {
                                     handleBlur(
                                         convertDateTimeToFormat(newValue, "DD/MM/YYYY"),
                                         inputName,
