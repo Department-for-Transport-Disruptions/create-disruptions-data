@@ -121,6 +121,54 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                       },
                                   }
                                 : {}),
+                            ...((consequenceData.consequenceType === "stops" ||
+                                consequenceData.consequenceType === "services") &&
+                            consequenceData.stops
+                                ? {
+                                      StopPoints: {
+                                          AffectedStopPoint: consequenceData.stops.map((stop) => ({
+                                              AffectedModes: {
+                                                  Mode: {
+                                                      VehicleMode: consequenceData.vehicleMode,
+                                                  },
+                                              },
+                                              Location: {
+                                                  Longitude: stop.longitude,
+                                                  Latitude: stop.latitude,
+                                              },
+                                              StopPointName: stop.commonName,
+                                              StopPointRef: stop.atcoCode,
+                                          })),
+                                      },
+                                  }
+                                : {}),
+                            ...(consequenceData.consequenceType === "services"
+                                ? {
+                                      Networks: {
+                                          AffectedNetwork: {
+                                              VehicleMode: consequenceData.vehicleMode,
+                                              AffectedLine: consequenceData.services.map((service) => ({
+                                                  AffectedOperator: {
+                                                      OperatorRef: service.nocCode,
+                                                      OperatorName: service.operatorShortName,
+                                                  },
+                                                  LineRef: service.lineName,
+                                                  ...(consequenceData.disruptionDirection === "inbound" ||
+                                                  consequenceData.disruptionDirection === "outbound"
+                                                      ? {
+                                                            Direction: {
+                                                                DirectionRef:
+                                                                    consequenceData.disruptionDirection === "inbound"
+                                                                        ? "inboundTowardsTown"
+                                                                        : "outboundFromTown",
+                                                            },
+                                                        }
+                                                      : {}),
+                                              })),
+                                          },
+                                      },
+                                  }
+                                : {}),
                         },
                         Advice: {
                             Details: consequenceData.description,
