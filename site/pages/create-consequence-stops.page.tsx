@@ -6,7 +6,6 @@ import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
-import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -14,6 +13,7 @@ import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
+import Map from "../components/map/Map";
 import {
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_INFO,
@@ -35,16 +35,6 @@ const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
 
 export interface CreateConsequenceStopsProps extends PageState<Partial<StopsConsequence>>, CreateConsequenceProps {}
-
-const fetchStops = async () => {
-    const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}`;
-    const res = await fetch(searchApiUrl, { method: "GET" });
-    const data: Stop[] = z.array(stopSchema).parse(await res.json());
-    if (data) {
-        return data;
-    }
-    return [];
-};
 
 const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<StopsConsequence>>>(props);
@@ -230,7 +220,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     : []
                             }
                             searched={stopOptions}
-                            stops={props.allStops}
                             showSelectAllButton
                             stateUpdater={setPageState}
                             state={pageState}
@@ -308,9 +297,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     );
 };
 
-export const getServerSideProps = async (
-    ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceStopsProps } | void> => {
+export const getServerSideProps = (ctx: NextPageContext): { props: CreateConsequenceStopsProps } | void => {
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
@@ -334,12 +321,10 @@ export const getServerSideProps = async (
         return;
     }
 
-    const allStops = await fetchStops();
-
     const pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
 
     return {
-        props: { ...pageState, previousConsequenceInformation: previousConsequenceInformation.data, allStops },
+        props: { ...pageState, previousConsequenceInformation: previousConsequenceInformation.data },
     };
 };
 

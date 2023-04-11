@@ -1,5 +1,3 @@
-import { DrawCreateEvent, DrawDeleteEvent, DrawUpdateEvent } from "@mapbox/mapbox-gl-draw";
-import { Feature, GeoJsonProperties, Geometry, Polygon } from "geojson";
 import uniqueId from "lodash/uniqueId";
 import {
     CSSProperties,
@@ -14,7 +12,7 @@ import {
 } from "react";
 import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
-import DrawControl from "./DrawControl";
+import DrawControl, { PolygonFeature } from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
@@ -27,7 +25,6 @@ interface MapProps {
     selected?: Stop[];
     searched?: Stop[];
     inputId?: keyof Stop;
-    stops?: Stop[];
     showSelectAllButton?: boolean;
     stateUpdater?: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
     state?: PageState<Partial<StopsConsequence>>;
@@ -39,13 +36,12 @@ const Map = ({
     mapStyle,
     selected,
     searched,
-    stops = [],
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
-    const [features, setFeatures] = useState<{ [key: string]: Feature<Geometry, GeoJsonProperties> }>({});
+    const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
@@ -166,8 +162,8 @@ const Map = ({
     );
 
     useEffect(() => {
-        if (features && Object.values(features).length > 0 && stops) {
-            const polygon = Object.values(features as { [key: string]: Feature<Polygon> })[0].geometry.coordinates[0];
+        if (features && Object.values(features).length > 0) {
+            const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
                     polygon,
@@ -185,9 +181,9 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
-    }, [features, stops]);
+    }, [features]);
 
-    const onUpdate = useCallback((evt: DrawUpdateEvent | DrawCreateEvent) => {
+    const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
         setFeatures((currFeatures) => {
             const newFeatures = { ...currFeatures };
             for (const f of evt.features) {
@@ -201,7 +197,7 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const onDelete = useCallback((evt: DrawDeleteEvent) => {
+    const onDelete = useCallback((evt: { features: PolygonFeature[] }) => {
         setFeatures((currFeatures) => {
             const newFeatures = { ...currFeatures };
             for (const f of evt.features) {
@@ -293,13 +289,13 @@ const Map = ({
                     }}
                     defaultMode="draw_polygon"
                     onCreate={(evt) => {
-                        onUpdate(evt as DrawCreateEvent);
+                        onUpdate(evt);
                     }}
                     onUpdate={(evt) => {
-                        onUpdate(evt as DrawUpdateEvent);
+                        onUpdate(evt);
                     }}
                     onDelete={(evt) => {
-                        onDelete(evt as DrawDeleteEvent);
+                        onDelete(evt);
                     }}
                 />
                 {popupInfo.atcoCode && (
