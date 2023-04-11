@@ -52,3 +52,17 @@ export const getStopLabel = (stop: Stop) => {
 };
 
 export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
+
+export const sortStops = (stops: Stop[]) => {
+    return stops.sort((a, b) => {
+        if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
+            return (
+                a.commonName.localeCompare(b.commonName) ||
+                a.indicator.localeCompare(b.indicator) ||
+                a.atcoCode.localeCompare(b.atcoCode)
+            );
+        } else {
+            return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
+        }
+    });
+};
