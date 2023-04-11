@@ -49,24 +49,20 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
-    const [selectedStops, setSelectedStops] = useState<Stop[]>(selected || []);
-    const [searchedStops, setSearchedStops] = useState<Stop[]>(searched || []);
 
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const stopsOnMap = searchedStops && selectedStops ? [...selectedStops, ...searchedStops] : [];
+            const stopsOnMap = searched && selected ? [...selected, ...searched] : [];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searchedStops, selectedStops],
+        [searched, selected],
     );
 
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortStops(selectedStops.filter((stop: Stop) => stop.atcoCode !== id));
-
-                const unselectedStop = selectedStops.filter((stop: Stop) => stop.atcoCode === id);
+                const stops = sortStops(selected ? selected.filter((stop: Stop) => stop.atcoCode !== id) : []);
 
                 stateUpdater({
                     inputs: {
@@ -75,31 +71,26 @@ const Map = ({
                     },
                     errors: state.errors,
                 });
-                setSelectedStops(stops);
-                setSearchedStops([...unselectedStop, ...searchedStops]);
             }
         },
-        [searchedStops, selectedStops, state, stateUpdater],
+        [selected, state, stateUpdater],
     );
 
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop = searchedStops.filter((stop: Stop) => stop.atcoCode === id);
-                const unselectedStops = searchedStops.filter((stop: Stop) => stop.atcoCode !== id);
+                const stop: Stop[] = searched ? searched.filter((stop: Stop) => stop.atcoCode === id) : [];
 
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops([...selectedStops, ...stop]),
+                        stops: sortStops([...(selected ? selected : []), ...stop]),
                     },
                     errors: state.errors,
                 });
-                setSearchedStops(unselectedStops);
-                setSelectedStops(sortStops([...selectedStops, ...stop]));
             }
         },
-        [searchedStops, selectedStops, state, stateUpdater],
+        [searched, selected, state, stateUpdater],
     );
 
     const getMarkers = useCallback(
@@ -225,24 +216,19 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    useEffect(() => {
-        if (searched && selected) {
-            setSearchedStops(searched);
-            setSelectedStops(selected);
-        }
-    }, [selected, searched]);
-
     const selectAllStops = (evt: SyntheticEvent) => {
         evt.preventDefault();
         if (!selectAll && state) {
             stateUpdater({
                 inputs: {
                     ...state.inputs,
-                    stops: selectedStops.filter((sToFilter: Stop) =>
-                        markerData && markerData.length > 0
-                            ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                            : sToFilter,
-                    ),
+                    stops: selected
+                        ? selected.filter((sToFilter: Stop) =>
+                              markerData && markerData.length > 0
+                                  ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                                  : sToFilter,
+                          )
+                        : [],
                 },
                 errors: state.errors,
             });
@@ -262,7 +248,7 @@ const Map = ({
                         inputs: {
                             ...state.inputs,
                             stops: sortStops(
-                                [...(selectedStops ?? []), ...markerData].filter(
+                                [...(selected ?? []), ...markerData].filter(
                                     (value, index, self) =>
                                         index === self.findIndex((s) => s.atcoCode === value.atcoCode),
                                 ),
@@ -297,7 +283,7 @@ const Map = ({
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
             >
-                {selectedStops && searchedStops ? getMarkers(selectedStops, searchedStops) : null}
+                {selected && searched ? getMarkers(selected, searched) : null}
                 <DrawControl
                     position="top-left"
                     displayControlsDefault={false}
