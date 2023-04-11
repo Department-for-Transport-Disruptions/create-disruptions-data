@@ -195,6 +195,7 @@ const Map = ({
                     className="govuk-button govuk-button--secondary mt-2"
                     data-module="govuk-button"
                     onClick={selectAllStops}
+                    disabled={!(features && Object.values(features).length > 0)}
                 >
                     {!selectAll ? "Unselect all stops" : "Select all stops"}
                 </button>
