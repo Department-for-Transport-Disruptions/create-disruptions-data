@@ -1,7 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { ptSituationElementSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { Consequence } from "../schemas/consequence.schema";
+import { DisruptionInfo } from "../schemas/create-disruption.schema";
+import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
@@ -44,9 +47,131 @@ export const insertPublishedDisruptionIntoDynamo = async (disruption: PtSituatio
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
                 SK: disruption.SituationNumber,
-                Status: "PUBLISHED",
+                PublishStatus: "PUBLISHED",
                 ...disruption,
             },
         }),
     );
+};
+
+export const upsertDraftDisruptionIntoDynamo = async (disruptionInfo: DisruptionInfo) => {
+    logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new UpdateCommand({
+            TableName: tableName,
+            Key: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: disruptionInfo.disruptionId,
+            },
+            UpdateExpression:
+                "SET disruptionInfo = :disruptionInfo, PublishStatus = :status, consequences = if_not_exists(consequences, :empty_list)",
+            ExpressionAttributeValues: {
+                ":disruptionInfo": disruptionInfo,
+                ":status": "DRAFT",
+                ":empty_list": [],
+            },
+        }),
+    );
+};
+
+// export const addConsequenceToDisruption = async (consequence: Partial<Consequence>) => {
+//     logger.info(`Adding consequence to disruption (${consequence.id ?? ""}) in DynamoDB table...`);
+
+//     const insertedConsequence = await ddbDocClient.send(
+//         new UpdateCommand({
+//             TableName: tableName,
+//             Key: {
+//                 PK: "1", // TODO: replace with user ID when we have auth
+//                 SK: consequence.id,
+//             },
+//             UpdateExpression: "SET consequences = list_append(if_not_exists(consequences, :empty_list), :consequence)",
+//             ExpressionAttributeValues: {
+//                 ":consequence": [consequence],
+//                 ":empty_list": [],
+//             },
+//             ReturnValues: "UPDATED_NEW",
+//         }),
+//     );
+
+//     console.log("HELLO");
+
+//     console.log(insertedConsequence.Attributes);
+
+//     return insertedConsequence.Attributes;
+// };
+
+export const upsertConsequenceTypeInDisruption = async (consequence: Partial<Consequence>) => {
+    logger.info(
+        `Updating consequence ${consequence.consequenceIndex || ""} in disruption (${
+            consequence.disruptionId || ""
+        }) in DynamoDB table...`,
+    );
+
+    const index = consequence.consequenceIndex ?? "0";
+
+    console.log(index);
+
+    await ddbDocClient.send(
+        new UpdateCommand({
+            TableName: tableName,
+            Key: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: consequence.disruptionId,
+            },
+            UpdateExpression: `SET consequences[${index}].disruptionId = :disruption_id, consequences[${index}].vehicleMode = :vehicle_mode, consequences[${index}].consequenceType = :consequence_type, consequences[${index}].consequenceIndex = :consequence_index`,
+            ExpressionAttributeValues: {
+                ":disruption_id": consequence.disruptionId,
+                ":vehicle_mode": consequence.vehicleMode,
+                ":consequence_type": consequence.consequenceType,
+                ":consequence_index": consequence.consequenceIndex,
+            },
+        }),
+    );
+};
+
+export const removeConsequenceFromDisruption = async (index: number, disruptionId: string) => {
+    logger.info(`Updating consequence ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new UpdateCommand({
+            TableName: tableName,
+            Key: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: disruptionId,
+            },
+            UpdateExpression: "DELETE consequences[:index]",
+            ExpressionAttributeValues: {
+                ":index": index,
+            },
+        }),
+    );
+};
+
+export const getDisruptionById = async (disruptionId: string): Promise<Disruption | null> => {
+    logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
+
+    const dynamoDisruption = await ddbDocClient.send(
+        new GetCommand({
+            TableName: tableName,
+            Key: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: disruptionId,
+            },
+        }),
+    );
+
+    if (!dynamoDisruption.Item) {
+        return null;
+    }
+
+    const parsedDisruption = disruptionSchema.safeParse(dynamoDisruption.Item);
+
+    if (!parsedDisruption.success) {
+        logger.error(`Invalid disruption ${disruptionId} in Dynamo`);
+
+        return null;
+    }
+
+    return parsedDisruption.data;
 };

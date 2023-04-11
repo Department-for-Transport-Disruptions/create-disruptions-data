@@ -1,20 +1,16 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Radios from "../components/form/Radios";
-import { TwoThirdsLayout } from "../components/layout/Layout";
-import {
-    COOKIES_CONSEQUENCE_TYPE_INFO,
-    COOKIES_CONSEQUENCE_TYPE_ERRORS,
-    VEHICLE_MODES,
-    CONSEQUENCE_TYPES,
-} from "../constants/index";
-import { PageState } from "../interfaces/index";
-import { ConsequenceType, typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Radios from "../../../components/form/Radios";
+import { TwoThirdsLayout } from "../../../components/layout/Layout";
+import { COOKIES_CONSEQUENCE_TYPE_ERRORS, VEHICLE_MODES, CONSEQUENCE_TYPES } from "../../../constants/index";
+import { getDisruptionById } from "../../../data/dynamo";
+import { PageState } from "../../../interfaces/index";
+import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
@@ -37,9 +33,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                         <Radios<ConsequenceType>
                             display="Select mode of transport"
                             radioDetail={VEHICLE_MODES}
-                            inputName="modeOfTransport"
+                            inputName="vehicleMode"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs.modeOfTransport}
+                            value={pageState.inputs.vehicleMode}
                             initialErrors={props.errors}
                         />
                         <Radios<ConsequenceType>
@@ -51,6 +47,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             initialErrors={props.errors}
                             paddingTop={3}
                         />
+
+                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                        <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
                         <div className="govuk-button-group">
                             <button className="govuk-button" data-module="govuk-button">
@@ -64,14 +63,32 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ConsequenceTypePageProps } => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ConsequenceTypePageProps }> => {
     const cookies = parseCookies(ctx);
-
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_TYPE_ERRORS];
 
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
+
+    if (!disruption || !disruption.consequences?.[index]) {
+        return {
+            props: {
+                ...getPageState(errorCookie, typeOfConsequenceSchema, ctx.query.disruptionId?.toString()),
+                consequenceIndex: Number(ctx.query.consequenceIndex?.toString()),
+            },
+        };
+    }
+
     return {
-        props: { ...getPageStateFromCookies(dataCookie, errorCookie, typeOfConsequenceSchema) },
+        props: {
+            ...getPageState(errorCookie, typeOfConsequenceSchema, ctx.query.disruptionId?.toString(), {
+                consequenceType: disruption.consequences[index].consequenceType,
+                disruptionId: disruption.consequences[index].disruptionId,
+                vehicleMode: disruption.consequences[index].vehicleMode,
+                consequenceIndex: disruption.consequences[index].consequenceIndex,
+            }),
+            consequenceIndex: disruption.consequences[index].consequenceIndex,
+        },
     };
 };
 

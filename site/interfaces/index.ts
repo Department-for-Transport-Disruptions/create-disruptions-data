@@ -60,6 +60,8 @@ export interface PageState<T> {
     errors: ErrorInfo[];
     inputs: T;
     csrfToken?: string;
+    disruptionId?: string;
+    consequenceIndex?: number;
 }
 
 export interface SocialMediaPost {

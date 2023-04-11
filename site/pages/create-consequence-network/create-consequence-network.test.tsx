@@ -1,11 +1,12 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceNetwork, { CreateConsequenceNetworkProps } from "./create-consequence-network.page";
-import { ConsequenceType } from "../schemas/type-of-consequence.schema";
+import CreateConsequenceNetwork, { CreateConsequenceNetworkProps } from "./[disruptionId]/index.page";
+import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
-    modeOfTransport: VehicleMode.bus,
+    id: "test",
+    vehicleMode: VehicleMode.bus,
     consequenceType: "networkWide",
 };
 

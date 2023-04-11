@@ -4,7 +4,7 @@ import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
+import { DisplayValuePair, ErrorInfo } from "../interfaces";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
@@ -84,22 +84,3 @@ export const flattenZodErrors = (errors: ZodError) =>
  */
 export const zodTimeInMinutes = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(minutesRegex);
-
-export const getPageStateFromCookies = <T>(dataCookie: string, errorCookie: string, schemaObject: z.ZodType<T>) => {
-    let inputsProps: PageState<Partial<T>> = {
-        errors: [],
-        inputs: {},
-    };
-
-    if (dataCookie) {
-        const parsedData = schemaObject.safeParse(JSON.parse(dataCookie));
-
-        if (parsedData.success) {
-            inputsProps.inputs = parsedData.data;
-        }
-    } else if (errorCookie) {
-        inputsProps = JSON.parse(errorCookie) as PageState<Partial<T>>;
-    }
-
-    return inputsProps;
-};

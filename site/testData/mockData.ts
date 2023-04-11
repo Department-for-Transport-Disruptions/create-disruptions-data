@@ -16,7 +16,7 @@ import React from "react";
 import { Mock, vi } from "vitest";
 import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence } from "../schemas/consequence.schema";
-import { Disruption } from "../schemas/create-disruption.schema";
+import { DisruptionInfo } from "../schemas/create-disruption.schema";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -238,7 +238,7 @@ export const databaseData: PtSituationElement[] = [
     },
 ];
 
-export const disruptionInfoTestCookie: Disruption = {
+export const disruptionInfoTestCookie: DisruptionInfo = {
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -251,7 +251,7 @@ export const disruptionInfoTestCookie: Disruption = {
     disruptionNoEndDateTime: "true",
 };
 
-export const disruptionInfoMultipleValidityTestCookie: Disruption = {
+export const disruptionInfoMultipleValidityTestCookie: DisruptionInfo = {
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",

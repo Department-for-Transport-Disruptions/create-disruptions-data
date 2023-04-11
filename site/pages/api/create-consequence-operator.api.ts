@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIES_CONSEQUENCE_INFO,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
+import { addConsequenceToDisruption } from "../../data/dynamo";
 import { operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -14,7 +14,7 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
+const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
@@ -27,12 +27,11 @@ const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): v
                 }),
                 res,
             );
-            destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, res);
             redirectTo(res, CREATE_CONSEQUENCE_OPERATOR_PATH);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, JSON.stringify(validatedBody.data), res);
+        await addConsequenceToDisruption(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);

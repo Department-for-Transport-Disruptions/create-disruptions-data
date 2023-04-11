@@ -16,7 +16,7 @@ import {
 } from "../constants";
 import { SocialMediaPost } from "../interfaces";
 import { Consequence, consequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema, Disruption, Validity } from "../schemas/create-disruption.schema";
+import { createDisruptionSchema, DisruptionInfo, Validity } from "../schemas/create-disruption.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
 import { formatTime } from "../utils/dates";
@@ -25,7 +25,7 @@ const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
 interface ReviewDisruptionProps {
-    previousDisruptionInformation: Disruption;
+    previousDisruptionInformation: DisruptionInfo;
     previousConsequencesInformation: Consequence[];
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;

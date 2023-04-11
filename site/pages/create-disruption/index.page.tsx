@@ -1,32 +1,34 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
-import Checkbox from "../components/form/Checkbox";
-import CsrfForm from "../components/form/CsrfForm";
-import DateSelector from "../components/form/DateSelector";
-import Radios from "../components/form/Radios";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_INFO, COOKIES_DISRUPTION_ERRORS } from "../constants/index";
-import { PageState } from "../interfaces";
+import { randomUUID } from "crypto";
+import ErrorSummary from "../../components/ErrorSummary";
+import Checkbox from "../../components/form/Checkbox";
+import CsrfForm from "../../components/form/CsrfForm";
+import DateSelector from "../../components/form/DateSelector";
+import Radios from "../../components/form/Radios";
+import Select from "../../components/form/Select";
+import Table from "../../components/form/Table";
+import TextInput from "../../components/form/TextInput";
+import TimeSelector from "../../components/form/TimeSelector";
+import { BaseLayout } from "../../components/layout/Layout";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
+import { PageState } from "../../interfaces";
 import {
     createDisruptionSchema,
     validitySchemaRefined,
     Validity,
     validitySchema,
-    Disruption,
-} from "../schemas/create-disruption.schema";
-import { flattenZodErrors, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+    DisruptionInfo,
+} from "../../schemas/create-disruption.schema";
+import { flattenZodErrors } from "../../utils";
+import { getPageState } from "../../utils/apiUtils";
+import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
-export interface DisruptionPageProps extends PageState<Partial<Disruption>> {}
+export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {}
 
 const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const initialValidity: Validity = {
@@ -137,7 +139,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Create a new disruption</h1>
 
-                        <Radios<Disruption>
+                        <Radios<DisruptionInfo>
                             display="Type of disruption"
                             radioDetail={[
                                 {
@@ -155,7 +157,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             initialErrors={pageState.errors}
                         />
 
-                        <TextInput<Disruption>
+                        <TextInput<DisruptionInfo>
                             display="Summary"
                             inputName="summary"
                             widthClass="w-3/4"
@@ -166,7 +168,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.summary}
                         />
 
-                        <TextInput<Disruption>
+                        <TextInput<DisruptionInfo>
                             display="Description"
                             inputName="description"
                             widthClass="w-3/4"
@@ -179,7 +181,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.description}
                         />
 
-                        <TextInput<Disruption>
+                        <TextInput<DisruptionInfo>
                             inputName="associatedLink"
                             display="Associated Link (optional)"
                             widthClass="w-3/4"
@@ -189,7 +191,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.associatedLink}
                         />
 
-                        <Select<Disruption>
+                        <Select<DisruptionInfo>
                             inputName="disruptionReason"
                             display="Reason for disruption"
                             defaultDisplay="Select a reason"
@@ -295,7 +297,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <div className="govuk-form-group govuk-!-padding-top-3">
                         <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
 
-                        <DateSelector<Disruption>
+                        <DateSelector<DisruptionInfo>
                             display="Start date"
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.publishStartDate}
@@ -307,7 +309,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.publishStartDate}
                         />
 
-                        <TimeSelector<Disruption>
+                        <TimeSelector<DisruptionInfo>
                             display="Start time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs.publishStartTime}
@@ -318,7 +320,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.publishStartTime}
                         />
 
-                        <DateSelector<Disruption>
+                        <DateSelector<DisruptionInfo>
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.publishEndDate}
@@ -330,7 +332,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={createDisruptionSchema.shape.publishEndDate}
                         />
 
-                        <TimeSelector<Disruption>
+                        <TimeSelector<DisruptionInfo>
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs.publishEndTime}
@@ -340,6 +342,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             initialErrors={pageState.errors}
                             schema={createDisruptionSchema.shape.publishEndTime}
                         />
+
+                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -353,13 +357,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
 export const getServerSideProps = (ctx: NextPageContext): { props: DisruptionPageProps } => {
     const cookies = parseCookies(ctx);
-
-    const dataCookie = cookies[COOKIES_DISRUPTION_INFO];
     const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
+    const disruptionId = randomUUID();
+
+    const pageState = getPageState(errorCookie, createDisruptionSchema, disruptionId);
 
     return {
         props: {
-            ...getPageStateFromCookies(dataCookie, errorCookie, createDisruptionSchema),
+            ...pageState,
         },
     };
 };

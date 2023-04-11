@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./review-disruption.page";
 import { SocialMediaPost } from "../interfaces/index";
 import { Consequence } from "../schemas/consequence.schema";
-import { Disruption } from "../schemas/create-disruption.schema";
+import { DisruptionInfo } from "../schemas/create-disruption.schema";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
@@ -59,7 +59,7 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
-const previousDisruptionInformation: Disruption = {
+const previousDisruptionInformation: DisruptionInfo = {
     disruptionType: "planned",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:

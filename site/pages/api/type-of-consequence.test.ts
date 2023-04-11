@@ -25,7 +25,7 @@ describe("addConsequence", () => {
 
     it("should redirect to operator consequence page when 'Operator wide' selected", () => {
         const disruptionData = {
-            modeOfTransport: VehicleMode.rail,
+            vehicleMode: VehicleMode.rail,
             consequenceType: "operatorWide",
         };
 
@@ -41,7 +41,7 @@ describe("addConsequence", () => {
 
     it("should redirect to operator consequence page when 'Network wide' selected", () => {
         const disruptionData = {
-            modeOfTransport: VehicleMode.bus,
+            vehicleMode: VehicleMode.bus,
             consequenceType: "networkWide",
         };
 
@@ -62,7 +62,7 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
@@ -83,12 +83,12 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/type-of-consequence) when incorrect values are passed", () => {
         const disruptionData = {
-            modeOfTransport: "incorrect mode",
+            vehicleMode: "incorrect mode",
             consequenceType: "incorrect type",
         };
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "modeOfTransport" },
+            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 

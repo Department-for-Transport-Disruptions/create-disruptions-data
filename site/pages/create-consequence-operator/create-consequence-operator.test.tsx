@@ -1,11 +1,12 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./create-consequence-operator.page";
-import { ConsequenceType } from "../schemas/type-of-consequence.schema";
+import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/index.page";
+import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 
 const previousConsequenceInformation: ConsequenceType = {
-    modeOfTransport: VehicleMode.ferryService,
+    id: "test",
+    vehicleMode: VehicleMode.ferryService,
     consequenceType: "operatorWide",
 };
 

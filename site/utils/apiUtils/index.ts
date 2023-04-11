@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
+import { z } from "zod";
 import { ServerResponse } from "http";
 import { COOKIES_POLICY_COOKIE, COOKIE_CSRF, COOKIE_ID_TOKEN, COOKIE_PREFERENCES_COOKIE } from "../../constants";
+import { PageState } from "../../interfaces";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -56,4 +58,26 @@ export const cleardownCookies = (req: NextApiRequest, res: NextApiResponse) => {
             destroyCookieOnResponseObject(cookie, res);
         }
     });
+};
+
+export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>, disruptionId?: string, data?: T) => {
+    const inputsProps: PageState<Partial<T>> = {
+        errors: [],
+        inputs: {},
+        disruptionId: disruptionId || "",
+    };
+
+    if (errorCookie) {
+        return { ...(JSON.parse(errorCookie) as PageState<Partial<T>>), disruptionId: disruptionId || "" };
+    }
+
+    if (disruptionId) {
+        const parsedData = schemaObject.safeParse(data);
+
+        if (parsedData.success) {
+            inputsProps.inputs = parsedData.data;
+        }
+    }
+
+    return inputsProps;
 };

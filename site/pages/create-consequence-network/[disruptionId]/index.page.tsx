@@ -2,44 +2,41 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Radios from "../components/form/Radios";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Radios from "../../../components/form/Radios";
+import Select from "../../../components/form/Select";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
 import {
     CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIES_CONSEQUENCE_INFO,
+    COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
-    OPERATORS,
     VEHICLE_MODES,
-} from "../constants";
-import { CreateConsequenceProps, PageState } from "../interfaces";
-import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+} from "../../../constants";
+import { CreateConsequenceProps, PageState } from "../../../interfaces";
+import { NetworkConsequence, networkConsequenceSchema } from "../../../schemas/consequence.schema";
+import { typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
+import { getDisplayByValue } from "../../../utils";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
-const title = "Create Consequence Operator";
-const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
+const title = "Create Consequence Network";
+const description = "Create Consequence Network page for the Create Transport Disruptions Service";
 
-export interface CreateConsequenceOperatorProps
-    extends PageState<Partial<OperatorConsequence>>,
-        CreateConsequenceProps {}
+export interface CreateConsequenceNetworkProps extends PageState<Partial<NetworkConsequence>>, CreateConsequenceProps {}
 
-const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
-    const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
+const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactElement => {
+    const [pageState, setConsequenceNetworkPageState] = useState<PageState<Partial<NetworkConsequence>>>(props);
 
-    const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+    const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -51,7 +48,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                     cells: [
                                         getDisplayByValue(
                                             VEHICLE_MODES,
-                                            props.previousConsequenceInformation.modeOfTransport,
+                                            props.previousConsequenceInformation.vehicleMode,
                                         ),
                                         <Link
                                             key={"mode-of-transport"}
@@ -81,19 +78,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             ]}
                         />
 
-                        <Select<OperatorConsequence>
-                            inputName="consequenceOperator"
-                            display="Operators impacted"
-                            displaySize="l"
-                            defaultDisplay="Select operator"
-                            selectValues={OPERATORS}
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.consequenceOperator}
-                            initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.consequenceOperator}
-                        />
-
-                        <TextInput<OperatorConsequence>
+                        <TextInput<NetworkConsequence>
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
@@ -105,10 +90,10 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.description}
+                            schema={networkConsequenceSchema.shape.description}
                         />
 
-                        <Radios<OperatorConsequence>
+                        <Radios<NetworkConsequence>
                             display="Remove from journey planners"
                             displaySize="l"
                             radioDetail={[
@@ -125,10 +110,10 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.removeFromJourneyPlanners}
+                            schema={networkConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
-                        <TimeSelector<OperatorConsequence>
+                        <TimeSelector<NetworkConsequence>
                             display="Delay (minutes)"
                             displaySize="l"
                             value={pageState.inputs.disruptionDelay}
@@ -136,11 +121,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.disruptionDelay}
+                            schema={networkConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
-                        <Select<OperatorConsequence>
+                        <Select<NetworkConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
                             displaySize="l"
@@ -149,14 +134,14 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.disruptionSeverity}
+                            schema={networkConsequenceSchema.shape.disruptionSeverity}
                         />
 
-                        <input type="hidden" name="consequenceType" value="operatorWide" />
+                        <input type="hidden" name="consequenceType" value="networkWide" />
                         <input
                             type="hidden"
                             name="vehicleMode"
-                            value={props.previousConsequenceInformation.modeOfTransport}
+                            value={props.previousConsequenceInformation.vehicleMode}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -174,8 +159,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
 
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
-    const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_NETWORK_ERRORS];
 
     if (typeCookie) {
         const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
@@ -185,9 +169,9 @@ export const getServerSideProps = (ctx: NextPageContext): { props: object } | vo
         }
     }
 
-    const pageState = getPageStateFromCookies<OperatorConsequence>(dataCookie, errorCookie, operatorConsequenceSchema);
+    const pageState = getPageState<NetworkConsequence>(errorCookie, networkConsequenceSchema);
 
     return { props: { ...pageState, previousConsequenceInformation: previousConsequenceInformationData } };
 };
 
-export default CreateConsequenceOperator;
+export default CreateConsequenceNetwork;

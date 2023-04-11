@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
 } from "../../constants/index";
+import { upsertConsequenceTypeInDisruption } from "../../data/dynamo";
 import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -17,7 +17,7 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
+const addConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
@@ -30,12 +30,11 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 }),
                 res,
             );
-            destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_INFO, res);
             redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_INFO, JSON.stringify(validatedBody.data), res);
+        await upsertConsequenceTypeInDisruption(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, res);
 
         switch (validatedBody.data.consequenceType) {
@@ -58,7 +57,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";
-            redirectToError(res, message, "api.create-disruption", e);
+            redirectToError(res, message, "api.type-of-consequence", e);
             return;
         }
 

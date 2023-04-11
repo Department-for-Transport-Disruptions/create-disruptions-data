@@ -3,8 +3,8 @@ import { describe, it, expect } from "vitest";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
 import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema, Disruption } from "../schemas/create-disruption.schema";
-import { getPageStateFromCookies, splitCamelCaseToString } from ".";
+import { createDisruptionSchema, DisruptionInfo } from "../schemas/create-disruption.schema";
+import { getPageState, splitCamelCaseToString } from ".";
 
 describe("utils tests", () => {
     it.each([
@@ -22,7 +22,7 @@ describe("page state from cookies test", () => {
         const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
-        const disruptionData: Disruption = {
+        const disruptionData: DisruptionInfo = {
             disruptionType: "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -40,7 +40,7 @@ describe("page state from cookies test", () => {
             disruptionNoEndDateTime: "",
         };
 
-        const parsedInput = getPageStateFromCookies(JSON.stringify(disruptionData), "", createDisruptionSchema);
+        const parsedInput = getPageState(JSON.stringify(disruptionData), "", createDisruptionSchema);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(disruptionData);
@@ -58,7 +58,7 @@ describe("page state from cookies test", () => {
             consequenceType: "operatorWide",
         };
 
-        const parsedInput = getPageStateFromCookies(JSON.stringify(operatorData), "", operatorConsequenceSchema);
+        const parsedInput = getPageState(JSON.stringify(operatorData), "", operatorConsequenceSchema);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);

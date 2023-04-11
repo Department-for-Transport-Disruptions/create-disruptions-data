@@ -4,19 +4,18 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Map from "../components/form/Map";
-import Radios from "../components/form/Radios";
-import SearchSelect from "../components/form/SearchSelect";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Map from "../../../components/form/Map";
+import Radios from "../../../components/form/Radios";
+import SearchSelect from "../../../components/form/SearchSelect";
+import Select from "../../../components/form/Select";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
 import {
     CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
@@ -24,8 +23,8 @@ import {
     API_BASE_URL,
     ADMIN_AREA_CODE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-} from "../constants";
-import { CreateConsequenceProps, PageState } from "../interfaces";
+} from "../../../constants";
+import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     Stop,
     stopSchema,
@@ -33,15 +32,16 @@ import {
     Service,
     serviceSchema,
     servicesConsequenceSchema,
-} from "../schemas/consequence.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
-import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
+} from "../../../schemas/consequence.schema";
+import { typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
+import { flattenZodErrors, getDisplayByValue, redirectTo } from "../../../utils";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
 
-const fetchStops = async (serviceId: number): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     if (serviceId) {
         const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
         const res = await fetch(searchApiUrl, { method: "GET" });
@@ -326,7 +326,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                     cells: [
                                         getDisplayByValue(
                                             VEHICLE_MODES,
-                                            props.previousConsequenceInformation.modeOfTransport,
+                                            props.previousConsequenceInformation.vehicleMode,
                                         ),
                                         <Link
                                             key={"mode-of-transport"}
@@ -501,7 +501,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         <input
                             type="hidden"
                             name="vehicleMode"
-                            value={props.previousConsequenceInformation.modeOfTransport}
+                            value={props.previousConsequenceInformation.vehicleMode}
                         />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
@@ -519,7 +519,6 @@ export const getServerSideProps = async (
 ): Promise<{ props: CreateConsequenceServicesProps } | void> => {
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
     if (!typeCookie && ctx.res) {
@@ -542,7 +541,7 @@ export const getServerSideProps = async (
 
     const previousConsequenceInformationData = previousConsequenceInformation.data;
 
-    const pageState = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
+    const pageState = getPageState<ServicesConsequence>(errorCookie, servicesConsequenceSchema);
 
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;

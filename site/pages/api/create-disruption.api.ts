@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    COOKIES_DISRUPTION_INFO,
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
+import { upsertDraftDisruptionIntoDynamo } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -39,7 +39,7 @@ export const formatCreateDisruptionBody = (body: object) => {
     };
 };
 
-const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
+const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const formattedBody = formatCreateDisruptionBody(req.body as object);
 
@@ -55,15 +55,15 @@ const createDisruption = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
             );
 
-            destroyCookieOnResponseObject(COOKIES_DISRUPTION_INFO, res);
             redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_DISRUPTION_INFO, JSON.stringify(validatedBody.data), res);
+        await upsertDraftDisruptionIntoDynamo(validatedBody.data);
+
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
+        redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
         return;
     } catch (e) {
         if (e instanceof Error) {
