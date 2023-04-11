@@ -107,7 +107,7 @@ const Map = ({
                               }}
                           >
                               <div
-                                  className="markerBlue"
+                                  className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
                                   onMouseEnter={() => {
                                       handleMouseEnter(s.atcoCode);
                                   }}
@@ -147,7 +147,7 @@ const Map = ({
                     }}
                 >
                     <div
-                        className="markerGrey"
+                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
                         onMouseEnter={() => {
                             handleMouseEnter(s.atcoCode);
                         }}
@@ -309,6 +309,7 @@ const Map = ({
                         latitude={Number(popupInfo.latitude)}
                         onClose={() => setPopupInfo({})}
                         closeButton={false}
+                        closeOnMove
                     >
                         <div>
                             <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>

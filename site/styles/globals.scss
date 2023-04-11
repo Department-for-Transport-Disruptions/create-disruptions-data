@@ -5,21 +5,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.markerGrey {
-  height: 15px;
-  width: 15px;
-  background-color: grey;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.markerBlue {
-  height: 15px;
-  width: 15px;
-  background-color: #278C2B;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-}
