@@ -218,13 +218,11 @@ const Map = ({
             stateUpdater({
                 inputs: {
                     ...state.inputs,
-                    stops: selected
-                        ? selected.filter((sToFilter: Stop) =>
-                              markerData && markerData.length > 0
-                                  ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                                  : sToFilter,
-                          )
-                        : [],
+                    stops: selected?.filter((sToFilter: Stop) =>
+                        markerData && markerData.length > 0
+                            ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                            : sToFilter,
+                    ),
                 },
                 errors: state.errors,
             });
