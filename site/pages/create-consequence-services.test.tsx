@@ -41,6 +41,7 @@ const withInputs: CreateConsequenceServicesProps = {
                 operatorShortName: "First South Yorkshire",
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
+                nocCode: "TEST",
             },
         ],
 
@@ -82,6 +83,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
                 operatorShortName: "First South Yorkshire",
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
+                nocCode: "TEST",
             },
         ],
         disruptionDelay: "45",

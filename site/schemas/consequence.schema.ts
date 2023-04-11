@@ -63,6 +63,7 @@ export const serviceSchema = z.object({
     operatorShortName: z.string(),
     destination: z.string(),
     origin: z.string(),
+    nocCode: z.string(),
 });
 
 export const servicesConsequenceSchema = z.object({

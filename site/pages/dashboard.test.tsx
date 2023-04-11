@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import Dashboard, { DashboardDisruption, getServerSideProps, sortDisruptionsByStartDate } from "./dashboard.page";
+import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
 import { databaseData } from "../testData/mockData";
 
@@ -11,7 +11,7 @@ const disruptions: DashboardDisruption[] = [
     {
         id: "12",
         summary: "A bad disruption",
-        validityPeriod: [
+        validityPeriods: [
             {
                 startTime: "2023-03-21T11:23:24.529Z",
                 endTime: null,
@@ -21,7 +21,7 @@ const disruptions: DashboardDisruption[] = [
     {
         id: "33",
         summary: "A more ok disruption",
-        validityPeriod: [
+        validityPeriods: [
             {
                 startTime: "2023-03-21T11:23:24.529Z",
                 endTime: "2023-03-22T11:23:24.529Z",
@@ -31,7 +31,7 @@ const disruptions: DashboardDisruption[] = [
     {
         id: "44",
         summary: "Another disruption",
-        validityPeriod: [
+        validityPeriods: [
             {
                 startTime: "2023-04-21T11:23:24.529Z",
                 endTime: "2024-03-22T11:23:24.529Z",
@@ -94,7 +94,7 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
@@ -104,7 +104,7 @@ describe("pages", () => {
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: "2023-05-01T01:10:00Z",
                                     startTime: "2023-03-03T01:10:00Z",
@@ -118,7 +118,7 @@ describe("pages", () => {
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
@@ -152,7 +152,7 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2026-03-03T01:10:00Z",
@@ -162,7 +162,7 @@ describe("pages", () => {
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: "2023-05-01T01:10:00Z",
                                     startTime: "2027-03-03T01:10:00Z",
@@ -172,7 +172,7 @@ describe("pages", () => {
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2028-03-03T01:10:00Z",
@@ -203,7 +203,7 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
@@ -213,7 +213,7 @@ describe("pages", () => {
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: "2023-05-01T01:10:00Z",
                                     startTime: "2023-03-03T01:10:00Z",
@@ -227,7 +227,7 @@ describe("pages", () => {
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2023-03-03T01:10:00Z",
@@ -239,7 +239,7 @@ describe("pages", () => {
                         {
                             id: "aaaaa-bbbbb-ccccc",
                             summary: "Disruption Summary",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2026-03-03T01:10:00Z",
@@ -249,7 +249,7 @@ describe("pages", () => {
                         {
                             id: "11111-22222-33333",
                             summary: "Disruption Summary 2",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: "2023-05-01T01:10:00Z",
                                     startTime: "2027-03-03T01:10:00Z",
@@ -259,7 +259,7 @@ describe("pages", () => {
                         {
                             id: "ddddd-eeeee-fffff",
                             summary: "Disruption Summary 3",
-                            validityPeriod: [
+                            validityPeriods: [
                                 {
                                     endTime: null,
                                     startTime: "2028-03-03T01:10:00Z",
@@ -268,90 +268,6 @@ describe("pages", () => {
                         },
                     ],
                 });
-            });
-        });
-
-        describe("sortDisruptionsByStartDate", () => {
-            const mixedUpDisruptions: DashboardDisruption[] = [
-                {
-                    id: "12",
-                    summary: "A bad disruption",
-                    validityPeriod: [
-                        {
-                            startTime: "2023-03-25T11:23:24.529Z",
-                            endTime: null,
-                        },
-                        {
-                            startTime: "2022-12-25T11:23:24.529Z",
-                            endTime: null,
-                        },
-                        {
-                            startTime: "2024-03-25T11:23:24.529Z",
-                            endTime: null,
-                        },
-                    ],
-                },
-                {
-                    id: "33",
-                    summary: "A more ok disruption",
-                    validityPeriod: [
-                        {
-                            startTime: "2025-03-21T11:23:24.529Z",
-                            endTime: "2023-03-22T11:23:24.529Z",
-                        },
-                    ],
-                },
-                {
-                    id: "44",
-                    summary: "Another disruption",
-                    validityPeriod: [
-                        {
-                            startTime: "2022-04-24T11:23:24.529Z",
-                            endTime: "2024-03-22T11:23:24.529Z",
-                        },
-                        {
-                            startTime: "2022-04-22T11:23:24.529Z",
-                            endTime: null,
-                        },
-                    ],
-                },
-            ];
-
-            it("sorts disruptions into start date order", () => {
-                const result = sortDisruptionsByStartDate(mixedUpDisruptions);
-
-                expect(result).toStrictEqual([
-                    {
-                        id: "44",
-                        summary: "Another disruption",
-                        validityPeriod: [
-                            { startTime: "2022-04-22T11:23:24.529Z", endTime: null },
-                            {
-                                startTime: "2022-04-24T11:23:24.529Z",
-                                endTime: "2024-03-22T11:23:24.529Z",
-                            },
-                        ],
-                    },
-                    {
-                        id: "12",
-                        summary: "A bad disruption",
-                        validityPeriod: [
-                            { startTime: "2022-12-25T11:23:24.529Z", endTime: null },
-                            { startTime: "2023-03-25T11:23:24.529Z", endTime: null },
-                            { startTime: "2024-03-25T11:23:24.529Z", endTime: null },
-                        ],
-                    },
-                    {
-                        id: "33",
-                        summary: "A more ok disruption",
-                        validityPeriod: [
-                            {
-                                startTime: "2025-03-21T11:23:24.529Z",
-                                endTime: "2023-03-22T11:23:24.529Z",
-                            },
-                        ],
-                    },
-                ]);
             });
         });
     });
