@@ -6,7 +6,7 @@ import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
-import Map from "../components/form/Map";
+import Map from "../components/map/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
