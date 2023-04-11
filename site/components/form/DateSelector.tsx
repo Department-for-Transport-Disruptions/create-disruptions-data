@@ -25,6 +25,7 @@ const inputBox = <T extends object>(
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     inputId: string,
     inputName: Extract<keyof T, string>,
+    errors: ErrorInfo[],
     disabled: boolean,
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
@@ -32,21 +33,19 @@ const inputBox = <T extends object>(
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <input
-                className="govuk-input govuk-date-input__input govuk-input--width-6"
-                name={inputName}
-                id={`${inputId}-input`}
-                type="text"
-                ref={inputRef}
-                {...inputProps}
-                disabled={disabled}
-                placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                onBlur={(e) => {
-                    if (!e.target.value) {
-                        handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled);
-                    }
-                }}
-            />
+            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                <input
+                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                    name={inputName}
+                    id={`${inputId}-input`}
+                    type="text"
+                    ref={inputRef}
+                    {...inputProps}
+                    disabled={disabled}
+                    placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
+                    onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
+                />
+            </FormElementWrapper>
         </div>
         {InputProps?.endAdornment}
     </div>
@@ -104,43 +103,36 @@ const DateSelector = <T extends object>({
                     {display}
                 </label>
                 {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
-                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            renderDay={renderWeekPickerDay}
-                            value={dateValue}
-                            onChange={(newValue) => {
-                                setDateValue(newValue);
-
-                                if (newValue) {
-                                    handleBlur(
-                                        convertDateTimeToFormat(newValue, "DD/MM/YYYY"),
-                                        inputName,
-                                        stateUpdater,
-                                        setErrors,
-                                        schema,
-                                    );
-                                }
-                            }}
-                            renderInput={({ inputRef, inputProps, InputProps }) => {
-                                return inputBox(
-                                    inputRef,
-                                    inputProps,
-                                    InputProps,
-                                    inputId,
-                                    inputName,
-                                    disabled,
-                                    stateUpdater,
-                                    setErrors,
-                                    schema,
-                                );
-                            }}
-                            disablePast={disablePast}
-                            inputFormat="DD/MM/YYYY"
-                            disabled={disabled}
-                        />
-                    </LocalizationProvider>
-                </FormElementWrapper>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        renderDay={renderWeekPickerDay}
+                        value={dateValue}
+                        onChange={(newValue) => {
+                            setDateValue(newValue);
+                            if (newValue) {
+                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                            }
+                        }}
+                        onAccept={() => setErrors([])}
+                        renderInput={({ inputRef, inputProps, InputProps }) => {
+                            return inputBox(
+                                inputRef,
+                                inputProps,
+                                InputProps,
+                                inputId,
+                                inputName,
+                                errors,
+                                disabled,
+                                stateUpdater,
+                                setErrors,
+                                schema,
+                            );
+                        }}
+                        disablePast={disablePast}
+                        inputFormat="DD/MM/YYYY"
+                        disabled={disabled}
+                    />
+                </LocalizationProvider>
             </div>
         </FormGroupWrapper>
     );
