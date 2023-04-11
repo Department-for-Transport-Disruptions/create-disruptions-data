@@ -49,6 +49,7 @@ const previousConsequencesInformation: Consequence[] = [
                 operatorShortName: "First South Yorkshire",
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
+                nocCode: "TEST",
             },
         ],
         description: "The road is closed for the following reasons: Example, example, example, example",

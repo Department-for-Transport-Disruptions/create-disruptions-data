@@ -301,7 +301,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
       </div>
       <a
         className="govuk-link"
-        href="/dashboard"
+        href="/view-all-disruptions"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -754,7 +754,7 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
       </div>
       <a
         className="govuk-link"
-        href="/dashboard"
+        href="/view-all-disruptions"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -1310,7 +1310,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
       </div>
       <a
         className="govuk-link"
-        href="/dashboard"
+        href="/view-all-disruptions"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -1866,7 +1866,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
       </div>
       <a
         className="govuk-link"
-        href="/dashboard"
+        href="/view-all-disruptions"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}

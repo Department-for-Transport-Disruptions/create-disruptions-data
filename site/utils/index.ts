@@ -1,10 +1,37 @@
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
+import { getDate } from "./dates";
 import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
+
+export const sortDisruptionsByStartDate = (disruptions: PtSituationElement[]): PtSituationElement[] => {
+    const sortEarliestDate = (firstDate: string, secondDate: string) =>
+        getDate(firstDate).isBefore(getDate(secondDate)) ? -1 : 1;
+
+    const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
+        const sortedValidityPeriods = disruption.ValidityPeriod.sort((a, b) => {
+            return sortEarliestDate(a.StartTime, b.StartTime);
+        });
+
+        return { ...disruption, ValidityPeriod: sortedValidityPeriods };
+    });
+
+    return disruptionsWithSortedValidityPeriods.sort((a, b) => {
+        return sortEarliestDate(a.ValidityPeriod[0].StartTime, b.ValidityPeriod[0].StartTime);
+    });
+};
+
+export const reduceStringWithEllipsis = (input: string, maximum: number): string => {
+    if (input.length < maximum) {
+        return input;
+    }
+
+    return `${input.substring(0, maximum)}...`;
+};
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;

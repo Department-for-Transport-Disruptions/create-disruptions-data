@@ -33,6 +33,7 @@ module.exports = {
     },
     plugins: ["react", "@typescript-eslint", "jsx-a11y", "vitest"],
     rules: {
+        "@typescript-eslint/triple-slash-reference": 0,
         "no-console": "error",
         "@typescript-eslint/no-empty-interface": 0,
         indent: [
