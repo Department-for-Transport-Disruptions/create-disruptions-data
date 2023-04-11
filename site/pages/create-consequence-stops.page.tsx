@@ -297,9 +297,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     );
 };
 
-export const getServerSideProps = async (
-    ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceStopsProps } | void> => {
+export const getServerSideProps = (ctx: NextPageContext): { props: CreateConsequenceStopsProps } | void => {
     const cookies = parseCookies(ctx);
     const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
     const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
