@@ -1,3 +1,4 @@
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import Table from "../components/form/Table";
@@ -5,6 +6,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import Tabs from "../components/Tabs";
 import { getDisruptionsDataFromDynamo } from "../data/dynamo";
+import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { convertDateTimeToFormat, getDate } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
@@ -13,7 +15,7 @@ const description = "Create Disruptions Dashboard page for the Create Transport 
 export interface DashboardDisruption {
     id: string;
     summary: string;
-    validityPeriod: {
+    validityPeriods: {
         startTime: string;
         endTime: string | null;
     }[];
@@ -26,8 +28,8 @@ export interface DashboardProps {
 
 const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
-        const earliestPeriod = disruption.validityPeriod[0];
-        const latestPeriod = disruption.validityPeriod[disruption.validityPeriod.length - 1].endTime;
+        const earliestPeriod = disruption.validityPeriods[0];
+        const latestPeriod = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
 
         const dateStrings = (
             <div key={earliestPeriod.startTime} className="pb-2 last:pb-0">
@@ -42,25 +44,8 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: n
                     {index + 1 + offset}
                 </Link>
             ),
-            cells: [disruption.summary, dateStrings],
+            cells: [reduceStringWithEllipsis(disruption.summary, 150), dateStrings],
         };
-    });
-};
-
-const sortEarliestDate = (firstDate: string, secondDate: string) =>
-    getDate(firstDate).isBefore(getDate(secondDate)) ? -1 : 1;
-
-export const sortDisruptionsByStartDate = (disruptions: DashboardDisruption[]): DashboardDisruption[] => {
-    const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
-        const sortedValidityPeriods = disruption.validityPeriod.sort((a, b) => {
-            return sortEarliestDate(a.startTime, b.startTime);
-        });
-
-        return { ...disruption, validityPeriod: sortedValidityPeriods };
-    });
-
-    return disruptionsWithSortedValidityPeriods.sort((a, b) => {
-        return sortEarliestDate(a.validityPeriod[0].startTime, b.validityPeriod[0].startTime);
     });
 };
 
@@ -170,7 +155,7 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): Re
                 tabsTitle="Disruptions"
             />
 
-            <Link className="govuk-link" href="/dashboard">
+            <Link className="govuk-link" href="/view-all-disruptions">
                 <h2 className="govuk-heading-s text-govBlue">View all disruptions</h2>
             </Link>
 
@@ -197,35 +182,24 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
     const data = await getDisruptionsDataFromDynamo();
 
     if (data) {
-        const shortenedData: DashboardDisruption[] = data.map((entry) => {
-            return {
-                id: entry.SituationNumber,
-                summary: entry.Summary,
-                validityPeriod: entry.ValidityPeriod.map((period) => ({
-                    startTime: period.StartTime,
-                    endTime: period.EndTime || null,
-                })),
-            };
-        });
-
-        const liveDisruptions: DashboardDisruption[] = [];
-        const upcomingDisruptions: DashboardDisruption[] = [];
+        const liveDisruptions: PtSituationElement[] = [];
+        const upcomingDisruptions: PtSituationElement[] = [];
         const today = getDate();
 
-        shortenedData.forEach((disruption) => {
+        data.forEach((disruption) => {
             // end time before today --> dont show
-            const shouldNotDisplayDisruption = disruption.validityPeriod.every(
-                (period) => !!period.endTime && getDate(period.endTime).isBefore(today),
+            const shouldNotDisplayDisruption = disruption.ValidityPeriod.every(
+                (period) => !!period.EndTime && getDate(period.EndTime).isBefore(today),
             );
 
             if (!shouldNotDisplayDisruption) {
                 // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                const isLive = disruption.validityPeriod.some((period) => {
-                    const startTime = getDate(period.startTime);
+                const isLive = disruption.ValidityPeriod.some((period) => {
+                    const startTime = getDate(period.StartTime);
 
                     return (
                         startTime.isSameOrBefore(today) &&
-                        (!period.endTime || (!!period.endTime && getDate(period.endTime).isSameOrAfter(today)))
+                        (!period.EndTime || (!!period.EndTime && getDate(period.EndTime).isSameOrAfter(today)))
                     );
                 });
 
@@ -234,8 +208,8 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
                 }
 
                 // start time after today --> upcoming
-                const isUpcoming = disruption.validityPeriod.every((period) =>
-                    getDate(period.startTime).isAfter(today),
+                const isUpcoming = disruption.ValidityPeriod.every((period) =>
+                    getDate(period.StartTime).isAfter(today),
                 );
 
                 if (isUpcoming) {
@@ -244,10 +218,32 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
             }
         });
 
+        const sortedLiveDisruptions = sortDisruptionsByStartDate(liveDisruptions).map((disruption) => {
+            return {
+                id: disruption.SituationNumber,
+                summary: disruption.Summary,
+                validityPeriods: disruption.ValidityPeriod.map((period) => ({
+                    startTime: period.StartTime,
+                    endTime: period.EndTime || null,
+                })),
+            };
+        });
+
+        const sortedUpcomingDisruptions = sortDisruptionsByStartDate(upcomingDisruptions).map((disruption) => {
+            return {
+                id: disruption.SituationNumber,
+                summary: disruption.Summary,
+                validityPeriods: disruption.ValidityPeriod.map((period) => ({
+                    startTime: period.StartTime,
+                    endTime: period.EndTime || null,
+                })),
+            };
+        });
+
         return {
             props: {
-                liveDisruptions: sortDisruptionsByStartDate(liveDisruptions),
-                upcomingDisruptions: sortDisruptionsByStartDate(upcomingDisruptions),
+                liveDisruptions: sortedLiveDisruptions,
+                upcomingDisruptions: sortedUpcomingDisruptions,
             },
         };
     }
