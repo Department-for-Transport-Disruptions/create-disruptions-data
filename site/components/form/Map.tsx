@@ -12,7 +12,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import MapBox, { Marker, ViewState } from "react-map-gl";
+import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
@@ -48,6 +48,16 @@ const Map = ({
     const [features, setFeatures] = useState<{ [key: string]: Feature<Geometry, GeoJsonProperties> }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
+
+    const handleMouseEnter = useCallback(
+        (id: string) => {
+            const stopsOnMap = searched && selected ? [...searched, ...selected] : [];
+            const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
+            if (stopInfo) setPopupInfo(stopInfo);
+        },
+        [searched, selected],
+    );
 
     const getMarkers = useCallback(
         (selected: Stop[], searched: Stop[]): ReactNode => {
@@ -58,7 +68,17 @@ const Map = ({
                               key={uniqueId(s.atcoCode)}
                               longitude={Number(s.longitude)}
                               latitude={Number(s.latitude)}
-                          />
+                          >
+                              <div
+                                  className="markerBlue"
+                                  onMouseEnter={() => {
+                                      handleMouseEnter(s.atcoCode);
+                                  }}
+                                  onMouseLeave={() => {
+                                      setPopupInfo({});
+                                  }}
+                              />
+                          </Marker>
                       ))
                     : [];
             const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
@@ -85,14 +105,24 @@ const Map = ({
                     longitude={Number(s.longitude)}
                     latitude={Number(s.latitude)}
                     color="grey"
-                />
+                >
+                    <div
+                        className="markerGrey"
+                        onMouseEnter={() => {
+                            handleMouseEnter(s.atcoCode);
+                        }}
+                        onMouseLeave={() => {
+                            setPopupInfo({});
+                        }}
+                    />
+                </Marker>
             ));
 
             const markers = [...inTable, ...greyMarkers];
 
             return markers.length > 0 ? markers.slice(0, 100) : null;
         },
-        [markerData],
+        [markerData, handleMouseEnter],
     );
 
     useEffect(() => {
@@ -228,6 +258,21 @@ const Map = ({
                         onDelete(evt as DrawDeleteEvent);
                     }}
                 />
+                {popupInfo.atcoCode && (
+                    <Popup
+                        anchor="top"
+                        longitude={Number(popupInfo.longitude)}
+                        latitude={Number(popupInfo.latitude)}
+                        onClose={() => setPopupInfo({})}
+                        closeButton={false}
+                    >
+                        <div>
+                            <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
+                            <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
+                            <p className="govuk-body-s mb-1">Name: {popupInfo.commonName}</p>
+                        </div>
+                    </Popup>
+                )}
             </MapBox>
         </>
     ) : null;
