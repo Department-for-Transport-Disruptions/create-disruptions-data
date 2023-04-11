@@ -25,7 +25,6 @@ interface MapProps {
     selected?: Stop[];
     searched?: Stop[];
     inputId?: keyof Stop;
-    stops?: Stop[];
     showSelectAllButton?: boolean;
     stateUpdater?: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
     state?: PageState<Partial<StopsConsequence>>;
@@ -37,7 +36,6 @@ const Map = ({
     mapStyle,
     selected,
     searched,
-    stops = [],
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
@@ -94,7 +92,7 @@ const Map = ({
     );
 
     useEffect(() => {
-        if (features && Object.values(features).length > 0 && stops) {
+        if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
@@ -113,7 +111,7 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
-    }, [features, stops]);
+    }, [features]);
 
     const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
         setFeatures((currFeatures) => {
