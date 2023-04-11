@@ -15,6 +15,8 @@ export const validitySchema = z.object({
     disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
 });
 
 export type Validity = z.infer<typeof validitySchema>;
@@ -72,6 +74,8 @@ export const createDisruptionSchema = z.object({
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     validity: z
         .array(validitySchemaRefined)
         .refine((arr) => !arr.some((val) => val.disruptionNoEndDateTime === "true"), {

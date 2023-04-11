@@ -1,5 +1,5 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -30,33 +30,43 @@ const Radios = <T extends object>({
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
-                    <div className="govuk-radios">
+                    <div className="govuk-radios" data-module="govuk-radios">
                         {radioDetail.map((input, index) => (
-                            <div
-                                className={`govuk-radios__item${
-                                    index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
-                                }`}
-                                key={`radio-${input.value}`}
-                            >
-                                <input
-                                    className="govuk-radios__input"
-                                    id={`${inputId}-${input.value}`}
-                                    name={inputName}
-                                    type="radio"
-                                    value={input.value}
-                                    onBlur={(e) =>
-                                        handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
-                                    }
-                                    onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
-                                    defaultChecked={input.value === value}
-                                />
-                                <label
-                                    className="govuk-label govuk-radios__label"
-                                    htmlFor={`${inputId}-${input.value}`}
+                            <>
+                                <div
+                                    className={`govuk-radios__item${
+                                        index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
+                                    }`}
+                                    key={`radio-${input.value}`}
                                 >
-                                    {input.display}
-                                </label>
-                            </div>
+                                    <input
+                                        className="govuk-radios__input"
+                                        id={`${inputId}-${input.value}`}
+                                        name={inputName}
+                                        type="radio"
+                                        value={input.value}
+                                        onBlur={(e) =>
+                                            handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
+                                        }
+                                        onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
+                                        defaultChecked={input.value === value}
+                                        data-aria-controls={
+                                            input.conditionalElement ? `${inputId}-${input.value}` : null
+                                        }
+                                    />
+                                    <label
+                                        className="govuk-label govuk-radios__label"
+                                        htmlFor={`${inputId}-${input.value}`}
+                                    >
+                                        {input.display}
+                                    </label>
+                                </div>
+                                {input.conditionalElement ? (
+                                    <div className="govuk-radios__conditional" id={`${inputId}-${input.value}`}>
+                                        <div className="govuk-form-group">{input.conditionalElement}</div>
+                                    </div>
+                                ) : null}
+                            </>
                         ))}
                     </div>
                 </FormElementWrapper>

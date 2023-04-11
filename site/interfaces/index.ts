@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ServerResponse } from "http";
 import { Service, Stop } from "../schemas/consequence.schema";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
+import React, { ReactElement } from "react";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -42,6 +43,7 @@ export interface DisplayValuePair<T = string> {
     display: string;
     value: T;
     checked?: boolean;
+    conditionalElement?: ReactElement;
 }
 
 export interface Feedback {
