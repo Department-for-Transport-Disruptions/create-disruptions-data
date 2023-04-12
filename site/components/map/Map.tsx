@@ -10,7 +10,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import MapBox, { Marker, ViewState } from "react-map-gl";
+import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
@@ -44,6 +44,50 @@ const Map = ({
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
+
+    const handleMouseEnter = useCallback(
+        (id: string) => {
+            const stopsOnMap = searched && selected ? [...selected, ...searched] : [];
+            const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
+            if (stopInfo) setPopupInfo(stopInfo);
+        },
+        [searched, selected],
+    );
+
+    const unselectMarker = useCallback(
+        (id: string) => {
+            if (state) {
+                const stops = sortStops(selected ? selected.filter((stop: Stop) => stop.atcoCode !== id) : []);
+
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops,
+                    },
+                    errors: state.errors,
+                });
+            }
+        },
+        [selected, state, stateUpdater],
+    );
+
+    const selectMarker = useCallback(
+        (id: string) => {
+            if (state) {
+                const stop: Stop[] = searched ? searched.filter((stop: Stop) => stop.atcoCode === id) : [];
+
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops: sortStops([...(selected ? selected : []), ...stop]),
+                    },
+                    errors: state.errors,
+                });
+            }
+        },
+        [searched, selected, state, stateUpdater],
+    );
 
     const getMarkers = useCallback(
         (selected: Stop[], searched: Stop[]): ReactNode => {
@@ -54,7 +98,20 @@ const Map = ({
                               key={uniqueId(s.atcoCode)}
                               longitude={Number(s.longitude)}
                               latitude={Number(s.latitude)}
-                          />
+                              onClick={() => {
+                                  unselectMarker(s.atcoCode);
+                              }}
+                          >
+                              <div
+                                  className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
+                                  onMouseEnter={() => {
+                                      handleMouseEnter(s.atcoCode);
+                                  }}
+                                  onMouseLeave={() => {
+                                      setPopupInfo({});
+                                  }}
+                              />
+                          </Marker>
                       ))
                     : [];
             const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
@@ -81,14 +138,27 @@ const Map = ({
                     longitude={Number(s.longitude)}
                     latitude={Number(s.latitude)}
                     color="grey"
-                />
+                    onClick={() => {
+                        selectMarker(s.atcoCode);
+                    }}
+                >
+                    <div
+                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
+                        onMouseEnter={() => {
+                            handleMouseEnter(s.atcoCode);
+                        }}
+                        onMouseLeave={() => {
+                            setPopupInfo({});
+                        }}
+                    />
+                </Marker>
             ));
 
             const markers = [...inTable, ...greyMarkers];
 
             return markers.length > 0 ? markers.slice(0, 100) : null;
         },
-        [markerData],
+        [markerData, handleMouseEnter, selectMarker, unselectMarker],
     );
 
     useEffect(() => {
@@ -124,6 +194,7 @@ const Map = ({
             return newFeatures;
         });
         setSelectAll(true);
+        setPopupInfo({});
     }, []);
 
     const onDelete = useCallback((evt: { features: PolygonFeature[] }) => {
@@ -138,6 +209,7 @@ const Map = ({
         });
         setSelectAll(true);
         setMarkerData([]);
+        setPopupInfo({});
     }, []);
 
     const selectAllStops = (evt: SyntheticEvent) => {
@@ -225,6 +297,22 @@ const Map = ({
                         onDelete(evt);
                     }}
                 />
+                {popupInfo.atcoCode && (
+                    <Popup
+                        anchor="top"
+                        longitude={Number(popupInfo.longitude)}
+                        latitude={Number(popupInfo.latitude)}
+                        onClose={() => setPopupInfo({})}
+                        closeButton={false}
+                        closeOnMove
+                    >
+                        <div>
+                            <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
+                            <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
+                            <p className="govuk-body-s mb-1">Name: {popupInfo.commonName}</p>
+                        </div>
+                    </Popup>
+                )}
             </MapBox>
         </>
     ) : null;
