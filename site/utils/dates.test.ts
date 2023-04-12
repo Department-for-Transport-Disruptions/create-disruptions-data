@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { convertDateTimeToFormat, formatTime } from "./dates";
+import { checkOverlap, convertDateTimeToFormat, formatTime, getDatetimeFromDateAndTime } from "./dates";
 
 describe("date/time tests", () => {
     it.each([
@@ -18,5 +18,30 @@ describe("date/time tests", () => {
         ["", ""],
     ])("should format add a : between provided numbers", (unformattedTime, formattedTime) => {
         expect(formatTime(unformattedTime)).toEqual(formattedTime);
+    });
+
+    it.each([
+        [
+            getDatetimeFromDateAndTime("04/04/2019", "1000"),
+            getDatetimeFromDateAndTime("07/04/2019", "1000"),
+            getDatetimeFromDateAndTime("03/04/2019", "1000"),
+        ],
+        [
+            getDatetimeFromDateAndTime("04/04/2019", "1000"),
+            getDatetimeFromDateAndTime("07/04/2019", "1000"),
+            getDatetimeFromDateAndTime("03/04/2019", "1000"),
+        ],
+        [
+            getDatetimeFromDateAndTime("04/04/2019", "1000"),
+            getDatetimeFromDateAndTime("07/04/2019", "1000"),
+            getDatetimeFromDateAndTime("05/04/2019", "1000"),
+        ],
+        [
+            getDatetimeFromDateAndTime("02/04/2019", "1000"),
+            getDatetimeFromDateAndTime("15/04/2019", "1000"),
+            getDatetimeFromDateAndTime("05/04/2019", "1000"),
+        ],
+    ])("should confirm that the dates overlap", (firstStartDate, firstEndDate, secondStartDate) => {
+        expect(checkOverlap(firstStartDate, firstEndDate, secondStartDate)).toEqual(true);
     });
 });

@@ -37,6 +37,7 @@ export const stopSchema = z.object({
     longitude: z.coerce.number(),
     latitude: z.coerce.number(),
     serviceId: z.number({}).optional(),
+    bearing: z.string().optional(),
 });
 
 export const stopsConsequenceSchema = z.object({
@@ -62,6 +63,7 @@ export const serviceSchema = z.object({
     operatorShortName: z.string(),
     destination: z.string(),
     origin: z.string(),
+    nocCode: z.string(),
 });
 
 export const servicesConsequenceSchema = z.object({

@@ -113,6 +113,7 @@ const DateSelector = <T extends object>({
                                 stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
                             }
                         }}
+                        onAccept={() => setErrors([])}
                         renderInput={({ inputRef, inputProps, InputProps }) => {
                             return inputBox(
                                 inputRef,

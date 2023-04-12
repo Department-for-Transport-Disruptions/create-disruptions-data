@@ -10,7 +10,7 @@ import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
-const defaultPublishStartDate = getFutureDateAsString(2);
+const defaultPublishStartDate = getFutureDateAsString(1);
 
 const defaultDisruptionData = {
     disruptionType: "unplanned",
@@ -23,7 +23,6 @@ const defaultDisruptionData = {
     publishStartTime: "1100",
     publishEndDate: "",
     publishEndTime: "",
-    publishNoEndDateTime: "true",
     disruptionStartDate: defaultDisruptionEndDate,
     disruptionStartTime: "1100",
     disruptionEndDate: "",
@@ -178,8 +177,8 @@ describe("create-disruption API", () => {
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", () => {
         const disruptionData = {
             ...defaultDisruptionData,
-            validity1: ["24/03/2002", "1200", "", "", "true"],
-            validity2: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
+            validity1: [getFutureDateAsString(10), "1200", "", "", "true"],
+            validity2: [getFutureDateAsString(7), "1100", getFutureDateAsString(8), "1000", ""],
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
@@ -189,6 +188,7 @@ describe("create-disruption API", () => {
 
         const errors: ErrorInfo[] = [
             { errorMessage: "A validity period with no end time must be the last validity", id: "disruptionStartDate" },
+            { errorMessage: "Validity periods cannot overlap", id: "disruptionStartDate" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(

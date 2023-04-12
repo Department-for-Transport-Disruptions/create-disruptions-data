@@ -240,14 +240,99 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Select a reason
                   </option>
                   <option
-                    value="roadworks"
+                    value="accident"
                   >
-                    Road Works
+                    Accident
                   </option>
                   <option
-                    value="vandalism"
+                    value="breakDown"
                   >
-                    Vandalism
+                    Break Down
+                  </option>
+                  <option
+                    value="congestion"
+                  >
+                    Congestion
+                  </option>
+                  <option
+                    value="constructionWork"
+                  >
+                    Construction Work
+                  </option>
+                  <option
+                    value="emergencyEngineeringWork"
+                  >
+                    Emergency Engineering Work
+                  </option>
+                  <option
+                    value="flooding"
+                  >
+                    Flooding
+                  </option>
+                  <option
+                    value="fog"
+                  >
+                    Fog
+                  </option>
+                  <option
+                    value="heavyRain"
+                  >
+                    Heavy Rain
+                  </option>
+                  <option
+                    value="heavySnowFall"
+                  >
+                    Heavy Snow Fall
+                  </option>
+                  <option
+                    value="highTemperatures"
+                  >
+                    High Temperatures
+                  </option>
+                  <option
+                    value="ice"
+                  >
+                    Ice
+                  </option>
+                  <option
+                    value="incident"
+                  >
+                    Incident
+                  </option>
+                  <option
+                    value="industrialAction"
+                  >
+                    Industrial Action
+                  </option>
+                  <option
+                    value="maintenanceWork"
+                  >
+                    Maintenance Work
+                  </option>
+                  <option
+                    value="operatorCeasedTrading"
+                  >
+                    Operator Ceased Trading
+                  </option>
+                  <option
+                    value="overcrowded"
+                  >
+                    Overcrowded
+                  </option>
+                  <option
+                    value="repairWork"
+                  >
+                    Repair Work
+                  </option>
+                  <option
+                    value="roadClosed"
+                  >
+                    Road Closed
+                  </option>
+                  <option
+                    value="roadworks"
+                  >
+                    Roadworks
                   </option>
                   <option
                     value="routeDiversion"
@@ -255,9 +340,34 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Route Diversion
                   </option>
                   <option
+                    value="securityAlert"
+                  >
+                    Security Alert
+                  </option>
+                  <option
+                    value="signalFailure"
+                  >
+                    Signal Failure
+                  </option>
+                  <option
+                    value="signalProblem"
+                  >
+                    Signal Problem
+                  </option>
+                  <option
                     value="specialEvent"
                   >
                     Special Event
+                  </option>
+                  <option
+                    value="unknown"
+                  >
+                    Unknown
+                  </option>
+                  <option
+                    value="vandalism"
+                  >
+                    Vandalism
                   </option>
                 </select>
               </div>
@@ -874,53 +984,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="publish-no-end-date-time"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-visually-hidden"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does the disruption have an end datetime?
-                </span>
-              </legend>
-              <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
-                data-module="govuk-checkboxes"
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className="govuk-checkboxes__item"
-                  >
-                    <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
-                      id="publish-no-end-date-time-true"
-                      name="publishNoEndDateTime"
-                      onChange={[Function]}
-                      type="checkbox"
-                      value="true"
-                    />
-                    <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="publish-no-end-date-time-true"
-                    >
-                      No end date/time
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1358,14 +1421,99 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Select a reason
                   </option>
                   <option
-                    value="roadworks"
+                    value="accident"
                   >
-                    Road Works
+                    Accident
                   </option>
                   <option
-                    value="vandalism"
+                    value="breakDown"
                   >
-                    Vandalism
+                    Break Down
+                  </option>
+                  <option
+                    value="congestion"
+                  >
+                    Congestion
+                  </option>
+                  <option
+                    value="constructionWork"
+                  >
+                    Construction Work
+                  </option>
+                  <option
+                    value="emergencyEngineeringWork"
+                  >
+                    Emergency Engineering Work
+                  </option>
+                  <option
+                    value="flooding"
+                  >
+                    Flooding
+                  </option>
+                  <option
+                    value="fog"
+                  >
+                    Fog
+                  </option>
+                  <option
+                    value="heavyRain"
+                  >
+                    Heavy Rain
+                  </option>
+                  <option
+                    value="heavySnowFall"
+                  >
+                    Heavy Snow Fall
+                  </option>
+                  <option
+                    value="highTemperatures"
+                  >
+                    High Temperatures
+                  </option>
+                  <option
+                    value="ice"
+                  >
+                    Ice
+                  </option>
+                  <option
+                    value="incident"
+                  >
+                    Incident
+                  </option>
+                  <option
+                    value="industrialAction"
+                  >
+                    Industrial Action
+                  </option>
+                  <option
+                    value="maintenanceWork"
+                  >
+                    Maintenance Work
+                  </option>
+                  <option
+                    value="operatorCeasedTrading"
+                  >
+                    Operator Ceased Trading
+                  </option>
+                  <option
+                    value="overcrowded"
+                  >
+                    Overcrowded
+                  </option>
+                  <option
+                    value="repairWork"
+                  >
+                    Repair Work
+                  </option>
+                  <option
+                    value="roadClosed"
+                  >
+                    Road Closed
+                  </option>
+                  <option
+                    value="roadworks"
+                  >
+                    Roadworks
                   </option>
                   <option
                     value="routeDiversion"
@@ -1373,9 +1521,34 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Route Diversion
                   </option>
                   <option
+                    value="securityAlert"
+                  >
+                    Security Alert
+                  </option>
+                  <option
+                    value="signalFailure"
+                  >
+                    Signal Failure
+                  </option>
+                  <option
+                    value="signalProblem"
+                  >
+                    Signal Problem
+                  </option>
+                  <option
                     value="specialEvent"
                   >
                     Special Event
+                  </option>
+                  <option
+                    value="unknown"
+                  >
+                    Unknown
+                  </option>
+                  <option
+                    value="vandalism"
+                  >
+                    Vandalism
                   </option>
                 </select>
               </div>
@@ -1925,53 +2098,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 />
               </div>
             </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-              id="publish-no-end-date-time"
-              role="group"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-visually-hidden"
-              >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Does the disruption have an end datetime?
-                </span>
-              </legend>
-              <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
-                data-module="govuk-checkboxes"
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className="govuk-checkboxes__item"
-                  >
-                    <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
-                      id="publish-no-end-date-time-true"
-                      name="publishNoEndDateTime"
-                      onChange={[Function]}
-                      type="checkbox"
-                      value="true"
-                    />
-                    <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="publish-no-end-date-time-true"
-                    >
-                      No end date/time
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
           </div>
           <button
             className="govuk-button mt-8"

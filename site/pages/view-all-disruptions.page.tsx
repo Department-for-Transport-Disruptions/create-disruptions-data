@@ -27,7 +27,7 @@ export interface TableDisruption {
     severity: string;
     status: string;
     serviceLineRefs: string[];
-    operator: { operatorName: string; operatorRef: string } | null;
+    operators: { operatorName: string; operatorRef: string }[];
 }
 
 export interface ViewAllDisruptionsProps {
@@ -40,7 +40,7 @@ interface Filter {
     startTime?: string;
     severity?: string;
     status?: string;
-    operator?: { operatorName: string; operatorRef: string };
+    operators: { operatorName: string; operatorRef: string }[];
     mode?: string;
 }
 
@@ -133,11 +133,14 @@ const useFiltersOnDisruptions = (
         disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => disruption.status === filter.status);
     }
 
-    if (filter.operator) {
-        disruptionsToDisplay = disruptionsToDisplay.filter(
-            (disruption) => !!disruption.operator && disruption.operator.operatorRef === filter.operator?.operatorRef,
+    if (filter.operators.length > 0) {
+        const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) =>
+            disruption.operators.find((operator) => filterOperatorsRefs.includes(operator.operatorRef)),
         );
     }
+
+    setDisruptionsToDisplay(disruptionsToDisplay);
 };
 
 const ViewAllDisruptions = ({ disruptions, services }: ViewAllDisruptionsProps): ReactElement => {
@@ -147,6 +150,7 @@ const ViewAllDisruptions = ({ disruptions, services }: ViewAllDisruptionsProps):
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [filter, setFilter] = useState<Filter>({
         services: [],
+        operators: [],
     });
 
     const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(getPageOfDisruptions(currentPage, disruptions));
@@ -160,6 +164,10 @@ const ViewAllDisruptions = ({ disruptions, services }: ViewAllDisruptionsProps):
             useFiltersOnDisruptions(disruptions, setDisruptionsToDisplay, filter);
         }
     }, [showFilters]);
+
+    useEffect(() => {
+        setFilter({ ...filter, services: selectedServices });
+    }, [selectedServices]);
 
     return (
         <BaseLayout title={title} description={description} errors={[]}>
@@ -242,7 +250,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceLineRefs: string[] = [];
-            let operator;
+            const operators: { operatorName: string; operatorRef: string }[] = [];
 
             if (disruption.Consequences) {
                 disruption.Consequences.Consequence.forEach((consequence) => {
@@ -252,13 +260,14 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                     }
 
                     if (!!consequence.Affects.Networks?.AffectedNetwork.AffectedLine) {
-                        serviceLineRefs.push(consequence.Affects.Networks.AffectedNetwork.AffectedLine.LineRef);
-                        const affectedOperator =
-                            consequence.Affects.Networks.AffectedNetwork.AffectedLine.AffectedOperator;
-                        operator = {
-                            operatorRef: affectedOperator.OperatorRef,
-                            operatorName: affectedOperator.OperatorName || "",
-                        };
+                        consequence.Affects.Networks.AffectedNetwork.AffectedLine.forEach((line) => {
+                            serviceLineRefs.push(line.LineRef);
+                            const affectedOperator = line.AffectedOperator;
+                            operators.push({
+                                operatorRef: affectedOperator.OperatorRef,
+                                operatorName: affectedOperator.OperatorName || "",
+                            });
+                        });
                     }
                 });
             }
@@ -274,7 +283,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                 status: splitCamelCaseToString(disruption.Progress),
                 severity: splitCamelCaseToString(getWorstSeverity(severitys)),
                 serviceLineRefs,
-                operator: !!operator ? operator : null,
+                operators,
             };
         });
 
