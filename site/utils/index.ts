@@ -7,6 +7,7 @@ import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDate } from "./dates";
 import { DisplayValuePair, ErrorInfo, PageState } from "../interfaces";
+import { Service } from "../schemas/consequence.schema";
 
 export const sortDisruptionsByStartDate = (disruptions: PtSituationElement[]): PtSituationElement[] => {
     const sortEarliestDate = (firstDate: string, secondDate: string) =>
@@ -59,6 +60,9 @@ export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startC
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
     items.find((item) => item.value === value)?.display;
+
+export const getServiceLabel = (service: Service) =>
+    `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
 // Zod
 export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorMap } = (errorMessage: string) => ({
