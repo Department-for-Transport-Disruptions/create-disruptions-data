@@ -19,6 +19,7 @@ const defaultServicesData = {
         operatorShortName: "First South Yorkshire",
         origin: "Jordanthorpe",
         destination: "HigH Green",
+        nocCode: "TEST",
     }),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -42,10 +43,10 @@ describe("create-consequence-services API", () => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed", () => {
+    it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultServicesData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceServices(req, res);
+        await createConsequenceServices(req, res);
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
@@ -53,7 +54,7 @@ describe("create-consequence-services API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed with stops", () => {
+    it("should redirect to /review-disruption when all required inputs are passed with stops", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 ...defaultServicesData,
@@ -77,7 +78,7 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        createConsequenceServices(req, res);
+        await createConsequenceServices(req, res);
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
@@ -85,9 +86,9 @@ describe("create-consequence-services API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
-    it("should redirect back to /create-consequence-services when no form inputs are passed to the API", () => {
+    it("should redirect back to /create-consequence-services when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
-        createConsequenceServices(req, res);
+        await createConsequenceServices(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
@@ -107,7 +108,7 @@ describe("create-consequence-services API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_SERVICES_PATH });
     });
 
-    it("should redirect back to /create-consequence-services when description is too long", () => {
+    it("should redirect back to /create-consequence-services when description is too long", async () => {
         const stopsData = {
             ...defaultServicesData,
             description:
@@ -116,7 +117,7 @@ describe("create-consequence-services API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceServices(req, res);
+        await createConsequenceServices(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Description must not exceed 500 characters", id: "description" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -128,7 +129,7 @@ describe("create-consequence-services API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_SERVICES_PATH });
     });
 
-    it("should redirect back to /create-consequence-services when invalid time is passed", () => {
+    it("should redirect back to /create-consequence-services when invalid time is passed", async () => {
         const stopsData = {
             ...defaultServicesData,
             disruptionDelay: "7280",
@@ -136,7 +137,7 @@ describe("create-consequence-services API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceServices(req, res);
+        await createConsequenceServices(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },

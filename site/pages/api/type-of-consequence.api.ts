@@ -7,7 +7,6 @@ import {
     CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
 } from "../../constants/index";
-import { upsertConsequenceTypeInDisruption } from "../../data/dynamo";
 import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -17,7 +16,7 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const addConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
@@ -34,26 +33,29 @@ const addConsequence = async (req: NextApiRequest, res: NextApiResponse): Promis
             return;
         }
 
-        await upsertConsequenceTypeInDisruption(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, res);
+
+        let redirectPath: string;
 
         switch (validatedBody.data.consequenceType) {
             case "networkWide":
-                redirectTo(res, CREATE_CONSEQUENCE_NETWORK_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_NETWORK_PATH;
+                break;
             case "operatorWide":
-                redirectTo(res, CREATE_CONSEQUENCE_OPERATOR_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_OPERATOR_PATH;
+                break;
             case "stops":
-                redirectTo(res, CREATE_CONSEQUENCE_STOPS_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_STOPS_PATH;
+                break;
             case "services":
-                redirectTo(res, CREATE_CONSEQUENCE_SERVICES_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_SERVICES_PATH;
+                break;
             default:
-                redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-                return;
+                redirectPath = TYPE_OF_CONSEQUENCE_PAGE_PATH;
+                break;
         }
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`);
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";

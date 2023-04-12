@@ -1,7 +1,6 @@
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import TypeOfConsequence from "./[disruptionId]/index.page";
+import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 
@@ -12,8 +11,8 @@ const withErrors: ErrorInfo[] = [
     { id: "vehicleMode", errorMessage: "Select a mode of transport" },
 ];
 const withInputs: ConsequenceType = {
-    id: "123",
-    vehicleMode: VehicleMode.bus,
+    disruptionId: "123",
+    consequenceIndex: 0,
     consequenceType: "networkWide",
 };
 

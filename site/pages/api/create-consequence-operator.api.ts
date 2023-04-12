@@ -2,10 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { addConsequenceToDisruption } from "../../data/dynamo";
-import { operatorConsequenceSchema } from "../../schemas/consequence.schema";
+import { upsertConsequence } from "../../data/dynamo";
+import { OperatorConsequence, operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -19,22 +20,30 @@ const createConsequenceOperator = async (req: NextApiRequest, res: NextApiRespon
         const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
+            const body = req.body as OperatorConsequence;
+
+            if (!body.disruptionId || !body.consequenceIndex) {
+                redirectTo(res, ERROR_PATH);
+                return;
+            }
+
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: body,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
             );
-            redirectTo(res, CREATE_CONSEQUENCE_OPERATOR_PATH);
+
+            redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 
-        await addConsequenceToDisruption(validatedBody.data);
+        await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
-        redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);
+        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

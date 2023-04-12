@@ -10,7 +10,7 @@ const baseConsequence = {
     removeFromJourneyPlanners: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
     disruptionDelay: zodTimeInMinutes("Enter a number between 0 to 999 for disruption delay").optional(),
     disruptionSeverity: z.nativeEnum(Severity, setZodDefaultError("Select the severity from the dropdown")),
-    vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a vehicle mode")),
+    vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a mode of transport")),
     consequenceIndex: z.coerce.number(),
 };
 
@@ -39,6 +39,7 @@ export const stopSchema = z.object({
     longitude: z.coerce.number(),
     latitude: z.coerce.number(),
     serviceId: z.number({}).optional(),
+    bearing: z.string().optional(),
 });
 
 export const stopsConsequenceSchema = z.object({
@@ -64,6 +65,7 @@ export const serviceSchema = z.object({
     operatorShortName: z.string(),
     destination: z.string(),
     origin: z.string(),
+    nocCode: z.string(),
 });
 
 export const servicesConsequenceSchema = z.object({

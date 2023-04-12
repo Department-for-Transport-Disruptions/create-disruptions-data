@@ -2,7 +2,6 @@ import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
 import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, ERROR_PATH } from "../../constants/index";
-import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
 import * as dynamo from "../../data/dynamo";
 import {
     consequenceInfoNetworkTestCookie,
@@ -31,7 +30,7 @@ describe("publish", () => {
 
     MockDate.set("2023-03-03");
 
-    const dynamoSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamo");
+    const dynamoSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -52,7 +51,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
@@ -70,7 +69,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -88,7 +87,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 

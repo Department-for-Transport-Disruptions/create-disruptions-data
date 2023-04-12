@@ -1,10 +1,85 @@
+import { Dayjs } from "dayjs";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
+import { getDatetimeFromDateAndTime } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
+import {
+    Consequence,
+    NetworkConsequence,
+    OperatorConsequence,
+    ServicesConsequence,
+    StopsConsequence,
+} from "../schemas/consequence.schema";
+import { Validity } from "../schemas/create-disruption.schema";
+import { Disruption } from "../schemas/disruption.schema";
+
+export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruption[] => {
+    const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
+
+    const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
+        const validityPeriods: Validity[] = [
+            ...(disruption.validity ?? []),
+            {
+                disruptionStartDate: disruption.disruptionStartDate,
+                disruptionStartTime: disruption.disruptionStartTime,
+                disruptionEndDate: disruption.disruptionEndDate,
+                disruptionEndTime: disruption.disruptionEndTime,
+                disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+            },
+        ];
+
+        const sortedValidityPeriods = validityPeriods.sort((a, b) => {
+            return sortEarliestDate(
+                getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime),
+                getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime),
+            );
+        });
+
+        return { ...disruption, ValidityPeriod: sortedValidityPeriods };
+    });
+
+    return disruptionsWithSortedValidityPeriods.sort((a, b) => {
+        const aTime = a.validity?.length
+            ? getDatetimeFromDateAndTime(a.validity[0].disruptionStartDate, a.validity[0].disruptionStartTime)
+            : getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime);
+
+        const bTime = b.validity?.length
+            ? getDatetimeFromDateAndTime(b.validity[0].disruptionStartDate, b.validity[0].disruptionStartTime)
+            : getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime);
+
+        return sortEarliestDate(aTime, bTime);
+    });
+};
+
+export const mapValidityPeriods = (disruption: Disruption) =>
+    [
+        ...(disruption.validity ?? []),
+        {
+            disruptionStartDate: disruption.disruptionStartDate,
+            disruptionStartTime: disruption.disruptionStartTime,
+            disruptionEndDate: disruption.disruptionEndDate,
+            disruptionEndTime: disruption.disruptionEndTime,
+            disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+        },
+    ].map((period) => ({
+        startTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
+        endTime:
+            period.disruptionEndDate && period.disruptionEndTime
+                ? getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString()
+                : null,
+    }));
+
+export const reduceStringWithEllipsis = (input: string, maximum: number): string => {
+    if (input.length < maximum) {
+        return input;
+    }
+
+    return `${input.substring(0, maximum)}...`;
+};
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
@@ -32,6 +107,21 @@ export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startC
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
     items.find((item) => item.value === value)?.display;
+
+export const isFullConsequence = (consequence: unknown): consequence is Consequence =>
+    !!(consequence as Consequence).description;
+
+export const isNetworkConsequence = (consequence: unknown): consequence is NetworkConsequence =>
+    isFullConsequence(consequence) && consequence.consequenceType === "networkWide";
+
+export const isOperatorConsequence = (consequence: unknown): consequence is OperatorConsequence =>
+    isFullConsequence(consequence) && consequence.consequenceType === "operatorWide";
+
+export const isStopsConsequence = (consequence: unknown): consequence is StopsConsequence =>
+    isFullConsequence(consequence) && consequence.consequenceType === "stops";
+
+export const isServicesConsequence = (consequence: unknown): consequence is ServicesConsequence =>
+    isFullConsequence(consequence) && consequence.consequenceType === "services";
 
 // Zod
 export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorMap } = (errorMessage: string) => ({

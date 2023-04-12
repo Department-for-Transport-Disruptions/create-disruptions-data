@@ -19,12 +19,80 @@ export const DISRUPTION_REASONS: DisplayValuePair<
     MiscellaneousReason | PersonnelReason | EnvironmentReason | EquipmentReason
 >[] = [
     {
-        value: MiscellaneousReason.roadworks,
-        display: "Road Works",
+        value: MiscellaneousReason.accident,
+        display: "Accident",
     },
     {
-        value: MiscellaneousReason.vandalism,
-        display: "Vandalism",
+        value: EquipmentReason.breakDown,
+        display: "Break Down",
+    },
+    {
+        value: MiscellaneousReason.congestion,
+        display: "Congestion",
+    },
+    {
+        value: MiscellaneousReason.constructionWork,
+        display: "Construction Work",
+    },
+    {
+        value: EquipmentReason.emergencyEngineeringWork,
+        display: "Emergency Engineering Work",
+    },
+    {
+        value: MiscellaneousReason.fog,
+        display: "Fog",
+    },
+    {
+        value: EnvironmentReason.flooding,
+        display: "Flooding",
+    },
+    {
+        value: EnvironmentReason.heavySnowFall,
+        display: "Heavy Snow Fall",
+    },
+    {
+        value: EnvironmentReason.highTemperatures,
+        display: "High Temperatures",
+    },
+    {
+        value: EnvironmentReason.heavyRain,
+        display: "Heavy Rain",
+    },
+    {
+        value: EnvironmentReason.ice,
+        display: "Ice",
+    },
+    {
+        value: MiscellaneousReason.incident,
+        display: "Incident",
+    },
+    {
+        value: MiscellaneousReason.securityAlert,
+        display: "Security Alert",
+    },
+    {
+        value: MiscellaneousReason.maintenanceWork,
+        display: "Maintenance Work",
+    },
+    {
+        value: MiscellaneousReason.operatorCeasedTrading,
+        display: "Operator Ceased Trading",
+    },
+    {
+        value: MiscellaneousReason.overcrowded,
+        display: "Overcrowded",
+    },
+    {
+        value: MiscellaneousReason.signalProblem,
+        display: "Signal Problem",
+    },
+    {
+        value: MiscellaneousReason.roadClosed,
+        display: "Road Closed",
+    },
+    {
+        value: MiscellaneousReason.roadworks,
+        display: "Roadworks",
     },
     {
         value: MiscellaneousReason.routeDiversion,
@@ -33,6 +101,26 @@ export const DISRUPTION_REASONS: DisplayValuePair<
     {
         value: MiscellaneousReason.specialEvent,
         display: "Special Event",
+    },
+    {
+        value: PersonnelReason.industrialAction,
+        display: "Industrial Action",
+    },
+    {
+        value: EquipmentReason.signalFailure,
+        display: "Signal Failure",
+    },
+    {
+        value: EquipmentReason.repairWork,
+        display: "Repair Work",
+    },
+    {
+        value: MiscellaneousReason.vandalism,
+        display: "Vandalism",
+    },
+    {
+        value: MiscellaneousReason.unknown,
+        display: "Unknown",
     },
 ];
 

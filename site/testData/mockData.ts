@@ -17,6 +17,7 @@ import { Mock, vi } from "vitest";
 import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
+import { Disruption } from "../schemas/disruption.schema";
 
 export interface GetMockContextInput {
     session?: { [key: string]: any };
@@ -198,7 +199,6 @@ export const databaseData: PtSituationElement[] = [
                 },
             ],
         },
-
         References: {
             RelatedToRef: [
                 {
@@ -238,7 +238,76 @@ export const databaseData: PtSituationElement[] = [
     },
 ];
 
+export const randomlyGeneratedDisruptions: PtSituationElement[] = [
+    {
+        CreationTime: "2023-01-01T01:10:00Z",
+        ParticipantRef: "ref",
+        SituationNumber: "cd544ea5-f9a0-4bba-b535-3352f39c1597",
+        Version: 1,
+        Source: {
+            SourceType: SourceType.feed,
+            TimeOfCommunication: "2023-01-01T01:10:00Z",
+        },
+        Progress: Progress.open,
+        ValidityPeriod: [{ StartTime: "2024-10-03T05:48:00.755Z" }],
+        PublicationWindow: {
+            StartTime: "2023-03-02T10:10:00Z",
+            EndTime: "2023-03-09T10:10:00Z",
+        },
+        ReasonType: "PersonnelReason",
+        PersonnelReason: PersonnelReason.staffSickness,
+        Planned: true,
+        Summary:
+            "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be weak to bus information.",
+        Description: "Disruption Description",
+        Consequences: {
+            Consequence: [
+                {
+                    Condition: "unknown",
+                    Severity: Severity.verySevere,
+                    Affects: {
+                        Networks: {
+                            AffectedNetwork: { VehicleMode: VehicleMode.tram, AllLines: "" },
+                        },
+                    },
+                    Advice: { Details: "Some Advice" },
+                    Blocking: { JourneyPlanner: false },
+                    Delays: { Delay: "PT10M" },
+                },
+            ],
+        },
+    },
+    {
+        CreationTime: "2023-01-01T01:10:00Z",
+        ParticipantRef: "ref",
+        SituationNumber: "d4e5f0d0-7222-45b1-a12d-38113fbc4e93",
+        Version: 1,
+        Source: { SourceType: SourceType.feed, TimeOfCommunication: "2023-01-01T01:10:00Z" },
+        Progress: Progress.draft,
+        ValidityPeriod: [{ StartTime: "2022-10-23T17:37:27.197Z", EndTime: "2022-10-30T17:37:27.197Z" }],
+        PublicationWindow: { StartTime: "2023-03-02T10:10:00Z", EndTime: "2023-03-09T10:10:00Z" },
+        ReasonType: "PersonnelReason",
+        PersonnelReason: PersonnelReason.staffSickness,
+        Planned: true,
+        Summary: "Mongeese loose from petting zoo",
+        Description: "Disruption Description",
+        Consequences: {
+            Consequence: [
+                {
+                    Condition: "unknown",
+                    Severity: Severity.verySlight,
+                    Affects: { Networks: { AffectedNetwork: { VehicleMode: VehicleMode.bus, AllLines: "" } } },
+                    Advice: { Details: "Some Advice" },
+                    Blocking: { JourneyPlanner: false },
+                    Delays: { Delay: "PT10M" },
+                },
+            ],
+        },
+    },
+];
+
 export const disruptionInfoTestCookie: DisruptionInfo = {
+    disruptionId: "test",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -252,6 +321,7 @@ export const disruptionInfoTestCookie: DisruptionInfo = {
 };
 
 export const disruptionInfoMultipleValidityTestCookie: DisruptionInfo = {
+    disruptionId: "test",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -271,7 +341,33 @@ export const disruptionInfoMultipleValidityTestCookie: DisruptionInfo = {
     disruptionNoEndDateTime: "true",
 };
 
+export const disruptionInfoMultipleValidityTest: Disruption[] = [
+    {
+        disruptionId: "test",
+        description: "Test description",
+        disruptionType: "planned",
+        summary: "Some summary",
+        disruptionReason: PersonnelReason.staffInWrongPlace,
+        validity: [
+            {
+                disruptionStartDate: "10/03/2023",
+                disruptionStartTime: "1200",
+                disruptionEndDate: "17/03/2023",
+                disruptionEndTime: "1700",
+            },
+        ],
+        publishStartDate: "10/03/2023",
+        publishStartTime: "1200",
+        disruptionStartDate: "18/03/2023",
+        disruptionStartTime: "1200",
+        disruptionNoEndDateTime: "true",
+        consequences: [],
+    },
+];
+
 export const consequenceInfoOperatorTestCookie: Consequence = {
+    consequenceIndex: 0,
+    disruptionId: "test",
     consequenceType: "operatorWide",
     consequenceOperator: "FSYO",
     description: "Some consequence description",
@@ -282,6 +378,8 @@ export const consequenceInfoOperatorTestCookie: Consequence = {
 };
 
 export const consequenceInfoNetworkTestCookie: Consequence = {
+    consequenceIndex: 0,
+    disruptionId: "test",
     consequenceType: "networkWide",
     description: "Some consequence description",
     disruptionSeverity: Severity.slight,

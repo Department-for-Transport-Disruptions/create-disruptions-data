@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    COOKIES_CONSEQUENCE_INFO,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    ERROR_PATH,
 } from "../../constants";
-import { Service, Stop, servicesConsequenceSchema } from "../../schemas/consequence.schema";
+import { upsertConsequence } from "../../data/dynamo";
+import { Service, Stop, servicesConsequenceSchema, ServicesConsequence } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -42,13 +43,20 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     };
 };
 
-const createConsequenceServices = (req: NextApiRequest, res: NextApiResponse): void => {
+const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const formattedBody = formatCreateConsequenceStopsServicesBody(req.body as object);
 
         const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
 
         if (!validatedBody.success) {
+            const body = req.body as ServicesConsequence;
+
+            if (!body.disruptionId || !body.consequenceIndex) {
+                redirectTo(res, ERROR_PATH);
+                return;
+            }
+
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_SERVICES_ERRORS,
                 JSON.stringify({
@@ -57,16 +65,15 @@ const createConsequenceServices = (req: NextApiRequest, res: NextApiResponse): v
                 }),
                 res,
             );
-            destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, res);
 
-            redirectTo(res, CREATE_CONSEQUENCE_SERVICES_PATH);
+            redirectTo(res, `${CREATE_CONSEQUENCE_SERVICES_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, JSON.stringify(validatedBody.data), res);
+        await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
 
-        redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);
+        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

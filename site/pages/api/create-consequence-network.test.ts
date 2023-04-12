@@ -14,7 +14,8 @@ import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultNetworkData: NetworkConsequence = {
-    id: "test",
+    disruptionId: "test",
+    consequenceIndex: 0,
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",

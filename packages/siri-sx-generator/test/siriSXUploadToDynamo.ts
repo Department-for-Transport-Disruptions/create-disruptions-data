@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import { BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { Severity, VehicleMode, Progress } from "@create-disruptions-data/shared-ts/enums";
+import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { randomUUID } from "crypto";
 import { baseDisruptionJson } from "./testData";
 import { getDdbDocumentClient } from "../util/awsClient";
@@ -30,17 +32,53 @@ const getDateAWeekLater = (date: Date): Date => {
 for (let i = 0; i < Number(itemsToCreate); i++) {
     const ValidityPeriod: { StartTime: string; EndTime?: string }[] = [];
     let Summary = "";
+    let consequences = baseDisruptionJson.Consequences?.Consequence;
+    let progress = Progress.open;
+
+    if (!consequences) {
+        throw new Error("Base Consequence not found.");
+    }
 
     if (i % 2 === 0) {
         ValidityPeriod.push({ StartTime: getRandomDate().toISOString() });
-        Summary = "Alien attack";
+        consequences = [
+            {
+                ...consequences[0],
+                Severity: Severity.verySevere,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.tram,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+        ];
+        Summary =
+            "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be weak to bus information.";
     } else if (i % 3 === 0) {
         const randomDate = getRandomDate();
         ValidityPeriod.push(
             { StartTime: getRandomDate().toISOString() },
             { StartTime: randomDate.toISOString(), EndTime: getDateAWeekLater(randomDate).toISOString() },
         );
+        consequences = [
+            {
+                ...consequences[0],
+                Severity: Severity.unknown,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.rail,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+        ];
         Summary = "Apes loose from zoo";
+        progress = Progress.published;
     } else if (i % 5 === 0) {
         const randomDateOne = getRandomDate();
         const randomDateTwo = getRandomDate();
@@ -48,7 +86,22 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             { StartTime: randomDateOne.toISOString(), EndTime: getDateAWeekLater(randomDateOne).toISOString() },
             { StartTime: randomDateTwo.toISOString(), EndTime: getDateAWeekLater(randomDateTwo).toISOString() },
         );
-        Summary = "Bus drivers on strike";
+        consequences = [
+            {
+                ...consequences[0],
+                Severity: Severity.unknown,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.rail,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+        ];
+        Summary = "Bus drivers on strike (due to being unhappy about Alien invasions and road closures).";
+        progress = Progress.closed;
     } else if (i % 7 === 0) {
         const randomDateOne = getRandomDate();
         const randomDateTwo = getRandomDate();
@@ -59,6 +112,45 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             { StartTime: randomDateThree.toISOString() },
         );
         Summary = "Busted reunion traffic";
+        progress = Progress.approvedDraft;
+        consequences = [
+            {
+                ...consequences[0],
+                Severity: Severity.severe,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.rail,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+            {
+                ...consequences[0],
+                Severity: Severity.slight,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.ferryService,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+            {
+                ...consequences[0],
+                Severity: Severity.verySevere,
+                Affects: {
+                    Networks: {
+                        AffectedNetwork: {
+                            VehicleMode: VehicleMode.tram,
+                            AllLines: "",
+                        },
+                    },
+                },
+            },
+        ];
     } else {
         const randomDate = getRandomDate();
         ValidityPeriod.push({
@@ -66,20 +158,25 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             EndTime: getDateAWeekLater(randomDate).toISOString(),
         });
         Summary = "Mongeese loose from petting zoo";
+        progress = Progress.draft;
     }
 
-    const json = {
+    const json: PtSituationElement = {
         ...baseDisruptionJson,
         ValidityPeriod,
         SituationNumber: randomUUID(),
         Summary,
+        Consequences: {
+            Consequence: consequences,
+        },
+        Progress: progress,
     };
 
     requests.push({
         PutRequest: {
             Item: {
                 PK: "1",
-                SK: randomUUID(),
+                SK: `PUBLISHED#${randomUUID()}`,
                 ...json,
             },
         },

@@ -51,10 +51,10 @@ describe("create-consequence-stops API", () => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed", () => {
+    it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultStopsData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceStops(req, res);
+        await createConsequenceStops(req, res);
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
@@ -62,9 +62,9 @@ describe("create-consequence-stops API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
-    it("should redirect back to /create-consequence-stops when no form inputs are passed to the API", () => {
+    it("should redirect back to /create-consequence-stops when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
-        createConsequenceStops(req, res);
+        await createConsequenceStops(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
@@ -83,7 +83,7 @@ describe("create-consequence-stops API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
     });
 
-    it("should redirect back to /create-consequence-stops when description is too long", () => {
+    it("should redirect back to /create-consequence-stops when description is too long", async () => {
         const stopsData = {
             ...defaultStopsData,
             description:
@@ -92,7 +92,7 @@ describe("create-consequence-stops API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceStops(req, res);
+        await createConsequenceStops(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Description must not exceed 500 characters", id: "description" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -104,7 +104,7 @@ describe("create-consequence-stops API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
     });
 
-    it("should redirect back to /create-consequence-stops when invalid time is passed", () => {
+    it("should redirect back to /create-consequence-stops when invalid time is passed", async () => {
         const stopsData = {
             ...defaultStopsData,
             disruptionDelay: "7280",
@@ -112,7 +112,7 @@ describe("create-consequence-stops API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceStops(req, res);
+        await createConsequenceStops(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },

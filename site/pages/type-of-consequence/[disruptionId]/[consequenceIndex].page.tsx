@@ -5,7 +5,7 @@ import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import { COOKIES_CONSEQUENCE_TYPE_ERRORS, VEHICLE_MODES, CONSEQUENCE_TYPES } from "../../../constants/index";
+import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
@@ -31,14 +31,6 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                         <h1 className="govuk-heading-xl">Add a Consequence</h1>
 
                         <Radios<ConsequenceType>
-                            display="Select mode of transport"
-                            radioDetail={VEHICLE_MODES}
-                            inputName="vehicleMode"
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.vehicleMode}
-                            initialErrors={props.errors}
-                        />
-                        <Radios<ConsequenceType>
                             display="Select consequence type"
                             radioDetail={CONSEQUENCE_TYPES}
                             inputName="consequenceType"
@@ -63,31 +55,26 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ConsequenceTypePageProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ConsequenceTypePageProps } | void> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_TYPE_ERRORS];
 
     const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    if (!disruption || !disruption.consequences?.[index]) {
-        return {
-            props: {
-                ...getPageState(errorCookie, typeOfConsequenceSchema, ctx.query.disruptionId?.toString()),
-                consequenceIndex: Number(ctx.query.consequenceIndex?.toString()),
-            },
-        };
+    if (!disruption) {
+        throw new Error("Disruption not found for consequence type page");
     }
 
     return {
         props: {
-            ...getPageState(errorCookie, typeOfConsequenceSchema, ctx.query.disruptionId?.toString(), {
-                consequenceType: disruption.consequences[index].consequenceType,
-                disruptionId: disruption.consequences[index].disruptionId,
-                vehicleMode: disruption.consequences[index].vehicleMode,
-                consequenceIndex: disruption.consequences[index].consequenceIndex,
-            }),
-            consequenceIndex: disruption.consequences[index].consequenceIndex,
+            ...getPageState(
+                errorCookie,
+                typeOfConsequenceSchema,
+                ctx.query.disruptionId?.toString(),
+                disruption.consequences?.[index] ?? undefined,
+            ),
+            consequenceIndex: index,
         },
     };
 };

@@ -1,19 +1,11 @@
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/index.page";
-import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
-
-const previousConsequenceInformation: ConsequenceType = {
-    id: "test",
-    vehicleMode: VehicleMode.ferryService,
-    consequenceType: "services",
-};
+import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
-    previousConsequenceInformation,
 };
 
 const withInputs: CreateConsequenceServicesProps = {
@@ -42,6 +34,7 @@ const withInputs: CreateConsequenceServicesProps = {
                 operatorShortName: "First South Yorkshire",
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
+                nocCode: "TEST",
             },
         ],
 
@@ -51,7 +44,6 @@ const withInputs: CreateConsequenceServicesProps = {
         disruptionSeverity: Severity.severe,
         disruptionDirection: "inbound",
     },
-    previousConsequenceInformation,
 };
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
@@ -83,12 +75,12 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
                 operatorShortName: "First South Yorkshire",
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
+                nocCode: "TEST",
             },
         ],
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
-    previousConsequenceInformation,
 };
 
 describe("pages", () => {

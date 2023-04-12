@@ -4,7 +4,7 @@ import {
     CREATE_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
-import { upsertDraftDisruptionIntoDynamo } from "../../data/dynamo";
+import { upsertDisruptionInfo } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -59,7 +59,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             return;
         }
 
-        await upsertDraftDisruptionIntoDynamo(validatedBody.data);
+        await upsertDisruptionInfo(validatedBody.data);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 

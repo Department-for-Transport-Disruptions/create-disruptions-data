@@ -2,7 +2,6 @@ import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
 import { Service, Stop } from "../schemas/consequence.schema";
-import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -72,7 +71,6 @@ export interface SocialMediaPost {
 }
 
 export interface CreateConsequenceProps {
-    previousConsequenceInformation: ConsequenceType;
     initialServices?: Service[];
     initialStops?: Stop[];
 }

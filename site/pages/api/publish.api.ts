@@ -9,14 +9,13 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { parseCookies } from "nookies";
-import { randomUUID } from "crypto";
-import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO } from "../../constants";
-import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
-import { consequenceSchema } from "../../schemas/consequence.schema";
-import { createDisruptionSchema, Validity } from "../../schemas/create-disruption.schema";
+import { ERROR_PATH } from "../../constants";
+import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/dynamo";
+import { Validity } from "../../schemas/create-disruption.schema";
+import { publishSchema } from "../../schemas/publish.schema";
 import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getDatetimeFromDateAndTime } from "../../utils/dates";
+import logger from "../../utils/logger";
 
 const getValidityPeriod = (period: Validity): Period => ({
     StartTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
@@ -29,111 +28,162 @@ const getValidityPeriod = (period: Validity): Period => ({
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const { [COOKIES_DISRUPTION_INFO]: disruptionInfo, [COOKIES_CONSEQUENCE_INFO]: consequenceInfo } = parseCookies(
-            { req },
-        );
+        const validatedBody = publishSchema.safeParse(req.body);
 
-        const parsedDisruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfo));
-        const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));
-
-        if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success) {
-            throw new Error("Invalid cookie data");
+        if (!validatedBody.success) {
+            redirectTo(res, ERROR_PATH);
+            return;
         }
 
-        const disruptionId = randomUUID();
+        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId);
+
+        if (!draftDisruption) {
+            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
+            redirectTo(res, ERROR_PATH);
+
+            return;
+        }
+
         const currentTime = dayjs().toISOString();
 
-        const disruptionData = parsedDisruptionInfo.data;
-        const consequenceData = parsedConsequenceInfo.data;
-
-        const reason = disruptionData.disruptionReason;
+        const reason = draftDisruption.disruptionReason;
 
         const validityPeriod = getValidityPeriod({
-            disruptionStartDate: disruptionData.disruptionStartDate,
-            disruptionStartTime: disruptionData.disruptionStartTime,
-            disruptionEndDate: disruptionData.disruptionEndDate,
-            disruptionEndTime: disruptionData.disruptionEndTime,
+            disruptionStartDate: draftDisruption.disruptionStartDate,
+            disruptionStartTime: draftDisruption.disruptionStartTime,
+            disruptionEndDate: draftDisruption.disruptionEndDate,
+            disruptionEndTime: draftDisruption.disruptionEndTime,
         });
 
         const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
             CreationTime: currentTime,
-            Planned: disruptionData.disruptionType === "planned",
-            Summary: disruptionData.summary,
-            Description: disruptionData.description,
+            Planned: draftDisruption.disruptionType === "planned",
+            Summary: draftDisruption.summary,
+            Description: draftDisruption.description,
             ParticipantRef: "DepartmentForTransport",
-            SituationNumber: disruptionId,
+            SituationNumber: draftDisruption.disruptionId,
             PublicationWindow: {
                 StartTime: getDatetimeFromDateAndTime(
-                    disruptionData.publishStartDate,
-                    disruptionData.publishStartTime,
+                    draftDisruption.publishStartDate,
+                    draftDisruption.publishStartTime,
                 ).toISOString(),
-                ...(disruptionData.publishEndDate && disruptionData.publishEndTime
+                ...(draftDisruption.publishEndDate && draftDisruption.publishEndTime
                     ? {
                           EndTime: getDatetimeFromDateAndTime(
-                              disruptionData.publishEndDate,
-                              disruptionData.publishEndTime,
+                              draftDisruption.publishEndDate,
+                              draftDisruption.publishEndTime,
                           ).toISOString(),
                       }
                     : {}),
             },
-            ValidityPeriod: disruptionData.validity
-                ? [...disruptionData.validity.map((period) => getValidityPeriod(period)), validityPeriod]
+            ValidityPeriod: draftDisruption.validity
+                ? [...draftDisruption.validity.map((period) => getValidityPeriod(period)), validityPeriod]
                 : [validityPeriod],
             Progress: Progress.open,
             Source: {
                 SourceType: SourceType.feed,
                 TimeOfCommunication: currentTime,
             },
-            ...(disruptionData.associatedLink
+            ...(draftDisruption.associatedLink
                 ? {
                       InfoLinks: {
                           InfoLink: [
                               {
-                                  Uri: disruptionData.associatedLink,
+                                  Uri: draftDisruption.associatedLink,
                               },
                           ],
                       },
                   }
                 : {}),
-            Consequences: {
-                Consequence: [
-                    {
-                        Condition: "unknown",
-                        Severity: consequenceData.disruptionSeverity,
-                        Affects: {
-                            ...(consequenceData.consequenceType === "networkWide" ||
-                            consequenceData.consequenceType === "operatorWide"
-                                ? {
-                                      Networks: {
-                                          AffectedNetwork: {
-                                              VehicleMode: consequenceData.vehicleMode,
-                                              AllLines: "",
-                                          },
-                                      },
-                                  }
-                                : {}),
-                            ...(consequenceData.consequenceType === "operatorWide"
-                                ? {
-                                      Operators: {
-                                          AffectedOperator: {
-                                              OperatorRef: consequenceData.consequenceOperator,
-                                          },
-                                      },
-                                  }
-                                : {}),
-                        },
-                        Advice: {
-                            Details: consequenceData.description,
-                        },
-                        Blocking: {
-                            JourneyPlanner: consequenceData.removeFromJourneyPlanners === "yes",
-                        },
-                        ...(consequenceData.disruptionDelay
-                            ? { Delays: { Delay: `PT${consequenceData.disruptionDelay}M` } }
-                            : {}),
-                    },
-                ],
-            },
+            ...(draftDisruption.consequences && draftDisruption.consequences.length > 0
+                ? {
+                      Consequences: {
+                          Consequence: draftDisruption.consequences.map((consequence) => ({
+                              Condition: "unknown",
+                              Severity: consequence.disruptionSeverity,
+                              Affects: {
+                                  ...(consequence.consequenceType === "networkWide" ||
+                                  consequence.consequenceType === "operatorWide"
+                                      ? {
+                                            Networks: {
+                                                AffectedNetwork: {
+                                                    VehicleMode: consequence.vehicleMode,
+                                                    AllLines: "",
+                                                },
+                                            },
+                                        }
+                                      : {}),
+                                  ...(consequence.consequenceType === "operatorWide"
+                                      ? {
+                                            Operators: {
+                                                AffectedOperator: {
+                                                    OperatorRef: consequence.consequenceOperator,
+                                                },
+                                            },
+                                        }
+                                      : {}),
+                                  ...((consequence.consequenceType === "stops" ||
+                                      consequence.consequenceType === "services") &&
+                                  consequence.stops
+                                      ? {
+                                            StopPoints: {
+                                                AffectedStopPoint: consequence.stops.map((stop) => ({
+                                                    AffectedModes: {
+                                                        Mode: {
+                                                            VehicleMode: consequence.vehicleMode,
+                                                        },
+                                                    },
+                                                    Location: {
+                                                        Longitude: stop.longitude,
+                                                        Latitude: stop.latitude,
+                                                    },
+                                                    StopPointName: stop.commonName,
+                                                    StopPointRef: stop.atcoCode,
+                                                })),
+                                            },
+                                        }
+                                      : {}),
+                                  ...(consequence.consequenceType === "services"
+                                      ? {
+                                            Networks: {
+                                                AffectedNetwork: {
+                                                    VehicleMode: consequence.vehicleMode,
+                                                    AffectedLine: consequence.services.map((service) => ({
+                                                        AffectedOperator: {
+                                                            OperatorRef: service.nocCode,
+                                                            OperatorName: service.operatorShortName,
+                                                        },
+                                                        LineRef: service.lineName,
+                                                        ...(consequence.disruptionDirection === "inbound" ||
+                                                        consequence.disruptionDirection === "outbound"
+                                                            ? {
+                                                                  Direction: {
+                                                                      DirectionRef:
+                                                                          consequence.disruptionDirection === "inbound"
+                                                                              ? "inboundTowardsTown"
+                                                                              : "outboundFromTown",
+                                                                  },
+                                                              }
+                                                            : {}),
+                                                    })),
+                                                },
+                                            },
+                                        }
+                                      : {}),
+                              },
+                              Advice: {
+                                  Details: consequence.description,
+                              },
+                              Blocking: {
+                                  JourneyPlanner: consequence.removeFromJourneyPlanners === "yes",
+                              },
+                              ...(consequence.disruptionDelay
+                                  ? { Delays: { Delay: `PT${consequence.disruptionDelay}M` } }
+                                  : {}),
+                          })),
+                      },
+                  }
+                : {}),
         };
 
         let completePtSituationElement: PtSituationElement;
@@ -164,7 +214,10 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             };
         }
 
-        await insertPublishedDisruptionIntoDynamo(completePtSituationElement);
+        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+            completePtSituationElement,
+            draftDisruption.disruptionId,
+        );
 
         cleardownCookies(req, res);
 

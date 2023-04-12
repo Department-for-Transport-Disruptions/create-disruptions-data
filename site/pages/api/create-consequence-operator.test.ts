@@ -14,6 +14,8 @@ import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultOperatorData: OperatorConsequence = {
+    disruptionId: "test",
+    consequenceIndex: 0,
     consequenceOperator: "FMAN",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -35,10 +37,10 @@ describe("create-consequence-operator API", () => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed", () => {
+    it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultOperatorData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceOperator(req, res);
+        await createConsequenceOperator(req, res);
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
@@ -46,9 +48,9 @@ describe("create-consequence-operator API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
     });
 
-    it("should redirect back to /create-consequence-operator when no form inputs are passed to the API", () => {
+    it("should redirect back to /create-consequence-operator when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
-        createConsequenceOperator(req, res);
+        await createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
@@ -68,7 +70,7 @@ describe("create-consequence-operator API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
     });
 
-    it("should redirect back to /create-consequence-operator when description is too long", () => {
+    it("should redirect back to /create-consequence-operator when description is too long", async () => {
         const operatorData: OperatorConsequence = {
             ...defaultOperatorData,
             description:
@@ -77,7 +79,7 @@ describe("create-consequence-operator API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: operatorData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceOperator(req, res);
+        await createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Description must not exceed 500 characters", id: "description" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -89,7 +91,7 @@ describe("create-consequence-operator API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
     });
 
-    it("should redirect back to /create-consequence-operator when invalid time is passed", () => {
+    it("should redirect back to /create-consequence-operator when invalid time is passed", async () => {
         const operatorData: OperatorConsequence = {
             ...defaultOperatorData,
             disruptionDelay: "7280",
@@ -97,7 +99,7 @@ describe("create-consequence-operator API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: operatorData, mockWriteHeadFn: writeHeadMock });
 
-        createConsequenceOperator(req, res);
+        await createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },

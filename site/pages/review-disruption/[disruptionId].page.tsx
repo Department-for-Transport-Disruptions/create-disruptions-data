@@ -1,41 +1,27 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef } from "react";
-import CsrfForm from "../components/form/CsrfForm";
-import Table from "../components/form/Table";
-import { BaseLayout } from "../components/layout/Layout";
-import {
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_INFO,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
-    COOKIES_DISRUPTION_INFO,
-    CREATE_DISRUPTION_PAGE_PATH,
-} from "../constants";
-import { SocialMediaPost } from "../interfaces";
-import { Consequence, consequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema, DisruptionInfo, Validity } from "../schemas/create-disruption.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue, redirectTo, splitCamelCaseToString } from "../utils";
-import { formatTime } from "../utils/dates";
+import CsrfForm from "../../components/form/CsrfForm";
+import Table from "../../components/form/Table";
+import { BaseLayout } from "../../components/layout/Layout";
+import { TYPE_OF_CONSEQUENCE_PAGE_PATH, CONSEQUENCE_TYPES, VEHICLE_MODES } from "../../constants";
+import { getDisruptionById } from "../../data/dynamo";
+import { SocialMediaPost } from "../../interfaces";
+import { Consequence } from "../../schemas/consequence.schema";
+import { Validity } from "../../schemas/create-disruption.schema";
+import { Disruption } from "../../schemas/disruption.schema";
+import { getDisplayByValue, splitCamelCaseToString } from "../../utils";
+import { formatTime } from "../../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
 interface ReviewDisruptionProps {
-    previousDisruptionInformation: DisruptionInfo;
-    previousConsequencesInformation: Consequence[];
+    disruption: Disruption;
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
 }
-
-const createChangeLink = (key: string, href: string) => (
-    <Link key={key} className="govuk-link" href={href}>
-        Change
-    </Link>
-);
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     switch (type) {
@@ -50,12 +36,7 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     }
 };
 
-const ReviewDisruption = ({
-    previousDisruptionInformation,
-    previousConsequencesInformation,
-    previousSocialMediaPosts,
-    csrfToken,
-}: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
 
     useEffect(() => {
@@ -66,14 +47,24 @@ const ReviewDisruption = ({
         hasInitialised.current = true;
     });
 
+    const createChangeLink = (key: string, href: string, index?: number) => (
+        <Link
+            key={key}
+            className="govuk-link"
+            href={`${href}/${disruption.disruptionId}${index !== undefined ? `/${index}` : ""}`}
+        >
+            Change
+        </Link>
+    );
+
     const getValidityRows = () => {
         const validity: Validity[] = [
-            ...(previousDisruptionInformation.validity ?? []),
+            ...(disruption.validity ?? []),
             {
-                disruptionStartDate: previousDisruptionInformation.disruptionStartDate,
-                disruptionStartTime: previousDisruptionInformation.disruptionStartTime,
-                disruptionEndDate: previousDisruptionInformation.disruptionEndDate,
-                disruptionEndTime: previousDisruptionInformation.disruptionEndTime,
+                disruptionStartDate: disruption.disruptionStartDate,
+                disruptionStartTime: disruption.disruptionStartTime,
+                disruptionEndDate: disruption.disruptionEndDate,
+                disruptionEndTime: disruption.disruptionEndTime,
             },
         ];
 
@@ -99,35 +90,32 @@ const ReviewDisruption = ({
                                 {
                                     header: "Type of disruption",
                                     cells: [
-                                        startCase(previousDisruptionInformation.disruptionType),
+                                        startCase(disruption.disruptionType),
                                         createChangeLink("type-of-disruption", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Summary",
-                                    cells: [
-                                        previousDisruptionInformation.summary,
-                                        createChangeLink("summary", "/create-disruption"),
-                                    ],
+                                    cells: [disruption.summary, createChangeLink("summary", "/create-disruption")],
                                 },
                                 {
                                     header: "Description",
                                     cells: [
-                                        previousDisruptionInformation.description,
+                                        disruption.description,
                                         createChangeLink("description", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Associated link",
                                     cells: [
-                                        previousDisruptionInformation.associatedLink || "N/A",
+                                        disruption.associatedLink || "N/A",
                                         createChangeLink("associated-link", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
-                                        splitCamelCaseToString(previousDisruptionInformation.disruptionReason),
+                                        splitCamelCaseToString(disruption.disruptionReason),
                                         createChangeLink("disruption-reason", "/create-disruption"),
                                     ],
                                 },
@@ -135,30 +123,28 @@ const ReviewDisruption = ({
                                 {
                                     header: "Publish start date",
                                     cells: [
-                                        previousDisruptionInformation.publishStartDate,
+                                        disruption.publishStartDate,
                                         createChangeLink("publish-start-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
-                                        formatTime(previousDisruptionInformation.publishStartTime),
+                                        formatTime(disruption.publishStartTime),
                                         createChangeLink("publish-start-time", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
-                                        previousDisruptionInformation.publishEndDate || "N/A",
+                                        disruption.publishEndDate || "N/A",
                                         createChangeLink("publish-end-date", "/create-disruption"),
                                     ],
                                 },
                                 {
                                     header: "Publish end time",
                                     cells: [
-                                        previousDisruptionInformation.publishEndTime
-                                            ? formatTime(previousDisruptionInformation.publishEndTime)
-                                            : "N/A",
+                                        disruption.publishEndTime ? formatTime(disruption.publishEndTime) : "N/A",
                                         ,
                                         createChangeLink("publish-end-time", "/create-disruption"),
                                     ],
@@ -168,7 +154,7 @@ const ReviewDisruption = ({
                         <h2 className="govuk-heading-l">Consequences</h2>
 
                         <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                            {previousConsequencesInformation.map((consequence, i) => (
+                            {disruption.consequences?.map((consequence, i) => (
                                 <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
                                     <div className="govuk-accordion__section-header">
                                         <h2 className="govuk-accordion__section-heading">
@@ -199,16 +185,6 @@ const ReviewDisruption = ({
                                         <Table
                                             rows={[
                                                 {
-                                                    header: "Mode of transport",
-                                                    cells: [
-                                                        splitCamelCaseToString(consequence.vehicleMode),
-                                                        createChangeLink(
-                                                            "mode-of-transport",
-                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
                                                     header: "Consequence type",
                                                     cells: [
                                                         getDisplayByValue(
@@ -218,6 +194,18 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "consequence-type",
                                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                                            i,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Mode of transport",
+                                                    cells: [
+                                                        getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode),
+                                                        createChangeLink(
+                                                            "vehicle-mode",
+                                                            getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -235,6 +223,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "service",
                                                             getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -255,6 +244,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "stops-affected",
                                                             getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -265,6 +255,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "advice-to-display",
                                                             getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -275,6 +266,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "remove-from-journey-planners",
                                                             getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -287,6 +279,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "disruption-delay",
                                                             getConsequenceUrl(consequence.consequenceType),
+                                                            i,
                                                         ),
                                                     ],
                                                 },
@@ -298,7 +291,9 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={TYPE_OF_CONSEQUENCE_PAGE_PATH}
+                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
+                                disruption.consequences?.length ?? 0
+                            }`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -369,6 +364,9 @@ const ReviewDisruption = ({
                             Add another social media post
                         </Link>
                         <br />
+
+                        <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
+
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
                         </button>
@@ -379,31 +377,11 @@ const ReviewDisruption = ({
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisruptionProps } | void => {
-    const {
-        [COOKIES_DISRUPTION_INFO]: disruptionInfo,
-        [COOKIES_CONSEQUENCE_TYPE_INFO]: consequenceType,
-        [COOKIES_CONSEQUENCE_INFO]: consequenceInfo,
-    } = parseCookies(ctx);
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ReviewDisruptionProps } | void> => {
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
-    if (!disruptionInfo || !consequenceInfo || !consequenceType) {
-        if (ctx.res) {
-            redirectTo(ctx.res, CREATE_DISRUPTION_PAGE_PATH);
-        }
-
-        return;
-    }
-
-    const parsedDisruptionInfo = createDisruptionSchema.safeParse(JSON.parse(disruptionInfo));
-    const parsedConsequenceType = typeOfConsequenceSchema.safeParse(JSON.parse(consequenceType));
-    const parsedConsequenceInfo = consequenceSchema.safeParse(JSON.parse(consequenceInfo));
-
-    if (!parsedDisruptionInfo.success || !parsedConsequenceInfo.success || !parsedConsequenceType.success) {
-        if (ctx.res) {
-            redirectTo(ctx.res, CREATE_DISRUPTION_PAGE_PATH);
-        }
-
-        return;
+    if (!disruption) {
+        throw new Error("Disruption not found for review page");
     }
 
     const previousSocialMediaPosts: SocialMediaPost[] = [
@@ -423,8 +401,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: ReviewDisrupt
 
     return {
         props: {
-            previousDisruptionInformation: parsedDisruptionInfo.data,
-            previousConsequencesInformation: [parsedConsequenceInfo.data],
+            disruption,
             previousSocialMediaPosts,
         },
     };
