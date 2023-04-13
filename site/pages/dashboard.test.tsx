@@ -110,7 +110,8 @@ describe("pages", () => {
                     {
                         ...disruptionWithConsequences,
                         validity: [],
-                        disruptionStartDate: getFutureDateAsString(3),
+                        disruptionStartDate: "12/02/2999",
+                        disruptionStartTime: "1200",
                     },
                 ]);
 
@@ -122,7 +123,7 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [{ startTime: "2023-04-16T11:00:00.000Z", endTime: null }],
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                 });
@@ -131,7 +132,12 @@ describe("pages", () => {
             it("should return live and upcoming disruptions if the data returned from the database has live and upcoming dates", async () => {
                 getDisruptionsSpy.mockResolvedValue([
                     ...disruptionArray,
-                    { ...disruptionWithConsequences, validity: [], disruptionStartDate: getFutureDateAsString(3) },
+                    {
+                        ...disruptionWithConsequences,
+                        validity: [],
+                        disruptionStartDate: "12/02/2999",
+                        disruptionStartTime: "1200",
+                    },
                 ]);
 
                 const actualProps = await getServerSideProps();
@@ -164,7 +170,7 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [{ startTime: "2023-04-16T11:00:00.000Z", endTime: null }],
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                 });
