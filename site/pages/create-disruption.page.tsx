@@ -44,6 +44,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
+    const doesntRepeatRef = useRef<HTMLInputElement>(null);
+    const dailyRef = useRef<HTMLInputElement>(null);
+    const weeklyRef = useRef<HTMLInputElement>(null);
+
     const hasInitialised = useRef(false);
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -118,22 +122,43 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const getValidityRows = () => {
         if (pageState.inputs.validity) {
-            return pageState.inputs.validity.map((validity, i) => ({
-                header: `Validity period ${i + 1}`,
-                cells: [
-                    validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                        ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                        : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                    <button
-                        id={`remove-validity-period-${i + 1}`}
-                        key={`remove-validity-period-${i + 1}`}
-                        className="govuk-link"
-                        onClick={(e) => removeValidity(e, i)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
+            return pageState.inputs.validity.map((validity, i) => {
+                const endingOnDate =
+                    validity.disruptionRepeats === "daily"
+                        ? validity.disruptionDailyRepeatsEndDate
+                        : validity.disruptionWeeklyRepeatsEndDate;
+
+                return {
+                    header: `Validity period ${i + 1}`,
+                    cells: [
+                        validity.disruptionEndDate &&
+                        validity.disruptionEndTime &&
+                        !validity.disruptionNoEndDateTime ? (
+                            validity.disruptionRepeats !== "doesntRepeat" &&
+                            validity.disruptionRepeats &&
+                            endingOnDate ? (
+                                <span>
+                                    {validity.disruptionStartDate} {validity.disruptionStartTime} -{" "}
+                                    {validity.disruptionEndDate} {validity.disruptionEndTime} <br /> Repeats{" "}
+                                    {validity.disruptionRepeats} until {endingOnDate}{" "}
+                                </span>
+                            ) : (
+                                `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                            )
+                        ) : (
+                            `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
+                        ),
+                        <button
+                            id={`remove-validity-period-${i + 1}`}
+                            key={`remove-validity-period-${i + 1}`}
+                            className="govuk-link"
+                            onClick={(e) => removeValidity(e, i)}
+                        >
+                            Remove
+                        </button>,
+                    ],
+                };
+            });
         }
         return [];
     };
@@ -326,7 +351,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 validity.disruptionRepeats === "weekly"
                             }
                             schema={validitySchema.shape.disruptionNoEndDateTime}
-                            disabled={validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly"}
                         />
 
                         <Radios<Disruption>
@@ -335,11 +359,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 {
                                     value: "doesntRepeat",
                                     display: "Doesn't repeat",
-                                    conditionalElement: <></>,
+                                    ref: doesntRepeatRef,
                                 },
                                 {
                                     value: "daily",
                                     display: "Daily",
+                                    ref: dailyRef,
+                                    disabled: validity.disruptionNoEndDateTime === "true",
                                     conditionalElement: (
                                         <DateSelector<Validity>
                                             display="Ending on"
@@ -358,6 +384,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 {
                                     value: "weekly",
                                     display: "Weekly",
+                                    ref: weeklyRef,
+                                    disabled: validity.disruptionNoEndDateTime === "true",
                                     conditionalElement: (
                                         <DateSelector<Validity>
                                             display="Ending on"
@@ -376,7 +404,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             ]}
                             inputName="disruptionRepeats"
                             stateUpdater={updateDisruptionRepeats}
-                            value={validity.disruptionRepeats}
+                            value={
+                                validity.disruptionNoEndDateTime === "true"
+                                    ? "doesntRepeat"
+                                    : validity.disruptionRepeats
+                            }
                             initialErrors={pageState.errors}
                         />
 
@@ -384,10 +416,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
                             onClick={addValidity}
-                            disabled={
-                                validity.disruptionNoEndDateTime === "true" &&
-                                validity.disruptionRepeats === "doesntRepeat"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                         >
                             Add another validity period
                         </button>

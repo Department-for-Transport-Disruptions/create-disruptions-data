@@ -135,12 +135,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                     <div
                       aria-describedby="modeOfTransport-error"
                       className="govuk-radios govuk-radios--error"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-bus-conditional"
                           defaultChecked={true}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
@@ -161,6 +163,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-tram-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
@@ -181,6 +184,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-ferryService-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
@@ -201,6 +205,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-rail-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
@@ -253,12 +258,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                     <div
                       aria-describedby="consequenceType-error"
                       className="govuk-radios govuk-radios--error"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-services-conditional"
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
@@ -279,6 +286,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-networkWide-conditional"
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
@@ -299,6 +307,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-operatorWide-conditional"
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
@@ -319,6 +328,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-stops-conditional"
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
@@ -631,12 +641,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   >
                     <div
                       className="govuk-radios"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-bus-conditional"
                           defaultChecked={true}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
@@ -657,6 +669,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-tram-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
@@ -677,6 +690,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-ferryService-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
@@ -697,6 +711,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-rail-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
@@ -737,12 +752,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   >
                     <div
                       className="govuk-radios"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-services-conditional"
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
@@ -763,6 +780,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-networkWide-conditional"
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
@@ -783,6 +801,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-operatorWide-conditional"
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
@@ -803,6 +822,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-stops-conditional"
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
@@ -1115,12 +1135,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                   >
                     <div
                       className="govuk-radios"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-bus-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-bus"
                           name="modeOfTransport"
@@ -1141,6 +1163,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-tram-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-tram"
                           name="modeOfTransport"
@@ -1161,6 +1184,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-ferryService-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-ferryService"
                           name="modeOfTransport"
@@ -1181,6 +1205,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="mode-of-transport-rail-conditional"
                           defaultChecked={false}
                           id="mode-of-transport-rail"
                           name="modeOfTransport"
@@ -1221,12 +1246,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                   >
                     <div
                       className="govuk-radios"
+                      data-module="govuk-radios"
                     >
                       <div
                         className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-services-conditional"
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
@@ -1247,6 +1274,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-networkWide-conditional"
                           defaultChecked={false}
                           id="consequence-type-networkWide"
                           name="consequenceType"
@@ -1267,6 +1295,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-operatorWide-conditional"
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
@@ -1287,6 +1316,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                       >
                         <input
                           className="govuk-radios__input"
+                          data-aria-controls="consequence-type-stops-conditional"
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"

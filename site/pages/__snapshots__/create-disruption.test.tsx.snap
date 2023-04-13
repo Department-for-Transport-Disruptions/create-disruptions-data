@@ -81,12 +81,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-type-planned-conditional"
                       defaultChecked={true}
                       id="disruption-type-planned"
                       name="disruptionType"
@@ -107,6 +109,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-type-unplanned-conditional"
                       defaultChecked={false}
                       id="disruption-type-unplanned"
                       name="disruptionType"
@@ -448,6 +451,18 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             type="hidden"
             value=""
           />
+          <input
+            name="validity1"
+            type="hidden"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+          />
+          <input
+            name="validity1"
+            type="hidden"
+          />
           <div
             className="govuk-form-group"
           >
@@ -726,6 +741,280 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     >
                       No end date/time
                     </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-repeats"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does this diruption repeat
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-doesntRepeat-conditional"
+                      defaultChecked={true}
+                      id="disruption-repeats-doesntRepeat"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="doesntRepeat"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-doesntRepeat"
+                    >
+                      Doesn't repeat
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-daily-conditional"
+                      defaultChecked={false}
+                      disabled={false}
+                      id="disruption-repeats-daily"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="daily"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-daily"
+                    >
+                      Daily
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                    id="disruption-repeats-daily-conditional"
+                  >
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <div
+                        className="govuk-form-group"
+                      >
+                        <div
+                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          id="disruption-daily-repeats-end-date"
+                        >
+                          <label
+                            className="govuk-label govuk-label--s"
+                            htmlFor="disruption-daily-repeats-end-date-input"
+                          >
+                            Ending on
+                          </label>
+                          <div
+                            className="govuk-hint govuk-visually-hidden"
+                          >
+                            Enter in format DD/MM/YYYY
+                          </div>
+                          <div
+                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                          >
+                            <div
+                              className="govuk-date-input__item govuk-!-margin-right-0"
+                            >
+                              <div
+                                className=""
+                              >
+                                <input
+                                  className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                  disabled={false}
+                                  id="disruption-daily-repeats-end-date-input"
+                                  name="disruptionDailyRepeatsEndDate"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  placeholder="DD/MM/YYYY"
+                                  type="tel"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                            >
+                              <button
+                                aria-label="Choose date"
+                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onContextMenu={[Function]}
+                                onDragLeave={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseLeave={[Function]}
+                                onMouseUp={[Function]}
+                                onTouchEnd={[Function]}
+                                onTouchMove={[Function]}
+                                onTouchStart={[Function]}
+                                tabIndex={0}
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                  data-testid="CalendarIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  />
+                                </svg>
+                                <span
+                                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-weekly-conditional"
+                      defaultChecked={false}
+                      disabled={false}
+                      id="disruption-repeats-weekly"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="weekly"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-weekly"
+                    >
+                      Weekly
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                    id="disruption-repeats-weekly-conditional"
+                  >
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <div
+                        className="govuk-form-group"
+                      >
+                        <div
+                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          id="disruption-weekly-repeats-end-date"
+                        >
+                          <label
+                            className="govuk-label govuk-label--s"
+                            htmlFor="disruption-weekly-repeats-end-date-input"
+                          >
+                            Ending on
+                          </label>
+                          <div
+                            className="govuk-hint govuk-visually-hidden"
+                          >
+                            Enter in format DD/MM/YYYY
+                          </div>
+                          <div
+                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                          >
+                            <div
+                              className="govuk-date-input__item govuk-!-margin-right-0"
+                            >
+                              <div
+                                className=""
+                              >
+                                <input
+                                  className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                  disabled={false}
+                                  id="disruption-weekly-repeats-end-date-input"
+                                  name="disruptionWeeklyRepeatsEndDate"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  placeholder="DD/MM/YYYY"
+                                  type="tel"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                            >
+                              <button
+                                aria-label="Choose date"
+                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onContextMenu={[Function]}
+                                onDragLeave={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseLeave={[Function]}
+                                onMouseUp={[Function]}
+                                onTouchEnd={[Function]}
+                                onTouchMove={[Function]}
+                                onTouchStart={[Function]}
+                                tabIndex={0}
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                  data-testid="CalendarIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  />
+                                </svg>
+                                <span
+                                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1265,12 +1554,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-type-planned-conditional"
                       defaultChecked={false}
                       id="disruption-type-planned"
                       name="disruptionType"
@@ -1291,6 +1582,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-type-unplanned-conditional"
                       defaultChecked={false}
                       id="disruption-type-unplanned"
                       name="disruptionType"
@@ -1849,6 +2141,274 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     >
                       No end date/time
                     </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-repeats"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Does this diruption repeat
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-doesntRepeat-conditional"
+                      defaultChecked={true}
+                      id="disruption-repeats-doesntRepeat"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="doesntRepeat"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-doesntRepeat"
+                    >
+                      Doesn't repeat
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-daily-conditional"
+                      defaultChecked={false}
+                      disabled={false}
+                      id="disruption-repeats-daily"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="daily"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-daily"
+                    >
+                      Daily
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                    id="disruption-repeats-daily-conditional"
+                  >
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <div
+                        className="govuk-form-group"
+                      >
+                        <div
+                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          id="disruption-daily-repeats-end-date"
+                        >
+                          <label
+                            className="govuk-label govuk-label--s"
+                            htmlFor="disruption-daily-repeats-end-date-input"
+                          >
+                            Ending on
+                          </label>
+                          <div
+                            className="govuk-hint govuk-visually-hidden"
+                          >
+                            Enter in format DD/MM/YYYY
+                          </div>
+                          <div
+                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                          >
+                            <div
+                              className="govuk-date-input__item govuk-!-margin-right-0"
+                            >
+                              <div
+                                className=""
+                              >
+                                <input
+                                  className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                  disabled={false}
+                                  id="disruption-daily-repeats-end-date-input"
+                                  name="disruptionDailyRepeatsEndDate"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  placeholder="DD/MM/YYYY"
+                                  type="tel"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                            >
+                              <button
+                                aria-label="Choose date"
+                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onContextMenu={[Function]}
+                                onDragLeave={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseLeave={[Function]}
+                                onMouseUp={[Function]}
+                                onTouchEnd={[Function]}
+                                onTouchMove={[Function]}
+                                onTouchStart={[Function]}
+                                tabIndex={0}
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                  data-testid="CalendarIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="disruption-repeats-weekly-conditional"
+                      defaultChecked={false}
+                      disabled={false}
+                      id="disruption-repeats-weekly"
+                      name="disruptionRepeats"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="weekly"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="disruption-repeats-weekly"
+                    >
+                      Weekly
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                    id="disruption-repeats-weekly-conditional"
+                  >
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <div
+                        className="govuk-form-group"
+                      >
+                        <div
+                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          id="disruption-weekly-repeats-end-date"
+                        >
+                          <label
+                            className="govuk-label govuk-label--s"
+                            htmlFor="disruption-weekly-repeats-end-date-input"
+                          >
+                            Ending on
+                          </label>
+                          <div
+                            className="govuk-hint govuk-visually-hidden"
+                          >
+                            Enter in format DD/MM/YYYY
+                          </div>
+                          <div
+                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                          >
+                            <div
+                              className="govuk-date-input__item govuk-!-margin-right-0"
+                            >
+                              <div
+                                className=""
+                              >
+                                <input
+                                  className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                  disabled={false}
+                                  id="disruption-weekly-repeats-end-date-input"
+                                  name="disruptionWeeklyRepeatsEndDate"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  placeholder="DD/MM/YYYY"
+                                  type="tel"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                            >
+                              <button
+                                aria-label="Choose date"
+                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onContextMenu={[Function]}
+                                onDragLeave={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseLeave={[Function]}
+                                onMouseUp={[Function]}
+                                onTouchEnd={[Function]}
+                                onTouchMove={[Function]}
+                                onTouchStart={[Function]}
+                                tabIndex={0}
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                  data-testid="CalendarIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
