@@ -99,7 +99,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                         TableName: siriTableName,
                         Item: {
                             PK: "1", // TODO: replace with user ID when we have auth
-                            SK: `${disruptionId}`,
+                            SK: disruptionId,
                             ...disruption,
                         },
                     },
