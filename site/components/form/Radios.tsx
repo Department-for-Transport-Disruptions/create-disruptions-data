@@ -29,6 +29,9 @@ const Radios = <T extends object>({
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
+    /* Effect added as a workaround for an issue where an updated value causes re-render.
+     * Which then updates the checked radio button but any functionality that depends on
+     * onClick event is not invoked */
     useEffect(() => {
         radioDetail.map((input) => {
             if (input.value === value && input.ref) {

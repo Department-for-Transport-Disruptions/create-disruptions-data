@@ -305,10 +305,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={validity.disruptionEndDate}
-                            disabled={
-                                validity.disruptionNoEndDateTime === "true" &&
-                                validity.disruptionRepeats === "doesntRepeat"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             disablePast={false}
                             inputName="disruptionEndDate"
                             stateUpdater={validityStateUpdater}
@@ -321,10 +318,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={validity.disruptionEndTime}
-                            disabled={
-                                validity.disruptionNoEndDateTime === "true" &&
-                                validity.disruptionRepeats === "doesntRepeat"
-                            }
+                            disabled={validity.disruptionNoEndDateTime === "true"}
                             inputName="disruptionEndTime"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
@@ -345,11 +339,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             ]}
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={
-                                addValidityClicked ||
-                                validity.disruptionRepeats === "daily" ||
-                                validity.disruptionRepeats === "weekly"
-                            }
+                            reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
 

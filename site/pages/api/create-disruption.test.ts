@@ -455,7 +455,7 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
     });
 
-    it("should confirm that the dates overlap", () => {
+    it("should confirm that the dates are expanded as expected", () => {
         const validity: Validity = {
             disruptionStartDate: defaultDisruptionStartDate,
             disruptionStartTime: "1100",
