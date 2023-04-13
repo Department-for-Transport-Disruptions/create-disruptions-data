@@ -26,6 +26,9 @@ export const formatCreateDisruptionBody = (body: object) => {
                 disruptionEndDate: values[2],
                 disruptionEndTime: values[3],
                 disruptionNoEndDateTime: values[4],
+                disruptionRepeats: values[5],
+                disruptionDailyRepeatsEndDate: values[6],
+                disruptionWeeklyRepeatsEndDate: values[7],
             };
         });
 

@@ -30,6 +30,97 @@ const Radios = <T extends object>({
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
+                    {/* <div className="govuk-radios" data-module="govuk-radios">
+                        <div className="govuk-radios__item">
+                            <input
+                                className="govuk-radios__input"
+                                id="contact"
+                                name="contact"
+                                type="radio"
+                                value="email"
+                                ref={ref}
+                                checked={radioDetail[0].value === "doesntRepeat"}
+                                data-aria-controls="conditional-contact"
+                            />
+                            <label className="govuk-label govuk-radios__label" htmlFor="contact">
+                                Email
+                            </label>
+                        </div>
+                        <div
+                            className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-contact"
+                        >
+                            <div className="govuk-form-group">
+                                <label className="govuk-label" htmlFor="contact-by-email">
+                                    Email address
+                                </label>
+                                <input
+                                    className="govuk-input govuk-!-width-one-third"
+                                    id="contact-by-email"
+                                    name="contact-by-email"
+                                    type="email"
+                                />
+                            </div>
+                        </div>
+                        <div className="govuk-radios__item">
+                            <input
+                                className="govuk-radios__input"
+                                id="contact-2"
+                                name="contact"
+                                type="radio"
+                                value="phone"
+                                data-aria-controls="conditional-contact-2"
+                            />
+                            <label className="govuk-label govuk-radios__label" htmlFor="contact-2">
+                                Phone
+                            </label>
+                        </div>
+                        <div
+                            className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-contact-2"
+                        >
+                            <div className="govuk-form-group">
+                                <label className="govuk-label" htmlFor="contact-by-phone">
+                                    Phone number
+                                </label>
+                                <input
+                                    className="govuk-input govuk-!-width-one-third"
+                                    id="contact-by-phone"
+                                    name="contact-by-phone"
+                                    type="tel"
+                                />
+                            </div>
+                        </div>
+                        <div className="govuk-radios__item">
+                            <input
+                                className="govuk-radios__input"
+                                id="contact-3"
+                                name="contact"
+                                type="radio"
+                                value="text"
+                                data-aria-controls="conditional-contact-3"
+                            />
+                            <label className="govuk-label govuk-radios__label" htmlFor="contact-3">
+                                Text message
+                            </label>
+                        </div>
+                        <div
+                            className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-contact-3"
+                        >
+                            <div className="govuk-form-group">
+                                <label className="govuk-label" htmlFor="contact-by-text">
+                                    Mobile phone number
+                                </label>
+                                <input
+                                    className="govuk-input govuk-!-width-one-third"
+                                    id="contact-by-text"
+                                    name="contact-by-text"
+                                    type="tel"
+                                />
+                            </div>
+                        </div>
+                    </div> */}
                     <div className="govuk-radios" data-module="govuk-radios">
                         {radioDetail.map((input, index) => (
                             <Fragment key={`radio-${input.value}`}>
@@ -48,10 +139,9 @@ const Radios = <T extends object>({
                                             handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
                                         }
                                         onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
-                                        defaultChecked={input.value === value}
-                                        data-aria-controls={
-                                            input.conditionalElement ? `${inputId}-${input.value}-conditional` : null
-                                        }
+                                        checked={input.value === value}
+                                        //defaultChecked={inputValue === input.value}
+                                        data-aria-controls={`${inputId}-${input.value}-conditional`}
                                     />
                                     <label
                                         className="govuk-label govuk-radios__label"

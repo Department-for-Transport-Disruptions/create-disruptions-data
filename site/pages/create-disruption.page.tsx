@@ -22,7 +22,6 @@ import {
 } from "../schemas/create-disruption.schema";
 import { flattenZodErrors, getPageStateFromCookies } from "../utils";
 import { getStateUpdater } from "../utils/formUtils";
-import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -36,6 +35,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         disruptionStartTime: props.inputs.disruptionStartTime || "",
         disruptionEndTime: props.inputs.disruptionEndTime || "",
         disruptionNoEndDateTime: props.inputs.disruptionNoEndDateTime || "",
+        disruptionRepeats: props.inputs.disruptionRepeats || "doesntRepeat",
+        disruptionDailyRepeatsEndDate: props.inputs.disruptionDailyRepeatsEndDate || "",
+        disruptionWeeklyRepeatsEndDate: props.inputs.disruptionWeeklyRepeatsEndDate || "",
     };
 
     const [pageState, setDisruptionPageState] = useState(props);
@@ -89,7 +91,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                 disruptionStartTime: "",
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "",
+                disruptionRepeats: "doesntRepeat",
+                disruptionDailyRepeatsEndDate: "",
+                disruptionWeeklyRepeatsEndDate: "",
             });
+
             setAddValidityClicked(true);
         }
     };
@@ -138,6 +144,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         setValidity({ ...validity, [field]: change });
     };
 
+    const updateDisruptionRepeats = (change: string, field: string) => {
+        setValidity({
+            ...validity,
+            [field]: change,
+            disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
+        });
+    };
+
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
             <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
@@ -146,110 +160,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Create a new disruption</h1>
 
-                        {/* <div className="govuk-form-group">
-                            <fieldset className="govuk-fieldset" aria-describedby="contact-hint">
-                                <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                    <h1 className="govuk-fieldset__heading">How would you prefer to be contacted?</h1>
-                                </legend>
-                                <div id="contact-hint" className="govuk-hint">
-                                    Select one option.
-                                </div>
-                                <div className="govuk-radios" data-module="govuk-radios">
-                                    <div className="govuk-radios__item">
-                                        <input
-                                            className="govuk-radios__input"
-                                            id="contact"
-                                            name="contact"
-                                            type="radio"
-                                            value="email"
-                                            data-aria-controls="conditional-contact"
-                                        />
-                                        <label className="govuk-label govuk-radios__label" htmlFor="contact">
-                                            Email
-                                        </label>
-                                    </div>
-                                    <div
-                                        className="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                        id="conditional-contact"
-                                    >
-                                        <div className="govuk-form-group govuk-form-group--error">
-                                            <label className="govuk-label" htmlFor="contact-by-email">
-                                                Email address
-                                            </label>
-                                            <p id="contact-by-email-error" className="govuk-error-message">
-                                                <span className="govuk-visually-hidden">Error:</span> Email address
-                                                cannot be blank
-                                            </p>
-                                            <input
-                                                className="govuk-input govuk-!-width-one-half govuk-input--error"
-                                                id="contact-by-email"
-                                                name="contact-by-email"
-                                                type="email"
-                                                aria-describedby="contact-by-email-error"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="govuk-radios__item">
-                                        <input
-                                            className="govuk-radios__input"
-                                            id="contact-2"
-                                            name="contact"
-                                            type="radio"
-                                            value="phone"
-                                            data-aria-controls="conditional-contact-2"
-                                        />
-                                        <label className="govuk-label govuk-radios__label" htmlFor="contact-2">
-                                            Phone
-                                        </label>
-                                    </div>
-                                    <div
-                                        className="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                        id="conditional-contact-2"
-                                    >
-                                        <div className="govuk-form-group">
-                                            <label className="govuk-label" htmlFor="contact-by-phone">
-                                                Phone number
-                                            </label>
-                                            <input
-                                                className="govuk-input govuk-!-width-one-third"
-                                                id="contact-by-phone"
-                                                name="contact-by-phone"
-                                                type="tel"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="govuk-radios__item">
-                                        <input
-                                            className="govuk-radios__input"
-                                            id="contact-3"
-                                            name="contact"
-                                            type="radio"
-                                            value="text"
-                                            data-aria-controls="conditional-contact-3"
-                                        />
-                                        <label className="govuk-label govuk-radios__label" htmlFor="contact-3">
-                                            Text message
-                                        </label>
-                                    </div>
-                                    <div
-                                        className="govuk-radios__conditional govuk-radios__conditional--hidden"
-                                        id="conditional-contact-3"
-                                    >
-                                        <div className="govuk-form-group">
-                                            <label className="govuk-label" htmlFor="contact-by-text">
-                                                Mobile phone number
-                                            </label>
-                                            <input
-                                                className="govuk-input govuk-!-width-one-third"
-                                                id="contact-by-text"
-                                                name="contact-by-text"
-                                                type="tel"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div> */}
                         <Radios<Disruption>
                             display="Type of disruption"
                             radioDetail={[
@@ -327,6 +237,17 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     name={`validity${index + 1}`}
                                     value={item.disruptionNoEndDateTime}
                                 />
+                                <input type="hidden" name={`validity${index + 1}`} value={item.disruptionRepeats} />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionDailyRepeatsEndDate}
+                                />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionWeeklyRepeatsEndDate}
+                                />
                             </Fragment>
                         ))}
 
@@ -359,7 +280,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="End date"
                             hiddenHint="Enter in format DD/MM/YYYY"
                             value={validity.disruptionEndDate}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
+                            disabled={
+                                validity.disruptionNoEndDateTime === "true" &&
+                                validity.disruptionRepeats === "doesntRepeat"
+                            }
                             disablePast={false}
                             inputName="disruptionEndDate"
                             stateUpdater={validityStateUpdater}
@@ -372,7 +296,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="End time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={validity.disruptionEndTime}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
+                            disabled={
+                                validity.disruptionNoEndDateTime === "true" &&
+                                validity.disruptionRepeats === "doesntRepeat"
+                            }
                             inputName="disruptionEndTime"
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
@@ -393,8 +320,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             ]}
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
-                            reset={addValidityClicked}
+                            reset={
+                                addValidityClicked ||
+                                validity.disruptionRepeats === "daily" ||
+                                validity.disruptionRepeats === "weekly"
+                            }
                             schema={validitySchema.shape.disruptionNoEndDateTime}
+                            disabled={validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly"}
                         />
 
                         <Radios<Disruption>
@@ -403,6 +335,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 {
                                     value: "doesntRepeat",
                                     display: "Doesn't repeat",
+                                    conditionalElement: <></>,
                                 },
                                 {
                                     value: "daily",
@@ -411,14 +344,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hiddenHint="Enter in format DD/MM/YYYY"
-                                            value={validity.disruptionRepeatsEndDate}
+                                            value={validity.disruptionDailyRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
-                                            inputName="disruptionRepeatsEndDate"
+                                            inputName="disruptionDailyRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "daily"}
-                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
+                                            schema={validitySchema.shape.disruptionDailyRepeatsEndDate}
                                         />
                                     ),
                                 },
@@ -429,20 +362,20 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hiddenHint="Enter in format DD/MM/YYYY"
-                                            value={validity.disruptionRepeatsEndDate}
+                                            value={validity.disruptionWeeklyRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
-                                            inputName="disruptionRepeatsEndDate"
+                                            inputName="disruptionWeeklyRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "weekly"}
-                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
+                                            schema={validitySchema.shape.disruptionWeeklyRepeatsEndDate}
                                         />
                                     ),
                                 },
                             ]}
                             inputName="disruptionRepeats"
-                            stateUpdater={validityStateUpdater}
+                            stateUpdater={updateDisruptionRepeats}
                             value={validity.disruptionRepeats}
                             initialErrors={pageState.errors}
                         />
@@ -451,7 +384,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
                             onClick={addValidity}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
+                            disabled={
+                                validity.disruptionNoEndDateTime === "true" &&
+                                validity.disruptionRepeats === "doesntRepeat"
+                            }
                         >
                             Add another validity period
                         </button>
