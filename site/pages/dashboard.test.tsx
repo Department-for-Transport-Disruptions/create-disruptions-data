@@ -3,7 +3,6 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
 import { disruptionArray, disruptionWithConsequences } from "../testData/mockData";
-import { getFutureDateAsString } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 vi.mock("../data/dynamo");
