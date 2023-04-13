@@ -16,6 +16,8 @@ module.exports = {
                 hoverBlue: "#003078",
                 govGreen: "#00703c",
                 govRed: "#d4351c",
+                markerActive: "#278C2B",
+                markerDefault: "grey",
             },
             borderWidth: {
                 DEFAULT: "1px",

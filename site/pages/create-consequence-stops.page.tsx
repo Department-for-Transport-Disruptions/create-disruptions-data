@@ -6,7 +6,6 @@ import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
-import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -14,6 +13,7 @@ import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
+import Map from "../components/map/Map";
 import {
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_INFO,
@@ -219,11 +219,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions.filter((stopToFilter: Stop) =>
-                                pageState.inputs.stops && pageState.inputs.stops.length > 0
-                                    ? !pageState.inputs.stops.map((s) => s.atcoCode).includes(stopToFilter.atcoCode)
-                                    : stopToFilter,
-                            )}
+                            searched={stopOptions}
+                            showSelectAllButton
+                            stateUpdater={setPageState}
+                            state={pageState}
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"

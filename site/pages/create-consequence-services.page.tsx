@@ -6,7 +6,6 @@ import { SingleValue } from "react-select";
 import { z } from "zod";
 import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
-import Map from "../components/form/Map";
 import Radios from "../components/form/Radios";
 import SearchSelect from "../components/form/SearchSelect";
 import Select from "../components/form/Select";
@@ -14,6 +13,7 @@ import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import TimeSelector from "../components/form/TimeSelector";
 import { BaseLayout } from "../components/layout/Layout";
+import Map from "../components/map/Map";
 import {
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_INFO,
@@ -36,7 +36,7 @@ import {
 } from "../schemas/consequence.schema";
 import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
 import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
-import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -116,20 +116,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 }));
         }
         return [];
-    };
-
-    const sortStops = (stops: Stop[]) => {
-        return stops.sort((a, b) => {
-            if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
-                return (
-                    a.commonName.localeCompare(b.commonName) ||
-                    a.indicator.localeCompare(b.indicator) ||
-                    a.atcoCode.localeCompare(b.atcoCode)
-                );
-            } else {
-                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
-            }
-        });
     };
 
     const addStop = (stopToAdd: SingleValue<Stop>) => {
