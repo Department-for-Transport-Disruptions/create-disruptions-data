@@ -4,18 +4,18 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIES_CONSEQUENCE_INFO,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
+import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { OperatorConsequence } from "../../schemas/consequence.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
-const defaultOperatorData: OperatorConsequence = {
-    disruptionId: "test",
-    consequenceIndex: 0,
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+const defaultConsequenceIndex = "0";
+
+const defaultOperatorData = {
     consequenceOperator: "FMAN",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -24,6 +24,8 @@ const defaultOperatorData: OperatorConsequence = {
     disruptionSeverity: Severity.slight,
     vehicleMode: VehicleMode.bus,
     consequenceType: "operatorWide",
+    consequenceIndex: defaultConsequenceIndex,
+    disruptionId: defaultDisruptionId,
 };
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
@@ -31,6 +33,11 @@ describe("create-consequence-operator API", () => {
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
+    }));
+
+    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    vi.mock("../../data/dynamo", () => ({
+        upsertConsequence: vi.fn(),
     }));
 
     afterEach(() => {
@@ -42,21 +49,37 @@ describe("create-consequence-operator API", () => {
 
         await createConsequenceOperator(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith({
+            disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            removeFromJourneyPlanners: "no",
+            disruptionDelay: "",
+            disruptionSeverity: "slight",
+            vehicleMode: "bus",
+            consequenceIndex: 0,
+            consequenceOperator: "FMAN",
+            consequenceType: "operatorWide",
+        });
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
     });
 
     it("should redirect back to /create-consequence-operator when no form inputs are passed to the API", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { consequenceIndex: defaultConsequenceIndex, disruptionId: defaultDisruptionId },
+            mockWriteHeadFn: writeHeadMock,
+        });
         await createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
             { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
-            { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
+            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select an operator", id: "consequenceOperator" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
@@ -67,11 +90,13 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 
     it("should redirect back to /create-consequence-operator when description is too long", async () => {
-        const operatorData: OperatorConsequence = {
+        const operatorData = {
             ...defaultOperatorData,
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -88,11 +113,13 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 
     it("should redirect back to /create-consequence-operator when invalid time is passed", async () => {
-        const operatorData: OperatorConsequence = {
+        const operatorData = {
             ...defaultOperatorData,
             disruptionDelay: "7280",
         };
@@ -110,6 +137,8 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({ inputs: req.body, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_OPERATOR_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 });

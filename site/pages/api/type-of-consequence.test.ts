@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment*/
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
+import { randomUUID } from "crypto";
 import addConsequence from "./type-of-consequence.api";
-import {
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    COOKIES_CONSEQUENCE_TYPE_ERRORS,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
-} from "../../constants/index";
+import { TYPE_OF_CONSEQUENCE_PAGE_PATH, COOKIES_CONSEQUENCE_TYPE_ERRORS } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
+import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
@@ -24,8 +21,11 @@ describe("addConsequence", () => {
     });
 
     it("should redirect to operator consequence page when 'Operator wide' selected", () => {
-        const disruptionData = {
-            vehicleMode: VehicleMode.rail,
+        const disruptionId = randomUUID();
+
+        const disruptionData: ConsequenceType = {
+            disruptionId: disruptionId,
+            consequenceIndex: 0,
             consequenceType: "operatorWide",
         };
 
@@ -33,15 +33,15 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_TYPE_INFO, expect.any(String), res);
-
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-operator" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-consequence-operator/${disruptionId}/0` });
     });
 
     it("should redirect to operator consequence page when 'Network wide' selected", () => {
-        const disruptionData = {
-            vehicleMode: VehicleMode.bus,
+        const disruptionId = randomUUID();
+
+        const disruptionData: ConsequenceType = {
+            disruptionId: disruptionId,
+            consequenceIndex: 0,
             consequenceType: "networkWide",
         };
 
@@ -49,21 +49,14 @@ describe("addConsequence", () => {
 
         addConsequence(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
-            1,
-            COOKIES_CONSEQUENCE_TYPE_INFO,
-            expect.any(String),
-            res,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-consequence-network" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-consequence-network/${disruptionId}/0` });
     });
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
         const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
+            { errorMessage: "Required", id: "disruptionId" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
+            { errorMessage: "Expected number, received nan", id: "consequenceIndex" },
         ];
 
         const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
@@ -83,14 +76,12 @@ describe("addConsequence", () => {
 
     it("should redirect back to add consequence page (/type-of-consequence) when incorrect values are passed", () => {
         const disruptionData = {
-            vehicleMode: "incorrect mode",
+            disruptionId: randomUUID(),
+            consequenceIndex: 0,
             consequenceType: "incorrect type",
         };
 
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
-            { errorMessage: "Select a consequence type", id: "consequenceType" },
-        ];
+        const errors: ErrorInfo[] = [{ errorMessage: "Select a consequence type", id: "consequenceType" }];
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 

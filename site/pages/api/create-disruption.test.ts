@@ -2,7 +2,8 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
-import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO } from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
+import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -12,7 +13,10 @@ const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
 const defaultDisruptionData = {
+    disruptionId: defaultDisruptionId,
     disruptionType: "unplanned",
     summary: "Lorem ipsum dolor sit amet",
     description:
@@ -39,6 +43,11 @@ describe("create-disruption API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
+    const upsertDisruptionSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
+    vi.mock("../../data/dynamo", () => ({
+        upsertDisruptionInfo: vi.fn(),
+    }));
+
     afterEach(() => {
         vi.resetAllMocks();
     });
@@ -48,9 +57,35 @@ describe("create-disruption API", () => {
 
         await createDisruption(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/type-of-consequence" });
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith({
+            disruptionId: defaultDisruptionId,
+            disruptionType: "unplanned",
+            summary: "Lorem ipsum dolor sit amet",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            associatedLink: "",
+            disruptionReason: MiscellaneousReason.roadworks,
+            publishStartDate: defaultPublishStartDate,
+            publishStartTime: "1100",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionStartDate: defaultDisruptionEndDate,
+            disruptionStartTime: "1100",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            disruptionNoEndDateTime: "true",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionStartTime: "1100",
+                    disruptionEndDate: defaultDisruptionEndDate,
+                    disruptionEndTime: "1000",
+                    disruptionNoEndDateTime: "",
+                },
+            ],
+        });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
@@ -58,6 +93,7 @@ describe("create-disruption API", () => {
         await createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
+            { errorMessage: "Required", id: "disruptionId" },
             { errorMessage: "Select a disruption type", id: "disruptionType" },
             { errorMessage: "Enter a summary for this disruption", id: "summary" },
             { errorMessage: "Enter a description for this disruption", id: "description" },

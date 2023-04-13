@@ -306,7 +306,7 @@ export const randomlyGeneratedDisruptions: PtSituationElement[] = [
     },
 ];
 
-export const disruptionInfoTestCookie: DisruptionInfo = {
+export const disruptionInfoTest: DisruptionInfo = {
     disruptionId: "test",
     description: "Test description",
     disruptionType: "planned",
@@ -320,8 +320,8 @@ export const disruptionInfoTestCookie: DisruptionInfo = {
     disruptionNoEndDateTime: "true",
 };
 
-export const disruptionInfoMultipleValidityTestCookie: DisruptionInfo = {
-    disruptionId: "test",
+export const disruptionWithNoConsequences: Disruption = {
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -339,33 +339,10 @@ export const disruptionInfoMultipleValidityTestCookie: DisruptionInfo = {
     disruptionStartDate: "18/03/2023",
     disruptionStartTime: "1200",
     disruptionNoEndDateTime: "true",
+    consequences: [],
 };
 
-export const disruptionInfoMultipleValidityTest: Disruption[] = [
-    {
-        disruptionId: "test",
-        description: "Test description",
-        disruptionType: "planned",
-        summary: "Some summary",
-        disruptionReason: PersonnelReason.staffInWrongPlace,
-        validity: [
-            {
-                disruptionStartDate: "10/03/2023",
-                disruptionStartTime: "1200",
-                disruptionEndDate: "17/03/2023",
-                disruptionEndTime: "1700",
-            },
-        ],
-        publishStartDate: "10/03/2023",
-        publishStartTime: "1200",
-        disruptionStartDate: "18/03/2023",
-        disruptionStartTime: "1200",
-        disruptionNoEndDateTime: "true",
-        consequences: [],
-    },
-];
-
-export const consequenceInfoOperatorTestCookie: Consequence = {
+export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
     disruptionId: "test",
     consequenceType: "operatorWide",
@@ -377,12 +354,69 @@ export const consequenceInfoOperatorTestCookie: Consequence = {
     disruptionDelay: "40",
 };
 
-export const consequenceInfoNetworkTestCookie: Consequence = {
-    consequenceIndex: 0,
+export const consequenceInfoNetworkTest: Consequence = {
+    consequenceIndex: 1,
     disruptionId: "test",
     consequenceType: "networkWide",
     description: "Some consequence description",
     disruptionSeverity: Severity.slight,
     vehicleMode: VehicleMode.tram,
     removeFromJourneyPlanners: "no",
+};
+
+export const disruptionWithConsequences: Disruption = {
+    ...disruptionWithNoConsequences,
+    consequences: [consequenceInfoNetworkTest, consequenceInfoOperatorTest],
+};
+
+export const disruptionArray: Disruption[] = [
+    disruptionWithConsequences,
+    {
+        ...disruptionWithConsequences,
+        validity: [],
+        disruptionStartDate: "10/03/2022",
+        disruptionStartTime: "1100",
+        disruptionNoEndDateTime: "true",
+    },
+    disruptionWithNoConsequences,
+];
+
+export const ptSituationElementWithMultipleConsequences = {
+    CreationTime: "2023-03-03T00:00:00.000Z",
+    Planned: true,
+    Summary: "Some summary",
+    Description: "Test description",
+    ParticipantRef: "DepartmentForTransport",
+    SituationNumber: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    PublicationWindow: { StartTime: "2023-03-10T12:00:00.000Z" },
+    ValidityPeriod: [
+        { StartTime: "2023-03-10T12:00:00.000Z", EndTime: "2023-03-17T17:00:00.000Z" },
+        { StartTime: "2023-03-18T12:00:00.000Z" },
+    ],
+    Progress: "open",
+    Source: { SourceType: "feed", TimeOfCommunication: "2023-03-03T00:00:00.000Z" },
+    Consequences: {
+        Consequence: [
+            {
+                Condition: "unknown",
+                Severity: "slight",
+                Affects: { Networks: { AffectedNetwork: { VehicleMode: "tram", AllLines: "" } } },
+                Advice: { Details: "Some consequence description" },
+                Blocking: { JourneyPlanner: false },
+            },
+            {
+                Condition: "unknown",
+                Severity: "severe",
+                Affects: {
+                    Networks: { AffectedNetwork: { VehicleMode: "bus", AllLines: "" } },
+                    Operators: { AffectedOperator: { OperatorRef: "FSYO" } },
+                },
+                Advice: { Details: "Some consequence description" },
+                Blocking: { JourneyPlanner: true },
+                Delays: { Delay: "PT40M" },
+            },
+        ],
+    },
+    ReasonType: "PersonnelReason",
+    PersonnelReason: "staffInWrongPlace",
 };

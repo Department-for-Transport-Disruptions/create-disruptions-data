@@ -80,34 +80,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
@@ -131,6 +103,112 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="vehicle-mode"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Select mode of transport
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-bus"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="bus"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-bus"
+                    >
+                      Bus
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-tram"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="tram"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-tram"
+                    >
+                      Tram
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-ferryService"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="ferryService"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-ferryService"
+                    >
+                      Ferry
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-rail"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="rail"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-rail"
+                    >
+                      Train
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -383,9 +461,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
             value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"
@@ -667,34 +748,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
@@ -718,6 +771,112 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="vehicle-mode"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-s govuk-!-margin-bottom-0"
+                >
+                  Select mode of transport
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-bus"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="bus"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-bus"
+                    >
+                      Bus
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-tram"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="tram"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-tram"
+                    >
+                      Tram
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-ferryService"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="ferryService"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-ferryService"
+                    >
+                      Ferry
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      defaultChecked={false}
+                      id="vehicle-mode-rail"
+                      name="vehicleMode"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      type="radio"
+                      value="rail"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="vehicle-mode-rail"
+                    >
+                      Train
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -968,9 +1127,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
             value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"

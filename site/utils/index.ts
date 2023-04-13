@@ -17,7 +17,16 @@ import {
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
-export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruption[] => {
+type SortedDisruption = Omit<
+    Disruption,
+    | "disruptionStartDate"
+    | "disruptionStartTime"
+    | "disruptionEndDate"
+    | "disruptionEndTime"
+    | "disruptionNoEndDateTime"
+>;
+
+export const sortDisruptionsByStartDate = (disruptions: Disruption[]): SortedDisruption[] => {
     const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
 
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
@@ -39,39 +48,25 @@ export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruptio
             );
         });
 
-        return { ...disruption, ValidityPeriod: sortedValidityPeriods };
+        return { ...disruption, validity: sortedValidityPeriods };
     });
 
     return disruptionsWithSortedValidityPeriods.sort((a, b) => {
-        const aTime = a.validity?.length
-            ? getDatetimeFromDateAndTime(a.validity[0].disruptionStartDate, a.validity[0].disruptionStartTime)
-            : getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime);
-
-        const bTime = b.validity?.length
-            ? getDatetimeFromDateAndTime(b.validity[0].disruptionStartDate, b.validity[0].disruptionStartTime)
-            : getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime);
+        const aTime = getDatetimeFromDateAndTime(a.validity[0].disruptionStartDate, a.validity[0].disruptionStartTime);
+        const bTime = getDatetimeFromDateAndTime(b.validity[0].disruptionStartDate, b.validity[0].disruptionStartTime);
 
         return sortEarliestDate(aTime, bTime);
     });
 };
 
-export const mapValidityPeriods = (disruption: Disruption) =>
-    [
-        ...(disruption.validity ?? []),
-        {
-            disruptionStartDate: disruption.disruptionStartDate,
-            disruptionStartTime: disruption.disruptionStartTime,
-            disruptionEndDate: disruption.disruptionEndDate,
-            disruptionEndTime: disruption.disruptionEndTime,
-            disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-        },
-    ].map((period) => ({
+export const mapValidityPeriods = (disruption: SortedDisruption) =>
+    disruption.validity?.map((period) => ({
         startTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
         endTime:
             period.disruptionEndDate && period.disruptionEndTime
                 ? getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString()
                 : null,
-    }));
+    })) ?? [];
 
 export const reduceStringWithEllipsis = (input: string, maximum: number): string => {
     if (input.length < maximum) {

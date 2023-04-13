@@ -18,7 +18,30 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 const tableName = process.env.TABLE_NAME as string;
 const siriTableName = process.env.SIRI_TABLE_NAME as string;
 
-export const getPublishedDisruptionsDataFromDynamo = async () => {
+const collectDisruptionsData = (
+    disruptionItems: Record<string, unknown>[],
+    disruptionId: string,
+): Disruption | null => {
+    const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+    const consequences = disruptionItems.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+    );
+
+    const parsedDisruption = disruptionSchema.safeParse({
+        ...info,
+        consequences,
+    });
+
+    if (!parsedDisruption.success) {
+        logger.error(`Invalid disruption ${disruptionId} in Dynamo`);
+
+        return null;
+    }
+
+    return parsedDisruption.data;
+};
+
+export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
@@ -33,17 +56,11 @@ export const getPublishedDisruptionsDataFromDynamo = async () => {
         }),
     );
 
-    return dbData.Items?.map((item) => {
-        const parsedItem = disruptionSchema.safeParse(item);
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
 
-        if (!parsedItem.success) {
-            logger.error("Error parsing disruption from dynamo");
-            logger.error(parsedItem.error.stack);
-            return null;
-        }
-
-        return parsedItem.data;
-    }).filter(notEmpty);
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
 export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (

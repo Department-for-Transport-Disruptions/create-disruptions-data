@@ -3,14 +3,17 @@ import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums"
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
-    COOKIES_CONSEQUENCE_INFO,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
+import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
+
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+const defaultConsequenceIndex = "0";
 
 const defaultStopsData = {
     stop1: JSON.stringify({
@@ -37,6 +40,8 @@ const defaultStopsData = {
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
     consequenceType: "stops",
+    consequenceIndex: defaultConsequenceIndex,
+    disruptionId: defaultDisruptionId,
 };
 
 describe("create-consequence-stops API", () => {
@@ -45,6 +50,11 @@ describe("create-consequence-stops API", () => {
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
+    }));
+
+    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    vi.mock("../../data/dynamo", () => ({
+        upsertConsequence: vi.fn(),
     }));
 
     afterEach(() => {
@@ -56,21 +66,52 @@ describe("create-consequence-stops API", () => {
 
         await createConsequenceStops(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_CONSEQUENCE_INFO, expect.any(String), res);
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith({
+            disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            removeFromJourneyPlanners: "no",
+            disruptionDelay: "45",
+            disruptionSeverity: "severe",
+            vehicleMode: "bus",
+            consequenceIndex: 0,
+            consequenceType: "stops",
+            stops: [
+                {
+                    atcoCode: "0100BRP90310",
+                    commonName: "Temple Meads Stn",
+                    indicator: "T3",
+                    longitude: -2.58569,
+                    latitude: 51.44901,
+                },
+                {
+                    atcoCode: "0100BRP90311",
+                    commonName: "Temple Meads Stn",
+                    indicator: "T7",
+                    longitude: -2.5856,
+                    latitude: 51.45014,
+                },
+            ],
+        });
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: REVIEW_DISRUPTION_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
     });
 
     it("should redirect back to /create-consequence-stops when no form inputs are passed to the API", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { consequenceIndex: defaultConsequenceIndex, disruptionId: defaultDisruptionId },
+            mockWriteHeadFn: writeHeadMock,
+        });
         await createConsequenceStops(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
             { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
-            { errorMessage: "Select a vehicle mode", id: "vehicleMode" },
+            { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
             { errorMessage: "At least one stop must be added", id: "stops" },
         ];
@@ -80,7 +121,9 @@ describe("create-consequence-stops API", () => {
             JSON.stringify({ inputs: formatCreateConsequenceStopsBody(req.body), errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 
     it("should redirect back to /create-consequence-stops when description is too long", async () => {
@@ -101,7 +144,9 @@ describe("create-consequence-stops API", () => {
             JSON.stringify({ inputs: formatCreateConsequenceStopsBody(req.body), errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 
     it("should redirect back to /create-consequence-stops when invalid time is passed", async () => {
@@ -123,6 +168,8 @@ describe("create-consequence-stops API", () => {
             JSON.stringify({ inputs: formatCreateConsequenceStopsBody(req.body), errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CREATE_CONSEQUENCE_STOPS_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
     });
 });

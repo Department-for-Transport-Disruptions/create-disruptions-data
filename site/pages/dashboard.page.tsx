@@ -32,16 +32,7 @@ const mapDisruptions = (disruptions: Disruption[]) =>
         return {
             id: disruption.disruptionId,
             summary: disruption.summary,
-            validityPeriods: [
-                ...(disruption.validity ?? []),
-                {
-                    disruptionStartDate: disruption.disruptionStartDate,
-                    disruptionStartTime: disruption.disruptionStartTime,
-                    disruptionEndDate: disruption.disruptionEndDate,
-                    disruptionEndTime: disruption.disruptionEndTime,
-                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                },
-            ].map((period) => ({
+            validityPeriods: (disruption.validity || []).map((period) => ({
                 startTime: getDatetimeFromDateAndTime(
                     period.disruptionStartDate,
                     period.disruptionStartTime,

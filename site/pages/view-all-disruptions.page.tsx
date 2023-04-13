@@ -142,11 +142,11 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
-            const severitys: Severity[] = [];
+            const severities: Severity[] = [];
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    severitys.push(consequence.disruptionSeverity);
+                    severities.push(consequence.disruptionSeverity);
                     modes.push(splitCamelCaseToString(consequence.vehicleMode));
                 });
             }
@@ -157,7 +157,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                 validityPeriods: mapValidityPeriods(disruption),
                 modes: modes.join(", ") || "N/A",
                 status: splitCamelCaseToString(Progress.open),
-                severity: splitCamelCaseToString(getWorstSeverity(severitys)),
+                severity: splitCamelCaseToString(getWorstSeverity(severities)),
             };
         });
 

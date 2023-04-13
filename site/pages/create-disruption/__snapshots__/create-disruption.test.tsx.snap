@@ -984,6 +984,10 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
           </div>
+          <input
+            name="disruptionId"
+            type="hidden"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -2099,6 +2103,10 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
           </div>
+          <input
+            name="disruptionId"
+            type="hidden"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

@@ -1,12 +1,13 @@
 import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
+import { randomUUID } from "crypto";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
 import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
 import { createDisruptionSchema, DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
-import { disruptionInfoTestCookie } from "../testData/mockData";
+import { disruptionInfoTest } from "../testData/mockData";
 import { sortDisruptionsByStartDate, splitCamelCaseToString } from ".";
 
 describe("utils tests", () => {
@@ -19,14 +20,14 @@ describe("utils tests", () => {
     });
 });
 
-describe("page state from cookies test", () => {
+describe("page state test", () => {
     it("should parse to expected type for DisruptionPageInputs", () => {
         const defaultDisruptionStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
         const defaultDisruptionEndDate = getFutureDateAsString(5, CD_DATE_FORMAT);
         const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
         const disruptionData: DisruptionInfo = {
-            disruptionId: "test",
+            disruptionId: randomUUID(),
             disruptionType: "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -44,7 +45,7 @@ describe("page state from cookies test", () => {
             disruptionNoEndDateTime: "",
         };
 
-        const parsedInput = getPageState("", createDisruptionSchema);
+        const parsedInput = getPageState("", createDisruptionSchema, disruptionData.disruptionId, disruptionData);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(disruptionData);
@@ -52,7 +53,7 @@ describe("page state from cookies test", () => {
 
     it("should parse to expected type for ConsequenceOperatorPageInputs", () => {
         const operatorData: OperatorConsequence = {
-            disruptionId: "test",
+            disruptionId: randomUUID(),
             consequenceIndex: 0,
             consequenceOperator: "FMAN",
             description:
@@ -64,7 +65,7 @@ describe("page state from cookies test", () => {
             consequenceType: "operatorWide",
         };
 
-        const parsedInput = getPageState("", operatorConsequenceSchema);
+        const parsedInput = getPageState("", operatorConsequenceSchema, operatorData.disruptionId, operatorData);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);
@@ -74,35 +75,45 @@ describe("page state from cookies test", () => {
 describe("sortDisruptionsByStartDate", () => {
     const mixedUpDisruptions: Disruption[] = [
         {
-            ...disruptionInfoTestCookie,
-            disruptionStartDate: "25/03/2023",
+            ...disruptionInfoTest,
+            disruptionStartDate: "25/03/2026",
             disruptionStartTime: "1123",
             validity: [
                 {
                     disruptionStartDate: "25/12/2022",
                     disruptionStartTime: "1123",
+                    disruptionEndDate: "30/12/2022",
+                    disruptionEndTime: "1123",
                 },
                 {
                     disruptionStartDate: "25/03/2024",
                     disruptionStartTime: "1123",
+                    disruptionEndDate: "30/03/2024",
+                    disruptionEndTime: "1123",
+                },
+                {
+                    disruptionStartDate: "25/03/2021",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/03/2021",
+                    disruptionEndTime: "1123",
                 },
             ],
         },
         {
-            ...disruptionInfoTestCookie,
+            ...disruptionInfoTest,
             disruptionStartDate: "21/03/2025",
             disruptionStartTime: "1123",
         },
         {
-            ...disruptionInfoTestCookie,
+            ...disruptionInfoTest,
             disruptionStartDate: "24/04/2022",
             disruptionStartTime: "1123",
-            disruptionEndDate: "22/03/2024",
-            disruptionEndTime: "1123",
             validity: [
                 {
                     disruptionStartDate: "22/04/2022",
                     disruptionStartTime: "1123",
+                    disruptionEndDate: "22/05/2022",
+                    disruptionEndTime: "1123",
                 },
             ],
         },
@@ -113,73 +124,94 @@ describe("sortDisruptionsByStartDate", () => {
 
         expect(result).toStrictEqual([
             {
-                CreationTime: "2023-01-01T01:10:00Z",
-                ParticipantRef: "ref",
-                SituationNumber: "aaaaa-bbbbb-ccccc",
-                Version: 1,
-                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
-                Progress: "open",
-                ValidityPeriod: [
-                    { StartTime: "2022-04-22T11:23:24.529Z", EndTime: undefined },
+                disruptionId: "test",
+                description: "Test description",
+                disruptionType: "planned",
+                summary: "Some summary",
+                associatedLink: "https://example.com",
+                disruptionReason: "grassFire",
+                publishStartDate: "10/03/2023",
+                publishStartTime: "1200",
+                disruptionStartDate: "25/03/2026",
+                disruptionStartTime: "1123",
+                disruptionNoEndDateTime: "true",
+                validity: [
                     {
-                        StartTime: "2022-04-24T11:23:24.529Z",
-                        EndTime: "2024-03-22T11:23:24.529Z",
+                        disruptionStartDate: "25/03/2021",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2021",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/12/2022",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/12/2022",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/03/2024",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2024",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/03/2026",
+                        disruptionStartTime: "1123",
+                        disruptionNoEndDateTime: "true",
+                        disruptionEndDate: undefined,
+                        disruptionEndTime: undefined,
                     },
                 ],
-                PublicationWindow: {
-                    StartTime: "2023-03-02T10:10:00Z",
-                    EndTime: "2023-03-09T10:10:00Z",
-                },
-                ReasonType: "PersonnelReason",
-                PersonnelReason: "staffSickness",
-                Planned: true,
-                Summary: "Disruption Summary",
-                Description: "Disruption Description",
             },
             {
-                CreationTime: "2023-01-01T01:10:00Z",
-                ParticipantRef: "ref",
-                SituationNumber: "aaaaa-bbbbb-ccccc",
-                Version: 1,
-                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
-                Progress: "open",
-                ValidityPeriod: [
-                    { StartTime: "2022-12-25T11:23:24.529Z", EndTime: undefined },
-                    { StartTime: "2023-03-25T11:23:24.529Z", EndTime: undefined },
-                    { StartTime: "2024-03-25T11:23:24.529Z", EndTime: undefined },
-                ],
-                PublicationWindow: {
-                    StartTime: "2023-03-02T10:10:00Z",
-                    EndTime: "2023-03-09T10:10:00Z",
-                },
-                ReasonType: "PersonnelReason",
-                PersonnelReason: "staffSickness",
-                Planned: true,
-                Summary: "Disruption Summary",
-                Description: "Disruption Description",
-            },
-            {
-                CreationTime: "2023-01-01T01:10:00Z",
-                ParticipantRef: "ref",
-                SituationNumber: "aaaaa-bbbbb-ccccc",
-                Version: 1,
-                Source: { SourceType: "feed", TimeOfCommunication: "2023-01-01T01:10:00Z" },
-                Progress: "open",
-                ValidityPeriod: [
+                disruptionId: "test",
+                description: "Test description",
+                disruptionType: "planned",
+                summary: "Some summary",
+                associatedLink: "https://example.com",
+                disruptionReason: "grassFire",
+                publishStartDate: "10/03/2023",
+                publishStartTime: "1200",
+                disruptionStartDate: "24/04/2022",
+                disruptionStartTime: "1123",
+                disruptionNoEndDateTime: "true",
+                validity: [
                     {
-                        StartTime: "2025-03-21T11:23:24.529Z",
-                        EndTime: "2023-03-22T11:23:24.529Z",
+                        disruptionStartDate: "22/04/2022",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "22/05/2022",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "24/04/2022",
+                        disruptionStartTime: "1123",
+                        disruptionNoEndDateTime: "true",
+                        disruptionEndDate: undefined,
+                        disruptionEndTime: undefined,
                     },
                 ],
-                PublicationWindow: {
-                    StartTime: "2023-03-02T10:10:00Z",
-                    EndTime: "2023-03-09T10:10:00Z",
-                },
-                ReasonType: "PersonnelReason",
-                PersonnelReason: "staffSickness",
-                Planned: true,
-                Summary: "Disruption Summary",
-                Description: "Disruption Description",
+            },
+            {
+                disruptionId: "test",
+                description: "Test description",
+                disruptionType: "planned",
+                summary: "Some summary",
+                associatedLink: "https://example.com",
+                disruptionReason: "grassFire",
+                publishStartDate: "10/03/2023",
+                publishStartTime: "1200",
+                disruptionStartDate: "21/03/2025",
+                disruptionStartTime: "1123",
+                disruptionNoEndDateTime: "true",
+                validity: [
+                    {
+                        disruptionStartDate: "21/03/2025",
+                        disruptionStartTime: "1123",
+                        disruptionNoEndDateTime: "true",
+                        disruptionEndDate: undefined,
+                        disruptionEndTime: undefined,
+                    },
+                ],
             },
         ]);
     });
