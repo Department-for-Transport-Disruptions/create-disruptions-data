@@ -39,6 +39,7 @@ export const validitySchemaRefined = validitySchema
     });
 
 export const createDisruptionSchema = z.object({
+    disruptionId: z.string().uuid(),
     disruptionType: z.union(
         [z.literal("planned"), z.literal("unplanned")],
         setZodDefaultError("Select a disruption type"),
@@ -283,4 +284,4 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
         }
     });
 
-export type Disruption = z.infer<typeof createDisruptionSchema>;
+export type DisruptionInfo = z.infer<typeof createDisruptionSchema>;

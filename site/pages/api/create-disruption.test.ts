@@ -2,7 +2,8 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
-import { COOKIES_DISRUPTION_ERRORS, COOKIES_DISRUPTION_INFO } from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
+import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -12,7 +13,10 @@ const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
 const defaultDisruptionData = {
+    disruptionId: defaultDisruptionId,
     disruptionType: "unplanned",
     summary: "Lorem ipsum dolor sit amet",
     description:
@@ -39,23 +43,57 @@ describe("create-disruption API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
+    const upsertDisruptionSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
+    vi.mock("../../data/dynamo", () => ({
+        upsertDisruptionInfo: vi.fn(),
+    }));
+
     afterEach(() => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to /type-of-consequence when all required inputs are passed", () => {
+    it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultDisruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(COOKIES_DISRUPTION_INFO, expect.any(String), res);
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/type-of-consequence" });
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith({
+            disruptionId: defaultDisruptionId,
+            disruptionType: "unplanned",
+            summary: "Lorem ipsum dolor sit amet",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            associatedLink: "",
+            disruptionReason: MiscellaneousReason.roadworks,
+            publishStartDate: defaultPublishStartDate,
+            publishStartTime: "1100",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionStartDate: defaultDisruptionEndDate,
+            disruptionStartTime: "1100",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            disruptionNoEndDateTime: "true",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionStartTime: "1100",
+                    disruptionEndDate: defaultDisruptionEndDate,
+                    disruptionEndTime: "1000",
+                    disruptionNoEndDateTime: "",
+                },
+            ],
+        });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
-    it("should redirect back to /create-disruption when no form inputs are passed to the API", () => {
-        const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
-        createDisruption(req, res);
+    it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { disruptionId: defaultDisruptionId },
+            mockWriteHeadFn: writeHeadMock,
+        });
+        await createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Select a disruption type", id: "disruptionType" },
@@ -76,10 +114,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when summary or description are too long", () => {
+    it("should redirect back to /create-disruption when summary or description are too long", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             summary:
@@ -90,7 +128,7 @@ describe("create-disruption API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Summary must not exceed 100 characters", id: "summary" },
@@ -105,10 +143,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when invalid reason passed", () => {
+    it("should redirect back to /create-disruption when invalid reason passed", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionReason: "Incorrect Value",
@@ -116,7 +154,7 @@ describe("create-disruption API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const errors: ErrorInfo[] = [{ errorMessage: "Select a reason from the dropdown", id: "disruptionReason" }];
         const inputs = formatCreateDisruptionBody(req.body);
@@ -127,10 +165,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when invalid URL passed for associated link", () => {
+    it("should redirect back to /create-disruption when invalid URL passed for associated link", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             associatedLink: "http://google.com<>/",
@@ -138,7 +176,7 @@ describe("create-disruption API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -149,10 +187,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when validity has duplicates/overlaps", () => {
+    it("should redirect back to /create-disruption when validity has duplicates/overlaps", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             validity2: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
@@ -160,7 +198,7 @@ describe("create-disruption API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -171,10 +209,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", () => {
+    it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             validity1: [getFutureDateAsString(10), "1200", "", "", "true"],
@@ -182,7 +220,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -196,6 +234,6 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 });

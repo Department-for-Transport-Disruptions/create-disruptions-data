@@ -86,7 +86,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </li>
                   <li>
                     <a
-                      href="#mode-of-transport"
+                      href="#vehicle-mode"
                     >
                       Select a mode of transport
                     </a>
@@ -102,124 +102,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 Add a Consequence
               </h1>
-              <div
-                className="govuk-form-group govuk-form-group--error"
-              >
-                <fieldset
-                  className="govuk-fieldset"
-                  id="mode-of-transport"
-                >
-                  <legend
-                    className="govuk-fieldset__legend"
-                  >
-                    <span
-                      className="govuk-heading-s govuk-!-margin-bottom-0"
-                    >
-                      Select mode of transport
-                    </span>
-                  </legend>
-                  <div
-                    className=""
-                  >
-                    <span
-                      className="govuk-error-message"
-                      id="modeOfTransport-error"
-                    >
-                      <span
-                        className="govuk-visually-hidden"
-                      >
-                        Error: 
-                      </span>
-                      Select a mode of transport
-                    </span>
-                    <div
-                      aria-describedby="modeOfTransport-error"
-                      className="govuk-radios govuk-radios--error"
-                    >
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={true}
-                          id="mode-of-transport-bus"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="bus"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-bus"
-                        >
-                          Bus
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-tram"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="tram"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-tram"
-                        >
-                          Tram
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-ferryService"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="ferryService"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-ferryService"
-                        >
-                          Ferry
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-rail"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="rail"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-rail"
-                        >
-                          Train
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
               <div
                 className="govuk-form-group govuk-form-group--error"
               >
@@ -338,6 +220,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >
@@ -615,112 +505,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 <fieldset
                   className="govuk-fieldset"
-                  id="mode-of-transport"
-                >
-                  <legend
-                    className="govuk-fieldset__legend"
-                  >
-                    <span
-                      className="govuk-heading-s govuk-!-margin-bottom-0"
-                    >
-                      Select mode of transport
-                    </span>
-                  </legend>
-                  <div
-                    className=""
-                  >
-                    <div
-                      className="govuk-radios"
-                    >
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={true}
-                          id="mode-of-transport-bus"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="bus"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-bus"
-                        >
-                          Bus
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-tram"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="tram"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-tram"
-                        >
-                          Tram
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-ferryService"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="ferryService"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-ferryService"
-                        >
-                          Ferry
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-rail"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="rail"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-rail"
-                        >
-                          Train
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div
-                className="govuk-form-group"
-              >
-                <fieldset
-                  className="govuk-fieldset"
                   id="consequence-type"
                 >
                   <legend
@@ -822,6 +606,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >
@@ -1099,112 +891,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
               >
                 <fieldset
                   className="govuk-fieldset"
-                  id="mode-of-transport"
-                >
-                  <legend
-                    className="govuk-fieldset__legend"
-                  >
-                    <span
-                      className="govuk-heading-s govuk-!-margin-bottom-0"
-                    >
-                      Select mode of transport
-                    </span>
-                  </legend>
-                  <div
-                    className=""
-                  >
-                    <div
-                      className="govuk-radios"
-                    >
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-bus"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="bus"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-bus"
-                        >
-                          Bus
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-tram"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="tram"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-tram"
-                        >
-                          Tram
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item govuk-!-margin-bottom-1"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-ferryService"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="ferryService"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-ferryService"
-                        >
-                          Ferry
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
-                      >
-                        <input
-                          className="govuk-radios__input"
-                          defaultChecked={false}
-                          id="mode-of-transport-rail"
-                          name="modeOfTransport"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          type="radio"
-                          value="rail"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="mode-of-transport-rail"
-                        >
-                          Train
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div
-                className="govuk-form-group"
-              >
-                <fieldset
-                  className="govuk-fieldset"
                   id="consequence-type"
                 >
                   <legend
@@ -1306,6 +992,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >

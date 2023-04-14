@@ -31,7 +31,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Congestion",
     },
     {
-        value: MiscellaneousReason.constructionWork,
+        value: EquipmentReason.constructionWork,
         display: "Construction Work",
     },
     {
@@ -39,7 +39,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Emergency Engineering Work",
     },
     {
-        value: MiscellaneousReason.fog,
+        value: EnvironmentReason.fog,
         display: "Fog",
     },
     {
@@ -71,7 +71,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Security Alert",
     },
     {
-        value: MiscellaneousReason.maintenanceWork,
+        value: EquipmentReason.maintenanceWork,
         display: "Maintenance Work",
     },
     {
@@ -83,7 +83,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Overcrowded",
     },
     {
-        value: MiscellaneousReason.signalProblem,
+        value: EquipmentReason.signalProblem,
         display: "Signal Problem",
     },
     {
@@ -217,11 +217,8 @@ export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 
 // COOKIES
-export const COOKIES_DISRUPTION_INFO = "cdd-disruption-info";
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
-export const COOKIES_CONSEQUENCE_TYPE_INFO = "cdd-consequence-type-info";
 export const COOKIES_CONSEQUENCE_TYPE_ERRORS = "cdd-consequence-type-errors";
-export const COOKIES_CONSEQUENCE_INFO = "cdd-consequence-info";
 export const COOKIES_CONSEQUENCE_OPERATOR_ERRORS = "cdd-consequence-operator-errors";
 export const COOKIES_CONSEQUENCE_NETWORK_ERRORS = "cdd-consequence-network-errors";
 export const COOKIES_CONSEQUENCE_STOPS_ERRORS = "cdd-consequence-stops-errors";

@@ -1,16 +1,17 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
-import { COOKIES_CONSEQUENCE_INFO, COOKIES_DISRUPTION_INFO, ERROR_PATH } from "../../constants/index";
-import { insertPublishedDisruptionIntoDynamo } from "../../data/dynamo";
+import { ERROR_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
+import { Disruption } from "../../schemas/disruption.schema";
 import {
-    consequenceInfoNetworkTestCookie,
-    consequenceInfoOperatorTestCookie,
-    disruptionInfoMultipleValidityTestCookie,
-    disruptionInfoTestCookie,
+    disruptionWithConsequences,
+    ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
+    disruptionWithNoConsequences,
 } from "../../testData/mockData";
+
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 describe("publish", () => {
     const writeHeadMock = vi.fn();
@@ -22,7 +23,8 @@ describe("publish", () => {
     }));
 
     vi.mock("../../data/dynamo", () => ({
-        insertPublishedDisruptionIntoDynamo: vi.fn(),
+        insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
+        getDisruptionById: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -31,7 +33,8 @@ describe("publish", () => {
 
     MockDate.set("2023-03-03");
 
-    const dynamoSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamo");
+    const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
+    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -42,71 +45,65 @@ describe("publish", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         const { req, res } = getMockRequestAndResponse({
-            cookieValues: {
-                [COOKIES_DISRUPTION_INFO]: JSON.stringify(disruptionInfoTestCookie),
-                [COOKIES_CONSEQUENCE_INFO]: JSON.stringify(consequenceInfoNetworkTestCookie),
+            body: {
+                disruptionId: defaultDisruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            expect.any(String),
+        );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
-    it("should redirect to start page if disruption info cookie is invalid", async () => {
+    it("should redirect to error page if disruptionId not passed", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         const { req, res } = getMockRequestAndResponse({
-            cookieValues: {
-                [COOKIES_DISRUPTION_INFO]: JSON.stringify({
-                    ...disruptionInfoTestCookie,
-                    disruptionReason: "invalid reason",
-                }),
-                [COOKIES_CONSEQUENCE_INFO]: JSON.stringify(consequenceInfoNetworkTestCookie),
-            },
             mockWriteHeadFn: writeHeadMock,
         });
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it("should redirect to start page if consequence info cookie is invalid", async () => {
+    it("should redirect to error page if disruption is invalid", async () => {
+        getDisruptionSpy.mockResolvedValue({} as Disruption);
         const { req, res } = getMockRequestAndResponse({
-            cookieValues: {
-                [COOKIES_DISRUPTION_INFO]: JSON.stringify(disruptionInfoTestCookie),
-                [COOKIES_CONSEQUENCE_INFO]: JSON.stringify({
-                    ...consequenceInfoOperatorTestCookie,
-                    disruptionSeverity: "notSevere",
-                }),
+            body: {
+                disruptionId: defaultDisruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
 
         await publish(req, res);
 
-        expect(insertPublishedDisruptionIntoDynamo).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it.each([
-        [disruptionInfoTestCookie, consequenceInfoNetworkTestCookie],
-        [disruptionInfoTestCookie, consequenceInfoOperatorTestCookie],
-        [disruptionInfoMultipleValidityTestCookie, consequenceInfoNetworkTestCookie],
-    ])("should write the correct disruptions data to dynamoDB", async (disruptionCookie, consequenceCookie) => {
-        const { req, res } = getMockRequestAndResponse({
-            cookieValues: {
-                [COOKIES_DISRUPTION_INFO]: JSON.stringify(disruptionCookie),
-                [COOKIES_CONSEQUENCE_INFO]: JSON.stringify(consequenceCookie),
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
+    it.each([[disruptionWithConsequences], [disruptionWithNoConsequences]])(
+        "should write the correct disruptions data to dynamoDB",
+        async (disruption) => {
+            getDisruptionSpy.mockResolvedValue(disruption);
+            const { req, res } = getMockRequestAndResponse({
+                body: {
+                    disruptionId: disruption.disruptionId,
+                },
+                mockWriteHeadFn: writeHeadMock,
+            });
 
-        await publish(req, res);
+            await publish(req, res);
 
-        expect(dynamoSpy.mock.calls[0][0]).toMatchSnapshot();
-    });
+            expect(insertDisruptionSpy.mock.calls[0][0]).toMatchSnapshot();
+        },
+    );
 });

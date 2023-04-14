@@ -9,8 +9,10 @@ import {
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
+import { Consequence } from "../../../site/schemas/consequence.schema";
+import { DisruptionInfo } from "../../../site/schemas/create-disruption.schema";
 
-export const baseDisruptionJson: PtSituationElement = {
+export const baseSiriJson: PtSituationElement = {
     CreationTime: "2023-01-01T01:10:00Z",
     ParticipantRef: "ref",
     SituationNumber: "aaaaa-bbbbb-ccccc",
@@ -60,6 +62,32 @@ export const baseDisruptionJson: PtSituationElement = {
         ],
     },
 };
+
+export const baseSiteDisruptionInfo: DisruptionInfo = {
+    disruptionId: "aaaaa-bbbbb-ccccc",
+    disruptionStartDate: "03/03/2023",
+    disruptionStartTime: "0110",
+    disruptionNoEndDateTime: "true",
+    publishStartDate: "02/03/2020",
+    publishStartTime: "1010",
+    disruptionReason: PersonnelReason.staffSickness,
+    disruptionType: "planned",
+    summary: "Disruption Summary",
+    description: "Disruption Description",
+};
+
+export const baseConsequences: Consequence[] = [
+    {
+        disruptionSeverity: Severity.verySlight,
+        consequenceType: "networkWide",
+        vehicleMode: VehicleMode.bus,
+        description: "Some Advice",
+        removeFromJourneyPlanners: "no",
+        disruptionDelay: "10",
+        consequenceIndex: 0,
+        disruptionId: "aaaaa-bbbbb-ccccc",
+    },
+];
 
 export const testDisruptionsJson: PtSituationElement[] = [
     {
