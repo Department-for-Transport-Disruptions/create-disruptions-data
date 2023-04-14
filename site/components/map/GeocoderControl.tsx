@@ -10,7 +10,7 @@ type GeocoderControlProps = Omit<GeocoderOptions, "accessToken" | "mapboxgl"> & 
     position: ControlPosition;
 };
 
-const GeocoderControl = (props: GeocoderControlProps): void => {
+const GeocoderControl = (props: GeocoderControlProps): null => {
     const geocoder = useControl<MapboxGeocoder>(
         (): MapboxGeocoder => {
             const ctrl: MapboxGeocoder = new MapboxGeocoder({
@@ -31,6 +31,7 @@ const GeocoderControl = (props: GeocoderControlProps): void => {
             geocoder.setCountries(props.countries);
         }
     }
+    return null;
 };
 
 GeocoderControl.defaultProps = {
