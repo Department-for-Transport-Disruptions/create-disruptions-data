@@ -11,6 +11,7 @@ export function DynamoDBStack({ stack }: StackContext) {
             partitionKey: "PK",
             sortKey: "SK",
         },
+        stream: "new_image",
         cdk: {
             table: {
                 tableName: `cdd-disruptions-table-${stack.stage}`,
