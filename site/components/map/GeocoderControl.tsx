@@ -34,11 +34,4 @@ const GeocoderControl = (props: GeocoderControlProps): null => {
     return null;
 };
 
-GeocoderControl.defaultProps = {
-    onLoading: () => "",
-    onResults: () => "",
-    onResult: () => "",
-    onError: () => "",
-};
-
 export default GeocoderControl;
