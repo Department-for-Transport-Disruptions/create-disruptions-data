@@ -238,7 +238,7 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily but no ending on date is provided", () => {
+    it("should redirect back to /create-disruption when disruption repeats daily but no ending on date is provided", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -250,7 +250,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -266,10 +266,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly but no ending on date is provided", () => {
+    it("should redirect back to /create-disruption when disruption repeats weekly but no ending on date is provided", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -281,7 +281,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -297,10 +297,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is before the disruption end date", () => {
+    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is before the disruption end date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -313,7 +313,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -329,10 +329,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is before the disruption end date", () => {
+    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is before the disruption end date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -345,7 +345,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -361,10 +361,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is more than 365 days of start date", () => {
+    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is more than 365 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -377,7 +377,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -393,10 +393,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is more than 365 days of start date", () => {
+    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is more than 365 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -409,7 +409,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -425,10 +425,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the end date is more than 24 hours of start date", () => {
+    it("should redirect back to /create-disruption when disruption repeats daily and the end date is more than 24 hours of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: getFutureDateAsString(7),
@@ -442,7 +442,7 @@ describe("create-disruption API", () => {
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -458,10 +458,10 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the end date is more than 7 days of start date", () => {
+    it("should redirect back to /create-disruption when disruption repeats weekly and the end date is more than 7 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: getFutureDateAsString(14),
@@ -474,7 +474,7 @@ describe("create-disruption API", () => {
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        createDisruption(req, res);
+        await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
 
@@ -490,7 +490,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should confirm that the dates are expanded as expected", () => {
