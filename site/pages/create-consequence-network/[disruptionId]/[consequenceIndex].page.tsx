@@ -53,13 +53,16 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             ]}
                         />
 
-                        <Radios<NetworkConsequence>
-                            display="Select mode of transport"
-                            radioDetail={VEHICLE_MODES}
+                        <Select<NetworkConsequence>
                             inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
-                            initialErrors={props.errors}
+                            initialErrors={pageState.errors}
+                            schema={networkConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
 
                         <TextInput<NetworkConsequence>

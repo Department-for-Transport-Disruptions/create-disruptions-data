@@ -320,13 +320,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             ]}
                         />
 
-                        <Radios<ServicesConsequence>
-                            display="Select mode of transport"
-                            radioDetail={VEHICLE_MODES}
+                        <Select<ServicesConsequence>
                             inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
-                            initialErrors={props.errors}
+                            initialErrors={pageState.errors}
+                            schema={servicesConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
 
                         <SearchSelect<Service>

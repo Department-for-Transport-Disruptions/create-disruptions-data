@@ -60,13 +60,16 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             ]}
                         />
 
-                        <Radios<OperatorConsequence>
-                            display="Select mode of transport"
-                            radioDetail={VEHICLE_MODES}
+                        <Select<OperatorConsequence>
                             inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
-                            initialErrors={props.errors}
+                            initialErrors={pageState.errors}
+                            schema={operatorConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
 
                         <Select<OperatorConsequence>

@@ -106,108 +106,55 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              className="govuk-fieldset"
+            <div
+              className="govuk-form-group"
               id="vehicle-mode"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
               >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Select mode of transport
-                </span>
-              </legend>
+                Mode of transport
+              </label>
               <div
                 className=""
               >
-                <div
-                  className="govuk-radios"
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
                 >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  <option
+                    disabled={true}
+                    value=""
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-bus"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="bus"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-bus"
-                    >
-                      Bus
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-tram"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="tram"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-tram"
-                    >
-                      Tram
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-ferryService"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="ferryService"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-ferryService"
-                    >
-                      Ferry
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-rail"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="rail"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-rail"
-                    >
-                      Train
-                    </label>
-                  </div>
-                </div>
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
               </div>
-            </fieldset>
+            </div>
           </div>
           <div
             className="govuk-form-group"
@@ -721,108 +668,55 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           <div
             className="govuk-form-group"
           >
-            <fieldset
-              className="govuk-fieldset"
+            <div
+              className="govuk-form-group"
               id="vehicle-mode"
             >
-              <legend
-                className="govuk-fieldset__legend"
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
               >
-                <span
-                  className="govuk-heading-s govuk-!-margin-bottom-0"
-                >
-                  Select mode of transport
-                </span>
-              </legend>
+                Mode of transport
+              </label>
               <div
                 className=""
               >
-                <div
-                  className="govuk-radios"
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
                 >
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  <option
+                    disabled={true}
+                    value=""
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-bus"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="bus"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-bus"
-                    >
-                      Bus
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-tram"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="tram"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-tram"
-                    >
-                      Tram
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-ferryService"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="ferryService"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-ferryService"
-                    >
-                      Ferry
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      defaultChecked={false}
-                      id="vehicle-mode-rail"
-                      name="vehicleMode"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      type="radio"
-                      value="rail"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="vehicle-mode-rail"
-                    >
-                      Train
-                    </label>
-                  </div>
-                </div>
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
               </div>
-            </fieldset>
+            </div>
           </div>
           <div
             className="govuk-form-group"

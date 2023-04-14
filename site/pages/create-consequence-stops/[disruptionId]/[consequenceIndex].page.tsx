@@ -165,14 +165,19 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 },
                             ]}
                         />
-                        <Radios<StopsConsequence>
-                            display="Select mode of transport"
-                            radioDetail={VEHICLE_MODES}
+
+                        <Select<StopsConsequence>
                             inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
-                            initialErrors={props.errors}
+                            initialErrors={pageState.errors}
+                            schema={stopsConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
+
                         <SearchSelect<Stop>
                             selected={selected}
                             inputName="stop"
