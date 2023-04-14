@@ -345,7 +345,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
 
-                        <Radios<Disruption>
+                        <Radios<DisruptionInfo>
                             display="Does this diruption repeat"
                             radioDetail={[
                                 {
