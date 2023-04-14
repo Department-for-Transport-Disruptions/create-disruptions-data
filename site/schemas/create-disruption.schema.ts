@@ -518,10 +518,12 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                     (combinedValidity[i].disruptionRepeats === "daily" &&
                         getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
                             getFormattedDate(combinedValidity[i].disruptionStartDate),
+                            "day",
                         ) != 0) ||
                     (combinedValidity[i].disruptionRepeats === "weekly" &&
                         getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
                             getFormattedDate(combinedValidity[i].disruptionStartDate),
+                            "day",
                         ) > 7)
                 ) {
                     return valid;
@@ -700,11 +702,13 @@ export const expandDisruptionRepeats = (validity: Validity, incrementDays: numbe
                   ...validity,
                   disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
                   disruptionStartTime:
+                      (startDate.get("hours") < 10 ? "0" : "") +
                       `${startDate.get("hours")}` +
                       (startDate.get("minutes") < 10 ? "0" : "") +
                       `${startDate.get("minutes")}`,
                   disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
                   disruptionEndTime:
+                      (endDate.get("hours") < 10 ? "0" : "") +
                       `${endDate.get("hours")}` +
                       (endDate.get("minutes") < 10 ? "0" : "") +
                       `${endDate.get("minutes")}`,
@@ -714,11 +718,13 @@ export const expandDisruptionRepeats = (validity: Validity, incrementDays: numbe
                   ...validity,
                   disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
                   disruptionStartTime:
+                      (startDate.get("hours") < 10 ? "0" : "") +
                       `${startDate.get("hours")}` +
                       (startDate.get("minutes") < 10 ? "0" : "") +
                       `${startDate.get("minutes")}`,
                   disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
                   disruptionEndTime:
+                      (endDate.get("hours") < 10 ? "0" : "") +
                       `${endDate.get("hours")}` +
                       (endDate.get("minutes") < 10 ? "0" : "") +
                       `${endDate.get("minutes")}`,

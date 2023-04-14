@@ -349,6 +349,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 {
                                     value: "doesntRepeat",
                                     display: "Doesn't repeat",
+                                    disabled: validity.disruptionNoEndDateTime === "true",
                                     ref: doesntRepeatRef,
                                 },
                                 {
