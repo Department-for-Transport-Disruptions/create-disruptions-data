@@ -456,16 +456,39 @@ describe("create-disruption API", () => {
     });
 
     it("should confirm that the dates are expanded as expected", () => {
-        const validity: Validity = {
-            disruptionStartDate: defaultDisruptionStartDate,
+        const dailyValidity: Validity = {
+            disruptionStartDate: "13/04/2023",
             disruptionStartTime: "1100",
-            disruptionEndDate: defaultDisruptionStartDate,
+            disruptionEndDate: "13/04/2023",
             disruptionEndTime: "1200",
             disruptionRepeats: "daily",
-            disruptionDailyRepeatsEndDate: getFutureDateAsString(12),
+            disruptionDailyRepeatsEndDate: "25/04/2023",
+        };
+
+        const weeklyValidity: Validity = {
+            ...dailyValidity,
+            disruptionRepeats: "weekly",
+            disruptionEndDate: "14/04/2023",
+            disruptionWeeklyRepeatsEndDate: "25/04/2023",
         };
 
         const dailyExpandedValidity: Validity[] = [
+            {
+                disruptionDailyRepeatsEndDate: "14/04/2023",
+                disruptionEndDate: "14/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "14/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionDailyRepeatsEndDate: "15/04/2023",
+                disruptionEndDate: "15/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "15/04/2023",
+                disruptionStartTime: "1100",
+            },
             {
                 disruptionDailyRepeatsEndDate: "16/04/2023",
                 disruptionEndDate: "16/04/2023",
@@ -542,15 +565,16 @@ describe("create-disruption API", () => {
 
         const weeklyExpandedDisruption: Validity[] = [
             {
-                disruptionDailyRepeatsEndDate: "22/04/2023",
-                disruptionEndDate: "22/04/2023",
+                disruptionDailyRepeatsEndDate: "25/04/2023",
+                disruptionEndDate: "21/04/2023",
                 disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "22/04/2023",
+                disruptionRepeats: "weekly",
+                disruptionStartDate: "20/04/2023",
                 disruptionStartTime: "1100",
+                disruptionWeeklyRepeatsEndDate: "21/04/2023",
             },
         ];
-        expect(expandDisruptionRepeats(validity, 1)).toEqual(dailyExpandedValidity);
-        expect(expandDisruptionRepeats(validity, 7)).toEqual(weeklyExpandedDisruption);
+        expect(expandDisruptionRepeats(dailyValidity, 1)).toEqual(dailyExpandedValidity);
+        expect(expandDisruptionRepeats(weeklyValidity, 7)).toEqual(weeklyExpandedDisruption);
     });
 });
