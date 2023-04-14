@@ -251,6 +251,102 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
+    it("should redirect back to /create-disruption when validity has an overlapping row", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(13),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                "",
+                getFutureDateAsString(40),
+            ],
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Validity periods cannot overlap", id: "disruptionStartDate" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when publishing window doesn't encompass disruption window", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            publishEndDate: getFutureDateAsString(47),
+            publishEndTime: "1100",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            disruptionEndDate: getFutureDateAsString(48),
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(12),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                "",
+                getFutureDateAsString(40),
+            ],
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The publishing period must end after the last validity period",
+                id: "publishEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
@@ -410,7 +506,7 @@ describe("create-disruption API", () => {
             disruptionNoEndDateTime: "",
             disruptionRepeats: "daily",
             disruptionDailyRepeatsEndDate: getFutureDateAsString(380),
-            publishEndDate: getFutureDateAsString(7),
+            publishEndDate: getFutureDateAsString(387),
             publishEndTime: "1000",
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
@@ -442,7 +538,7 @@ describe("create-disruption API", () => {
             disruptionNoEndDateTime: "",
             disruptionRepeats: "weekly",
             disruptionWeeklyRepeatsEndDate: getFutureDateAsString(380),
-            publishEndDate: getFutureDateAsString(7),
+            publishEndDate: getFutureDateAsString(387),
             publishEndTime: "1000",
         };
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });

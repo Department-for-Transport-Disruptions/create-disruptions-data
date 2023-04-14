@@ -652,18 +652,20 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
 
         let maxEndDate =
             sortedValidity && sortedValidity[sortedValidity.length - 1].disruptionEndDate
-                ? sortedValidity[sortedValidity.length - 1].disruptionEndDate
+                ? getFormattedDate(sortedValidity[sortedValidity.length - 1].disruptionEndDate || "")
                 : dayjs().subtract(100, "year");
 
         for (let i = 0; i < sortedValidity.length; i++) {
             if (sortedValidity[i].disruptionRepeats === "daily" && sortedValidity[i].disruptionDailyRepeatsEndDate) {
                 const repeatsEndDate = getFormattedDate(sortedValidity[i].disruptionDailyRepeatsEndDate || "");
+
                 if (repeatsEndDate.isAfter(maxEndDate)) maxEndDate = repeatsEndDate;
             } else if (
                 sortedValidity[i].disruptionRepeats === "weekly" &&
                 sortedValidity[i].disruptionWeeklyRepeatsEndDate
             ) {
                 const repeatsEndDate = getFormattedDate(sortedValidity[i].disruptionWeeklyRepeatsEndDate || "");
+
                 if (repeatsEndDate.isAfter(maxEndDate)) maxEndDate = repeatsEndDate;
             }
         }
