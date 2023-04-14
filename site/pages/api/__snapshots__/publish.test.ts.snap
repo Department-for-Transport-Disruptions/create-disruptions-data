@@ -22,43 +22,6 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
         "Condition": "unknown",
         "Severity": "slight",
       },
-    ],
-  },
-  "CreationTime": "2023-03-03T00:00:00.000Z",
-  "Description": "Test description",
-  "EnvironmentReason": "grassFire",
-  "InfoLinks": {
-    "InfoLink": [
-      {
-        "Uri": "https://example.com",
-      },
-    ],
-  },
-  "ParticipantRef": "DepartmentForTransport",
-  "Planned": true,
-  "Progress": "open",
-  "PublicationWindow": {
-    "StartTime": "2023-03-10T12:00:00.000Z",
-  },
-  "ReasonType": "EnvironmentReason",
-  "SituationNumber": "id",
-  "Source": {
-    "SourceType": "feed",
-    "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-  },
-  "Summary": "Some summary",
-  "ValidityPeriod": [
-    {
-      "StartTime": "2023-03-10T12:00:00.000Z",
-    },
-  ],
-}
-`;
-
-exports[`publish > should write the correct disruptions data to dynamoDB 2`] = `
-{
-  "Consequences": {
-    "Consequence": [
       {
         "Advice": {
           "Details": "Some consequence description",
@@ -89,22 +52,15 @@ exports[`publish > should write the correct disruptions data to dynamoDB 2`] = `
   },
   "CreationTime": "2023-03-03T00:00:00.000Z",
   "Description": "Test description",
-  "EnvironmentReason": "grassFire",
-  "InfoLinks": {
-    "InfoLink": [
-      {
-        "Uri": "https://example.com",
-      },
-    ],
-  },
   "ParticipantRef": "DepartmentForTransport",
+  "PersonnelReason": "staffInWrongPlace",
   "Planned": true,
   "Progress": "open",
   "PublicationWindow": {
     "StartTime": "2023-03-10T12:00:00.000Z",
   },
-  "ReasonType": "EnvironmentReason",
-  "SituationNumber": "id",
+  "ReasonType": "PersonnelReason",
+  "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
   "Source": {
     "SourceType": "feed",
     "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
@@ -112,36 +68,18 @@ exports[`publish > should write the correct disruptions data to dynamoDB 2`] = `
   "Summary": "Some summary",
   "ValidityPeriod": [
     {
+      "EndTime": "2023-03-17T17:00:00.000Z",
       "StartTime": "2023-03-10T12:00:00.000Z",
+    },
+    {
+      "StartTime": "2023-03-18T12:00:00.000Z",
     },
   ],
 }
 `;
 
-exports[`publish > should write the correct disruptions data to dynamoDB 3`] = `
+exports[`publish > should write the correct disruptions data to dynamoDB 2`] = `
 {
-  "Consequences": {
-    "Consequence": [
-      {
-        "Advice": {
-          "Details": "Some consequence description",
-        },
-        "Affects": {
-          "Networks": {
-            "AffectedNetwork": {
-              "AllLines": "",
-              "VehicleMode": "tram",
-            },
-          },
-        },
-        "Blocking": {
-          "JourneyPlanner": false,
-        },
-        "Condition": "unknown",
-        "Severity": "slight",
-      },
-    ],
-  },
   "CreationTime": "2023-03-03T00:00:00.000Z",
   "Description": "Test description",
   "ParticipantRef": "DepartmentForTransport",
@@ -152,7 +90,7 @@ exports[`publish > should write the correct disruptions data to dynamoDB 3`] = `
     "StartTime": "2023-03-10T12:00:00.000Z",
   },
   "ReasonType": "PersonnelReason",
-  "SituationNumber": "id",
+  "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
   "Source": {
     "SourceType": "feed",
     "TimeOfCommunication": "2023-03-03T00:00:00.000Z",

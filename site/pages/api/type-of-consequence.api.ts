@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
@@ -30,35 +29,37 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 }),
                 res,
             );
-            destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_INFO, res);
             redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_INFO, JSON.stringify(validatedBody.data), res);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, res);
+
+        let redirectPath: string;
 
         switch (validatedBody.data.consequenceType) {
             case "networkWide":
-                redirectTo(res, CREATE_CONSEQUENCE_NETWORK_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_NETWORK_PATH;
+                break;
             case "operatorWide":
-                redirectTo(res, CREATE_CONSEQUENCE_OPERATOR_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_OPERATOR_PATH;
+                break;
             case "stops":
-                redirectTo(res, CREATE_CONSEQUENCE_STOPS_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_STOPS_PATH;
+                break;
             case "services":
-                redirectTo(res, CREATE_CONSEQUENCE_SERVICES_PATH);
-                return;
+                redirectPath = CREATE_CONSEQUENCE_SERVICES_PATH;
+                break;
             default:
-                redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-                return;
+                redirectPath = TYPE_OF_CONSEQUENCE_PAGE_PATH;
+                break;
         }
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`);
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";
-            redirectToError(res, message, "api.create-disruption", e);
+            redirectToError(res, message, "api.type-of-consequence", e);
             return;
         }
 

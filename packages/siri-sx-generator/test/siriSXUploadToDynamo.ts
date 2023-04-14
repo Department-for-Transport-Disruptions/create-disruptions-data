@@ -3,7 +3,7 @@ import { BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
 import { Severity, VehicleMode, Progress } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { randomUUID } from "crypto";
-import { baseDisruptionJson } from "./testData";
+import { baseSiriJson } from "./testData";
 import { getDdbDocumentClient } from "../util/awsClient";
 
 const [stageName, itemsToCreate] = process.argv.slice(2);
@@ -15,7 +15,7 @@ if (!stageName) {
 
 const ddbDocClient = getDdbDocumentClient();
 
-const tableName = `cdd-disruptions-table-${stageName}`;
+const tableName = `cdd-siri-table-${stageName}`;
 
 const requests = [];
 
@@ -32,7 +32,7 @@ const getDateAWeekLater = (date: Date): Date => {
 for (let i = 0; i < Number(itemsToCreate); i++) {
     const ValidityPeriod: { StartTime: string; EndTime?: string }[] = [];
     let Summary = "";
-    let consequences = baseDisruptionJson.Consequences?.Consequence;
+    let consequences = baseSiriJson.Consequences?.Consequence;
     let progress = Progress.open;
 
     if (!consequences) {
@@ -162,7 +162,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
     }
 
     const json: PtSituationElement = {
-        ...baseDisruptionJson,
+        ...baseSiriJson,
         ValidityPeriod,
         SituationNumber: randomUUID(),
         Summary,

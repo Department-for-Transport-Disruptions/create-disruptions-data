@@ -80,34 +80,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
@@ -131,6 +103,59 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -386,9 +411,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
             value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"
@@ -670,34 +698,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
@@ -721,6 +721,59 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -974,9 +1027,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
             value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"

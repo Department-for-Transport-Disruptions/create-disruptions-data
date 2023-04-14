@@ -208,6 +208,7 @@ export const validitySchemaRefined = validitySchema
     );
 
 export const createDisruptionSchema = z.object({
+    disruptionId: z.string().uuid(),
     disruptionType: z.union(
         [z.literal("planned"), z.literal("unplanned")],
         setZodDefaultError("Select a disruption type"),

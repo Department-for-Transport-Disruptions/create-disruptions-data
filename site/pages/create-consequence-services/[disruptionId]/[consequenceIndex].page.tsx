@@ -4,28 +4,25 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Radios from "../components/form/Radios";
-import SearchSelect from "../components/form/SearchSelect";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
-import Map from "../components/map/Map";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Radios from "../../../components/form/Radios";
+import SearchSelect from "../../../components/form/SearchSelect";
+import Select from "../../../components/form/Select";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
+import Map from "../../../components/map/Map";
 import {
-    CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_INFO,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
-} from "../constants";
-import { CreateConsequenceProps, PageState } from "../interfaces";
+} from "../../../constants";
+import { getDisruptionById } from "../../../data/dynamo";
+import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     Stop,
     stopSchema,
@@ -33,15 +30,15 @@ import {
     Service,
     serviceSchema,
     servicesConsequenceSchema,
-} from "../schemas/consequence.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
-import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../utils/formUtils";
+} from "../../../schemas/consequence.schema";
+import { flattenZodErrors, isServicesConsequence } from "../../../utils";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
 
-const fetchStops = async (serviceId: number): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     if (serviceId) {
         const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
         const res = await fetch(searchApiUrl, { method: "GET" });
@@ -308,28 +305,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         <Table
                             rows={[
                                 {
-                                    header: "Mode of transport",
-                                    cells: [
-                                        getDisplayByValue(
-                                            VEHICLE_MODES,
-                                            props.previousConsequenceInformation.modeOfTransport,
-                                        ),
-                                        <Link
-                                            key={"mode-of-transport"}
-                                            className="govuk-link"
-                                            href="/type-of-consequence"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
                                     header: "Consequence type",
                                     cells: [
-                                        getDisplayByValue(
-                                            CONSEQUENCE_TYPES,
-                                            props.previousConsequenceInformation.consequenceType,
-                                        ),
+                                        "Services",
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
@@ -340,6 +318,18 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                     ],
                                 },
                             ]}
+                        />
+
+                        <Select<ServicesConsequence>
+                            inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.vehicleMode}
+                            initialErrors={pageState.errors}
+                            schema={servicesConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
 
                         <SearchSelect<Service>
@@ -484,11 +474,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <input type="hidden" name="consequenceType" value="services" />
-                        <input
-                            type="hidden"
-                            name="vehicleMode"
-                            value={props.previousConsequenceInformation.modeOfTransport}
-                        />
+                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                        <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -504,31 +491,24 @@ export const getServerSideProps = async (
     ctx: NextPageContext,
 ): Promise<{ props: CreateConsequenceServicesProps } | void> => {
     const cookies = parseCookies(ctx);
-    const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
-    if (!typeCookie && ctx.res) {
-        if (ctx.res) {
-            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-        }
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
-        return;
+    if (!disruption) {
+        throw new Error("No disruption found for operator consequence page");
     }
 
-    const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    if (!previousConsequenceInformation.success) {
-        if (ctx.res) {
-            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-        }
+    const consequence = disruption?.consequences?.[index];
 
-        return;
-    }
-
-    const previousConsequenceInformationData = previousConsequenceInformation.data;
-
-    const pageState = getPageStateFromCookies<ServicesConsequence>(dataCookie, errorCookie, servicesConsequenceSchema);
+    const pageState = getPageState<ServicesConsequence>(
+        errorCookie,
+        servicesConsequenceSchema,
+        disruption.disruptionId,
+        consequence && isServicesConsequence(consequence) ? consequence : undefined,
+    );
 
     let services: Service[] = [];
     const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
@@ -549,9 +529,9 @@ export const getServerSideProps = async (
     return {
         props: {
             ...pageState,
-            previousConsequenceInformation: previousConsequenceInformationData,
             initialServices: services,
             initialStops: stops,
+            consequenceIndex: index,
         },
     };
 };

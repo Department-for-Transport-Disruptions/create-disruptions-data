@@ -86,7 +86,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </li>
                   <li>
                     <a
-                      href="#mode-of-transport"
+                      href="#vehicle-mode"
                     >
                       Select a mode of transport
                     </a>
@@ -107,6 +107,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 <fieldset
                   className="govuk-fieldset"
+<<<<<<< HEAD:site/pages/__snapshots__/type-of-consequence.test.tsx.snap
                   id="mode-of-transport"
                 >
                   <legend
@@ -230,6 +231,8 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 <fieldset
                   className="govuk-fieldset"
+=======
+>>>>>>> bab2a517ae83b3b2526248e7d35f5afedbd40928:site/pages/type-of-consequence/__snapshots__/type-of-consequence.test.tsx.snap
                   id="consequence-type"
                 >
                   <legend
@@ -348,6 +351,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >
@@ -625,6 +636,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 <fieldset
                   className="govuk-fieldset"
+<<<<<<< HEAD:site/pages/__snapshots__/type-of-consequence.test.tsx.snap
                   id="mode-of-transport"
                 >
                   <legend
@@ -736,6 +748,8 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
               >
                 <fieldset
                   className="govuk-fieldset"
+=======
+>>>>>>> bab2a517ae83b3b2526248e7d35f5afedbd40928:site/pages/type-of-consequence/__snapshots__/type-of-consequence.test.tsx.snap
                   id="consequence-type"
                 >
                   <legend
@@ -842,6 +856,14 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >
@@ -1119,6 +1141,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
               >
                 <fieldset
                   className="govuk-fieldset"
+<<<<<<< HEAD:site/pages/__snapshots__/type-of-consequence.test.tsx.snap
                   id="mode-of-transport"
                 >
                   <legend
@@ -1230,6 +1253,8 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
               >
                 <fieldset
                   className="govuk-fieldset"
+=======
+>>>>>>> bab2a517ae83b3b2526248e7d35f5afedbd40928:site/pages/type-of-consequence/__snapshots__/type-of-consequence.test.tsx.snap
                   id="consequence-type"
                 >
                   <legend
@@ -1336,6 +1361,14 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                   </div>
                 </fieldset>
               </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
               <div
                 className="govuk-button-group"
               >

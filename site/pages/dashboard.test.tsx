@@ -2,9 +2,9 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
-import { databaseData } from "../testData/mockData";
+import { disruptionArray, disruptionWithConsequences } from "../testData/mockData";
 
-const getDisruptionsSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
+const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 vi.mock("../data/dynamo");
 
 const disruptions: DashboardDisruption[] = [
@@ -79,50 +79,24 @@ describe("pages", () => {
             });
 
             it("should return no disruptions if there is no data returned from the database call", async () => {
-                getDisruptionsSpy.mockResolvedValue(undefined);
+                getDisruptionsSpy.mockResolvedValue([]);
 
                 const actualProps = await getServerSideProps();
                 expect(actualProps.props).toStrictEqual({ liveDisruptions: [], upcomingDisruptions: [] });
             });
 
             it("should return live disruptions if the data returned from the database has live dates", async () => {
-                getDisruptionsSpy.mockResolvedValue(databaseData);
+                getDisruptionsSpy.mockResolvedValue([disruptionWithConsequences]);
 
                 const actualProps = await getServerSideProps();
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [
                         {
-                            id: "aaaaa-bbbbb-ccccc",
-                            summary: "Disruption Summary",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
                             validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "11111-22222-33333",
-                            summary: "Disruption Summary 2",
-                            validityPeriods: [
-                                {
-                                    endTime: "2023-05-01T01:10:00Z",
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
-                                {
-                                    endTime: null,
-                                    startTime: "2023-05-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "ddddd-eeeee-fffff",
-                            summary: "Disruption Summary 3",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
+                                { startTime: "2023-03-10T12:00:00.000Z", endTime: "2023-03-17T17:00:00.000Z" },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                     ],
@@ -131,140 +105,71 @@ describe("pages", () => {
             });
 
             it("should return upcoming disruptions if the data returned from the database has upcoming dates", async () => {
-                const modifiedData = databaseData.map((data, index) => {
-                    return {
-                        ...data,
-                        ValidityPeriod: [
-                            {
-                                StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
-                                EndTime: data.ValidityPeriod[0].EndTime,
-                            },
-                        ],
-                    };
-                });
-
-                getDisruptionsSpy.mockResolvedValue(modifiedData);
+                getDisruptionsSpy.mockResolvedValue([
+                    {
+                        ...disruptionWithConsequences,
+                        validity: [],
+                        disruptionStartDate: "12/02/2999",
+                        disruptionStartTime: "1200",
+                    },
+                ]);
 
                 const actualProps = await getServerSideProps();
+
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
                     upcomingDisruptions: [
                         {
-                            id: "aaaaa-bbbbb-ccccc",
-                            summary: "Disruption Summary",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2026-03-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "11111-22222-33333",
-                            summary: "Disruption Summary 2",
-                            validityPeriods: [
-                                {
-                                    endTime: "2023-05-01T01:10:00Z",
-                                    startTime: "2027-03-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "ddddd-eeeee-fffff",
-                            summary: "Disruption Summary 3",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2028-03-03T01:10:00Z",
-                                },
-                            ],
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                 });
             });
 
             it("should return live and upcoming disruptions if the data returned from the database has live and upcoming dates", async () => {
-                const modifiedData = databaseData.map((data, index) => {
-                    return {
-                        ...data,
-                        ValidityPeriod: [
-                            {
-                                StartTime: `202${(index + 6).toString()}-03-03T01:10:00Z`,
-                                EndTime: data.ValidityPeriod[0].EndTime,
-                            },
-                        ],
-                    };
-                });
-                getDisruptionsSpy.mockResolvedValue([...databaseData, ...modifiedData]);
+                getDisruptionsSpy.mockResolvedValue([
+                    ...disruptionArray,
+                    {
+                        ...disruptionWithConsequences,
+                        validity: [],
+                        disruptionStartDate: "12/02/2999",
+                        disruptionStartTime: "1200",
+                    },
+                ]);
 
                 const actualProps = await getServerSideProps();
+
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [
                         {
-                            id: "aaaaa-bbbbb-ccccc",
-                            summary: "Disruption Summary",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
+                        },
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
                             validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
+                                { startTime: "2023-03-10T12:00:00.000Z", endTime: "2023-03-17T17:00:00.000Z" },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                         {
-                            id: "11111-22222-33333",
-                            summary: "Disruption Summary 2",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
                             validityPeriods: [
-                                {
-                                    endTime: "2023-05-01T01:10:00Z",
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
-                                {
-                                    endTime: null,
-                                    startTime: "2023-05-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "ddddd-eeeee-fffff",
-                            summary: "Disruption Summary 3",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-03T01:10:00Z",
-                                },
+                                { startTime: "2023-03-10T12:00:00.000Z", endTime: "2023-03-17T17:00:00.000Z" },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                     ],
                     upcomingDisruptions: [
                         {
-                            id: "aaaaa-bbbbb-ccccc",
-                            summary: "Disruption Summary",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2026-03-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "11111-22222-33333",
-                            summary: "Disruption Summary 2",
-                            validityPeriods: [
-                                {
-                                    endTime: "2023-05-01T01:10:00Z",
-                                    startTime: "2027-03-03T01:10:00Z",
-                                },
-                            ],
-                        },
-                        {
-                            id: "ddddd-eeeee-fffff",
-                            summary: "Disruption Summary 3",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2028-03-03T01:10:00Z",
-                                },
-                            ],
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                 });
