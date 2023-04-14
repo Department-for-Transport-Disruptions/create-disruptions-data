@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIES_CONSEQUENCE_INFO,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { operatorConsequenceSchema } from "../../schemas/consequence.schema";
+import { upsertConsequence } from "../../data/dynamo";
+import { OperatorConsequence, operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -14,28 +14,34 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const createConsequenceOperator = (req: NextApiRequest, res: NextApiResponse): void => {
+const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
+            const body = req.body as OperatorConsequence;
+
+            if (!body.disruptionId || !body.consequenceIndex) {
+                throw new Error("No disruptionId or consequenceIndex found");
+            }
+
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: body,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
             );
-            destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, res);
-            redirectTo(res, CREATE_CONSEQUENCE_OPERATOR_PATH);
+
+            redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 
-        setCookieOnResponseObject(COOKIES_CONSEQUENCE_INFO, JSON.stringify(validatedBody.data), res);
+        await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
-        redirectTo(res, REVIEW_DISRUPTION_PAGE_PATH);
+        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

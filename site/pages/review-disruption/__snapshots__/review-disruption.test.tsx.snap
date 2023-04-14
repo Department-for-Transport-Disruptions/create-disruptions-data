@@ -92,7 +92,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -120,7 +120,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -148,7 +148,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -176,7 +176,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -204,7 +204,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -232,7 +232,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -260,7 +260,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -288,7 +288,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -316,7 +316,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -344,7 +344,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -372,7 +372,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption"
+                    href="/create-disruption/2"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -435,19 +435,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Mode of transport
+                        Consequence type
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Bus
+                        Network wide
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/type-of-consequence/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -463,19 +463,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Consequence type
+                        Mode of transport
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Network wide
+                        Bus
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -503,7 +503,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -531,7 +531,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -559,7 +559,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -587,7 +587,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -615,7 +615,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network"
+                          href="/create-consequence-network/2/0"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -670,19 +670,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Mode of transport
+                        Consequence type
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Tram
+                        Operator wide
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/type-of-consequence/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -698,19 +698,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Consequence type
+                        Mode of transport
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Operator wide
+                        Tram
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -738,7 +738,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -766,7 +766,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -794,7 +794,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -822,7 +822,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -850,7 +850,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator"
+                          href="/create-consequence-operator/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -905,19 +905,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Mode of transport
+                        Consequence type
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Bus
+                        Services
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/type-of-consequence/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -933,19 +933,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Consequence type
+                        Mode of transport
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Services
+                        Bus
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -973,7 +973,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1001,7 +1001,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1029,7 +1029,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1057,7 +1057,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1085,7 +1085,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services"
+                          href="/create-consequence-services/2/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1101,7 +1101,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/type-of-consequence"
+            href="/type-of-consequence/2/3"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1174,7 +1174,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1202,7 +1202,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1230,7 +1230,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1258,7 +1258,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1325,7 +1325,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1353,7 +1353,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1381,7 +1381,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1409,7 +1409,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/social-media-posts"
+                          href="/social-media-posts/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1434,6 +1434,11 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
             Add another social media post
           </a>
           <br />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="2"
+          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"

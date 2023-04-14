@@ -1,10 +1,10 @@
 import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import ReviewDisruption from "./review-disruption.page";
-import { SocialMediaPost } from "../interfaces/index";
-import { Consequence } from "../schemas/consequence.schema";
-import { Disruption } from "../schemas/create-disruption.schema";
+import ReviewDisruption from "./[disruptionId].page";
+import { SocialMediaPost } from "../../interfaces/index";
+import { Consequence } from "../../schemas/consequence.schema";
+import { Disruption } from "../../schemas/disruption.schema";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
@@ -25,6 +25,8 @@ const previousConsequencesInformation: Consequence[] = [
     {
         vehicleMode: VehicleMode.bus,
         consequenceType: "networkWide",
+        consequenceIndex: 0,
+        disruptionId: "1",
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "33",
@@ -33,6 +35,8 @@ const previousConsequencesInformation: Consequence[] = [
     {
         vehicleMode: VehicleMode.tram,
         consequenceType: "operatorWide",
+        consequenceIndex: 1,
+        disruptionId: "1",
         consequenceOperator: "FSYO",
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
@@ -42,6 +46,8 @@ const previousConsequencesInformation: Consequence[] = [
     {
         vehicleMode: VehicleMode.bus,
         consequenceType: "services",
+        consequenceIndex: 2,
+        disruptionId: "1",
         services: [
             {
                 id: 23127,
@@ -62,6 +68,7 @@ const previousConsequencesInformation: Consequence[] = [
 
 const previousDisruptionInformation: Disruption = {
     disruptionType: "planned",
+    disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -85,6 +92,7 @@ const previousDisruptionInformation: Disruption = {
     disruptionEndDate: "17/01/2022",
     disruptionEndTime: "1400",
     disruptionNoEndDateTime: "",
+    consequences: previousConsequencesInformation,
 };
 
 describe("pages", () => {
@@ -93,8 +101,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <ReviewDisruption
-                        previousDisruptionInformation={previousDisruptionInformation}
-                        previousConsequencesInformation={previousConsequencesInformation}
+                        disruption={previousDisruptionInformation}
                         previousSocialMediaPosts={previousSocialMediaPosts}
                     />,
                 )

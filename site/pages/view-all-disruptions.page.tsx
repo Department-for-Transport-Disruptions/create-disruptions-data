@@ -1,12 +1,16 @@
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
-import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
+import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
-import { getDisruptionsDataFromDynamo } from "../data/dynamo";
-import { sortDisruptionsByStartDate, splitCamelCaseToString, reduceStringWithEllipsis } from "../utils";
+import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import {
+    sortDisruptionsByStartDate,
+    splitCamelCaseToString,
+    reduceStringWithEllipsis,
+    mapValidityPeriods,
+} from "../utils";
 import { convertDateTimeToFormat } from "../utils/dates";
 
 const title = "View All Disruptions";
@@ -132,33 +136,28 @@ const ViewAllDisruptions = ({ disruptions }: ViewAllDisruptionsProps): ReactElem
 };
 
 export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsProps }> => {
-    const data = await getDisruptionsDataFromDynamo();
+    const data = await getPublishedDisruptionsDataFromDynamo();
 
     if (data) {
-        const sortedDisruptions: PtSituationElement[] = sortDisruptionsByStartDate(data);
+        const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
-            const severitys: Severity[] = [];
+            const severities: Severity[] = [];
 
-            if (disruption.Consequences) {
-                disruption.Consequences.Consequence.forEach((consequence) => {
-                    severitys.push(consequence.Severity);
-                    if (!!consequence.Affects.Networks) {
-                        modes.push(splitCamelCaseToString(consequence.Affects.Networks.AffectedNetwork.VehicleMode));
-                    }
+            if (disruption.consequences) {
+                disruption.consequences.forEach((consequence) => {
+                    severities.push(consequence.disruptionSeverity);
+                    modes.push(splitCamelCaseToString(consequence.vehicleMode));
                 });
             }
 
             return {
-                id: disruption.SituationNumber,
-                summary: reduceStringWithEllipsis(disruption.Summary, 95),
-                validityPeriods: disruption.ValidityPeriod.map((period) => ({
-                    startTime: period.StartTime,
-                    endTime: period.EndTime || null,
-                })),
+                id: disruption.disruptionId,
+                summary: reduceStringWithEllipsis(disruption.summary, 95),
+                validityPeriods: mapValidityPeriods(disruption),
                 modes: modes.join(", ") || "N/A",
-                status: splitCamelCaseToString(disruption.Progress),
-                severity: splitCamelCaseToString(getWorstSeverity(severitys)),
+                status: splitCamelCaseToString(Progress.open),
+                severity: splitCamelCaseToString(getWorstSeverity(severities)),
             };
         });
 
