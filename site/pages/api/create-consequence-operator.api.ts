@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
-    ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
@@ -23,8 +22,7 @@ const createConsequenceOperator = async (req: NextApiRequest, res: NextApiRespon
             const body = req.body as OperatorConsequence;
 
             if (!body.disruptionId || !body.consequenceIndex) {
-                redirectTo(res, ERROR_PATH);
-                return;
+                throw new Error("No disruptionId or consequenceIndex found");
             }
 
             setCookieOnResponseObject(

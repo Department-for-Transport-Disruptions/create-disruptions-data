@@ -31,7 +31,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Congestion",
     },
     {
-        value: MiscellaneousReason.constructionWork,
+        value: EquipmentReason.constructionWork,
         display: "Construction Work",
     },
     {
@@ -39,7 +39,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Emergency Engineering Work",
     },
     {
-        value: MiscellaneousReason.fog,
+        value: EnvironmentReason.fog,
         display: "Fog",
     },
     {
@@ -71,7 +71,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Security Alert",
     },
     {
-        value: MiscellaneousReason.maintenanceWork,
+        value: EquipmentReason.maintenanceWork,
         display: "Maintenance Work",
     },
     {
@@ -83,7 +83,7 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         display: "Overcrowded",
     },
     {
-        value: MiscellaneousReason.signalProblem,
+        value: EquipmentReason.signalProblem,
         display: "Signal Problem",
     },
     {

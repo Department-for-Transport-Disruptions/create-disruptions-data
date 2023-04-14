@@ -3,7 +3,6 @@ import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-    ERROR_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
 import { Stop, StopsConsequence, stopsConsequenceSchema } from "../../schemas/consequence.schema";
@@ -40,8 +39,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             const body = req.body as StopsConsequence;
 
             if (!body.disruptionId || !body.consequenceIndex) {
-                redirectTo(res, ERROR_PATH);
-                return;
+                throw new Error("No disruptionId or consequenceIndex found");
             }
 
             setCookieOnResponseObject(

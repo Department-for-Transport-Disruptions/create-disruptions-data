@@ -59,7 +59,7 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: n
 
         return {
             header: (
-                <Link className="govuk-link" href="/dashboard" key={disruption.id}>
+                <Link className="govuk-link" href={`/review-disruption/${disruption.id}`} key={disruption.id}>
                     {index + 1 + offset}
                 </Link>
             ),

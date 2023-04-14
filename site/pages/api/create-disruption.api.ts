@@ -5,7 +5,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { upsertDisruptionInfo } from "../../data/dynamo";
-import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
+import { createDisruptionsSchemaRefined, DisruptionInfo } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -41,8 +41,13 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const formattedBody = formatCreateDisruptionBody(req.body as object);
+        const body = req.body as DisruptionInfo;
 
+        if (!body.disruptionId) {
+            throw new Error("No disruptionId found");
+        }
+
+        const formattedBody = formatCreateDisruptionBody(req.body as object);
         const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
 
         if (!validatedBody.success) {
@@ -55,7 +60,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectTo(res, CREATE_DISRUPTION_PAGE_PATH);
+            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
             return;
         }
 

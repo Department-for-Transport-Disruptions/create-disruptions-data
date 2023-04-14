@@ -89,11 +89,13 @@ describe("create-disruption API", () => {
     });
 
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { disruptionId: defaultDisruptionId },
+            mockWriteHeadFn: writeHeadMock,
+        });
         await createDisruption(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Required", id: "disruptionId" },
             { errorMessage: "Select a disruption type", id: "disruptionType" },
             { errorMessage: "Enter a summary for this disruption", id: "summary" },
             { errorMessage: "Enter a description for this disruption", id: "description" },
@@ -112,7 +114,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should redirect back to /create-disruption when summary or description are too long", async () => {
@@ -141,7 +143,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should redirect back to /create-disruption when invalid reason passed", async () => {
@@ -163,7 +165,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should redirect back to /create-disruption when invalid URL passed for associated link", async () => {
@@ -185,7 +187,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should redirect back to /create-disruption when validity has duplicates/overlaps", async () => {
@@ -207,7 +209,7 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", async () => {
@@ -232,6 +234,6 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/create-disruption" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 });

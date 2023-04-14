@@ -3,7 +3,6 @@ import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-    ERROR_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
 import { Service, Stop, servicesConsequenceSchema, ServicesConsequence } from "../../schemas/consequence.schema";
@@ -53,8 +52,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             const body = req.body as ServicesConsequence;
 
             if (!body.disruptionId || !body.consequenceIndex) {
-                redirectTo(res, ERROR_PATH);
-                return;
+                throw new Error("No disruptionId or consequenceIndex found");
             }
 
             setCookieOnResponseObject(
