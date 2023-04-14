@@ -308,9 +308,10 @@ const Map = ({
                     >
                         <div>
                             <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
-                            <p className="govuk-body-s mb-1">Indicator: {popupInfo.indicator || "N/A"}</p>
                             <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
-                            <p className="govuk-body-s mb-1">Name: {popupInfo.commonName}</p>
+                            <p className="govuk-body-s mb-1">{`Name: ${popupInfo.commonName || "N/A"} (${
+                                popupInfo.indicator || ""
+                            })`}</p>
                         </div>
                     </Popup>
                 )}
