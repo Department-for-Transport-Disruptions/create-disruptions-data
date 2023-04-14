@@ -701,33 +701,17 @@ export const expandDisruptionRepeats = (validity: Validity, incrementDays: numbe
             ? expandedValidity.push({
                   ...validity,
                   disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
-                  disruptionStartTime:
-                      (startDate.get("hours") < 10 ? "0" : "") +
-                      `${startDate.get("hours")}` +
-                      (startDate.get("minutes") < 10 ? "0" : "") +
-                      `${startDate.get("minutes")}`,
+                  disruptionStartTime: startDate.format("HHmm"),
                   disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
-                  disruptionEndTime:
-                      (endDate.get("hours") < 10 ? "0" : "") +
-                      `${endDate.get("hours")}` +
-                      (endDate.get("minutes") < 10 ? "0" : "") +
-                      `${endDate.get("minutes")}`,
+                  disruptionEndTime: endDate.format("HHmm"),
                   disruptionDailyRepeatsEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
               })
             : expandedValidity.push({
                   ...validity,
                   disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
-                  disruptionStartTime:
-                      (startDate.get("hours") < 10 ? "0" : "") +
-                      `${startDate.get("hours")}` +
-                      (startDate.get("minutes") < 10 ? "0" : "") +
-                      `${startDate.get("minutes")}`,
+                  disruptionStartTime: startDate.format("HHmm"),
                   disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
-                  disruptionEndTime:
-                      (endDate.get("hours") < 10 ? "0" : "") +
-                      `${endDate.get("hours")}` +
-                      (endDate.get("minutes") < 10 ? "0" : "") +
-                      `${endDate.get("minutes")}`,
+                  disruptionEndTime: endDate.format("HHmm"),
                   disruptionWeeklyRepeatsEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
               });
     }
