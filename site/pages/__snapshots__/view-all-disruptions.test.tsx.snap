@@ -52,7 +52,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -521,7 +521,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1408,7 +1408,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}

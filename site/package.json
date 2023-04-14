@@ -39,8 +39,7 @@
         "react-dom": "18.2.0",
         "react-map-gl": "^7.0.21",
         "react-select": "^5.7.1",
-        "typescript": "4.9.4",
-        "uuid": "^9.0.0"
+        "typescript": "4.9.4"
     },
     "devDependencies": {
         "@babel/core": "^7.21.0",

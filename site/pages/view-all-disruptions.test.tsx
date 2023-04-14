@@ -34,15 +34,21 @@ const disruptions: TableDisruption[] = [
     },
 ];
 
+const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
 describe("pages", () => {
     describe("viewAllDisruptions", () => {
         it("should render correctly when there are no disruptions", () => {
-            const tree = renderer.create(<ViewAllDisruptions disruptions={[]} />).toJSON();
+            const tree = renderer
+                .create(<ViewAllDisruptions disruptions={[]} newDisruptionId={defaultNewDisruptionId} />)
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are enough disruptions for no pagination", () => {
-            const tree = renderer.create(<ViewAllDisruptions disruptions={disruptions} />).toJSON();
+            const tree = renderer
+                .create(<ViewAllDisruptions disruptions={disruptions} newDisruptionId={defaultNewDisruptionId} />)
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -51,6 +57,7 @@ describe("pages", () => {
                 .create(
                     <ViewAllDisruptions
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
+                        newDisruptionId={defaultNewDisruptionId}
                     />,
                 )
                 .toJSON();
