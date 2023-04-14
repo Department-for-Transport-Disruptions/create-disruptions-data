@@ -720,4 +720,4 @@ export const expandDisruptionRepeats = (validity: Validity, incrementDays: numbe
     return expandedValidity;
 };
 
-export type Disruption = z.infer<typeof createDisruptionSchema>;
+export type DisruptionInfo = z.infer<typeof createDisruptionSchema>;

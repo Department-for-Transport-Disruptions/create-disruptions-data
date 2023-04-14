@@ -54,7 +54,32 @@ describe("create-disruption API", () => {
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: defaultDisruptionData, mockWriteHeadFn: writeHeadMock });
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                "",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         await createDisruption(req, res);
 
@@ -68,21 +93,34 @@ describe("create-disruption API", () => {
             associatedLink: "",
             disruptionReason: MiscellaneousReason.roadworks,
             publishStartDate: defaultPublishStartDate,
-            publishStartTime: "1100",
+            publishStartTime: "0900",
             publishEndDate: "",
             publishEndTime: "",
-            disruptionStartDate: defaultDisruptionEndDate,
-            disruptionStartTime: "1100",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
             disruptionEndDate: "",
             disruptionEndTime: "",
             disruptionNoEndDateTime: "true",
             validity: [
                 {
                     disruptionStartDate: defaultDisruptionStartDate,
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: defaultDisruptionEndDate,
-                    disruptionEndTime: "1000",
+                    disruptionStartTime: "1000",
+                    disruptionEndDate: defaultDisruptionStartDate,
+                    disruptionEndTime: "1100",
                     disruptionNoEndDateTime: "",
+                    disruptionRepeats: "daily",
+                    disruptionDailyRepeatsEndDate: getFutureDateAsString(11),
+                    disruptionWeeklyRepeatsEndDate: undefined,
+                },
+                {
+                    disruptionStartDate: getFutureDateAsString(11),
+                    disruptionStartTime: "1300",
+                    disruptionEndDate: getFutureDateAsString(13),
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "weekly",
+                    disruptionDailyRepeatsEndDate: "",
+                    disruptionWeeklyRepeatsEndDate: getFutureDateAsString(40),
                 },
             ],
         });
