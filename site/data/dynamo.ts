@@ -4,7 +4,7 @@ import {
     QueryCommand,
     DeleteCommand,
     TransactWriteCommand,
-    UpdateCommand,
+    PutCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
@@ -127,24 +127,12 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
 
     await ddbDocClient.send(
-        new UpdateCommand({
+        new PutCommand({
             TableName: tableName,
-            Key: {
+            Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
                 SK: `${disruptionInfo.disruptionId}#INFO`,
-            },
-            UpdateExpression: `SET publishStatus = if_not_exists(publishStatus, :status), ${Object.keys(disruptionInfo)
-                .map((item, index) => `${item} = :${index}`)
-                .join(", ")}`,
-            ExpressionAttributeValues: {
-                ":status": "DRAFT",
-                ...Object.values(disruptionInfo).reduce<Record<string, unknown>>(
-                    (acc, curr, index) => ({
-                        ...acc,
-                        [`:${index}`]: curr,
-                    }),
-                    {},
-                ),
+                ...disruptionInfo,
             },
         }),
     );
@@ -158,24 +146,12 @@ export const upsertConsequence = async (consequence: Consequence) => {
     );
 
     await ddbDocClient.send(
-        new UpdateCommand({
+        new PutCommand({
             TableName: tableName,
-            Key: {
+            Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
                 SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
-            },
-            UpdateExpression: `SET publishStatus = if_not_exists(publishStatus, :status), ${Object.keys(consequence)
-                .map((item, index) => `${item} = :${index}`)
-                .join(", ")}`,
-            ExpressionAttributeValues: {
-                ":status": "DRAFT",
-                ...Object.values(consequence).reduce<Record<string, unknown>>(
-                    (acc, curr, index) => ({
-                        ...acc,
-                        [`:${index}`]: curr,
-                    }),
-                    {},
-                ),
+                ...consequence,
             },
         }),
     );
