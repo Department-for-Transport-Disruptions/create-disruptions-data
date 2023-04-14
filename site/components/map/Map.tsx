@@ -13,6 +13,7 @@ import {
 import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
+import GeocoderControl from "./GeoCoderControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
@@ -278,6 +279,7 @@ const Map = ({
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
             >
+                <GeocoderControl mapboxAccessToken={mapboxAccessToken} position="top-right" />
                 {selected && searched ? getMarkers(selected, searched) : null}
                 <DrawControl
                     position="top-left"
