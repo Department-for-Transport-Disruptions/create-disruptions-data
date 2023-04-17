@@ -7,6 +7,8 @@ import { handleBlur } from "../../utils/formUtils";
 interface SelectProps<T> extends FormBase<T> {
     defaultDisplay: string;
     selectValues: DisplayValuePair[];
+    width?: string;
+    updateOnChange?: boolean;
 }
 
 const Select = <T extends object>({
@@ -19,6 +21,8 @@ const Select = <T extends object>({
     selectValues,
     stateUpdater,
     schema,
+    width = "3/4",
+    updateOnChange = false,
 }: SelectProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -49,11 +53,20 @@ const Select = <T extends object>({
                 </label>
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-select--error">
                     <select
-                        className="govuk-select w-3/4"
+                        className={`govuk-select w-${width}`}
                         name={inputName}
                         id={`${inputId}-input`}
-                        defaultValue={value ?? ""}
-                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                        value={value ?? ""}
+                        onBlur={
+                            !updateOnChange
+                                ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
+                                : undefined
+                        }
+                        onChange={
+                            updateOnChange
+                                ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
+                                : undefined
+                        }
                     >
                         {getSelectOptions()}
                     </select>

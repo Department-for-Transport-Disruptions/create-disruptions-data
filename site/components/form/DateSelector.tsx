@@ -17,6 +17,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     hiddenHint?: string;
     disablePast: boolean;
     reset?: boolean;
+    errorOnBlur?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -30,6 +31,7 @@ const inputBox = <T extends object>(
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
     schema?: z.ZodTypeAny,
+    errorOnBlur?: boolean
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
@@ -43,7 +45,7 @@ const inputBox = <T extends object>(
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
+                    onBlur={errorOnBlur ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled) : undefined}
                 />
             </FormElementWrapper>
         </div>
@@ -78,6 +80,7 @@ const DateSelector = <T extends object>({
     stateUpdater,
     schema,
     reset = false,
+    errorOnBlur = true
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -126,6 +129,7 @@ const DateSelector = <T extends object>({
                                 stateUpdater,
                                 setErrors,
                                 schema,
+                                errorOnBlur
                             );
                         }}
                         disablePast={disablePast}

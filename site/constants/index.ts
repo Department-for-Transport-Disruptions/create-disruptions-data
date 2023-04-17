@@ -5,6 +5,7 @@ import {
     EquipmentReason,
     VehicleMode,
     Severity,
+    Progress,
 } from "@create-disruptions-data/shared-ts/enums";
 import { DisplayValuePair } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
@@ -140,6 +141,24 @@ export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [
         display: "Severe",
     },
     { value: Severity.verySevere, display: "Very severe" },
+];
+
+export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
+    { value: Progress.approvedDraft, display: "Approved draft" },
+    { value: Progress.closed, display: "Closed" },
+    {
+        value: Progress.closing,
+        display: "Closing",
+    },
+    {
+        value: Progress.draft,
+        display: "Draft",
+    },
+    {
+        value: Progress.open,
+        display: "Open",
+    },
+    { value: Progress.published, display: "Published" },
 ];
 
 export const OPERATORS: DisplayValuePair[] = [

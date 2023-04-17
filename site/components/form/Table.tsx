@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode } from "react";
 
 interface TableProps {
-    caption?: string;
+    caption?: { text: string; size: "s" | "m" | "l"};
     columns?: string[];
     rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[];
 }
@@ -9,7 +9,7 @@ interface TableProps {
 const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
     return (
         <table className="govuk-table">
-            {caption ? <caption className="govuk-table__caption govuk-table__caption--l">{caption}</caption> : ""}
+            {caption ? <caption className={`govuk-table__caption govuk-table__caption--${caption.size}`}>{caption.text}</caption> : ""}
             <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                     {columns.map((column) => (

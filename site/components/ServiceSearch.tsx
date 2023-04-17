@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
 import { Service } from "../schemas/consequence.schema";
 import { getServiceLabel } from "../utils";
@@ -7,10 +7,22 @@ interface ServiceSearchProps {
     services: Service[];
     setSelectedServices: Dispatch<SetStateAction<Service[]>>;
     selectedServices: Service[];
+    reset?: boolean;
 }
 
-const ServiceSearch = ({ services, setSelectedServices, selectedServices }: ServiceSearchProps): ReactElement => {
+const ServiceSearch = ({
+    services,
+    setSelectedServices,
+    selectedServices,
+    reset = false,
+}: ServiceSearchProps): ReactElement => {
     const [searchText, setSearchText] = useState("");
+
+    useEffect(() => {
+        if (reset) {
+            setSelectedServices([]);
+        }
+    }, [reset]);
 
     const controlStyles = (state: ControlProps<Service, false, GroupBase<Service>>) => ({
         fontFamily: "GDS Transport, arial, sans-serif",
@@ -53,14 +65,15 @@ const ServiceSearch = ({ services, setSelectedServices, selectedServices }: Serv
                 }}
                 inputValue={searchText}
                 onChange={(service) => {
-                    setSelectedServices([...selectedServices, service as Service]);
+                    if (!selectedServices.find((selService) => selService.id === (service as Service).id)) {
+                        setSelectedServices([...selectedServices, service as Service]);
+                    }
                 }}
                 id="service-filter"
                 instanceId="service-filter-dropdown"
                 inputId="service-filter-dropdown-value"
                 menuPlacement="auto"
                 menuPosition="fixed"
-                isClearable
             />
         </div>
     );
