@@ -67,7 +67,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
-    const [selectAll, setSelectAll] = useState<boolean>(true);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Routes>({ inbound: [], outbound: [] });
@@ -91,7 +90,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             .catch(console.error);
     }, [selectedService]);
 
-    console.log(searched);
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
@@ -165,12 +163,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             }
         }
     };
-
-    useEffect(() => {
-        if (!selectedService) {
-            setSelectAll(true);
-        }
-    }, [selectedService]);
 
     const getServiceLabel = (service: Service) =>
         `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
