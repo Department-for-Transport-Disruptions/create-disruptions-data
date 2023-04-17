@@ -38,7 +38,7 @@ interface MapProps {
     showSelectAllButton?: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     stateUpdater: Dispatch<SetStateAction<PageState<any>>>;
-    state: PageState<Partial<StopsConsequence>> | PageState<Partial<ServicesConsequence>>;
+    state: PageState<Partial<StopsConsequence | ServicesConsequence>>;
     searchedRoutes?: Routes;
 }
 
