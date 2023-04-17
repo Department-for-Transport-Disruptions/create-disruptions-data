@@ -1,4 +1,6 @@
+import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import uniqueId from "lodash/uniqueId";
+import { LineLayout, LinePaint } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
@@ -10,25 +12,46 @@ import {
     useEffect,
     useState,
 } from "react";
-import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
+import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
-import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
+import {
+    Routes,
+    ServicesConsequence,
+    Stop,
+    StopsConsequence,
+    servicesConsequenceSchema,
+    stopSchema,
+    stopsConsequenceSchema,
+} from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { sortStops } from "../../utils/formUtils";
 interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selected?: Stop[];
-    searched?: Stop[];
+    selected: Stop[];
+    searched: Stop[];
     inputId?: keyof Stop;
     showSelectAllButton?: boolean;
-    stateUpdater?: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
-    state?: PageState<Partial<StopsConsequence>>;
+    stateUpdater:
+        | Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>
+        | Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
+    state: PageState<Partial<StopsConsequence>> | PageState<Partial<ServicesConsequence>>;
+    searchedRoutes?: Routes;
 }
+
+const lineLayout: LineLayout = {
+    "line-join": "round",
+    "line-cap": "round",
+};
+
+const lineStyle: LinePaint = {
+    "line-color": "rgba(3, 170, 238, 0.5)",
+    "line-width": 5,
+};
 
 const Map = ({
     initialViewState,
@@ -39,6 +62,7 @@ const Map = ({
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
+    searchedRoutes,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -46,9 +70,18 @@ const Map = ({
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
 
+    const createLineString = (coordinates: Stop[]): Feature<Geometry, GeoJsonProperties> => ({
+        type: "Feature",
+        properties: {},
+        geometry: {
+            type: "LineString",
+            coordinates: coordinates.map((stop) => [stop.longitude, stop.latitude]),
+        },
+    });
+
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const stopsOnMap = searched && selected ? [...selected, ...searched] : [];
+            const stopsOnMap = [...selected, ...searched];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
@@ -58,7 +91,7 @@ const Map = ({
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortStops(selected ? selected.filter((stop: Stop) => stop.atcoCode !== id) : []);
+                const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     inputs: {
@@ -80,7 +113,7 @@ const Map = ({
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops([...(selected ? selected : []), ...stop]),
+                        stops: sortStops([...selected, ...stop]),
                     },
                     errors: state.errors,
                 });
@@ -214,11 +247,56 @@ const Map = ({
 
     const selectAllStops = (evt: SyntheticEvent) => {
         evt.preventDefault();
-        if (!selectAll && state) {
+        if (searchedRoutes) {
+            if (!selectAll) {
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops: [],
+                    },
+                    errors: state.errors,
+                });
+            } else {
+                const parsed = z.array(stopSchema).safeParse(searched);
+                if (!parsed.success) {
+                    stateUpdater({
+                        ...state,
+                        errors: [
+                            ...state.errors.filter(
+                                (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                            ),
+                            ...flattenZodErrors(parsed.error),
+                        ],
+                    });
+                } else {
+                    if (searched.length > 0 && selectAll) {
+                        stateUpdater({
+                            inputs: {
+                                ...state.inputs,
+                                stops: sortStops(
+                                    [...(state.inputs.stops ?? []), ...searched].filter(
+                                        (value, index, self) =>
+                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                    ),
+                                ),
+                            },
+                            errors: [
+                                ...state.errors.filter(
+                                    (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                                ),
+                            ],
+                        });
+                    }
+                }
+            }
+            setSelectAll(!selectAll);
+            return;
+        }
+        if (!selectAll) {
             stateUpdater({
                 inputs: {
                     ...state.inputs,
-                    stops: selected?.filter((sToFilter: Stop) =>
+                    stops: selected.filter((sToFilter: Stop) =>
                         markerData && markerData.length > 0
                             ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                             : sToFilter,
@@ -228,7 +306,7 @@ const Map = ({
             });
         } else {
             const parsed = z.array(stopSchema).safeParse(markerData);
-            if (!parsed.success && state) {
+            if (!parsed.success) {
                 stateUpdater({
                     ...state,
                     errors: [
@@ -237,7 +315,7 @@ const Map = ({
                     ],
                 });
             } else {
-                if (markerData.length > 0 && selectAll && state) {
+                if (markerData.length > 0 && selectAll) {
                     stateUpdater({
                         inputs: {
                             ...state.inputs,
@@ -267,7 +345,10 @@ const Map = ({
                     className="govuk-button govuk-button--secondary mt-2"
                     data-module="govuk-button"
                     onClick={selectAllStops}
-                    disabled={!(features && Object.values(features).length > 0)}
+                    disabled={
+                        (!(features && Object.values(features).length > 0) && !searchedRoutes) ||
+                        (searchedRoutes && searchedRoutes.inbound.length === 0 && searchedRoutes.outbound.length === 0)
+                    }
                 >
                     {!selectAll ? "Unselect all stops" : "Select all stops"}
                 </button>
@@ -279,6 +360,28 @@ const Map = ({
                 mapboxAccessToken={mapboxAccessToken}
             >
                 {selected && searched ? getMarkers(selected, searched) : null}
+                {searchedRoutes && searchedRoutes.inbound ? (
+                    <Source id="inboundRoute" type="geojson" data={createLineString(searchedRoutes.inbound)}>
+                        <Layer
+                            id="lineInboundLayer"
+                            type="line"
+                            source="my-data"
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                    </Source>
+                ) : null}
+                {searchedRoutes && searchedRoutes.outbound ? (
+                    <Source id="outboundRoute" type="geojson" data={createLineString(searchedRoutes.outbound)}>
+                        <Layer
+                            id="lineOutboundLayer"
+                            type="line"
+                            source="my-data"
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                    </Source>
+                ) : null}
                 <DrawControl
                     position="top-left"
                     displayControlsDefault={false}
