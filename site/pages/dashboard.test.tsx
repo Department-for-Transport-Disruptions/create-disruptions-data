@@ -7,6 +7,8 @@ import { disruptionArray, disruptionWithConsequences } from "../testData/mockDat
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 vi.mock("../data/dynamo");
 
+const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
 const disruptions: DashboardDisruption[] = [
     {
         id: "12",
@@ -47,17 +49,41 @@ const disruptions: DashboardDisruption[] = [
 describe("pages", () => {
     describe("dashboard", () => {
         it("should render correctly when there are no disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={[]} upcomingDisruptions={[]} />).toJSON();
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                    />,
+                )
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are only live disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={disruptions} upcomingDisruptions={[]} />).toJSON();
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={disruptions}
+                        upcomingDisruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                    />,
+                )
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are only upcoming disruptions", () => {
-            const tree = renderer.create(<Dashboard liveDisruptions={[]} upcomingDisruptions={disruptions} />).toJSON();
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={disruptions}
+                        newDisruptionId={defaultNewDisruptionId}
+                    />,
+                )
+                .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -67,6 +93,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={[disruptions[0]]}
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
+                        newDisruptionId={defaultNewDisruptionId}
                     />,
                 )
                 .toJSON();
@@ -82,7 +109,11 @@ describe("pages", () => {
                 getDisruptionsSpy.mockResolvedValue([]);
 
                 const actualProps = await getServerSideProps();
-                expect(actualProps.props).toStrictEqual({ liveDisruptions: [], upcomingDisruptions: [] });
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [],
+                    upcomingDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                });
             });
 
             it("should return live disruptions if the data returned from the database has live dates", async () => {
@@ -101,6 +132,7 @@ describe("pages", () => {
                         },
                     ],
                     upcomingDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
                 });
             });
 
@@ -125,6 +157,7 @@ describe("pages", () => {
                             validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
+                    newDisruptionId: expect.any(String) as string,
                 });
             });
 
@@ -172,6 +205,7 @@ describe("pages", () => {
                             validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
+                    newDisruptionId: expect.any(String) as string,
                 });
             });
         });

@@ -1,6 +1,7 @@
 import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
+import { randomUUID } from "crypto";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
@@ -30,6 +31,7 @@ export interface TableDisruption {
 
 export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
+    newDisruptionId: string;
 }
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -84,7 +86,7 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-const ViewAllDisruptions = ({ disruptions }: ViewAllDisruptionsProps): ReactElement => {
+const ViewAllDisruptions = ({ disruptions, newDisruptionId }: ViewAllDisruptionsProps): ReactElement => {
     const numberOfDisruptionsPages = Math.ceil(disruptions.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -98,7 +100,7 @@ const ViewAllDisruptions = ({ disruptions }: ViewAllDisruptionsProps): ReactElem
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">View all disruptions</h1>
             <Link
-                href="/create-disruption"
+                href={`/create-disruption/${newDisruptionId}`}
                 role="button"
                 draggable="false"
                 className="govuk-button govuk-button--start"
@@ -164,6 +166,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
         return {
             props: {
                 disruptions: shortenedData,
+                newDisruptionId: randomUUID(),
             },
         };
     }
@@ -171,6 +174,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
     return {
         props: {
             disruptions: [],
+            newDisruptionId: randomUUID(),
         },
     };
 };

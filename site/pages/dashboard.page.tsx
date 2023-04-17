@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
+import { randomUUID } from "crypto";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
@@ -25,6 +26,7 @@ export interface DashboardDisruption {
 export interface DashboardProps {
     liveDisruptions: DashboardDisruption[];
     upcomingDisruptions: DashboardDisruption[];
+    newDisruptionId: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) =>
@@ -74,7 +76,7 @@ const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisrupti
     return disruptions.slice(startPoint, endPoint);
 };
 
-const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): ReactElement => {
+const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
     const numberOfUpcomingDisruptionsPages = Math.ceil(upcomingDisruptions.length / 10);
@@ -107,7 +109,7 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions }: DashboardProps): Re
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">Dashboard</h1>
             <Link
-                href="/create-disruption"
+                href={`/create-disruption/${newDisruptionId}`}
                 role="button"
                 draggable="false"
                 className="govuk-button govuk-button--start"
@@ -263,6 +265,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
             props: {
                 liveDisruptions: mapDisruptions(liveDisruptions),
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
+                newDisruptionId: randomUUID(),
             },
         };
     }
@@ -271,6 +274,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
         props: {
             liveDisruptions: [],
             upcomingDisruptions: [],
+            newDisruptionId: randomUUID(),
         },
     };
 };

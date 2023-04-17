@@ -43,9 +43,9 @@ export const getStateUpdater =
 
 export const getStopLabel = (stop: Stop) => {
     if (stop.commonName && stop.indicator && stop.atcoCode) {
-        return `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`;
+        return `${stop.commonName} (${stop.indicator}) (${stop.atcoCode})`;
     } else if (stop.commonName && stop.atcoCode) {
-        return `${stop.commonName} ${stop.atcoCode}`;
+        return `${stop.commonName} (${stop.atcoCode})`;
     } else {
         return "";
     }

@@ -33,7 +33,7 @@ const collectDisruptionsData = (
     });
 
     if (!parsedDisruption.success) {
-        logger.error(`Invalid disruption ${disruptionId} in Dynamo`);
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
 
         return null;
     }
@@ -200,7 +200,7 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
     });
 
     if (!parsedDisruption.success) {
-        logger.error(`Invalid disruption ${disruptionId} in Dynamo`);
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
 
         return null;
     }

@@ -52,7 +52,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -609,7 +609,7 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1062,7 +1062,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1618,7 +1618,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
         className="govuk-button govuk-button--start"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption"
+        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
