@@ -31,6 +31,8 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = req.headers.referer?.split("?")[1] || "";
+
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
         const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
@@ -51,7 +53,12 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
             );
 
-            redirectTo(res, `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            queryParam
+                ? redirectTo(
+                      res,
+                      `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}?${queryParam}`,
+                  )
+                : redirectTo(res, `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 

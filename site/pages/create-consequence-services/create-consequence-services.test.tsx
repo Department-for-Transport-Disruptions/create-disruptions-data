@@ -1,6 +1,6 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, vi } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
 
 const blankInputs: CreateConsequenceServicesProps = {
@@ -45,6 +45,17 @@ const withInputs: CreateConsequenceServicesProps = {
         disruptionDirection: "inbound",
     },
 };
+
+beforeAll(() => {
+    vi.mock("next/router", () => ({
+        useRouter() {
+            return {
+                pathname: "",
+                query: "",
+            };
+        },
+    }));
+});
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
     errors: [

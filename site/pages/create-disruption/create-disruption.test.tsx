@@ -1,6 +1,6 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, vi } from "vitest";
 import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
 
 const blankInputs: DisruptionPageProps = {
@@ -31,6 +31,17 @@ const withInputs: DisruptionPageProps = {
         publishEndTime: "2300",
     },
 };
+
+beforeAll(() => {
+    vi.mock("next/router", () => ({
+        useRouter() {
+            return {
+                pathname: "",
+                query: "",
+            };
+        },
+    }));
+});
 
 describe("pages", () => {
     describe("CreateDisruption", () => {

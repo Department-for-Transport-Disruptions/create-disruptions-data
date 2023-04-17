@@ -16,6 +16,8 @@ import {
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = req.headers.referer?.split("?")[1] || "";
+
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
@@ -34,7 +36,12 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
                 res,
             );
 
-            redirectTo(res, `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            queryParam
+                ? redirectTo(
+                      res,
+                      `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}?${queryParam}`,
+                  )
+                : redirectTo(res, `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 

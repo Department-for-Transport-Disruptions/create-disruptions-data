@@ -16,6 +16,8 @@ import {
 
 const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = req.headers.referer?.split("?")[1] || "";
+
         const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
@@ -34,7 +36,12 @@ const createConsequenceOperator = async (req: NextApiRequest, res: NextApiRespon
                 res,
             );
 
-            redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            queryParam
+                ? redirectTo(
+                      res,
+                      `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}?${queryParam}`,
+                  )
+                : redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 

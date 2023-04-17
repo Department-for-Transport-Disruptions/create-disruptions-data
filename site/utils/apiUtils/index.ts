@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
-import { ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 import { COOKIES_POLICY_COOKIE, COOKIE_CSRF, COOKIE_ID_TOKEN, COOKIE_PREFERENCES_COOKIE } from "../../constants";
 import { PageState } from "../../interfaces";
 import logger from "../logger";
@@ -9,7 +9,7 @@ import logger from "../logger";
 export const setCookieOnResponseObject = (
     cookieName: string,
     cookieValue: string,
-    res: NextApiResponse,
+    res: NextApiResponse | ServerResponse<IncomingMessage>,
     lifetime?: number,
     httpOnly = true,
 ): void => {
@@ -24,7 +24,10 @@ export const setCookieOnResponseObject = (
     });
 };
 
-export const destroyCookieOnResponseObject = (cookieName: string, res: NextApiResponse): void => {
+export const destroyCookieOnResponseObject = (
+    cookieName: string,
+    res: NextApiResponse | ServerResponse<IncomingMessage>,
+): void => {
     setCookieOnResponseObject(cookieName, "", res, 0);
 };
 

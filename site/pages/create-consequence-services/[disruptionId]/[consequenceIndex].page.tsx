@@ -1,5 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
@@ -20,6 +21,7 @@ import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
@@ -32,7 +34,7 @@ import {
     servicesConsequenceSchema,
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isServicesConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
@@ -68,6 +70,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
+
+    const router = useRouter();
+    const queryParams = router.query;
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -480,6 +485,18 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -525,6 +542,8 @@ export const getServerSideProps = async (
         const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
         stops = (await Promise.all(stopPromises)).flat();
     }
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
 
     return {
         props: {

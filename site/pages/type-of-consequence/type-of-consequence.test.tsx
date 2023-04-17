@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, vi } from "vitest";
 import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
@@ -15,6 +15,17 @@ const withInputs: ConsequenceType = {
     consequenceIndex: 0,
     consequenceType: "networkWide",
 };
+
+beforeAll(() => {
+    vi.mock("next/router", () => ({
+        useRouter() {
+            return {
+                pathname: "",
+                query: "",
+            };
+        },
+    }));
+});
 
 describe("pages", () => {
     describe("CreateDisruption", () => {

@@ -1,5 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
@@ -20,12 +21,13 @@ import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
@@ -39,6 +41,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [searchInput, setSearchInput] = useState("");
+
+    const router = useRouter();
+    const queryParams = router.query;
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -279,6 +284,18 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -308,6 +325,8 @@ export const getServerSideProps = async (
         disruption.disruptionId,
         consequence && isStopsConsequence(consequence) ? consequence : undefined,
     );
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, ctx.res);
 
     return { props: { ...pageState, consequenceIndex: index } };
 };

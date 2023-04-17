@@ -41,6 +41,8 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = req.headers.referer?.split("?")[1] || "";
+
         const body = req.body as DisruptionInfo;
 
         if (!body.disruptionId) {
@@ -60,7 +62,9 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
+            queryParam
+                ? redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}?${queryParam}`)
+                : redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
             return;
         }
 
@@ -72,7 +76,10 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
+        queryParam
+            ? redirectTo(res, `${decodeURIComponent(queryParam.split("=")[1])}/${validatedBody.data.disruptionId}`)
+            : redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
+
         return;
     } catch (e) {
         if (e instanceof Error) {

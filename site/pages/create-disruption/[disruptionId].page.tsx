@@ -1,4 +1,6 @@
 import { NextPageContext } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
 import ErrorSummary from "../../components/ErrorSummary";
@@ -11,7 +13,7 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import {
@@ -22,7 +24,7 @@ import {
     DisruptionInfo,
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
-import { getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
@@ -42,6 +44,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [pageState, setDisruptionPageState] = useState(props);
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
+
+    const router = useRouter();
+    const queryParams = router.query;
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
@@ -348,18 +353,33 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </>
             </CsrfForm>
         </BaseLayout>
     );
 };
+
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DisruptionPageProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId);
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 
     if (!disruption) {
         return {
