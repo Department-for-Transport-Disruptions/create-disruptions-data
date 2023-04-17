@@ -4,32 +4,29 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { z } from "zod";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Radios from "../components/form/Radios";
-import SearchSelect from "../components/form/SearchSelect";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
-import Map from "../components/map/Map";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Radios from "../../../components/form/Radios";
+import SearchSelect from "../../../components/form/SearchSelect";
+import Select from "../../../components/form/Select";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
+import Map from "../../../components/map/Map";
 import {
-    CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_INFO,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     API_BASE_URL,
     ADMIN_AREA_CODE,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
-} from "../constants";
-import { CreateConsequenceProps, PageState } from "../interfaces";
-import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../schemas/consequence.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { flattenZodErrors, getDisplayByValue, getPageStateFromCookies, redirectTo } from "../utils";
-import { getStateUpdater, getStopLabel, getStopValue } from "../utils/formUtils";
+} from "../../../constants";
+import { getDisruptionById } from "../../../data/dynamo";
+import { CreateConsequenceProps, PageState } from "../../../interfaces";
+import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
+import { flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -154,28 +151,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         <Table
                             rows={[
                                 {
-                                    header: "Mode of transport",
-                                    cells: [
-                                        getDisplayByValue(
-                                            VEHICLE_MODES,
-                                            props.previousConsequenceInformation.modeOfTransport,
-                                        ),
-                                        <Link
-                                            key={"mode-of-transport"}
-                                            className="govuk-link"
-                                            href="/type-of-consequence"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
                                     header: "Consequence type",
                                     cells: [
-                                        getDisplayByValue(
-                                            CONSEQUENCE_TYPES,
-                                            props.previousConsequenceInformation.consequenceType,
-                                        ),
+                                        "Stops",
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
@@ -187,6 +165,19 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 },
                             ]}
                         />
+
+                        <Select<StopsConsequence>
+                            inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.vehicleMode}
+                            initialErrors={pageState.errors}
+                            schema={stopsConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
+                        />
+
                         <SearchSelect<Stop>
                             selected={selected}
                             inputName="stop"
@@ -282,11 +273,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             schema={stopsConsequenceSchema.shape.disruptionSeverity}
                         />
                         <input type="hidden" name="consequenceType" value="stops" />
-                        <input
-                            type="hidden"
-                            name="vehicleMode"
-                            value={props.previousConsequenceInformation.modeOfTransport}
-                        />
+                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                        <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
+
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
@@ -297,35 +286,30 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: CreateConsequenceStopsProps } | void => {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: CreateConsequenceStopsProps } | void> => {
     const cookies = parseCookies(ctx);
-    const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
-    if (!typeCookie && ctx.res) {
-        if (ctx.res) {
-            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-        }
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
-        return;
+    if (!disruption) {
+        throw new Error("No disruption found for operator consequence page");
     }
 
-    const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    if (!previousConsequenceInformation.success) {
-        if (ctx.res) {
-            redirectTo(ctx.res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
-        }
+    const consequence = disruption?.consequences?.[index];
 
-        return;
-    }
+    const pageState = getPageState<StopsConsequence>(
+        errorCookie,
+        stopsConsequenceSchema,
+        disruption.disruptionId,
+        consequence && isStopsConsequence(consequence) ? consequence : undefined,
+    );
 
-    const pageState = getPageStateFromCookies<StopsConsequence>(dataCookie, errorCookie, stopsConsequenceSchema);
-
-    return {
-        props: { ...pageState, previousConsequenceInformation: previousConsequenceInformation.data },
-    };
+    return { props: { ...pageState, consequenceIndex: index } };
 };
 
 export default CreateConsequenceStops;

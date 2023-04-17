@@ -4,7 +4,7 @@ import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 
 export function SiteStack({ stack }: StackContext) {
-    const { table } = use(DynamoDBStack);
+    const { table, siriTable } = use(DynamoDBStack);
     const { hostedZone } = use(DnsStack);
 
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "" : `${stack.stage}.`;
@@ -17,6 +17,7 @@ export function SiteStack({ stack }: StackContext) {
         path: "site/",
         environment: {
             TABLE_NAME: table.tableName,
+            SIRI_TABLE_NAME: siriTable.tableName,
             STAGE: stack.stage,
             API_BASE_URL: apiUrl,
             MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN || "",
@@ -29,7 +30,7 @@ export function SiteStack({ stack }: StackContext) {
         },
         permissions: [
             new PolicyStatement({
-                resources: [table.tableArn],
+                resources: [table.tableArn, siriTable.tableArn],
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",

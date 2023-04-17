@@ -7,15 +7,15 @@ import { createGeneratorLambda } from "./services/GeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
-    const { table } = use(DynamoDBStack);
+    const { siriTable } = use(DynamoDBStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
     const siriSXUnvalidatedBucket = createBucket(stack, "cdd-siri-sx-unvalidated", true);
 
-    const siriGenerator = createGeneratorLambda(stack, siriSXUnvalidatedBucket, table);
+    const siriGenerator = createGeneratorLambda(stack, siriSXUnvalidatedBucket, siriTable);
 
-    table.addConsumers(stack, {
+    siriTable.addConsumers(stack, {
         siriGenerator: siriGenerator,
     });
 

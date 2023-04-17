@@ -1,18 +1,11 @@
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./create-consequence-operator.page";
-import { ConsequenceType } from "../schemas/type-of-consequence.schema";
-
-const previousConsequenceInformation: ConsequenceType = {
-    modeOfTransport: VehicleMode.ferryService,
-    consequenceType: "operatorWide",
-};
+import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/[consequenceIndex].page";
 
 const blankInputs = {
     errors: [],
     inputs: {},
-    previousConsequenceInformation,
 };
 
 const withInputs: CreateConsequenceOperatorProps = {
@@ -24,7 +17,6 @@ const withInputs: CreateConsequenceOperatorProps = {
         disruptionDelay: "yes",
         disruptionSeverity: Severity.severe,
     },
-    previousConsequenceInformation,
 };
 
 describe("pages", () => {

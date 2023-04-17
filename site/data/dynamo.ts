@@ -1,52 +1,209 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import {
+    DynamoDBDocumentClient,
+    QueryCommand,
+    DeleteCommand,
+    TransactWriteCommand,
+    PutCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
-import { ptSituationElementSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { Consequence } from "../schemas/consequence.schema";
+import { DisruptionInfo } from "../schemas/create-disruption.schema";
+import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
 const tableName = process.env.TABLE_NAME as string;
+const siriTableName = process.env.SIRI_TABLE_NAME as string;
 
-export const getDisruptionsDataFromDynamo = async () => {
+const collectDisruptionsData = (
+    disruptionItems: Record<string, unknown>[],
+    disruptionId: string,
+): Disruption | null => {
+    const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+    const consequences = disruptionItems.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+    );
+
+    const parsedDisruption = disruptionSchema.safeParse({
+        ...info,
+        consequences,
+    });
+
+    if (!parsedDisruption.success) {
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+
+        return null;
+    }
+
+    return parsedDisruption.data;
+};
+
+export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
-            KeyConditionExpression: "PK = :i",
+            KeyConditionExpression: "PK = :1",
+            FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
-                ":i": "1",
+                ":1": "1",
+                ":2": "PUBLISHED",
             },
         }),
     );
 
-    return dbData.Items?.map((item) => {
-        const parsedItem = ptSituationElementSchema.safeParse(item);
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
 
-        if (!parsedItem.success) {
-            logger.error("Error parsing disruption from dynamo");
-            logger.error(parsedItem.error.stack);
-            return null;
-        }
-
-        return parsedItem.data;
-    }).filter(notEmpty);
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const insertPublishedDisruptionIntoDynamo = async (disruption: PtSituationElement) => {
-    logger.info(`Inserting published disruption (${disruption.SituationNumber}) into DynamoDB table...`);
+export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
+    disruption: PtSituationElement,
+    disruptionId: string,
+) => {
+    logger.info(`Inserting published disruption (${disruptionId}) into DynamoDB table...`);
+
+    const consequenceUpdateCommands: {
+        Update: {
+            TableName: string;
+            Key: Record<string, string>;
+            UpdateExpression: string;
+            ExpressionAttributeValues: Record<string, string>;
+        };
+    }[] =
+        disruption.Consequences?.Consequence.map((_, index) => ({
+            Update: {
+                TableName: tableName,
+                Key: {
+                    PK: "1", // TODO: replace with user ID when we have auth
+                    SK: `${disruptionId}#CONSEQUENCE#${index}`,
+                },
+                UpdateExpression: "SET publishStatus = :1",
+                ExpressionAttributeValues: {
+                    ":1": "PUBLISHED",
+                },
+            },
+        })) ?? [];
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: [
+                {
+                    Put: {
+                        TableName: siriTableName,
+                        Item: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: disruptionId,
+                            ...disruption,
+                        },
+                    },
+                },
+                {
+                    Update: {
+                        TableName: tableName,
+                        Key: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: `${disruptionId}#INFO`,
+                        },
+                        UpdateExpression: "SET publishStatus = :1",
+                        ExpressionAttributeValues: {
+                            ":1": "PUBLISHED",
+                        },
+                    },
+                },
+                ...consequenceUpdateCommands,
+            ],
+        }),
+    );
+};
+
+export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
+    logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
 
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
-                SK: disruption.SituationNumber,
-                Status: "PUBLISHED",
-                ...disruption,
+                SK: `${disruptionInfo.disruptionId}#INFO`,
+                ...disruptionInfo,
             },
         }),
     );
+};
+
+export const upsertConsequence = async (consequence: Consequence) => {
+    logger.info(
+        `Updating consequence ${consequence.consequenceIndex || ""} in disruption (${
+            consequence.disruptionId || ""
+        }) in DynamoDB table...`,
+    );
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: tableName,
+            Item: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
+                ...consequence,
+            },
+        }),
+    );
+};
+
+export const removeConsequenceFromDisruption = async (index: number, disruptionId: string) => {
+    logger.info(`Updating consequence ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new DeleteCommand({
+            TableName: tableName,
+            Key: {
+                PK: "1", // TODO: replace with user ID when we have auth
+                SK: `${disruptionId}#CONSEQUENCE#${index}`,
+            },
+        }),
+    );
+};
+
+export const getDisruptionById = async (disruptionId: string): Promise<Disruption | null> => {
+    logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
+
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":2": `${disruptionId}`,
+            },
+        }),
+    );
+
+    if (!dynamoDisruption.Items) {
+        return null;
+    }
+
+    const info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
+    const consequences = dynamoDisruption.Items.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+    );
+
+    const parsedDisruption = disruptionSchema.safeParse({
+        ...info,
+        consequences,
+    });
+
+    if (!parsedDisruption.success) {
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+
+        return null;
+    }
+
+    return parsedDisruption.data;
 };

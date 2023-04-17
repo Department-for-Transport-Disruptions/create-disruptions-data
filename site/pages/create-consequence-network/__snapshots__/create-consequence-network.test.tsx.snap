@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > CreateConsequenceOperator > should render correctly with inputs 1`] = `
+exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-operator"
+        action="/api/create-consequence-network"
         method="post"
       >
         <input
@@ -80,40 +80,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Operator wide
+                  Network wide
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -136,49 +108,49 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
-              id="consequence-operator"
+              id="vehicle-mode"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator-input"
+                htmlFor="vehicle-mode-input"
               >
-                Operators impacted
+                Mode of transport
               </label>
               <div
                 className=""
               >
                 <select
                   className="govuk-select w-3/4"
-                  defaultValue="FSYO"
-                  id="consequence-operator-input"
-                  name="consequenceOperator"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
                   onBlur={[Function]}
                 >
                   <option
                     disabled={true}
                     value=""
                   >
-                    Select operator
+                    Select mode of transport
                   </option>
                   <option
-                    value="FMAN"
+                    value="bus"
                   >
-                    First Greater Manchester
+                    Bus
                   </option>
                   <option
-                    value="SCMN"
+                    value="tram"
                   >
-                    Stagecoach Manchester
+                    Tram
                   </option>
                   <option
-                    value="FSYO"
+                    value="ferryService"
                   >
-                    First South Yorkshire
+                    Ferry
                   </option>
                   <option
-                    value="SYRK"
+                    value="rail"
                   >
-                    Stagecoach Yorkshire
+                    Train
                   </option>
                 </select>
               </div>
@@ -380,12 +352,15 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <input
             name="consequenceType"
             type="hidden"
-            value="operatorWide"
+            value="networkWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"
@@ -587,7 +562,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
 ]
 `;
 
-exports[`pages > CreateConsequenceOperator > should render correctly with no inputs 1`] = `
+exports[`pages > CreateConsequenceNetwork > should render correctly with no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -631,7 +606,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-operator"
+        action="/api/create-consequence-network"
         method="post"
       >
         <input
@@ -667,40 +642,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Ferry
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Operator wide
+                  Network wide
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -723,13 +670,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
-              id="consequence-operator"
+              id="vehicle-mode"
             >
               <label
                 className="govuk-label govuk-label--l"
-                htmlFor="consequence-operator-input"
+                htmlFor="vehicle-mode-input"
               >
-                Operators impacted
+                Mode of transport
               </label>
               <div
                 className=""
@@ -737,35 +684,35 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 <select
                   className="govuk-select w-3/4"
                   defaultValue=""
-                  id="consequence-operator-input"
-                  name="consequenceOperator"
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
                   onBlur={[Function]}
                 >
                   <option
                     disabled={true}
                     value=""
                   >
-                    Select operator
+                    Select mode of transport
                   </option>
                   <option
-                    value="FMAN"
+                    value="bus"
                   >
-                    First Greater Manchester
+                    Bus
                   </option>
                   <option
-                    value="SCMN"
+                    value="tram"
                   >
-                    Stagecoach Manchester
+                    Tram
                   </option>
                   <option
-                    value="FSYO"
+                    value="ferryService"
                   >
-                    First South Yorkshire
+                    Ferry
                   </option>
                   <option
-                    value="SYRK"
+                    value="rail"
                   >
-                    Stagecoach Yorkshire
+                    Train
                   </option>
                 </select>
               </div>
@@ -965,12 +912,15 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           <input
             name="consequenceType"
             type="hidden"
-            value="operatorWide"
+            value="networkWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="ferryService"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"

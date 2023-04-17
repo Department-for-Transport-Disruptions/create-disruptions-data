@@ -1,25 +1,27 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
-import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import DateSelector from "../components/form/DateSelector";
+import { randomUUID } from "crypto";
 import Table from "../components/form/Table";
 import Select from "../components/form/Select";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import { ADMIN_AREA_CODE, API_BASE_URL, DISRUPTION_SEVERITIES, DISRUPTION_STATUSES, VEHICLE_MODES } from "../constants";
-import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Service, serviceSchema } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
+import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import {
     sortDisruptionsByStartDate,
     splitCamelCaseToString,
     reduceStringWithEllipsis,
     getServiceLabel,
+    mapValidityPeriods
 } from "../utils";
 import { convertDateTimeToFormat, getDate } from "../utils/dates";
+
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -46,6 +48,7 @@ export interface TableDisruption {
 export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
     services: Service[];
+    newDisruptionId: string;
 }
 
 interface Filter {
@@ -254,7 +257,7 @@ const useFiltersOnDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
-const ViewAllDisruptions = ({ disruptions, services }: ViewAllDisruptionsProps): ReactElement => {
+const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
     );
@@ -311,25 +314,27 @@ const ViewAllDisruptions = ({ disruptions, services }: ViewAllDisruptionsProps):
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">View all disruptions</h1>
             <div>
-                <Link
-                    href="/create-disruption"
-                    role="button"
-                    draggable="false"
-                    className="govuk-button govuk-button--start"
-                    data-module="govuk-button"
-                    id="create-new-button"
+               
+            <Link
+                href={`/create-disruption/${newDisruptionId}`}
+                role="button"
+                draggable="false"
+                className="govuk-button govuk-button--start"
+                data-module="govuk-button"
+                id="create-new-button"
+            >
+                Create new disruption
+                <svg
+                    className="govuk-button__start-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17.5"
+                    height="19"
+                    viewBox="0 0 33 40"
+                    role="presentation"
+                    focusable="false"
                 >
                     Create new disruption
-                    <svg
-                        className="govuk-button__start-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="17.5"
-                        height="19"
-                        viewBox="0 0 33 40"
-                        role="presentation"
-                        focusable="false"
-                    >
-                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                  
                     </svg>
                 </Link>
                 <button
@@ -457,18 +462,18 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
         services = parse.data;
     }
 
-    const data = await getDisruptionsDataFromDynamo();
+    const data = await getPublishedDisruptionsDataFromDynamo();
 
     if (data) {
-        const sortedDisruptions: PtSituationElement[] = sortDisruptionsByStartDate(data);
+        const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceLineRefs: string[] = [];
             const operators: Operator[] = [];
 
-            if (disruption.Consequences) {
-                disruption.Consequences.Consequence.forEach((consequence) => {
+            if (disruption.consequences) {
+                disruption.consequences.forEach((consequence) => {
                     severitys.push(consequence.Severity);
                     if (!!consequence.Affects.Networks) {
                         modes.push(consequence.Affects.Networks.AffectedNetwork.VehicleMode);
@@ -488,17 +493,14 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             }
 
             return {
-                id: disruption.SituationNumber,
-                summary: reduceStringWithEllipsis(disruption.Summary, 95),
-                validityPeriods: disruption.ValidityPeriod.map((period) => ({
-                    startTime: period.StartTime,
-                    endTime: period.EndTime || null,
-                })),
                 modes,
                 status: disruption.Progress,
                 severity: getWorstSeverity(severitys),
                 serviceLineRefs,
                 operators,
+                id: disruption.disruptionId,
+                summary: reduceStringWithEllipsis(disruption.summary, 95),
+                validityPeriods: mapValidityPeriods(disruption),
             };
         });
 
@@ -506,6 +508,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             props: {
                 disruptions: shortenedData,
                 services,
+                newDisruptionId: randomUUID(),
             },
         };
     }
@@ -514,6 +517,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
         props: {
             disruptions: [],
             services,
+            newDisruptionId: randomUUID(),
         },
     };
 };

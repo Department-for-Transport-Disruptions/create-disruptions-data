@@ -2,27 +2,21 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
-import CsrfForm from "../components/form/CsrfForm";
-import Radios from "../components/form/Radios";
-import Select from "../components/form/Select";
-import Table from "../components/form/Table";
-import TextInput from "../components/form/TextInput";
-import TimeSelector from "../components/form/TimeSelector";
-import { BaseLayout } from "../components/layout/Layout";
-import {
-    CONSEQUENCE_TYPES,
-    COOKIES_CONSEQUENCE_INFO,
-    COOKIES_CONSEQUENCE_NETWORK_ERRORS,
-    COOKIES_CONSEQUENCE_TYPE_INFO,
-    DISRUPTION_SEVERITIES,
-    VEHICLE_MODES,
-} from "../constants";
-import { CreateConsequenceProps, PageState } from "../interfaces";
-import { NetworkConsequence, networkConsequenceSchema } from "../schemas/consequence.schema";
-import { typeOfConsequenceSchema } from "../schemas/type-of-consequence.schema";
-import { getDisplayByValue, getPageStateFromCookies } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import Radios from "../../../components/form/Radios";
+import Select from "../../../components/form/Select";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
+import { COOKIES_CONSEQUENCE_NETWORK_ERRORS, DISRUPTION_SEVERITIES, VEHICLE_MODES } from "../../../constants";
+import { getDisruptionById } from "../../../data/dynamo";
+import { CreateConsequenceProps, PageState } from "../../../interfaces";
+import { NetworkConsequence, networkConsequenceSchema } from "../../../schemas/consequence.schema";
+import { isNetworkConsequence } from "../../../utils";
+import { getPageState } from "../../../utils/apiUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
@@ -44,28 +38,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         <Table
                             rows={[
                                 {
-                                    header: "Mode of transport",
-                                    cells: [
-                                        getDisplayByValue(
-                                            VEHICLE_MODES,
-                                            props.previousConsequenceInformation.modeOfTransport,
-                                        ),
-                                        <Link
-                                            key={"mode-of-transport"}
-                                            className="govuk-link"
-                                            href="/type-of-consequence"
-                                        >
-                                            Change
-                                        </Link>,
-                                    ],
-                                },
-                                {
                                     header: "Consequence type",
                                     cells: [
-                                        getDisplayByValue(
-                                            CONSEQUENCE_TYPES,
-                                            props.previousConsequenceInformation.consequenceType,
-                                        ),
+                                        "Network wide",
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
@@ -76,6 +51,18 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     ],
                                 },
                             ]}
+                        />
+
+                        <Select<NetworkConsequence>
+                            inputName="vehicleMode"
+                            display="Mode of transport"
+                            defaultDisplay="Select mode of transport"
+                            selectValues={VEHICLE_MODES}
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.vehicleMode}
+                            initialErrors={pageState.errors}
+                            schema={networkConsequenceSchema.shape.vehicleMode}
+                            displaySize="l"
                         />
 
                         <TextInput<NetworkConsequence>
@@ -138,11 +125,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         />
 
                         <input type="hidden" name="consequenceType" value="networkWide" />
-                        <input
-                            type="hidden"
-                            name="vehicleMode"
-                            value={props.previousConsequenceInformation.modeOfTransport}
-                        />
+                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                        <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -154,25 +138,28 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: object } | void => {
-    let previousConsequenceInformationData = {};
-
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
     const cookies = parseCookies(ctx);
-    const typeCookie = cookies[COOKIES_CONSEQUENCE_TYPE_INFO];
-    const dataCookie = cookies[COOKIES_CONSEQUENCE_INFO];
     const errorCookie = cookies[COOKIES_CONSEQUENCE_NETWORK_ERRORS];
 
-    if (typeCookie) {
-        const previousConsequenceInformation = typeOfConsequenceSchema.safeParse(JSON.parse(typeCookie));
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
-        if (previousConsequenceInformation.success) {
-            previousConsequenceInformationData = previousConsequenceInformation.data;
-        }
+    if (!disruption) {
+        throw new Error("No disruption found for network consequence page");
     }
 
-    const pageState = getPageStateFromCookies<NetworkConsequence>(dataCookie, errorCookie, networkConsequenceSchema);
+    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    return { props: { ...pageState, previousConsequenceInformation: previousConsequenceInformationData } };
+    const consequence = disruption?.consequences?.[index];
+
+    const pageState = getPageState<NetworkConsequence>(
+        errorCookie,
+        networkConsequenceSchema,
+        disruption.disruptionId,
+        consequence && isNetworkConsequence(consequence) ? consequence : undefined,
+    );
+
+    return { props: { ...pageState, consequenceIndex: index } };
 };
 
 export default CreateConsequenceNetwork;

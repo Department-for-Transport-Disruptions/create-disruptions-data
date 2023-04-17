@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 1`] = `
+exports[`pages > CreateConsequenceOperator > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,7 +44,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-network"
+        action="/api/create-consequence-operator"
         method="post"
       >
         <input
@@ -80,40 +80,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Bus
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Network wide
+                  Operator wide
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -131,6 +103,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="consequence-operator"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="consequence-operator-input"
+              >
+                Operators impacted
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue="FSYO"
+                  id="consequence-operator-input"
+                  name="consequenceOperator"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select operator
+                  </option>
+                  <option
+                    value="FMAN"
+                  >
+                    First Greater Manchester
+                  </option>
+                  <option
+                    value="SCMN"
+                  >
+                    Stagecoach Manchester
+                  </option>
+                  <option
+                    value="FSYO"
+                  >
+                    First South Yorkshire
+                  </option>
+                  <option
+                    value="SYRK"
+                  >
+                    Stagecoach Yorkshire
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -327,12 +405,15 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <input
             name="consequenceType"
             type="hidden"
-            value="networkWide"
+            value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="bus"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"
@@ -534,7 +615,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
 ]
 `;
 
-exports[`pages > CreateConsequenceNetwork > should render correctly with no inputs 1`] = `
+exports[`pages > CreateConsequenceOperator > should render correctly with no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -578,7 +659,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/create-consequence-network"
+        action="/api/create-consequence-operator"
         method="post"
       >
         <input
@@ -614,40 +695,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
-                  Mode of transport
-                </th>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  Bus
-                </td>
-                <td
-                  className="govuk-table__cell align-middle"
-                >
-                  <a
-                    className="govuk-link"
-                    href="/type-of-consequence"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
-                  >
-                    Change
-                  </a>
-                </td>
-              </tr>
-              <tr
-                className="govuk-table__row"
-              >
-                <th
-                  className="govuk-table__header align-middle"
-                  scope="row"
-                >
                   Consequence type
                 </th>
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  Network wide
+                  Operator wide
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -665,6 +718,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="consequence-operator"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="consequence-operator-input"
+              >
+                Operators impacted
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="consequence-operator-input"
+                  name="consequenceOperator"
+                  onBlur={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select operator
+                  </option>
+                  <option
+                    value="FMAN"
+                  >
+                    First Greater Manchester
+                  </option>
+                  <option
+                    value="SCMN"
+                  >
+                    Stagecoach Manchester
+                  </option>
+                  <option
+                    value="FSYO"
+                  >
+                    First South Yorkshire
+                  </option>
+                  <option
+                    value="SYRK"
+                  >
+                    Stagecoach Yorkshire
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -859,12 +1018,15 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           <input
             name="consequenceType"
             type="hidden"
-            value="networkWide"
+            value="operatorWide"
           />
           <input
-            name="vehicleMode"
+            name="disruptionId"
             type="hidden"
-            value="bus"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
           />
           <button
             className="govuk-button mt-8"

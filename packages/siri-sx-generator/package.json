@@ -7,7 +7,8 @@
         "test:unit": "vitest",
         "test:updateSnapshots": "vitest -u",
         "typecheck": "tsc -noEmit",
-        "dynamo-publish-json": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  test/siriSXUploadToDynamo.ts"
+        "dynamo-publish-json": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  test/siriSXUploadToDynamo.ts",
+        "dynamo-publish-site-disruptions": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm test/uploadTestDisruptions.ts"
     },
     "devDependencies": {
         "@tsconfig/node18": "^1.0.1",
@@ -16,6 +17,7 @@
         "@types/lambda-log": "^2.2.1",
         "@types/node": "^18.13.0",
         "aws-sdk-client-mock": "^2.1.0",
+        "dayjs": "^1.11.7",
         "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },

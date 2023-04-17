@@ -3,13 +3,15 @@ import { z } from "zod";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
 const baseConsequence = {
+    disruptionId: z.string().uuid(),
     description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(500, {
         message: "Description must not exceed 500 characters",
     }),
     removeFromJourneyPlanners: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
     disruptionDelay: zodTimeInMinutes("Enter a number between 0 to 999 for disruption delay").optional(),
     disruptionSeverity: z.nativeEnum(Severity, setZodDefaultError("Select the severity from the dropdown")),
-    vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a vehicle mode")),
+    vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a mode of transport")),
+    consequenceIndex: z.coerce.number(),
 };
 
 export const networkConsequenceSchema = z.object({
