@@ -57,6 +57,7 @@ export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     return [];
 };
 
+const initialRoutes = { inbound: [], outbound: [] };
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
         CreateConsequenceProps {}
@@ -69,7 +70,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
-    const [searched, setSearchedOptions] = useState<Routes>({ inbound: [], outbound: [] });
+    const [searched, setSearchedOptions] = useState<Routes>(initialRoutes);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -80,7 +81,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 if (data) {
                     setSearchedOptions(data);
                 } else {
-                    setSearchedOptions({ inbound: [], outbound: [] });
+                    setSearchedOptions(initialRoutes);
                 }
             }
         };
@@ -240,6 +241,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
         }
+        if (serviceId === selectedService?.id) {
+            setSearchedOptions(initialRoutes);
+        }
+
         setSelectedService(null);
         setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
