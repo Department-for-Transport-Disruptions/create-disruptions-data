@@ -346,12 +346,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         />
 
                         <Radios<DisruptionInfo>
-                            display="Does this diruption repeat"
+                            display="Does this disruption repeat?"
                             radioDetail={[
                                 {
                                     value: "doesntRepeat",
                                     display: "Doesn't repeat",
-                                    disabled: validity.disruptionNoEndDateTime === "true",
                                     ref: doesntRepeatRef,
                                 },
                                 {

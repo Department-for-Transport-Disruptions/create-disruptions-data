@@ -759,7 +759,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <span
                   className="govuk-heading-s govuk-!-margin-bottom-0"
                 >
-                  Does this diruption repeat
+                  Does this disruption repeat?
                 </span>
               </legend>
               <div
@@ -776,7 +776,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-doesntRepeat-conditional"
                       defaultChecked={true}
-                      disabled={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
                       onBlur={[Function]}
@@ -2164,7 +2163,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <span
                   className="govuk-heading-s govuk-!-margin-bottom-0"
                 >
-                  Does this diruption repeat
+                  Does this disruption repeat?
                 </span>
               </legend>
               <div
@@ -2181,7 +2180,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-doesntRepeat-conditional"
                       defaultChecked={true}
-                      disabled={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
                       onBlur={[Function]}
