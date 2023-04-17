@@ -107,7 +107,7 @@ const Map = ({
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop: Stop[] =  searched.filter((stop: Stop) => stop.atcoCode === id);
+                const stop: Stop[] = searched.filter((stop: Stop) => stop.atcoCode === id);
 
                 stateUpdater({
                     inputs: {
@@ -319,7 +319,7 @@ const Map = ({
                         inputs: {
                             ...state.inputs,
                             stops: sortStops(
-                                [...(selected ?? []), ...markerData].filter(
+                                [...selected, ...markerData].filter(
                                     (value, index, self) =>
                                         index === self.findIndex((s) => s.atcoCode === value.atcoCode),
                                 ),
