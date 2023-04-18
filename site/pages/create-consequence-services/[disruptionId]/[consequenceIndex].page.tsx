@@ -57,7 +57,6 @@ export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     return [];
 };
 
-const initialRoutes = { inbound: [], outbound: [] };
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
         CreateConsequenceProps {}
@@ -70,7 +69,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
-    const [searched, setSearchedOptions] = useState<Routes>(initialRoutes);
+    const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -79,9 +78,13 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 const res = await fetch(searchApiUrl, { method: "GET" });
                 const data: Routes = routesSchema.parse(await res.json());
                 if (data) {
-                    setSearchedOptions(data);
+                    const notSelected =
+                        searched.length > 0
+                            ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
+                            : true;
+                    if (notSelected) setSearchedOptions([...searched, { ...data, serviceId: selectedService.id }]);
                 } else {
-                    setSearchedOptions(initialRoutes);
+                    setSearchedOptions([]);
                 }
             }
         };
@@ -89,6 +92,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         loadOptions()
             // eslint-disable-next-line no-console
             .catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedService]);
 
     const handleStopChange = (value: SingleValue<Stop>) => {
@@ -241,10 +245,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
         }
-        if (serviceId === selectedService?.id) {
-            setSearchedOptions(initialRoutes);
-        }
 
+        setSearchedOptions(searched.filter((stop) => stop?.serviceId !== serviceId) || []);
         setSelectedService(null);
         setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
@@ -362,6 +364,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             state={pageState}
                             searchedRoutes={searched}
                             showSelectAllButton
+                            selectedServiceId={selectedService?.id}
                         />
 
                         <TextInput<ServicesConsequence>

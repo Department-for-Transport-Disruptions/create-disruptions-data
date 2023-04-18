@@ -39,7 +39,8 @@ interface MapProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     stateUpdater: Dispatch<SetStateAction<PageState<any>>>;
     state: PageState<Partial<StopsConsequence | ServicesConsequence>>;
-    searchedRoutes?: Routes;
+    searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
+    selectedServiceId?: number;
 }
 
 const lineLayout: LineLayout = {
@@ -62,6 +63,7 @@ const Map = ({
     stateUpdater = () => "",
     state,
     searchedRoutes,
+    selectedServiceId,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -345,6 +347,52 @@ const Map = ({
         setSelectAll(true);
     }, [searchedRoutes]);
 
+    const getSourcesInbound = useCallback(
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
+            searchedRoutes.map((searchedRoute) =>
+                searchedRoute?.inbound ? (
+                    <Source
+                        key={searchedRoute?.serviceId}
+                        id={`inbound-route-${searchedRoute?.serviceId}`}
+                        type="geojson"
+                        data={createLineString(searchedRoute.inbound)}
+                    >
+                        <Layer
+                            id={`layer-inbound-${searchedRoute?.serviceId}`}
+                            type="line"
+                            source="my-data"
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                    </Source>
+                ) : null,
+            ),
+
+        [],
+    );
+
+    const getSourcesOutbound = useCallback(
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
+            searchedRoutes.map((searchedRoute) =>
+                searchedRoute?.outbound ? (
+                    <Source
+                        key={searchedRoute?.serviceId}
+                        id={`outbound-route-${searchedRoute?.serviceId}`}
+                        type="geojson"
+                        data={createLineString(searchedRoute.outbound)}
+                    >
+                        <Layer
+                            id={`layer-outbound-${searchedRoute?.serviceId}`}
+                            type="line"
+                            source="my-data"
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                    </Source>
+                ) : null,
+            ),
+        [],
+    );
     return mapboxAccessToken ? (
         <>
             {selected.length === 100 ? (
@@ -365,7 +413,7 @@ const Map = ({
                     onClick={selectAllStops}
                     disabled={
                         (!(features && Object.values(features).length > 0) && !searchedRoutes) ||
-                        (searchedRoutes && searchedRoutes.inbound.length === 0 && searchedRoutes.outbound.length === 0)
+                        !(searchedRoutes && searchedRoutes.length > 0)
                     }
                 >
                     {!selectAll ? "Unselect all stops" : "Select all stops"}
@@ -378,28 +426,8 @@ const Map = ({
                 mapboxAccessToken={mapboxAccessToken}
             >
                 {selected && searched ? getMarkers(selected, searched) : null}
-                {searchedRoutes && searchedRoutes.inbound ? (
-                    <Source id="inboundRoute" type="geojson" data={createLineString(searchedRoutes.inbound)}>
-                        <Layer
-                            id="lineInboundLayer"
-                            type="line"
-                            source="my-data"
-                            layout={lineLayout}
-                            paint={lineStyle}
-                        />
-                    </Source>
-                ) : null}
-                {searchedRoutes && searchedRoutes.outbound ? (
-                    <Source id="outboundRoute" type="geojson" data={createLineString(searchedRoutes.outbound)}>
-                        <Layer
-                            id="lineOutboundLayer"
-                            type="line"
-                            source="my-data"
-                            layout={lineLayout}
-                            paint={lineStyle}
-                        />
-                    </Source>
-                ) : null}
+                {searchedRoutes ? getSourcesInbound(searchedRoutes) : null}
+                {searchedRoutes ? getSourcesOutbound(searchedRoutes) : null}
                 <DrawControl
                     position="top-left"
                     displayControlsDefault={false}
