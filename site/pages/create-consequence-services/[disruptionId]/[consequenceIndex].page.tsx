@@ -149,7 +149,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 ],
             });
         } else {
-            if (stopToAdd) {
+            if (stopToAdd && (pageState.inputs.stops ? pageState.inputs.stops.length < 100 : true)) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,

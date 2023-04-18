@@ -273,10 +273,12 @@ const Map = ({
                             inputs: {
                                 ...state.inputs,
                                 stops: sortStops(
-                                    [...(state.inputs.stops ?? []), ...searched].filter(
-                                        (value, index, self) =>
-                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                    ),
+                                    [...(state.inputs.stops ?? []), ...searched]
+                                        .splice(0, 100)
+                                        .filter(
+                                            (value, index, self) =>
+                                                index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                        ),
                                 ),
                             },
                             errors: [
@@ -319,10 +321,12 @@ const Map = ({
                         inputs: {
                             ...state.inputs,
                             stops: sortStops(
-                                [...selected, ...markerData].filter(
-                                    (value, index, self) =>
-                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                ),
+                                [...selected, ...markerData]
+                                    .splice(0, 100)
+                                    .filter(
+                                        (value, index, self) =>
+                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                    ),
                             ),
                         },
                         errors: [
@@ -339,6 +343,15 @@ const Map = ({
 
     return mapboxAccessToken ? (
         <>
+            <div className="govuk-warning-text">
+                <span className="govuk-warning-text__icon" aria-hidden="true">
+                    !
+                </span>
+                <strong className="govuk-warning-text__text">
+                    <span className="govuk-warning-text__assistive">Warning</span>
+                    {`Stop selection capped at 100, ${selected.length || "0"} stops currently selected`}
+                </strong>
+            </div>
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"

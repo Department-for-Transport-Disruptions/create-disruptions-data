@@ -58,7 +58,7 @@ export const stopsConsequenceSchema = z.object({
             message: "At least one stop must be added",
         })
         .max(100, {
-            message: "Only up to 100 stops can be added",
+            message: "Maximum of 100 stops permitted per consequence",
         }),
 });
 
@@ -83,7 +83,7 @@ export const servicesConsequenceSchema = z.object({
     stops: z
         .array(stopSchema)
         .max(100, {
-            message: "Only up to 100 stops can be added",
+            message: "Maximum of 100 stops permitted per consequence",
         })
         .optional(),
     services: z
