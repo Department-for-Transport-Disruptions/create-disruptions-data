@@ -274,11 +274,11 @@ const Map = ({
                                 ...state.inputs,
                                 stops: sortStops(
                                     [...(state.inputs.stops ?? []), ...searched]
-                                        .splice(0, 100)
                                         .filter(
                                             (value, index, self) =>
                                                 index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                        ),
+                                        )
+                                        .splice(0, 100),
                                 ),
                             },
                             errors: [
@@ -322,11 +322,11 @@ const Map = ({
                             ...state.inputs,
                             stops: sortStops(
                                 [...selected, ...markerData]
-                                    .splice(0, 100)
                                     .filter(
                                         (value, index, self) =>
                                             index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                    ),
+                                    )
+                                    .splice(0, 100),
                             ),
                         },
                         errors: [
@@ -341,17 +341,23 @@ const Map = ({
         setSelectAll(!selectAll);
     };
 
+    useEffect(() => {
+        setSelectAll(true);
+    }, [searchedRoutes]);
+
     return mapboxAccessToken ? (
         <>
-            <div className="govuk-warning-text">
-                <span className="govuk-warning-text__icon" aria-hidden="true">
-                    !
-                </span>
-                <strong className="govuk-warning-text__text">
-                    <span className="govuk-warning-text__assistive">Warning</span>
-                    {`Stop selection capped at 100, ${selected.length || "0"} stops currently selected`}
-                </strong>
-            </div>
+            {selected.length === 100 ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        {`Stop selection capped at 100, ${selected.length || "0"} stops currently selected`}
+                    </strong>
+                </div>
+            ) : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
