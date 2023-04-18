@@ -364,7 +364,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             state={pageState}
                             searchedRoutes={searched}
                             showSelectAllButton
-                            selectedServiceId={selectedService?.id}
                         />
 
                         <TextInput<ServicesConsequence>

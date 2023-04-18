@@ -40,7 +40,6 @@ interface MapProps {
     stateUpdater: Dispatch<SetStateAction<PageState<any>>>;
     state: PageState<Partial<StopsConsequence | ServicesConsequence>>;
     searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
-    selectedServiceId?: number;
 }
 
 const lineLayout: LineLayout = {
@@ -63,7 +62,6 @@ const Map = ({
     stateUpdater = () => "",
     state,
     searchedRoutes,
-    selectedServiceId,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
