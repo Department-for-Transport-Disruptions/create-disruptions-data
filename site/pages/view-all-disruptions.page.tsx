@@ -1,4 +1,4 @@
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
@@ -202,13 +202,7 @@ export const applyDateFilters = (disruptions: TableDisruption[], filter: Filter)
     return disruptions;
 };
 
-const useFiltersOnDisruptions = (
-    disruptions: TableDisruption[],
-    setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
-    currentPage: number,
-    filter: Filter,
-    setNumberOfDisruptionsPages: Dispatch<SetStateAction<number>>,
-): void => {
+export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter): TableDisruption[] => {
     let disruptionsToDisplay = disruptions;
 
     if (filter.services.length > 0) {
@@ -249,6 +243,18 @@ const useFiltersOnDisruptions = (
     }
 
     disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter);
+
+    return disruptionsToDisplay;
+}
+
+const useFiltersOnDisruptions = (
+    disruptions: TableDisruption[],
+    setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
+    currentPage: number,
+    filter: Filter,
+    setNumberOfDisruptionsPages: Dispatch<SetStateAction<number>>,
+): void => {
+    const disruptionsToDisplay = filterDisruptions(disruptions, filter);
 
     setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptionsToDisplay));
     setNumberOfDisruptionsPages(Math.ceil(disruptionsToDisplay.length / 10));
@@ -472,29 +478,32 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             const serviceLineRefs: string[] = [];
             const operators: Operator[] = [];
 
+
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    severitys.push(consequence.Severity);
-                    if (!!consequence.Affects.Networks) {
-                        modes.push(consequence.Affects.Networks.AffectedNetwork.VehicleMode);
-                    }
 
-                    if (!!consequence.Affects.Networks?.AffectedNetwork.AffectedLine) {
-                        consequence.Affects.Networks.AffectedNetwork.AffectedLine.forEach((line) => {
-                            serviceLineRefs.push(line.LineRef);
-                            const affectedOperator = line.AffectedOperator;
-                            operators.push({
-                                operatorRef: affectedOperator.OperatorRef,
-                                operatorName: affectedOperator.OperatorName || "",
-                            });
-                        });
-                    }
+                    modes.push(consequence.vehicleMode);
+                    // severitys.push(consequence.disruptionSeverity);
+                    // if (!!consequence.Affects.Networks) {
+                    //     modes.push(consequence.Affects.Networks.AffectedNetwork.VehicleMode);
+                    // }
+
+                    // if (!!consequence.Affects.Networks?.AffectedNetwork.AffectedLine) {
+                    //     consequence.Affects.Networks.AffectedNetwork.AffectedLine.forEach((line) => {
+                    //         serviceLineRefs.push(line.LineRef);
+                    //         const affectedOperator = line.AffectedOperator;
+                    //         operators.push({
+                    //             operatorRef: affectedOperator.OperatorRef,
+                    //             operatorName: affectedOperator.OperatorName || "",
+                    //         });
+                    //     });
+                    // }
                 });
             }
 
             return {
                 modes,
-                status: disruption.Progress,
+                status: Progress.open,
                 severity: getWorstSeverity(severitys),
                 serviceLineRefs,
                 operators,

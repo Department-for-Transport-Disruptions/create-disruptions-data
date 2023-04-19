@@ -67,7 +67,6 @@ export const baseSiteDisruptionInfo: DisruptionInfo = {
     disruptionId: "aaaaa-bbbbb-ccccc",
     disruptionStartDate: "03/03/2023",
     disruptionStartTime: "0110",
-    disruptionNoEndDateTime: "true",
     publishStartDate: "02/03/2020",
     publishStartTime: "1010",
     disruptionReason: PersonnelReason.staffSickness,

@@ -1,4 +1,4 @@
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ViewAllDisruptions, { getWorstSeverity, TableDisruption } from "./view-all-disruptions.page";
@@ -8,17 +8,21 @@ const disruptions: TableDisruption[] = [
         id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
         validityPeriods: [{ startTime: "2022-01-05T04:42:17.239Z", endTime: null }],
-        modes: "Tram",
+        modes: [VehicleMode.tram],
         status: "Open",
         severity: "Very severe",
+        serviceLineRefs: [],
+        operators: [],
     },
     {
         id: "e234615d-8301-49c2-8143-1fca9dc187db",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
         validityPeriods: [{ startTime: "2022-01-18T09:36:12.327Z", endTime: null }],
-        modes: "Tram",
+        modes: [VehicleMode.tram],
         status: "Open",
         severity: "Very severe",
+        serviceLineRefs: [],
+        operators: [],
     },
     {
         id: "dfd19560-99c1-4da6-8a73-de1220f37056",
@@ -28,9 +32,11 @@ const disruptions: TableDisruption[] = [
             { startTime: "2023-04-14T04:21:29.085Z", endTime: null },
             { startTime: "2024-05-04T08:18:40.131Z", endTime: "2024-05-11T08:18:40.131Z" },
         ],
-        modes: "Rail, Ferry service, Tram",
+        modes: [VehicleMode.rail, VehicleMode.ferryService, VehicleMode.tram],
         status: "Approved draft",
         severity: "Very severe",
+        serviceLineRefs: [],
+        operators: [],
     },
 ];
 

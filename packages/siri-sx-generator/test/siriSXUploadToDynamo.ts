@@ -55,13 +55,15 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
                 },
             },
         ];
-        Summary =
-            "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be weak to bus information.";
+        Summary = "Alien attack - counter attack needed immediately to conserve human life. Stay inside and survive";
     } else if (i % 3 === 0) {
         const randomDate = getRandomDate();
         ValidityPeriod.push(
-            { StartTime: getRandomDate().toISOString() },
-            { StartTime: randomDate.toISOString(), EndTime: getDateAWeekLater(randomDate).toISOString() },
+            { StartTime: randomDate.toISOString() },
+            {
+                StartTime: getDateAWeekLater(randomDate).toISOString(),
+                EndTime: getDateAWeekLater(getDateAWeekLater(randomDate)).toISOString(),
+            },
         );
         consequences = [
             {
@@ -81,7 +83,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         progress = Progress.published;
     } else if (i % 5 === 0) {
         const randomDateOne = getRandomDate();
-        const randomDateTwo = getRandomDate();
+        const randomDateTwo = getDateAWeekLater(getDateAWeekLater(randomDateOne));
         ValidityPeriod.push(
             { StartTime: randomDateOne.toISOString(), EndTime: getDateAWeekLater(randomDateOne).toISOString() },
             { StartTime: randomDateTwo.toISOString(), EndTime: getDateAWeekLater(randomDateTwo).toISOString() },
@@ -104,8 +106,8 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         progress = Progress.closed;
     } else if (i % 7 === 0) {
         const randomDateOne = getRandomDate();
-        const randomDateTwo = getRandomDate();
-        const randomDateThree = getRandomDate();
+        const randomDateTwo = getDateAWeekLater(getDateAWeekLater(randomDateOne));
+        const randomDateThree = getDateAWeekLater(getDateAWeekLater(randomDateTwo));
         ValidityPeriod.push(
             { StartTime: randomDateOne.toISOString(), EndTime: getDateAWeekLater(randomDateOne).toISOString() },
             { StartTime: randomDateTwo.toISOString(), EndTime: getDateAWeekLater(randomDateTwo).toISOString() },

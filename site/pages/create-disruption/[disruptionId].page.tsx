@@ -161,7 +161,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="Summary"
                             inputName="summary"
                             widthClass="w-3/4"
-                            maxLength={50}
+                            maxLength={100}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.summary}
                             initialErrors={pageState.errors}
