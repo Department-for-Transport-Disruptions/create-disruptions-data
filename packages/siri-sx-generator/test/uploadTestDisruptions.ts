@@ -42,7 +42,7 @@ const getRandomDate = () => {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
-const getDateXWeeksLater = (date: Date, numberOfWeeks: number = 1): Date => {
+const getDateXWeeksLater = (date: Date, numberOfWeeks = 1): Date => {
     if (numberOfWeeks <= 0) {
         throw new Error("Provide a positive number of weeks");
     }
