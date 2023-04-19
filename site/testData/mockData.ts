@@ -15,7 +15,7 @@ import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
-import { Consequence } from "../schemas/consequence.schema";
+import { Consequence, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
@@ -420,3 +420,86 @@ export const ptSituationElementWithMultipleConsequences = {
     ReasonType: "PersonnelReason",
     PersonnelReason: "staffInWrongPlace",
 };
+
+export const mockServices: Service[] = [
+    {
+        id: 1212,
+        lineName: "72A",
+        operatorShortName: "Bobs Buses",
+        destination: "Town",
+        origin: "Station",
+        nocCode: "BB",
+    },
+    {
+        id: 323,
+        lineName: "3V",
+        operatorShortName: "Bobs Buses",
+        destination: "Pub",
+        origin: "Station",
+        nocCode: "BB",
+    },
+    {
+        id: 6758,
+        lineName: "2",
+        operatorShortName: "Bobs Buses",
+        destination: "Stadium",
+        origin: "Station",
+        nocCode: "BB",
+    },
+    {
+        id: 42545,
+        lineName: "90A",
+        operatorShortName: "Bobs Buses",
+        destination: "Parliament Grove",
+        origin: "King Street",
+        nocCode: "BB",
+    },
+    {
+        id: 63634,
+        lineName: "553",
+        operatorShortName: "Bobs Buses",
+        destination: "Tree Lane",
+        origin: "Swinnow",
+        nocCode: "BB",
+    },
+    {
+        id: 23523,
+        lineName: "1AA",
+        operatorShortName: "Bobs Buses",
+        destination: "Blacksmiths",
+        origin: "Nursery",
+        nocCode: "BB",
+    },
+    {
+        id: 141245,
+        lineName: "88",
+        operatorShortName: "Bobs Buses",
+        destination: "High school lane",
+        origin: "Bingo",
+        nocCode: "BB",
+    },
+    {
+        id: 235235,
+        lineName: "4",
+        operatorShortName: "Bobs Buses",
+        destination: "Holiday Inn",
+        origin: "Park",
+        nocCode: "BB",
+    },
+    {
+        id: 23523,
+        lineName: "72A",
+        operatorShortName: "Daves Buses",
+        destination: "School",
+        origin: "Shops",
+        nocCode: "DBS",
+    },
+    {
+        id: 235235,
+        lineName: "22",
+        operatorShortName: "Daves Buses",
+        destination: "Hill",
+        origin: "Tree",
+        nocCode: "DBS",
+    },
+];

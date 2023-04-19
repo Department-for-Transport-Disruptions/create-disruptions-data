@@ -18,10 +18,9 @@ import {
     splitCamelCaseToString,
     reduceStringWithEllipsis,
     getServiceLabel,
-    mapValidityPeriods
+    mapValidityPeriods,
 } from "../utils";
 import { convertDateTimeToFormat, getDate } from "../utils/dates";
-
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -191,12 +190,10 @@ export const applyDateFilters = (disruptions: TableDisruption[], filter: Filter)
                 const { startTime, endTime } = period;
 
                 if (startTime && endTime) {
-                    
                 }
             });
             return periodMatches;
         });
-
     }
 
     return disruptions;
@@ -245,7 +242,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
     disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter);
 
     return disruptionsToDisplay;
-}
+};
 
 const useFiltersOnDisruptions = (
     disruptions: TableDisruption[],
@@ -320,27 +317,25 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">View all disruptions</h1>
             <div>
-               
-            <Link
-                href={`/create-disruption/${newDisruptionId}`}
-                role="button"
-                draggable="false"
-                className="govuk-button govuk-button--start"
-                data-module="govuk-button"
-                id="create-new-button"
-            >
-                Create new disruption
-                <svg
-                    className="govuk-button__start-icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="17.5"
-                    height="19"
-                    viewBox="0 0 33 40"
-                    role="presentation"
-                    focusable="false"
+                <Link
+                    href={`/create-disruption/${newDisruptionId}`}
+                    role="button"
+                    draggable="false"
+                    className="govuk-button govuk-button--start"
+                    data-module="govuk-button"
+                    id="create-new-button"
                 >
                     Create new disruption
-                  
+                    <svg
+                        className="govuk-button__start-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="17.5"
+                        height="19"
+                        viewBox="0 0 33 40"
+                        role="presentation"
+                        focusable="false"
+                    >
+                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                     </svg>
                 </Link>
                 <button
@@ -478,10 +473,8 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             const serviceLineRefs: string[] = [];
             const operators: Operator[] = [];
 
-
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-
                     modes.push(consequence.vehicleMode);
                     // severitys.push(consequence.disruptionSeverity);
                     // if (!!consequence.Affects.Networks) {

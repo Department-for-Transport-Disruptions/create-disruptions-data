@@ -2,6 +2,7 @@ import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums"
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ViewAllDisruptions, { getWorstSeverity, TableDisruption } from "./view-all-disruptions.page";
+import { mockServices } from "../testData/mockData";
 
 const disruptions: TableDisruption[] = [
     {
@@ -46,14 +47,26 @@ describe("pages", () => {
     describe("viewAllDisruptions", () => {
         it("should render correctly when there are no disruptions", () => {
             const tree = renderer
-                .create(<ViewAllDisruptions disruptions={[]} newDisruptionId={defaultNewDisruptionId} />)
+                .create(
+                    <ViewAllDisruptions
+                        disruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        services={mockServices}
+                    />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly when there are enough disruptions for no pagination", () => {
             const tree = renderer
-                .create(<ViewAllDisruptions disruptions={disruptions} newDisruptionId={defaultNewDisruptionId} />)
+                .create(
+                    <ViewAllDisruptions
+                        disruptions={disruptions}
+                        newDisruptionId={defaultNewDisruptionId}
+                        services={mockServices}
+                    />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -64,6 +77,7 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
+                        services={mockServices}
                     />,
                 )
                 .toJSON();
