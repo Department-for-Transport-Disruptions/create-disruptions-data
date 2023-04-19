@@ -10,15 +10,17 @@ import {
     SyntheticEvent,
     useCallback,
     useEffect,
+    useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, MapRef, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
 import {
     Routes,
+    Service,
     ServicesConsequence,
     Stop,
     StopsConsequence,
@@ -40,6 +42,7 @@ interface MapProps {
     stateUpdater: Dispatch<SetStateAction<PageState<any>>>;
     state: PageState<Partial<StopsConsequence | ServicesConsequence>>;
     searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
+    services?: Service[];
 }
 
 const lineLayout: LineLayout = {
@@ -52,6 +55,12 @@ const lineStyle: LinePaint = {
     "line-width": 5,
 };
 
+const lineStyleHighlight: LinePaint = {
+    "line-color": "rgba(47,146,188,255)",
+    "line-width": 5,
+    "line-opacity": 0.75,
+};
+
 const Map = ({
     initialViewState,
     style,
@@ -62,16 +71,18 @@ const Map = ({
     stateUpdater = () => "",
     state,
     searchedRoutes,
+    services,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
+    const [mapLayers, setMapLayers] = useState([]);
 
-    const createLineString = (coordinates: Stop[]): Feature<Geometry, GeoJsonProperties> => ({
+    const createLineString = (coordinates: Stop[], serviceId: number): Feature<Geometry, GeoJsonProperties> => ({
         type: "Feature",
-        properties: {},
+        properties: { serviceId },
         geometry: {
             type: "LineString",
             coordinates: coordinates.map((stop) => [stop.longitude, stop.latitude]),
@@ -345,6 +356,20 @@ const Map = ({
         setSelectAll(true);
     }, [searchedRoutes]);
 
+    const [hoverInfo, setHoverInfo] = useState(null);
+
+    const onHover = useCallback((event) => {
+        const service = event.features && event.features[0];
+        setHoverInfo({
+            longitude: event.lngLat.lng,
+            latitude: event.lngLat.lat,
+            serviceId: service && service.properties.serviceId,
+        });
+    }, []);
+
+    const selectedService = (hoverInfo && hoverInfo.serviceId) || "";
+    const filter = useMemo(() => ["==", "serviceId", selectedService], [selectedService]);
+
     const getSourcesInbound = useCallback(
         (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
             searchedRoutes.map((searchedRoute) =>
@@ -353,20 +378,32 @@ const Map = ({
                         key={searchedRoute?.serviceId}
                         id={`inbound-route-${searchedRoute?.serviceId}`}
                         type="geojson"
-                        data={createLineString(searchedRoute.inbound)}
+                        data={createLineString(searchedRoute.inbound, searchedRoute?.serviceId)}
                     >
                         <Layer
-                            id={`layer-inbound-${searchedRoute?.serviceId}`}
+                            id={`services-inbound-${searchedRoute?.serviceId}`}
                             type="line"
-                            source="my-data"
+                            source={`services-inbound-${searchedRoute?.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
+                            // source-layer="original"
+                            // beforeId={`inbound-${searchedRoute?.serviceId}`}
+                        />
+                        <Layer
+                            id={`services-highlighted-inbound-${searchedRoute?.serviceId}`}
+                            type="line"
+                            source={`services-inbound-${searchedRoute?.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyleHighlight}
+                            filter={filter}
+                            // source-layer="original"
+                            // beforeId={`inbound-${searchedRoute?.serviceId}`}
                         />
                     </Source>
                 ) : null,
             ),
 
-        [],
+        [filter],
     );
 
     const getSourcesOutbound = useCallback(
@@ -377,20 +414,44 @@ const Map = ({
                         key={searchedRoute?.serviceId}
                         id={`outbound-route-${searchedRoute?.serviceId}`}
                         type="geojson"
-                        data={createLineString(searchedRoute.outbound)}
+                        data={createLineString(searchedRoute.outbound, searchedRoute?.serviceId)}
                     >
                         <Layer
-                            id={`layer-outbound-${searchedRoute?.serviceId}`}
+                            id={`services-outbound-${searchedRoute?.serviceId}`}
+                            // beforeId={`outbound-${searchedRoute?.serviceId}`}
                             type="line"
-                            source="my-data"
+                            source={`services-outbound-${searchedRoute?.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
+                            // source-layer="original"
+                        />
+                        <Layer
+                            id={`services-highlighted-outbound-${searchedRoute?.serviceId}`}
+                            // beforeId={`outbound-${searchedRoute?.serviceId}`}
+                            type="line"
+                            source={`services-outbound-${searchedRoute?.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyleHighlight}
+                            filter={filter}
+                            // source-layer="original"
                         />
                     </Source>
                 ) : null,
             ),
-        [],
+        [filter],
     );
+
+    // console.log(
+    //     searchedRoutes && searchedRoutes.length > 0
+    //         ? searchedRoutes.flatMap((sr) => {
+    //               return [`services-inbound-${sr?.serviceId || ""}`, `services-outbound-${sr?.serviceId || ""}`] || [];
+    //           })
+    //         : [],
+    // );
+    const getServiceInfo = (id: number) => {
+        const service = services ? services.find((service) => service.id === id) : null;
+        return service ? `Service: ${service.origin} - ${service.destination}` : "Service: N/A";
+    };
     return mapboxAccessToken ? (
         <>
             {selected.length === 100 ? (
@@ -422,6 +483,19 @@ const Map = ({
                 style={style}
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
+                onMouseMove={onHover}
+                interactiveLayerIds={
+                    searchedRoutes && searchedRoutes.length > 0
+                        ? searchedRoutes.flatMap((sr) => {
+                              return (
+                                  [
+                                      `services-inbound-${sr?.serviceId || ""}`,
+                                      `services-outbound-${sr?.serviceId || ""}`,
+                                  ] || []
+                              );
+                          })
+                        : []
+                }
             >
                 {selected && searched ? getMarkers(selected, searched) : null}
                 {searchedRoutes ? getSourcesInbound(searchedRoutes) : null}
@@ -458,6 +532,17 @@ const Map = ({
                             <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
                             <p className="govuk-body-s mb-1">Name: {popupInfo.commonName}</p>
                         </div>
+                    </Popup>
+                )}
+                {selectedService && (
+                    <Popup
+                        longitude={hoverInfo.longitude}
+                        latitude={hoverInfo.latitude}
+                        offset={[0, -10]}
+                        closeButton={false}
+                        className="service-info"
+                    >
+                        {getServiceInfo(selectedService)}
                     </Popup>
                 )}
             </MapBox>
