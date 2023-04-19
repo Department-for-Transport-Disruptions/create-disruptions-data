@@ -128,10 +128,9 @@ describe("pages", () => {
                             validityPeriods: [
                                 {
                                     startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: "2023-03-17T17:00:00.000Z",
-                                    endingOnDate: null,
+                                    endTime: null,
                                 },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null, endingOnDate: null },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                     ],
@@ -158,9 +157,7 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [
-                                { startTime: "2999-02-12T12:00:00.000Z", endTime: null, endingOnDate: null },
-                            ],
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                     newDisruptionId: expect.any(String) as string,
@@ -185,8 +182,17 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
+                            validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
+                        },
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
                             validityPeriods: [
-                                { startTime: "2022-03-10T11:00:00.000Z", endTime: null, endingOnDate: null },
+                                {
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                    endTime: null,
+                                },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                         {
@@ -195,22 +201,9 @@ describe("pages", () => {
                             validityPeriods: [
                                 {
                                     startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: "2023-03-17T17:00:00.000Z",
-                                    endingOnDate: null,
+                                    endTime: null,
                                 },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null, endingOnDate: null },
-                            ],
-                        },
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: "2023-03-17T17:00:00.000Z",
-                                    endingOnDate: null,
-                                },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null, endingOnDate: null },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
                         },
                     ],
@@ -218,9 +211,7 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [
-                                { startTime: "2999-02-12T12:00:00.000Z", endTime: null, endingOnDate: null },
-                            ],
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
                     newDisruptionId: expect.any(String) as string,
