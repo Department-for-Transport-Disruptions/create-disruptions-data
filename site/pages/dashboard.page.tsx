@@ -58,7 +58,7 @@ const mapDisruptions = (disruptions: Disruption[]) => {
     });
 };
 
-const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number, test?: string) => {
+const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
         const earliestPeriod = disruption.validityPeriods[0];
         let maxEndDate = dayjs().subtract(100, "year");
