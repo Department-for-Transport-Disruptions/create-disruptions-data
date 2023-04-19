@@ -37,8 +37,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
 
     return (
         <BaseLayout title={title} description={description}>

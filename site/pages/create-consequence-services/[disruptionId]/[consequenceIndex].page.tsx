@@ -71,8 +71,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {

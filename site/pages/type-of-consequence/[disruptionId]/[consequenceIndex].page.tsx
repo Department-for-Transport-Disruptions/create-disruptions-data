@@ -28,8 +28,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>

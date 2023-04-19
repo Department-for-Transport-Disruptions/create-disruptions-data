@@ -45,8 +45,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
