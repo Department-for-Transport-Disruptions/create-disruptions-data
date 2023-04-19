@@ -82,7 +82,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                 validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
                     ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
                     : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+                createChangeLink(`validity-period-${i + 1}`, "/create-disruption", undefined, true),
             ],
         }));
     };
