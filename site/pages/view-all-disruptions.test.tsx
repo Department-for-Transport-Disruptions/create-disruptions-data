@@ -1,7 +1,7 @@
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import ViewAllDisruptions, { getWorstSeverity, TableDisruption } from "./view-all-disruptions.page";
+import ViewAllDisruptions, { filterDisruptions, getWorstSeverity, TableDisruption } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
 
 const disruptions: TableDisruption[] = [
@@ -90,6 +90,13 @@ describe("getWorstSeverity", () => {
     it("returns the worst severity when given multiple", () => {
         const severitys: Severity[] = [Severity.normal, Severity.unknown, Severity.verySevere];
         const result = getWorstSeverity(severitys);
+        expect(result).toBe("verySevere");
+    });
+});
+
+describe("filterDisruptions", () => {
+    it("correctly applys filters to the disruptions", () => {
+        const result = filterDisruptions();
         expect(result).toBe("verySevere");
     });
 });
