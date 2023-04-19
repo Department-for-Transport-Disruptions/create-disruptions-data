@@ -61,6 +61,12 @@ const lineStyleHighlight: LinePaint = {
     "line-opacity": 0.75,
 };
 
+const initialHoverState = {
+    longitude: 0,
+    latitude: 0,
+    serviceId: -1,
+};
+
 const Map = ({
     initialViewState,
     style,
@@ -78,6 +84,9 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
+    const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
+        initialHoverState,
+    );
 
     const createLineString = (coordinates: Stop[], serviceId: number): Feature<Geometry, GeoJsonProperties> => ({
         type: "Feature",
@@ -355,16 +364,6 @@ const Map = ({
         setSelectAll(true);
     }, [searchedRoutes]);
 
-    const initialHoverState = {
-        longitude: 0,
-        latitude: 0,
-        serviceId: -1,
-    };
-
-    const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
-        initialHoverState,
-    );
-
     const onHover = useCallback((event: MapLayerMouseEvent) => {
         const service = event.features && event.features[0];
         if (service && service.properties && service.properties.serviceId) {
@@ -465,7 +464,7 @@ const Map = ({
 
     const getServiceInfo = (id: number) => {
         const service = services ? services.find((service) => service.id === id) : null;
-        return service ? `Service: ${service.origin} - ${service.destination}` : "Service: N/A";
+        return service ? `Service: ${service.origin.replace("_", " ")} - ${service.destination.replace("_", " ")}` : "Service: N/A";
     };
     return mapboxAccessToken ? (
         <>
