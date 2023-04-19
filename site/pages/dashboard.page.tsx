@@ -181,7 +181,6 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
                                     rows={formatDisruptionsIntoRows(
                                         upcomingDisruptionsToDisplay,
                                         (currentUpcomingPage - 1) * 10,
-                                        "testing",
                                     )}
                                 />
                                 <PageNumbers
