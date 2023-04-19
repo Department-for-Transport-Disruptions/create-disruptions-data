@@ -232,7 +232,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2"
+                    href="/create-disruption/2?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -260,7 +260,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2"
+                    href="/create-disruption/2?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
