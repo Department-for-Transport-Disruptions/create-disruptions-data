@@ -485,10 +485,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? (
+                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
