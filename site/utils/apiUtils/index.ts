@@ -84,3 +84,8 @@ export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>,
 
     return inputsProps;
 };
+
+export const getReturnPage = (req: NextApiRequest, pageName: string) => {
+    const queryParam = req.headers.referer?.split("?")[1];
+    return queryParam?.includes(pageName) ? queryParam : null;
+};

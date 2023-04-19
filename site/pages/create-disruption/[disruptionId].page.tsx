@@ -361,9 +361,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             >
                                 Cancel Changes
                             </Link>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

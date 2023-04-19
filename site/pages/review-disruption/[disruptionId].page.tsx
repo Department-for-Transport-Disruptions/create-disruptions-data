@@ -57,7 +57,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
             key={key}
             className="govuk-link"
             href={{
-                pathname: `${href}/${disruption.disruptionId}${index !== undefined ? `/${index}` : ""}`,
+                pathname: `${href}/${disruption.disruptionId}${!!index ? `/${index}` : ""}`,
                 query: includePreviousPage ? { return: REVIEW_DISRUPTION_PAGE_PATH } : null,
             }}
         >

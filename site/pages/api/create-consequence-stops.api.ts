@@ -9,6 +9,7 @@ import { Stop, StopsConsequence, stopsConsequenceSchema } from "../../schemas/co
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -31,7 +32,7 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = req.headers.referer?.split("?")[1] || "";
+        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
 
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
@@ -53,12 +54,12 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
             );
 
-            queryParam
-                ? redirectTo(
-                      res,
-                      `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}?${queryParam}`,
-                  )
-                : redirectTo(res, `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            redirectTo(
+                res,
+                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}${
+                    queryParam ? `?${queryParam}` : ""
+                }`,
+            );
             return;
         }
 

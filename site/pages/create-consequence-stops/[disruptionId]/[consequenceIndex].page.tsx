@@ -292,9 +292,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             >
                                 Cancel Changes
                             </Link>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

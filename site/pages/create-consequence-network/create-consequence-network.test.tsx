@@ -40,5 +40,10 @@ describe("pages", () => {
             const tree = renderer.create(<CreateConsequenceNetwork {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
+
+        it("should render correctly with inputs", () => {
+            const tree = renderer.create(<CreateConsequenceNetwork {...withInputs} />).toJSON();
+            expect(tree).toMatchSnapshot();
+        });
     });
 });

@@ -493,9 +493,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             >
                                 Cancel Changes
                             </Link>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

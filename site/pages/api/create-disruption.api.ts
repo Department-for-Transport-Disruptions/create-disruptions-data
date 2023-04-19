@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { upsertDisruptionInfo } from "../../data/dynamo";
@@ -9,6 +10,7 @@ import { createDisruptionsSchemaRefined, DisruptionInfo } from "../../schemas/cr
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -41,7 +43,7 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = req.headers.referer?.split("?")[1] || "";
+        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
 
         const body = req.body as DisruptionInfo;
 
@@ -62,9 +64,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            queryParam
-                ? redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}?${queryParam}`)
-                : redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
+            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${queryParam ? `?${queryParam}` : ""}`);
             return;
         }
 

@@ -163,9 +163,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             >
                                 Cancel Changes
                             </Link>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

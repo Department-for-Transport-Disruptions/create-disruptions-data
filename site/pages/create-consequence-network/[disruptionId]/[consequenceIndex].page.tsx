@@ -149,9 +149,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             >
                                 Cancel Changes
                             </Link>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

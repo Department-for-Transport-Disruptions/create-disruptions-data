@@ -9,6 +9,7 @@ import { OperatorConsequence, operatorConsequenceSchema } from "../../schemas/co
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -16,7 +17,7 @@ import {
 
 const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = req.headers.referer?.split("?")[1] || "";
+        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
 
         const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
@@ -36,12 +37,12 @@ const createConsequenceOperator = async (req: NextApiRequest, res: NextApiRespon
                 res,
             );
 
-            queryParam
-                ? redirectTo(
-                      res,
-                      `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}?${queryParam}`,
-                  )
-                : redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            redirectTo(
+                res,
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}${
+                    queryParam ? `?${queryParam}` : ""
+                }`,
+            );
             return;
         }
 
