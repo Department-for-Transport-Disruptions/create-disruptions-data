@@ -464,7 +464,9 @@ const Map = ({
 
     const getServiceInfo = (id: number) => {
         const service = services ? services.find((service) => service.id === id) : null;
-        return service ? `Service: ${service.origin.replace("_", " ")} - ${service.destination.replace("_", " ")}` : "Service: N/A";
+        return service
+            ? `Service: ${service.origin.replace("_", " ")} - ${service.destination.replace("_", " ")}`
+            : "Service: N/A";
     };
     return mapboxAccessToken ? (
         <>
