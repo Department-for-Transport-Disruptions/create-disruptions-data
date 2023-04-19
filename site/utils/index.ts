@@ -38,6 +38,9 @@ export const sortDisruptionsByStartDate = (disruptions: Disruption[]): SortedDis
                 disruptionEndDate: disruption.disruptionEndDate,
                 disruptionEndTime: disruption.disruptionEndTime,
                 disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                disruptionRepeats: disruption.disruptionRepeats,
+                disruptionDailyRepeatsEndDate: disruption.disruptionDailyRepeatsEndDate,
+                disruptionWeeklyRepeatsEndDate: disruption.disruptionWeeklyRepeatsEndDate,
             },
         ];
 
