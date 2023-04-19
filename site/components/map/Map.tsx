@@ -1,6 +1,6 @@
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import uniqueId from "lodash/uniqueId";
-import { LineLayout, LinePaint } from "mapbox-gl";
+import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
@@ -13,7 +13,7 @@ import {
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, MapRef, Marker, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
@@ -78,7 +78,6 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
-    const [mapLayers, setMapLayers] = useState([]);
 
     const createLineString = (coordinates: Stop[], serviceId: number): Feature<Geometry, GeoJsonProperties> => ({
         type: "Feature",
@@ -356,15 +355,25 @@ const Map = ({
         setSelectAll(true);
     }, [searchedRoutes]);
 
-    const [hoverInfo, setHoverInfo] = useState(null);
+    const initialHoverState = {
+        longitude: 0,
+        latitude: 0,
+        serviceId: -1,
+    };
 
-    const onHover = useCallback((event) => {
+    const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
+        initialHoverState,
+    );
+
+    const onHover = useCallback((event: MapLayerMouseEvent) => {
         const service = event.features && event.features[0];
-        setHoverInfo({
-            longitude: event.lngLat.lng,
-            latitude: event.lngLat.lat,
-            serviceId: service && service.properties.serviceId,
-        });
+        if (service && service.properties && service.properties.serviceId) {
+            setHoverInfo({
+                longitude: event.lngLat.lng,
+                latitude: event.lngLat.lat,
+                serviceId: service && (service.properties.serviceId as number),
+            });
+        }
     }, []);
 
     const selectedService = (hoverInfo && hoverInfo.serviceId) || "";
@@ -386,8 +395,6 @@ const Map = ({
                             source={`services-inbound-${searchedRoute?.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
-                            // source-layer="original"
-                            // beforeId={`inbound-${searchedRoute?.serviceId}`}
                         />
                         <Layer
                             id={`services-highlighted-inbound-${searchedRoute?.serviceId}`}
@@ -396,8 +403,6 @@ const Map = ({
                             layout={lineLayout}
                             paint={lineStyleHighlight}
                             filter={filter}
-                            // source-layer="original"
-                            // beforeId={`inbound-${searchedRoute?.serviceId}`}
                         />
                     </Source>
                 ) : null,
@@ -418,22 +423,18 @@ const Map = ({
                     >
                         <Layer
                             id={`services-outbound-${searchedRoute?.serviceId}`}
-                            // beforeId={`outbound-${searchedRoute?.serviceId}`}
                             type="line"
                             source={`services-outbound-${searchedRoute?.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
-                            // source-layer="original"
                         />
                         <Layer
                             id={`services-highlighted-outbound-${searchedRoute?.serviceId}`}
-                            // beforeId={`outbound-${searchedRoute?.serviceId}`}
                             type="line"
                             source={`services-outbound-${searchedRoute?.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyleHighlight}
                             filter={filter}
-                            // source-layer="original"
                         />
                     </Source>
                 ) : null,
@@ -441,13 +442,27 @@ const Map = ({
         [filter],
     );
 
-    // console.log(
-    //     searchedRoutes && searchedRoutes.length > 0
-    //         ? searchedRoutes.flatMap((sr) => {
-    //               return [`services-inbound-${sr?.serviceId || ""}`, `services-outbound-${sr?.serviceId || ""}`] || [];
-    //           })
-    //         : [],
-    // );
+    const getInteractiveLayerIds = useCallback(
+        () =>
+            searchedRoutes && searchedRoutes.length > 0
+                ? searchedRoutes.flatMap((sr) => {
+                      if (sr?.inbound && sr.outbound) {
+                          return [
+                              `services-inbound-${sr?.serviceId || ""}`,
+                              `services-outbound-${sr?.serviceId || ""}`,
+                          ];
+                      } else if (sr?.inbound) {
+                          return [`services-inbound-${sr?.serviceId || ""}`];
+                      } else if (sr?.outbound) {
+                          return [`services-outbound-${sr?.serviceId || ""}`];
+                      } else {
+                          return [];
+                      }
+                  })
+                : [],
+        [searchedRoutes],
+    );
+
     const getServiceInfo = (id: number) => {
         const service = services ? services.find((service) => service.id === id) : null;
         return service ? `Service: ${service.origin} - ${service.destination}` : "Service: N/A";
@@ -484,18 +499,7 @@ const Map = ({
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
                 onMouseMove={onHover}
-                interactiveLayerIds={
-                    searchedRoutes && searchedRoutes.length > 0
-                        ? searchedRoutes.flatMap((sr) => {
-                              return (
-                                  [
-                                      `services-inbound-${sr?.serviceId || ""}`,
-                                      `services-outbound-${sr?.serviceId || ""}`,
-                                  ] || []
-                              );
-                          })
-                        : []
-                }
+                interactiveLayerIds={getInteractiveLayerIds()}
             >
                 {selected && searched ? getMarkers(selected, searched) : null}
                 {searchedRoutes ? getSourcesInbound(searchedRoutes) : null}
@@ -534,17 +538,19 @@ const Map = ({
                         </div>
                     </Popup>
                 )}
-                {selectedService && (
+                {selectedService && hoverInfo.latitude ? (
                     <Popup
                         longitude={hoverInfo.longitude}
                         latitude={hoverInfo.latitude}
                         offset={[0, -10]}
+                        onClose={() => setHoverInfo(initialHoverState)}
                         closeButton={false}
                         className="service-info"
+                        closeOnMove
                     >
                         {getServiceInfo(selectedService)}
                     </Popup>
-                )}
+                ) : null}
             </MapBox>
         </>
     ) : null;
