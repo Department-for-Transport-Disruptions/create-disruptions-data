@@ -21,7 +21,7 @@ export interface DashboardDisruption {
     validityPeriods: {
         startTime: string;
         endTime: string | null;
-        endingOnDate: string | null;
+        endingOnDate?: string | null;
     }[];
 }
 
