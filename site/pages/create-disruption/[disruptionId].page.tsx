@@ -134,8 +134,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         validity.disruptionEndDate &&
                         validity.disruptionEndTime &&
                         !validity.disruptionNoEndDateTime ? (
-                            validity.disruptionRepeats !== "doesntRepeat" &&
                             validity.disruptionRepeats &&
+                            validity.disruptionRepeats !== "doesntRepeat" &&
                             endingOnDate ? (
                                 <span>
                                     {validity.disruptionStartDate} {validity.disruptionStartTime} -{" "}
