@@ -1,6 +1,6 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect, beforeAll, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
 
 const blankInputs: DisruptionPageProps = {
@@ -10,6 +10,7 @@ const blankInputs: DisruptionPageProps = {
 
 const withInputs: DisruptionPageProps = {
     errors: [],
+    disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     inputs: {
         disruptionType: "planned",
         summary: "New disruption",
@@ -32,14 +33,11 @@ const withInputs: DisruptionPageProps = {
     },
 };
 
-beforeAll(() => {
-    vi.mock("next/router", () => ({
-        useRouter() {
-            return {
-                pathname: "",
-                query: "",
-            };
-        },
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
     }));
 });
 
@@ -51,6 +49,14 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs", () => {
+            const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with query params", () => {
+            useRouter.mockImplementation(() => ({
+                query: { return: "/review-disruption" },
+            }));
             const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });

@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, beforeAll, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
@@ -16,14 +16,11 @@ const withInputs: ConsequenceType = {
     consequenceType: "networkWide",
 };
 
-beforeAll(() => {
-    vi.mock("next/router", () => ({
-        useRouter() {
-            return {
-                pathname: "",
-                query: "",
-            };
-        },
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
     }));
 });
 
@@ -40,6 +37,14 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and without errors", () => {
+            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with query params", () => {
+            useRouter.mockImplementation(() => ({
+                query: { return: "/review-disruption" },
+            }));
             const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
