@@ -32,3 +32,21 @@ export const checkOverlap = (firstStartDate: dayjs.Dayjs, firstEndDate: dayjs.Da
         firstStartDate.isSame(secondStartDate)
     );
 };
+
+export const filterDatePeriodMatchesDisruptionDatePeriod = (
+    filterStartDate: dayjs.Dayjs,
+    filterEndDate: dayjs.Dayjs,
+    disruptionStartDate: dayjs.Dayjs,
+    disruptionEndDate: dayjs.Dayjs | undefined,
+): boolean => {
+    
+    if (disruptionEndDate) {
+        return (
+            disruptionStartDate.isBetween(filterStartDate, filterEndDate) ||
+            disruptionEndDate.isBetween(filterStartDate, filterEndDate)
+        );
+    }
+
+    console.log(disruptionStartDate.isBetween(filterStartDate, filterEndDate))
+    return disruptionStartDate.isBetween(filterStartDate, filterEndDate);
+};

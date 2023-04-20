@@ -27,8 +27,6 @@ const collectDisruptionsData = (
         (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
     );
 
-    console.log(info);
-
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
@@ -36,7 +34,7 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        parsedDisruption.error.errors.forEach(error => logger.warn(error.message));
+        parsedDisruption.error.errors.forEach(error => logger.warn(`${disruptionId} - ${error.message}`));
 
         return null;
     }

@@ -48,33 +48,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
       >
         View all disruptions
       </h1>
-      <a
-        className="govuk-button govuk-button--start"
-        data-module="govuk-button"
-        draggable="false"
-        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
-        id="create-new-button"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        role="button"
-      >
-        Create new disruption
-        <svg
-          className="govuk-button__start-icon"
-          focusable="false"
-          height="19"
-          role="presentation"
-          viewBox="0 0 33 40"
-          width="17.5"
-          xmlns="http://www.w3.org/2000/svg"
+      <div>
+        <a
+          className="govuk-button govuk-button--start"
+          data-module="govuk-button"
+          draggable="false"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          id="create-new-button"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
         >
-          <path
-            d="M0 0h13l20 20-20 20H0l20-20z"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
+          Create new disruption
+          <svg
+            className="govuk-button__start-icon"
+            focusable="false"
+            height="19"
+            role="presentation"
+            viewBox="0 0 33 40"
+            width="17.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 0h13l20 20-20 20H0l20-20z"
+              fill="currentColor"
+            />
+          </svg>
+        </a>
+        <button
+          className="govuk-button govuk-button--secondary block"
+          data-module="govuk-button"
+          onClick={[Function]}
+        >
+          F
+          ilters
+        </button>
+      </div>
       <table
         className="govuk-table"
       >
@@ -267,7 +277,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Very severe
+              Severe
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -517,33 +527,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
       >
         View all disruptions
       </h1>
-      <a
-        className="govuk-button govuk-button--start"
-        data-module="govuk-button"
-        draggable="false"
-        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
-        id="create-new-button"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        role="button"
-      >
-        Create new disruption
-        <svg
-          className="govuk-button__start-icon"
-          focusable="false"
-          height="19"
-          role="presentation"
-          viewBox="0 0 33 40"
-          width="17.5"
-          xmlns="http://www.w3.org/2000/svg"
+      <div>
+        <a
+          className="govuk-button govuk-button--start"
+          data-module="govuk-button"
+          draggable="false"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          id="create-new-button"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
         >
-          <path
-            d="M0 0h13l20 20-20 20H0l20-20z"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
+          Create new disruption
+          <svg
+            className="govuk-button__start-icon"
+            focusable="false"
+            height="19"
+            role="presentation"
+            viewBox="0 0 33 40"
+            width="17.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 0h13l20 20-20 20H0l20-20z"
+              fill="currentColor"
+            />
+          </svg>
+        </a>
+        <button
+          className="govuk-button govuk-button--secondary block"
+          data-module="govuk-button"
+          onClick={[Function]}
+        >
+          F
+          ilters
+        </button>
+      </div>
       <table
         className="govuk-table"
       >
@@ -736,7 +756,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Very severe
+              Severe
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -880,7 +900,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Very severe
+              Severe
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -1024,7 +1044,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Very severe
+              Severe
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -1404,33 +1424,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
       >
         View all disruptions
       </h1>
-      <a
-        className="govuk-button govuk-button--start"
-        data-module="govuk-button"
-        draggable="false"
-        href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
-        id="create-new-button"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        role="button"
-      >
-        Create new disruption
-        <svg
-          className="govuk-button__start-icon"
-          focusable="false"
-          height="19"
-          role="presentation"
-          viewBox="0 0 33 40"
-          width="17.5"
-          xmlns="http://www.w3.org/2000/svg"
+      <div>
+        <a
+          className="govuk-button govuk-button--start"
+          data-module="govuk-button"
+          draggable="false"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          id="create-new-button"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
         >
-          <path
-            d="M0 0h13l20 20-20 20H0l20-20z"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
+          Create new disruption
+          <svg
+            className="govuk-button__start-icon"
+            focusable="false"
+            height="19"
+            role="presentation"
+            viewBox="0 0 33 40"
+            width="17.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 0h13l20 20-20 20H0l20-20z"
+              fill="currentColor"
+            />
+          </svg>
+        </a>
+        <button
+          className="govuk-button govuk-button--secondary block"
+          data-module="govuk-button"
+          onClick={[Function]}
+        >
+          F
+          ilters
+        </button>
+      </div>
       <table
         className="govuk-table"
       >

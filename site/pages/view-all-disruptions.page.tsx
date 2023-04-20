@@ -20,7 +20,7 @@ import {
     getServiceLabel,
     mapValidityPeriods,
 } from "../utils";
-import { convertDateTimeToFormat, getDate } from "../utils/dates";
+import { convertDateTimeToFormat, filterDatePeriodMatchesDisruptionDatePeriod, getDate, getFormattedDate } from "../utils/dates";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -50,10 +50,12 @@ export interface ViewAllDisruptionsProps {
     newDisruptionId: string;
 }
 
-interface Filter {
+export interface Filter {
     services: Service[];
-    startTime?: string;
-    endTime?: string;
+    period?: {
+        startTime: string;
+        endTime: string;
+    };
     severity?: string;
     status?: string;
     operators: Operator[];
@@ -141,62 +143,29 @@ const formatServicesIntoRows = (filter: Filter, setFilter: Dispatch<SetStateActi
     return cells;
 };
 
-export const applyDateFilters = (disruptions: TableDisruption[], filter: Filter): TableDisruption[] => {
-    if (!filter.startTime && !filter.endTime) {
-        return disruptions;
-    }
+const applyDateFilters = (
+    disruptions: TableDisruption[],
+    period: {
+        startTime: string;
+        endTime: string;
+    },
+): TableDisruption[] => {
 
-    if (filter.startTime && !filter.endTime) {
-        const filterStartDate = getDate(filter.startTime);
+    return disruptions.filter((disruption) =>
+        disruption.validityPeriods.some((valPeriod) => {
+            const { startTime, endTime } = valPeriod;
 
-        return disruptions.filter((disruption) => {
-            let periodMatches = false;
-            disruption.validityPeriods.forEach((period) => {
-                const { startTime, endTime } = period;
-                if (!endTime && getDate(startTime).isSameOrBefore(filterStartDate)) {
-                    periodMatches = true;
-                } else if (endTime && getDate(endTime).isSameOrAfter(filterStartDate)) {
-                    periodMatches = true;
-                }
-            });
-            return periodMatches;
-        });
-    }
+            const periodStartDate = getDate(startTime);
+            const periodEndDate = endTime ? getDate(endTime) : undefined;
 
-    if (!filter.startTime && filter.endTime) {
-        const filterEndDate = getDate(filter.endTime);
-
-        return disruptions.filter((disruption) => {
-            let periodMatches = false;
-            disruption.validityPeriods.forEach((period) => {
-                const { startTime, endTime } = period;
-                if (!endTime && getDate(startTime).isSameOrBefore(filterEndDate)) {
-                    periodMatches = true;
-                } else if (endTime && getDate(endTime).isSameOrAfter(filterEndDate)) {
-                    periodMatches = true;
-                }
-            });
-            return periodMatches;
-        });
-    }
-
-    if (filter.startTime && filter.endTime) {
-        const filterStartDate = getDate(filter.startTime);
-        const filterEndDate = getDate(filter.endTime);
-
-        return disruptions.filter((disruption) => {
-            let periodMatches = false;
-            disruption.validityPeriods.forEach((period) => {
-                const { startTime, endTime } = period;
-
-                if (startTime && endTime) {
-                }
-            });
-            return periodMatches;
-        });
-    }
-
-    return disruptions;
+            return filterDatePeriodMatchesDisruptionDatePeriod(
+                period.startTime,
+                period.endTime,
+                periodStartDate,
+                periodEndDate,
+            );
+        }),
+    );
 };
 
 export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter): TableDisruption[] => {
@@ -239,7 +208,9 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         );
     }
 
-    disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter);
+    if (filter.period) {
+        disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter.period);
+    }
 
     return disruptionsToDisplay;
 };
@@ -273,6 +244,10 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
     const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(getPageOfDisruptions(currentPage, disruptions));
+    const [startDateFilter, setStartDateFilter] = useState("");
+    const [endDateFilter, setEndDateFilter] = useState("");
+    const [startDateFilterError, setStartDateFilterError] = useState(false);
+    const [endDateFilterError, setEndDateFilterError] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -282,6 +257,68 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
     ) => {
         setFilter({ ...filter, [key]: value });
     };
+
+    const handleDateFilterUpdate = (
+        filter: Filter,
+        setFilter: Dispatch<SetStateAction<Filter>>,
+        typeOfDate: "start" | "end",
+        value: string,
+        setStartDateFilter: Dispatch<SetStateAction<string>>,
+        setEndDateFilter: Dispatch<SetStateAction<string>>,
+        schema: z.ZodTypeAny,
+    ) => {
+        if (typeOfDate === "start") {
+            const { success } = schema.safeParse(value);
+            if (success) {
+                setStartDateFilter(value);
+            } else {
+                setStartDateFilter("");
+            }
+
+            if (!!endDateFilter && success) {
+                setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
+            } else {
+                setFilter({ ...filter, period: undefined });
+            }
+        } else {
+            const { success } = schema.safeParse(value);
+            if (success) {
+                setEndDateFilter(value);
+            } else {
+                setEndDateFilter("");
+            }
+
+            if (!!startDateFilter && success) {
+                setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
+            } else {
+                setFilter({ ...filter, period: undefined });
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (clearButtonClicked) {
+            setStartDateFilter("");
+            setStartDateFilterError(false);
+            setEndDateFilter("");
+            setEndDateFilterError(false);
+        }
+    }, [clearButtonClicked]);
+
+    useEffect(() => {
+        if (startDateFilter && !endDateFilter) {
+            setEndDateFilterError(true);
+        }
+
+        if (endDateFilter && !startDateFilter) {
+            setStartDateFilterError(true);
+        }
+
+        if ((startDateFilter && endDateFilter) || (!startDateFilter && !endDateFilter)) {
+            setEndDateFilterError(false);
+            setStartDateFilterError(false);
+        }
+    }, [startDateFilter, endDateFilter]);
 
     useEffect(() => {
         setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
@@ -364,6 +401,14 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}
 
+                    {startDateFilterError && (
+                        <div>
+                            <span className="govuk-error-message">
+                                <span className="govuk-visually-hidden">Error: </span>
+                                Both start date and end date must be provided to filter by date.
+                            </span>
+                        </div>
+                    )}
                     <DateSelector
                         display="Start date"
                         hiddenHint="Enter in format DD/MM/YYYY"
@@ -372,13 +417,29 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         disablePast={false}
                         inputName="disruptionStartDate"
                         stateUpdater={(value) => {
-                            handleFilterUpdate(filter, setFilter, "startTime", value);
+                            handleDateFilterUpdate(
+                                filter,
+                                setFilter,
+                                "start",
+                                value,
+                                setStartDateFilter,
+                                setEndDateFilter,
+                                validitySchema.shape.disruptionStartDate,
+                            );
                             setClearButtonClicked(false);
                         }}
                         reset={clearButtonClicked}
                         schema={validitySchema.shape.disruptionStartDate}
-                        errorOnBlur={false}
+                        errorOnBlur={startDateFilterError || endDateFilterError}
                     />
+                    {endDateFilterError && (
+                        <div>
+                            <span className="govuk-error-message">
+                                <span className="govuk-visually-hidden">Error: </span>
+                                Both start date and end date must be provided to filter by date.
+                            </span>
+                        </div>
+                    )}
                     <DateSelector
                         display="End date"
                         hiddenHint="Enter in format DD/MM/YYYY"
@@ -387,12 +448,20 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         disablePast={false}
                         inputName="disruptionEndDate"
                         stateUpdater={(value) => {
-                            handleFilterUpdate(filter, setFilter, "endTime", value);
+                            handleDateFilterUpdate(
+                                filter,
+                                setFilter,
+                                "end",
+                                value,
+                                setStartDateFilter,
+                                setEndDateFilter,
+                                validitySchema.shape.disruptionEndDate,
+                            );
                             setClearButtonClicked(false);
                         }}
                         reset={clearButtonClicked}
                         schema={validitySchema.shape.disruptionEndDate}
-                        errorOnBlur={false}
+                        errorOnBlur={startDateFilterError || endDateFilterError}
                     />
                     <Select
                         inputName="severityFilter"
@@ -476,6 +545,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
                     modes.push(consequence.vehicleMode);
+                    severitys.push(consequence.disruptionSeverity);
                     // severitys.push(consequence.disruptionSeverity);
                     // if (!!consequence.Affects.Networks) {
                     //     modes.push(consequence.Affects.Networks.AffectedNetwork.VehicleMode);
