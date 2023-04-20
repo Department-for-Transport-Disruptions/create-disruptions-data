@@ -16,6 +16,7 @@ import {
 import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
+import GeocoderControl from "./GeocoderControl";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
 import {
@@ -503,6 +504,7 @@ const Map = ({
                 onMouseMove={onHover}
                 interactiveLayerIds={getInteractiveLayerIds()}
             >
+                <GeocoderControl mapboxAccessToken={mapboxAccessToken} position="top-right" />
                 {selected && searched ? getMarkers(selected, searched) : null}
                 {searchedRoutes ? getSourcesInbound(searchedRoutes) : null}
                 {searchedRoutes ? getSourcesOutbound(searchedRoutes) : null}
@@ -536,7 +538,9 @@ const Map = ({
                         <div>
                             <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
                             <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
-                            <p className="govuk-body-s mb-1">Name: {popupInfo.commonName}</p>
+                            <p className="govuk-body-s mb-1">{`Name: ${popupInfo.commonName || "N/A"} (${
+                                popupInfo.indicator || ""
+                            })`}</p>
                         </div>
                     </Popup>
                 )}
