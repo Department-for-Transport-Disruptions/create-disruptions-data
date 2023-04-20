@@ -75,7 +75,6 @@ describe("create-disruption API", () => {
                 "1100",
                 "",
                 "weekly",
-                "",
                 getFutureDateAsString(40),
             ],
         };
@@ -109,8 +108,7 @@ describe("create-disruption API", () => {
                     disruptionEndTime: "1100",
                     disruptionNoEndDateTime: "",
                     disruptionRepeats: "daily",
-                    disruptionDailyRepeatsEndDate: getFutureDateAsString(11),
-                    disruptionWeeklyRepeatsEndDate: undefined,
+                    disruptionRepeatsEndDate: getFutureDateAsString(11),
                 },
                 {
                     disruptionStartDate: getFutureDateAsString(11),
@@ -119,8 +117,7 @@ describe("create-disruption API", () => {
                     disruptionEndTime: "1100",
                     disruptionNoEndDateTime: "",
                     disruptionRepeats: "weekly",
-                    disruptionDailyRepeatsEndDate: "",
-                    disruptionWeeklyRepeatsEndDate: getFutureDateAsString(40),
+                    disruptionRepeatsEndDate: getFutureDateAsString(40),
                 },
             ],
         });
@@ -273,7 +270,6 @@ describe("create-disruption API", () => {
                 "1100",
                 "",
                 "weekly",
-                "",
                 getFutureDateAsString(40),
             ],
         };
@@ -321,7 +317,6 @@ describe("create-disruption API", () => {
                 "1100",
                 "",
                 "weekly",
-                "",
                 getFutureDateAsString(40),
             ],
         };
@@ -391,9 +386,10 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The ending on date must be provided",
-                id: "disruptionDailyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_DISRUPTION_ERRORS,
@@ -422,7 +418,7 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The ending on date must be provided",
-                id: "disruptionWeeklyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -441,7 +437,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "daily",
-            disruptionDailyRepeatsEndDate: getFutureDateAsString(1),
+            disruptionRepeatsEndDate: getFutureDateAsString(1),
             publishEndDate: getFutureDateAsString(7),
             publishEndTime: "1000",
         };
@@ -454,7 +450,7 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The ending on date must be after the end date",
-                id: "disruptionDailyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -473,7 +469,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "weekly",
-            disruptionWeeklyRepeatsEndDate: getFutureDateAsString(1),
+            disruptionRepeatsEndDate: getFutureDateAsString(1),
             publishEndDate: getFutureDateAsString(7),
             publishEndTime: "1000",
         };
@@ -486,7 +482,7 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The ending on date must be after the end date",
-                id: "disruptionWeeklyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -505,7 +501,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "daily",
-            disruptionDailyRepeatsEndDate: getFutureDateAsString(380),
+            disruptionRepeatsEndDate: getFutureDateAsString(380),
             publishEndDate: getFutureDateAsString(387),
             publishEndTime: "1000",
         };
@@ -518,7 +514,7 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The repeat ending on must be within one year of the start date",
-                id: "disruptionDailyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -537,7 +533,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "weekly",
-            disruptionWeeklyRepeatsEndDate: getFutureDateAsString(380),
+            disruptionRepeatsEndDate: getFutureDateAsString(380),
             publishEndDate: getFutureDateAsString(387),
             publishEndTime: "1000",
         };
@@ -550,7 +546,7 @@ describe("create-disruption API", () => {
         const errors: ErrorInfo[] = [
             {
                 errorMessage: "The repeat ending on must be within one year of the start date",
-                id: "disruptionWeeklyRepeatsEndDate",
+                id: "disruptionRepeatsEndDate",
             },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -569,7 +565,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "daily",
-            disruptionDailyRepeatsEndDate: getFutureDateAsString(10),
+            disruptionRepeatsEndDate: getFutureDateAsString(10),
             publishEndDate: getFutureDateAsString(20),
             publishEndTime: "1000",
         };
@@ -602,7 +598,7 @@ describe("create-disruption API", () => {
             disruptionEndTime: "1200",
             disruptionNoEndDateTime: "",
             disruptionRepeats: "weekly",
-            disruptionWeeklyRepeatsEndDate: getFutureDateAsString(15),
+            disruptionRepeatsEndDate: getFutureDateAsString(15),
             publishEndDate: getFutureDateAsString(20),
             publishEndTime: "1000",
         };
@@ -634,19 +630,19 @@ describe("create-disruption API", () => {
             disruptionEndDate: "13/04/2023",
             disruptionEndTime: "1200",
             disruptionRepeats: "daily",
-            disruptionDailyRepeatsEndDate: "25/04/2023",
+            disruptionRepeatsEndDate: "25/04/2023",
         };
 
         const weeklyValidity: Validity = {
             ...dailyValidity,
             disruptionRepeats: "weekly",
             disruptionEndDate: "14/04/2023",
-            disruptionWeeklyRepeatsEndDate: "25/04/2023",
+            disruptionRepeatsEndDate: "25/04/2023",
         };
 
         const dailyExpandedValidity: Validity[] = [
             {
-                disruptionDailyRepeatsEndDate: "14/04/2023",
+                disruptionRepeatsEndDate: "14/04/2023",
                 disruptionEndDate: "14/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -654,7 +650,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "15/04/2023",
+                disruptionRepeatsEndDate: "15/04/2023",
                 disruptionEndDate: "15/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -662,7 +658,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "16/04/2023",
+                disruptionRepeatsEndDate: "16/04/2023",
                 disruptionEndDate: "16/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -670,7 +666,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "17/04/2023",
+                disruptionRepeatsEndDate: "17/04/2023",
                 disruptionEndDate: "17/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -678,7 +674,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "18/04/2023",
+                disruptionRepeatsEndDate: "18/04/2023",
                 disruptionEndDate: "18/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -686,7 +682,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "19/04/2023",
+                disruptionRepeatsEndDate: "19/04/2023",
                 disruptionEndDate: "19/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -694,7 +690,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "20/04/2023",
+                disruptionRepeatsEndDate: "20/04/2023",
                 disruptionEndDate: "20/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -702,7 +698,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "21/04/2023",
+                disruptionRepeatsEndDate: "21/04/2023",
                 disruptionEndDate: "21/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -710,7 +706,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "22/04/2023",
+                disruptionRepeatsEndDate: "22/04/2023",
                 disruptionEndDate: "22/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -718,7 +714,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "23/04/2023",
+                disruptionRepeatsEndDate: "23/04/2023",
                 disruptionEndDate: "23/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -726,7 +722,7 @@ describe("create-disruption API", () => {
                 disruptionStartTime: "1100",
             },
             {
-                disruptionDailyRepeatsEndDate: "24/04/2023",
+                disruptionRepeatsEndDate: "24/04/2023",
                 disruptionEndDate: "24/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "daily",
@@ -737,13 +733,12 @@ describe("create-disruption API", () => {
 
         const weeklyExpandedDisruption: Validity[] = [
             {
-                disruptionDailyRepeatsEndDate: "25/04/2023",
+                disruptionRepeatsEndDate: "21/04/2023",
                 disruptionEndDate: "21/04/2023",
                 disruptionEndTime: "1200",
                 disruptionRepeats: "weekly",
                 disruptionStartDate: "20/04/2023",
                 disruptionStartTime: "1100",
-                disruptionWeeklyRepeatsEndDate: "21/04/2023",
             },
         ];
         expect(expandDisruptionRepeats(dailyValidity, 1)).toEqual(dailyExpandedValidity);

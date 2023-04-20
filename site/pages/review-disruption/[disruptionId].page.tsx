@@ -66,8 +66,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                 disruptionEndDate: disruption.disruptionEndDate,
                 disruptionEndTime: disruption.disruptionEndTime,
                 disruptionRepeats: disruption.disruptionRepeats,
-                disruptionDailyRepeatsEndDate: disruption.disruptionDailyRepeatsEndDate,
-                disruptionWeeklyRepeatsEndDate: disruption.disruptionWeeklyRepeatsEndDate,
+                disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
             },
         ];
 
@@ -76,12 +75,12 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                 validity.disruptionRepeats === "daily" ? (
                     <>
                         <br />
-                        Repeats daily until {validity.disruptionDailyRepeatsEndDate}
+                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate}
                     </>
-                ) : validity.disruptionRepeats === "weekly" && validity.disruptionWeeklyRepeatsEndDate ? (
+                ) : validity.disruptionRepeats === "weekly" ? (
                     <>
                         <br />
-                        Repeats every week until {validity.disruptionWeeklyRepeatsEndDate}
+                        Repeats every week until {validity.disruptionRepeatsEndDate}
                     </>
                 ) : (
                     <></>

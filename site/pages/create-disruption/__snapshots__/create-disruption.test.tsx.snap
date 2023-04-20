@@ -459,10 +459,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             name="validity1"
             type="hidden"
           />
-          <input
-            name="validity1"
-            type="hidden"
-          />
           <div
             className="govuk-form-group"
           >
@@ -824,11 +820,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <div
                           className="govuk-form-group govuk-!-margin-bottom-0"
-                          id="disruption-daily-repeats-end-date"
+                          id="disruption-repeats-end-datedaily"
                         >
                           <label
                             className="govuk-label govuk-label--s"
-                            htmlFor="disruption-daily-repeats-end-date-input"
+                            htmlFor="disruption-repeats-end-datedaily-input"
                           >
                             Ending on
                           </label>
@@ -849,8 +845,8 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
                                   disabled={false}
-                                  id="disruption-daily-repeats-end-date-input"
-                                  name="disruptionDailyRepeatsEndDate"
+                                  id="disruption-repeats-end-datedaily-input"
+                                  name="disruptionRepeatsEndDate"
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
@@ -937,11 +933,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <div
                           className="govuk-form-group govuk-!-margin-bottom-0"
-                          id="disruption-weekly-repeats-end-date"
+                          id="disruption-repeats-end-date"
                         >
                           <label
                             className="govuk-label govuk-label--s"
-                            htmlFor="disruption-weekly-repeats-end-date-input"
+                            htmlFor="disruption-repeats-end-date-input"
                           >
                             Ending on
                           </label>
@@ -962,8 +958,8 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
                                   disabled={false}
-                                  id="disruption-weekly-repeats-end-date-input"
-                                  name="disruptionWeeklyRepeatsEndDate"
+                                  id="disruption-repeats-end-date-input"
+                                  name="disruptionRepeatsEndDate"
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
@@ -2228,11 +2224,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <div
                           className="govuk-form-group govuk-!-margin-bottom-0"
-                          id="disruption-daily-repeats-end-date"
+                          id="disruption-repeats-end-datedaily"
                         >
                           <label
                             className="govuk-label govuk-label--s"
-                            htmlFor="disruption-daily-repeats-end-date-input"
+                            htmlFor="disruption-repeats-end-datedaily-input"
                           >
                             Ending on
                           </label>
@@ -2253,8 +2249,8 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
                                   disabled={false}
-                                  id="disruption-daily-repeats-end-date-input"
-                                  name="disruptionDailyRepeatsEndDate"
+                                  id="disruption-repeats-end-datedaily-input"
+                                  name="disruptionRepeatsEndDate"
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
@@ -2338,11 +2334,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <div
                           className="govuk-form-group govuk-!-margin-bottom-0"
-                          id="disruption-weekly-repeats-end-date"
+                          id="disruption-repeats-end-date"
                         >
                           <label
                             className="govuk-label govuk-label--s"
-                            htmlFor="disruption-weekly-repeats-end-date-input"
+                            htmlFor="disruption-repeats-end-date-input"
                           >
                             Ending on
                           </label>
@@ -2363,8 +2359,8 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
                                   disabled={false}
-                                  id="disruption-weekly-repeats-end-date-input"
-                                  name="disruptionWeeklyRepeatsEndDate"
+                                  id="disruption-repeats-end-date-input"
+                                  name="disruptionRepeatsEndDate"
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"

@@ -36,10 +36,9 @@ const mapDisruptions = (disruptions: Disruption[]) => {
 
         disruption.validity?.forEach((validity) => {
             const repeatsEndDate =
-                validity.disruptionRepeats === "daily" && validity.disruptionDailyRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionDailyRepeatsEndDate)
-                    : validity.disruptionRepeats === "weekly" && validity.disruptionWeeklyRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionWeeklyRepeatsEndDate)
+                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
+                validity.disruptionRepeatsEndDate
+                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
                     : validity.disruptionEndDate && validity.disruptionEndTime
                     ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
                     : null;
@@ -236,8 +235,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
                     disruptionEndTime: disruption.disruptionEndTime,
                     disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
                     disruptionRepeats: disruption.disruptionRepeats,
-                    disruptionDailyRepeatsEndDate: disruption.disruptionDailyRepeatsEndDate,
-                    disruptionWeeklyRepeatsEndDate: disruption.disruptionWeeklyRepeatsEndDate,
+                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
                 },
             ];
 

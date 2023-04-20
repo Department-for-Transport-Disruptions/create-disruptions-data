@@ -38,8 +38,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         disruptionEndTime: props.inputs.disruptionEndTime || "",
         disruptionNoEndDateTime: props.inputs.disruptionNoEndDateTime || "",
         disruptionRepeats: props.inputs.disruptionRepeats || "doesntRepeat",
-        disruptionDailyRepeatsEndDate: props.inputs.disruptionDailyRepeatsEndDate || "",
-        disruptionWeeklyRepeatsEndDate: props.inputs.disruptionWeeklyRepeatsEndDate || "",
+        disruptionRepeatsEndDate: props.inputs.disruptionRepeatsEndDate || "",
     };
 
     const [pageState, setDisruptionPageState] = useState(props);
@@ -98,8 +97,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "",
                 disruptionRepeats: "doesntRepeat",
-                disruptionDailyRepeatsEndDate: "",
-                disruptionWeeklyRepeatsEndDate: "",
+                disruptionRepeatsEndDate: "",
             });
 
             setAddValidityClicked(true);
@@ -126,9 +124,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         if (pageState.inputs.validity) {
             return pageState.inputs.validity.map((validity, i) => {
                 const endingOnDate =
-                    validity.disruptionRepeats === "daily"
-                        ? validity.disruptionDailyRepeatsEndDate
-                        : validity.disruptionWeeklyRepeatsEndDate;
+                    validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly"
+                        ? validity.disruptionRepeatsEndDate
+                        : null;
 
                 return {
                     header: `Validity period ${i + 1}`,
@@ -268,12 +266,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <input
                                     type="hidden"
                                     name={`validity${index + 1}`}
-                                    value={item.disruptionDailyRepeatsEndDate}
-                                />
-                                <input
-                                    type="hidden"
-                                    name={`validity${index + 1}`}
-                                    value={item.disruptionWeeklyRepeatsEndDate}
+                                    value={item.disruptionRepeatsEndDate}
                                 />
                             </Fragment>
                         ))}
@@ -362,14 +355,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hiddenHint="Enter in format DD/MM/YYYY"
-                                            value={validity.disruptionDailyRepeatsEndDate}
+                                            value={validity.disruptionRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
-                                            inputName="disruptionDailyRepeatsEndDate"
+                                            inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "daily"}
-                                            schema={validitySchema.shape.disruptionDailyRepeatsEndDate}
+                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
+                                            suffixId="daily"
                                         />
                                     ),
                                 },
@@ -382,14 +376,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hiddenHint="Enter in format DD/MM/YYYY"
-                                            value={validity.disruptionWeeklyRepeatsEndDate}
+                                            value={validity.disruptionRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
-                                            inputName="disruptionWeeklyRepeatsEndDate"
+                                            inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "weekly"}
-                                            schema={validitySchema.shape.disruptionWeeklyRepeatsEndDate}
+                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
                                         />
                                     ),
                                 },

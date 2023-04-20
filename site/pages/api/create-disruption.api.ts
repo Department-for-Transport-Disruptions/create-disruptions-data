@@ -27,9 +27,20 @@ export const formatCreateDisruptionBody = (body: object) => {
                 disruptionEndTime: values[3],
                 disruptionNoEndDateTime: values[4],
                 disruptionRepeats: values[5],
-                disruptionDailyRepeatsEndDate: values[6],
-                disruptionWeeklyRepeatsEndDate: values[7],
+                disruptionRepeatsEndDate: values[6],
             };
+        });
+
+    const disruptionRepeatsEndDate = Object.entries(body)
+        .filter((item) => item.toString().startsWith("disruptionRepeatsEndDate"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            let endDate = values;
+            if (Array.isArray(values)) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                endDate = values[0] ? values[0] : values[1];
+            }
+            return endDate;
         });
 
     const cleansedBody = Object.fromEntries(
@@ -39,6 +50,7 @@ export const formatCreateDisruptionBody = (body: object) => {
     return {
         ...cleansedBody,
         validity,
+        disruptionRepeatsEndDate: disruptionRepeatsEndDate ? disruptionRepeatsEndDate[0] : disruptionRepeatsEndDate,
     };
 };
 
