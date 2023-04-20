@@ -37,14 +37,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const router = useRouter();
     const queryParams = router.query;
 
-    console.log("router------", router);
-    console.log("queryParams------", queryParams);
-    console.log("pageState.disruptionId---", pageState.disruptionId);
-    console.log("query---", queryParams["return"]);
-    console.log(
-        "condition----",
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId,
-    );
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
