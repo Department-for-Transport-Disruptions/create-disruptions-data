@@ -43,7 +43,7 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
+        const queryParam = getReturnPage(req);
 
         const body = req.body as DisruptionInfo;
 

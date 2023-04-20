@@ -17,7 +17,7 @@ import {
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
+        const queryParam = getReturnPage(req);
 
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
 

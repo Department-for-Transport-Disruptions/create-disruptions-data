@@ -2,7 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
-import { COOKIES_POLICY_COOKIE, COOKIE_CSRF, COOKIE_ID_TOKEN, COOKIE_PREFERENCES_COOKIE } from "../../constants";
+import {
+    COOKIES_POLICY_COOKIE,
+    COOKIE_CSRF,
+    COOKIE_ID_TOKEN,
+    COOKIE_PREFERENCES_COOKIE,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../constants";
 import { PageState } from "../../interfaces";
 import logger from "../logger";
 
@@ -85,7 +91,7 @@ export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>,
     return inputsProps;
 };
 
-export const getReturnPage = (req: NextApiRequest, pageName: string) => {
+export const getReturnPage = (req: NextApiRequest) => {
     const queryParam = req.headers.referer?.split("?")[1];
-    return queryParam && decodeURIComponent(queryParam)?.includes(pageName) ? queryParam : null;
+    return queryParam && decodeURIComponent(queryParam)?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? queryParam : null;
 };

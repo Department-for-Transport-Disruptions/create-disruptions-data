@@ -45,7 +45,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
 
 const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req, REVIEW_DISRUPTION_PAGE_PATH);
+        const queryParam = getReturnPage(req);
 
         const formattedBody = formatCreateConsequenceStopsServicesBody(req.body as object);
 
