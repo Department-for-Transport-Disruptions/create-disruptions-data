@@ -23,10 +23,7 @@ export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 
 export const operatorConsequenceSchema = z.object({
     ...baseConsequence,
-    consequenceOperator: z.union(
-        [z.literal("FMAN"), z.literal("SCMN"), z.literal("FSYO"), z.literal("SYRK")],
-        setZodDefaultError("Select an operator"),
-    ),
+    consequenceOperator: z.string(setZodDefaultError("Select an operator")),
     consequenceType: z.literal("operatorWide", setZodDefaultError("Select a consequence type")),
 });
 
@@ -110,3 +107,20 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 ]);
 
 export type Consequence = z.infer<typeof consequenceSchema>;
+
+export const operatorSchema = z.object({
+    id: z.number(),
+    nocCode: z.string(),
+    operatorPublicName: z.string(),
+    vosaPsvLicenseName: z.string().optional(),
+    opId: z.string().optional(),
+    pubNmId: z.string().optional(),
+    nocCdQual: z.string().optional(),
+    changeDate: z.string().optional(),
+    changeAgent: z.string().optional(),
+    changeComment: z.string().optional(),
+    dateCeased: z.string().optional(),
+    dataOwner: z.string().optional(),
+});
+
+export type Operator = z.infer<typeof operatorSchema>;
