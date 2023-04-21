@@ -127,8 +127,8 @@ const Map = ({
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop: Stop[] = searched.filter((stop: Stop) => stop.atcoCode === id);
-
+                const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
+                
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
@@ -138,7 +138,7 @@ const Map = ({
                 });
             }
         },
-        [searched, selected, state, stateUpdater],
+        [searched, selected, state, stateUpdater, markerData],
     );
 
     const getMarkers = useCallback(
