@@ -382,24 +382,24 @@ const Map = ({
     const getSourcesInbound = useCallback(
         (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
             searchedRoutes.map((searchedRoute) =>
-                searchedRoute?.inbound ? (
+                searchedRoute?.inbound && searchedRoute?.serviceId ? (
                     <Source
-                        key={searchedRoute?.serviceId}
-                        id={`inbound-route-${searchedRoute?.serviceId}`}
+                        key={searchedRoute.serviceId}
+                        id={`inbound-route-${searchedRoute.serviceId}`}
                         type="geojson"
                         data={createLineString(searchedRoute.inbound, searchedRoute?.serviceId)}
                     >
                         <Layer
-                            id={`services-inbound-${searchedRoute?.serviceId}`}
+                            id={`services-inbound-${searchedRoute.serviceId}`}
                             type="line"
-                            source={`services-inbound-${searchedRoute?.serviceId}`}
+                            source={`services-inbound-${searchedRoute.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
                         />
                         <Layer
-                            id={`services-highlighted-inbound-${searchedRoute?.serviceId}`}
+                            id={`services-highlighted-inbound-${searchedRoute.serviceId}`}
                             type="line"
-                            source={`services-inbound-${searchedRoute?.serviceId}`}
+                            source={`services-inbound-${searchedRoute.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyleHighlight}
                             filter={filter}
@@ -414,24 +414,24 @@ const Map = ({
     const getSourcesOutbound = useCallback(
         (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
             searchedRoutes.map((searchedRoute) =>
-                searchedRoute?.outbound ? (
+                searchedRoute?.outbound && searchedRoute?.serviceId ? (
                     <Source
-                        key={searchedRoute?.serviceId}
-                        id={`outbound-route-${searchedRoute?.serviceId}`}
+                        key={searchedRoute.serviceId}
+                        id={`outbound-route-${searchedRoute.serviceId}`}
                         type="geojson"
                         data={createLineString(searchedRoute.outbound, searchedRoute?.serviceId)}
                     >
                         <Layer
-                            id={`services-outbound-${searchedRoute?.serviceId}`}
+                            id={`services-outbound-${searchedRoute.serviceId}`}
                             type="line"
-                            source={`services-outbound-${searchedRoute?.serviceId}`}
+                            source={`services-outbound-${searchedRoute.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyle}
                         />
                         <Layer
-                            id={`services-highlighted-outbound-${searchedRoute?.serviceId}`}
+                            id={`services-highlighted-outbound-${searchedRoute.serviceId}`}
                             type="line"
-                            source={`services-outbound-${searchedRoute?.serviceId}`}
+                            source={`services-outbound-${searchedRoute.serviceId}`}
                             layout={lineLayout}
                             paint={lineStyleHighlight}
                             filter={filter}
@@ -446,18 +446,16 @@ const Map = ({
         () =>
             searchedRoutes && searchedRoutes.length > 0
                 ? searchedRoutes.flatMap((sr) => {
-                      if (sr?.inbound && sr.outbound) {
-                          return [
-                              `services-inbound-${sr?.serviceId || ""}`,
-                              `services-outbound-${sr?.serviceId || ""}`,
-                          ];
-                      } else if (sr?.inbound) {
-                          return [`services-inbound-${sr?.serviceId || ""}`];
-                      } else if (sr?.outbound) {
-                          return [`services-outbound-${sr?.serviceId || ""}`];
-                      } else {
-                          return [];
+                      if (sr?.inbound && sr.outbound && sr.serviceId) {
+                          return [`services-inbound-${sr.serviceId || ""}`, `services-outbound-${sr.serviceId || ""}`];
                       }
+                      if (sr?.inbound && sr.serviceId) {
+                          return [`services-inbound-${sr?.serviceId || ""}`];
+                      }
+                      if (sr?.outbound && sr.serviceId) {
+                          return [`services-outbound-${sr?.serviceId || ""}`];
+                      }
+                      return [];
                   })
                 : [],
         [searchedRoutes],
@@ -478,7 +476,7 @@ const Map = ({
                     </span>
                     <strong className="govuk-warning-text__text">
                         <span className="govuk-warning-text__assistive">Warning</span>
-                        {`Stop selection capped at 100, ${selected.length || "0"} stops currently selected`}
+                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
                     </strong>
                 </div>
             ) : null}
