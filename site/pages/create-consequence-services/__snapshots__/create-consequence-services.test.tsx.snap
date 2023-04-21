@@ -3599,12 +3599,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
@@ -3625,6 +3627,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
@@ -3764,12 +3767,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-direction-allDirections-conditional"
                       defaultChecked={false}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
@@ -3790,6 +3795,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-direction-inbound-conditional"
                       defaultChecked={true}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
@@ -3810,6 +3816,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="disruption-direction-outbound-conditional"
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
