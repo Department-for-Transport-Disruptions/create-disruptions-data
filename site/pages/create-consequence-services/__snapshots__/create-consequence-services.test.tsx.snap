@@ -3330,13 +3330,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               />
             </div>
           </div>
-          <button
-            className="govuk-button govuk-button--secondary mt-2"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            Select all stops
-          </button>
           <div
             className="govuk-form-group"
           >
