@@ -498,8 +498,6 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                 },
             ];
 
-            let valid = true;
-
             for (let i = 0; i < combinedValidity.length; i++) {
                 for (let j = i + 1; j < combinedValidity.length; j++) {
                     if (
@@ -531,11 +529,11 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                                 : dayjs().add(100, "year"),
                         )
                     ) {
-                        valid = false;
+                        return false;
                     }
                 }
             }
-            return valid;
+            return true;
         },
         {
             path: ["disruptionStartDate"],
