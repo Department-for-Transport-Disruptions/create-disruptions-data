@@ -1,7 +1,8 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -10,15 +11,21 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import OperatorSearch from "../../../components/OperatorSearch";
 import {
+    API_BASE_URL,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_SEVERITIES,
-    OPERATORS,
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
+import {
+    Operator,
+    OperatorConsequence,
+    operatorConsequenceSchema,
+    operatorSchema,
+} from "../../../schemas/consequence.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
@@ -28,12 +35,22 @@ const description = "Create Consequence Operator page for the Create Transport D
 
 export interface CreateConsequenceOperatorProps
     extends PageState<Partial<OperatorConsequence>>,
-        CreateConsequenceProps {}
+        CreateConsequenceProps {
+    operators: Operator[];
+}
 
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
+    const initialOperator = props.operators.find((op) => pageState.inputs.consequenceOperator === op.nocCode);
+    const [selectedOperators, setSelectedOperators] = useState<Operator[]>(initialOperator ? [initialOperator] : []);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+
+    useEffect(() => {
+        if (selectedOperators.length > 0) {
+            stateUpdater(selectedOperators[0].nocCode, "consequenceOperator");
+        }
+    }, [selectedOperators, stateUpdater]);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -72,16 +89,47 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             displaySize="l"
                         />
 
-                        <Select<OperatorConsequence>
-                            inputName="consequenceOperator"
+                        <OperatorSearch
                             display="Operators impacted"
                             displaySize="l"
-                            defaultDisplay="Select operator"
-                            selectValues={OPERATORS}
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.consequenceOperator}
-                            initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.consequenceOperator}
+                            operators={props.operators.filter(
+                                (op) => !selectedOperators.find((selOp) => selOp.nocCode === op.nocCode),
+                            )}
+                            selectedOperators={selectedOperators}
+                            setSelectedOperators={setSelectedOperators}
+                            errors={selectedOperators.length === 0 ? pageState.errors : []}
+                            inputId="consequenceOperator"
+                        />
+
+                        {selectedOperators.length > 0 ? (
+                            <Table
+                                rows={selectedOperators.map((selOp) => {
+                                    return {
+                                        cells: [
+                                            selOp.operatorPublicName,
+                                            selOp.nocCode,
+                                            <button
+                                                key={selOp.nocCode}
+                                                className="govuk-link"
+                                                onClick={() => {
+                                                    const selectedOperatorsWithRemoved = selectedOperators.filter(
+                                                        (op) => op.nocCode !== selOp.nocCode,
+                                                    );
+                                                    setSelectedOperators(selectedOperatorsWithRemoved);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>,
+                                        ],
+                                    };
+                                })}
+                            />
+                        ) : null}
+
+                        <input
+                            type="hidden"
+                            name="consequenceOperator"
+                            value={selectedOperators.length > 0 ? selectedOperators[0].nocCode : undefined}
                         />
 
                         <TextInput<OperatorConsequence>
@@ -180,7 +228,16 @@ export const getServerSideProps = async (
         consequence && isOperatorConsequence(consequence) ? consequence : undefined,
     );
 
-    return { props: { ...pageState, consequenceIndex: index } };
+    let operators: Operator[] = [];
+    const searchApiUrl = `${API_BASE_URL}operators`;
+    const res = await fetch(searchApiUrl, { method: "GET" });
+    const parse = z.array(operatorSchema).safeParse(await res.json());
+
+    if (parse.success) {
+        operators = parse.data;
+    }
+
+    return { props: { ...pageState, consequenceIndex: index, operators } };
 };
 
 export default CreateConsequenceOperator;
