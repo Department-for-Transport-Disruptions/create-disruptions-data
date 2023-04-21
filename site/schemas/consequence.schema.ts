@@ -40,6 +40,13 @@ export const stopSchema = z.object({
     latitude: z.coerce.number(),
     serviceId: z.number({}).optional(),
     bearing: z.string().optional(),
+    sequenceNumber: z.string().optional(),
+    direction: z.string().optional(),
+});
+
+export const routesSchema = z.object({
+    inbound: z.array(stopSchema),
+    outbound: z.array(stopSchema),
 });
 
 export const stopsConsequenceSchema = z.object({
@@ -51,11 +58,13 @@ export const stopsConsequenceSchema = z.object({
             message: "At least one stop must be added",
         })
         .max(100, {
-            message: "Only up to 100 stops can be added",
+            message: "Maximum of 100 stops permitted per consequence",
         }),
 });
 
 export type Stop = z.infer<typeof stopSchema>;
+
+export type Routes = z.infer<typeof routesSchema>;
 
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 
@@ -74,7 +83,7 @@ export const servicesConsequenceSchema = z.object({
     stops: z
         .array(stopSchema)
         .max(100, {
-            message: "Only up to 100 stops can be added",
+            message: "Maximum of 100 stops permitted per consequence",
         })
         .optional(),
     services: z
