@@ -83,7 +83,7 @@ const Map = ({
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
-    const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
@@ -245,7 +245,7 @@ const Map = ({
             }
             return newFeatures;
         });
-        setSelectAll(true);
+        setShowSelectAllText(true);
         setPopupInfo({});
     }, []);
 
@@ -259,7 +259,7 @@ const Map = ({
             }
             return newFeatures;
         });
-        setSelectAll(true);
+        setShowSelectAllText(true);
         setMarkerData([]);
         setPopupInfo({});
     }, []);
@@ -267,7 +267,7 @@ const Map = ({
     const selectAllStops = (evt: SyntheticEvent) => {
         evt.preventDefault();
         if (searchedRoutes) {
-            if (!selectAll) {
+            if (!showSelectAllText) {
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
@@ -288,7 +288,7 @@ const Map = ({
                         ],
                     });
                 } else {
-                    if (searched.length > 0 && selectAll) {
+                    if (searched.length > 0 && showSelectAllText) {
                         stateUpdater({
                             inputs: {
                                 ...state.inputs,
@@ -310,10 +310,10 @@ const Map = ({
                     }
                 }
             }
-            setSelectAll(!selectAll);
+            setShowSelectAllText(!showSelectAllText);
             return;
         }
-        if (!selectAll) {
+        if (!showSelectAllText) {
             stateUpdater({
                 inputs: {
                     ...state.inputs,
@@ -336,7 +336,7 @@ const Map = ({
                     ],
                 });
             } else {
-                if (markerData.length > 0 && selectAll) {
+                if (markerData.length > 0 && showSelectAllText) {
                     stateUpdater({
                         inputs: {
                             ...state.inputs,
@@ -358,11 +358,11 @@ const Map = ({
                 }
             }
         }
-        setSelectAll(!selectAll);
+        setShowSelectAllText(!showSelectAllText);
     };
 
     useEffect(() => {
-        setSelectAll(true);
+        setShowSelectAllText(true);
     }, [searchedRoutes]);
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
@@ -491,7 +491,7 @@ const Map = ({
                             : searchedRoutes.length <= 0
                     }
                 >
-                    {!selectAll ? "Unselect all stops" : "Select all stops"}
+                    {showSelectAllText ? "Select all stops" : "Unselect all stops"}
                 </button>
             ) : null}
             <MapBox
