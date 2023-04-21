@@ -1,5 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
@@ -14,13 +15,14 @@ import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_SEVERITIES,
     OPERATORS,
+    REVIEW_DISRUPTION_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isOperatorConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
@@ -34,6 +36,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+
+    const queryParams = useRouter().query;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -150,6 +154,16 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -179,6 +193,8 @@ export const getServerSideProps = async (
         disruption.disruptionId,
         consequence && isOperatorConsequence(consequence) ? consequence : undefined,
     );
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     return { props: { ...pageState, consequenceIndex: index } };
 };
