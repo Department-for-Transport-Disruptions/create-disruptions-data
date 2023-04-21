@@ -5,7 +5,6 @@ import createDisruption, { formatCreateDisruptionBody } from "./create-disruptio
 import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { Validity, expandDisruptionRepeats } from "../../schemas/create-disruption.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getFutureDateAsString } from "../../utils/dates";
@@ -70,7 +69,7 @@ describe("create-disruption API", () => {
             ],
             validity2: [
                 getFutureDateAsString(11),
-                "1300",
+                "0900",
                 getFutureDateAsString(13),
                 "1100",
                 "",
@@ -112,7 +111,7 @@ describe("create-disruption API", () => {
                 },
                 {
                     disruptionStartDate: getFutureDateAsString(11),
-                    disruptionStartTime: "1300",
+                    disruptionStartTime: "0900",
                     disruptionEndDate: getFutureDateAsString(13),
                     disruptionEndTime: "1100",
                     disruptionNoEndDateTime: "",
@@ -252,17 +251,7 @@ describe("create-disruption API", () => {
         const disruptionData = {
             ...defaultDisruptionData,
             publishStartTime: "0900",
-            disruptionStartDate: getFutureDateAsString(40),
-            disruptionStartTime: "1200",
-            validity1: [
-                defaultDisruptionStartDate,
-                "1000",
-                defaultDisruptionStartDate,
-                "1100",
-                "",
-                "daily",
-                getFutureDateAsString(13),
-            ],
+            validity1: [defaultDisruptionStartDate, "1000", defaultDisruptionEndDate, "1300", "", "doesntRepeat", ""],
             validity2: [
                 getFutureDateAsString(11),
                 "1300",
@@ -621,127 +610,5 @@ describe("create-disruption API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
-    });
-
-    it("should confirm that the dates are expanded as expected", () => {
-        const dailyValidity: Validity = {
-            disruptionStartDate: "13/04/2023",
-            disruptionStartTime: "1100",
-            disruptionEndDate: "13/04/2023",
-            disruptionEndTime: "1200",
-            disruptionRepeats: "daily",
-            disruptionRepeatsEndDate: "25/04/2023",
-        };
-
-        const weeklyValidity: Validity = {
-            ...dailyValidity,
-            disruptionRepeats: "weekly",
-            disruptionEndDate: "14/04/2023",
-            disruptionRepeatsEndDate: "25/04/2023",
-        };
-
-        const dailyExpandedValidity: Validity[] = [
-            {
-                disruptionRepeatsEndDate: "14/04/2023",
-                disruptionEndDate: "14/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "14/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "15/04/2023",
-                disruptionEndDate: "15/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "15/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "16/04/2023",
-                disruptionEndDate: "16/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "16/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "17/04/2023",
-                disruptionEndDate: "17/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "17/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "18/04/2023",
-                disruptionEndDate: "18/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "18/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "19/04/2023",
-                disruptionEndDate: "19/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "19/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "20/04/2023",
-                disruptionEndDate: "20/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "20/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "21/04/2023",
-                disruptionEndDate: "21/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "21/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "22/04/2023",
-                disruptionEndDate: "22/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "22/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "23/04/2023",
-                disruptionEndDate: "23/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "23/04/2023",
-                disruptionStartTime: "1100",
-            },
-            {
-                disruptionRepeatsEndDate: "24/04/2023",
-                disruptionEndDate: "24/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "daily",
-                disruptionStartDate: "24/04/2023",
-                disruptionStartTime: "1100",
-            },
-        ];
-
-        const weeklyExpandedDisruption: Validity[] = [
-            {
-                disruptionRepeatsEndDate: "21/04/2023",
-                disruptionEndDate: "21/04/2023",
-                disruptionEndTime: "1200",
-                disruptionRepeats: "weekly",
-                disruptionStartDate: "20/04/2023",
-                disruptionStartTime: "1100",
-            },
-        ];
-        expect(expandDisruptionRepeats(dailyValidity, 1)).toEqual(dailyExpandedValidity);
-        expect(expandDisruptionRepeats(weeklyValidity, 7)).toEqual(weeklyExpandedDisruption);
     });
 });
