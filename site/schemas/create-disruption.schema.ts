@@ -7,7 +7,7 @@ import {
 import dayjs from "dayjs";
 import { z } from "zod";
 import { setZodDefaultError, zodDate, zodTime } from "../utils";
-import { checkOverlap, convertDateTimeToFormat, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
+import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Enter a start date for the disruption"),
