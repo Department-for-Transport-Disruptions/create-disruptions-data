@@ -128,7 +128,7 @@ const Map = ({
         (id: string) => {
             if (state) {
                 const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
-                
+
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
