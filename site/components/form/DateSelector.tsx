@@ -17,6 +17,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     hiddenHint?: string;
     disablePast: boolean;
     reset?: boolean;
+    suffixId?: string;
 }
 
 const inputBox = <T extends object>(
@@ -78,12 +79,13 @@ const DateSelector = <T extends object>({
     stateUpdater,
     schema,
     reset = false,
+    suffixId,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
     );
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
-    const inputId = kebabCase(inputName);
+    const inputId = suffixId ? `${kebabCase(inputName + suffixId)}` : kebabCase(inputName);
 
     useEffect(() => {
         if (disabled || reset) {

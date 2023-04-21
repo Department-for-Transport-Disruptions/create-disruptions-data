@@ -15,6 +15,20 @@ const convertDateTimeToFormat = (dateOrTime: string | Date) => {
     return dayjs(dateOrTime).format("DD/MM/YYYY");
 };
 
+const subtractDayFromDate = (date: Date): Date => {
+    const dayJsDate = dayjs(date);
+    const subtractedDate = dayJsDate.subtract(1, "day");
+
+    return subtractedDate.toDate();
+};
+
+const addDayToDate = (date: Date): Date => {
+    const dayJsDate = dayjs(date);
+    const subtractedDate = dayJsDate.add(1, "day");
+
+    return subtractedDate.toDate();
+};
+
 const [stageName, itemsToCreate] = process.argv.slice(2);
 
 if (!stageName) {
@@ -28,8 +42,11 @@ const getRandomDate = () => {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
-const getDateAWeekLater = (date: Date): Date => {
-    return new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+const getDateXWeeksLater = (date: Date, numberOfWeeks = 1): Date => {
+    if (numberOfWeeks <= 0) {
+        throw new Error("Provide a positive number of weeks");
+    }
+    return new Date(date.getTime() + 7 * numberOfWeeks * 24 * 60 * 60 * 1000);
 };
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -43,16 +60,15 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
     let summary = "";
     let consequences = baseConsequences;
     const disruptionId = randomUUID();
+    const randomBaseDate = getRandomDate();
+    const randomDateOne = getDateXWeeksLater(randomBaseDate);
+    const endDate = addDayToDate(randomBaseDate);
 
     if (!consequences) {
         throw new Error("Base Consequence not found.");
     }
 
     if (i % 2 === 0) {
-        validityPeriods.push({
-            disruptionStartDate: convertDateTimeToFormat(getRandomDate()),
-            disruptionStartTime: "1200",
-        });
         consequences = [
             {
                 ...consequences[0],
@@ -60,19 +76,14 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
                 vehicleMode: VehicleMode.tram,
             },
         ];
-        summary =
-            "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be weak to bus information.";
+        summary = "Alien attack - counter attack needed immediately to conserve human life. Stay inside and survive";
     } else if (i % 3 === 0) {
-        const randomDate = getRandomDate();
-        validityPeriods.push(
-            { disruptionStartDate: convertDateTimeToFormat(getRandomDate()), disruptionStartTime: "1200" },
-            {
-                disruptionStartDate: convertDateTimeToFormat(randomDate),
-                disruptionStartTime: "1100",
-                disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDate)),
-                disruptionEndTime: "1400",
-            },
-        );
+        validityPeriods.push({
+            disruptionStartDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne)),
+            disruptionStartTime: "1100",
+            disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 2)),
+            disruptionEndTime: "1400",
+        });
         consequences = [
             {
                 ...consequences[0],
@@ -82,19 +93,18 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         ];
         summary = "Apes loose from zoo";
     } else if (i % 5 === 0) {
-        const randomDateOne = getRandomDate();
-        const randomDateTwo = getRandomDate();
+        const randomDateTwo = getDateXWeeksLater(randomDateOne, 2);
         validityPeriods.push(
             {
                 disruptionStartDate: convertDateTimeToFormat(randomDateOne),
                 disruptionStartTime: "1200",
-                disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDateOne)),
+                disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne)),
                 disruptionEndTime: "1400",
             },
             {
                 disruptionStartDate: convertDateTimeToFormat(randomDateTwo),
                 disruptionStartTime: "1200",
-                disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDateOne)),
+                disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateTwo)),
                 disruptionEndTime: "1400",
             },
         );
@@ -107,23 +117,27 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         ];
         summary = "Bus drivers on strike (due to being unhappy about Alien invasions and road closures).";
     } else if (i % 7 === 0) {
-        const randomDateOne = getRandomDate();
-        const randomDateTwo = getRandomDate();
-        const randomDateThree = getRandomDate();
+        const randomDateTwo = getDateXWeeksLater(randomDateOne, 2);
+        const randomDateThree = getDateXWeeksLater(randomDateTwo, 2);
         validityPeriods.push(
             {
                 disruptionStartDate: convertDateTimeToFormat(randomDateOne),
                 disruptionStartTime: "1200",
-                disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDateOne)),
+                disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne)),
                 disruptionEndTime: "1400",
             },
             {
                 disruptionStartDate: convertDateTimeToFormat(randomDateTwo),
                 disruptionStartTime: "1200",
-                disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDateOne)),
+                disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateTwo)),
                 disruptionEndTime: "1400",
             },
-            { disruptionStartDate: convertDateTimeToFormat(randomDateThree), disruptionStartTime: "1200" },
+            {
+                disruptionStartDate: convertDateTimeToFormat(randomDateThree),
+                disruptionStartTime: "1200",
+                disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateThree)),
+                disruptionEndTime: "1400",
+            },
         );
         summary = "Busted reunion traffic";
         consequences = [
@@ -144,11 +158,10 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             },
         ];
     } else {
-        const randomDate = getRandomDate();
         validityPeriods.push({
-            disruptionStartDate: convertDateTimeToFormat(randomDate),
+            disruptionStartDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne)),
             disruptionStartTime: "1200",
-            disruptionEndDate: convertDateTimeToFormat(getDateAWeekLater(randomDate)),
+            disruptionEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 2)),
             disruptionEndTime: "1400",
         });
         summary = "Mongeese loose from petting zoo";
@@ -156,9 +169,19 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
 
     const disruption: DisruptionInfo = {
         ...baseSiteDisruptionInfo,
+        disruptionStartDate: convertDateTimeToFormat(randomBaseDate),
+        publishStartDate: convertDateTimeToFormat(subtractDayFromDate(randomBaseDate)),
+        publishStartTime: "0200",
         validity: validityPeriods,
         summary,
         disruptionId,
+        ...(validityPeriods.length > 0
+            ? { publishEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 8)), publishEndTime: "2330" }
+            : {}),
+        ...(validityPeriods.length > 0 ? {} : { disruptionNoEndDateTime: "true" }),
+        ...(validityPeriods.length > 0
+            ? { disruptionEndDate: convertDateTimeToFormat(endDate), disruptionEndTime: "2300" }
+            : {}),
     };
 
     requests.push({
