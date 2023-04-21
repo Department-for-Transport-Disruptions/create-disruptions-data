@@ -486,7 +486,7 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                 disruptionRepeatsEndDate,
             } = val;
 
-            let combinedValidity: Validity[] = [
+            const combinedValidity: Validity[] = [
                 ...validity,
                 {
                     disruptionStartDate,
@@ -499,33 +499,6 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             ];
 
             let valid = true;
-            const expandedValidity: Validity[] = [];
-
-            for (let i = 0; i < combinedValidity.length; i++) {
-                // Avoid running the overlap check if the start and end date are invalid
-                if (
-                    (combinedValidity[i].disruptionRepeats === "daily" &&
-                        getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
-                            getFormattedDate(combinedValidity[i].disruptionStartDate),
-                            "day",
-                        ) != 0) ||
-                    (combinedValidity[i].disruptionRepeats === "weekly" &&
-                        getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
-                            getFormattedDate(combinedValidity[i].disruptionStartDate),
-                            "day",
-                        ) > 7)
-                ) {
-                    return valid;
-                }
-
-                if (combinedValidity[i].disruptionRepeats === "daily") {
-                    expandedValidity.push(...expandDisruptionRepeats(combinedValidity[i], 1));
-                } else if (combinedValidity[i].disruptionRepeats === "weekly") {
-                    expandedValidity.push(...expandDisruptionRepeats(combinedValidity[i], 7));
-                }
-            }
-
-            combinedValidity = combinedValidity.concat(expandedValidity);
 
             for (let i = 0; i < combinedValidity.length; i++) {
                 for (let j = i + 1; j < combinedValidity.length; j++) {
@@ -664,31 +637,5 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             });
         }
     });
-
-export const expandDisruptionRepeats = (validity: Validity, incrementDays: number): Validity[] => {
-    let startDate = getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime);
-
-    let endDate = getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || "");
-
-    const repeatsEndDate = getFormattedDate(validity.disruptionRepeatsEndDate || "");
-
-    const expandedValidity: Validity[] = [];
-
-    while (endDate.add(incrementDays, "day").isBefore(repeatsEndDate)) {
-        startDate = startDate.add(incrementDays, "day");
-        endDate = endDate.add(incrementDays, "day");
-
-        expandedValidity.push({
-            ...validity,
-            disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
-            disruptionStartTime: startDate.format("HHmm"),
-            disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
-            disruptionEndTime: endDate.format("HHmm"),
-            disruptionRepeatsEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
-        });
-    }
-
-    return expandedValidity;
-};
 
 export type DisruptionInfo = z.infer<typeof createDisruptionSchema>;
