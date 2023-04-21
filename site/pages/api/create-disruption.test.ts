@@ -5,6 +5,7 @@ import createDisruption, { formatCreateDisruptionBody } from "./create-disruptio
 import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
+import { Validity, expandDisruptionRepeats } from "../../schemas/create-disruption.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getFutureDateAsString } from "../../utils/dates";
@@ -53,7 +54,31 @@ describe("create-disruption API", () => {
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: defaultDisruptionData, mockWriteHeadFn: writeHeadMock });
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         await createDisruption(req, res);
 
@@ -67,21 +92,32 @@ describe("create-disruption API", () => {
             associatedLink: "",
             disruptionReason: MiscellaneousReason.roadworks,
             publishStartDate: defaultPublishStartDate,
-            publishStartTime: "1100",
+            publishStartTime: "0900",
             publishEndDate: "",
             publishEndTime: "",
-            disruptionStartDate: defaultDisruptionEndDate,
-            disruptionStartTime: "1100",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
             disruptionEndDate: "",
             disruptionEndTime: "",
             disruptionNoEndDateTime: "true",
             validity: [
                 {
                     disruptionStartDate: defaultDisruptionStartDate,
-                    disruptionStartTime: "1100",
-                    disruptionEndDate: defaultDisruptionEndDate,
-                    disruptionEndTime: "1000",
+                    disruptionStartTime: "1000",
+                    disruptionEndDate: defaultDisruptionStartDate,
+                    disruptionEndTime: "1100",
                     disruptionNoEndDateTime: "",
+                    disruptionRepeats: "daily",
+                    disruptionRepeatsEndDate: getFutureDateAsString(11),
+                },
+                {
+                    disruptionStartDate: getFutureDateAsString(11),
+                    disruptionStartTime: "1300",
+                    disruptionEndDate: getFutureDateAsString(13),
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "weekly",
+                    disruptionRepeatsEndDate: getFutureDateAsString(40),
                 },
             ],
         });
@@ -212,6 +248,100 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
+    it("should redirect back to /create-disruption when validity has an overlapping row", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(13),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Validity periods cannot overlap", id: "disruptionStartDate" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when publishing window doesn't encompass disruption window", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            publishEndDate: getFutureDateAsString(47),
+            publishEndTime: "1100",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            disruptionEndDate: getFutureDateAsString(48),
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(12),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "1300",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The publishing period must end after the last validity period",
+                id: "publishEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
     it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
@@ -235,5 +365,383 @@ describe("create-disruption API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats daily but no ending on date is provided", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "daily",
+            publishEndDate: getFutureDateAsString(7),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The ending on date must be provided",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats weekly but no ending on date is provided", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "weekly",
+            publishEndDate: getFutureDateAsString(7),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The ending on date must be provided",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is before the disruption end date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "daily",
+            disruptionRepeatsEndDate: getFutureDateAsString(1),
+            publishEndDate: getFutureDateAsString(7),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The ending on date must be after the end date",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is before the disruption end date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "weekly",
+            disruptionRepeatsEndDate: getFutureDateAsString(1),
+            publishEndDate: getFutureDateAsString(7),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The ending on date must be after the end date",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is more than 365 days of start date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "daily",
+            disruptionRepeatsEndDate: getFutureDateAsString(380),
+            publishEndDate: getFutureDateAsString(387),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The repeat ending on must be within one year of the start date",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is more than 365 days of start date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: defaultDisruptionEndDate,
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "weekly",
+            disruptionRepeatsEndDate: getFutureDateAsString(380),
+            publishEndDate: getFutureDateAsString(387),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The repeat ending on must be within one year of the start date",
+                id: "disruptionRepeatsEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats daily and the end date is more than 24 hours of start date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: getFutureDateAsString(7),
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "daily",
+            disruptionRepeatsEndDate: getFutureDateAsString(10),
+            publishEndDate: getFutureDateAsString(20),
+            publishEndTime: "1000",
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The date range must be within 24 hours for daily repetitions",
+                id: "disruptionEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect back to /create-disruption when disruption repeats weekly and the end date is more than 7 days of start date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionEndDate: getFutureDateAsString(14),
+            disruptionEndTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionRepeats: "weekly",
+            disruptionRepeatsEndDate: getFutureDateAsString(15),
+            publishEndDate: getFutureDateAsString(20),
+            publishEndTime: "1000",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "The date range must be within 7 days for weekly repetitions",
+                id: "disruptionEndDate",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should confirm that the dates are expanded as expected", () => {
+        const dailyValidity: Validity = {
+            disruptionStartDate: "13/04/2023",
+            disruptionStartTime: "1100",
+            disruptionEndDate: "13/04/2023",
+            disruptionEndTime: "1200",
+            disruptionRepeats: "daily",
+            disruptionRepeatsEndDate: "25/04/2023",
+        };
+
+        const weeklyValidity: Validity = {
+            ...dailyValidity,
+            disruptionRepeats: "weekly",
+            disruptionEndDate: "14/04/2023",
+            disruptionRepeatsEndDate: "25/04/2023",
+        };
+
+        const dailyExpandedValidity: Validity[] = [
+            {
+                disruptionRepeatsEndDate: "14/04/2023",
+                disruptionEndDate: "14/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "14/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "15/04/2023",
+                disruptionEndDate: "15/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "15/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "16/04/2023",
+                disruptionEndDate: "16/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "16/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "17/04/2023",
+                disruptionEndDate: "17/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "17/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "18/04/2023",
+                disruptionEndDate: "18/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "18/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "19/04/2023",
+                disruptionEndDate: "19/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "19/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "20/04/2023",
+                disruptionEndDate: "20/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "20/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "21/04/2023",
+                disruptionEndDate: "21/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "21/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "22/04/2023",
+                disruptionEndDate: "22/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "22/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "23/04/2023",
+                disruptionEndDate: "23/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "23/04/2023",
+                disruptionStartTime: "1100",
+            },
+            {
+                disruptionRepeatsEndDate: "24/04/2023",
+                disruptionEndDate: "24/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "daily",
+                disruptionStartDate: "24/04/2023",
+                disruptionStartTime: "1100",
+            },
+        ];
+
+        const weeklyExpandedDisruption: Validity[] = [
+            {
+                disruptionRepeatsEndDate: "21/04/2023",
+                disruptionEndDate: "21/04/2023",
+                disruptionEndTime: "1200",
+                disruptionRepeats: "weekly",
+                disruptionStartDate: "20/04/2023",
+                disruptionStartTime: "1100",
+            },
+        ];
+        expect(expandDisruptionRepeats(dailyValidity, 1)).toEqual(dailyExpandedValidity);
+        expect(expandDisruptionRepeats(weeklyValidity, 7)).toEqual(weeklyExpandedDisruption);
     });
 });

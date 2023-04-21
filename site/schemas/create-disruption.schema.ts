@@ -7,7 +7,7 @@ import {
 import dayjs from "dayjs";
 import { z } from "zod";
 import { setZodDefaultError, zodDate, zodTime } from "../utils";
-import { checkOverlap, getDatetimeFromDateAndTime } from "../utils/dates";
+import { checkOverlap, convertDateTimeToFormat, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Enter a start date for the disruption"),
@@ -15,6 +15,8 @@ export const validitySchema = z.object({
     disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
 });
 
 export type Validity = z.infer<typeof validitySchema>;
@@ -36,7 +38,169 @@ export const validitySchemaRefined = validitySchema
     .refine((val) => val.disruptionEndDate || val.disruptionEndTime || val.disruptionNoEndDateTime, {
         path: ["disruptionNoEndDateTime"],
         message: '"No end date/time" should be selected or a disruption date and time should be entered',
-    });
+    })
+    .refine(
+        (val) => {
+            if (val.disruptionRepeats === "daily" && !val.disruptionRepeatsEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be provided",
+        },
+    )
+    .refine(
+        (val) => {
+            if (val.disruptionRepeats === "weekly" && !val.disruptionRepeatsEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be provided",
+        },
+    )
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime && !val.disruptionEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "Enter an end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime && !val.disruptionEndTime) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndTime"],
+            message: "Enter an end time",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "daily" &&
+                val.disruptionEndDate &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionEndDate).isSameOrAfter(getFormattedDate(val.disruptionRepeatsEndDate))
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be after the end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "weekly" &&
+                val.disruptionEndDate &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionEndDate).isSameOrAfter(getFormattedDate(val.disruptionRepeatsEndDate))
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be after the end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "daily" &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The repeat ending on must be within one year of the start date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "weekly" &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The repeat ending on must be within one year of the start date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionEndDate &&
+                val.disruptionEndTime &&
+                val.disruptionRepeats === "daily" &&
+                getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(24, "hours"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "The date range must be within 24 hours for daily repetitions",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionEndDate &&
+                val.disruptionEndTime &&
+                val.disruptionRepeats === "weekly" &&
+                getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(7, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "The date range must be within 7 days for weekly repetitions",
+        },
+    );
 
 export const createDisruptionSchema = z.object({
     disruptionId: z.string().uuid(),
@@ -73,6 +237,8 @@ export const createDisruptionSchema = z.object({
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     validity: z
         .array(validitySchemaRefined)
         .refine((arr) => !arr.some((val) => val.disruptionNoEndDateTime === "true"), {
@@ -148,25 +314,219 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
     })
     .refine(
         (val) => {
+            if (val.disruptionRepeats === "daily" && !val.disruptionRepeatsEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be provided",
+        },
+    )
+    .refine(
+        (val) => {
+            if (val.disruptionRepeats === "weekly" && !val.disruptionRepeatsEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be provided",
+        },
+    )
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime && !val.disruptionEndDate) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "Enter an end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime && !val.disruptionEndTime) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndTime"],
+            message: "Enter an end time",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "daily" &&
+                val.disruptionEndDate &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionEndDate).isSameOrAfter(getFormattedDate(val.disruptionRepeatsEndDate))
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be after the end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "weekly" &&
+                val.disruptionEndDate &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionEndDate).isSameOrAfter(getFormattedDate(val.disruptionRepeatsEndDate))
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The ending on date must be after the end date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "daily" &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The repeat ending on must be within one year of the start date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionRepeats === "weekly" &&
+                val.disruptionRepeatsEndDate &&
+                getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionRepeatsEndDate"],
+            message: "The repeat ending on must be within one year of the start date",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionEndDate &&
+                val.disruptionEndTime &&
+                val.disruptionRepeats === "daily" &&
+                getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(24, "hours"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "The date range must be within 24 hours for daily repetitions",
+        },
+    )
+    .refine(
+        (val) => {
+            if (
+                !val.disruptionNoEndDateTime &&
+                val.disruptionEndDate &&
+                val.disruptionEndTime &&
+                val.disruptionRepeats === "weekly" &&
+                getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
+                    getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(7, "day"),
+                )
+            ) {
+                return false;
+            }
+            return true;
+        },
+        {
+            path: ["disruptionEndDate"],
+            message: "The date range must be within 7 days for weekly repetitions",
+        },
+    )
+    .refine(
+        (val) => {
             const {
                 validity = [],
                 disruptionStartDate,
                 disruptionStartTime,
                 disruptionEndDate,
                 disruptionEndTime,
+                disruptionRepeats,
+                disruptionRepeatsEndDate,
             } = val;
 
-            const combinedValidity = [
+            let combinedValidity: Validity[] = [
                 ...validity,
                 {
                     disruptionStartDate,
                     disruptionStartTime,
                     disruptionEndDate,
                     disruptionEndTime,
+                    disruptionRepeats,
+                    disruptionRepeatsEndDate,
                 },
             ];
 
             let valid = true;
+            const expandedValidity: Validity[] = [];
+
+            for (let i = 0; i < combinedValidity.length; i++) {
+                // Avoid running the overlap check if the start and end date are invalid
+                if (
+                    (combinedValidity[i].disruptionRepeats === "daily" &&
+                        getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
+                            getFormattedDate(combinedValidity[i].disruptionStartDate),
+                            "day",
+                        ) != 0) ||
+                    (combinedValidity[i].disruptionRepeats === "weekly" &&
+                        getFormattedDate(combinedValidity[i].disruptionEndDate || "").diff(
+                            getFormattedDate(combinedValidity[i].disruptionStartDate),
+                            "day",
+                        ) > 7)
+                ) {
+                    return valid;
+                }
+
+                if (combinedValidity[i].disruptionRepeats === "daily") {
+                    expandedValidity.push(...expandDisruptionRepeats(combinedValidity[i], 1));
+                } else if (combinedValidity[i].disruptionRepeats === "weekly") {
+                    expandedValidity.push(...expandDisruptionRepeats(combinedValidity[i], 7));
+                }
+            }
+
+            combinedValidity = combinedValidity.concat(expandedValidity);
+
             for (let i = 0; i < combinedValidity.length; i++) {
                 for (let j = i + 1; j < combinedValidity.length; j++) {
                     if (
@@ -190,9 +550,16 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                                 combinedValidity[j].disruptionStartDate,
                                 combinedValidity[j].disruptionStartTime,
                             ),
+                            combinedValidity[j].disruptionEndDate
+                                ? getDatetimeFromDateAndTime(
+                                      combinedValidity[j].disruptionEndDate || "",
+                                      combinedValidity[j].disruptionEndTime || "",
+                                  )
+                                : dayjs().add(100, "year"),
                         )
-                    )
+                    ) {
                         valid = false;
+                    }
                 }
             }
             return valid;
@@ -226,6 +593,8 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             disruptionStartTime,
             disruptionEndDate,
             disruptionEndTime,
+            disruptionRepeats,
+            disruptionRepeatsEndDate,
             publishStartDate,
             publishStartTime,
             publishEndDate,
@@ -239,6 +608,8 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
                 disruptionStartTime,
                 disruptionEndDate,
                 disruptionEndTime,
+                disruptionRepeats,
+                disruptionRepeatsEndDate,
             },
         ];
 
@@ -265,16 +636,26 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             });
         }
 
+        let maxEndDate =
+            sortedValidity && sortedValidity[sortedValidity.length - 1].disruptionEndDate
+                ? getFormattedDate(sortedValidity[sortedValidity.length - 1].disruptionEndDate || "")
+                : dayjs().subtract(100, "year");
+
+        for (let i = 0; i < sortedValidity.length; i++) {
+            if (
+                (sortedValidity[i].disruptionRepeats === "daily" || sortedValidity[i].disruptionRepeats === "weekly") &&
+                sortedValidity[i].disruptionRepeatsEndDate
+            ) {
+                const repeatsEndDate = getFormattedDate(sortedValidity[i].disruptionRepeatsEndDate || "");
+
+                if (repeatsEndDate.isAfter(maxEndDate)) maxEndDate = repeatsEndDate;
+            }
+        }
+
         if (
-            sortedValidity[sortedValidity.length - 1].disruptionEndDate &&
             publishEndDate &&
             publishEndTime &&
-            getDatetimeFromDateAndTime(publishEndDate, publishEndTime).isBefore(
-                getDatetimeFromDateAndTime(
-                    sortedValidity[sortedValidity.length - 1].disruptionEndDate || "",
-                    sortedValidity[sortedValidity.length - 1].disruptionEndTime || "",
-                ),
-            )
+            getDatetimeFromDateAndTime(publishEndDate, publishEndTime).isBefore(maxEndDate)
         ) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -283,5 +664,31 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             });
         }
     });
+
+export const expandDisruptionRepeats = (validity: Validity, incrementDays: number): Validity[] => {
+    let startDate = getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime);
+
+    let endDate = getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || "");
+
+    const repeatsEndDate = getFormattedDate(validity.disruptionRepeatsEndDate || "");
+
+    const expandedValidity: Validity[] = [];
+
+    while (endDate.add(incrementDays, "day").isBefore(repeatsEndDate)) {
+        startDate = startDate.add(incrementDays, "day");
+        endDate = endDate.add(incrementDays, "day");
+
+        expandedValidity.push({
+            ...validity,
+            disruptionStartDate: convertDateTimeToFormat(startDate.toDate(), "DD/MM/YYYY"),
+            disruptionStartTime: startDate.format("HHmm"),
+            disruptionEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
+            disruptionEndTime: endDate.format("HHmm"),
+            disruptionRepeatsEndDate: convertDateTimeToFormat(endDate.toDate(), "DD/MM/YYYY"),
+        });
+    }
+
+    return expandedValidity;
+};
 
 export type DisruptionInfo = z.infer<typeof createDisruptionSchema>;

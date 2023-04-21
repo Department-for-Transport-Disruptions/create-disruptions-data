@@ -65,18 +65,41 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                 disruptionStartTime: disruption.disruptionStartTime,
                 disruptionEndDate: disruption.disruptionEndDate,
                 disruptionEndTime: disruption.disruptionEndTime,
+                disruptionRepeats: disruption.disruptionRepeats,
+                disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
             },
         ];
 
-        return validity.map((validity, i) => ({
-            header: `Validity period ${i + 1}`,
-            cells: [
-                validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                    ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                    : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
-            ],
-        }));
+        return validity.map((validity, i) => {
+            const appendValue =
+                validity.disruptionRepeats === "daily" ? (
+                    <>
+                        <br />
+                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate}
+                    </>
+                ) : validity.disruptionRepeats === "weekly" ? (
+                    <>
+                        <br />
+                        Repeats every week until {validity.disruptionRepeatsEndDate}
+                    </>
+                ) : (
+                    <></>
+                );
+            return {
+                header: `Validity period ${i + 1}`,
+                cells: [
+                    validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime ? (
+                        <span>
+                            {validity.disruptionStartDate} {validity.disruptionStartTime} - {validity.disruptionEndDate}{" "}
+                            {validity.disruptionEndTime} {appendValue}
+                        </span>
+                    ) : (
+                        `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
+                    ),
+                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+                ],
+            };
+        });
     };
 
     return (
