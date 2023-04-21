@@ -355,13 +355,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               />
             </div>
           </div>
-          <button
-            className="govuk-button govuk-button--secondary mt-2"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            Select all stops
-          </button>
           <div
             className="govuk-form-group"
           >
@@ -1395,13 +1388,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               />
             </div>
           </div>
-          <button
-            className="govuk-button govuk-button--secondary mt-2"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            Select all stops
-          </button>
           <div
             className="govuk-form-group"
           >
@@ -2387,13 +2373,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               </table>
             </div>
           </div>
-          <button
-            className="govuk-button govuk-button--secondary mt-2"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            Select all stops
-          </button>
           <div
             className="govuk-form-group"
           >

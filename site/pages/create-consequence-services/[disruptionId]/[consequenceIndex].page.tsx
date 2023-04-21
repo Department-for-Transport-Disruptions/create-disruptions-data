@@ -32,6 +32,8 @@ import {
     Service,
     serviceSchema,
     servicesConsequenceSchema,
+    routesSchema,
+    Routes,
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isServicesConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -67,9 +69,33 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
-    const [selectAll, setSelectAll] = useState<boolean>(true);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
+    const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
+
+    useEffect(() => {
+        const loadOptions = async () => {
+            if (selectedService) {
+                const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/routes`;
+                const res = await fetch(searchApiUrl, { method: "GET" });
+                const data: Routes = routesSchema.parse(await res.json());
+                if (data) {
+                    const notSelected =
+                        searched.length > 0
+                            ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
+                            : true;
+                    if (notSelected) setSearchedOptions([...searched, { ...data, serviceId: selectedService.id }]);
+                } else {
+                    setSearchedOptions([]);
+                }
+            }
+        };
+
+        loadOptions()
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedService]);
 
     const queryParams = useRouter().query;
 
@@ -131,7 +157,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 ],
             });
         } else {
-            if (stopToAdd) {
+            if (stopToAdd && pageState.inputs.stops && pageState.inputs.stops.length < 100) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
@@ -146,12 +172,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             }
         }
     };
-
-    useEffect(() => {
-        if (!selectedService) {
-            setSelectAll(true);
-        }
-    }, [selectedService]);
 
     const getServiceLabel = (service: Service) =>
         `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
@@ -229,6 +249,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
         }
+
+        setSearchedOptions(searched.filter((stop) => stop?.serviceId !== serviceId) || []);
         setSelectedService(null);
         setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
@@ -250,53 +272,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             }));
         }
         return [];
-    };
-
-    const selectAllStops = (e: SyntheticEvent) => {
-        e.preventDefault();
-
-        if (!selectAll) {
-            setPageState({
-                inputs: {
-                    ...pageState.inputs,
-                    stops: [],
-                },
-                errors: pageState.errors,
-            });
-        } else {
-            const parsed = z.array(stopSchema).safeParse(stopOptions);
-            if (!parsed.success) {
-                setPageState({
-                    ...pageState,
-                    errors: [
-                        ...pageState.errors.filter(
-                            (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
-                        ),
-                        ...flattenZodErrors(parsed.error),
-                    ],
-                });
-            } else {
-                if (stopOptions.length > 0 && selectAll) {
-                    setPageState({
-                        inputs: {
-                            ...pageState.inputs,
-                            stops: sortStops(
-                                [...(pageState.inputs.stops ?? []), ...stopOptions].filter(
-                                    (value, index, self) =>
-                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                ),
-                            ),
-                        },
-                        errors: [
-                            ...pageState.errors.filter(
-                                (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
-                            ),
-                        ],
-                    });
-                }
-            }
-        }
-        setSelectAll(!selectAll);
     };
 
     return (
@@ -356,14 +331,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             setSearchInput={setServicesSearchInput}
                         />
 
-                        <button
-                            className="govuk-button govuk-button--secondary mt-2"
-                            data-module="govuk-button"
-                            onClick={selectAllStops}
-                        >
-                            {!selectAll ? "Unselect all stops" : "Select all stops"}
-                        </button>
-
                         <SearchSelect<Stop>
                             selected={selected}
                             inputName="stop"
@@ -391,6 +358,17 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             }}
                             style={{ width: "100%", height: 400, marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
+                            selected={
+                                pageState.inputs.stops && pageState.inputs.stops.length > 0
+                                    ? pageState.inputs.stops
+                                    : []
+                            }
+                            searched={stopOptions}
+                            stateUpdater={setPageState}
+                            state={pageState}
+                            searchedRoutes={searched}
+                            showSelectAllButton
+                            services={props.initialServices}
                         />
 
                         <TextInput<ServicesConsequence>
