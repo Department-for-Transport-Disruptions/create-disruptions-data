@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { randomUUID } from "crypto";
@@ -9,7 +10,7 @@ import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
-import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
+import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -29,8 +30,26 @@ export interface DashboardProps {
     newDisruptionId: string;
 }
 
-const mapDisruptions = (disruptions: Disruption[]) =>
-    sortDisruptionsByStartDate(disruptions).map((disruption) => {
+const mapDisruptions = (disruptions: Disruption[]) => {
+    return sortDisruptionsByStartDate(disruptions).map((disruption) => {
+        let maxEndDate: Dayjs | null = getDate().subtract(100, "years");
+
+        disruption.validity?.forEach((validity) => {
+            const repeatsEndDate =
+                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
+                validity.disruptionRepeatsEndDate
+                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
+                    : validity.disruptionEndDate && validity.disruptionEndTime
+                    ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
+                    : null;
+
+            if (repeatsEndDate && repeatsEndDate.isAfter(maxEndDate)) {
+                maxEndDate = repeatsEndDate;
+            } else if (!repeatsEndDate) {
+                maxEndDate = null;
+            }
+        });
+
         return {
             id: disruption.disruptionId,
             summary: disruption.summary,
@@ -39,13 +58,11 @@ const mapDisruptions = (disruptions: Disruption[]) =>
                     period.disruptionStartDate,
                     period.disruptionStartTime,
                 ).toISOString(),
-                endTime:
-                    period.disruptionEndDate && period.disruptionEndTime
-                        ? getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString()
-                        : null,
+                endTime: maxEndDate ? maxEndDate.toISOString() : null,
             })),
         };
     });
+};
 
 const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
@@ -217,8 +234,11 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
                     disruptionEndDate: disruption.disruptionEndDate,
                     disruptionEndTime: disruption.disruptionEndTime,
                     disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                    disruptionRepeats: disruption.disruptionRepeats,
+                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
                 },
             ];
+
             const shouldNotDisplayDisruption = validityPeriods.every(
                 (period) =>
                     !!period.disruptionEndDate &&

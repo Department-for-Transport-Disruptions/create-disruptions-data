@@ -264,12 +264,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
@@ -290,6 +292,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
@@ -879,12 +882,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               >
                 <div
                   className="govuk-radios"
+                  data-module="govuk-radios"
                 >
                   <div
                     className="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
@@ -905,6 +910,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   >
                     <input
                       className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"

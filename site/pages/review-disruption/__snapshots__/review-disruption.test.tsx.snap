@@ -225,7 +225,16 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  13/01/2022 1200 - 14/01/2022 1400
+                  <span>
+                    13/01/2022
+                     
+                    1200
+                     - 
+                    14/01/2022
+                     
+                    1400
+                     
+                  </span>
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -253,7 +262,16 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  15/01/2022 1200 - 17/01/2022 1400
+                  <span>
+                    15/01/2022
+                     
+                    1200
+                     - 
+                    17/01/2022
+                     
+                    1400
+                     
+                  </span>
                 </td>
                 <td
                   className="govuk-table__cell align-middle"

@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, SyntheticEvent, useState } from "react";
+import { Fragment, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import ErrorSummary from "../../components/ErrorSummary";
 import Checkbox from "../../components/form/Checkbox";
 import CsrfForm from "../../components/form/CsrfForm";
@@ -39,6 +39,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         disruptionStartTime: props.inputs.disruptionStartTime || "",
         disruptionEndTime: props.inputs.disruptionEndTime || "",
         disruptionNoEndDateTime: props.inputs.disruptionNoEndDateTime || "",
+        disruptionRepeats: props.inputs.disruptionRepeats || "doesntRepeat",
+        disruptionRepeatsEndDate: props.inputs.disruptionRepeatsEndDate || "",
     };
 
     const [pageState, setDisruptionPageState] = useState(props);
@@ -46,6 +48,17 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
+    const doesntRepeatRef = useRef<HTMLInputElement>(null);
+    const dailyRef = useRef<HTMLInputElement>(null);
+    const weeklyRef = useRef<HTMLInputElement>(null);
+
+    const hasInitialised = useRef(false);
+    useEffect(() => {
+        if (window.GOVUKFrontend && !hasInitialised.current) {
+            window.GOVUKFrontend.initAll();
+        }
+        hasInitialised.current = true;
+    });
 
     const addValidity = (e: SyntheticEvent) => {
         e.preventDefault();
@@ -86,7 +99,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                 disruptionStartTime: "",
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "",
+                disruptionRepeats: "doesntRepeat",
+                disruptionRepeatsEndDate: "",
             });
+
             setAddValidityClicked(true);
         }
     };
@@ -109,22 +125,43 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const getValidityRows = () => {
         if (pageState.inputs.validity) {
-            return pageState.inputs.validity.map((validity, i) => ({
-                header: `Validity period ${i + 1}`,
-                cells: [
-                    validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime
-                        ? `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
-                        : `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`,
-                    <button
-                        id={`remove-validity-period-${i + 1}`}
-                        key={`remove-validity-period-${i + 1}`}
-                        className="govuk-link"
-                        onClick={(e) => removeValidity(e, i)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
+            return pageState.inputs.validity.map((validity, i) => {
+                const endingOnDate =
+                    validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly"
+                        ? validity.disruptionRepeatsEndDate
+                        : null;
+
+                return {
+                    header: `Validity period ${i + 1}`,
+                    cells: [
+                        validity.disruptionEndDate &&
+                        validity.disruptionEndTime &&
+                        !validity.disruptionNoEndDateTime ? (
+                            validity.disruptionRepeats &&
+                            validity.disruptionRepeats !== "doesntRepeat" &&
+                            endingOnDate ? (
+                                <span>
+                                    {validity.disruptionStartDate} {validity.disruptionStartTime} -{" "}
+                                    {validity.disruptionEndDate} {validity.disruptionEndTime} <br /> Repeats{" "}
+                                    {validity.disruptionRepeats} until {endingOnDate}{" "}
+                                </span>
+                            ) : (
+                                `${validity.disruptionStartDate} ${validity.disruptionStartTime} - ${validity.disruptionEndDate} ${validity.disruptionEndTime}`
+                            )
+                        ) : (
+                            `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
+                        ),
+                        <button
+                            id={`remove-validity-period-${i + 1}`}
+                            key={`remove-validity-period-${i + 1}`}
+                            className="govuk-link"
+                            onClick={(e) => removeValidity(e, i)}
+                        >
+                            Remove
+                        </button>,
+                    ],
+                };
+            });
         }
         return [];
     };
@@ -133,6 +170,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const validityStateUpdater = (change: string, field: string) => {
         setValidity({ ...validity, [field]: change });
+    };
+
+    const updateDisruptionRepeats = (change: string, field: string) => {
+        setValidity({
+            ...validity,
+            [field]: change,
+            disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
+        });
     };
 
     return (
@@ -220,6 +265,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     name={`validity${index + 1}`}
                                     value={item.disruptionNoEndDateTime}
                                 />
+                                <input type="hidden" name={`validity${index + 1}`} value={item.disruptionRepeats} />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionRepeatsEndDate}
+                                />
                             </Fragment>
                         ))}
 
@@ -289,6 +340,67 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             reset={addValidityClicked}
                             schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
+
+                        <Radios<DisruptionInfo>
+                            display="Does this disruption repeat?"
+                            radioDetail={[
+                                {
+                                    value: "doesntRepeat",
+                                    display: "Doesn't repeat",
+                                    ref: doesntRepeatRef,
+                                },
+                                {
+                                    value: "daily",
+                                    display: "Daily",
+                                    ref: dailyRef,
+                                    disabled: validity.disruptionNoEndDateTime === "true",
+                                    conditionalElement: (
+                                        <DateSelector<Validity>
+                                            display="Ending on"
+                                            hiddenHint="Enter in format DD/MM/YYYY"
+                                            value={validity.disruptionRepeatsEndDate}
+                                            disabled={false}
+                                            disablePast={false}
+                                            inputName="disruptionRepeatsEndDate"
+                                            stateUpdater={validityStateUpdater}
+                                            initialErrors={pageState.errors}
+                                            reset={addValidityClicked || validity.disruptionRepeats !== "daily"}
+                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
+                                            suffixId="daily"
+                                        />
+                                    ),
+                                },
+                                {
+                                    value: "weekly",
+                                    display: "Weekly",
+                                    ref: weeklyRef,
+                                    disabled: validity.disruptionNoEndDateTime === "true",
+                                    conditionalElement: (
+                                        <DateSelector<Validity>
+                                            display="Ending on"
+                                            hiddenHint="Enter in format DD/MM/YYYY"
+                                            value={validity.disruptionRepeatsEndDate}
+                                            disabled={false}
+                                            disablePast={false}
+                                            inputName="disruptionRepeatsEndDate"
+                                            stateUpdater={validityStateUpdater}
+                                            initialErrors={pageState.errors}
+                                            reset={addValidityClicked || validity.disruptionRepeats !== "weekly"}
+                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
+                                        />
+                                    ),
+                                },
+                            ]}
+                            inputName="disruptionRepeats"
+                            stateUpdater={updateDisruptionRepeats}
+                            value={
+                                validity.disruptionNoEndDateTime === "true"
+                                    ? "doesntRepeat"
+                                    : validity.disruptionRepeats
+                            }
+                            initialErrors={pageState.errors}
+                        />
+
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
                             data-module="govuk-button"
