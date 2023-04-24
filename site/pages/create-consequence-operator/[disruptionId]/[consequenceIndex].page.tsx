@@ -14,6 +14,7 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/OperatorSearch";
 import {
+    ADMIN_AREA_CODE,
     API_BASE_URL,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_SEVERITIES,
@@ -242,7 +243,7 @@ export const getServerSideProps = async (
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     let operators: Operator[] = [];
-    const searchApiUrl = `${API_BASE_URL}operators`;
+    const searchApiUrl = `${API_BASE_URL}operators?adminAreaCodes=${ADMIN_AREA_CODE}`;
     const res = await fetch(searchApiUrl, { method: "GET" });
     const parse = z.array(operatorSchema).safeParse(await res.json());
 

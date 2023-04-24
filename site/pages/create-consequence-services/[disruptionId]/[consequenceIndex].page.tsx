@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { SingleValue } from "react-select";
+import { SingleValue, createFilter } from "react-select";
+import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -42,6 +43,14 @@ import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../..
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
 
+const filterConfig = {
+    ignoreCase: true,
+    ignoreAccents: false,
+    stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
+    trim: true,
+    matchFrom: "any" as const,
+};
+
 export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     if (serviceId) {
         const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
@@ -57,6 +66,17 @@ export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     }
 
     return [];
+};
+
+const sortServices = (services: Service[]) => {
+    return services.sort((a, b) => {
+        return (
+            a.lineName.localeCompare(b.lineName, "en", { numeric: true }) ||
+            a.origin.localeCompare(b.origin) ||
+            a.destination.localeCompare(b.destination) ||
+            a.operatorShortName.localeCompare(b.operatorShortName)
+        );
+    });
 };
 
 export interface CreateConsequenceServicesProps
@@ -224,17 +244,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     };
 
-    const sortServices = (services: Service[]) => {
-        return services.sort((a, b) => {
-            return (
-                a.lineName.localeCompare(b.lineName) ||
-                a.origin.localeCompare(b.origin) ||
-                a.destination.localeCompare(b.destination) ||
-                a.operatorShortName.localeCompare(b.operatorShortName)
-            );
-        });
-    };
-
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
         if (pageState.inputs.services) {
@@ -329,6 +338,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             isClearable
                             inputValue={servicesSearchInput}
                             setSearchInput={setServicesSearchInput}
+                            filterOptions={createFilter(filterConfig)}
                         />
 
                         <SearchSelect<Stop>
@@ -508,7 +518,21 @@ export const getServerSideProps = async (
     const parse = z.array(serviceSchema).safeParse(await res.json());
 
     if (parse.success) {
-        services = parse.data;
+        services = sortServices(parse.data);
+
+        const setOfServices = new Set();
+
+        const filteredServices: Service[] = services.filter((item) => {
+            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+            if (!setOfServices.has(serviceDisplay)) {
+                setOfServices.add(serviceDisplay);
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        services = filteredServices;
     }
 
     let stops: Stop[] = [];
