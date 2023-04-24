@@ -523,8 +523,9 @@ export const getServerSideProps = async (
         const setOfServices = new Set();
 
         const filteredServices: Service[] = services.filter((item) => {
-            if (!setOfServices.has(item.lineName + item.origin + item.destination + item.operatorShortName)) {
-                setOfServices.add(item.lineName + item.origin + item.destination + item.operatorShortName);
+            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+            if (!setOfServices.has(serviceDisplay)) {
+                setOfServices.add(serviceDisplay);
                 return true;
             } else {
                 return false;
