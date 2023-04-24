@@ -1,7 +1,8 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
@@ -43,6 +44,19 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
 
 const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
+    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
+
+    const deleteActionHandler = (id: string, name: string): void => {
+        setPopUpState({ disruptionId: id, disruptionName: name });
+    };
+
+    const cancelActionHandler = (): void => {
+        setPopUpState(undefined);
+    };
+
+    const buildDeleteUrl = (idToDelete: string, csrfToken: string): string => {
+        return `/api/delete-disruption?id=${idToDelete}&_csrf=${csrfToken}`;
+    };
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -411,6 +425,23 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
                         </button>
+                        <button
+                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                            data-module="govuk-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                deleteActionHandler(disruption.disruptionId, disruption.summary);
+                            }}
+                        >
+                            Delete
+                        </button>
+                        {popUpState && csrfToken ? (
+                            <DeleteConfirmationPopup
+                                entityName={popUpState.disruptionName}
+                                deleteUrl={buildDeleteUrl(popUpState.disruptionId, csrfToken)}
+                                cancelActionHandler={cancelActionHandler}
+                            />
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

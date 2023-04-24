@@ -27,7 +27,7 @@ const getValidityPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-const getPtSituationElementFromDraft = (disruption: Disruption) => {
+export const getPtSituationElementFromDraft = (disruption: Disruption) => {
     const currentTime = dayjs().toISOString();
 
     const reason = disruption.disruptionReason;
