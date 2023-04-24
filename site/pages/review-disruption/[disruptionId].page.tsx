@@ -204,8 +204,10 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "operatorWide" &&
-                                                          consequence.consequenceOperator
-                                                        ? `Operator wide - ${consequence.consequenceOperator}`
+                                                          consequence.consequenceOperators
+                                                        ? `Operator wide - ${consequence.consequenceOperators.join(
+                                                              ", ",
+                                                          )}`
                                                         : `${"Network wide"}`
                                                 }`}
                                             </span>

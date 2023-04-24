@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
@@ -18,20 +21,31 @@ import {
 const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const consequenceOperatorsData = req.body.consequenceOperators;
 
-        const validatedBody = operatorConsequenceSchema.safeParse(req.body);
+        const consequenceOperators: string[] =
+            !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
+                ? consequenceOperatorsData.split(",")
+                : !!consequenceOperatorsData
+                ? [consequenceOperatorsData]
+                : [];
+
+        const consequence: OperatorConsequence = {
+            ...req.body,
+            consequenceOperators,
+        };
+
+        const validatedBody = operatorConsequenceSchema.safeParse(consequence);
 
         if (!validatedBody.success) {
-            const body = req.body as OperatorConsequence;
-
-            if (!body.disruptionId || !body.consequenceIndex) {
+            if (!consequence.disruptionId || !consequence.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
 
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({
-                    inputs: body,
+                    inputs: consequence,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
@@ -39,7 +53,7 @@ const createConsequenceOperator = async (req: NextApiRequest, res: NextApiRespon
 
             redirectTo(
                 res,
-                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}${
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${consequence.disruptionId}/${consequence.consequenceIndex}${
                     queryParam ? `?${queryParam}` : ""
                 }`,
             );

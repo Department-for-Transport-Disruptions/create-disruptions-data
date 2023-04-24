@@ -1,42 +1,50 @@
 import kebabCase from "lodash/kebabCase";
-import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
 import FormElementWrapper, { FormGroupWrapper } from "./form/FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
 import { Operator } from "../schemas/consequence.schema";
 
-interface OperatorSearchProps {
-    display: string;
-    displaySize?: "l" | "m" | "s";
+interface OperatorSearchProps<T> {
     operators: Operator[];
-    setSelectedOperators: Dispatch<SetStateAction<Operator[]>>;
-    selectedOperators: Operator[];
+    stateUpdater: (change: string[], field: keyof T) => void;
+    selectedOperatorNocs: string[];
     reset?: boolean;
-    errors?: ErrorInfo[];
-    inputId?: string;
+    display: string;
+    displaySize?: "s" | "m" | "l" | "xl";
+    inputName: Extract<keyof T, string>;
+    initialErrors?: ErrorInfo[];
 }
 
 export const sortOperatorByName = (operators: Operator[]): Operator[] => {
     return operators.sort((a, b) => (a.operatorPublicName > b.operatorPublicName ? 1 : -1));
 };
 
-const OperatorSearch = ({
+const handleChange = <T,>(
+    input: string[],
+    inputName: keyof T,
+    stateUpdater: (change: string[], field: keyof T) => void,
+) => {
+    stateUpdater(input, inputName);
+};
+
+const OperatorSearch = <T extends object>({
     display,
     displaySize = "m",
     operators,
-    setSelectedOperators,
-    selectedOperators,
+    stateUpdater,
+    selectedOperatorNocs,
     reset = false,
-    errors = [],
-    inputId = "operator-search-dropdown",
-}: OperatorSearchProps): ReactElement => {
+    initialErrors = [],
+    inputName,
+}: OperatorSearchProps<T>): ReactElement => {
     const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         if (reset) {
-            setSelectedOperators([]);
+            handleChange<T>([], inputName, stateUpdater);
         }
-    }, [reset, setSelectedOperators]);
+    }, [reset, stateUpdater, inputName]);
 
     const controlStyles = (state: ControlProps<Operator, false, GroupBase<Operator>>) => ({
         fontFamily: "GDS Transport, arial, sans-serif",
@@ -54,12 +62,12 @@ const OperatorSearch = ({
     });
 
     return (
-        <FormGroupWrapper errorIds={[inputId]} errors={errors}>
-            <div className="govuk-form-group" id={kebabCase(inputId)}>
+        <FormGroupWrapper errorIds={[inputName]} errors={initialErrors}>
+            <div className="govuk-form-group" id={kebabCase(inputName)}>
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor="operator-search-dropdown-value">
                     {display}
                 </label>
-                <FormElementWrapper errors={errors} errorId={inputId} errorClass="govuk-input--error">
+                <FormElementWrapper errors={initialErrors} errorId={inputName} errorClass="govuk-input--error">
                     <Select
                         isSearchable
                         styles={{
@@ -81,12 +89,12 @@ const OperatorSearch = ({
                         }}
                         inputValue={searchText}
                         onChange={(operator) => {
-                            if (
-                                !selectedOperators.find(
-                                    (selOperator) => selOperator.nocCode === (operator as Operator).nocCode,
-                                )
-                            ) {
-                                setSelectedOperators([...selectedOperators, operator as Operator]);
+                            if (!selectedOperatorNocs.find((noc) => noc === (operator as Operator).nocCode)) {
+                                handleChange(
+                                    [...selectedOperatorNocs, (operator as Operator).nocCode],
+                                    inputName,
+                                    stateUpdater,
+                                );
                             }
                         }}
                         id="operator-search"
