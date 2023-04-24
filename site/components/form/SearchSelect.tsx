@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, ReactElement, SetStateAction } from "react";
 import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta } from "react-select";
+import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
 import { ErrorInfo } from "../../interfaces";
@@ -25,6 +26,7 @@ interface SearchSelectProps<T> {
     options: T[] | undefined;
     inputValue: string;
     setSearchInput: Dispatch<SetStateAction<string>>;
+    filterOptions?: (option: FilterOptionOption<object>, rawInput: string) => boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -44,6 +46,7 @@ const SearchSelect = <T extends object>({
     options,
     inputValue = "",
     setSearchInput = (value) => value,
+    filterOptions,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action !== "input-blur" && action !== "menu-close") {
@@ -108,6 +111,7 @@ const SearchSelect = <T extends object>({
                         menuPlacement="auto"
                         menuPosition="fixed"
                         isClearable={isClearable}
+                        filterOption={filterOptions}
                     />
                 </FormElementWrapper>
 
