@@ -1,0 +1,124 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeleteConfirmationPopup > should render correctly 1`] = `
+<div>
+  <div
+    class="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen "
+  >
+    <div
+      class="relative bg-white w-full max-w-xl p-10"
+    >
+      <form>
+        <h1
+          class="govuk-heading-l"
+        >
+          Are you sure you wish to delete 
+          test
+          ?
+        </h1>
+        <span
+          class="govuk-hint"
+          id="delete-hint"
+        />
+        <button
+          class="govuk-button mr-6 mt-4 mb-0 mt-11"
+          data-module="govuk-button"
+          formaction="https://test.com/api/delete"
+          formmethod="post"
+          id="popup-delete-button"
+        >
+          Yes, delete
+        </button>
+        <button
+          class="govuk-button govuk-button--secondary mr-6 mt-4 mb-0 mt-11"
+          id="popup-cancel-button"
+        >
+          No, return
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DeleteConfirmationPopup > should render correctly when delete is clicked 1`] = `
+<div>
+  <div
+    class="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen "
+  >
+    <div
+      class="relative bg-white w-full max-w-xl p-10"
+    >
+      <form>
+        <h1
+          class="govuk-heading-l"
+        >
+          Are you sure you wish to delete 
+          test
+          ?
+        </h1>
+        <span
+          class="govuk-hint"
+          id="delete-hint"
+        />
+        <button
+          class="govuk-button mr-6 mt-4 mb-0 mt-11"
+          data-module="govuk-button"
+          formaction="https://test.com/api/delete"
+          formmethod="post"
+          id="popup-delete-button"
+        >
+          Yes, delete
+        </button>
+        <button
+          class="govuk-button govuk-button--secondary mr-6 mt-4 mb-0 mt-11"
+          id="popup-cancel-button"
+        >
+          No, return
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DeleteConfirmationPopup > should render correctly when return all is clicked 1`] = `
+<div>
+  <div
+    class="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen "
+  >
+    <div
+      class="relative bg-white w-full max-w-xl p-10"
+    >
+      <form>
+        <h1
+          class="govuk-heading-l"
+        >
+          Are you sure you wish to delete 
+          test
+          ?
+        </h1>
+        <span
+          class="govuk-hint"
+          id="delete-hint"
+        />
+        <button
+          class="govuk-button mr-6 mt-4 mb-0 mt-11"
+          data-module="govuk-button"
+          formaction="https://test.com/api/delete"
+          formmethod="post"
+          id="popup-delete-button"
+        >
+          Yes, delete
+        </button>
+        <button
+          class="govuk-button govuk-button--secondary mr-6 mt-4 mb-0 mt-11"
+          id="popup-cancel-button"
+        >
+          No, return
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;

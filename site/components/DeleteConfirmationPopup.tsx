@@ -41,6 +41,7 @@ const DeleteConfirmationPopup = ({
                 <button
                     className="govuk-button govuk-button--secondary mr-6 mt-4 mb-0 mt-11"
                     onClick={cancelActionHandler}
+                    id="popup-cancel-button"
                 >
                     No, return
                 </button>
