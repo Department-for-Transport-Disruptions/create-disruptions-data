@@ -119,7 +119,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                 ],
             });
         } else {
-            if (stopToAdd && pageState.inputs.stops && pageState.inputs.stops.length < 100) {
+            if (stopToAdd && (pageState.inputs.stops ? pageState.inputs.stops.length < 100 : true)) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
