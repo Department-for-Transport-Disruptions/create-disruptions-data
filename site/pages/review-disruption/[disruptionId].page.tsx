@@ -437,7 +437,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         </button>
                         {popUpState && csrfToken ? (
                             <DeleteConfirmationPopup
-                                entityName={popUpState.disruptionName}
+                                entityName={"disruption"}
                                 deleteUrl={buildDeleteUrl(popUpState.disruptionId, csrfToken)}
                                 cancelActionHandler={cancelActionHandler}
                                 hintText="This action is permanent and cannot be undone"
