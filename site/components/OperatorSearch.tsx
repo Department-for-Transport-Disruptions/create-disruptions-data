@@ -89,12 +89,8 @@ const OperatorSearch = <T extends object>({
                         }}
                         inputValue={searchText}
                         onChange={(operator) => {
-                            if (!selectedOperatorNocs.find((noc) => noc === (operator as Operator).nocCode)) {
-                                handleChange(
-                                    [...selectedOperatorNocs, (operator as Operator).nocCode],
-                                    inputName,
-                                    stateUpdater,
-                                );
+                            if (!!operator && !selectedOperatorNocs.find((noc) => noc === operator.nocCode)) {
+                                handleChange([...selectedOperatorNocs, operator.nocCode], inputName, stateUpdater);
                             }
                         }}
                         id="operator-search"
