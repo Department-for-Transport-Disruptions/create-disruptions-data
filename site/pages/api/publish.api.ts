@@ -219,11 +219,10 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
             return;
         }
-        console.log(draftDisruption)
+        
         const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
-            console.log(JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)))
             setCookieOnResponseObject(
                 COOKIES_REVIEW_DISRUPTION_ERRORS,
                 JSON.stringify({
