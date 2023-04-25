@@ -215,6 +215,9 @@ export const CREATE_CONSEQUENCE_NETWORK_PATH = "/create-consequence-network";
 export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
 export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
+export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
+export const DASHBOARD_PAGE_PATH = "/dashboard";
+export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -226,6 +229,8 @@ export const COOKIES_CONSEQUENCE_SERVICES_ERRORS = "cdd-consequence-services-err
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";
+export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer";
+export const COOKIE_DISRUPTION_DETAIL_STATE = "cdd-disruption-detail-state";
 export const COOKIE_CSRF = "_csrf";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";

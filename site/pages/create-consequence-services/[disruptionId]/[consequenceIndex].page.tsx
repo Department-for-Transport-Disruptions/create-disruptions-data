@@ -23,6 +23,7 @@ import {
     API_BASE_URL,
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
@@ -118,6 +119,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     }, [selectedService]);
 
     const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+            ? true
+            : false;
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -473,7 +479,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                        {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
                                 href={`${queryParams["return"] as string}/${pageState.disruptionId}`}

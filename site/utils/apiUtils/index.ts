@@ -7,6 +7,7 @@ import {
     COOKIE_CSRF,
     COOKIE_ID_TOKEN,
     COOKIE_PREFERENCES_COOKIE,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { PageState } from "../../interfaces";
@@ -93,5 +94,9 @@ export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>,
 
 export const getReturnPage = (req: NextApiRequest) => {
     const queryParam = req.headers.referer?.split("?")[1];
-    return queryParam && decodeURIComponent(queryParam)?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? queryParam : null;
+    const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
+    return decodedQueryParam?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+        ? queryParam
+        : null;
 };

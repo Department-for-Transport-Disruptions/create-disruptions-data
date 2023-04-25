@@ -13,6 +13,7 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     REVIEW_DISRUPTION_PAGE_PATH,
     VEHICLE_MODES,
@@ -34,8 +35,12 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+            ? true
+            : false;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -141,7 +146,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                        {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
                                 href={`${queryParams["return"] as string}/${pageState.disruptionId}`}

@@ -11,6 +11,7 @@ import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
+import { DASHBOARD_PAGE_PATH } from "../constants";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -78,7 +79,14 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: n
 
         return {
             header: (
-                <Link className="govuk-link" href={`/review-disruption/${disruption.id}`} key={disruption.id}>
+                <Link
+                    className="govuk-link"
+                    href={{
+                        pathname: `/disruption-detail/${disruption.id}`,
+                        query: { return: DASHBOARD_PAGE_PATH },
+                    }}
+                    key={disruption.id}
+                >
                     {index + 1 + offset}
                 </Link>
             ),
