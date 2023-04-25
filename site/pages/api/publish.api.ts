@@ -213,15 +213,17 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId);
 
-        if (!draftDisruption) {
+        if (!draftDisruption || (draftDisruption && Object.keys(draftDisruption).length === 0)) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
 
             return;
         }
+        console.log(draftDisruption)
         const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
+            console.log(JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)))
             setCookieOnResponseObject(
                 COOKIES_REVIEW_DISRUPTION_ERRORS,
                 JSON.stringify({
