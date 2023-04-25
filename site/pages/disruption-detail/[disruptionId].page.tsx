@@ -350,9 +350,12 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                disruption.consequences?.length ?? 0
-                            }`}
+                            href={{
+                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
+                                    disruption.consequences?.length ?? 0
+                                }`,
+                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                            }}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
