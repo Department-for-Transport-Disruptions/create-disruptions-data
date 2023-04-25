@@ -106,8 +106,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 rows={pageState.inputs.consequenceOperators.map((selOpNoc) => {
                                     return {
                                         cells: [
-                                            (props.operators.find((op) => op.nocCode === selOpNoc) as Operator)
-                                                .operatorPublicName,
+                                            props.operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
                                             selOpNoc,
                                             <button
                                                 key={selOpNoc}

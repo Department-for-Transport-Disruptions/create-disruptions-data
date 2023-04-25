@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { NextApiRequest, NextApiResponse } from "next";
@@ -18,7 +17,13 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+interface OperatorConsequenceRequest extends NextApiRequest {
+    body: OperatorConsequence & {
+        consequenceOperators: string;
+    };
+}
+
+const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
         const consequenceOperatorsData = req.body.consequenceOperators;
