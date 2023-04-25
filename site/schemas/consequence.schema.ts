@@ -23,7 +23,7 @@ export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 
 export const operatorConsequenceSchema = z.object({
     ...baseConsequence,
-    consequenceOperator: z.string(setZodDefaultError("Select an operator")),
+    consequenceOperators: z.array(z.string()).min(1, { message: "Select one or more operators" }),
     consequenceType: z.literal("operatorWide", setZodDefaultError("Select a consequence type")),
 });
 

@@ -70,7 +70,7 @@ export const affectedOperatorSchema = z.object({
 
 export const operatorsSchema = z.object({
     AllOperators: z.literal("").optional(),
-    AffectedOperator: affectedOperatorSchema.optional(),
+    AffectedOperator: z.array(affectedOperatorSchema).optional(),
 });
 
 export const networksSchema = z.object({

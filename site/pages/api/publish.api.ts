@@ -100,9 +100,9 @@ const getPtSituationElementFromDraft = (disruption: Disruption) => {
                               ...(consequence.consequenceType === "operatorWide"
                                   ? {
                                         Operators: {
-                                            AffectedOperator: {
-                                                OperatorRef: consequence.consequenceOperator,
-                                            },
+                                            AffectedOperator: consequence.consequenceOperators.map((operatorNoc) => ({
+                                                OperatorRef: operatorNoc,
+                                            })),
                                         },
                                     }
                                   : {}),

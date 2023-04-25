@@ -13,7 +13,7 @@ const blankInputs: CreateConsequenceOperatorProps = {
 const withInputs: CreateConsequenceOperatorProps = {
     errors: [],
     inputs: {
-        consequenceOperator: "FSYO",
+        consequenceOperators: ["1CTL"],
         description: "A truck broke down on a bridge",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "yes",
