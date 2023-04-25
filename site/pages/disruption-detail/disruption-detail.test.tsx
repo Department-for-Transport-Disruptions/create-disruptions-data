@@ -23,7 +23,7 @@ const previousConsequencesInformation: Consequence[] = [
         consequenceType: "operatorWide",
         consequenceIndex: 1,
         disruptionId: "1",
-        consequenceOperator: "FSYO",
+        consequenceOperators: ["FSYO"],
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "50",
