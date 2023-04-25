@@ -1,12 +1,11 @@
 import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import ReviewDisruption from "./[disruptionId].page";
+import DisruptionDetail from "./[disruptionId].page";
+import { DASHBOARD_PAGE_PATH } from "../../constants";
+import { DisruptionDetailCookie } from "../../interfaces";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { DisruptionDetailCookie } from "../../interfaces";
-import { DASHBOARD_PAGE_PATH } from "../../constants";
-import DisruptionDetail from "./[disruptionId].page";
 
 const previousConsequencesInformation: Consequence[] = [
     {
