@@ -9,10 +9,12 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
     try {
         const { query } = req;
 
-        const id = query?.id as string;
+        const id = query?.id;
 
-        if (!id) {
-            throw new Error("Insufficient data provided for deleting a disruption");
+        if (!id || Array.isArray(id)) {
+            throw new Error(
+                `Insufficient data provided for deleting a disruption by id: ${id ? id.toString() : "undefined"}`,
+            );
         }
 
         const disruption = await getDisruptionById(id);

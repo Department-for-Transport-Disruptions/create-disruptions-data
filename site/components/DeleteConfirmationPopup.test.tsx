@@ -1,6 +1,8 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
+
+const cancelActionHandler = vi.fn();
 
 describe("DeleteConfirmationPopup", () => {
     it("should render correctly", () => {
@@ -8,7 +10,7 @@ describe("DeleteConfirmationPopup", () => {
             <DeleteConfirmationPopup
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
-                cancelActionHandler={() => ""}
+                cancelActionHandler={cancelActionHandler}
             />,
         );
         expect(container).toMatchSnapshot();
@@ -19,7 +21,7 @@ describe("DeleteConfirmationPopup", () => {
             <DeleteConfirmationPopup
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
-                cancelActionHandler={() => ""}
+                cancelActionHandler={cancelActionHandler}
             />,
         );
         const element = container.querySelector("#popup-delete-button");
@@ -34,7 +36,7 @@ describe("DeleteConfirmationPopup", () => {
             <DeleteConfirmationPopup
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
-                cancelActionHandler={() => ""}
+                cancelActionHandler={cancelActionHandler}
             />,
         );
         const element = container.querySelector("#popup-cancel-button");
