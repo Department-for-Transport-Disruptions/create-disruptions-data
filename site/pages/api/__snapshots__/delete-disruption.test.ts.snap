@@ -34,9 +34,11 @@ exports[`deleteDisruption > should write the correct disruptions data to dynamoD
             },
           },
           "Operators": {
-            "AffectedOperator": {
-              "OperatorRef": "FSYO",
-            },
+            "AffectedOperator": [
+              {
+                "OperatorRef": "FSYO",
+              },
+            ],
           },
         },
         "Blocking": {
