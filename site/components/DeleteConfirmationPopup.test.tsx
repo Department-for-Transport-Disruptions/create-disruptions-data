@@ -11,6 +11,8 @@ describe("DeleteConfirmationPopup", () => {
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
+                csrfToken="123"
+                id="1"
             />,
         );
         expect(container).toMatchSnapshot();
@@ -22,6 +24,8 @@ describe("DeleteConfirmationPopup", () => {
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
+                csrfToken="123"
+                id="1"
             />,
         );
         const element = container.querySelector("#popup-delete-button");
@@ -37,6 +41,8 @@ describe("DeleteConfirmationPopup", () => {
                 entityName="test"
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
+                csrfToken="123"
+                id="1"
             />,
         );
         const element = container.querySelector("#popup-cancel-button");

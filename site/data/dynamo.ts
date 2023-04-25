@@ -63,7 +63,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruptio
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const deletePublishedDisruption = async (disruption: PtSituationElement, disruptionId: string) => {
+export const deletePublishedDisruption = async (disruption: Disruption, disruptionId: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
 
     const consequenceDeleteCommands: {
@@ -72,7 +72,7 @@ export const deletePublishedDisruption = async (disruption: PtSituationElement, 
             Key: Record<string, string>;
         };
     }[] =
-        disruption.Consequences?.Consequence.map((_, index) => ({
+        disruption?.consequences?.map((_, index) => ({
             Delete: {
                 TableName: tableName,
                 Key: {

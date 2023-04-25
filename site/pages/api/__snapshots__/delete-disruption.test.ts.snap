@@ -2,79 +2,46 @@
 
 exports[`deleteDisruption > should write the correct disruptions data to dynamoDB 1`] = `
 {
-  "Consequences": {
-    "Consequence": [
-      {
-        "Advice": {
-          "Details": "Some consequence description",
-        },
-        "Affects": {
-          "Networks": {
-            "AffectedNetwork": {
-              "AllLines": "",
-              "VehicleMode": "tram",
-            },
-          },
-        },
-        "Blocking": {
-          "JourneyPlanner": false,
-        },
-        "Condition": "unknown",
-        "Severity": "slight",
-      },
-      {
-        "Advice": {
-          "Details": "Some consequence description",
-        },
-        "Affects": {
-          "Networks": {
-            "AffectedNetwork": {
-              "AllLines": "",
-              "VehicleMode": "bus",
-            },
-          },
-          "Operators": {
-            "AffectedOperator": [
-              {
-                "OperatorRef": "FSYO",
-              },
-            ],
-          },
-        },
-        "Blocking": {
-          "JourneyPlanner": true,
-        },
-        "Condition": "unknown",
-        "Delays": {
-          "Delay": "PT40M",
-        },
-        "Severity": "severe",
-      },
-    ],
-  },
-  "CreationTime": "2023-03-03T00:00:00.000Z",
-  "Description": "Test description",
-  "ParticipantRef": "DepartmentForTransport",
-  "PersonnelReason": "staffInWrongPlace",
-  "Planned": true,
-  "Progress": "open",
-  "PublicationWindow": {
-    "StartTime": "2023-03-10T12:00:00.000Z",
-  },
-  "ReasonType": "PersonnelReason",
-  "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
-  "Source": {
-    "SourceType": "feed",
-    "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-  },
-  "Summary": "Some summary",
-  "ValidityPeriod": [
+  "consequences": [
     {
-      "EndTime": "2023-03-17T17:00:00.000Z",
-      "StartTime": "2023-03-10T12:00:00.000Z",
+      "consequenceIndex": 1,
+      "consequenceType": "networkWide",
+      "description": "Some consequence description",
+      "disruptionId": "test",
+      "disruptionSeverity": "slight",
+      "removeFromJourneyPlanners": "no",
+      "vehicleMode": "tram",
     },
     {
-      "StartTime": "2023-03-18T12:00:00.000Z",
+      "consequenceIndex": 0,
+      "consequenceOperators": [
+        "FSYO",
+      ],
+      "consequenceType": "operatorWide",
+      "description": "Some consequence description",
+      "disruptionDelay": "40",
+      "disruptionId": "test",
+      "disruptionSeverity": "severe",
+      "removeFromJourneyPlanners": "yes",
+      "vehicleMode": "bus",
+    },
+  ],
+  "description": "Test description",
+  "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+  "disruptionNoEndDateTime": "true",
+  "disruptionReason": "staffInWrongPlace",
+  "disruptionStartDate": "18/03/2023",
+  "disruptionStartTime": "1200",
+  "disruptionType": "planned",
+  "publishStartDate": "10/03/2023",
+  "publishStartTime": "1200",
+  "summary": "Some summary",
+  "validity": [
+    {
+      "disruptionEndDate": "17/03/2023",
+      "disruptionEndTime": "1700",
+      "disruptionStartDate": "10/03/2023",
+      "disruptionStartTime": "1200",
     },
   ],
 }
@@ -82,29 +49,23 @@ exports[`deleteDisruption > should write the correct disruptions data to dynamoD
 
 exports[`deleteDisruption > should write the correct disruptions data to dynamoDB 2`] = `
 {
-  "CreationTime": "2023-03-03T00:00:00.000Z",
-  "Description": "Test description",
-  "ParticipantRef": "DepartmentForTransport",
-  "PersonnelReason": "staffInWrongPlace",
-  "Planned": true,
-  "Progress": "open",
-  "PublicationWindow": {
-    "StartTime": "2023-03-10T12:00:00.000Z",
-  },
-  "ReasonType": "PersonnelReason",
-  "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
-  "Source": {
-    "SourceType": "feed",
-    "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-  },
-  "Summary": "Some summary",
-  "ValidityPeriod": [
+  "consequences": [],
+  "description": "Test description",
+  "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+  "disruptionNoEndDateTime": "true",
+  "disruptionReason": "staffInWrongPlace",
+  "disruptionStartDate": "18/03/2023",
+  "disruptionStartTime": "1200",
+  "disruptionType": "planned",
+  "publishStartDate": "10/03/2023",
+  "publishStartTime": "1200",
+  "summary": "Some summary",
+  "validity": [
     {
-      "EndTime": "2023-03-17T17:00:00.000Z",
-      "StartTime": "2023-03-10T12:00:00.000Z",
-    },
-    {
-      "StartTime": "2023-03-18T12:00:00.000Z",
+      "disruptionEndDate": "17/03/2023",
+      "disruptionEndTime": "1700",
+      "disruptionStartDate": "10/03/2023",
+      "disruptionStartTime": "1200",
     },
   ],
 }

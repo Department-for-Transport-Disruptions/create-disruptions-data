@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getPtSituationElementFromDraft } from "./publish.api";
 import { ERROR_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
@@ -7,9 +6,9 @@ import logger from "../../utils/logger";
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { query } = req;
+        const { body } = req;
 
-        const id = query?.id;
+        const id = body?.id;
 
         if (!id || Array.isArray(id)) {
             throw new Error(
@@ -25,7 +24,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             return;
         }
 
-        await deletePublishedDisruption(getPtSituationElementFromDraft(disruption), id);
+        await deletePublishedDisruption(disruption, id);
 
         redirectTo(res, "/dashboard");
         return;

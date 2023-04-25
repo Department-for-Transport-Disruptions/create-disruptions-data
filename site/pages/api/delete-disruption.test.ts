@@ -6,7 +6,6 @@ import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
     disruptionWithConsequences,
-    ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
 } from "../../testData/mockData";
@@ -47,7 +46,7 @@ describe("deleteDisruption", () => {
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         const { req, res } = getMockRequestAndResponse({
-            query: {
+            body: {
                 id: defaultDisruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
@@ -56,10 +55,7 @@ describe("deleteDisruption", () => {
         await deleteDisruption(req, res);
 
         expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
-            expect.any(String),
-        );
+        expect(dynamo.deletePublishedDisruption).toBeCalledWith(disruptionWithConsequences, expect.any(String));
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
@@ -78,8 +74,8 @@ describe("deleteDisruption", () => {
     it("should redirect to error page if disruption is invalid", async () => {
         getDisruptionSpy.mockResolvedValue({} as Disruption);
         const { req, res } = getMockRequestAndResponse({
-            query: {
-                id: defaultDisruptionId,
+            body: {
+                id: null,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -95,7 +91,7 @@ describe("deleteDisruption", () => {
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
             const { req, res } = getMockRequestAndResponse({
-                query: {
+                body: {
                     id: disruption.disruptionId,
                 },
                 mockWriteHeadFn: writeHeadMock,

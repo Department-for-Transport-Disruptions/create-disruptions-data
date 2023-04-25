@@ -54,10 +54,6 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
         setPopUpState(undefined);
     };
 
-    const buildDeleteUrl = (idToDelete: string, csrfToken: string): string => {
-        return `/api/delete-disruption?id=${idToDelete}&_csrf=${csrfToken}`;
-    };
-
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
             window.GOVUKFrontend.initAll();
@@ -126,6 +122,16 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
 
     return (
         <BaseLayout title={title} description={description}>
+            {popUpState && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={"the disruption"}
+                    deleteUrl={"/api/delete-disruption"}
+                    cancelActionHandler={cancelActionHandler}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    id={popUpState.disruptionId}
+                />
+            ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
@@ -437,14 +443,6 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         >
                             Delete disruption
                         </button>
-                        {popUpState && csrfToken ? (
-                            <DeleteConfirmationPopup
-                                entityName={"the disruption"}
-                                deleteUrl={buildDeleteUrl(popUpState.disruptionId, csrfToken)}
-                                cancelActionHandler={cancelActionHandler}
-                                hintText="This action is permanent and cannot be undone"
-                            />
-                        ) : null}
                     </div>
                 </>
             </CsrfForm>
