@@ -161,7 +161,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           >
             <div
               className="govuk-form-group"
-              id="consequence-operator"
+              id="consequence-operators"
             >
               <label
                 className="govuk-label govuk-label--l"
@@ -274,9 +274,53 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               </div>
             </div>
           </div>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  1st Choice Transport Ltd
+                </td>
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  1CTL
+                </td>
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  <button
+                    className="govuk-link"
+                    onClick={[Function]}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <input
-            name="consequenceOperator"
+            name="consequenceOperators"
             type="hidden"
+            value={
+              [
+                "1CTL",
+              ]
+            }
           />
           <div
             className="govuk-form-group"
@@ -849,7 +893,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           >
             <div
               className="govuk-form-group"
-              id="consequence-operator"
+              id="consequence-operators"
             >
               <label
                 className="govuk-label govuk-label--l"
@@ -963,7 +1007,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
             </div>
           </div>
           <input
-            name="consequenceOperator"
+            name="consequenceOperators"
             type="hidden"
           />
           <div
@@ -1534,7 +1578,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           >
             <div
               className="govuk-form-group"
-              id="consequence-operator"
+              id="consequence-operators"
             >
               <label
                 className="govuk-label govuk-label--l"
@@ -1647,9 +1691,53 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
               </div>
             </div>
           </div>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  1st Choice Transport Ltd
+                </td>
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  1CTL
+                </td>
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  <button
+                    className="govuk-link"
+                    onClick={[Function]}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <input
-            name="consequenceOperator"
+            name="consequenceOperators"
             type="hidden"
+            value={
+              [
+                "1CTL",
+              ]
+            }
           />
           <div
             className="govuk-form-group"

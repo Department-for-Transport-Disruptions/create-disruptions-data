@@ -346,7 +346,7 @@ export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
     disruptionId: "test",
     consequenceType: "operatorWide",
-    consequenceOperator: "FSYO",
+    consequenceOperators: ["FSYO"],
     description: "Some consequence description",
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
@@ -409,7 +409,7 @@ export const ptSituationElementWithMultipleConsequences = {
                 Severity: "severe",
                 Affects: {
                     Networks: { AffectedNetwork: { VehicleMode: "bus", AllLines: "" } },
-                    Operators: { AffectedOperator: { OperatorRef: "FSYO" } },
+                    Operators: { AffectedOperator: [{ OperatorRef: "FSYO" }] },
                 },
                 Advice: { Details: "Some consequence description" },
                 Blocking: { JourneyPlanner: true },
