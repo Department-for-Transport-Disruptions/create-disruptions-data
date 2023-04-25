@@ -6,7 +6,7 @@ import logger from "../../utils/logger";
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { body } = req;
+        const body = req.body as { id: string | undefined };
 
         const id = body?.id;
 
