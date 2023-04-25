@@ -31,7 +31,7 @@ export const handleBlur = <T>(
 
 export const getStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
-    (change: string, field: keyof T) => {
+    (change: string | string[], field: keyof T) => {
         setter({
             ...state,
             inputs: {

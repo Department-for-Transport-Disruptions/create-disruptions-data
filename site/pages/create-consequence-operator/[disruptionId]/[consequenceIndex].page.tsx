@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -14,6 +14,7 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/OperatorSearch";
 import {
+    ADMIN_AREA_CODE,
     API_BASE_URL,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -44,16 +45,8 @@ export interface CreateConsequenceOperatorProps
 
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
-    const initialOperator = props.operators.find((op) => pageState.inputs.consequenceOperator === op.nocCode);
-    const [selectedOperators, setSelectedOperators] = useState<Operator[]>(initialOperator ? [initialOperator] : []);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
-
-    useEffect(() => {
-        if (selectedOperators.length > 0) {
-            stateUpdater(selectedOperators[0].nocCode, "consequenceOperator");
-        }
-    }, [selectedOperators, stateUpdater]);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -103,29 +96,33 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             display="Operators impacted"
                             displaySize="l"
                             operators={props.operators.filter(
-                                (op) => !selectedOperators.find((selOp) => selOp.nocCode === op.nocCode),
+                                (op) =>
+                                    !(pageState.inputs.consequenceOperators || []).find(
+                                        (selOp) => selOp === op.nocCode,
+                                    ),
                             )}
-                            selectedOperators={selectedOperators}
-                            setSelectedOperators={setSelectedOperators}
-                            errors={selectedOperators.length === 0 ? pageState.errors : []}
-                            inputId="consequenceOperator"
+                            selectedOperatorNocs={pageState.inputs.consequenceOperators || []}
+                            stateUpdater={stateUpdater}
+                            initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
+                            inputName="consequenceOperators"
                         />
 
-                        {selectedOperators.length > 0 ? (
+                        {pageState.inputs.consequenceOperators && pageState.inputs.consequenceOperators.length > 0 ? (
                             <Table
-                                rows={selectedOperators.map((selOp) => {
+                                rows={pageState.inputs.consequenceOperators.map((selOpNoc) => {
                                     return {
                                         cells: [
-                                            selOp.operatorPublicName,
-                                            selOp.nocCode,
+                                            props.operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
+                                            selOpNoc,
                                             <button
-                                                key={selOp.nocCode}
+                                                key={selOpNoc}
                                                 className="govuk-link"
                                                 onClick={() => {
-                                                    const selectedOperatorsWithRemoved = selectedOperators.filter(
-                                                        (op) => op.nocCode !== selOp.nocCode,
-                                                    );
-                                                    setSelectedOperators(selectedOperatorsWithRemoved);
+                                                    const selectedOperatorsWithRemoved =
+                                                        pageState.inputs.consequenceOperators?.filter(
+                                                            (opNoc) => opNoc !== selOpNoc,
+                                                        ) || [];
+                                                    stateUpdater(selectedOperatorsWithRemoved, "consequenceOperators");
                                                 }}
                                             >
                                                 Remove
@@ -138,8 +135,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
                         <input
                             type="hidden"
-                            name="consequenceOperator"
-                            value={selectedOperators.length > 0 ? selectedOperators[0].nocCode : undefined}
+                            name="consequenceOperators"
+                            value={pageState.inputs.consequenceOperators}
                         />
 
                         <TextInput<OperatorConsequence>
@@ -251,7 +248,7 @@ export const getServerSideProps = async (
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     let operators: Operator[] = [];
-    const searchApiUrl = `${API_BASE_URL}operators`;
+    const searchApiUrl = `${API_BASE_URL}operators?adminAreaCodes=${ADMIN_AREA_CODE}`;
     const res = await fetch(searchApiUrl, { method: "GET" });
     const parse = z.array(operatorSchema).safeParse(await res.json());
 
