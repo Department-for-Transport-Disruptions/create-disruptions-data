@@ -5,7 +5,6 @@ import {
     CREATE_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
-import { upsertDisruptionInfo } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined, DisruptionInfo } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -14,6 +13,7 @@ import {
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
+    upsertDisruptionsWithDuplicates,
 } from "../../utils/apiUtils";
 
 export const formatCreateDisruptionBody = (body: object) => {
@@ -67,6 +67,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         }
 
         const formattedBody = formatCreateDisruptionBody(req.body as object);
+
         const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
 
         if (!validatedBody.success) {
@@ -87,7 +88,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data);
+        await upsertDisruptionsWithDuplicates(validatedBody.data);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
         setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);

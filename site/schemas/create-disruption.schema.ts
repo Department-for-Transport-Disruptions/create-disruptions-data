@@ -246,6 +246,7 @@ export const createDisruptionSchema = z.object({
             message: "A validity period with no end time must be the last validity",
         })
         .optional(),
+    duplicateId: z.string().uuid().optional(),
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema

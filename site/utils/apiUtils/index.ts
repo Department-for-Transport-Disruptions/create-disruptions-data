@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
+import { randomUUID } from "crypto";
 import { IncomingMessage, ServerResponse } from "http";
 import {
     COOKIES_POLICY_COOKIE,
@@ -10,8 +11,11 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
+import { getDisruptionById, upsertDisruptionInfo } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
+import { DisruptionInfo } from "../../schemas/create-disruption.schema";
 import logger from "../logger";
+import { Consequence } from "../../schemas/consequence.schema";
 
 export const setCookieOnResponseObject = (
     cookieName: string,
@@ -99,4 +103,36 @@ export const getReturnPage = (req: NextApiRequest) => {
         decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH)
         ? queryParam
         : null;
+};
+
+export const upsertDisruptionsWithDuplicates = async (disruption: DisruptionInfo) => {
+    const dbDisruption = await getDisruptionById(disruption.disruptionId);
+
+    console.log("dbDisruption----", dbDisruption?.consequences);
+    if (dbDisruption && !dbDisruption.duplicateId) {
+        const duplicateId = randomUUID();
+
+        await Promise.all([
+            upsertDisruptionInfo({ ...disruption, duplicateId: duplicateId }),
+            upsertDisruptionInfo({ ...disruption, disruptionId: duplicateId }),
+        ]);
+    } else {
+        await upsertDisruptionInfo(disruption);
+    }
+};
+
+export const upsertConsequencesWithDuplicates = async (consequence: Consequence) => {
+    const dbDisruption = await getDisruptionById(consequence.disruptionId);
+
+    console.log("dbDisruption----", dbDisruption?.consequences);
+    if (dbDisruption?.consequences && !dbDisruption.duplicateId) {
+        const duplicateId = randomUUID();
+
+        await Promise.all([
+            upsertDisruptionInfo({ ...disruption, duplicateId: duplicateId }),
+            upsertDisruptionInfo({ ...disruption, disruptionId: duplicateId }),
+        ]);
+    } else {
+        await upsertDisruptionInfo(disruption);
+    }
 };

@@ -39,6 +39,7 @@ export const stopSchema = z.object({
     bearing: z.string().optional(),
     sequenceNumber: z.string().optional(),
     direction: z.string().optional(),
+    duplicateId: z.string().uuid().optional(),
 });
 
 export const routesSchema = z.object({
