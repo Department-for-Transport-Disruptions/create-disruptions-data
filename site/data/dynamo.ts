@@ -63,6 +63,52 @@ export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruptio
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
+export const deletePublishedDisruption = async (disruption: Disruption, disruptionId: string) => {
+    logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
+
+    const consequenceDeleteCommands: {
+        Delete: {
+            TableName: string;
+            Key: Record<string, string>;
+        };
+    }[] =
+        disruption?.consequences?.map((_, index) => ({
+            Delete: {
+                TableName: tableName,
+                Key: {
+                    PK: "1", // TODO: replace with user ID when we have auth
+                    SK: `${disruptionId}#CONSEQUENCE#${index}`,
+                },
+            },
+        })) ?? [];
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: [
+                {
+                    Delete: {
+                        TableName: siriTableName,
+                        Key: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: disruptionId,
+                        },
+                    },
+                },
+                {
+                    Delete: {
+                        TableName: tableName,
+                        Key: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: `${disruptionId}#INFO`,
+                        },
+                    },
+                },
+                ...consequenceDeleteCommands,
+            ],
+        }),
+    );
+};
+
 export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     disruption: PtSituationElement,
     disruptionId: string,
