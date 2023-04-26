@@ -2,7 +2,8 @@ import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
@@ -39,6 +40,15 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
     const title = displayCancelButton ? "Disruption Overview" : "Review your answers before submitting your changes";
 
     const hasInitialised = useRef(false);
+
+    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
+    const cancelActionHandler = (): void => {
+        setPopUpState(undefined);
+    };
+
+    const deleteActionHandler = (id: string, name: string): void => {
+        setPopUpState({ disruptionId: id, disruptionName: name });
+    };
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -121,6 +131,16 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
 
     return (
         <BaseLayout title={title} description={description}>
+            {popUpState && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={"the disruption"}
+                    deleteUrl={"/api/delete-disruption"}
+                    cancelActionHandler={cancelActionHandler}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    id={popUpState.disruptionId}
+                />
+            ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
@@ -378,6 +398,16 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                 Publish disruption
                             </button>
                         )}
+                        <button
+                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                            data-module="govuk-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                deleteActionHandler(disruption.disruptionId, disruption.summary);
+                            }}
+                        >
+                            Delete disruption
+                        </button>
                     </div>
                 </>
             </CsrfForm>
