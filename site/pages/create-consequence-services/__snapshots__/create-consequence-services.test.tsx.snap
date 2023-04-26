@@ -795,7 +795,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-direction-allDirections-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
                       onBlur={[Function]}
@@ -1805,7 +1805,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-direction-allDirections-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
                       onBlur={[Function]}
@@ -2737,7 +2737,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-direction-allDirections-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
                       onBlur={[Function]}
@@ -3747,7 +3747,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-direction-allDirections-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
                       onBlur={[Function]}

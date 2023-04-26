@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
+    COOKIE_DISRUPTION_DETAIL_STATE,
     CREATE_CONSEQUENCE_SERVICES_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
@@ -78,8 +80,14 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
 
         await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
+        setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+        const redirectPath =
+            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+                ? DISRUPTION_DETAIL_PAGE_PATH
+                : REVIEW_DISRUPTION_PAGE_PATH;
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

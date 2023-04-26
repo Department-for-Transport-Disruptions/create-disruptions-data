@@ -13,7 +13,7 @@ import {
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, Marker, NavigationControl, Popup, Source, ViewState, FullscreenControl } from "react-map-gl";
 import { z } from "zod";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import GeocoderControl from "./GeocoderControl";
@@ -501,8 +501,11 @@ const Map = ({
                 mapboxAccessToken={mapboxAccessToken}
                 onMouseMove={onHover}
                 interactiveLayerIds={getInteractiveLayerIds()}
+                onRender={(event) => event.target.resize()}
             >
                 <GeocoderControl mapboxAccessToken={mapboxAccessToken} position="top-right" />
+                <NavigationControl showCompass={false} />
+                <FullscreenControl />
                 {selected && searched ? getMarkers(selected, searched) : null}
                 {searchedRoutes ? getSourcesInbound(searchedRoutes) : null}
                 {searchedRoutes ? getSourcesOutbound(searchedRoutes) : null}

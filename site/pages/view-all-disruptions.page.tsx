@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
+import { VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import {
     sortDisruptionsByStartDate,
@@ -41,7 +42,14 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: numbe
 
         return {
             header: (
-                <Link className="govuk-link" href="/dashboard" key={disruption.id}>
+                <Link
+                    className="govuk-link"
+                    href={{
+                        pathname: `/disruption-detail/${disruption.id}`,
+                        query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                    }}
+                    key={disruption.id}
+                >
                     {index + 1 + offset}
                 </Link>
             ),

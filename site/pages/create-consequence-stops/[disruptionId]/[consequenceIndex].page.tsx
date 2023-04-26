@@ -22,6 +22,7 @@ import {
     API_BASE_URL,
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
@@ -43,6 +44,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [searchInput, setSearchInput] = useState("");
 
     const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -207,7 +211,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 latitude: 53.05975866591879,
                                 zoom: 4.5,
                             }}
-                            style={{ width: "100%", height: 400, marginBottom: 20 }}
+                            style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
                             selected={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
@@ -284,7 +288,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                        {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
                                 href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
