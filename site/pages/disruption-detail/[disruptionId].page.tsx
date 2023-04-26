@@ -121,7 +121,7 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
+            <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
@@ -376,7 +376,11 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                     Publish disruption
                                 </button>
 
-                                <button className="govuk-button mt-8 ml-5" data-module="govuk-button--secondary">
+                                <button
+                                    className="govuk-button mt-8 ml-5"
+                                    data-module="govuk-button--secondary"
+                                    formAction="/api/cancel-changes"
+                                >
                                     Cancel all changes
                                 </button>
                             </>
