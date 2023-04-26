@@ -1187,6 +1187,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Cancel Changes
           </a>
+          <button
+            className="govuk-button govuk-button--warning ml-5 mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Delete disruption
+          </button>
         </div>
       </form>
     </main>
@@ -2563,6 +2570,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             data-module="govuk-button"
           >
             Publish disruption
+          </button>
+          <button
+            className="govuk-button govuk-button--warning ml-5 mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Delete disruption
           </button>
         </div>
       </form>
