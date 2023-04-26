@@ -219,7 +219,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
             return;
         }
-        
+
         const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
