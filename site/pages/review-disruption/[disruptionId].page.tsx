@@ -129,9 +129,11 @@ const ReviewDisruption = ({
         });
     };
 
-    const largestIndex = disruption.consequences?.reduce((p, c) =>
-        p.consequenceIndex > c.consequenceIndex ? p : c,
-    ).consequenceIndex;
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex + 1
+            : 0;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -392,9 +394,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                largestIndex ? largestIndex + 1 : 0
-                            }`}
+                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
