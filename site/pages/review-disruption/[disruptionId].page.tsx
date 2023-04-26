@@ -129,6 +129,12 @@ const ReviewDisruption = ({
         });
     };
 
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex + 1
+            : 0;
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
@@ -260,7 +266,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "consequence-type",
                                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -272,7 +278,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "vehicle-mode",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -291,7 +297,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "service",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -313,7 +319,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "stops-affected",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -325,7 +331,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "advice-to-display",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -337,7 +343,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "remove-from-journey-planners",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -351,7 +357,7 @@ const ReviewDisruption = ({
                                                         createChangeLink(
                                                             "disruption-delay",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -388,9 +394,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                disruption.consequences?.length ?? 0
-                            }`}
+                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
