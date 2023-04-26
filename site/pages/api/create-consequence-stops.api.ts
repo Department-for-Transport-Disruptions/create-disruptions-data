@@ -15,7 +15,6 @@ import {
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
-    upsertConsequencesWithDuplicates,
 } from "../../utils/apiUtils";
 
 export const formatCreateConsequenceStopsBody = (body: object) => {
@@ -66,10 +65,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             return;
         }
 
-        queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
-            ? await upsertConsequencesWithDuplicates(validatedBody.data)
-            : await upsertConsequence(validatedBody.data);
-
+        await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
         setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);
 

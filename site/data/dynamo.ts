@@ -275,3 +275,99 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
     }
     return parsedDisruption.data;
 };
+
+export const publishEditedConsequences = async (disruptionId: string) => {
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":2": `${disruptionId}#CONSEQUENCE`,
+            },
+        }),
+    );
+
+    if (!dynamoDisruption.Items) {
+        return null;
+    }
+
+    const editedConsequences = dynamoDisruption.Items.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && (item.SK as string).includes("#EDIT")) ??
+            false,
+    );
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: [
+                editedConsequences.map((consequence) => ({
+                    Update: {
+                        TableName: tableName,
+                        Item: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
+                            ...consequence,
+                        },
+                    },
+                })),
+            ],
+        }),
+    );
+};
+
+export const deleteDisruptionsInEdit = async (disruptionId: string) => {
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":2": `${disruptionId}#CONSEQUENCE`,
+            },
+        }),
+    );
+
+    if (!dynamoDisruption.Items) {
+        return null;
+    }
+
+    const editedConsequences = dynamoDisruption.Items.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && (item.SK as string).includes("#EDIT")) ??
+            false,
+    );
+
+    const consequenceDeleteCommands: {
+        Delete: {
+            TableName: string;
+            Key: Record<string, string>;
+        };
+    }[] =
+        editedConsequences.map((_, index) => ({
+            Delete: {
+                TableName: tableName,
+                Key: {
+                    PK: "1", // TODO: replace with user ID when we have auth
+                    SK: `${disruptionId}#CONSEQUENCE#${index}#EDIT`,
+                },
+            },
+        })) ?? [];
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: [
+                {
+                    Delete: {
+                        TableName: tableName,
+                        Key: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: `${disruptionId}#INFO#EDIT`,
+                        },
+                    },
+                },
+                ...consequenceDeleteCommands,
+            ],
+        }),
+    );
+};

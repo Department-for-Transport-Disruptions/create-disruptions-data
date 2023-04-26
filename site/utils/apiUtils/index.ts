@@ -104,37 +104,3 @@ export const getReturnPage = (req: NextApiRequest) => {
         ? queryParam
         : null;
 };
-
-export const upsertDisruptionsWithDuplicates = async (disruption: DisruptionInfo) => {
-    const dbDisruption = await getDisruptionById(disruption.disruptionId);
-
-    if (dbDisruption && !dbDisruption.duplicateId) {
-        const duplicateId = randomUUID();
-
-        await Promise.all([
-            upsertDisruptionInfo({ ...disruption, duplicateId: duplicateId }),
-            upsertDisruptionInfo({ ...disruption, disruptionId: duplicateId }),
-        ]);
-    } else {
-        await upsertDisruptionInfo(disruption);
-    }
-};
-
-export const upsertConsequencesWithDuplicates = async (consequence: Consequence) => {
-    const dbDisruption = await getDisruptionById(consequence.disruptionId);
-
-    let duplicateId: string | undefined = dbDisruption?.duplicateId ? dbDisruption?.duplicateId : randomUUID();
-
-    if (dbDisruption?.consequences)
-        await Promise.all(
-            dbDisruption?.consequences?.map((existingConsq) => {
-                if (!existingConsq.disruptionId && duplicateId) {
-                    void upsertConsequence({ ...existingConsq, duplicateId: duplicateId });
-                    void upsertConsequence({ ...existingConsq, disruptionId: duplicateId });
-                }
-
-                duplicateId = existingConsq.disruptionId ? existingConsq.duplicateId : duplicateId;
-            }),
-        );
-    await upsertConsequence({ ...consequence, duplicateId: duplicateId });
-};
