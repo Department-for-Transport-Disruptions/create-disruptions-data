@@ -448,6 +448,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 {
                                     value: "allDirections",
                                     display: "All directions",
+                                    default: true,
                                 },
                                 {
                                     value: "inbound",
