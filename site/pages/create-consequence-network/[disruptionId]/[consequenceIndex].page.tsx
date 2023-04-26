@@ -38,9 +38,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const queryParams = useRouter().query;
     const displayCancelButton =
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
-            ? true
-            : false;
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <BaseLayout title={title} description={description}>

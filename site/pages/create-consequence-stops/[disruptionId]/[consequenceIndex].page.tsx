@@ -46,9 +46,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const queryParams = useRouter().query;
     const displayCancelButton =
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
-            ? true
-            : false;
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {

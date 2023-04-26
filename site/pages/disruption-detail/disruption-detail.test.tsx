@@ -81,7 +81,7 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
-const ddCookie: DisruptionDetailCookie = {
+const disruptionDetailsCookie: DisruptionDetailCookie = {
     referer: DASHBOARD_PAGE_PATH,
     state: "cancel",
 };
@@ -90,15 +90,25 @@ describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(<DisruptionDetail disruption={previousDisruptionInformation} redirectCookie={ddCookie} />)
+                .create(
+                    <DisruptionDetail
+                        disruption={previousDisruptionInformation}
+                        redirectCookie={disruptionDetailsCookie}
+                    />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and state set to saved", () => {
-            ddCookie.state = "saved";
+            disruptionDetailsCookie.state = "saved";
             const tree = renderer
-                .create(<DisruptionDetail disruption={previousDisruptionInformation} redirectCookie={ddCookie} />)
+                .create(
+                    <DisruptionDetail
+                        disruption={previousDisruptionInformation}
+                        redirectCookie={disruptionDetailsCookie}
+                    />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });

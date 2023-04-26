@@ -55,9 +55,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const queryParams = useRouter().query;
     const displayCancelButton =
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
-            ? true
-            : false;
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);

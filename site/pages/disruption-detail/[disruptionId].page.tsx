@@ -35,7 +35,7 @@ interface DisruptionDetailProps {
 }
 
 const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = redirectCookie.state && redirectCookie.state === "cancel" ? true : false;
+    const displayCancelButton = redirectCookie.state && redirectCookie.state === "cancel";
 
     const title = displayCancelButton ? "Disruption Overview" : "Review your answers before submitting your changes";
 
