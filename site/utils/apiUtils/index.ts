@@ -13,9 +13,9 @@ import {
 } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
+import { Consequence } from "../../schemas/consequence.schema";
 import { DisruptionInfo } from "../../schemas/create-disruption.schema";
 import logger from "../logger";
-import { Consequence } from "../../schemas/consequence.schema";
 
 export const setCookieOnResponseObject = (
     cookieName: string,
@@ -128,8 +128,9 @@ export const upsertConsequencesWithDuplicates = async (consequence: Consequence)
     if (dbDisruption?.consequences)
         await Promise.all(
             dbDisruption?.consequences?.map((existingConsq) => {
-                if (!existingConsq.disruptionId) {
+                if (!existingConsq.disruptionId && duplicateId) {
                     void upsertConsequence({ ...existingConsq, duplicateId: duplicateId });
+                    void upsertConsequence({ ...existingConsq, disruptionId: duplicateId });
                 }
 
                 duplicateId = existingConsq.disruptionId ? existingConsq.duplicateId : duplicateId;

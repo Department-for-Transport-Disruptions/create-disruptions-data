@@ -123,7 +123,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     );
 };
 
-export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
+export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, editRecord?: boolean) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
 
     await ddbDocClient.send(
@@ -131,7 +131,7 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
             TableName: tableName,
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
-                SK: `${disruptionInfo.disruptionId}#INFO`,
+                SK: editRecord ? `${disruptionInfo.disruptionId}#EDIT` : `${disruptionInfo.disruptionId}#INFO`,
                 ...disruptionInfo,
             },
         }),
@@ -206,4 +206,23 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
     }
 
     return parsedDisruption.data;
+};
+
+export const batchWriteConsequence = async (consequences: Consequence[]) => {
+    logger.info(`Updating consequence to be edited in disruption  in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: consequences.map((consequence) => ({
+                Put: {
+                    TableName: tableName,
+                    Item: {
+                        PK: "1", // TODO: replace with user ID when we have auth
+                        SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}#EDIT`,
+                        ...consequence,
+                    },
+                },
+            })),
+        }),
+    );
 };
