@@ -361,8 +361,12 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                                 },
                                             ]}
                                         />
-                                        <Link role="button" href={""} className="govuk-button govuk-button--warning">
-                                            Delete Consequence
+                                        <Link
+                                            role="button"
+                                            href={`/disruption-detail/${consequence.disruptionId}/${consequence.consequenceIndex}`}
+                                            className="govuk-button govuk-button--warning"
+                                        >
+                                            Delete consequence
                                         </Link>
                                     </div>
                                 </div>
@@ -391,7 +395,7 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                 href={`${redirectCookie.referer}`}
                                 className="govuk-button mt-8 govuk-button"
                             >
-                                Cancel Changes
+                                Close and Return
                             </Link>
                         ) : (
                             <button className="govuk-button mt-8" data-module="govuk-button">
