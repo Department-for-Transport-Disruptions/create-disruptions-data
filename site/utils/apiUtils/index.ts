@@ -11,7 +11,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertDisruptionInfo } from "../../data/dynamo";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { DisruptionInfo } from "../../schemas/create-disruption.schema";
 import logger from "../logger";
@@ -108,7 +108,6 @@ export const getReturnPage = (req: NextApiRequest) => {
 export const upsertDisruptionsWithDuplicates = async (disruption: DisruptionInfo) => {
     const dbDisruption = await getDisruptionById(disruption.disruptionId);
 
-    console.log("dbDisruption----", dbDisruption?.consequences);
     if (dbDisruption && !dbDisruption.duplicateId) {
         const duplicateId = randomUUID();
 
@@ -124,15 +123,17 @@ export const upsertDisruptionsWithDuplicates = async (disruption: DisruptionInfo
 export const upsertConsequencesWithDuplicates = async (consequence: Consequence) => {
     const dbDisruption = await getDisruptionById(consequence.disruptionId);
 
-    console.log("dbDisruption----", dbDisruption?.consequences);
-    if (dbDisruption?.consequences && !dbDisruption.duplicateId) {
-        const duplicateId = randomUUID();
+    let duplicateId: string | undefined = dbDisruption?.duplicateId ? dbDisruption?.duplicateId : randomUUID();
 
-        await Promise.all([
-            upsertDisruptionInfo({ ...disruption, duplicateId: duplicateId }),
-            upsertDisruptionInfo({ ...disruption, disruptionId: duplicateId }),
-        ]);
-    } else {
-        await upsertDisruptionInfo(disruption);
-    }
+    if (dbDisruption?.consequences)
+        await Promise.all(
+            dbDisruption?.consequences?.map((existingConsq) => {
+                if (!existingConsq.disruptionId) {
+                    void upsertConsequence({ ...existingConsq, duplicateId: duplicateId });
+                }
+
+                duplicateId = existingConsq.disruptionId ? existingConsq.duplicateId : duplicateId;
+            }),
+        );
+    await upsertConsequence({ ...consequence, duplicateId: duplicateId });
 };
