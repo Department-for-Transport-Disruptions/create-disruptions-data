@@ -371,9 +371,15 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                 Cancel Changes
                             </Link>
                         ) : (
-                            <button className="govuk-button mt-8" data-module="govuk-button">
-                                Publish disruption
-                            </button>
+                            <>
+                                <button className="govuk-button mt-8" data-module="govuk-button">
+                                    Publish disruption
+                                </button>
+
+                                <button className="govuk-button mt-8 ml-5" data-module="govuk-button--secondary">
+                                    Cancel all changes
+                                </button>
+                            </>
                         )}
                     </div>
                 </>

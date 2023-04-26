@@ -169,15 +169,17 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     );
 };
 
-export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, editRecord?: boolean) => {
+export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
-
+    const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId);
+    const isEditing =
+        currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
-                SK: editRecord ? `${disruptionInfo.disruptionId}#EDIT` : `${disruptionInfo.disruptionId}#INFO`,
+                SK: `${disruptionInfo.disruptionId}#INFO${isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
             },
         }),
@@ -190,13 +192,17 @@ export const upsertConsequence = async (consequence: Consequence) => {
             consequence.disruptionId || ""
         }) in DynamoDB table...`,
     );
-
+    const currentDisruption = await getDisruptionById(consequence.disruptionId);
+    const isEditing =
+        currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
             Item: {
                 PK: "1", // TODO: replace with user ID when we have auth
-                SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
+                SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}${
+                    isEditing ? "#EDIT" : ""
+                }`,
                 ...consequence,
             },
         }),
@@ -219,7 +225,6 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
 
 export const getDisruptionById = async (disruptionId: string): Promise<Disruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
-
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
@@ -230,45 +235,43 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
             },
         }),
     );
-
     if (!dynamoDisruption.Items) {
         return null;
     }
-
-    const info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
+    const isEdited = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#EDIT"));
+    let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
     const consequences = dynamoDisruption.Items.filter(
-        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
+            false,
     );
-
+    if (isEdited) {
+        info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
+        const editedConsequences = dynamoDisruption.Items.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).endsWith("#EDIT")) ??
+                false,
+        );
+        editedConsequences.forEach((editedConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === editedConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                consequences[existingIndex] = editedConsequence;
+            } else {
+                consequences.push(editedConsequence);
+            }
+        });
+    }
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
+        publishStatus: isEdited ? "EDITING" : (info?.publishStatus as string),
     });
-
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-
         return null;
     }
-
     return parsedDisruption.data;
-};
-
-export const batchWriteConsequence = async (consequences: Consequence[]) => {
-    logger.info(`Updating consequence to be edited in disruption  in DynamoDB table...`);
-
-    await ddbDocClient.send(
-        new TransactWriteCommand({
-            TransactItems: consequences.map((consequence) => ({
-                Put: {
-                    TableName: tableName,
-                    Item: {
-                        PK: "1", // TODO: replace with user ID when we have auth
-                        SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}#EDIT`,
-                        ...consequence,
-                    },
-                },
-            })),
-        }),
-    );
 };
