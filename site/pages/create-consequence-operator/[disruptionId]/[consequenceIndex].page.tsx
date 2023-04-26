@@ -17,6 +17,7 @@ import {
     ADMIN_AREA_CODE,
     API_BASE_URL,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     REVIEW_DISRUPTION_PAGE_PATH,
     VEHICLE_MODES,
@@ -48,6 +49,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -200,7 +204,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                        {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
                                 href={`${queryParams["return"] as string}/${pageState.disruptionId}`}

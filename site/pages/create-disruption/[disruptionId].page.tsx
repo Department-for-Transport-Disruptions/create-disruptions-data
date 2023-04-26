@@ -13,7 +13,12 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
+import {
+    DISRUPTION_REASONS,
+    COOKIES_DISRUPTION_ERRORS,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+} from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import {
@@ -48,6 +53,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
     const weeklyRef = useRef<HTMLInputElement>(null);
@@ -465,7 +474,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             Save and continue
                         </button>
 
-                        {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) && pageState.disruptionId ? (
+                        {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
                                 href={`${queryParams["return"] as string}/${pageState.disruptionId}`}

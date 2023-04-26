@@ -74,3 +74,8 @@ export interface CreateConsequenceProps {
     initialServices?: Service[];
     initialStops?: Stop[];
 }
+
+export interface DisruptionDetailCookie {
+    referer: string;
+    state?: string;
+}

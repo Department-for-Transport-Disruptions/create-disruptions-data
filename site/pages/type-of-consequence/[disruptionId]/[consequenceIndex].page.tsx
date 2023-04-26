@@ -11,6 +11,7 @@ import {
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CONSEQUENCE_TYPES,
     REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -29,6 +30,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -56,7 +60,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 Save and continue
                             </button>
 
-                            {queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ? (
+                            {displayCancelButton ? (
                                 <Link
                                     role="button"
                                     href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
