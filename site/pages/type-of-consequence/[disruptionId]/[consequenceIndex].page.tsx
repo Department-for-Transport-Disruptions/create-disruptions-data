@@ -96,7 +96,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 errorCookie,
                 typeOfConsequenceSchema,
                 ctx.query.disruptionId?.toString(),
-                disruption.consequences?.[index] ?? undefined,
+                disruption?.consequences?.find((c) => c.consequenceIndex === index) ?? undefined,
             ),
             consequenceIndex: index,
         },

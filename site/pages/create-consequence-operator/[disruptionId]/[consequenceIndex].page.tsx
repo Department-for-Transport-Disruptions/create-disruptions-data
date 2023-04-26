@@ -234,7 +234,7 @@ export const getServerSideProps = async (
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    const consequence = disruption?.consequences?.[index];
+    const consequence = disruption?.consequences?.find((c) => c.consequenceIndex === index);
 
     const pageState = getPageState<OperatorConsequence>(
         errorCookie,
