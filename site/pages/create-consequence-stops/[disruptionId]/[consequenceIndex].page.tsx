@@ -211,7 +211,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 latitude: 53.05975866591879,
                                 zoom: 4.5,
                             }}
-                            style={{ width: "100%", height: 400, marginBottom: 20 }}
+                            style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
                             selected={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
