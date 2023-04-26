@@ -1,8 +1,7 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
+import { ReactElement, useEffect, useRef } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
@@ -44,15 +43,6 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
 
 const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
-    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
-
-    const deleteActionHandler = (id: string, name: string): void => {
-        setPopUpState({ disruptionId: id, disruptionName: name });
-    };
-
-    const cancelActionHandler = (): void => {
-        setPopUpState(undefined);
-    };
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -122,16 +112,6 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
 
     return (
         <BaseLayout title={title} description={description}>
-            {popUpState && csrfToken ? (
-                <DeleteConfirmationPopup
-                    entityName={"the disruption"}
-                    deleteUrl={"/api/delete-disruption"}
-                    cancelActionHandler={cancelActionHandler}
-                    hintText="This action is permanent and cannot be undone"
-                    csrfToken={csrfToken}
-                    id={popUpState.disruptionId}
-                />
-            ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
