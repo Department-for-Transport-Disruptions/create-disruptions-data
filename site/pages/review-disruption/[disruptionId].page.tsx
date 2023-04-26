@@ -413,16 +413,6 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
                         </button>
-                        <button
-                            className="govuk-button govuk-button--warning ml-5 mt-8"
-                            data-module="govuk-button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                deleteActionHandler(disruption.disruptionId, disruption.summary);
-                            }}
-                        >
-                            Delete disruption
-                        </button>
                     </div>
                 </>
             </CsrfForm>
