@@ -128,7 +128,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence"
+                    href="/type-of-consequence//0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -904,7 +904,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1658,7 +1658,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence"
+                    href="/type-of-consequence//0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2358,7 +2358,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

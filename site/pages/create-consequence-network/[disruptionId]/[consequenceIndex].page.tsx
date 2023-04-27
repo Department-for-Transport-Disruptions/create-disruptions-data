@@ -16,6 +16,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
@@ -56,7 +57,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
-                                            href="/type-of-consequence"
+                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                                                pageState.consequenceIndex ?? 0
+                                            }`}
                                         >
                                             Change
                                         </Link>,
