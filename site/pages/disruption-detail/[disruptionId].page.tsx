@@ -2,7 +2,8 @@ import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
@@ -34,11 +35,20 @@ interface DisruptionDetailProps {
 }
 
 const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = redirectCookie.state && redirectCookie.state === "cancel" ? true : false;
+    const displayCancelButton = redirectCookie.state && redirectCookie.state === "cancel";
 
     const title = displayCancelButton ? "Disruption Overview" : "Review your answers before submitting your changes";
 
     const hasInitialised = useRef(false);
+
+    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
+    const cancelActionHandler = (): void => {
+        setPopUpState(undefined);
+    };
+
+    const deleteActionHandler = (id: string, name: string): void => {
+        setPopUpState({ disruptionId: id, disruptionName: name });
+    };
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -121,6 +131,16 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
 
     return (
         <BaseLayout title={title} description={description}>
+            {popUpState && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={"the disruption"}
+                    deleteUrl={"/api/delete-disruption"}
+                    cancelActionHandler={cancelActionHandler}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    id={popUpState.disruptionId}
+                />
+            ) : null}
             <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
                 <>
                     <div className="govuk-form-group">
@@ -341,8 +361,12 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                                 },
                                             ]}
                                         />
-                                        <Link role="button" href={""} className="govuk-button govuk-button--warning">
-                                            Delete Consequence
+                                        <Link
+                                            role="button"
+                                            href={`/disruption-detail/${consequence.disruptionId}/${consequence.consequenceIndex}`}
+                                            className="govuk-button govuk-button--warning"
+                                        >
+                                            Delete consequence
                                         </Link>
                                     </div>
                                 </div>
@@ -350,9 +374,12 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                disruption.consequences?.length ?? 0
-                            }`}
+                            href={{
+                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
+                                    disruption.consequences?.length ?? 0
+                                }`,
+                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                            }}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -368,7 +395,7 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                 href={`${redirectCookie.referer}`}
                                 className="govuk-button mt-8 govuk-button"
                             >
-                                Cancel Changes
+                                Close and Return
                             </Link>
                         ) : (
                             <>
@@ -377,14 +404,24 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                 </button>
 
                                 <button
-                                    className="govuk-button mt-8 ml-5"
-                                    data-module="govuk-button--secondary"
+                                    className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                    data-module="govuk-button"
                                     formAction="/api/cancel-changes"
                                 >
                                     Cancel all changes
                                 </button>
                             </>
                         )}
+                        <button
+                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                            data-module="govuk-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                deleteActionHandler(disruption.disruptionId, disruption.summary);
+                            }}
+                        >
+                            Delete disruption
+                        </button>
                     </div>
                 </>
             </CsrfForm>
@@ -417,7 +454,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (!disruption) {
-        throw new Error("Disruption not found for review page");
+        throw new Error("Disruption not found for disruption detail page");
     }
 
     return {

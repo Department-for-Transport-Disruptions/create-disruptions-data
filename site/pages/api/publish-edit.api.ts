@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getPtSituationElementFromDraft } from "./publish.api";
 import { ERROR_PATH } from "../../constants";
 import {
+    deleteDisruptionsInEdit,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     publishEditedConsequences,
@@ -29,7 +30,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         await publishEditedConsequences(draftDisruption.disruptionId);
-
+        await deleteDisruptionsInEdit(draftDisruption.disruptionId);
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption.disruptionId,

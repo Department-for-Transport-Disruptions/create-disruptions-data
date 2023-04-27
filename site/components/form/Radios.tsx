@@ -65,7 +65,7 @@ const Radios = <T extends object>({
                                             handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
                                         }
                                         onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
-                                        defaultChecked={input.value === value}
+                                        defaultChecked={input.value === value || !!input.default}
                                         data-aria-controls={`${inputId}-${input.value}-conditional`}
                                         ref={input.ref}
                                         disabled={input.disabled}

@@ -660,13 +660,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/0"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
@@ -905,13 +905,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/1"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
@@ -1150,20 +1150,20 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/2"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/type-of-consequence/2/3"
+            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1185,8 +1185,15 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             onTouchStart={[Function]}
             role="button"
           >
-            Cancel Changes
+            Close and Return
           </a>
+          <button
+            className="govuk-button govuk-button--warning ml-5 mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Delete disruption
+          </button>
         </div>
       </form>
     </main>
@@ -2041,13 +2048,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/0"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
@@ -2286,13 +2293,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/1"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
@@ -2531,20 +2538,20 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 </table>
                 <a
                   className="govuk-button govuk-button--warning"
-                  href=""
+                  href="/disruption-detail/1/2"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                   role="button"
                 >
-                  Delete Consequence
+                  Delete consequence
                 </a>
               </div>
             </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/type-of-consequence/2/3"
+            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -2563,6 +2570,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             data-module="govuk-button"
           >
             Publish disruption
+          </button>
+          <button
+            className="govuk-button govuk-button--warning ml-5 mt-8"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Delete disruption
           </button>
         </div>
       </form>
