@@ -24,6 +24,7 @@ import {
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
@@ -303,7 +304,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
-                                            href="/type-of-consequence"
+                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                                                pageState.consequenceIndex ?? 0
+                                            }`}
                                         >
                                             Change
                                         </Link>,
