@@ -302,33 +302,32 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                 false,
         );
 
-        if (editedConsequences && editedConsequences.length > 0)
-            await ddbDocClient.send(
-                new TransactWriteCommand({
-                    TransactItems: [
-                        ...editedDisruption.map((disruption) => ({
-                            Put: {
-                                TableName: tableName,
-                                Item: {
-                                    ...disruption,
-                                    PK: "1", // TODO: replace with user ID when we have auth
-                                    SK: `${disruptionId}#INFO`,
-                                },
+        await ddbDocClient.send(
+            new TransactWriteCommand({
+                TransactItems: [
+                    ...editedDisruption.map((disruption) => ({
+                        Put: {
+                            TableName: tableName,
+                            Item: {
+                                ...disruption,
+                                PK: "1", // TODO: replace with user ID when we have auth
+                                SK: `${disruptionId}#INFO`,
                             },
-                        })),
-                        ...editedConsequences.map((consequence) => ({
-                            Put: {
-                                TableName: tableName,
-                                Item: {
-                                    ...consequence,
-                                    PK: "1", // TODO: replace with user ID when we have auth
-                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
-                                },
+                        },
+                    })),
+                    ...editedConsequences.map((consequence) => ({
+                        Put: {
+                            TableName: tableName,
+                            Item: {
+                                ...consequence,
+                                PK: "1", // TODO: replace with user ID when we have auth
+                                SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
                             },
-                        })),
-                    ],
-                }),
-            );
+                        },
+                    })),
+                ],
+            }),
+        );
     }
 };
 
