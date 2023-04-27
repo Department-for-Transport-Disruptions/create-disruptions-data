@@ -34,6 +34,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
                     "dynamodb:GetItem",
                     "dynamodb:Query",
                     "dynamodb:BatchGetItem",
