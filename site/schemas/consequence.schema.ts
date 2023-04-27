@@ -74,6 +74,15 @@ export const serviceSchema = z.object({
     nocCode: z.string(),
 });
 
+export const serviceByStopSchema = serviceSchema.and(
+    z.object({
+        stops: z.array(z.string()),
+        routes: z.object({ inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })) }),
+    }),
+);
+
+export type ServiceByStop = z.infer<typeof serviceByStopSchema>;
+
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
