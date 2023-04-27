@@ -21,12 +21,6 @@ describe("cancelChanges", () => {
         deleteDisruptionsInEdit: vi.fn(),
     }));
 
-    // vi.mock("nookies", () => ({
-    //     parseCookies: vi
-    //         .fn()
-    //         .mockImplementation(() => ({ "cdd-disruption-detail-referer": VIEW_ALL_DISRUPTIONS_PAGE_PATH })),
-    // }));
-
     const parseCookies = vi.spyOn(cookies, "parseCookies");
 
     afterEach(() => {
