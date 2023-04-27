@@ -22,7 +22,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId);
 
-        if (!draftDisruption) {
+        if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
 
