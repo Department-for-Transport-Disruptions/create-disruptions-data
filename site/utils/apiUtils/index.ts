@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
-import { randomUUID } from "crypto";
 import { IncomingMessage, ServerResponse } from "http";
 import {
     COOKIES_POLICY_COOKIE,
@@ -11,10 +10,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
-import { Consequence } from "../../schemas/consequence.schema";
-import { DisruptionInfo } from "../../schemas/create-disruption.schema";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
