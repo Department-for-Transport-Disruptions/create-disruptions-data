@@ -4,7 +4,6 @@ import cancelChanges from "./cancel-changes.api";
 import { COOKIES_DISRUPTION_DETAIL_REFERER, ERROR_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse } from "../../testData/mockData";
-import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -43,7 +42,9 @@ describe("cancelChanges", () => {
     });
 
     it("should redirect to /view-all-disruptions page after deleting disruptions", async () => {
-        parseCookies.mockImplementation(() => ({ COOKIES_DISRUPTION_DETAIL_REFERER: VIEW_ALL_DISRUPTIONS_PAGE_PATH }));
+        parseCookies.mockImplementation(() => ({
+            [COOKIES_DISRUPTION_DETAIL_REFERER]: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+        }));
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
