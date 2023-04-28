@@ -500,7 +500,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     let errors: ErrorInfo[] = [];
     if (errorCookie) {
-        errors = JSON.parse(errorCookie) as ErrorInfo[] ;
+        errors = JSON.parse(errorCookie) as ErrorInfo[];
     }
 
     if (!disruption) {
