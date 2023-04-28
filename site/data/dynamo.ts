@@ -271,6 +271,7 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
         consequences,
         publishStatus: isEdited ? "EDITING" : (info?.publishStatus as string),
     });
+
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
