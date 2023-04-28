@@ -16,7 +16,7 @@ import {
     COOKIES_REVIEW_DISRUPTION_ERRORS,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { ErrorInfo, PageState, SocialMediaPost } from "../../interfaces";
+import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
