@@ -104,6 +104,7 @@ describe("pages", () => {
                     <ReviewDisruption
                         disruption={previousDisruptionInformation}
                         previousSocialMediaPosts={previousSocialMediaPosts}
+                        errors={[]}
                     />,
                 )
                 .toJSON();

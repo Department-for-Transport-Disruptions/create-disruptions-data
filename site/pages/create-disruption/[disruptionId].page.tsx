@@ -245,7 +245,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             inputName="associatedLink"
                             display="Associated Link (optional)"
                             widthClass="w-3/4"
-                            maxLength={50}
+                            maxLength={250}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.associatedLink}
                             schema={createDisruptionSchema.shape.associatedLink}

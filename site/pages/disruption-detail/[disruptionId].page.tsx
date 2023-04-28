@@ -40,13 +40,12 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
 
     const hasInitialised = useRef(false);
 
-    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
+    const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const cancelActionHandler = (): void => {
         setPopUpState(undefined);
     };
-
-    const deleteActionHandler = (id: string, name: string): void => {
-        setPopUpState({ disruptionId: id, disruptionName: name });
+    const deleteActionHandler = (name: string, hiddenInputs: { name: string; value: string }[]): void => {
+        setPopUpState({ name, hiddenInputs });
     };
 
     useEffect(() => {
@@ -132,12 +131,12 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
-                    entityName={"the disruption"}
-                    deleteUrl={"/api/delete-disruption"}
+                    entityName={`the ${popUpState.name}`}
+                    deleteUrl={`/api/delete-${popUpState.name}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
-                    id={popUpState.disruptionId}
+                    hiddenInputs={popUpState.hiddenInputs}
                 />
             ) : null}
             <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
@@ -412,7 +411,12 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
                             data-module="govuk-button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                deleteActionHandler(disruption.disruptionId, disruption.summary);
+                                deleteActionHandler("disruption", [
+                                    {
+                                        name: "id",
+                                        value: disruption.disruptionId,
+                                    },
+                                ]);
                             }}
                         >
                             Delete disruption

@@ -12,7 +12,12 @@ describe("DeleteConfirmationPopup", () => {
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
                 csrfToken="123"
-                id="1"
+                hiddenInputs={[
+                    {
+                        name: "id",
+                        value: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                    },
+                ]}
             />,
         );
         expect(container).toMatchSnapshot();
@@ -25,7 +30,12 @@ describe("DeleteConfirmationPopup", () => {
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
                 csrfToken="123"
-                id="1"
+                hiddenInputs={[
+                    {
+                        name: "id",
+                        value: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                    },
+                ]}
             />,
         );
         const element = container.querySelector("#popup-delete-button");
@@ -42,7 +52,12 @@ describe("DeleteConfirmationPopup", () => {
                 deleteUrl="https://test.com/api/delete"
                 cancelActionHandler={cancelActionHandler}
                 csrfToken="123"
-                id="1"
+                hiddenInputs={[
+                    {
+                        name: "id",
+                        value: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                    },
+                ]}
             />,
         );
         const element = container.querySelector("#popup-cancel-button");
