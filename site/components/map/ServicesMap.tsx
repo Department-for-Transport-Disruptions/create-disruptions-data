@@ -415,7 +415,7 @@ const Map = ({
                         key={searchedRoute.serviceId}
                         id={`inbound-route-${searchedRoute.serviceId}`}
                         type="geojson"
-                        data={createLineString(searchedRoute.inbound, searchedRoute?.serviceId)}
+                        data={createLineString(searchedRoute.inbound as Stop[], searchedRoute?.serviceId)}
                     >
                         <Layer
                             id={`services-inbound-${searchedRoute.serviceId}`}
@@ -447,7 +447,7 @@ const Map = ({
                         key={searchedRoute.serviceId}
                         id={`outbound-route-${searchedRoute.serviceId}`}
                         type="geojson"
-                        data={createLineString(searchedRoute.outbound, searchedRoute?.serviceId)}
+                        data={createLineString(searchedRoute.outbound as Stop[], searchedRoute?.serviceId)}
                     >
                         <Layer
                             id={`services-outbound-${searchedRoute.serviceId}`}

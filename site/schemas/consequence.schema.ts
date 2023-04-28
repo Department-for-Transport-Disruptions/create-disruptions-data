@@ -42,8 +42,8 @@ export const stopSchema = z.object({
 });
 
 export const routesSchema = z.object({
-    inbound: z.array(stopSchema),
-    outbound: z.array(stopSchema),
+    inbound: z.array(stopSchema.partial()),
+    outbound: z.array(stopSchema.partial()),
 });
 
 export const stopsConsequenceSchema = z.object({
@@ -77,7 +77,10 @@ export const serviceSchema = z.object({
 export const serviceByStopSchema = serviceSchema.and(
     z.object({
         stops: z.array(z.string()),
-        routes: z.object({ inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })) }),
+        routes: z.object({
+            inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+            outbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+        }),
     }),
 );
 
