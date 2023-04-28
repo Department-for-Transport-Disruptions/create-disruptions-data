@@ -26,6 +26,8 @@ const GeocoderControl = (props: GeocoderControlProps): null => {
         },
     );
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore (TS2339) private member
     if (geocoder._map) {
         if (geocoder.getCountries() !== props.countries && props.countries !== undefined) {
             geocoder.setCountries(props.countries);
