@@ -250,16 +250,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     };
 
     useEffect(() => {
-        if (pageState.inputs.services && pageState.inputs.services.length === 0) {
+        if (pageState?.inputs?.services && pageState.inputs.services.length === 0) {
             setStopOptions([]);
             setSearchedOptions([]);
             setSelectedService(null);
         }
-    }, [pageState.inputs.services]);
+    }, [pageState?.inputs?.services]);
 
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
-        if (pageState.inputs.services) {
+        if (pageState?.inputs?.services) {
             setPageState({
                 inputs: {
                     ...pageState.inputs,
@@ -329,7 +329,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             defaultDisplay="Select mode of transport"
                             selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs.vehicleMode}
+                            value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
                             schema={servicesConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
@@ -343,7 +343,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             getOptionLabel={getServiceLabel}
                             options={props.initialServices}
                             handleChange={handleServiceChange}
-                            tableData={pageState.inputs.services}
+                            tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
                             getOptionValue={getServiceValue}
                             display="Services impacted"
@@ -553,7 +553,7 @@ export const getServerSideProps = async (
 
     let stops: Stop[] = [];
 
-    if (pageState.inputs.services) {
+    if (pageState?.inputs?.services) {
         const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
         stops = (await Promise.all(stopPromises)).flat();
     }
