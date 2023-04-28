@@ -249,6 +249,14 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     };
 
+    useEffect(() => {
+        if (pageState.inputs.services && pageState.inputs.services.length === 0) {
+            setStopOptions([]);
+            setSearchedOptions([]);
+            setSelectedService(null);
+        }
+    }, [pageState.inputs.services]);
+
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
         if (pageState.inputs.services) {
