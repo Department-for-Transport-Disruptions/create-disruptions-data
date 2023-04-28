@@ -6,7 +6,6 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
-    COOKIE_DISRUPTION_DETAIL_STATE,
 } from "../../constants/index";
 import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -38,7 +37,6 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         }
 
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, res);
-        setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);
 
         let redirectPath: string;
 
