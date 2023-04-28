@@ -26,7 +26,7 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem creating a disruption.";
+            const message = "There was a problem cancelling the changes.";
             redirectToError(res, message, "api.cancel-changes", e);
             return;
         }

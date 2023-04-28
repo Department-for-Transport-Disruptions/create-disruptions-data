@@ -43,15 +43,13 @@ describe("cancelChanges", () => {
     });
 
     it("should redirect to /view-all-disruptions page after deleting disruptions", async () => {
-        parseCookies.mockImplementation(() => ({ "cdd-disruption-detail-referer": VIEW_ALL_DISRUPTIONS_PAGE_PATH }));
+        parseCookies.mockImplementation(() => ({ COOKIES_DISRUPTION_DETAIL_REFERER: VIEW_ALL_DISRUPTIONS_PAGE_PATH }));
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
-
-        setCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, VIEW_ALL_DISRUPTIONS_PAGE_PATH, res);
 
         await cancelChanges(req, res);
 

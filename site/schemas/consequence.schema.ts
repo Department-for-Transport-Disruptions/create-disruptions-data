@@ -12,7 +12,6 @@ const baseConsequence = {
     disruptionSeverity: z.nativeEnum(Severity, setZodDefaultError("Select the severity from the dropdown")),
     vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a mode of transport")),
     consequenceIndex: z.coerce.number(),
-    duplicateId: z.string().optional(),
 };
 
 export const networkConsequenceSchema = z.object({

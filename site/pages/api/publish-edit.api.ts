@@ -42,7 +42,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem creating a disruption.";
+            const message = "There was a problem publishing the edited disruption.";
             redirectToError(res, message, "api.publish-edit", e);
             return;
         }
