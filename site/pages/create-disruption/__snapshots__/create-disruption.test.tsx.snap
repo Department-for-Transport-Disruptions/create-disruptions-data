@@ -205,7 +205,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input w-3/4"
                   defaultValue="www.bbc.com"
                   id="associated-link-input"
-                  maxLength={500}
+                  maxLength={250}
                   name="associatedLink"
                   onBlur={[Function]}
                   type="text"
@@ -1676,7 +1676,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   className="govuk-input w-3/4"
                   id="associated-link-input"
-                  maxLength={500}
+                  maxLength={250}
                   name="associatedLink"
                   onBlur={[Function]}
                   type="text"
@@ -3069,7 +3069,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="govuk-input w-3/4"
                   defaultValue="www.bbc.com"
                   id="associated-link-input"
-                  maxLength={500}
+                  maxLength={250}
                   name="associatedLink"
                   onBlur={[Function]}
                   type="text"

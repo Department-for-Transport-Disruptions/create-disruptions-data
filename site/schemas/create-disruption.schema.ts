@@ -219,8 +219,8 @@ export const createDisruptionSchema = z.object({
         .url({
             message: "Associated link must be a valid URL",
         })
-        .max(500, {
-            message: "Associated link must not exceed 500 characters",
+        .max(250, {
+            message: "Associated link must not exceed 250 characters",
         })
         .optional()
         .or(z.literal("")),
