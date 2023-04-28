@@ -521,7 +521,7 @@ const Map = ({
                         )
                     }
                 >
-                    {showSelectAllText ? "Select all stops" : "Unselect all stops"}
+                    {showSelectAllText ? "Select all" : "Unselect all"}
                 </button>
             ) : null}
             <MapBox
