@@ -31,7 +31,7 @@ exports[`DeleteConfirmationPopup > should render correctly 1`] = `
         <input
           name="id"
           type="hidden"
-          value="1"
+          value="acde070d-8c4c-4f0d-9d8a-162843c10333"
         />
         <button
           class="govuk-button mr-6 mt-4 mb-0 mt-11"
@@ -83,7 +83,7 @@ exports[`DeleteConfirmationPopup > should render correctly when delete is clicke
         <input
           name="id"
           type="hidden"
-          value="1"
+          value="acde070d-8c4c-4f0d-9d8a-162843c10333"
         />
         <button
           class="govuk-button mr-6 mt-4 mb-0 mt-11"
@@ -135,7 +135,7 @@ exports[`DeleteConfirmationPopup > should render correctly when return all is cl
         <input
           name="id"
           type="hidden"
-          value="1"
+          value="acde070d-8c4c-4f0d-9d8a-162843c10333"
         />
         <button
           class="govuk-button mr-6 mt-4 mb-0 mt-11"

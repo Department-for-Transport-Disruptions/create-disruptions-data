@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
-import { ERROR_PATH } from "../../constants/index";
+import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
@@ -90,20 +90,34 @@ describe("publish", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it.each([[disruptionWithConsequences], [disruptionWithNoConsequences]])(
-        "should write the correct disruptions data to dynamoDB",
-        async (disruption) => {
-            getDisruptionSpy.mockResolvedValue(disruption);
-            const { req, res } = getMockRequestAndResponse({
-                body: {
-                    disruptionId: disruption.disruptionId,
-                },
-                mockWriteHeadFn: writeHeadMock,
-            });
+    it("should write the correct disruptions data to dynamoDB", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: disruptionWithConsequences.disruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
-            await publish(req, res);
+        await publish(req, res);
 
-            expect(insertDisruptionSpy.mock.calls[0][0]).toMatchSnapshot();
-        },
-    );
+        expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
+    });
+
+    it("should redirect to error page if no consequences", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithNoConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publish(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
 });

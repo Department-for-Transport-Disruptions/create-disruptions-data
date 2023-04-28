@@ -7,7 +7,7 @@ interface PopUpProps {
     cancelActionHandler: React.MouseEventHandler<HTMLButtonElement>;
     hintText?: string;
     csrfToken: string;
-    id: string;
+    hiddenInputs: { name: string; value: string | undefined }[];
 }
 
 const DeleteConfirmationPopup = ({
@@ -16,7 +16,7 @@ const DeleteConfirmationPopup = ({
     cancelActionHandler,
     hintText,
     csrfToken,
-    id,
+    hiddenInputs,
 }: PopUpProps): ReactElement | null => (
     <div className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 ">
         <div className="relative bg-white w-full max-w-xl p-10">
@@ -32,7 +32,16 @@ const DeleteConfirmationPopup = ({
                         </>
                     )}
                 </span>
-                <input type="hidden" name="id" value={id || ""} />
+
+                {hiddenInputs.map((hiddenInput) => (
+                    <input
+                        key={hiddenInput.name}
+                        type="hidden"
+                        name={hiddenInput.name}
+                        value={hiddenInput.value || ""}
+                    />
+                ))}
+
                 <button
                     className="govuk-button mr-6 mt-4 mb-0 mt-11"
                     data-module="govuk-button"

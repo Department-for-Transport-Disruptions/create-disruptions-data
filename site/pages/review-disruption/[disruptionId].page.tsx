@@ -1,8 +1,10 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
+import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
@@ -11,9 +13,10 @@ import {
     CONSEQUENCE_TYPES,
     VEHICLE_MODES,
     REVIEW_DISRUPTION_PAGE_PATH,
+    COOKIES_REVIEW_DISRUPTION_ERRORS,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { SocialMediaPost } from "../../interfaces";
+import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
@@ -27,6 +30,7 @@ interface ReviewDisruptionProps {
     disruption: Disruption;
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
+    errors: ErrorInfo[];
 }
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
@@ -42,12 +46,17 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     }
 };
 
-const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({
+    disruption,
+    previousSocialMediaPosts,
+    csrfToken,
+    errors,
+}: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
-    const [popUpState, setPopUpState] = useState<{ disruptionName: string; disruptionId: string }>();
+    const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
 
-    const deleteActionHandler = (id: string, name: string): void => {
-        setPopUpState({ disruptionId: id, disruptionName: name });
+    const deleteActionHandler = (name: string, hiddenInputs: { name: string; value: string }[]): void => {
+        setPopUpState({ name, hiddenInputs });
     };
 
     const cancelActionHandler = (): void => {
@@ -120,20 +129,27 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
         });
     };
 
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex + 1
+            : 0;
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
-                    entityName={"the disruption"}
-                    deleteUrl={"/api/delete-disruption"}
+                    entityName={`the ${popUpState.name}`}
+                    deleteUrl={`/api/delete-${popUpState.name}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
-                    id={popUpState.disruptionId}
+                    hiddenInputs={popUpState.hiddenInputs}
                 />
             ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
+                    <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
                         <Table
@@ -250,7 +266,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "consequence-type",
                                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -262,7 +278,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "vehicle-mode",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -281,7 +297,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "service",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -303,7 +319,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "stops-affected",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -315,7 +331,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "advice-to-display",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -327,7 +343,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "remove-from-journey-planners",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -341,9 +357,33 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         createChangeLink(
                                                             "disruption-delay",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
+                                                    ],
+                                                },
+                                                {
+                                                    cells: [
+                                                        <button
+                                                            key={consequence.consequenceIndex}
+                                                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                                                            data-module="govuk-button"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                deleteActionHandler("consequence", [
+                                                                    {
+                                                                        name: "id",
+                                                                        value: consequence.consequenceIndex.toString(),
+                                                                    },
+                                                                    {
+                                                                        name: "disruptionId",
+                                                                        value: disruption.disruptionId,
+                                                                    },
+                                                                ]);
+                                                            }}
+                                                        >
+                                                            Delete consequence
+                                                        </button>,
                                                     ],
                                                 },
                                             ]}
@@ -354,9 +394,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                disruption.consequences?.length ?? 0
-                            }`}
+                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -438,7 +476,12 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                             data-module="govuk-button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                deleteActionHandler(disruption.disruptionId, disruption.summary);
+                                deleteActionHandler("disruption", [
+                                    {
+                                        name: "id",
+                                        value: disruption.disruptionId,
+                                    },
+                                ]);
                             }}
                         >
                             Delete disruption
@@ -452,6 +495,13 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ReviewDisruptionProps } | void> => {
     const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
+
+    let errors: ErrorInfo[] = [];
+    if (errorCookie) {
+        errors = JSON.parse(errorCookie) as ErrorInfo[];
+    }
 
     if (!disruption) {
         throw new Error("Disruption not found for review page");
@@ -476,6 +526,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             disruption,
             previousSocialMediaPosts,
+            errors,
         },
     };
 };

@@ -344,7 +344,7 @@ export const disruptionWithNoConsequences: Disruption = {
 
 export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
-    disruptionId: "test",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "operatorWide",
     consequenceOperators: ["FSYO"],
     description: "Some consequence description",
@@ -356,7 +356,7 @@ export const consequenceInfoOperatorTest: Consequence = {
 
 export const consequenceInfoNetworkTest: Consequence = {
     consequenceIndex: 1,
-    disruptionId: "test",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "networkWide",
     description: "Some consequence description",
     disruptionSeverity: Severity.slight,

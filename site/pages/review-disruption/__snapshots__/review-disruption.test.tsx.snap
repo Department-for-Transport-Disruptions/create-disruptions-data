@@ -642,6 +642,21 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         </a>
                       </td>
                     </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <button
+                          className="govuk-button govuk-button--warning ml-5 mt-8"
+                          data-module="govuk-button"
+                          onClick={[Function]}
+                        >
+                          Delete consequence
+                        </button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -877,6 +892,21 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         </a>
                       </td>
                     </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <button
+                          className="govuk-button govuk-button--warning ml-5 mt-8"
+                          data-module="govuk-button"
+                          onClick={[Function]}
+                        >
+                          Delete consequence
+                        </button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -1110,6 +1140,21 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         >
                           Change
                         </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <button
+                          className="govuk-button govuk-button--warning ml-5 mt-8"
+                          data-module="govuk-button"
+                          onClick={[Function]}
+                        >
+                          Delete consequence
+                        </button>
                       </td>
                     </tr>
                   </tbody>
