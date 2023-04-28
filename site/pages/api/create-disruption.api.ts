@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_ERRORS,
-    COOKIE_DISRUPTION_DETAIL_STATE,
     CREATE_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
@@ -91,7 +90,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         await upsertDisruptionInfo(validatedBody.data);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
-        setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);
 
         queryParam
             ? redirectTo(res, `${decodeURIComponent(queryParam.split("=")[1])}/${validatedBody.data.disruptionId}`)

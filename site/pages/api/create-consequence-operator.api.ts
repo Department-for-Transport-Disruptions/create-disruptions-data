@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-    COOKIE_DISRUPTION_DETAIL_STATE,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -67,7 +66,6 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
 
         await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
-        setCookieOnResponseObject(COOKIE_DISRUPTION_DETAIL_STATE, "saved", res);
 
         const redirectPath =
             queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)

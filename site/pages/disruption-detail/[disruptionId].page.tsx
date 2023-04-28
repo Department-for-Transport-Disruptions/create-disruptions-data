@@ -389,7 +389,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         {!displayCancelButton ? (
-                            <Link role="button" href={`${redirect}`} className="govuk-button mt-8 govuk-button">
+                            <Link role="button" href={redirect} className="govuk-button mt-8 govuk-button">
                                 Close and Return
                             </Link>
                         ) : (
