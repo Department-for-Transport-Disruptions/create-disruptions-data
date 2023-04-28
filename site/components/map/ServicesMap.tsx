@@ -13,10 +13,10 @@ import {
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Marker, NavigationControl, Popup, Source, ViewState, FullscreenControl } from "react-map-gl";
+import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
-import DrawControl, { PolygonFeature } from "./DrawControl";
-import GeocoderControl from "./GeocoderControl";
+import { PolygonFeature } from "./DrawControl";
+import MapControls from "./MapControls";
 import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
 import { PageState } from "../../interfaces";
 import {
@@ -25,12 +25,10 @@ import {
     ServiceByStop,
     ServicesConsequence,
     Stop,
-    StopsConsequence,
     serviceByStopSchema,
     serviceSchema,
     servicesConsequenceSchema,
     stopSchema,
-    stopsConsequenceSchema,
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { sortStops } from "../../utils/formUtils";
@@ -42,9 +40,8 @@ interface MapProps {
     searched: Stop[];
     inputId?: keyof Stop;
     showSelectAllButton?: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    stateUpdater: Dispatch<SetStateAction<PageState<any>>>;
-    state: PageState<Partial<StopsConsequence | ServicesConsequence>>;
+    stateUpdater: Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
+    state: PageState<Partial<ServicesConsequence>>;
     searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
     services?: Service[];
 }
@@ -390,52 +387,6 @@ const Map = ({
             setShowSelectAllText(!showSelectAllText);
             return;
         }
-        if (!showSelectAllText) {
-            stateUpdater({
-                inputs: {
-                    ...state.inputs,
-                    stops: selected.filter((sToFilter: Stop) =>
-                        markerData && markerData.length > 0
-                            ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                            : sToFilter,
-                    ),
-                },
-                errors: state.errors,
-            });
-        } else {
-            const parsed = z.array(stopSchema).safeParse(markerData);
-            if (!parsed.success) {
-                stateUpdater({
-                    ...state,
-                    errors: [
-                        ...state.errors.filter((err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id)),
-                        ...flattenZodErrors(parsed.error),
-                    ],
-                });
-            } else {
-                if (markerData.length > 0 && showSelectAllText) {
-                    stateUpdater({
-                        inputs: {
-                            ...state.inputs,
-                            stops: sortStops(
-                                [...selected, ...markerData]
-                                    .filter(
-                                        (value, index, self) =>
-                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                    )
-                                    .splice(0, 100),
-                            ),
-                        },
-                        errors: [
-                            ...state.errors.filter(
-                                (err) => !Object.keys(stopsConsequenceSchema.shape).includes(err.id),
-                            ),
-                        ],
-                    });
-                }
-            }
-        }
-        setShowSelectAllText(!showSelectAllText);
     };
 
     useEffect(() => {
@@ -582,30 +533,10 @@ const Map = ({
                 interactiveLayerIds={getInteractiveLayerIds()}
                 onRender={(event) => event.target.resize()}
             >
-                <GeocoderControl mapboxAccessToken={mapboxAccessToken} position="top-right" />
-                <NavigationControl showCompass={false} />
-                <FullscreenControl />
+                <MapControls onUpdate={onUpdate} onDelete={onDelete} />
                 {selected && searched ? getMarkers(selected, searched) : null}
                 {selectedServices ? getSourcesInbound(selectedServices) : null}
                 {selectedServices ? getSourcesOutbound(selectedServices) : null}
-                <DrawControl
-                    position="top-left"
-                    displayControlsDefault={false}
-                    controls={{
-                        polygon: true,
-                        trash: true,
-                    }}
-                    defaultMode="draw_polygon"
-                    onCreate={(evt) => {
-                        onUpdate(evt);
-                    }}
-                    onUpdate={(evt) => {
-                        onUpdate(evt);
-                    }}
-                    onDelete={(evt) => {
-                        onDelete(evt);
-                    }}
-                />
                 {popupInfo.atcoCode && (
                     <Popup
                         anchor="top"

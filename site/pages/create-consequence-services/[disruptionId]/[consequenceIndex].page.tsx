@@ -15,7 +15,7 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import Map from "../../../components/map/Map";
+import Map from "../../../components/map/ServicesMap";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
