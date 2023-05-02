@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getPtSituationElementFromDraft } from "./publish.api";
-import { ERROR_PATH } from "../../constants";
+import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import {
     deleteDisruptionsInEdit,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     publishEditedConsequences,
 } from "../../data/dynamo";
-import { publishSchema } from "../../schemas/publish.schema";
-import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
+import { flattenZodErrors } from "../../utils";
+import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 import logger from "../../utils/logger";
 
 const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -26,6 +27,19 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
 
+            return;
+        }
+
+        const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
+
+        if (!validatedDisruptionBody.success) {
+            setCookieOnResponseObject(
+                COOKIES_DISRUPTION_DETAIL_ERRORS,
+                JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)),
+                res,
+            );
+
+            redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
 
