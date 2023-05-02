@@ -357,15 +357,36 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
                                                         ),
                                                     ],
                                                 },
+                                                {
+                                                    cells: [
+                                                        <button
+                                                            key={consequence.consequenceIndex}
+                                                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                                                            data-module="govuk-button"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                deleteActionHandler("consequence", [
+                                                                    {
+                                                                        name: "id",
+                                                                        value: consequence.consequenceIndex.toString(),
+                                                                    },
+                                                                    {
+                                                                        name: "disruptionId",
+                                                                        value: disruption.disruptionId,
+                                                                    },
+                                                                    {
+                                                                        name: "inEdit",
+                                                                        value: "true",
+                                                                    },
+                                                                ]);
+                                                            }}
+                                                        >
+                                                            Delete consequence
+                                                        </button>,
+                                                    ],
+                                                },
                                             ]}
                                         />
-                                        <Link
-                                            role="button"
-                                            href={`/disruption-detail/${consequence.disruptionId}/${consequence.consequenceIndex}`}
-                                            className="govuk-button govuk-button--warning"
-                                        >
-                                            Delete consequence
-                                        </Link>
                                     </div>
                                 </div>
                             ))}

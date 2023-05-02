@@ -82,6 +82,22 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             },
         })) ?? [];
 
+    const editedConsequenceDeleteCommands: {
+        Delete: {
+            TableName: string;
+            Key: Record<string, string>;
+        };
+    }[] =
+        disruption?.consequences?.map((_, index) => ({
+            Delete: {
+                TableName: tableName,
+                Key: {
+                    PK: "1", // TODO: replace with user ID when we have auth
+                    SK: `${disruptionId}#CONSEQUENCE#${index}#EDIT`,
+                },
+            },
+        })) ?? [];
+
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
@@ -103,7 +119,17 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                         },
                     },
                 },
+                {
+                    Delete: {
+                        TableName: tableName,
+                        Key: {
+                            PK: "1", // TODO: replace with user ID when we have auth
+                            SK: `${disruptionId}#INFO#EDIT`,
+                        },
+                    },
+                },
                 ...consequenceDeleteCommands,
+                ...editedConsequenceDeleteCommands,
             ],
         }),
     );
@@ -187,9 +213,11 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
     );
 };
 
-export const upsertConsequence = async (consequence: Consequence) => {
+export const upsertConsequence = async (
+    consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
+) => {
     logger.info(
-        `Updating consequence ${consequence.consequenceIndex || ""} in disruption (${
+        `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
             consequence.disruptionId || ""
         }) in DynamoDB table...`,
     );
@@ -242,7 +270,7 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
     const isEdited = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#EDIT"));
     let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
 
-    const consequences = dynamoDisruption.Items.filter(
+    let consequences = dynamoDisruption.Items.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
             false,
@@ -266,6 +294,9 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
             }
         });
     }
+
+    consequences = consequences.filter((consequences) => consequences.publishStatus !== "DELETE");
+
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
@@ -280,6 +311,7 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
 };
 
 export const publishEditedConsequences = async (disruptionId: string) => {
+    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
@@ -292,47 +324,68 @@ export const publishEditedConsequences = async (disruptionId: string) => {
     );
 
     if (dynamoDisruption.Items) {
-        const editedDisruption = dynamoDisruption.Items.filter(
-            (item) => (item.SK as string) === `${disruptionId}#INFO#EDIT` ?? false,
-        );
+        const editedDisruption =
+            dynamoDisruption.Items.filter((item) => (item.SK as string) === `${disruptionId}#INFO#EDIT` ?? false) ?? [];
 
-        const editedConsequences = dynamoDisruption.Items.filter(
-            (item) =>
-                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                    (item.SK as string).includes("#EDIT")) ??
-                false,
-        );
+        const editedConsequences =
+            dynamoDisruption.Items.filter(
+                (item) =>
+                    ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                        (item.SK as string).includes("#EDIT") &&
+                        !(item.publishStatus as string).includes("DELETE")) ??
+                    false,
+            ) ?? [];
 
-        await ddbDocClient.send(
-            new TransactWriteCommand({
-                TransactItems: [
-                    ...editedDisruption.map((disruption) => ({
-                        Put: {
-                            TableName: tableName,
-                            Item: {
-                                ...disruption,
-                                PK: "1", // TODO: replace with user ID when we have auth
-                                SK: `${disruptionId}#INFO`,
+        const deleteConsequence =
+            dynamoDisruption.Items.filter(
+                (item) =>
+                    ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                        (item.SK as string).includes("#EDIT") &&
+                        (item.publishStatus as string).includes("DELETE")) ??
+                    false,
+            ) ?? [];
+
+        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequence.length > 0)
+            await ddbDocClient.send(
+                new TransactWriteCommand({
+                    TransactItems: [
+                        ...editedDisruption.map((disruption) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...disruption,
+                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    SK: `${disruptionId}#INFO`,
+                                },
                             },
-                        },
-                    })),
-                    ...editedConsequences.map((consequence) => ({
-                        Put: {
-                            TableName: tableName,
-                            Item: {
-                                ...consequence,
-                                PK: "1", // TODO: replace with user ID when we have auth
-                                SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
+                        })),
+                        ...editedConsequences.map((consequence) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...consequence,
+                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
+                                },
                             },
-                        },
-                    })),
-                ],
-            }),
-        );
+                        })),
+                        ...deleteConsequence.map((consequence) => ({
+                            Delete: {
+                                TableName: tableName,
+                                Key: {
+                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
+                                },
+                            },
+                        })),
+                    ],
+                }),
+            );
     }
 };
 
 export const deleteDisruptionsInEdit = async (disruptionId: string) => {
+    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
