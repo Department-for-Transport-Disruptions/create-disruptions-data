@@ -112,7 +112,7 @@ describe("publishEdit", () => {
 
             await publishEdit(req, res);
 
-            expect(insertDisruptionSpy.mock.calls[0][0]).toMatchSnapshot();
+            expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
         },
     );
 });
