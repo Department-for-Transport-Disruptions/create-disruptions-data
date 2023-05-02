@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import deleteConsequence from "./delete-consequence.api";
-import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
+import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 
@@ -19,6 +19,7 @@ describe("deleteConsequence", () => {
 
     vi.mock("../../data/dynamo", () => ({
         removeConsequenceFromDisruption: vi.fn(),
+        upsertConsequence: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -51,6 +52,24 @@ describe("deleteConsequence", () => {
         expect(dynamo.removeConsequenceFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /dashboard page after updating consequence when invoked from disruption details page", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                id: defaultConsequenceId,
+                disruptionId: defaultDisruptionId,
+                inEdit: "true",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await deleteConsequence(req, res);
+
+        expect(dynamo.upsertConsequence).toBeCalledTimes(1);
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
