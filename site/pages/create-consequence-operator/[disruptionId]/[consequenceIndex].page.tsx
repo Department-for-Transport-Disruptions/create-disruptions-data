@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -15,7 +14,6 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/OperatorSearch";
 import {
     ADMIN_AREA_CODE,
-    API_BASE_URL,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
@@ -24,13 +22,9 @@ import {
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import {
-    Operator,
-    OperatorConsequence,
-    operatorConsequenceSchema,
-    operatorSchema,
-} from "../../../schemas/consequence.schema";
+import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
@@ -248,14 +242,7 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
-    let operators: Operator[] = [];
-    const searchApiUrl = `${API_BASE_URL}operators?adminAreaCodes=${ADMIN_AREA_CODE}`;
-    const res = await fetch(searchApiUrl, { method: "GET" });
-    const parse = z.array(operatorSchema).safeParse(await res.json());
-
-    if (parse.success) {
-        operators = parse.data;
-    }
+    const operators = await fetchOperators({ adminAreaCode: ADMIN_AREA_CODE });
 
     return { props: { ...pageState, consequenceIndex: index, operators } };
 };
