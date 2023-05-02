@@ -168,12 +168,11 @@ const ReviewDisruption = ({
                 header: "Service(s)",
                 cells: [
                     consequence.services
-                              .map(
-                                  (service) =>
-                                      `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
-                              )
-                              .join(", ")
-,
+                        .map(
+                            (service) =>
+                                `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
+                        )
+                        .join(", "),
                     createChangeLink(
                         "service",
                         getConsequenceUrl(consequence.consequenceType),
