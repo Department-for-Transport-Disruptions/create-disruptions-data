@@ -376,7 +376,7 @@ const Map = ({
                                                   index === self.findIndex((s) => s.id === value.id),
                                           ),
                                       }
-                                    : {}),
+                                    : { services: [...servicesToAdd] }),
                             },
                             errors: [
                                 ...state.errors.filter(
