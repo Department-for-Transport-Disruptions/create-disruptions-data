@@ -15,6 +15,7 @@ export const handleBlur = <T>(
 
     if (schema && !disabled) {
         const parsed = schema.safeParse(input);
+
         if (parsed.success === false) {
             setErrors([
                 {
