@@ -309,11 +309,15 @@ const Map = ({
                         const markerDataInAService = markerData
                             .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
                             .map((marker) => {
-                                const service = servicesInPolygon.find((service) =>
+                                const services = servicesInPolygon.filter((service) =>
                                     service.stops.includes(marker.atcoCode),
                                 );
-                                return { ...marker, serviceId: service?.id ? Number(service?.id) : undefined };
+                                return {
+                                    ...marker,
+                                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+                                };
                             });
+
                         const servicesToAdd = servicesInPolygon
                             .filter((service) =>
                                 service.stops.filter((stop) => {

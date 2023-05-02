@@ -58,7 +58,7 @@ export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
         if (stopsData) {
             return stopsData.map((stop) => ({
                 ...stop,
-                ...(serviceId && { serviceId }),
+                ...(serviceId && { serviceIds: [serviceId] }),
             }));
         }
     }
@@ -253,24 +253,36 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     }, [pageState?.inputs?.services]);
 
+    const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
+        const selectedServiceIds = services.map((s) => s.id);
+
+        return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
+    };
+
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
+
         if (pageState?.inputs?.services) {
+            const newServices = [...pageState.inputs.services].filter((service) => service.id !== serviceId);
+
             setPageState({
                 inputs: {
                     ...pageState.inputs,
                     ...(pageState.inputs.stops && {
-                        stops: [...pageState.inputs.stops].filter((stop) => stop.serviceId !== serviceId),
+                        stops: [...pageState.inputs.stops].filter((stop) =>
+                            findStopsNotToRemove(stop, serviceId, newServices),
+                        ),
                     }),
-                    services: [...pageState.inputs.services].filter((service) => service.id !== serviceId),
+                    services: newServices,
                 },
                 errors: pageState.errors,
             });
+
+            setStopOptions(stopOptions.filter((stop) => findStopsNotToRemove(stop, serviceId, newServices)));
         }
 
-        setSearchedOptions(searched.filter((stop) => stop?.serviceId !== serviceId) || []);
+        setSearchedOptions(searched.filter((route) => route?.serviceId !== serviceId) || []);
         setSelectedService(null);
-        setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
 
     const getServiceRows = () => {
