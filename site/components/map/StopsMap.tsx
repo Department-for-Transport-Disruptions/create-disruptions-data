@@ -14,7 +14,8 @@ import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
-import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
+import { ADMIN_AREA_CODE } from "../../constants";
+import { fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -169,13 +170,9 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
-                    polygon,
-                )}`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    setMarkerData(data);
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, polygon });
+                if (stopsData) {
+                    setMarkerData(stopsData);
                 } else {
                     setMarkerData([]);
                 }

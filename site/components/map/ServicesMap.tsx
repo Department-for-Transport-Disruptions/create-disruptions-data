@@ -17,15 +17,14 @@ import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
-import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
+import { ADMIN_AREA_CODE } from "../../constants";
+import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import {
     Routes,
     Service,
-    ServiceByStop,
     ServicesConsequence,
     Stop,
-    serviceByStopSchema,
     serviceSchema,
     servicesConsequenceSchema,
     stopSchema,
@@ -88,7 +87,6 @@ const Map = ({
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
     );
-    const [servicesInPolygon, setServicesInPolygon] = useState<ServiceByStop[]>([]);
     const [selectedServices, setSelectedServices] =
         useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
 
@@ -227,13 +225,10 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
-                    polygon,
-                )}`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    setMarkerData(data);
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, polygon });
+
+                if (stopsData) {
+                    setMarkerData(stopsData);
                 } else {
                     setMarkerData([]);
                 }
@@ -244,26 +239,6 @@ const Map = ({
                 .catch(console.error);
         }
     }, [features]);
-
-    useEffect(() => {
-        if (markerData && markerData.length > 0 && services) {
-            const atcoCodes = markerData.map((marker) => marker.atcoCode).join(",");
-            const loadOptions = async () => {
-                const searchApiUrl = `${API_BASE_URL}services?atcoCodes=${atcoCodes}&includeRoutes=true`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: ServiceByStop[] = z.array(serviceByStopSchema).parse(await res.json());
-                if (data) {
-                    setServicesInPolygon(data);
-                } else {
-                    setServicesInPolygon([]);
-                }
-            };
-
-            loadOptions()
-                // eslint-disable-next-line no-console
-                .catch(console.error);
-        }
-    }, [markerData, services]);
 
     const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
         setFeatures((currFeatures) => {
@@ -294,9 +269,10 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const selectAllStops = (evt: SyntheticEvent) => {
+    const selectAllStops = async (evt: SyntheticEvent) => {
         evt.preventDefault();
-        if (selectedServices || servicesInPolygon) {
+
+        if (selectedServices) {
             if (!showSelectAllText) {
                 stateUpdater({
                     inputs: {
@@ -325,6 +301,10 @@ const Map = ({
                     });
                 } else {
                     if (showSelectAllText) {
+                        const atcoCodes = markerData.map((marker) => marker.atcoCode);
+
+                        const servicesInPolygon = await fetchServicesByStops({ atcoCodes, includeRoutes: true });
+
                         const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
                         const markerDataInAService = markerData
                             .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))

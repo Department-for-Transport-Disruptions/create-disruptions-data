@@ -5,7 +5,6 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue, createFilter } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
-import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -20,13 +19,13 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    API_BASE_URL,
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     Stop,
@@ -35,7 +34,6 @@ import {
     Service,
     serviceSchema,
     servicesConsequenceSchema,
-    routesSchema,
     Routes,
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isServicesConsequence } from "../../../utils";
@@ -55,12 +53,10 @@ const filterConfig = {
 
 export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     if (serviceId) {
-        const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
-        const res = await fetch(searchApiUrl, { method: "GET" });
-        const data: Stop[] = z.array(stopSchema).parse(await res.json());
+        const stopsData = await fetchServiceStops({ serviceId });
 
-        if (data) {
-            return data.map((stop) => ({
+        if (stopsData) {
+            return stopsData.map((stop) => ({
                 ...stop,
                 ...(serviceId && { serviceId }),
             }));
@@ -98,15 +94,15 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         const loadOptions = async () => {
             if (selectedService) {
-                const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/routes`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Routes = routesSchema.parse(await res.json());
-                if (data) {
+                const serviceRoutesData = await fetchServiceRoutes({ serviceId: selectedService.id });
+
+                if (serviceRoutesData) {
                     const notSelected =
                         searched.length > 0
                             ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
                             : true;
-                    if (notSelected) setSearchedOptions([...searched, { ...data, serviceId: selectedService.id }]);
+                    if (notSelected)
+                        setSearchedOptions([...searched, { ...serviceRoutesData, serviceId: selectedService.id }]);
                 } else {
                     setSearchedOptions([]);
                 }
@@ -529,12 +525,11 @@ export const getServerSideProps = async (
     );
 
     let services: Service[] = [];
-    const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
-    const res = await fetch(searchApiUrl, { method: "GET" });
-    const parse = z.array(serviceSchema).safeParse(await res.json());
 
-    if (parse.success) {
-        services = sortServices(parse.data);
+    const servicesData = await fetchServices({ adminAreaCode: ADMIN_AREA_CODE });
+
+    if (servicesData.length > 0) {
+        services = sortServices(servicesData);
 
         const setOfServices = new Set();
 

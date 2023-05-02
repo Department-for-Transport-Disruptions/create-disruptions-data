@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
-import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -19,13 +18,13 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    API_BASE_URL,
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
@@ -59,11 +58,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     useEffect(() => {
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
-                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${searchInput}`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    setStopOptions(data);
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, searchString: searchInput });
+
+                if (stopsData) {
+                    setStopOptions(stopsData);
                 }
             } else {
                 setStopOptions([]);
