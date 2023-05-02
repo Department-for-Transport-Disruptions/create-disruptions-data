@@ -95,6 +95,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             });
         } else {
             setDisruptionPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     validity: [...(pageState.inputs.validity ?? []), filteredValidity],
@@ -123,6 +124,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             validity.splice(index, 1);
 
             setDisruptionPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     validity,

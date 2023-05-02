@@ -321,6 +321,7 @@ export const disruptionInfoTest: DisruptionInfo = {
 };
 
 export const disruptionWithNoConsequences: Disruption = {
+    publishStatus: "DRAFT",
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
     disruptionType: "planned",
