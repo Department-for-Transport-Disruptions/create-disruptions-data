@@ -35,7 +35,7 @@ export const stopSchema = z.object({
     indicator: z.string().optional(),
     longitude: z.coerce.number(),
     latitude: z.coerce.number(),
-    serviceId: z.number({}).optional(),
+    serviceIds: z.array(z.number({})).optional(),
     bearing: z.string().optional(),
     sequenceNumber: z.string().optional(),
     direction: z.string().optional(),
