@@ -58,7 +58,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            expect.any(String),
+            disruptionWithConsequences,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -101,7 +101,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
+        expect(insertDisruptionSpy.mock.calls[0][0]).toMatchSnapshot();
     });
 
     it("should redirect to error page if no consequences", async () => {

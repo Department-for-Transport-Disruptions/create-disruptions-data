@@ -136,10 +136,10 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
 };
 
 export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
-    disruption: PtSituationElement,
-    disruptionId: string,
+    ptSituationElement: PtSituationElement,
+    disruption: Disruption,
 ) => {
-    logger.info(`Inserting published disruption (${disruptionId}) into DynamoDB table...`);
+    logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
 
     const consequenceUpdateCommands: {
         Update: {
@@ -149,12 +149,12 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             ExpressionAttributeValues: Record<string, string>;
         };
     }[] =
-        disruption.Consequences?.Consequence.map((_, index) => ({
+        disruption.consequences?.map((consequence) => ({
             Update: {
                 TableName: tableName,
                 Key: {
                     PK: "1", // TODO: replace with user ID when we have auth
-                    SK: `${disruptionId}#CONSEQUENCE#${index}`,
+                    SK: `${disruption.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
                 },
                 UpdateExpression: "SET publishStatus = :1",
                 ExpressionAttributeValues: {
@@ -171,8 +171,8 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                         TableName: siriTableName,
                         Item: {
                             PK: "1", // TODO: replace with user ID when we have auth
-                            SK: disruptionId,
-                            ...disruption,
+                            SK: disruption.disruptionId,
+                            ...ptSituationElement,
                         },
                     },
                 },
@@ -181,7 +181,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                         TableName: tableName,
                         Key: {
                             PK: "1", // TODO: replace with user ID when we have auth
-                            SK: `${disruptionId}#INFO`,
+                            SK: `${disruption.disruptionId}#INFO`,
                         },
                         UpdateExpression: "SET publishStatus = :1",
                         ExpressionAttributeValues: {
@@ -332,7 +332,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                 (item) =>
                     ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                         (item.SK as string).includes("#EDIT") &&
-                        !(item.publishStatus as string).includes("DELETE")) ??
+                        !(item.publishStatus as string)?.includes("DELETE")) ??
                     false,
             ) ?? [];
 
@@ -341,11 +341,11 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                 (item) =>
                     ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                         (item.SK as string).includes("#EDIT") &&
-                        (item.publishStatus as string).includes("DELETE")) ??
+                        (item.publishStatus as string)?.includes("DELETE")) ??
                     false,
             ) ?? [];
 
-        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequence.length > 0)
+        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequence.length > 0) {
             await ddbDocClient.send(
                 new TransactWriteCommand({
                     TransactItems: [
@@ -381,6 +381,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                     ],
                 }),
             );
+        }
     }
 };
 

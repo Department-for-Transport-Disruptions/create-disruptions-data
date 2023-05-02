@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getPtSituationElementFromDraft } from "./publish.api";
 import { ERROR_PATH } from "../../constants";
 import {
     deleteDisruptionsInEdit,
@@ -10,6 +9,7 @@ import {
 import { publishSchema } from "../../schemas/publish.schema";
 import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
 import logger from "../../utils/logger";
+import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -33,7 +33,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         await deleteDisruptionsInEdit(draftDisruption.disruptionId);
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             getPtSituationElementFromDraft(draftDisruption),
-            draftDisruption.disruptionId,
+            draftDisruption,
         );
 
         cleardownCookies(req, res);
