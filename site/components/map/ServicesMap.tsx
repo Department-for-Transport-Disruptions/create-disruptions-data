@@ -359,20 +359,6 @@ const Map = ({
                             ),
                         );
 
-                        console.log(
-                            sortStops(
-                                [
-                                    ...(state.inputs.stops ?? []),
-                                    ...markerDataInAService,
-                                    ...(searched.length > 0 ? searched : []),
-                                ]
-                                    .filter(
-                                        (value, index, self) =>
-                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                    )
-                                    .splice(0, 100),
-                            ),
-                        );
                         stateUpdater({
                             inputs: {
                                 ...state.inputs,
