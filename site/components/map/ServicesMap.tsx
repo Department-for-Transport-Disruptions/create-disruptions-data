@@ -306,9 +306,14 @@ const Map = ({
                         const servicesInPolygon = await fetchServicesByStops({ atcoCodes, includeRoutes: true });
 
                         const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
-                        const markerDataInAService = markerData.filter((marker) =>
-                            servicesStopsInPolygon.includes(marker.atcoCode),
-                        );
+                        const markerDataInAService = markerData
+                            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+                            .map((marker) => {
+                                const service = servicesInPolygon.find((service) =>
+                                    service.stops.includes(marker.atcoCode),
+                                );
+                                return { ...marker, serviceId: service?.id ? Number(service?.id) : undefined };
+                            });
                         const servicesToAdd = servicesInPolygon
                             .filter((service) =>
                                 service.stops.filter((stop) => {
