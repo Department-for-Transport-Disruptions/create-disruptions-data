@@ -11,11 +11,13 @@ export const handleBlur = <T>(
     schema?: z.ZodTypeAny,
     disabled?: boolean,
 ) => {
+    console.log("on blur---");
     stateUpdater(input, inputName);
 
     if (schema && !disabled) {
         const parsed = schema.safeParse(input);
-
+        console.log("schema---", schema);
+        console.log("parsed---", parsed);
         if (parsed.success === false) {
             setErrors([
                 {
