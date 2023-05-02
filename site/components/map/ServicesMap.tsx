@@ -326,9 +326,14 @@ const Map = ({
                 } else {
                     if (showSelectAllText) {
                         const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
-                        const markerDataInAService = markerData.filter((marker) =>
-                            servicesStopsInPolygon.includes(marker.atcoCode),
-                        );
+                        const markerDataInAService = markerData
+                            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+                            .map((marker) => {
+                                const service = servicesInPolygon.find((service) =>
+                                    service.stops.includes(marker.atcoCode),
+                                );
+                                return { ...marker, serviceId: service?.id ? Number(service?.id) : undefined };
+                            });
                         const servicesToAdd = servicesInPolygon
                             .filter((service) =>
                                 service.stops.filter((stop) => {
@@ -354,6 +359,20 @@ const Map = ({
                             ),
                         );
 
+                        console.log(
+                            sortStops(
+                                [
+                                    ...(state.inputs.stops ?? []),
+                                    ...markerDataInAService,
+                                    ...(searched.length > 0 ? searched : []),
+                                ]
+                                    .filter(
+                                        (value, index, self) =>
+                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                    )
+                                    .splice(0, 100),
+                            ),
+                        );
                         stateUpdater({
                             inputs: {
                                 ...state.inputs,
