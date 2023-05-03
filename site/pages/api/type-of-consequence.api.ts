@@ -11,6 +11,7 @@ import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schem
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -18,6 +19,8 @@ import {
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
+        const queryParam = getReturnPage(req);
+
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
@@ -55,7 +58,12 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 break;
         }
 
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`);
+        redirectTo(
+            res,
+            `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}${
+                queryParam ? `?${queryParam}` : ""
+            }`,
+        );
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a disruption.";

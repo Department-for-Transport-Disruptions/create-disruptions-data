@@ -1,5 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
@@ -10,12 +11,19 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { COOKIES_CONSEQUENCE_NETWORK_ERRORS, DISRUPTION_SEVERITIES, VEHICLE_MODES } from "../../../constants";
+import {
+    COOKIES_CONSEQUENCE_NETWORK_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_SEVERITIES,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    VEHICLE_MODES,
+} from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { NetworkConsequence, networkConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isNetworkConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
@@ -27,6 +35,11 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const [pageState, setConsequenceNetworkPageState] = useState<PageState<Partial<NetworkConsequence>>>(props);
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
+
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -44,7 +57,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
-                                            href="/type-of-consequence"
+                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                                                pageState.consequenceIndex ?? 0
+                                            }`}
                                         >
                                             Change
                                         </Link>,
@@ -131,6 +146,16 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {displayCancelButton && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -150,7 +175,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    const consequence = disruption?.consequences?.[index];
+    const consequence = disruption?.consequences?.find((c) => c.consequenceIndex === index);
 
     const pageState = getPageState<NetworkConsequence>(
         errorCookie,
@@ -158,6 +183,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         disruption.disruptionId,
         consequence && isNetworkConsequence(consequence) ? consequence : undefined,
     );
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, ctx.res);
 
     return { props: { ...pageState, consequenceIndex: index } };
 };

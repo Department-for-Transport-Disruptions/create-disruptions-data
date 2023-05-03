@@ -42,7 +42,7 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         }),
     );
 
-    const s3Integration: AwsIntegration = new AwsIntegration({
+    const s3Integration = new AwsIntegration({
         service: "s3",
         region: "eu-west-2",
         integrationHttpMethod: "GET",

@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
-import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -13,19 +13,22 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import Map from "../../../components/map/Map";
+import Map from "../../../components/map/StopsMap";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    API_BASE_URL,
     ADMIN_AREA_CODE,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
@@ -40,6 +43,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [searchInput, setSearchInput] = useState("");
 
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
@@ -50,11 +58,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     useEffect(() => {
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
-                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&search=${searchInput}`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    setStopOptions(data);
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, searchString: searchInput });
+
+                if (stopsData) {
+                    setStopOptions(stopsData);
                 }
             } else {
                 setStopOptions([]);
@@ -115,7 +122,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                 ],
             });
         } else {
-            if (stopToAdd) {
+            if (stopToAdd && (pageState.inputs.stops ? pageState.inputs.stops.length < 100 : true)) {
                 setPageState({
                     inputs: {
                         ...pageState.inputs,
@@ -157,7 +164,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
-                                            href="/type-of-consequence"
+                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                                                pageState.consequenceIndex ?? 0
+                                            }`}
                                         >
                                             Change
                                         </Link>,
@@ -203,7 +212,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 latitude: 53.05975866591879,
                                 zoom: 4.5,
                             }}
-                            style={{ width: "100%", height: 400, marginBottom: 20 }}
+                            style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
                             selected={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
@@ -279,6 +288,16 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {displayCancelButton && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -300,7 +319,7 @@ export const getServerSideProps = async (
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    const consequence = disruption?.consequences?.[index];
+    const consequence = disruption?.consequences?.find((c) => c.consequenceIndex === index);
 
     const pageState = getPageState<StopsConsequence>(
         errorCookie,
@@ -308,6 +327,8 @@ export const getServerSideProps = async (
         disruption.disruptionId,
         consequence && isStopsConsequence(consequence) ? consequence : undefined,
     );
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, ctx.res);
 
     return { props: { ...pageState, consequenceIndex: index } };
 };

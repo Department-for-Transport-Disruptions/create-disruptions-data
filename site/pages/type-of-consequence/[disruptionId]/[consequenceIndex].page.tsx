@@ -1,11 +1,18 @@
 import { NextPageContext } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants/index";
+import {
+    COOKIES_CONSEQUENCE_TYPE_ERRORS,
+    CONSEQUENCE_TYPES,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+} from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
@@ -21,6 +28,11 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -47,6 +59,18 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             <button className="govuk-button" data-module="govuk-button">
                                 Save and continue
                             </button>
+
+                            {displayCancelButton ? (
+                                <Link
+                                    role="button"
+                                    href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                    className="govuk-button mt-8 ml-1 govuk-button--secondary"
+                                >
+                                    Cancel Changes
+                                </Link>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 </>
@@ -72,7 +96,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 errorCookie,
                 typeOfConsequenceSchema,
                 ctx.query.disruptionId?.toString(),
-                disruption.consequences?.[index] ?? undefined,
+                disruption?.consequences?.find((c) => c.consequenceIndex === index) ?? undefined,
             ),
             consequenceIndex: index,
         },

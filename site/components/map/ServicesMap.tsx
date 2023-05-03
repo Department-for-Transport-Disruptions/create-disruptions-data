@@ -1,0 +1,568 @@
+import { Feature, GeoJsonProperties, Geometry } from "geojson";
+import uniqueId from "lodash/uniqueId";
+import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
+import {
+    CSSProperties,
+    Dispatch,
+    ReactElement,
+    ReactNode,
+    SetStateAction,
+    SyntheticEvent,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
+import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
+import { z } from "zod";
+import { PolygonFeature } from "./DrawControl";
+import MapControls from "./MapControls";
+import { ADMIN_AREA_CODE } from "../../constants";
+import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
+import { PageState } from "../../interfaces";
+import {
+    Routes,
+    Service,
+    ServicesConsequence,
+    Stop,
+    serviceSchema,
+    servicesConsequenceSchema,
+    stopSchema,
+} from "../../schemas/consequence.schema";
+import { flattenZodErrors } from "../../utils";
+import { sortStops } from "../../utils/formUtils";
+interface MapProps {
+    initialViewState: Partial<ViewState>;
+    style: CSSProperties;
+    mapStyle: string;
+    selected: Stop[];
+    searched: Stop[];
+    inputId?: keyof Stop;
+    showSelectAllButton?: boolean;
+    stateUpdater: Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
+    state: PageState<Partial<ServicesConsequence>>;
+    searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
+    services?: Service[];
+}
+
+const lineLayout: LineLayout = {
+    "line-join": "round",
+    "line-cap": "round",
+};
+
+const lineStyle: LinePaint = {
+    "line-color": "rgba(3, 170, 238, 0.5)",
+    "line-width": 5,
+};
+
+const lineStyleHighlight: LinePaint = {
+    "line-color": "rgba(47,146,188,255)",
+    "line-width": 5,
+    "line-opacity": 0.75,
+};
+
+const initialHoverState = {
+    longitude: 0,
+    latitude: 0,
+    serviceId: -1,
+};
+
+const Map = ({
+    initialViewState,
+    style,
+    mapStyle,
+    selected,
+    searched,
+    showSelectAllButton = false,
+    stateUpdater = () => "",
+    state,
+    searchedRoutes,
+    services,
+}: MapProps): ReactElement | null => {
+    const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
+    const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
+    const [markerData, setMarkerData] = useState<Stop[]>([]);
+    const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
+    const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
+    const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
+        initialHoverState,
+    );
+    const [selectedServices, setSelectedServices] =
+        useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
+
+    useEffect(() => {
+        setSelectedServices(searchedRoutes);
+    }, [searchedRoutes]);
+
+    const createLineString = (coordinates: Stop[], serviceId: number): Feature<Geometry, GeoJsonProperties> => ({
+        type: "Feature",
+        properties: { serviceId },
+        geometry: {
+            type: "LineString",
+            coordinates: coordinates.map((stop) => [stop.longitude, stop.latitude]),
+        },
+    });
+
+    const handleMouseEnter = useCallback(
+        (id: string) => {
+            const stopsOnMap = [
+                ...selected,
+                ...searched.filter((stop) => !markerData.map((marker) => marker.atcoCode).includes(stop.atcoCode)),
+            ];
+            const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
+            if (stopInfo) setPopupInfo(stopInfo);
+        },
+        [searched, selected, markerData],
+    );
+
+    const unselectMarker = useCallback(
+        (id: string) => {
+            if (state) {
+                const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
+
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops,
+                    },
+                    errors: state.errors,
+                });
+            }
+        },
+        [selected, state, stateUpdater],
+    );
+
+    const selectMarker = useCallback(
+        (id: string) => {
+            if (state) {
+                const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
+
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops: sortStops([...selected, ...stop]),
+                    },
+                    errors: state.errors,
+                });
+            }
+        },
+        [searched, selected, state, stateUpdater, markerData],
+    );
+
+    const getMarkers = useCallback(
+        (selected: Stop[], searched: Stop[]): ReactNode => {
+            const inTable =
+                selected && selected.length > 0
+                    ? selected.map((s: Stop) => (
+                          <Marker
+                              key={uniqueId(s.atcoCode)}
+                              longitude={Number(s.longitude)}
+                              latitude={Number(s.latitude)}
+                              onClick={() => {
+                                  unselectMarker(s.atcoCode);
+                              }}
+                          >
+                              <div
+                                  className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
+                                  onMouseEnter={() => {
+                                      handleMouseEnter(s.atcoCode);
+                                  }}
+                                  onMouseLeave={() => {
+                                      setPopupInfo({});
+                                  }}
+                              />
+                          </Marker>
+                      ))
+                    : [];
+            const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
+                selected && selected.length > 0
+                    ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                    : sToFilter,
+            );
+
+            const notInTable = searched
+                .filter((sToFilter: Stop) =>
+                    selected && selected.length > 0
+                        ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                        : sToFilter,
+                )
+                .filter((sToFilter: Stop) =>
+                    markerData && markerData.length > 0
+                        ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
+                        : sToFilter,
+                );
+
+            const greyMarkers = [...dataFromPolygon, ...notInTable].map((s) => (
+                <Marker
+                    key={uniqueId(s.atcoCode)}
+                    longitude={Number(s.longitude)}
+                    latitude={Number(s.latitude)}
+                    color="grey"
+                    onClick={() => {
+                        selectMarker(s.atcoCode);
+                    }}
+                >
+                    <div
+                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
+                        onMouseEnter={() => {
+                            handleMouseEnter(s.atcoCode);
+                        }}
+                        onMouseLeave={() => {
+                            setPopupInfo({});
+                        }}
+                    />
+                </Marker>
+            ));
+
+            const markers = [...inTable, ...greyMarkers];
+
+            return markers.length > 0 ? markers.slice(0, 100) : null;
+        },
+        [markerData, handleMouseEnter, selectMarker, unselectMarker],
+    );
+
+    useEffect(() => {
+        if (features && Object.values(features).length > 0) {
+            const polygon = Object.values(features)[0].geometry.coordinates[0];
+            const loadOptions = async () => {
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, polygon });
+
+                if (stopsData) {
+                    setMarkerData(stopsData);
+                } else {
+                    setMarkerData([]);
+                }
+            };
+
+            loadOptions()
+                // eslint-disable-next-line no-console
+                .catch(console.error);
+        }
+    }, [features]);
+
+    const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
+        setFeatures((currFeatures) => {
+            const newFeatures = { ...currFeatures };
+            for (const f of evt.features) {
+                if (f.id) {
+                    newFeatures[f.id] = f;
+                }
+            }
+            return newFeatures;
+        });
+        setShowSelectAllText(true);
+        setPopupInfo({});
+    }, []);
+
+    const onDelete = useCallback((evt: { features: PolygonFeature[] }) => {
+        setFeatures((currFeatures) => {
+            const newFeatures = { ...currFeatures };
+            for (const f of evt.features) {
+                if (f.id) {
+                    delete newFeatures[f.id];
+                }
+            }
+            return newFeatures;
+        });
+        setShowSelectAllText(true);
+        setMarkerData([]);
+        setPopupInfo({});
+    }, []);
+
+    const selectAllStops = async (evt: SyntheticEvent) => {
+        evt.preventDefault();
+
+        if (selectedServices) {
+            if (!showSelectAllText) {
+                stateUpdater({
+                    inputs: {
+                        ...state.inputs,
+                        stops: [],
+                        ...(state.inputs?.services
+                            ? {
+                                  services: [],
+                              }
+                            : {}),
+                    },
+                    errors: state.errors,
+                });
+                setSelectedServices(searchedRoutes);
+            } else {
+                const parsed = z.array(stopSchema).safeParse(searched);
+                if (!parsed.success) {
+                    stateUpdater({
+                        ...state,
+                        errors: [
+                            ...state.errors.filter(
+                                (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                            ),
+                            ...flattenZodErrors(parsed.error),
+                        ],
+                    });
+                } else {
+                    if (showSelectAllText) {
+                        const atcoCodes = markerData.map((marker) => marker.atcoCode);
+
+                        const servicesInPolygon = await fetchServicesByStops({ atcoCodes, includeRoutes: true });
+
+                        const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
+                        const markerDataInAService = markerData
+                            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+                            .map((marker) => {
+                                const services = servicesInPolygon.filter((service) =>
+                                    service.stops.includes(marker.atcoCode),
+                                );
+                                return {
+                                    ...marker,
+                                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+                                };
+                            });
+
+                        const servicesToAdd = servicesInPolygon
+                            .filter((service) =>
+                                service.stops.filter((stop) => {
+                                    if (markerData.map((marker) => marker.atcoCode).includes(stop)) {
+                                        return true;
+                                    }
+                                    return false;
+                                }),
+                            )
+                            .map((service) => serviceSchema.parse(service));
+
+                        setSelectedServices(
+                            [
+                                ...(selectedServices ?? []),
+                                ...servicesInPolygon.map((service) => ({
+                                    serviceId: service.id,
+                                    inbound: service.routes.inbound,
+                                    outbound: service.routes.outbound,
+                                })),
+                            ].filter(
+                                (value, index, self) =>
+                                    index === self.findIndex((s) => s?.serviceId === value?.serviceId),
+                            ),
+                        );
+
+                        stateUpdater({
+                            inputs: {
+                                ...state.inputs,
+                                stops: sortStops(
+                                    [
+                                        ...(state.inputs.stops ?? []),
+                                        ...markerDataInAService,
+                                        ...(searched.length > 0 ? searched : []),
+                                    ]
+                                        .filter(
+                                            (value, index, self) =>
+                                                index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                        )
+                                        .splice(0, 100),
+                                ),
+                                ...(state.inputs?.services
+                                    ? {
+                                          services: [...state.inputs?.services, ...servicesToAdd].filter(
+                                              (value, index, self) =>
+                                                  index === self.findIndex((s) => s.id === value.id),
+                                          ),
+                                      }
+                                    : { services: [...servicesToAdd] }),
+                            },
+                            errors: [
+                                ...state.errors.filter(
+                                    (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                                ),
+                            ],
+                        });
+                    }
+                }
+            }
+            setShowSelectAllText(!showSelectAllText);
+            return;
+        }
+    };
+
+    useEffect(() => {
+        setShowSelectAllText(true);
+    }, [searchedRoutes]);
+
+    const onHover = useCallback((event: MapLayerMouseEvent) => {
+        const service = event.features && event.features[0];
+        if (service && service.properties && service.properties.serviceId) {
+            setHoverInfo({
+                longitude: event.lngLat.lng,
+                latitude: event.lngLat.lat,
+                serviceId: service && (service.properties.serviceId as number),
+            });
+        }
+    }, []);
+
+    const selectedService = (hoverInfo && hoverInfo.serviceId) || "";
+    const filter = useMemo(() => ["==", "serviceId", selectedService], [selectedService]);
+
+    const getSourcesInbound = useCallback(
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
+            searchedRoutes.map((searchedRoute) =>
+                searchedRoute?.inbound && searchedRoute?.serviceId ? (
+                    <Source
+                        key={searchedRoute.serviceId}
+                        id={`inbound-route-${searchedRoute.serviceId}`}
+                        type="geojson"
+                        data={createLineString(searchedRoute.inbound as Stop[], searchedRoute?.serviceId)}
+                    >
+                        <Layer
+                            id={`services-inbound-${searchedRoute.serviceId}`}
+                            type="line"
+                            source={`services-inbound-${searchedRoute.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                        <Layer
+                            id={`services-highlighted-inbound-${searchedRoute.serviceId}`}
+                            type="line"
+                            source={`services-inbound-${searchedRoute.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyleHighlight}
+                            filter={filter}
+                        />
+                    </Source>
+                ) : null,
+            ),
+
+        [filter],
+    );
+
+    const getSourcesOutbound = useCallback(
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
+            searchedRoutes.map((searchedRoute) =>
+                searchedRoute?.outbound && searchedRoute?.serviceId ? (
+                    <Source
+                        key={searchedRoute.serviceId}
+                        id={`outbound-route-${searchedRoute.serviceId}`}
+                        type="geojson"
+                        data={createLineString(searchedRoute.outbound as Stop[], searchedRoute?.serviceId)}
+                    >
+                        <Layer
+                            id={`services-outbound-${searchedRoute.serviceId}`}
+                            type="line"
+                            source={`services-outbound-${searchedRoute.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyle}
+                        />
+                        <Layer
+                            id={`services-highlighted-outbound-${searchedRoute.serviceId}`}
+                            type="line"
+                            source={`services-outbound-${searchedRoute.serviceId}`}
+                            layout={lineLayout}
+                            paint={lineStyleHighlight}
+                            filter={filter}
+                        />
+                    </Source>
+                ) : null,
+            ),
+        [filter],
+    );
+
+    const getInteractiveLayerIds = useCallback(
+        () =>
+            selectedServices && selectedServices.length > 0
+                ? selectedServices.flatMap((sr) => {
+                      if (sr?.inbound && sr.outbound && sr.serviceId) {
+                          return [`services-inbound-${sr.serviceId || ""}`, `services-outbound-${sr.serviceId || ""}`];
+                      }
+                      if (sr?.inbound && sr.serviceId) {
+                          return [`services-inbound-${sr?.serviceId || ""}`];
+                      }
+                      if (sr?.outbound && sr.serviceId) {
+                          return [`services-outbound-${sr?.serviceId || ""}`];
+                      }
+                      return [];
+                  })
+                : [],
+        [selectedServices],
+    );
+
+    const getServiceInfo = (id: number) => {
+        const service = services ? services.find((service) => service.id === id) : null;
+        return service
+            ? `Line: ${service.origin.replace("_", " ")} - ${service.destination.replace("_", " ")}`
+            : "Line: N/A";
+    };
+    return mapboxAccessToken ? (
+        <>
+            {selected.length === 100 ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
+                    </strong>
+                </div>
+            ) : null}
+            {showSelectAllButton ? (
+                <button
+                    className="govuk-button govuk-button--secondary mt-2"
+                    data-module="govuk-button"
+                    onClick={selectAllStops}
+                    disabled={
+                        !(
+                            (features && Object.values(features).length > 0) ||
+                            markerData.length > 0 ||
+                            (searchedRoutes && searchedRoutes.length > 0)
+                        )
+                    }
+                >
+                    {showSelectAllText ? "Select all" : "Unselect all"}
+                </button>
+            ) : null}
+            <MapBox
+                initialViewState={initialViewState}
+                style={style}
+                mapStyle={mapStyle}
+                mapboxAccessToken={mapboxAccessToken}
+                onMouseMove={onHover}
+                interactiveLayerIds={getInteractiveLayerIds()}
+                onRender={(event) => event.target.resize()}
+            >
+                <MapControls onUpdate={onUpdate} onDelete={onDelete} />
+                {selected && searched ? getMarkers(selected, searched) : null}
+                {selectedServices ? getSourcesInbound(selectedServices) : null}
+                {selectedServices ? getSourcesOutbound(selectedServices) : null}
+                {popupInfo.atcoCode && (
+                    <Popup
+                        anchor="top"
+                        longitude={Number(popupInfo.longitude)}
+                        latitude={Number(popupInfo.latitude)}
+                        onClose={() => setPopupInfo({})}
+                        closeButton={false}
+                        closeOnMove
+                    >
+                        <div>
+                            <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
+                            <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
+                            <p className="govuk-body-s mb-1">{`Name: ${popupInfo.commonName || "N/A"} (${
+                                popupInfo.indicator || ""
+                            })`}</p>
+                        </div>
+                    </Popup>
+                )}
+                {selectedService && hoverInfo.latitude ? (
+                    <Popup
+                        longitude={hoverInfo.longitude}
+                        latitude={hoverInfo.latitude}
+                        offset={[0, -10]}
+                        onClose={() => setHoverInfo(initialHoverState)}
+                        closeButton={false}
+                        className="service-info"
+                        closeOnMove
+                    >
+                        {getServiceInfo(selectedService)}
+                    </Popup>
+                ) : null}
+            </MapBox>
+        </>
+    ) : null;
+};
+
+export default Map;

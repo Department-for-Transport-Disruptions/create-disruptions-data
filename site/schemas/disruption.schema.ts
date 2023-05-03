@@ -5,6 +5,7 @@ import { createDisruptionsSchemaRefined } from "./create-disruption.schema";
 export const disruptionSchema = createDisruptionsSchemaRefined.and(
     z.object({
         consequences: z.array(consequenceSchema).optional(),
+        publishStatus: z.union([z.literal("DRAFT"), z.literal("PUBLISHED"), z.literal("EDITING")]).default("DRAFT"),
     }),
 );
 

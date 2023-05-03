@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "sst env \"next dev\"",
+        "dev": "sst bind \"next dev\"",
         "build": "next build",
         "start": "next start",
         "lint": "eslint .",
@@ -27,7 +27,7 @@
         "@types/react-dom": "18.0.10",
         "cookie": "^0.5.0",
         "dayjs": "^1.11.7",
-        "edge-csrf": "^1.0.3-rc1",
+        "edge-csrf": "^1.0.3",
         "geojson": "^0.5.0",
         "govuk-frontend": "^4.4.1",
         "jsonwebtoken": "^9.0.0",

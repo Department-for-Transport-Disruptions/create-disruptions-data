@@ -15,7 +15,7 @@ import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
 import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
-import { Consequence } from "../schemas/consequence.schema";
+import { Consequence, Operator } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
@@ -321,6 +321,7 @@ export const disruptionInfoTest: DisruptionInfo = {
 };
 
 export const disruptionWithNoConsequences: Disruption = {
+    publishStatus: "DRAFT",
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
     disruptionType: "planned",
@@ -344,9 +345,9 @@ export const disruptionWithNoConsequences: Disruption = {
 
 export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
-    disruptionId: "test",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "operatorWide",
-    consequenceOperator: "FSYO",
+    consequenceOperators: ["FSYO"],
     description: "Some consequence description",
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
@@ -356,7 +357,7 @@ export const consequenceInfoOperatorTest: Consequence = {
 
 export const consequenceInfoNetworkTest: Consequence = {
     consequenceIndex: 1,
-    disruptionId: "test",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "networkWide",
     description: "Some consequence description",
     disruptionSeverity: Severity.slight,
@@ -409,7 +410,7 @@ export const ptSituationElementWithMultipleConsequences = {
                 Severity: "severe",
                 Affects: {
                     Networks: { AffectedNetwork: { VehicleMode: "bus", AllLines: "" } },
-                    Operators: { AffectedOperator: { OperatorRef: "FSYO" } },
+                    Operators: { AffectedOperator: [{ OperatorRef: "FSYO" }] },
                 },
                 Advice: { Details: "Some consequence description" },
                 Blocking: { JourneyPlanner: true },
@@ -420,3 +421,76 @@ export const ptSituationElementWithMultipleConsequences = {
     ReasonType: "PersonnelReason",
     PersonnelReason: "staffInWrongPlace",
 };
+
+export const mockOperators: Operator[] = [
+    {
+        id: 1,
+        nocCode: "1CTL",
+        operatorPublicName: "1st Choice Transport Ltd",
+        vosaPsvLicenseName: "1St Choice Transport Ltd",
+        opId: "135427",
+        pubNmId: "93089",
+        nocCdQual: "",
+        changeDate: "",
+        changeAgent: "",
+        changeComment: "",
+        dateCeased: "",
+        dataOwner: "",
+    },
+    {
+        id: 3,
+        nocCode: "2WTR",
+        operatorPublicName: "2 Way Transport",
+        vosaPsvLicenseName: "2 Way Transport",
+        opId: "135428",
+        pubNmId: "93090",
+        nocCdQual: "",
+        changeDate: "",
+        changeAgent: "",
+        changeComment: "",
+        dateCeased: "",
+        dataOwner: "",
+    },
+    {
+        id: 4,
+        nocCode: "3DCO",
+        operatorPublicName: "3D Coaches",
+        vosaPsvLicenseName: "Peter Kermeen & Elaine Fletcher",
+        opId: "137388",
+        pubNmId: "93092",
+        nocCdQual: "",
+        changeDate: "",
+        changeAgent: "",
+        changeComment: "",
+        dateCeased: "",
+        dataOwner: "",
+    },
+    {
+        id: 5,
+        nocCode: "5STR",
+        operatorPublicName: "Five Star International Travel",
+        vosaPsvLicenseName: "Philip Riley",
+        opId: "137408",
+        pubNmId: "94084",
+        nocCdQual: "",
+        changeDate: "",
+        changeAgent: "",
+        changeComment: "",
+        dateCeased: "",
+        dataOwner: "",
+    },
+    {
+        id: 6,
+        nocCode: "8H",
+        operatorPublicName: "Highland Airways",
+        vosaPsvLicenseName: "Highland Airways",
+        opId: "136620",
+        pubNmId: "94334",
+        nocCdQual: "",
+        changeDate: "",
+        changeAgent: "",
+        changeComment: "",
+        dateCeased: "",
+        dataOwner: "",
+    },
+];

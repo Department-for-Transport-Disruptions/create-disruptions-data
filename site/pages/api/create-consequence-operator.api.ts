@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
@@ -9,39 +10,69 @@ import { OperatorConsequence, operatorConsequenceSchema } from "../../schemas/co
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
-const createConsequenceOperator = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+interface OperatorConsequenceRequest extends NextApiRequest {
+    body: OperatorConsequence & {
+        consequenceOperators: string;
+    };
+}
+
+const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const validatedBody = operatorConsequenceSchema.safeParse(req.body);
+        const queryParam = getReturnPage(req);
+        const consequenceOperatorsData = req.body.consequenceOperators;
+
+        const consequenceOperators: string[] =
+            !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
+                ? consequenceOperatorsData.split(",")
+                : !!consequenceOperatorsData
+                ? [consequenceOperatorsData]
+                : [];
+
+        const consequence: OperatorConsequence = {
+            ...req.body,
+            consequenceOperators,
+        };
+
+        const validatedBody = operatorConsequenceSchema.safeParse(consequence);
 
         if (!validatedBody.success) {
-            const body = req.body as OperatorConsequence;
-
-            if (!body.disruptionId || !body.consequenceIndex) {
+            if (!consequence.disruptionId || !consequence.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
 
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({
-                    inputs: body,
+                    inputs: consequence,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
             );
 
-            redirectTo(res, `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
+            redirectTo(
+                res,
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${consequence.disruptionId}/${consequence.consequenceIndex}${
+                    queryParam ? `?${queryParam}` : ""
+                }`,
+            );
             return;
         }
 
         await upsertConsequence(validatedBody.data);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+        const redirectPath =
+            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+                ? DISRUPTION_DETAIL_PAGE_PATH
+                : REVIEW_DISRUPTION_PAGE_PATH;
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

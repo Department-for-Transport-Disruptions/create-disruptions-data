@@ -9,6 +9,7 @@ import { createDisruptionsSchemaRefined, DisruptionInfo } from "../../schemas/cr
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -56,6 +57,8 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = getReturnPage(req);
+
         const body = req.body as DisruptionInfo;
 
         if (!body.disruptionId) {
@@ -63,6 +66,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         }
 
         const formattedBody = formatCreateDisruptionBody(req.body as object);
+
         const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
 
         if (!validatedBody.success) {
@@ -75,7 +79,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
+            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${queryParam ? `?${queryParam}` : ""}`);
             return;
         }
 
@@ -87,7 +91,10 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
+        queryParam
+            ? redirectTo(res, `${decodeURIComponent(queryParam.split("=")[1])}/${validatedBody.data.disruptionId}`)
+            : redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
+
         return;
     } catch (e) {
         if (e instanceof Error) {

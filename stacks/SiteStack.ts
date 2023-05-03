@@ -10,8 +10,8 @@ export function SiteStack({ stack }: StackContext) {
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "" : `${stack.stage}.`;
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1/"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1/`;
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
 
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
@@ -34,6 +34,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
                     "dynamodb:GetItem",
                     "dynamodb:Query",
                     "dynamodb:BatchGetItem",
@@ -45,7 +46,6 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
         ],
-        buildCommand: "npx -w @create-disruptions-data/site open-next@0.7.0 build",
     });
 
     stack.addOutputs({
