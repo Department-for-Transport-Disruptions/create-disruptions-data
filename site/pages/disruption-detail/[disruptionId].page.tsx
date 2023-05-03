@@ -131,6 +131,12 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
         }
     };
 
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex + 1
+            : 0;
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
@@ -266,7 +272,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "consequence-type",
                                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -278,7 +284,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "vehicle-mode",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -297,7 +303,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "service",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -319,7 +325,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "stops-affected",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -331,7 +337,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "advice-to-display",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -343,7 +349,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "remove-from-journey-planners",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -357,7 +363,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         createChangeLink(
                                                             "disruption-delay",
                                                             getConsequenceUrl(consequence.consequenceType),
-                                                            i,
+                                                            consequence.consequenceIndex,
                                                             true,
                                                         ),
                                                     ],
@@ -399,9 +405,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                         <Link
                             role="button"
                             href={{
-                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                    disruption.consequences?.length ?? 0
-                                }`,
+                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
                                 query: { return: DISRUPTION_DETAIL_PAGE_PATH },
                             }}
                             className="govuk-button mt-2 govuk-button--secondary"

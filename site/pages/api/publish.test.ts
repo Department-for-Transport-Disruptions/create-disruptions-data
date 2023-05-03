@@ -58,7 +58,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            expect.any(String),
+            disruptionWithConsequences,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
