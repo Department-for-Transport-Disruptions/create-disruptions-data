@@ -1,14 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import { removeConsequenceFromDisruption } from "../../data/dynamo";
+import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import { removeConsequenceFromDisruption, upsertConsequence } from "../../data/dynamo";
+import { Consequence } from "../../schemas/consequence.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 
-const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const body = req.body as { id: string | undefined; disruptionId: string | undefined };
+        const body = req.body as {
+            id: string | undefined;
+            disruptionId: string | undefined;
+            inEdit?: string | undefined;
+        };
 
         const id = body?.id;
         const disruptionId = body?.disruptionId;
+        const inEdit = body?.inEdit;
 
         if (!id || Array.isArray(id)) {
             throw new Error(
@@ -23,7 +29,18 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             );
         }
 
-        await removeConsequenceFromDisruption(Number(id), disruptionId);
+        if (inEdit) {
+            const consequence: Pick<Consequence, "disruptionId" | "consequenceIndex"> & { isDeleted: boolean } = {
+                disruptionId: disruptionId,
+                consequenceIndex: Number(id),
+                isDeleted: true,
+            };
+            await upsertConsequence(consequence);
+            redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
+            return;
+        } else {
+            await removeConsequenceFromDisruption(Number(id), disruptionId);
+        }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);
         return;
@@ -39,4 +56,4 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
     }
 };
 
-export default deleteDisruption;
+export default deleteConsequence;
