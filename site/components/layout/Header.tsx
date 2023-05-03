@@ -1,6 +1,7 @@
+import { faAngleDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ReactElement } from "react";
-
 interface HeaderProps {
     isAuthed: boolean;
     csrfToken: string;
@@ -48,9 +49,27 @@ const Header = ({ isAuthed, noc }: HeaderProps): ReactElement => (
                                 <span className="govuk-!-margin-right-1"> | </span>
                             </>
                         )}
-                        <Link href={"/account"} className="govuk-header__link mr-1.5">
-                            <span> {"My Account"} </span>
-                        </Link>
+                        <div className="group govuk-header__link mr-1.5 overflow-hidden float-right">
+                            <button className="text-base border-none outline-none text-white px-5 py-2 m-0">
+                                <FontAwesomeIcon className="mr-2" icon={faUser} />
+                                <strong>My Account</strong>
+                                <FontAwesomeIcon className="ml-2" icon={faAngleDown} />
+                            </button>
+                            <div className="hidden absolute bg-white min-w-max shadow-md z-10 group-hover:block">
+                                <Link
+                                    className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2"
+                                    href="/account-settings"
+                                >
+                                    Account settings
+                                </Link>
+                                <Link
+                                    className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2"
+                                    href="/sign-out"
+                                >
+                                    Sign out
+                                </Link>
+                            </div>
+                        </div>
                     </>
                 ) : (
                     <Link href={"/login"} className="govuk-header__link">

@@ -4,6 +4,11 @@ const baseFontSize = 16;
 
 module.exports = {
     content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+    variants: {
+        extend: {
+            display: ["group-hover"],
+        },
+    },
     theme: {
         extend: {
             screens: {
@@ -18,6 +23,7 @@ module.exports = {
                 govRed: "#d4351c",
                 markerActive: "#278C2B",
                 markerDefault: "grey",
+                white: "#ffffff",
             },
             borderWidth: {
                 DEFAULT: "1px",
