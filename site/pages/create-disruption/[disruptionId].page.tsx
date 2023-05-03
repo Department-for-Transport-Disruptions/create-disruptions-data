@@ -1,4 +1,6 @@
 import { NextPageContext } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import ErrorSummary from "../../components/ErrorSummary";
@@ -11,7 +13,12 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
+import {
+    DISRUPTION_REASONS,
+    COOKIES_DISRUPTION_ERRORS,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+} from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import {
@@ -22,7 +29,7 @@ import {
     DisruptionInfo,
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
-import { getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
@@ -44,6 +51,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [pageState, setDisruptionPageState] = useState(props);
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
+
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
@@ -83,6 +95,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             });
         } else {
             setDisruptionPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     validity: [...(pageState.inputs.validity ?? []), filteredValidity],
@@ -111,6 +124,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             validity.splice(index, 1);
 
             setDisruptionPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     validity,
@@ -231,7 +245,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             inputName="associatedLink"
                             display="Associated Link (optional)"
                             widthClass="w-3/4"
-                            maxLength={50}
+                            maxLength={250}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.associatedLink}
                             schema={createDisruptionSchema.shape.associatedLink}
@@ -461,18 +475,31 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {displayCancelButton && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
         </BaseLayout>
     );
 };
+
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DisruptionPageProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId);
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 
     if (!disruption) {
         return {

@@ -7,7 +7,7 @@ const securityHeaders = [
     },
     {
         key: "Referrer-Policy",
-        value: "same-origin",
+        value: "strict-origin-when-cross-origin",
     },
     {
         key: "Strict-Transport-Security",

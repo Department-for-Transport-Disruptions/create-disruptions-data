@@ -1,17 +1,20 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, useEffect, useRef } from "react";
+import { parseCookies } from "nookies";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
+import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-import { TYPE_OF_CONSEQUENCE_PAGE_PATH, CONSEQUENCE_TYPES, VEHICLE_MODES } from "../../constants";
+import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
+import { TYPE_OF_CONSEQUENCE_PAGE_PATH, COOKIES_REVIEW_DISRUPTION_ERRORS } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { SocialMediaPost } from "../../interfaces";
-import { Consequence } from "../../schemas/consequence.schema";
+import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { getDisplayByValue, splitCamelCaseToString } from "../../utils";
+import { splitCamelCaseToString } from "../../utils";
 import { formatTime } from "../../utils/dates";
 
 const title = "Review Disruption";
@@ -21,23 +24,25 @@ interface ReviewDisruptionProps {
     disruption: Disruption;
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
+    errors: ErrorInfo[];
 }
 
-const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
-    switch (type) {
-        case "networkWide":
-            return "/create-consequence-network";
-        case "operatorWide":
-            return "/create-consequence-operator";
-        case "stops":
-            return "/create-consequence-stops";
-        case "services":
-            return "/create-consequence-services";
-    }
-};
-
-const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({
+    disruption,
+    previousSocialMediaPosts,
+    csrfToken,
+    errors,
+}: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
+    const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
+
+    const deleteActionHandler = (name: string, hiddenInputs: { name: string; value: string }[]): void => {
+        setPopUpState({ name, hiddenInputs });
+    };
+
+    const cancelActionHandler = (): void => {
+        setPopUpState(undefined);
+    };
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -46,16 +51,6 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
 
         hasInitialised.current = true;
     });
-
-    const createChangeLink = (key: string, href: string, index?: number) => (
-        <Link
-            key={key}
-            className="govuk-link"
-            href={`${href}/${disruption.disruptionId}${index !== undefined ? `/${index}` : ""}`}
-        >
-            Change
-        </Link>
-    );
 
     const getValidityRows = () => {
         const validity: Validity[] = [
@@ -96,16 +91,33 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption"),
+                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption", disruption, undefined, true),
                 ],
             };
         });
     };
 
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex + 1
+            : 0;
+
     return (
         <BaseLayout title={title} description={description}>
+            {popUpState && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={`the ${popUpState.name}`}
+                    deleteUrl={`/api/delete-${popUpState.name}`}
+                    cancelActionHandler={cancelActionHandler}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    hiddenInputs={popUpState.hiddenInputs}
+                />
+            ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
+                    <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
                         <Table
@@ -114,32 +126,59 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                     header: "Type of disruption",
                                     cells: [
                                         startCase(disruption.disruptionType),
-                                        createChangeLink("type-of-disruption", "/create-disruption"),
+                                        createChangeLink(
+                                            "type-of-disruption",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Summary",
-                                    cells: [disruption.summary, createChangeLink("summary", "/create-disruption")],
+                                    cells: [
+                                        disruption.summary,
+                                        createChangeLink("summary", "/create-disruption", disruption, undefined, true),
+                                    ],
                                 },
                                 {
                                     header: "Description",
                                     cells: [
                                         disruption.description,
-                                        createChangeLink("description", "/create-disruption"),
+                                        createChangeLink(
+                                            "description",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Associated link",
                                     cells: [
                                         disruption.associatedLink || "N/A",
-                                        createChangeLink("associated-link", "/create-disruption"),
+                                        createChangeLink(
+                                            "associated-link",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
                                         splitCamelCaseToString(disruption.disruptionReason),
-                                        createChangeLink("disruption-reason", "/create-disruption"),
+                                        createChangeLink(
+                                            "disruption-reason",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 ...getValidityRows(),
@@ -147,21 +186,39 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                     header: "Publish start date",
                                     cells: [
                                         disruption.publishStartDate,
-                                        createChangeLink("publish-start-date", "/create-disruption"),
+                                        createChangeLink(
+                                            "publish-start-date",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
                                         formatTime(disruption.publishStartTime),
-                                        createChangeLink("publish-start-time", "/create-disruption"),
+                                        createChangeLink(
+                                            "publish-start-time",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
                                         disruption.publishEndDate || "N/A",
-                                        createChangeLink("publish-end-date", "/create-disruption"),
+                                        createChangeLink(
+                                            "publish-end-date",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
@@ -169,7 +226,13 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                     cells: [
                                         disruption.publishEndTime ? formatTime(disruption.publishEndTime) : "N/A",
                                         ,
-                                        createChangeLink("publish-end-time", "/create-disruption"),
+                                        createChangeLink(
+                                            "publish-end-time",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                        ),
                                     ],
                                 },
                             ]}
@@ -192,9 +255,13 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                         ? `Services - ${consequence.services
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
+                                                        : consequence.consequenceType === "stops"
+                                                        ? "Stops"
                                                         : consequence.consequenceType === "operatorWide" &&
-                                                          consequence.consequenceOperator
-                                                        ? `Operator wide - ${consequence.consequenceOperator}`
+                                                          consequence.consequenceOperators
+                                                        ? `Operator wide - ${consequence.consequenceOperators.join(
+                                                              ", ",
+                                                          )}`
                                                         : `${"Network wide"}`
                                                 }`}
                                             </span>
@@ -205,108 +272,10 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table
-                                            rows={[
-                                                {
-                                                    header: "Consequence type",
-                                                    cells: [
-                                                        getDisplayByValue(
-                                                            CONSEQUENCE_TYPES,
-                                                            consequence.consequenceType,
-                                                        ),
-                                                        createChangeLink(
-                                                            "consequence-type",
-                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Mode of transport",
-                                                    cells: [
-                                                        getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode),
-                                                        createChangeLink(
-                                                            "vehicle-mode",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Service(s)",
-                                                    cells: [
-                                                        consequence.consequenceType === "services"
-                                                            ? consequence.services
-                                                                  .map(
-                                                                      (service) =>
-                                                                          `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
-                                                                  )
-                                                                  .join(", ")
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "service",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Stops affected",
-                                                    cells: [
-                                                        (consequence.consequenceType === "stops" ||
-                                                            consequence.consequenceType === "services") &&
-                                                        consequence.stops
-                                                            ? consequence.stops
-                                                                  .map((stop) =>
-                                                                      stop.commonName && stop.indicator && stop.atcoCode
-                                                                          ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                                                                          : `${stop.commonName} ${stop.atcoCode}`,
-                                                                  )
-                                                                  .join(", ")
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "stops-affected",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Advice to display",
-                                                    cells: [
-                                                        consequence.description,
-                                                        createChangeLink(
-                                                            "advice-to-display",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Remove from journey planner",
-                                                    cells: [
-                                                        splitCamelCaseToString(consequence.removeFromJourneyPlanners),
-                                                        createChangeLink(
-                                                            "remove-from-journey-planners",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Disruption delay",
-                                                    cells: [
-                                                        consequence.disruptionDelay
-                                                            ? `${consequence.disruptionDelay} minutes`
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "disruption-delay",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            i,
-                                                        ),
-                                                    ],
-                                                },
-                                            ]}
+                                        <ReviewConsequenceTable
+                                            consequence={consequence}
+                                            disruption={disruption}
+                                            deleteActionHandler={deleteActionHandler}
                                         />
                                     </div>
                                 </div>
@@ -314,9 +283,7 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${
-                                disruption.consequences?.length ?? 0
-                            }`}
+                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -349,28 +316,44 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                                                     header: "Message to appear",
                                                     cells: [
                                                         post.messageToAppear,
-                                                        createChangeLink("message-to-appear", "/social-media-posts"),
+                                                        createChangeLink(
+                                                            "message-to-appear",
+                                                            "/social-media-posts",
+                                                            disruption,
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish date",
                                                     cells: [
                                                         post.publishDate,
-                                                        createChangeLink("publish-date", "/social-media-posts"),
+                                                        createChangeLink(
+                                                            "publish-date",
+                                                            "/social-media-posts",
+                                                            disruption,
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Publish time",
                                                     cells: [
                                                         post.publishTime,
-                                                        createChangeLink("publish-time", "/social-media-posts"),
+                                                        createChangeLink(
+                                                            "publish-time",
+                                                            "/social-media-posts",
+                                                            disruption,
+                                                        ),
                                                     ],
                                                 },
                                                 {
                                                     header: "Account to publish",
                                                     cells: [
                                                         post.accountToPublish,
-                                                        createChangeLink("account-to-publish", "/social-media-posts"),
+                                                        createChangeLink(
+                                                            "account-to-publish",
+                                                            "/social-media-posts",
+                                                            disruption,
+                                                        ),
                                                     ],
                                                 },
                                             ]}
@@ -393,6 +376,21 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Publish disruption
                         </button>
+                        <button
+                            className="govuk-button govuk-button--warning ml-5 mt-8"
+                            data-module="govuk-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                deleteActionHandler("disruption", [
+                                    {
+                                        name: "id",
+                                        value: disruption.disruptionId,
+                                    },
+                                ]);
+                            }}
+                        >
+                            Delete disruption
+                        </button>
                     </div>
                 </>
             </CsrfForm>
@@ -402,6 +400,13 @@ const ReviewDisruption = ({ disruption, previousSocialMediaPosts, csrfToken }: R
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ReviewDisruptionProps } | void> => {
     const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
+
+    let errors: ErrorInfo[] = [];
+    if (errorCookie) {
+        errors = JSON.parse(errorCookie) as ErrorInfo[];
+    }
 
     if (!disruption) {
         throw new Error("Disruption not found for review page");
@@ -426,6 +431,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             disruption,
             previousSocialMediaPosts,
+            errors,
         },
     };
 };

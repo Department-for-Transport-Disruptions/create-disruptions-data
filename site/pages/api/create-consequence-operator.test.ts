@@ -15,8 +15,8 @@ import { setCookieOnResponseObject } from "../../utils/apiUtils";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
 
-const defaultOperatorData = {
-    consequenceOperator: "FMAN",
+const bodyData = {
+    consequenceOperators: "FMAN",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
@@ -27,6 +27,7 @@ const defaultOperatorData = {
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
 };
+
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
@@ -45,7 +46,7 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: defaultOperatorData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({ body: bodyData, mockWriteHeadFn: writeHeadMock });
 
         await createConsequenceOperator(req, res);
 
@@ -59,7 +60,7 @@ describe("create-consequence-operator API", () => {
             disruptionSeverity: "slight",
             vehicleMode: "bus",
             consequenceIndex: 0,
-            consequenceOperator: "FMAN",
+            consequenceOperators: ["FMAN"],
             consequenceType: "operatorWide",
         });
 
@@ -80,14 +81,21 @@ describe("create-consequence-operator API", () => {
             { errorMessage: "Select yes or no", id: "removeFromJourneyPlanners" },
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
             { errorMessage: "Select a mode of transport", id: "vehicleMode" },
-            { errorMessage: "Select an operator", id: "consequenceOperator" },
+            { errorMessage: "Select one or more operators", id: "consequenceOperators" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
         ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({
+                inputs: {
+                    consequenceIndex: defaultConsequenceIndex,
+                    disruptionId: defaultDisruptionId,
+                    consequenceOperators: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -96,13 +104,14 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect back to /create-consequence-operator when description is too long", async () => {
-        const operatorData = {
-            ...defaultOperatorData,
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: operatorData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...bodyData,
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
         await createConsequenceOperator(req, res);
 
@@ -110,7 +119,15 @@ describe("create-consequence-operator API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({
+                inputs: {
+                    ...bodyData,
+                    consequenceOperators: ["FMAN"],
+                    description:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -119,22 +136,28 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect back to /create-consequence-operator when invalid time is passed", async () => {
-        const operatorData = {
-            ...defaultOperatorData,
-            disruptionDelay: "7280",
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: operatorData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...bodyData, disruptionDelay: "7280" },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
         await createConsequenceOperator(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
-            JSON.stringify({ inputs: req.body, errors }),
+            JSON.stringify({
+                inputs: {
+                    ...bodyData,
+                    consequenceOperators: ["FMAN"],
+                    disruptionDelay: "7280",
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {

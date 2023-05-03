@@ -176,10 +176,12 @@ export const testDisruptionsJson: PtSituationElement[] = [
                     Severity: Severity.verySlight,
                     Affects: {
                         Operators: {
-                            AffectedOperator: {
-                                OperatorName: "Test Operator",
-                                OperatorRef: "TEST",
-                            },
+                            AffectedOperator: [
+                                {
+                                    OperatorName: "Test Operator",
+                                    OperatorRef: "TEST",
+                                },
+                            ],
                         },
                         Networks: {
                             AffectedNetwork: {
