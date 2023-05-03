@@ -35,15 +35,15 @@ export const stopSchema = z.object({
     indicator: z.string().optional(),
     longitude: z.coerce.number(),
     latitude: z.coerce.number(),
-    serviceId: z.number({}).optional(),
+    serviceIds: z.array(z.number({})).optional(),
     bearing: z.string().optional(),
     sequenceNumber: z.string().optional(),
     direction: z.string().optional(),
 });
 
 export const routesSchema = z.object({
-    inbound: z.array(stopSchema),
-    outbound: z.array(stopSchema),
+    inbound: z.array(stopSchema.partial()),
+    outbound: z.array(stopSchema.partial()),
 });
 
 export const stopsConsequenceSchema = z.object({
@@ -73,6 +73,18 @@ export const serviceSchema = z.object({
     origin: z.string(),
     nocCode: z.string(),
 });
+
+export const serviceByStopSchema = serviceSchema.and(
+    z.object({
+        stops: z.array(z.string()),
+        routes: z.object({
+            inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+            outbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+        }),
+    }),
+);
+
+export type ServiceByStop = z.infer<typeof serviceByStopSchema>;
 
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
