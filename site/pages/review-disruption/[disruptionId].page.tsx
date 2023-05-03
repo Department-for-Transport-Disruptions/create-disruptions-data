@@ -255,6 +255,8 @@ const ReviewDisruption = ({
                                                         ? `Services - ${consequence.services
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
+                                                        : consequence.consequenceType === "stops"
+                                                        ? "Stops"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
                                                         ? `Operator wide - ${consequence.consequenceOperators.join(
