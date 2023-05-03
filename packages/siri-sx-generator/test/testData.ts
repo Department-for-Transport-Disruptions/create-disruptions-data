@@ -25,6 +25,7 @@ export const baseSiriJson: PtSituationElement = {
     ValidityPeriod: [
         {
             StartTime: "2023-03-03T01:10:00Z",
+            EndTime: "2023-03-03T03:10:00Z",
         },
     ],
     PublicationWindow: {
@@ -175,10 +176,12 @@ export const testDisruptionsJson: PtSituationElement[] = [
                     Severity: Severity.verySlight,
                     Affects: {
                         Operators: {
-                            AffectedOperator: {
-                                OperatorName: "Test Operator",
-                                OperatorRef: "TEST",
-                            },
+                            AffectedOperator: [
+                                {
+                                    OperatorName: "Test Operator",
+                                    OperatorRef: "TEST",
+                                },
+                            ],
                         },
                         Networks: {
                             AffectedNetwork: {

@@ -55,7 +55,7 @@ describe("page state test", () => {
         const operatorData: OperatorConsequence = {
             disruptionId: randomUUID(),
             consequenceIndex: 0,
-            consequenceOperator: "FMAN",
+            consequenceOperators: ["FMAN"],
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             removeFromJourneyPlanners: "no",
@@ -76,6 +76,7 @@ describe("sortDisruptionsByStartDate", () => {
     const mixedUpDisruptions: Disruption[] = [
         {
             ...disruptionInfoTest,
+            publishStatus: "DRAFT",
             disruptionStartDate: "25/03/2026",
             disruptionStartTime: "1123",
             validity: [
@@ -101,11 +102,13 @@ describe("sortDisruptionsByStartDate", () => {
         },
         {
             ...disruptionInfoTest,
+            publishStatus: "DRAFT",
             disruptionStartDate: "21/03/2025",
             disruptionStartTime: "1123",
         },
         {
             ...disruptionInfoTest,
+            publishStatus: "DRAFT",
             disruptionStartDate: "24/04/2022",
             disruptionStartTime: "1123",
             validity: [
@@ -124,6 +127,7 @@ describe("sortDisruptionsByStartDate", () => {
 
         expect(result).toStrictEqual([
             {
+                publishStatus: "DRAFT",
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
@@ -158,12 +162,15 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionStartDate: "25/03/2026",
                         disruptionStartTime: "1123",
                         disruptionNoEndDateTime: "true",
+                        disruptionRepeatsEndDate: undefined,
                         disruptionEndDate: undefined,
                         disruptionEndTime: undefined,
+                        disruptionRepeats: undefined,
                     },
                 ],
             },
             {
+                publishStatus: "DRAFT",
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
@@ -186,12 +193,15 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionStartDate: "24/04/2022",
                         disruptionStartTime: "1123",
                         disruptionNoEndDateTime: "true",
+                        disruptionRepeatsEndDate: undefined,
                         disruptionEndDate: undefined,
                         disruptionEndTime: undefined,
+                        disruptionRepeats: undefined,
                     },
                 ],
             },
             {
+                publishStatus: "DRAFT",
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
@@ -208,8 +218,10 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionStartDate: "21/03/2025",
                         disruptionStartTime: "1123",
                         disruptionNoEndDateTime: "true",
+                        disruptionRepeatsEndDate: undefined,
                         disruptionEndDate: undefined,
                         disruptionEndTime: undefined,
+                        disruptionRepeats: undefined,
                     },
                 ],
             },

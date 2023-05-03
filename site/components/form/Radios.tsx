@@ -1,12 +1,18 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useState } from "react";
+import { Fragment, ReactElement, RefObject, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
 
 interface RadiosProps<T> extends FormBase<T> {
-    radioDetail: DisplayValuePair[];
+    radioDetail: RadioValuePair[];
     paddingTop?: number;
+}
+
+interface RadioValuePair<T = string> extends DisplayValuePair<T> {
+    conditionalElement?: ReactElement;
+    ref?: RefObject<HTMLInputElement>;
+    disabled?: boolean;
 }
 
 const Radios = <T extends object>({
@@ -23,6 +29,17 @@ const Radios = <T extends object>({
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
+    /* Effect added as a workaround for an issue where an updated value causes re-render.
+     * Which then updates the checked radio button but any functionality that depends on
+     * onClick event is not invoked */
+    useEffect(() => {
+        radioDetail.map((input) => {
+            if (input.value === value && input.ref) {
+                input.ref.current?.click();
+            }
+        });
+    }, [radioDetail, value]);
+
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <fieldset className="govuk-fieldset" id={inputId}>
@@ -30,33 +47,45 @@ const Radios = <T extends object>({
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
-                    <div className="govuk-radios">
+                    <div className="govuk-radios" data-module="govuk-radios">
                         {radioDetail.map((input, index) => (
-                            <div
-                                className={`govuk-radios__item${
-                                    index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
-                                }`}
-                                key={`radio-${input.value}`}
-                            >
-                                <input
-                                    className="govuk-radios__input"
-                                    id={`${inputId}-${input.value}`}
-                                    name={inputName}
-                                    type="radio"
-                                    value={input.value}
-                                    onBlur={(e) =>
-                                        handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
-                                    }
-                                    onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
-                                    defaultChecked={input.value === value}
-                                />
-                                <label
-                                    className="govuk-label govuk-radios__label"
-                                    htmlFor={`${inputId}-${input.value}`}
+                            <Fragment key={`radio-${input.value}`}>
+                                <div
+                                    className={`govuk-radios__item${
+                                        index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
+                                    }`}
                                 >
-                                    {input.display}
-                                </label>
-                            </div>
+                                    <input
+                                        className="govuk-radios__input"
+                                        id={`${inputId}-${input.value}`}
+                                        name={inputName}
+                                        type="radio"
+                                        value={input.value}
+                                        onBlur={(e) =>
+                                            handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
+                                        }
+                                        onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
+                                        defaultChecked={input.value === value || !!input.default}
+                                        data-aria-controls={`${inputId}-${input.value}-conditional`}
+                                        ref={input.ref}
+                                        disabled={input.disabled}
+                                    />
+                                    <label
+                                        className="govuk-label govuk-radios__label"
+                                        htmlFor={`${inputId}-${input.value}`}
+                                    >
+                                        {input.display}
+                                    </label>
+                                </div>
+                                {input.conditionalElement ? (
+                                    <div
+                                        className="govuk-radios__conditional govuk-radios__conditional--hidden"
+                                        id={`${inputId}-${input.value}-conditional`}
+                                    >
+                                        <div className="govuk-form-group">{input.conditionalElement}</div>
+                                    </div>
+                                ) : null}
+                            </Fragment>
                         ))}
                     </div>
                 </FormElementWrapper>

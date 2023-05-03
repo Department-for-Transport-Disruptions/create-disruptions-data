@@ -7,9 +7,16 @@ import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
+import {
+    Service,
+    Consequence,
+    NetworkConsequence,
+    OperatorConsequence,
+    StopsConsequence,
+    ServicesConsequence,
+} from "../schemas/consequence.schema";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
-import { Service, Consequence, NetworkConsequence, OperatorConsequence, StopsConsequence, ServicesConsequence } from "../schemas/consequence.schema";
 
 type SortedDisruption = Omit<
     Disruption,
@@ -32,6 +39,8 @@ export const sortDisruptionsByStartDate = (disruptions: Disruption[]): SortedDis
                 disruptionEndDate: disruption.disruptionEndDate,
                 disruptionEndTime: disruption.disruptionEndTime,
                 disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                disruptionRepeats: disruption.disruptionRepeats,
+                disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
             },
         ];
 

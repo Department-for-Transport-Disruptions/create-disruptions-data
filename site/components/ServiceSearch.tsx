@@ -22,7 +22,7 @@ const ServiceSearch = ({
         if (reset) {
             setSelectedServices([]);
         }
-    }, [reset]);
+    }, [reset, setSelectedServices]);
 
     const controlStyles = (state: ControlProps<Service, false, GroupBase<Service>>) => ({
         fontFamily: "GDS Transport, arial, sans-serif",

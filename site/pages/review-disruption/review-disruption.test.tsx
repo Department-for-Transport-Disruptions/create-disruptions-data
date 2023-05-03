@@ -37,7 +37,7 @@ const previousConsequencesInformation: Consequence[] = [
         consequenceType: "operatorWide",
         consequenceIndex: 1,
         disruptionId: "1",
-        consequenceOperator: "FSYO",
+        consequenceOperators: ["FSYO"],
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "50",
@@ -67,6 +67,7 @@ const previousConsequencesInformation: Consequence[] = [
 ];
 
 const previousDisruptionInformation: Disruption = {
+    publishStatus: "DRAFT",
     disruptionType: "planned",
     disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -103,6 +104,7 @@ describe("pages", () => {
                     <ReviewDisruption
                         disruption={previousDisruptionInformation}
                         previousSocialMediaPosts={previousSocialMediaPosts}
+                        errors={[]}
                     />,
                 )
                 .toJSON();

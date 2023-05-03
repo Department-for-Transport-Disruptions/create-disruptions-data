@@ -5,3 +5,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-top-right {
+    z-index: 0;
+}

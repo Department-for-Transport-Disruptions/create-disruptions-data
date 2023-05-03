@@ -2,17 +2,24 @@ import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
-import DateSelector from "../components/form/DateSelector";
 import { randomUUID } from "crypto";
-import Table from "../components/form/Table";
+import DateSelector from "../components/form/DateSelector";
 import Select from "../components/form/Select";
+import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
-import { ADMIN_AREA_CODE, API_BASE_URL, DISRUPTION_SEVERITIES, DISRUPTION_STATUSES, VEHICLE_MODES } from "../constants";
+import {
+    ADMIN_AREA_CODE,
+    API_BASE_URL,
+    DISRUPTION_SEVERITIES,
+    DISRUPTION_STATUSES,
+    VEHICLE_MODES,
+    VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+} from "../constants";
+import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Service, serviceSchema } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import {
     sortDisruptionsByStartDate,
     splitCamelCaseToString,
@@ -20,7 +27,7 @@ import {
     getServiceLabel,
     mapValidityPeriods,
 } from "../utils";
-import { convertDateTimeToFormat, filterDatePeriodMatchesDisruptionDatePeriod, getDate, getFormattedDate } from "../utils/dates";
+import { convertDateTimeToFormat, filterDatePeriodMatchesDisruptionDatePeriod, getDate } from "../utils/dates";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -62,6 +69,21 @@ export interface Filter {
     mode?: string;
 }
 
+const swapModeValueToModeDisplay = (
+    mode: "bus" | "tram" | "ferryService" | "rail",
+): "Bus" | "Tram" | "Ferry" | "Train" => {
+    switch (mode) {
+        case "bus":
+            return "Bus";
+        case "tram":
+            return "Tram";
+        case "ferryService":
+            return "Ferry";
+        case "rail":
+            return "Train";
+    }
+};
+
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
         const earliestPeriod: {
@@ -72,7 +94,14 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: numbe
 
         return {
             header: (
-                <Link className="govuk-link" href="/dashboard" key={disruption.id}>
+                <Link
+                    className="govuk-link"
+                    href={{
+                        pathname: `/disruption-detail/${disruption.id}`,
+                        query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                    }}
+                    key={disruption.id}
+                >
                     {index + 1 + offset}
                 </Link>
             ),
@@ -150,7 +179,6 @@ const applyDateFilters = (
         endTime: string;
     },
 ): TableDisruption[] => {
-
     return disruptions.filter((disruption) =>
         disruption.validityPeriods.some((valPeriod) => {
             const { startTime, endTime } = valPeriod;
@@ -159,8 +187,8 @@ const applyDateFilters = (
             const periodEndDate = endTime ? getDate(endTime) : undefined;
 
             return filterDatePeriodMatchesDisruptionDatePeriod(
-                period.startTime,
-                period.endTime,
+                getDate(period.startTime),
+                getDate(period.endTime),
                 periodStartDate,
                 periodEndDate,
             );
@@ -188,9 +216,10 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
     }
 
     if (filter.mode) {
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) =>
-            disruption.modes.includes(filter.mode as string),
-        );
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+            const swappedMode = swapModeValueToModeDisplay(filter.mode as "bus");
+            return disruption.modes.includes(swappedMode);
+        });
     }
 
     if (filter.severity) {
@@ -326,13 +355,14 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useFiltersOnDisruptions(
             disruptions,
             setDisruptionsToDisplay,
             currentPage,
             { ...filter, services: selectedServices },
             setNumberOfDisruptionsPages,
-        );
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedServices]);
 
     useEffect(() => {
@@ -340,6 +370,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
             setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             useFiltersOnDisruptions(
                 disruptions,
                 setDisruptionsToDisplay,
@@ -347,7 +378,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                 filter,
                 setNumberOfDisruptionsPages,
             );
-        }
+        } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
     return (
@@ -544,7 +575,8 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    modes.push(consequence.vehicleMode);
+                    modes.push(swapModeValueToModeDisplay(consequence.vehicleMode));
+
                     severitys.push(consequence.disruptionSeverity);
                     // severitys.push(consequence.disruptionSeverity);
                     // if (!!consequence.Affects.Networks) {

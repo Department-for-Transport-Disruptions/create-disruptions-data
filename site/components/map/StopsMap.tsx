@@ -12,8 +12,10 @@ import {
 } from "react";
 import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
-import DrawControl, { PolygonFeature } from "./DrawControl";
-import { ADMIN_AREA_CODE, API_BASE_URL } from "../../constants";
+import { PolygonFeature } from "./DrawControl";
+import MapControls from "./MapControls";
+import { ADMIN_AREA_CODE } from "../../constants";
+import { fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -22,12 +24,12 @@ interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selected?: Stop[];
-    searched?: Stop[];
+    selected: Stop[];
+    searched: Stop[];
     inputId?: keyof Stop;
     showSelectAllButton?: boolean;
-    stateUpdater?: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
-    state?: PageState<Partial<StopsConsequence>>;
+    stateUpdater: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
+    state: PageState<Partial<StopsConsequence>>;
 }
 
 const Map = ({
@@ -43,22 +45,25 @@ const Map = ({
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
-    const [selectAll, setSelectAll] = useState<boolean>(true);
+    const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
 
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const stopsOnMap = searched && selected ? [...selected, ...searched] : [];
+            const stopsOnMap = [
+                ...selected,
+                ...searched.filter((stop) => !markerData.map((marker) => marker.atcoCode).includes(stop.atcoCode)),
+            ];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searched, selected],
+        [searched, selected, markerData],
     );
 
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortStops(selected ? selected.filter((stop: Stop) => stop.atcoCode !== id) : []);
+                const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     inputs: {
@@ -75,18 +80,18 @@ const Map = ({
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop: Stop[] = searched ? searched.filter((stop: Stop) => stop.atcoCode === id) : [];
+                const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
 
                 stateUpdater({
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops([...(selected ? selected : []), ...stop]),
+                        stops: sortStops([...selected, ...stop]),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [searched, selected, state, stateUpdater],
+        [searched, selected, state, stateUpdater, markerData],
     );
 
     const getMarkers = useCallback(
@@ -165,13 +170,9 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const searchApiUrl = `${API_BASE_URL}stops?adminAreaCodes=${ADMIN_AREA_CODE}&polygon=${JSON.stringify(
-                    polygon,
-                )}`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Stop[] = z.array(stopSchema).parse(await res.json());
-                if (data) {
-                    setMarkerData(data);
+                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, polygon });
+                if (stopsData) {
+                    setMarkerData(stopsData);
                 } else {
                     setMarkerData([]);
                 }
@@ -193,7 +194,7 @@ const Map = ({
             }
             return newFeatures;
         });
-        setSelectAll(true);
+        setShowSelectAllText(true);
         setPopupInfo({});
     }, []);
 
@@ -207,18 +208,18 @@ const Map = ({
             }
             return newFeatures;
         });
-        setSelectAll(true);
+        setShowSelectAllText(true);
         setMarkerData([]);
         setPopupInfo({});
     }, []);
 
     const selectAllStops = (evt: SyntheticEvent) => {
         evt.preventDefault();
-        if (!selectAll && state) {
+        if (!showSelectAllText) {
             stateUpdater({
                 inputs: {
                     ...state.inputs,
-                    stops: selected?.filter((sToFilter: Stop) =>
+                    stops: selected.filter((sToFilter: Stop) =>
                         markerData && markerData.length > 0
                             ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                             : sToFilter,
@@ -228,7 +229,7 @@ const Map = ({
             });
         } else {
             const parsed = z.array(stopSchema).safeParse(markerData);
-            if (!parsed.success && state) {
+            if (!parsed.success) {
                 stateUpdater({
                     ...state,
                     errors: [
@@ -237,15 +238,17 @@ const Map = ({
                     ],
                 });
             } else {
-                if (markerData.length > 0 && selectAll && state) {
+                if (markerData.length > 0 && showSelectAllText) {
                     stateUpdater({
                         inputs: {
                             ...state.inputs,
                             stops: sortStops(
-                                [...(selected ?? []), ...markerData].filter(
-                                    (value, index, self) =>
-                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                ),
+                                [...selected, ...markerData]
+                                    .filter(
+                                        (value, index, self) =>
+                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                    )
+                                    .splice(0, 100),
                             ),
                         },
                         errors: [
@@ -257,19 +260,30 @@ const Map = ({
                 }
             }
         }
-        setSelectAll(!selectAll);
+        setShowSelectAllText(!showSelectAllText);
     };
 
     return mapboxAccessToken ? (
         <>
+            {selected.length === 100 ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
+                    </strong>
+                </div>
+            ) : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
                     data-module="govuk-button"
                     onClick={selectAllStops}
-                    disabled={!(features && Object.values(features).length > 0)}
+                    disabled={!((features && Object.values(features).length > 0) || markerData.length > 0)}
                 >
-                    {!selectAll ? "Unselect all stops" : "Select all stops"}
+                    {showSelectAllText ? "Select all stops" : "Unselect all stops"}
                 </button>
             ) : null}
             <MapBox
@@ -277,26 +291,10 @@ const Map = ({
                 style={style}
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
+                onRender={(event) => event.target.resize()}
             >
+                <MapControls onUpdate={onUpdate} onDelete={onDelete} />
                 {selected && searched ? getMarkers(selected, searched) : null}
-                <DrawControl
-                    position="top-left"
-                    displayControlsDefault={false}
-                    controls={{
-                        polygon: true,
-                        trash: true,
-                    }}
-                    defaultMode="draw_polygon"
-                    onCreate={(evt) => {
-                        onUpdate(evt);
-                    }}
-                    onUpdate={(evt) => {
-                        onUpdate(evt);
-                    }}
-                    onDelete={(evt) => {
-                        onDelete(evt);
-                    }}
-                />
                 {popupInfo.atcoCode && (
                     <Popup
                         anchor="top"

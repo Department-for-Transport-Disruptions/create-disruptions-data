@@ -1,5 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
@@ -10,17 +11,22 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import OperatorSearch from "../../../components/OperatorSearch";
 import {
+    ADMIN_AREA_CODE,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
-    OPERATORS,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
+import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isOperatorConsequence } from "../../../utils";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
@@ -28,12 +34,19 @@ const description = "Create Consequence Operator page for the Create Transport D
 
 export interface CreateConsequenceOperatorProps
     extends PageState<Partial<OperatorConsequence>>,
-        CreateConsequenceProps {}
+        CreateConsequenceProps {
+    operators: Operator[];
+}
 
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     return (
         <BaseLayout title={title} description={description}>
@@ -51,7 +64,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                         <Link
                                             key={"consequence-type"}
                                             className="govuk-link"
-                                            href="/type-of-consequence"
+                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                                                pageState.consequenceIndex ?? 0
+                                            }`}
                                         >
                                             Change
                                         </Link>,
@@ -72,16 +87,51 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             displaySize="l"
                         />
 
-                        <Select<OperatorConsequence>
-                            inputName="consequenceOperator"
+                        <OperatorSearch
                             display="Operators impacted"
                             displaySize="l"
-                            defaultDisplay="Select operator"
-                            selectValues={OPERATORS}
+                            operators={props.operators.filter(
+                                (op) =>
+                                    !(pageState.inputs.consequenceOperators || []).find(
+                                        (selOp) => selOp === op.nocCode,
+                                    ),
+                            )}
+                            selectedOperatorNocs={pageState.inputs.consequenceOperators || []}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs.consequenceOperator}
-                            initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.consequenceOperator}
+                            initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
+                            inputName="consequenceOperators"
+                        />
+
+                        {pageState.inputs.consequenceOperators && pageState.inputs.consequenceOperators.length > 0 ? (
+                            <Table
+                                rows={pageState.inputs.consequenceOperators.map((selOpNoc) => {
+                                    return {
+                                        cells: [
+                                            props.operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
+                                            selOpNoc,
+                                            <button
+                                                key={selOpNoc}
+                                                className="govuk-link"
+                                                onClick={() => {
+                                                    const selectedOperatorsWithRemoved =
+                                                        pageState.inputs.consequenceOperators?.filter(
+                                                            (opNoc) => opNoc !== selOpNoc,
+                                                        ) || [];
+                                                    stateUpdater(selectedOperatorsWithRemoved, "consequenceOperators");
+                                                }}
+                                            >
+                                                Remove
+                                            </button>,
+                                        ],
+                                    };
+                                })}
+                            />
+                        ) : null}
+
+                        <input
+                            type="hidden"
+                            name="consequenceOperators"
+                            value={pageState.inputs.consequenceOperators}
                         />
 
                         <TextInput<OperatorConsequence>
@@ -150,6 +200,16 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+
+                        {displayCancelButton && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Cancel Changes
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -171,7 +231,7 @@ export const getServerSideProps = async (
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
-    const consequence = disruption?.consequences?.[index];
+    const consequence = disruption?.consequences?.find((c) => c.consequenceIndex === index);
 
     const pageState = getPageState<OperatorConsequence>(
         errorCookie,
@@ -180,7 +240,11 @@ export const getServerSideProps = async (
         consequence && isOperatorConsequence(consequence) ? consequence : undefined,
     );
 
-    return { props: { ...pageState, consequenceIndex: index } };
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
+
+    const operators = await fetchOperators({ adminAreaCode: ADMIN_AREA_CODE });
+
+    return { props: { ...pageState, consequenceIndex: index, operators } };
 };
 
 export default CreateConsequenceOperator;

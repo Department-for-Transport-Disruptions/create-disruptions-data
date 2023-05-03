@@ -41,6 +41,7 @@ export interface DisplayValuePair<T = string> {
     display: string;
     value: T;
     checked?: boolean;
+    default?: boolean;
 }
 
 export interface Feedback {
@@ -73,4 +74,9 @@ export interface SocialMediaPost {
 export interface CreateConsequenceProps {
     initialServices?: Service[];
     initialStops?: Stop[];
+}
+
+export interface DisruptionDetailCookie {
+    referer: string;
+    state?: string;
 }

@@ -25,9 +25,14 @@ export const getDatetimeFromDateAndTime = (date: string, time: string) => dayjs(
 export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORMAT) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
-export const checkOverlap = (firstStartDate: dayjs.Dayjs, firstEndDate: dayjs.Dayjs, secondStartDate: dayjs.Dayjs) => {
+export const checkOverlap = (
+    firstStartDate: dayjs.Dayjs,
+    firstEndDate: dayjs.Dayjs,
+    secondStartDate: dayjs.Dayjs,
+    secondEndDate: dayjs.Dayjs,
+) => {
     return (
-        firstStartDate.isBetween(secondStartDate, firstEndDate) ||
+        firstStartDate.isBetween(secondStartDate, secondEndDate) ||
         secondStartDate.isBetween(firstStartDate, firstEndDate) ||
         firstStartDate.isSame(secondStartDate)
     );
@@ -39,7 +44,6 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
     disruptionStartDate: dayjs.Dayjs,
     disruptionEndDate: dayjs.Dayjs | undefined,
 ): boolean => {
-    
     if (disruptionEndDate) {
         return (
             disruptionStartDate.isBetween(filterStartDate, filterEndDate) ||
@@ -47,6 +51,5 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
         );
     }
 
-    console.log(disruptionStartDate.isBetween(filterStartDate, filterEndDate))
     return disruptionStartDate.isBetween(filterStartDate, filterEndDate);
 };

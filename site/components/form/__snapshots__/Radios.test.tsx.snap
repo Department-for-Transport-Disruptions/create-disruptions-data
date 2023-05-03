@@ -22,12 +22,14 @@ exports[`Radios > should render correctly with a padding 1`] = `
     >
       <div
         className="govuk-radios"
+        data-module="govuk-radios"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-planned-conditional"
             defaultChecked={false}
             id="field-1-planned"
             name="field1"
@@ -48,6 +50,7 @@ exports[`Radios > should render correctly with a padding 1`] = `
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-unplanned-conditional"
             defaultChecked={false}
             id="field-1-unplanned"
             name="field1"
@@ -103,12 +106,14 @@ exports[`Radios > should render correctly with errors 1`] = `
       <div
         aria-describedby="field1-error"
         className="govuk-radios govuk-radios--error"
+        data-module="govuk-radios"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-planned-conditional"
             defaultChecked={false}
             id="field-1-planned"
             name="field1"
@@ -129,6 +134,7 @@ exports[`Radios > should render correctly with errors 1`] = `
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-unplanned-conditional"
             defaultChecked={false}
             id="field-1-unplanned"
             name="field1"
@@ -172,12 +178,14 @@ exports[`Radios > should render correctly with no errors 1`] = `
     >
       <div
         className="govuk-radios"
+        data-module="govuk-radios"
       >
         <div
           className="govuk-radios__item govuk-!-margin-bottom-1"
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-planned-conditional"
             defaultChecked={false}
             id="field-1-planned"
             name="field1"
@@ -198,6 +206,7 @@ exports[`Radios > should render correctly with no errors 1`] = `
         >
           <input
             className="govuk-radios__input"
+            data-aria-controls="field-1-unplanned-conditional"
             defaultChecked={false}
             id="field-1-unplanned"
             name="field1"

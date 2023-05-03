@@ -1,6 +1,6 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
 
 const blankInputs: CreateConsequenceStopsProps = {
@@ -10,6 +10,7 @@ const blankInputs: CreateConsequenceStopsProps = {
 
 const withInputs: CreateConsequenceStopsProps = {
     errors: [],
+    disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     inputs: {
         stops: [
             {
@@ -61,6 +62,14 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
     },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
+    }));
+});
+
 describe("pages", () => {
     describe("CreateConsequenceStops", () => {
         it("should render correctly with no inputs", () => {
@@ -75,6 +84,14 @@ describe("pages", () => {
 
         it("should render correctly with errors and incorrect inputs", () => {
             const tree = renderer.create(<CreateConsequenceStops {...withInputsAndErrors} />).toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with query params", () => {
+            useRouter.mockImplementation(() => ({
+                query: { return: "/review-disruption" },
+            }));
+            const tree = renderer.create(<CreateConsequenceStops {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

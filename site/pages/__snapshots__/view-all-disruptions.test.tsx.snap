@@ -150,7 +150,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -198,7 +198,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -246,7 +246,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -262,7 +262,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Rail, Ferry service, Tram
+              Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -629,7 +629,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -677,7 +677,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -725,7 +725,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -741,7 +741,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Rail, Ferry service, Tram
+              Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -773,7 +773,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -821,7 +821,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -869,7 +869,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -885,7 +885,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Rail, Ferry service, Tram
+              Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -917,7 +917,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -965,7 +965,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1013,7 +1013,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1029,7 +1029,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Rail, Ferry service, Tram
+              Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle"
@@ -1061,7 +1061,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/dashboard"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}

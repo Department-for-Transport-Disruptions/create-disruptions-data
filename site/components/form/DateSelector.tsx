@@ -18,6 +18,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     disablePast: boolean;
     reset?: boolean;
     errorOnBlur?: boolean;
+    suffixId?: string;
 }
 
 const inputBox = <T extends object>(
@@ -31,7 +32,7 @@ const inputBox = <T extends object>(
     stateUpdater: (change: string, field: keyof T) => void,
     setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
     schema?: z.ZodTypeAny,
-    errorOnBlur?: boolean
+    errorOnBlur?: boolean,
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
@@ -45,7 +46,11 @@ const inputBox = <T extends object>(
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={errorOnBlur ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled) : undefined}
+                    onBlur={
+                        errorOnBlur
+                            ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
+                            : undefined
+                    }
                 />
             </FormElementWrapper>
         </div>
@@ -80,13 +85,14 @@ const DateSelector = <T extends object>({
     stateUpdater,
     schema,
     reset = false,
-    errorOnBlur = true
+    errorOnBlur = true,
+    suffixId,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
     );
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
-    const inputId = kebabCase(inputName);
+    const inputId = suffixId ? `${kebabCase(inputName + suffixId)}` : kebabCase(inputName);
 
     useEffect(() => {
         if (disabled || reset) {
@@ -129,7 +135,7 @@ const DateSelector = <T extends object>({
                                 stateUpdater,
                                 setErrors,
                                 schema,
-                                errorOnBlur
+                                errorOnBlur,
                             );
                         }}
                         disablePast={disablePast}

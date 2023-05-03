@@ -14,7 +14,7 @@ const disruptions: TableDisruption[] = [
         id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
         validityPeriods: [{ startTime: "2022-01-05T04:42:17.239Z", endTime: null }],
-        modes: [VehicleMode.tram],
+        modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
         serviceLineRefs: ["1212", "323"],
@@ -29,7 +29,7 @@ const disruptions: TableDisruption[] = [
         id: "e234615d-8301-49c2-8143-1fca9dc187db",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
         validityPeriods: [{ startTime: "2022-01-18T09:36:12.327Z", endTime: null }],
-        modes: [VehicleMode.tram],
+        modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
         serviceLineRefs: ["42545"],
@@ -48,7 +48,7 @@ const disruptions: TableDisruption[] = [
             { startTime: "2023-04-14T04:21:29.085Z", endTime: null },
             { startTime: "2024-05-04T08:18:40.131Z", endTime: "2024-05-11T08:18:40.131Z" },
         ],
-        modes: [VehicleMode.rail, VehicleMode.ferryService, VehicleMode.tram],
+        modes: ["Tram", "Ferry", "Train"],
         status: Progress.approvedDraft,
         severity: Severity.severe,
         serviceLineRefs: ["6758"],
@@ -196,7 +196,7 @@ describe("filterDisruptions", () => {
         const filter: Filter = {
             services: [],
             operators: [],
-            period: { startTime: "06-01-2022", endTime: "14-01-2022" },
+            period: { startTime: "04-01-2022", endTime: "14-01-2022" },
         };
         const result = filterDisruptions(disruptions, filter);
         expect(result).toStrictEqual([disruptions[0]]);

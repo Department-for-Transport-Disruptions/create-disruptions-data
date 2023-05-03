@@ -9,12 +9,13 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ERROR_PATH } from "../../constants";
+import { COOKIES_REVIEW_DISRUPTION_ERRORS, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/dynamo";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { publishSchema } from "../../schemas/publish.schema";
-import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
+import { flattenZodErrors } from "../../utils";
+import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getDatetimeFromDateAndTime } from "../../utils/dates";
 import logger from "../../utils/logger";
 
@@ -27,7 +28,7 @@ const getValidityPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-const getPtSituationElementFromDraft = (disruption: Disruption) => {
+export const getPtSituationElementFromDraft = (disruption: Disruption) => {
     const currentTime = dayjs().toISOString();
 
     const reason = disruption.disruptionReason;
@@ -100,9 +101,9 @@ const getPtSituationElementFromDraft = (disruption: Disruption) => {
                               ...(consequence.consequenceType === "operatorWide"
                                   ? {
                                         Operators: {
-                                            AffectedOperator: {
-                                                OperatorRef: consequence.consequenceOperator,
-                                            },
+                                            AffectedOperator: consequence.consequenceOperators.map((operatorNoc) => ({
+                                                OperatorRef: operatorNoc,
+                                            })),
                                         },
                                     }
                                   : {}),
@@ -212,10 +213,23 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId);
 
-        if (!draftDisruption) {
+        if (!draftDisruption || (draftDisruption && Object.keys(draftDisruption).length === 0)) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
 
+            return;
+        }
+
+        const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
+
+        if (!validatedDisruptionBody.success) {
+            setCookieOnResponseObject(
+                COOKIES_REVIEW_DISRUPTION_ERRORS,
+                JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)),
+                res,
+            );
+
+            redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
 
