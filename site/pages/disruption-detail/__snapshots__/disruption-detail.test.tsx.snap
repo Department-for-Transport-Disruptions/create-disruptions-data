@@ -523,62 +523,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Service(s)
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Stops affected
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
                         Advice to display
                       </th>
                       <td
@@ -773,40 +717,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Service(s)
+                        Operators affected
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Stops affected
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
+                        FSYO
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
@@ -1926,62 +1842,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Service(s)
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Stops affected
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
                         Advice to display
                       </th>
                       <td
@@ -2176,40 +2036,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Service(s)
+                        Operators affected
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        N/A
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Stops affected
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        N/A
+                        FSYO
                       </td>
                       <td
                         className="govuk-table__cell align-middle"

@@ -1,0 +1,174 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReviewConsequenceTable > should render the table with data 1`] = `
+<table
+  className="govuk-table"
+>
+  <thead
+    className="govuk-table__head"
+  >
+    <tr
+      className="govuk-table__row"
+    />
+  </thead>
+  <tbody
+    className="govuk-table__body"
+  >
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Consequence type
+      </th>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        Network wide
+      </td>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <a
+          className="govuk-link"
+          href="/type-of-consequence/2/0?return=%2Freview-disruption"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Change
+        </a>
+      </td>
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Mode of transport
+      </th>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        Bus
+      </td>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <a
+          className="govuk-link"
+          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Change
+        </a>
+      </td>
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Advice to display
+      </th>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        The road is closed for the following reasons: Example, example, example, example
+      </td>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <a
+          className="govuk-link"
+          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Change
+        </a>
+      </td>
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Remove from journey planner
+      </th>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        Yes
+      </td>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <a
+          className="govuk-link"
+          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Change
+        </a>
+      </td>
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Disruption delay
+      </th>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        33 minutes
+      </td>
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <a
+          className="govuk-link"
+          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Change
+        </a>
+      </td>
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <td
+        className="govuk-table__cell align-middle"
+      >
+        <button
+          className="govuk-button govuk-button--warning ml-5 mt-8"
+          data-module="govuk-button"
+          onClick={[Function]}
+        >
+          Delete consequence
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

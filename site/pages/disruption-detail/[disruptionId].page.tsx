@@ -8,20 +8,18 @@ import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
-    CONSEQUENCE_TYPES,
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { Consequence } from "../../schemas/consequence.schema";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { getDisplayByValue, splitCamelCaseToString } from "../../utils";
+import { splitCamelCaseToString } from "../../utils";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { formatTime } from "../../utils/dates";
 
@@ -59,19 +57,6 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
 
         hasInitialised.current = true;
     });
-
-    const createChangeLink = (key: string, href: string, index?: number, includePreviousPage?: boolean) => (
-        <Link
-            key={key}
-            className="govuk-link"
-            href={{
-                pathname: `${href}/${disruption.disruptionId}${index !== undefined ? `/${index}` : ""}`,
-                query: includePreviousPage ? { return: DISRUPTION_DETAIL_PAGE_PATH } : null,
-            }}
-        >
-            Change
-        </Link>
-    );
 
     const getValidityRows = () => {
         const validity: Validity[] = [
@@ -112,23 +97,17 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption", undefined, true),
+                    createChangeLink(
+                        `validity-period-${i + 1}`,
+                        "/create-disruption",
+                        disruption,
+                        undefined,
+                        true,
+                        true,
+                    ),
                 ],
             };
         });
-    };
-
-    const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
-        switch (type) {
-            case "networkWide":
-                return "/create-consequence-network";
-            case "operatorWide":
-                return "/create-consequence-operator";
-            case "stops":
-                return "/create-consequence-stops";
-            case "services":
-                return "/create-consequence-services";
-        }
     };
 
     const nextIndex =
@@ -164,35 +143,70 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                     header: "Type of disruption",
                                     cells: [
                                         startCase(disruption.disruptionType),
-                                        createChangeLink("type-of-disruption", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "type-of-disruption",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Summary",
                                     cells: [
                                         disruption.summary,
-                                        createChangeLink("summary", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "summary",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Description",
                                     cells: [
                                         disruption.description,
-                                        createChangeLink("description", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "description",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Associated link",
                                     cells: [
                                         disruption.associatedLink || "N/A",
-                                        createChangeLink("associated-link", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "associated-link",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
                                         splitCamelCaseToString(disruption.disruptionReason),
-                                        createChangeLink("disruption-reason", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "disruption-reason",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 ...getValidityRows(),
@@ -200,21 +214,42 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                     header: "Publish start date",
                                     cells: [
                                         disruption.publishStartDate,
-                                        createChangeLink("publish-start-date", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "publish-start-date",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
                                         formatTime(disruption.publishStartTime),
-                                        createChangeLink("publish-start-time", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "publish-start-time",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
                                         disruption.publishEndDate || "N/A",
-                                        createChangeLink("publish-end-date", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "publish-end-date",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                                 {
@@ -222,7 +257,14 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                     cells: [
                                         disruption.publishEndTime ? formatTime(disruption.publishEndTime) : "N/A",
                                         ,
-                                        createChangeLink("publish-end-time", "/create-disruption", undefined, true),
+                                        createChangeLink(
+                                            "publish-end-time",
+                                            "/create-disruption",
+                                            disruption,
+                                            undefined,
+                                            true,
+                                            true,
+                                        ),
                                     ],
                                 },
                             ]}
@@ -245,6 +287,8 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                                         ? `Services - ${consequence.services
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
+                                                        : consequence.consequenceType === "stops"
+                                                        ? "Stops"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
                                                         ? `Operator wide - ${consequence.consequenceOperators.join(
@@ -260,143 +304,11 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table
-                                            rows={[
-                                                {
-                                                    header: "Consequence type",
-                                                    cells: [
-                                                        getDisplayByValue(
-                                                            CONSEQUENCE_TYPES,
-                                                            consequence.consequenceType,
-                                                        ),
-                                                        createChangeLink(
-                                                            "consequence-type",
-                                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Mode of transport",
-                                                    cells: [
-                                                        getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode),
-                                                        createChangeLink(
-                                                            "vehicle-mode",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Service(s)",
-                                                    cells: [
-                                                        consequence.consequenceType === "services"
-                                                            ? consequence.services
-                                                                  .map(
-                                                                      (service) =>
-                                                                          `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
-                                                                  )
-                                                                  .join(", ")
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "service",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Stops affected",
-                                                    cells: [
-                                                        (consequence.consequenceType === "stops" ||
-                                                            consequence.consequenceType === "services") &&
-                                                        consequence.stops
-                                                            ? consequence.stops
-                                                                  .map((stop) =>
-                                                                      stop.commonName && stop.indicator && stop.atcoCode
-                                                                          ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                                                                          : `${stop.commonName} ${stop.atcoCode}`,
-                                                                  )
-                                                                  .join(", ")
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "stops-affected",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Advice to display",
-                                                    cells: [
-                                                        consequence.description,
-                                                        createChangeLink(
-                                                            "advice-to-display",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Remove from journey planner",
-                                                    cells: [
-                                                        splitCamelCaseToString(consequence.removeFromJourneyPlanners),
-                                                        createChangeLink(
-                                                            "remove-from-journey-planners",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Disruption delay",
-                                                    cells: [
-                                                        consequence.disruptionDelay
-                                                            ? `${consequence.disruptionDelay} minutes`
-                                                            : "N/A",
-                                                        createChangeLink(
-                                                            "disruption-delay",
-                                                            getConsequenceUrl(consequence.consequenceType),
-                                                            consequence.consequenceIndex,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    cells: [
-                                                        <button
-                                                            key={consequence.consequenceIndex}
-                                                            className="govuk-button govuk-button--warning ml-5 mt-8"
-                                                            data-module="govuk-button"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                deleteActionHandler("consequence", [
-                                                                    {
-                                                                        name: "id",
-                                                                        value: consequence.consequenceIndex.toString(),
-                                                                    },
-                                                                    {
-                                                                        name: "disruptionId",
-                                                                        value: disruption.disruptionId,
-                                                                    },
-                                                                    {
-                                                                        name: "inEdit",
-                                                                        value: "true",
-                                                                    },
-                                                                ]);
-                                                            }}
-                                                        >
-                                                            Delete consequence
-                                                        </button>,
-                                                    ],
-                                                },
-                                            ]}
+                                        <ReviewConsequenceTable
+                                            consequence={consequence}
+                                            disruption={disruption}
+                                            deleteActionHandler={deleteActionHandler}
+                                            isDisruptionDetail={true}
                                         />
                                     </div>
                                 </div>
