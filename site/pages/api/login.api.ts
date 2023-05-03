@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_LOGIN_ERRORS, LOGIN_PAGE_PATH } from "../../constants";
+import { COOKIES_LOGIN_ERRORS, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "../../constants";
 import { loginSchema } from "../../schemas/login.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -27,7 +27,7 @@ const login = (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, res);
-
+        redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

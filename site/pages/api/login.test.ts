@@ -1,9 +1,9 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import login from "./login.api";
-import { COOKIES_LOGIN_ERRORS, LOGIN_PAGE_PATH } from "../../constants";
+import { COOKIES_LOGIN_ERRORS, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
-import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 
 describe("login", () => {
     const writeHeadMock = vi.fn();
@@ -36,5 +36,21 @@ describe("login", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: LOGIN_PAGE_PATH });
+    });
+
+    it("should redirect to /dashboard page when valid inputs are passed", () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                email: "dummyUser@gmail.com",
+                password: "dummyPassword",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        login(req, res);
+
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 });
