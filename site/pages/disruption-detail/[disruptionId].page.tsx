@@ -4,38 +4,41 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
+import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
+    COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
-    COOKIE_DISRUPTION_DETAIL_STATE,
-    DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { DisruptionDetailCookie } from "../../interfaces";
+import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { formatTime } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
 interface DisruptionDetailProps {
     disruption: Disruption;
-    redirectCookie: DisruptionDetailCookie;
+    redirect: string;
+    errors: ErrorInfo[];
     csrfToken?: string;
 }
 
-const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = redirectCookie.state && redirectCookie.state === "cancel";
+const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: DisruptionDetailProps): ReactElement => {
+    const displayCancelButton = disruption.publishStatus === "EDITING";
 
-    const title = displayCancelButton ? "Disruption Overview" : "Review your answers before submitting your changes";
+    const title =
+        disruption.publishStatus === "EDITING"
+            ? "Review your answers before submitting your changes"
+            : "Disruption Overview";
 
     const hasInitialised = useRef(false);
 
@@ -119,8 +122,9 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                     hiddenInputs={popUpState.hiddenInputs}
                 />
             ) : null}
-            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
+            <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
                 <>
+                    <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
                         <Link className="govuk-link" href="/view-disruption-history">
@@ -298,13 +302,6 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
                                         />
-                                        <Link
-                                            role="button"
-                                            href={`/disruption-detail/${consequence.disruptionId}/${consequence.consequenceIndex}`}
-                                            className="govuk-button govuk-button--warning"
-                                        >
-                                            Delete consequence
-                                        </Link>
                                     </div>
                                 </div>
                             ))}
@@ -326,18 +323,24 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {displayCancelButton ? (
-                            <Link
-                                role="button"
-                                href={`${redirectCookie.referer}`}
-                                className="govuk-button mt-8 govuk-button"
-                            >
+                        {!displayCancelButton ? (
+                            <Link role="button" href={redirect} className="govuk-button mt-8 govuk-button">
                                 Close and Return
                             </Link>
                         ) : (
-                            <button className="govuk-button mt-8" data-module="govuk-button">
-                                Publish disruption
-                            </button>
+                            <>
+                                <button className="govuk-button mt-8" data-module="govuk-button">
+                                    Publish disruption
+                                </button>
+
+                                <button
+                                    className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                    data-module="govuk-button"
+                                    formAction="/api/cancel-changes"
+                                >
+                                    Cancel all changes
+                                </button>
+                            </>
                         )}
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -364,35 +367,29 @@ const DisruptionDetail = ({ disruption, redirectCookie, csrfToken }: DisruptionD
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DisruptionDetailProps } | void> => {
     const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
-    const referer = ctx.req?.headers.referer;
-
     const cookies = parseCookies(ctx);
-    const ddCookieReferer = cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
-    const ddCookieState = cookies[COOKIE_DISRUPTION_DETAIL_STATE];
+    const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];
 
-    const ddCookie: DisruptionDetailCookie = {
-        referer: DASHBOARD_PAGE_PATH,
-        state: ddCookieState ? ddCookieState : "cancel",
-    };
+    let errors: ErrorInfo[] = [];
+    if (errorCookie) {
+        errors = JSON.parse(errorCookie) as ErrorInfo[];
+    }
 
-    if (referer?.includes(VIEW_ALL_DISRUPTIONS_PAGE_PATH) || referer?.includes(DASHBOARD_PAGE_PATH)) {
-        if (ctx.res) {
-            destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, ctx.res);
+    const referer = (ctx.query.return as string) || cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
 
-            setCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, referer, ctx.res);
-        }
-    } else {
-        if (ddCookieReferer) ddCookie.referer = ddCookieReferer;
+    if (ctx.res && ctx.query.return) {
+        setCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, referer, ctx.res);
     }
 
     if (!disruption) {
-        throw new Error("Disruption not found for review page");
+        throw new Error("Disruption not found for disruption detail page");
     }
 
     return {
         props: {
             disruption: disruption,
-            redirectCookie: ddCookie,
+            redirect: referer,
+            errors: errors,
         },
     };
 };

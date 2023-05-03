@@ -230,9 +230,9 @@ export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";
 export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer";
-export const COOKIE_DISRUPTION_DETAIL_STATE = "cdd-disruption-detail-state";
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";
+export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const ADMIN_AREA_CODE = "099";

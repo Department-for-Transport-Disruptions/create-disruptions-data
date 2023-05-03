@@ -44,7 +44,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/publish"
+        action="/api/publish-edit"
         method="post"
       >
         <input
@@ -617,16 +617,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/0"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
             <div
@@ -849,16 +839,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/1"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
             <div
@@ -1109,16 +1089,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/2"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
           </div>
@@ -1393,7 +1363,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
       className="govuk-main-wrapper"
     >
       <form
-        action="/api/publish"
+        action="/api/publish-edit"
         method="post"
       >
         <input
@@ -1966,16 +1936,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/0"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
             <div
@@ -2198,16 +2158,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/1"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
             <div
@@ -2458,16 +2408,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                     </tr>
                   </tbody>
                 </table>
-                <a
-                  className="govuk-button govuk-button--warning"
-                  href="/disruption-detail/1/2"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Delete consequence
-                </a>
               </div>
             </div>
           </div>
@@ -2492,6 +2432,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             data-module="govuk-button"
           >
             Publish disruption
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary mt-8 ml-5"
+            data-module="govuk-button"
+            formAction="/api/cancel-changes"
+          >
+            Cancel all changes
           </button>
           <button
             className="govuk-button govuk-button--warning ml-5 mt-8"

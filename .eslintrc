@@ -36,6 +36,14 @@
     },
     "rules": {
         "@typescript-eslint/triple-slash-reference": 0,
+        "@typescript-eslint/no-misused-promises": [
+            2,
+            {
+                "checksVoidReturn": {
+                    "attributes": false
+                }
+            }
+        ],
         "no-console": "error",
         "import/order": [
             1,

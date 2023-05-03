@@ -65,6 +65,24 @@ const getRows = (
     ) => void,
     isDisruptionDetail?: boolean,
 ) => {
+    const hiddenInputs = [
+        {
+            name: "id",
+            value: consequence.consequenceIndex.toString(),
+        },
+        {
+            name: "disruptionId",
+            value: disruption.disruptionId,
+        },
+    ];
+
+    if (isDisruptionDetail) {
+        hiddenInputs.push({
+            name: "inEdit",
+            value: "true",
+        });
+    }
+
     const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
         {
             header: "Consequence type",
@@ -211,16 +229,7 @@ const getRows = (
                     data-module="govuk-button"
                     onClick={(e) => {
                         e.preventDefault();
-                        deleteActionHandler("consequence", [
-                            {
-                                name: "id",
-                                value: consequence.consequenceIndex.toString(),
-                            },
-                            {
-                                name: "disruptionId",
-                                value: disruption.disruptionId,
-                            },
-                        ]);
+                        deleteActionHandler("consequence", hiddenInputs);
                     }}
                 >
                     Delete consequence

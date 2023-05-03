@@ -2,8 +2,6 @@ import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-da
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
-import { DASHBOARD_PAGE_PATH } from "../../constants";
-import { DisruptionDetailCookie } from "../../interfaces";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 
@@ -53,6 +51,7 @@ const previousConsequencesInformation: Consequence[] = [
 ];
 
 const previousDisruptionInformation: Disruption = {
+    publishStatus: "DRAFT",
     disruptionType: "planned",
     disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -81,32 +80,27 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
-const disruptionDetailsCookie: DisruptionDetailCookie = {
-    referer: DASHBOARD_PAGE_PATH,
-    state: "cancel",
-};
-
 describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
-                    <DisruptionDetail
-                        disruption={previousDisruptionInformation}
-                        redirectCookie={disruptionDetailsCookie}
-                    />,
+                    <DisruptionDetail disruption={previousDisruptionInformation} redirect={"/dashboard"} errors={[]} />,
                 )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and state set to saved", () => {
-            disruptionDetailsCookie.state = "saved";
             const tree = renderer
                 .create(
                     <DisruptionDetail
-                        disruption={previousDisruptionInformation}
-                        redirectCookie={disruptionDetailsCookie}
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            publishStatus: "EDITING",
+                        }}
+                        redirect={"/view-all-disruptions"}
+                        errors={[]}
                     />,
                 )
                 .toJSON();
