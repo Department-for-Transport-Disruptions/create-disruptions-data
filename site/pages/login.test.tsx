@@ -17,7 +17,7 @@ const withInputsAndNoErrors: LoginPageProps = {
 
 const withInputsAndErrors: LoginPageProps = {
     ...withInputsAndNoErrors,
-    errors: [{ errorMessage: "Enter an email address", id: "email" }],
+    errors: [{ errorMessage: "Enter a valid email address", id: "email" }],
 };
 
 describe("login", () => {
