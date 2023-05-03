@@ -63,11 +63,11 @@ exports[`login > should render correctly when there are no inputs 1`] = `
               type="hidden"
               value=""
             />
-            <h1
+            <h2
               className="govuk-heading-m w-3/4"
             >
               Enter your Create Transport Disruption Data account details to sign in
-            </h1>
+            </h2>
             <div
               className="govuk-form-group"
             >
@@ -417,11 +417,11 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
               type="hidden"
               value=""
             />
-            <h1
+            <h2
               className="govuk-heading-m w-3/4"
             >
               Enter your Create Transport Disruption Data account details to sign in
-            </h1>
+            </h2>
             <div
               className="govuk-form-group"
             >
@@ -802,11 +802,11 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                 </ul>
               </div>
             </div>
-            <h1
+            <h2
               className="govuk-heading-m w-3/4"
             >
               Enter your Create Transport Disruption Data account details to sign in
-            </h1>
+            </h2>
             <div
               className="govuk-form-group govuk-form-group--error"
             >

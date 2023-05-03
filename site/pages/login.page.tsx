@@ -30,9 +30,9 @@ const Login = (props: LoginPageProps): ReactElement => {
                         <>
                             <ErrorSummary errors={pageState.errors} />
 
-                            <h1 className="govuk-heading-m w-3/4">
+                            <h2 className="govuk-heading-m w-3/4">
                                 Enter your Create Transport Disruption Data account details to sign in
-                            </h1>
+                            </h2>
 
                             <TextInput<LoginProps>
                                 display="Email address"
