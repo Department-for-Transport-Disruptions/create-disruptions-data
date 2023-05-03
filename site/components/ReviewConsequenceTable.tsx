@@ -3,6 +3,10 @@ import { ReactElement, ReactNode } from "react";
 import Table from "./form/Table";
 import {
     CONSEQUENCE_TYPES,
+    CREATE_CONSEQUENCE_NETWORK_PATH,
+    CREATE_CONSEQUENCE_OPERATOR_PATH,
+    CREATE_CONSEQUENCE_SERVICES_PATH,
+    CREATE_CONSEQUENCE_STOPS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -15,13 +19,13 @@ import { getDisplayByValue, splitCamelCaseToString } from "../utils";
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     switch (type) {
         case "networkWide":
-            return "/create-consequence-network";
+            return CREATE_CONSEQUENCE_NETWORK_PATH;
         case "operatorWide":
-            return "/create-consequence-operator";
+            return CREATE_CONSEQUENCE_OPERATOR_PATH;
         case "stops":
-            return "/create-consequence-stops";
+            return CREATE_CONSEQUENCE_STOPS_PATH;
         case "services":
-            return "/create-consequence-services";
+            return CREATE_CONSEQUENCE_SERVICES_PATH;
     }
 };
 
