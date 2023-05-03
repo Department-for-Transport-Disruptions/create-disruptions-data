@@ -79,7 +79,51 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
       },
     ],
   },
-  "acde070d-8c4c-4f0d-9d8a-162843c10333",
+  {
+    "consequences": [
+      {
+        "consequenceIndex": 1,
+        "consequenceType": "networkWide",
+        "description": "Some consequence description",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "disruptionSeverity": "slight",
+        "removeFromJourneyPlanners": "no",
+        "vehicleMode": "tram",
+      },
+      {
+        "consequenceIndex": 0,
+        "consequenceOperators": [
+          "FSYO",
+        ],
+        "consequenceType": "operatorWide",
+        "description": "Some consequence description",
+        "disruptionDelay": "40",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "disruptionSeverity": "severe",
+        "removeFromJourneyPlanners": "yes",
+        "vehicleMode": "bus",
+      },
+    ],
+    "description": "Test description",
+    "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    "disruptionNoEndDateTime": "true",
+    "disruptionReason": "staffInWrongPlace",
+    "disruptionStartDate": "18/03/2023",
+    "disruptionStartTime": "1200",
+    "disruptionType": "planned",
+    "publishStartDate": "10/03/2023",
+    "publishStartTime": "1200",
+    "publishStatus": "DRAFT",
+    "summary": "Some summary",
+    "validity": [
+      {
+        "disruptionEndDate": "17/03/2023",
+        "disruptionEndTime": "1700",
+        "disruptionStartDate": "10/03/2023",
+        "disruptionStartTime": "1200",
+      },
+    ],
+  },
 ]
 `;
 
