@@ -4,17 +4,20 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
+import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import {
     CONSEQUENCE_TYPES,
+    COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
+import { ErrorInfo } from "../../interfaces";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
@@ -27,10 +30,11 @@ const description = "Disruption Detail page for the Create Transport Disruptions
 interface DisruptionDetailProps {
     disruption: Disruption;
     redirect: string;
+    errors: ErrorInfo[];
     csrfToken?: string;
 }
 
-const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailProps): ReactElement => {
+const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: DisruptionDetailProps): ReactElement => {
     const displayCancelButton = disruption.publishStatus === "EDITING";
 
     const title =
@@ -147,6 +151,7 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken }: DisruptionDetailP
             ) : null}
             <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
                 <>
+                    <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
                         <Link className="govuk-link" href="/view-disruption-history">
@@ -457,6 +462,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
 
     const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];
+
+    let errors: ErrorInfo[] = [];
+    if (errorCookie) {
+        errors = JSON.parse(errorCookie) as ErrorInfo[];
+    }
 
     const referer = (ctx.query.return as string) || cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
 
@@ -472,6 +483,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             disruption: disruption,
             redirect: referer,
+            errors: errors,
         },
     };
 };

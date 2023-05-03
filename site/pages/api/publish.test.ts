@@ -101,7 +101,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(insertDisruptionSpy.mock.calls[0][0]).toMatchSnapshot();
+        expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
     });
 
     it("should redirect to error page if no consequences", async () => {

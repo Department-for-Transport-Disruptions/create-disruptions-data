@@ -30,10 +30,10 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
         }
 
         if (inEdit) {
-            const consequence: Pick<Consequence, "disruptionId" | "consequenceIndex"> & { publishStatus: string } = {
+            const consequence: Pick<Consequence, "disruptionId" | "consequenceIndex"> & { isDeleted: boolean } = {
                 disruptionId: disruptionId,
                 consequenceIndex: Number(id),
-                publishStatus: "DELETE",
+                isDeleted: true,
             };
             await upsertConsequence(consequence);
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);

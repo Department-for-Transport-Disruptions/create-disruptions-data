@@ -1,81 +1,128 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
-{
-  "Consequences": {
-    "Consequence": [
-      {
-        "Advice": {
-          "Details": "Some consequence description",
-        },
-        "Affects": {
-          "Networks": {
-            "AffectedNetwork": {
-              "AllLines": "",
-              "VehicleMode": "tram",
+[
+  {
+    "Consequences": {
+      "Consequence": [
+        {
+          "Advice": {
+            "Details": "Some consequence description",
+          },
+          "Affects": {
+            "Networks": {
+              "AffectedNetwork": {
+                "AllLines": "",
+                "VehicleMode": "tram",
+              },
             },
           },
+          "Blocking": {
+            "JourneyPlanner": false,
+          },
+          "Condition": "unknown",
+          "Severity": "slight",
         },
-        "Blocking": {
-          "JourneyPlanner": false,
+        {
+          "Advice": {
+            "Details": "Some consequence description",
+          },
+          "Affects": {
+            "Networks": {
+              "AffectedNetwork": {
+                "AllLines": "",
+                "VehicleMode": "bus",
+              },
+            },
+            "Operators": {
+              "AffectedOperator": [
+                {
+                  "OperatorRef": "FSYO",
+                },
+              ],
+            },
+          },
+          "Blocking": {
+            "JourneyPlanner": true,
+          },
+          "Condition": "unknown",
+          "Delays": {
+            "Delay": "PT40M",
+          },
+          "Severity": "severe",
         },
-        "Condition": "unknown",
-        "Severity": "slight",
+      ],
+    },
+    "CreationTime": "2023-03-03T00:00:00.000Z",
+    "Description": "Test description",
+    "ParticipantRef": "DepartmentForTransport",
+    "PersonnelReason": "staffInWrongPlace",
+    "Planned": true,
+    "Progress": "open",
+    "PublicationWindow": {
+      "StartTime": "2023-03-10T12:00:00.000Z",
+    },
+    "ReasonType": "PersonnelReason",
+    "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    "Source": {
+      "SourceType": "feed",
+      "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
+    },
+    "Summary": "Some summary",
+    "ValidityPeriod": [
+      {
+        "EndTime": "2023-03-17T17:00:00.000Z",
+        "StartTime": "2023-03-10T12:00:00.000Z",
       },
       {
-        "Advice": {
-          "Details": "Some consequence description",
-        },
-        "Affects": {
-          "Networks": {
-            "AffectedNetwork": {
-              "AllLines": "",
-              "VehicleMode": "bus",
-            },
-          },
-          "Operators": {
-            "AffectedOperator": [
-              {
-                "OperatorRef": "FSYO",
-              },
-            ],
-          },
-        },
-        "Blocking": {
-          "JourneyPlanner": true,
-        },
-        "Condition": "unknown",
-        "Delays": {
-          "Delay": "PT40M",
-        },
-        "Severity": "severe",
+        "StartTime": "2023-03-18T12:00:00.000Z",
       },
     ],
   },
-  "CreationTime": "2023-03-03T00:00:00.000Z",
-  "Description": "Test description",
-  "ParticipantRef": "DepartmentForTransport",
-  "PersonnelReason": "staffInWrongPlace",
-  "Planned": true,
-  "Progress": "open",
-  "PublicationWindow": {
-    "StartTime": "2023-03-10T12:00:00.000Z",
+  {
+    "consequences": [
+      {
+        "consequenceIndex": 1,
+        "consequenceType": "networkWide",
+        "description": "Some consequence description",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "disruptionSeverity": "slight",
+        "removeFromJourneyPlanners": "no",
+        "vehicleMode": "tram",
+      },
+      {
+        "consequenceIndex": 0,
+        "consequenceOperators": [
+          "FSYO",
+        ],
+        "consequenceType": "operatorWide",
+        "description": "Some consequence description",
+        "disruptionDelay": "40",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "disruptionSeverity": "severe",
+        "removeFromJourneyPlanners": "yes",
+        "vehicleMode": "bus",
+      },
+    ],
+    "description": "Test description",
+    "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    "disruptionNoEndDateTime": "true",
+    "disruptionReason": "staffInWrongPlace",
+    "disruptionStartDate": "18/03/2023",
+    "disruptionStartTime": "1200",
+    "disruptionType": "planned",
+    "publishStartDate": "10/03/2023",
+    "publishStartTime": "1200",
+    "publishStatus": "DRAFT",
+    "summary": "Some summary",
+    "validity": [
+      {
+        "disruptionEndDate": "17/03/2023",
+        "disruptionEndTime": "1700",
+        "disruptionStartDate": "10/03/2023",
+        "disruptionStartTime": "1200",
+      },
+    ],
   },
-  "ReasonType": "PersonnelReason",
-  "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
-  "Source": {
-    "SourceType": "feed",
-    "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-  },
-  "Summary": "Some summary",
-  "ValidityPeriod": [
-    {
-      "EndTime": "2023-03-17T17:00:00.000Z",
-      "StartTime": "2023-03-10T12:00:00.000Z",
-    },
-    {
-      "StartTime": "2023-03-18T12:00:00.000Z",
-    },
-  ],
-}
+]
 `;

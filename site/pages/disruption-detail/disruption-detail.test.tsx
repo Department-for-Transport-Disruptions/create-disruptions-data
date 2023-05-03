@@ -84,7 +84,9 @@ describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(<DisruptionDetail disruption={previousDisruptionInformation} redirect={"/dashboard"} />)
+                .create(
+                    <DisruptionDetail disruption={previousDisruptionInformation} redirect={"/dashboard"} errors={[]} />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -98,6 +100,7 @@ describe("pages", () => {
                             publishStatus: "EDITING",
                         }}
                         redirect={"/view-all-disruptions"}
+                        errors={[]}
                     />,
                 )
                 .toJSON();

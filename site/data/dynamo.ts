@@ -295,7 +295,7 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
         });
     }
 
-    consequences = consequences.filter((consequences) => consequences.publishStatus !== "DELETE");
+    consequences = consequences.filter((consequence) => !consequence.isDeleted);
 
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
@@ -324,28 +324,28 @@ export const publishEditedConsequences = async (disruptionId: string) => {
     );
 
     if (dynamoDisruption.Items) {
-        const editedDisruption =
-            dynamoDisruption.Items.filter((item) => (item.SK as string) === `${disruptionId}#INFO#EDIT` ?? false) ?? [];
+        const editedConsequences: Record<string, unknown>[] = [];
+        const deleteConsequences: Record<string, unknown>[] = [];
+        const editedDisruption: Record<string, unknown>[] = [];
 
-        const editedConsequences =
-            dynamoDisruption.Items.filter(
-                (item) =>
-                    ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                        (item.SK as string).includes("#EDIT") &&
-                        !(item.publishStatus as string)?.includes("DELETE")) ??
-                    false,
-            ) ?? [];
+        dynamoDisruption.Items.forEach((item) => {
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                (item.SK as string).includes("#EDIT")
+            ) {
+                if (item.isDeleted) {
+                    deleteConsequences.push(item);
+                } else {
+                    editedConsequences.push(item);
+                }
+            }
 
-        const deleteConsequence =
-            dynamoDisruption.Items.filter(
-                (item) =>
-                    ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                        (item.SK as string).includes("#EDIT") &&
-                        (item.publishStatus as string)?.includes("DELETE")) ??
-                    false,
-            ) ?? [];
+            if ((item.SK as string) === `${disruptionId}#INFO#EDIT`) {
+                editedDisruption.push(item);
+            }
+        });
 
-        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequence.length > 0) {
+        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequences.length > 0)
             await ddbDocClient.send(
                 new TransactWriteCommand({
                     TransactItems: [
@@ -369,7 +369,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                                 },
                             },
                         })),
-                        ...deleteConsequence.map((consequence) => ({
+                        ...deleteConsequences.map((consequence) => ({
                             Delete: {
                                 TableName: tableName,
                                 Key: {
@@ -381,7 +381,6 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                     ],
                 }),
             );
-        }
     }
 };
 
