@@ -796,7 +796,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                     <a
                       href="#email"
                     >
-                      Enter an email address
+                      Enter a valid email address
                     </a>
                   </li>
                 </ul>
@@ -832,7 +832,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                     >
                       Error: 
                     </span>
-                    Enter an email address
+                    Enter a valid email address
                   </span>
                   <input
                     aria-describedby="email-error"

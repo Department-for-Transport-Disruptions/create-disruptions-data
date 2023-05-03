@@ -26,7 +26,7 @@ describe("login", () => {
         login(req, res);
 
         const errors: ErrorInfo[] = [
-            { errorMessage: "Enter an email address", id: "email" },
+            { errorMessage: "Required", id: "email" },
             { errorMessage: "Enter a password", id: "password" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
