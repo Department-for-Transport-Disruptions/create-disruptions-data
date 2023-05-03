@@ -5,7 +5,6 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue, createFilter } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
-import { z } from "zod";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -15,18 +14,18 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import Map from "../../../components/map/Map";
+import Map from "../../../components/map/ServicesMap";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    API_BASE_URL,
     ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     Stop,
@@ -35,7 +34,6 @@ import {
     Service,
     serviceSchema,
     servicesConsequenceSchema,
-    routesSchema,
     Routes,
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isServicesConsequence } from "../../../utils";
@@ -55,14 +53,12 @@ const filterConfig = {
 
 export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     if (serviceId) {
-        const searchApiUrl = `${API_BASE_URL}services/${serviceId}/stops`;
-        const res = await fetch(searchApiUrl, { method: "GET" });
-        const data: Stop[] = z.array(stopSchema).parse(await res.json());
+        const stopsData = await fetchServiceStops({ serviceId });
 
-        if (data) {
-            return data.map((stop) => ({
+        if (stopsData) {
+            return stopsData.map((stop) => ({
                 ...stop,
-                ...(serviceId && { serviceId }),
+                ...(serviceId && { serviceIds: [serviceId] }),
             }));
         }
     }
@@ -98,15 +94,15 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         const loadOptions = async () => {
             if (selectedService) {
-                const searchApiUrl = `${API_BASE_URL}services/${selectedService.id}/routes`;
-                const res = await fetch(searchApiUrl, { method: "GET" });
-                const data: Routes = routesSchema.parse(await res.json());
-                if (data) {
+                const serviceRoutesData = await fetchServiceRoutes({ serviceId: selectedService.id });
+
+                if (serviceRoutesData) {
                     const notSelected =
                         searched.length > 0
                             ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
                             : true;
-                    if (notSelected) setSearchedOptions([...searched, { ...data, serviceId: selectedService.id }]);
+                    if (notSelected)
+                        setSearchedOptions([...searched, { ...serviceRoutesData, serviceId: selectedService.id }]);
                 } else {
                     setSearchedOptions([]);
                 }
@@ -249,24 +245,44 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     };
 
+    useEffect(() => {
+        if (pageState?.inputs?.services && pageState.inputs.services.length === 0) {
+            setStopOptions([]);
+            setSearchedOptions([]);
+            setSelectedService(null);
+        }
+    }, [pageState?.inputs?.services]);
+
+    const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
+        const selectedServiceIds = services.map((s) => s.id);
+
+        return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
+    };
+
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
-        if (pageState.inputs.services) {
+
+        if (pageState?.inputs?.services) {
+            const newServices = [...pageState.inputs.services].filter((service) => service.id !== serviceId);
+
             setPageState({
                 inputs: {
                     ...pageState.inputs,
                     ...(pageState.inputs.stops && {
-                        stops: [...pageState.inputs.stops].filter((stop) => stop.serviceId !== serviceId),
+                        stops: [...pageState.inputs.stops].filter((stop) =>
+                            findStopsNotToRemove(stop, serviceId, newServices),
+                        ),
                     }),
-                    services: [...pageState.inputs.services].filter((service) => service.id !== serviceId),
+                    services: newServices,
                 },
                 errors: pageState.errors,
             });
+
+            setStopOptions(stopOptions.filter((stop) => findStopsNotToRemove(stop, serviceId, newServices)));
         }
 
-        setSearchedOptions(searched.filter((stop) => stop?.serviceId !== serviceId) || []);
+        setSearchedOptions(searched.filter((route) => route?.serviceId !== serviceId) || []);
         setSelectedService(null);
-        setStopOptions(stopOptions.filter((stop) => stop.serviceId !== serviceId));
     };
 
     const getServiceRows = () => {
@@ -321,7 +337,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             defaultDisplay="Select mode of transport"
                             selectValues={VEHICLE_MODES}
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs.vehicleMode}
+                            value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
                             schema={servicesConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
@@ -335,7 +351,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             getOptionLabel={getServiceLabel}
                             options={props.initialServices}
                             handleChange={handleServiceChange}
-                            tableData={pageState.inputs.services}
+                            tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
                             getOptionValue={getServiceValue}
                             display="Services impacted"
@@ -521,12 +537,11 @@ export const getServerSideProps = async (
     );
 
     let services: Service[] = [];
-    const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
-    const res = await fetch(searchApiUrl, { method: "GET" });
-    const parse = z.array(serviceSchema).safeParse(await res.json());
 
-    if (parse.success) {
-        services = sortServices(parse.data);
+    const servicesData = await fetchServices({ adminAreaCode: ADMIN_AREA_CODE });
+
+    if (servicesData.length > 0) {
+        services = sortServices(servicesData);
 
         const setOfServices = new Set();
 
@@ -545,7 +560,7 @@ export const getServerSideProps = async (
 
     let stops: Stop[] = [];
 
-    if (pageState.inputs.services) {
+    if (pageState?.inputs?.services) {
         const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
         stops = (await Promise.all(stopPromises)).flat();
     }
