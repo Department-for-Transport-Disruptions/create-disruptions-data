@@ -13,6 +13,7 @@
         "tsc:build": "tsc --noemit"
     },
     "dependencies": {
+        "@aws-sdk/client-cognito-identity-provider": "^3.326.0",
         "@aws-sdk/client-ses": "^3.301.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@emotion/react": "^11.10.6",
@@ -38,7 +39,6 @@
         "mapbox-gl": "^2.13.0",
         "mock-req-res": "^1.2.1",
         "next": "13.1.2",
-        "next-auth": "^4.22.1",
         "nookies": "^2.5.2",
         "react": "18.2.0",
         "react-accessible-dropdown-menu-hook": "^4.0.0",

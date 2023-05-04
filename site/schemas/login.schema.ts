@@ -6,4 +6,4 @@ export const loginSchema = z.object({
     password: z.string(setZodDefaultError("Enter a password")).min(1),
 });
 
-export type LoginProps = z.infer<typeof loginSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;

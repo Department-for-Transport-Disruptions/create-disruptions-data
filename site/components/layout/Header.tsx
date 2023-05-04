@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ReactElement } from "react";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+import { LOGIN_PAGE_PATH } from "../../constants";
 
 const Header = (): ReactElement => {
     const { buttonProps, itemProps, isOpen } = useDropdownMenu(2);
@@ -75,7 +76,7 @@ const Header = (): ReactElement => {
                             </div>
                         </>
                     ) : (
-                        <Link href={"/login"} className="govuk-header__link">
+                        <Link href={LOGIN_PAGE_PATH} className="govuk-header__link">
                             <span> {"Sign in"} </span>
                         </Link>
                     )}

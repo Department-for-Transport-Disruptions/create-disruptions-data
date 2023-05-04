@@ -2,12 +2,12 @@ import { Duration } from "aws-cdk-lib";
 import {
     AccountRecovery,
     ClientAttributes,
+    OAuthScope,
     StringAttribute,
     UserPool,
     UserPoolClient,
     UserPoolEmail,
 } from "aws-cdk-lib/aws-cognito";
-import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Function, StackContext } from "sst/constructs";
 import { getDomain, isSandbox } from "./utils";
 
@@ -22,10 +22,9 @@ export const CognitoStack = ({ stack }: StackContext) => {
             CONTACT_LINK: `${domain}/contact`,
         },
         handler: "packages/cognito-triggers/custom-email-trigger/index.main",
-        timeout: 60,
+        timeout: 30,
         memorySize: 256,
         runtime: "python3.9",
-        enableLiveDev: false,
     });
 
     const userPool = new UserPool(stack, "cdd-user-pool", {
@@ -83,15 +82,20 @@ export const CognitoStack = ({ stack }: StackContext) => {
             .withCustomAttributes("orgId"),
         writeAttributes: new ClientAttributes().withStandardAttributes({ email: true }).withCustomAttributes("orgId"),
         preventUserExistenceErrors: true,
-    });
-
-    const clientSecretParam = new Secret(stack, "cdd-site-client-secret", {
-        secretName: `cdd-site-client-secret-${stack.stage}`,
-        secretStringValue: client.userPoolClientSecret,
+        oAuth: {
+            scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
+            callbackUrls: [`${domain}/api/auth/callback/cognito`],
+            flows: {
+                authorizationCodeGrant: true,
+            },
+        },
     });
 
     return {
         clientId: client.userPoolClientId,
-        clientSecretArn: clientSecretParam.secretFullArn,
+        clientSecret: client.userPoolClientSecret,
+        userPoolId: userPool.userPoolId,
+        userPoolArn: userPool.userPoolArn,
+        cognitoIssuer: `https://cognito-idp.${stack.region}.amazonaws.com/${userPool.userPoolId}`,
     };
 };

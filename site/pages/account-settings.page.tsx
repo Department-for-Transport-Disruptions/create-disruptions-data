@@ -31,7 +31,7 @@ const AccountSettings = (): ReactElement => (
                             </Link>,
                         ],
                     },
-                    { header: "Organisation", cells: ["NEXTUS", ""] },
+                    { header: "Organisation", cells: ["NEXUS", ""] },
                 ]}
             />
         </div>

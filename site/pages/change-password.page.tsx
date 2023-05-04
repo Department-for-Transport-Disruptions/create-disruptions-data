@@ -8,10 +8,10 @@ import CsrfForm from "../components/form/CsrfForm";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS } from "../constants";
+import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
 import { PageState } from "../interfaces";
 import {
-    ChangePasswordProps,
+    ChangePasswordSchema,
     changePasswordSchema,
     changePasswordSchemaRefined,
 } from "../schemas/change-password.schema";
@@ -21,7 +21,7 @@ import { getStateUpdater } from "../utils/formUtils";
 const title = "Change Password - Create Transport Disruptions Service";
 const description = "Change Password page for the Create Transport Disruptions Service";
 
-export interface ChangePasswordPageProps extends PageState<Partial<ChangePasswordProps>> {}
+export interface ChangePasswordPageProps extends PageState<Partial<ChangePasswordSchema>> {}
 
 const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -58,7 +58,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                     ) : (
                         <>
                             <Table rows={getRows()} />
-                            <TextInput<ChangePasswordProps>
+                            <TextInput<ChangePasswordSchema>
                                 display="Current password"
                                 inputName="currentPassword"
                                 widthClass="w"
@@ -70,7 +70,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 isPassword
                             />
 
-                            <TextInput<ChangePasswordProps>
+                            <TextInput<ChangePasswordSchema>
                                 display="New password"
                                 inputName="newPassword"
                                 widthClass="w"
@@ -79,11 +79,11 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 schema={changePasswordSchema.shape.newPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
-                                hint="Your password should be at least 8 characters long"
+                                hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
                                 isPassword
                             />
 
-                            <TextInput<ChangePasswordProps>
+                            <TextInput<ChangePasswordSchema>
                                 display="Confirm new password"
                                 inputName="confirmPassword"
                                 widthClass="w"
