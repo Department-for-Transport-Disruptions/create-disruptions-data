@@ -40,6 +40,7 @@
         "next": "13.1.2",
         "nookies": "^2.5.2",
         "react": "18.2.0",
+        "react-accessible-dropdown-menu-hook": "^4.0.0",
         "react-dom": "18.2.0",
         "react-map-gl": "^7.0.21",
         "react-select": "^5.7.1",

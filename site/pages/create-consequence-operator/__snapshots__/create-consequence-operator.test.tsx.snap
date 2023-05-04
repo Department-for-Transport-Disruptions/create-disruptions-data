@@ -42,6 +42,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-operator"
@@ -774,6 +775,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-operator"
@@ -1459,6 +1461,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-operator"
