@@ -29,8 +29,8 @@ const changePassword = (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem during login.";
-            redirectToError(res, message, "api.login", e);
+            const message = "There was a problem while changing password.";
+            redirectToError(res, message, "api.change-password", e);
             return;
         }
 
