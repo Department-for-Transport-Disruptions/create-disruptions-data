@@ -1,11 +1,12 @@
 import { z } from "zod";
+import { MIN_PASSWORD_LENGTH } from "../constants";
 import { setZodDefaultError } from "../utils";
 
 export const changePasswordSchema = z.object({
     currentPassword: z.string(setZodDefaultError("Enter your current password")).min(1),
-    newPassword: z.string().min(8, {
-        message: "Enter a minimum of 8 characters",
-    }),
+    newPassword: z
+        .string()
+        .min(MIN_PASSWORD_LENGTH, { message: `Enter a minimum of ${MIN_PASSWORD_LENGTH} characters` }),
     confirmPassword: z.string(),
 });
 

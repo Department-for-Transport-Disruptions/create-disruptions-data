@@ -241,3 +241,4 @@ export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const ADMIN_AREA_CODE = "099";
+export const MIN_PASSWORD_LENGTH = 8;
