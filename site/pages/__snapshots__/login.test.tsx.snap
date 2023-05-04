@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > feedback > should render correctly after feedback has been successfully submitted 1`] = `
+exports[`login > should render correctly when there are no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,6 +44,11 @@ exports[`pages > feedback > should render correctly after feedback has been succ
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <h1
+        className="govuk-heading-xl"
+      >
+        Sign in
+      </h1>
       <div
         className="govuk-grid-row"
       >
@@ -51,7 +56,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback"
+            action="/api/login"
             method="post"
           >
             <input
@@ -59,200 +64,103 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               type="hidden"
               value=""
             />
+            <h2
+              className="govuk-heading-m w-3/4"
+            >
+              Enter your Create Transport Disruption Data account details to sign in
+            </h2>
             <div
-              className="block p-5 mb-12.5 border-4 border-govGreen"
+              className="govuk-form-group"
             >
-              <h2
-                className="govuk-heading-m"
+              <div
+                className="govuk-form-group"
+                id="email"
               >
-                Your feedback was 
-                submitted
-              </h2>
-              <p
-                className="govuk-body"
-              >
-                Thank you for taking the time to improve the service
-              </p>
-              <p
-                className="govuk-body"
-              >
-                <a
-                  className="govuk-link"
-                  href="/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="email-input"
                 >
-                  Click here to return to the homepage
-                </a>
-              </p>
-            </div>
-            <h1
-              className="govuk-heading-l"
-            >
-              Help us improve Create Transport Disruption Data
-            </h1>
-            <span
-              className="govuk-hint"
-            >
-              Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
-            </span>
-            <div
-              className="govuk-!-padding-top-3"
-            >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
-                >
-                  How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
-            </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
-                >
-                  Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
-            </div>
-            <div
-              className="govuk-!-padding-bottom-3"
-            >
-              <fieldset
-                aria-describedby="contact-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="contact-header"
-                >
-                  Did you contact us for assistance at any point?
-                </legend>
+                  Email address
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="contact-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-yes"
-                      name="contactQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-no"
-                      name="contactQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                  <input
+                    className="govuk-input w-3/4"
+                    id="email-input"
+                    maxLength={100}
+                    name="email"
+                    onBlur={[Function]}
+                    type="text"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              className="govuk-form-group"
             >
-              <fieldset
-                aria-describedby="problem-header"
-                className="govuk-fieldset"
+              <div
+                className="govuk-form-group"
+                id="password"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="problem-header"
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="password-input"
                 >
-                  Did we solve your problem?
-                </legend>
+                  Password
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="problem-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-yes"
-                      name="problemQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-no"
-                      name="problemQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                  <input
+                    className="govuk-input w-3/4"
+                    id="password-input"
+                    maxLength={100}
+                    name="password"
+                    onBlur={[Function]}
+                    type="password"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <button
-              className="govuk-button"
-              data-module="govuk-button"
-              id="continue-button"
+              className="govuk-button mt-8"
             >
-              Submit
+              Sign In
             </button>
           </form>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Forgot your Password?
+            </h2>
+            <a
+              className="govuk-link govuk-!-font-size-19"
+              href="/forgotPassword"
+            >
+              Reset your password
+            </a>
+          </div>
+          <br />
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Don't have an account?
+            </h2>
+            <a
+              aria-label="Don't have an account? - Request access"
+              className="govuk-link govuk-!-font-size-19"
+              href="/requestAccess"
+            >
+              Request access
+            </a>
+          </div>
         </div>
       </div>
     </main>
@@ -447,7 +355,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
 ]
 `;
 
-exports[`pages > feedback > should render correctly after the user tries to submit no feedback 1`] = `
+exports[`login > should render correctly with inputs and no errors 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -491,6 +399,11 @@ exports[`pages > feedback > should render correctly after the user tries to subm
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <h1
+        className="govuk-heading-xl"
+      >
+        Sign in
+      </h1>
       <div
         className="govuk-grid-row"
       >
@@ -498,7 +411,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback"
+            action="/api/login"
             method="post"
           >
             <input
@@ -506,200 +419,105 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               type="hidden"
               value=""
             />
+            <h2
+              className="govuk-heading-m w-3/4"
+            >
+              Enter your Create Transport Disruption Data account details to sign in
+            </h2>
             <div
-              className="block p-5 mb-12.5 border-4 border-govRed"
+              className="govuk-form-group"
             >
-              <h2
-                className="govuk-heading-m"
+              <div
+                className="govuk-form-group"
+                id="email"
               >
-                Your feedback was 
-                not submitted
-              </h2>
-              <p
-                className="govuk-body"
-              >
-                The feedback form was empty, at least one question has to be answered
-              </p>
-              <p
-                className="govuk-body"
-              >
-                <a
-                  className="govuk-link"
-                  href="/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="email-input"
                 >
-                  Click here to return to the homepage
-                </a>
-              </p>
-            </div>
-            <h1
-              className="govuk-heading-l"
-            >
-              Help us improve Create Transport Disruption Data
-            </h1>
-            <span
-              className="govuk-hint"
-            >
-              Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
-            </span>
-            <div
-              className="govuk-!-padding-top-3"
-            >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
-                >
-                  How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
-            </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
-                >
-                  Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
-            </div>
-            <div
-              className="govuk-!-padding-bottom-3"
-            >
-              <fieldset
-                aria-describedby="contact-header"
-                className="govuk-fieldset"
-              >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="contact-header"
-                >
-                  Did you contact us for assistance at any point?
-                </legend>
+                  Email address
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="contact-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-yes"
-                      name="contactQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-no"
-                      name="contactQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                  <input
+                    className="govuk-input w-3/4"
+                    defaultValue="dummyUser@gmail.com"
+                    id="email-input"
+                    maxLength={100}
+                    name="email"
+                    onBlur={[Function]}
+                    type="text"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              className="govuk-form-group"
             >
-              <fieldset
-                aria-describedby="problem-header"
-                className="govuk-fieldset"
+              <div
+                className="govuk-form-group"
+                id="password"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="problem-header"
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="password-input"
                 >
-                  Did we solve your problem?
-                </legend>
+                  Password
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="problem-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-yes"
-                      name="problemQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-no"
-                      name="problemQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                  <input
+                    className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
+                    id="password-input"
+                    maxLength={100}
+                    name="password"
+                    onBlur={[Function]}
+                    type="password"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <button
-              className="govuk-button"
-              data-module="govuk-button"
-              id="continue-button"
+              className="govuk-button mt-8"
             >
-              Submit
+              Sign In
             </button>
           </form>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Forgot your Password?
+            </h2>
+            <a
+              className="govuk-link govuk-!-font-size-19"
+              href="/forgotPassword"
+            >
+              Reset your password
+            </a>
+          </div>
+          <br />
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Don't have an account?
+            </h2>
+            <a
+              aria-label="Don't have an account? - Request access"
+              className="govuk-link govuk-!-font-size-19"
+              href="/requestAccess"
+            >
+              Request access
+            </a>
+          </div>
         </div>
       </div>
     </main>
@@ -894,7 +712,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
 ]
 `;
 
-exports[`pages > feedback > should render correctly when the page is first visited 1`] = `
+exports[`login > should render correctly with inputs and with errors 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -938,6 +756,11 @@ exports[`pages > feedback > should render correctly when the page is first visit
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <h1
+        className="govuk-heading-xl"
+      >
+        Sign in
+      </h1>
       <div
         className="govuk-grid-row"
       >
@@ -945,7 +768,7 @@ exports[`pages > feedback > should render correctly when the page is first visit
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/feedback"
+            action="/api/login"
             method="post"
           >
             <input
@@ -953,172 +776,146 @@ exports[`pages > feedback > should render correctly when the page is first visit
               type="hidden"
               value=""
             />
-            <h1
-              className="govuk-heading-l"
-            >
-              Help us improve Create Transport Disruption Data
-            </h1>
-            <span
-              className="govuk-hint"
-            >
-              Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
-            </span>
             <div
-              className="govuk-!-padding-top-3"
+              aria-labelledby="error-summary-title"
+              className="govuk-error-summary"
+              data-module="govuk-error-summary"
+              role="alert"
+              tabIndex={-1}
             >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
+              <h2
+                className="govuk-error-summary__title"
+                id="error-summary-title"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
-                >
-                  How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
-            </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
+                There is a problem
+              </h2>
+              <div
+                className="govuk-error-summary__body"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
+                <ul
+                  className="govuk-list govuk-error-summary__list"
                 >
-                  Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
+                  <li>
+                    <a
+                      href="#email"
+                    >
+                      Enter a valid email address
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
+            <h2
+              className="govuk-heading-m w-3/4"
+            >
+              Enter your Create Transport Disruption Data account details to sign in
+            </h2>
             <div
-              className="govuk-!-padding-bottom-3"
+              className="govuk-form-group govuk-form-group--error"
             >
-              <fieldset
-                aria-describedby="contact-header"
-                className="govuk-fieldset"
+              <div
+                className="govuk-form-group"
+                id="email"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="contact-header"
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="email-input"
                 >
-                  Did you contact us for assistance at any point?
-                </legend>
+                  Email address
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="contact-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
+                  <span
+                    className="govuk-error-message"
+                    id="email-error"
                   >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-yes"
-                      name="contactQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
+                    <span
+                      className="govuk-visually-hidden"
                     >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="contact-question-no"
-                      name="contactQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                      Error: 
+                    </span>
+                    Enter a valid email address
+                  </span>
+                  <input
+                    aria-describedby="email-error"
+                    className="govuk-input w-3/4 govuk-input--error"
+                    defaultValue="dummyUser@gmail.com"
+                    id="email-input"
+                    maxLength={100}
+                    name="email"
+                    onBlur={[Function]}
+                    type="text"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              className="govuk-form-group"
             >
-              <fieldset
-                aria-describedby="problem-header"
-                className="govuk-fieldset"
+              <div
+                className="govuk-form-group"
+                id="password"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="problem-header"
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="password-input"
                 >
-                  Did we solve your problem?
-                </legend>
+                  Password
+                </label>
                 <div
-                  className="govuk-radios"
-                  id="problem-radios"
+                  className=""
                 >
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-yes"
-                      name="problemQuestion"
-                      type="radio"
-                      value="Yes"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
-                    >
-                      Yes
-                    </label>
-                  </div>
-                  <div
-                    className="govuk-radios__item"
-                  >
-                    <input
-                      className="govuk-radios__input"
-                      id="problem-question-no"
-                      name="problemQuestion"
-                      type="radio"
-                      value="No"
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
-                    >
-                      No
-                    </label>
-                  </div>
+                  <input
+                    className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
+                    id="password-input"
+                    maxLength={100}
+                    name="password"
+                    onBlur={[Function]}
+                    type="password"
+                  />
                 </div>
-              </fieldset>
+              </div>
             </div>
             <button
-              className="govuk-button"
-              data-module="govuk-button"
-              id="continue-button"
+              className="govuk-button mt-8"
             >
-              Submit
+              Sign In
             </button>
           </form>
+        </div>
+        <div
+          className="govuk-grid-column-one-third"
+        >
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Forgot your Password?
+            </h2>
+            <a
+              className="govuk-link govuk-!-font-size-19"
+              href="/forgotPassword"
+            >
+              Reset your password
+            </a>
+          </div>
+          <br />
+          <div>
+            <h2
+              className="govuk-heading-m"
+            >
+              Don't have an account?
+            </h2>
+            <a
+              aria-label="Don't have an account? - Request access"
+              className="govuk-link govuk-!-font-size-19"
+              href="/requestAccess"
+            >
+              Request access
+            </a>
+          </div>
         </div>
       </div>
     </main>

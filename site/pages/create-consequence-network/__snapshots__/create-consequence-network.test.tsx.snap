@@ -42,6 +42,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-network"
@@ -608,6 +609,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-network"
@@ -1171,6 +1173,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-network"

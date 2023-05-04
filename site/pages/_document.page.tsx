@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import { v4 } from "uuid";
 import crypto from "node:crypto";
-import Header from "../components/layout/Header";
 import { API_BASE_URL } from "../constants";
 
 const generateCsp = (): { csp: string; nonce: string } => {
@@ -36,12 +35,10 @@ const generateCsp = (): { csp: string; nonce: string } => {
 
 interface DocumentProps extends DocumentInitialProps {
     nonce: string;
-    isAuthed: boolean;
     csrfToken: string;
     url: string;
     showCookieBanner: boolean;
     allowTracking: boolean;
-    noc: string | undefined;
 }
 
 export default class RootDocument extends Document<DocumentProps> {
@@ -72,7 +69,6 @@ export default class RootDocument extends Document<DocumentProps> {
                     </Link>
                     <div id="js-cookie-banner" />
 
-                    <Header isAuthed={this.props.isAuthed} csrfToken={this.props.csrfToken} noc={this.props.noc} />
                     <Main />
                     <NextScript nonce={nonce} />
                     <script nonce={nonce} src="/scripts/all.js" />

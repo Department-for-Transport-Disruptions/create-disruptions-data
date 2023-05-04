@@ -1,10 +1,10 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import Header from "./Header";
+import AccountSettings from "./account-settings.page";
 
-describe("Header", () => {
+describe("accountSettings", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<Header />).toJSON();
+        const tree = renderer.create(<AccountSettings />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

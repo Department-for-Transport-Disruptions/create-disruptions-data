@@ -10,6 +10,7 @@ interface TextInputProps<T> extends FormBase<T> {
     textArea?: boolean;
     rows?: number;
     hint?: string;
+    isPassword?: boolean;
 }
 
 const TextInput = <T extends object>({
@@ -25,6 +26,7 @@ const TextInput = <T extends object>({
     hint,
     stateUpdater,
     schema,
+    isPassword,
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -56,7 +58,7 @@ const TextInput = <T extends object>({
                             className={`govuk-input ${widthClass}`}
                             id={`${inputId}-input`}
                             name={inputName}
-                            type="text"
+                            type={isPassword ? "password" : "text"}
                             maxLength={maxLength}
                             defaultValue={value}
                             onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
