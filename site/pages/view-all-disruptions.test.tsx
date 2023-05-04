@@ -49,7 +49,7 @@ const disruptions: TableDisruption[] = [
             { startTime: "2024-05-04T08:18:40.131Z", endTime: "2024-05-11T08:18:40.131Z" },
         ],
         modes: ["Tram", "Ferry", "Train"],
-        status: Progress.approvedDraft,
+        status: Progress.draft,
         severity: Severity.severe,
         serviceIds: ["6758"],
         operators: [
@@ -176,7 +176,7 @@ describe("filterDisruptions", () => {
         const filter: Filter = {
             services: [],
             operators: [],
-            status: Progress.approvedDraft,
+            status: Progress.draft,
         };
         const result = filterDisruptions(disruptions, filter);
         expect(result).toStrictEqual([disruptions[2]]);

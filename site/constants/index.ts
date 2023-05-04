@@ -144,7 +144,6 @@ export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [
 ];
 
 export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
-    { value: Progress.approvedDraft, display: "Approved draft" },
     { value: Progress.closed, display: "Closed" },
     {
         value: Progress.closing,

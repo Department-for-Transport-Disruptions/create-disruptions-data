@@ -114,7 +114,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             { StartTime: randomDateThree.toISOString() },
         );
         Summary = "Busted reunion traffic";
-        progress = Progress.approvedDraft;
+        progress = Progress.closed;
         consequences = [
             {
                 ...consequences[0],

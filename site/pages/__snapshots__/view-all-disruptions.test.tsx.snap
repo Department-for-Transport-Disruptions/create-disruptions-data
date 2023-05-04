@@ -282,7 +282,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Approved draft
+              Draft
             </td>
           </tr>
         </tbody>
@@ -761,7 +761,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Approved draft
+              Draft
             </td>
           </tr>
           <tr
@@ -905,7 +905,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Approved draft
+              Draft
             </td>
           </tr>
           <tr
@@ -1049,7 +1049,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle"
             >
-              Approved draft
+              Draft
             </td>
           </tr>
           <tr
