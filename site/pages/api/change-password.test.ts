@@ -60,6 +60,26 @@ describe("changePassword", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
     });
 
+    it("should redirect to login page with appropriate errors when new and confirm password don't match", () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { currentPassword: "oldPassword", newPassword: "newPassword", confirmPassword: "oldPassword" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        changePassword(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "You must type the same password each time", id: "confirmPassword" },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_CHANGE_PASSWORD_ERRORS,
+            JSON.stringify({ inputs: req.body as object, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
+    });
+
     it("should redirect to /dashboard page when valid inputs are passed", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
