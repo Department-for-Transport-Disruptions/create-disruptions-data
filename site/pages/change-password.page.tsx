@@ -10,7 +10,11 @@ import TextInput from "../components/form/TextInput";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS } from "../constants";
 import { PageState } from "../interfaces";
-import { ChangePasswordProps, changePasswordSchema } from "../schemas/change-password.schema";
+import {
+    ChangePasswordProps,
+    changePasswordSchema,
+    changePasswordSchemaRefined,
+} from "../schemas/change-password.schema";
 import { getPageState } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
 
@@ -113,7 +117,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: ChangePasswor
 
     return {
         props: {
-            ...getPageState(errorCookie, changePasswordSchema),
+            ...getPageState(errorCookie, changePasswordSchemaRefined),
         },
     };
 };
