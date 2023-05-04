@@ -35,6 +35,7 @@
         "mapbox-gl": "^2.13.0",
         "mock-req-res": "^1.2.1",
         "next": "13.1.2",
+        "next-auth": "^4.22.1",
         "nookies": "^2.5.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",

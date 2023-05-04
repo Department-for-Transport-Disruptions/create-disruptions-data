@@ -2,12 +2,11 @@ import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { NextjsSite, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { getDomain } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { table, siriTable } = use(DynamoDBStack);
     const { hostedZone } = use(DnsStack);
-
-    const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "" : `${stack.stage}.`;
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
@@ -25,7 +24,7 @@ export function SiteStack({ stack }: StackContext) {
             AWS_SES_IDENTITY_ARN: process.env.AWS_SES_IDENTITY_ARN || "",
         },
         customDomain: {
-            domainName: `${subDomain}${hostedZone.zoneName}`,
+            domainName: getDomain(stack.stage),
             hostedZone: hostedZone.zoneName,
         },
         permissions: [
