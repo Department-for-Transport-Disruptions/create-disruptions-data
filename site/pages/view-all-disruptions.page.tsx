@@ -27,7 +27,12 @@ import {
     getServiceLabel,
     mapValidityPeriods,
 } from "../utils";
-import { convertDateTimeToFormat, filterDatePeriodMatchesDisruptionDatePeriod, getDate } from "../utils/dates";
+import {
+    convertDateTimeToFormat,
+    filterDatePeriodMatchesDisruptionDatePeriod,
+    getDate,
+    getFormattedDate,
+} from "../utils/dates";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -47,7 +52,7 @@ export interface TableDisruption {
     }[];
     severity: string;
     status: string;
-    serviceLineRefs: string[];
+    serviceIds: string[];
     operators: Operator[];
 }
 
@@ -187,8 +192,8 @@ const applyDateFilters = (
             const periodEndDate = endTime ? getDate(endTime) : undefined;
 
             return filterDatePeriodMatchesDisruptionDatePeriod(
-                getDate(period.startTime),
-                getDate(period.endTime),
+                getFormattedDate(period.startTime),
+                getFormattedDate(period.endTime),
                 periodStartDate,
                 periodEndDate,
             );
@@ -202,7 +207,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
     if (filter.services.length > 0) {
         disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
             const filterServiceRefs = filter.services.map((service) => service.id.toString());
-            const disruptionServiceRefs = disruption.serviceLineRefs;
+            const disruptionServiceRefs = disruption.serviceIds;
             let showService = false;
 
             disruptionServiceRefs.forEach((disruptionServiceRef) => {
@@ -570,7 +575,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
             const severitys: Severity[] = [];
-            const serviceLineRefs: string[] = [];
+            const serviceIds: string[] = [];
             const operators: Operator[] = [];
 
             if (disruption.consequences) {
@@ -578,21 +583,12 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                     modes.push(swapModeValueToModeDisplay(consequence.vehicleMode));
 
                     severitys.push(consequence.disruptionSeverity);
-                    // severitys.push(consequence.disruptionSeverity);
-                    // if (!!consequence.Affects.Networks) {
-                    //     modes.push(consequence.Affects.Networks.AffectedNetwork.VehicleMode);
-                    // }
 
-                    // if (!!consequence.Affects.Networks?.AffectedNetwork.AffectedLine) {
-                    //     consequence.Affects.Networks.AffectedNetwork.AffectedLine.forEach((line) => {
-                    //         serviceLineRefs.push(line.LineRef);
-                    //         const affectedOperator = line.AffectedOperator;
-                    //         operators.push({
-                    //             operatorRef: affectedOperator.OperatorRef,
-                    //             operatorName: affectedOperator.OperatorName || "",
-                    //         });
-                    //     });
-                    // }
+                    if (consequence.consequenceType === "services") {
+                        consequence.services.forEach((service) => {
+                            serviceIds.push(service.id.toString());
+                        });
+                    }
                 });
             }
 
@@ -600,7 +596,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                 modes,
                 status: Progress.open,
                 severity: getWorstSeverity(severitys),
-                serviceLineRefs,
+                serviceIds,
                 operators,
                 id: disruption.disruptionId,
                 summary: reduceStringWithEllipsis(disruption.summary, 95),

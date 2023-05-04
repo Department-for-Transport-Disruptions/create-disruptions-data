@@ -17,7 +17,7 @@ const disruptions: TableDisruption[] = [
         modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
-        serviceLineRefs: ["1212", "323"],
+        serviceIds: ["1212", "323"],
         operators: [
             {
                 operatorName: "Bobs Buses",
@@ -32,7 +32,7 @@ const disruptions: TableDisruption[] = [
         modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
-        serviceLineRefs: ["42545"],
+        serviceIds: ["42545"],
         operators: [
             {
                 operatorName: "Daves Buses",
@@ -51,7 +51,7 @@ const disruptions: TableDisruption[] = [
         modes: ["Tram", "Ferry", "Train"],
         status: Progress.approvedDraft,
         severity: Severity.severe,
-        serviceLineRefs: ["6758"],
+        serviceIds: ["6758"],
         operators: [
             {
                 operatorName: "Bobs Buses",
