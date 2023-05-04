@@ -1,8 +1,11 @@
 import "../styles/globals.scss";
+import { config } from "@fortawesome/fontawesome-svg-core";
 import type { AppContext, AppInitialProps, AppProps } from "next/app";
 import App from "next/app";
 import { useEffect } from "react";
 import { getCsrfToken } from "../utils";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
 declare global {
     interface Window {
