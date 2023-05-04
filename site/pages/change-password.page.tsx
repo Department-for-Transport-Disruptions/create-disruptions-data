@@ -92,7 +92,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 schema={changePasswordSchema.shape.confirmPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
-                                isPassword={true}
+                                isPassword
                             />
 
                             <button className="govuk-button mt-8">Save password</button>

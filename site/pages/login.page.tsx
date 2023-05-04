@@ -54,7 +54,7 @@ const Login = (props: LoginPageProps): ReactElement => {
                                 schema={loginSchema.shape.password}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
-                                isPassword={true}
+                                isPassword
                             />
 
                             <button className="govuk-button mt-8">Sign In</button>
