@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_CHANGE_PASSWORD_ERRORS, CHANGE_PASSWORD_PAGE_PATH } from "../../constants";
-import { changePasswordSchema, changePasswordSchemaRefined } from "../../schemas/change-password.schema";
+import { changePasswordSchemaRefined } from "../../schemas/change-password.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     redirectToError,
@@ -11,7 +11,7 @@ import {
 
 const changePassword = (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const validatedBody = changePasswordSchema.safeParse(req.body);
+        const validatedBody = changePasswordSchemaRefined.safeParse(req.body);
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_CHANGE_PASSWORD_ERRORS,
