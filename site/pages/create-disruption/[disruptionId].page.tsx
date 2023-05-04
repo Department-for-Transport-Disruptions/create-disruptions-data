@@ -188,7 +188,24 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             ...validity,
             [field]: change,
             disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
+            disruptionRepeatsEndDate: "",
         });
+    };
+
+    const getEndingDateText = () => {
+        console.log("validity.disruptionRepeatsEndDat-----", validity.disruptionRepeatsEndDate);
+        return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
+            ? `The validity period ends on ${getEndingOnDate()}${
+                  validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""
+              }`
+            : null;
+    };
+
+    const getEndingOnDate = () => {
+        if (validity.disruptionRepeats === "daily" || validity.disruptionStartDate || validity.disruptionEndDate)
+            return validity.disruptionRepeatsEndDate || "";
+
+        return "weekly";
     };
 
     return (
@@ -411,6 +428,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             }
                             initialErrors={pageState.errors}
                         />
+                        <legend>{getEndingDateText()}</legend>
 
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
