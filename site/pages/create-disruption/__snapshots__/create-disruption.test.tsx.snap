@@ -42,6 +42,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-disruption"
@@ -1516,6 +1517,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-disruption"
@@ -2906,6 +2908,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-disruption"

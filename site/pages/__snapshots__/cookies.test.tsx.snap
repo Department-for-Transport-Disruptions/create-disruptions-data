@@ -42,6 +42,7 @@ exports[`pages > cookies > should display a confirmation box when the user saves
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"

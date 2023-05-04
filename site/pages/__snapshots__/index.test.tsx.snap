@@ -42,6 +42,7 @@ exports[`index > should render correctly 1`] = `
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <h1
         className="govuk-heading-xl"

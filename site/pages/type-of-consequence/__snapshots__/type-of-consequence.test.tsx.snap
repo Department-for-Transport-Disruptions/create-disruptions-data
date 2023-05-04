@@ -42,6 +42,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
@@ -481,6 +482,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
@@ -872,6 +874,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
@@ -1263,6 +1266,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"

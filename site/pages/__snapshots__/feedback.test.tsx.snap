@@ -42,6 +42,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
@@ -488,6 +489,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
@@ -934,6 +936,7 @@ exports[`pages > feedback > should render correctly when the page is first visit
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"
