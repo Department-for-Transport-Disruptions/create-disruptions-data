@@ -3,8 +3,12 @@ import { setZodDefaultError } from "../utils";
 
 export const changePasswordSchema = z.object({
     currentPassword: z.string(setZodDefaultError("Enter your current password")).min(1),
-    newPassword: z.string(setZodDefaultError("Enter your new password")).min(1),
-    confirmPassword: z.string(setZodDefaultError("Enter your new password again")).min(1),
+    newPassword: z.string().min(8, {
+        message: "Enter a minimum of 8 characters",
+    }),
+    confirmPassword: z.string().min(8, {
+        message: "Enter a minimum of 8 characters",
+    }),
 });
 
 export type ChangePasswordProps = z.infer<typeof changePasswordSchema>;

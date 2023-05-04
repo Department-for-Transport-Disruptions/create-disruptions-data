@@ -27,8 +27,29 @@ describe("changePassword", () => {
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter your current password", id: "currentPassword" },
-            { errorMessage: "Enter your new password", id: "newPassword" },
-            { errorMessage: "Enter your new password again", id: "confirmPassword" },
+            { errorMessage: "Required", id: "newPassword" },
+            { errorMessage: "Required", id: "confirmPassword" },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_CHANGE_PASSWORD_ERRORS,
+            JSON.stringify({ inputs: req.body as object, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
+    });
+
+    it("should redirect to login page with appropriate errors when character length is not matched", () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { currentPassword: "oldPassword", newPassword: "pas", confirmPassword: "pas" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        changePassword(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Enter a minimum of 8 characters", id: "newPassword" },
+            { errorMessage: "Enter a minimum of 8 characters", id: "confirmPassword" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
