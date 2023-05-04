@@ -6,9 +6,7 @@ export const changePasswordSchema = z.object({
     newPassword: z.string().min(8, {
         message: "Enter a minimum of 8 characters",
     }),
-    confirmPassword: z.string().min(8, {
-        message: "Enter a minimum of 8 characters",
-    }),
+    confirmPassword: z.string(),
 });
 
 export type ChangePasswordProps = z.infer<typeof changePasswordSchema>;

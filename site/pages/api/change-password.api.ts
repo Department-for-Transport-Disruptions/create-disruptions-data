@@ -25,7 +25,7 @@ const changePassword = (req: NextApiRequest, res: NextApiResponse) => {
             destroyCookieOnResponseObject(COOKIES_CHANGE_PASSWORD_ERRORS, res);
         }
 
-        redirectTo(res, `${CHANGE_PASSWORD_PAGE_PATH}${validatedBody.success ? `?success=true` : ""}`);
+        redirectTo(res, `${CHANGE_PASSWORD_PAGE_PATH}${validatedBody.success ? "?success=true" : ""}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

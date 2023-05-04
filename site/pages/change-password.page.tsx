@@ -47,7 +47,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                     {displaySuccessMessage ? (
                         <>
                             <h2 className="govuk-heading-m">Your password has been successfully updated.</h2>
-                            <Link role="button" href={ACCOUNT_SETTINGS_PAGE_PATH} className="govuk-button mt-8 ">
+                            <Link role="button" href={ACCOUNT_SETTINGS_PAGE_PATH} className="govuk-button mt-8">
                                 Return to account settings
                             </Link>
                         </>
@@ -63,7 +63,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 schema={changePasswordSchema.shape.currentPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
-                                isPassword={true}
+                                isPassword
                             />
 
                             <TextInput<ChangePasswordProps>
@@ -76,7 +76,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 hint="Your password should be at least 8 characters long"
-                                isPassword={true}
+                                isPassword
                             />
 
                             <TextInput<ChangePasswordProps>

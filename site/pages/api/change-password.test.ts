@@ -17,7 +17,7 @@ describe("changePassword", () => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to login page when incorrect inputs are passed", () => {
+    it("should redirect to login page when no inputs are passed", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {},
             mockWriteHeadFn: writeHeadMock,
@@ -47,10 +47,7 @@ describe("changePassword", () => {
 
         changePassword(req, res);
 
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Enter a minimum of 8 characters", id: "newPassword" },
-            { errorMessage: "Enter a minimum of 8 characters", id: "confirmPassword" },
-        ];
+        const errors: ErrorInfo[] = [{ errorMessage: "Enter a minimum of 8 characters", id: "newPassword" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CHANGE_PASSWORD_ERRORS,
