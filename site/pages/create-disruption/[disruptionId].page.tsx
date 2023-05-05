@@ -29,7 +29,7 @@ import {
     DisruptionInfo,
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
-import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
+import { getPageState } from "../../utils/apiUtils";
 import { getEndingOnDateText, getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
