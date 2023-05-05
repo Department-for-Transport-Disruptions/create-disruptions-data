@@ -11,14 +11,14 @@ import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import {
     ADMIN_AREA_CODE,
-    API_BASE_URL,
     DISRUPTION_SEVERITIES,
     DISRUPTION_STATUSES,
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
 import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { Service, serviceSchema } from "../schemas/consequence.schema";
+import { fetchServices } from "../data/refDataApi";
+import { Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
 import {
     sortDisruptionsByStartDate,
@@ -26,6 +26,7 @@ import {
     reduceStringWithEllipsis,
     getServiceLabel,
     mapValidityPeriods,
+    getDisplayByValue,
 } from "../utils";
 import {
     convertDateTimeToFormat,
@@ -73,21 +74,6 @@ export interface Filter {
     operators: Operator[];
     mode?: string;
 }
-
-const swapModeValueToModeDisplay = (
-    mode: "bus" | "tram" | "ferryService" | "rail",
-): "Bus" | "Tram" | "Ferry" | "Train" => {
-    switch (mode) {
-        case "bus":
-            return "Bus";
-        case "tram":
-            return "Tram";
-        case "ferryService":
-            return "Ferry";
-        case "rail":
-            return "Train";
-    }
-};
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
@@ -204,8 +190,8 @@ const applyDateFilters = (
 export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter): TableDisruption[] => {
     let disruptionsToDisplay = disruptions;
 
-    if (filter.services.length > 0) {
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+    disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+        if (filter.services.length > 0) {
             const filterServiceRefs = filter.services.map((service) => service.id.toString());
             const disruptionServiceRefs = disruption.serviceIds;
             let showService = false;
@@ -216,31 +202,37 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
                 }
             });
 
-            return showService;
-        });
-    }
+            if (!showService) {
+                return false;
+            }
+        }
 
-    if (filter.mode) {
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
-            const swappedMode = swapModeValueToModeDisplay(filter.mode as "bus");
-            return disruption.modes.includes(swappedMode);
-        });
-    }
+        if (filter.mode) {
+            const swappedMode = getDisplayByValue(VEHICLE_MODES, filter.mode);
 
-    if (filter.severity) {
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => disruption.severity === filter.severity);
-    }
+            if (!swappedMode || !disruption.modes.includes(swappedMode)) {
+                return false;
+            }
+        }
 
-    if (filter.status) {
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => disruption.status === filter.status);
-    }
+        if (filter.severity && disruption.severity !== filter.severity) {
+            return false;
+        }
 
-    if (filter.operators.length > 0) {
-        const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
-        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) =>
-            disruption.operators.find((operator) => filterOperatorsRefs.includes(operator.operatorRef)),
-        );
-    }
+        if (filter.status && disruption.status !== filter.status) {
+            return false;
+        }
+
+        if (filter.operators.length > 0) {
+            const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
+
+            if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator.operatorRef))) {
+                return false;
+            }
+        }
+
+        return true;
+    });
 
     if (filter.period) {
         disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter.period);
@@ -559,14 +551,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
 };
 
 export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsProps }> => {
-    let services: Service[] = [];
-    const searchApiUrl = `${API_BASE_URL}services?adminAreaCodes=${ADMIN_AREA_CODE}`;
-    const res = await fetch(searchApiUrl, { method: "GET" });
-    const parse = z.array(serviceSchema).safeParse(await res.json());
-
-    if (parse.success) {
-        services = parse.data;
-    }
+    const services: Service[] = await fetchServices({ adminAreaCode: ADMIN_AREA_CODE });
 
     const data = await getPublishedDisruptionsDataFromDynamo();
 
@@ -580,7 +565,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    const modeToAdd = swapModeValueToModeDisplay(consequence.vehicleMode);
+                    const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode) as string;
                     if (!modes.includes(modeToAdd)) {
                         modes.push(modeToAdd);
                     }

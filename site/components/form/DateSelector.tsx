@@ -103,7 +103,8 @@ const DateSelector = <T extends object>({
 
     useEffect(() => {
         setErrors(initialErrors);
-    }, [initialErrors]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(initialErrors)]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>

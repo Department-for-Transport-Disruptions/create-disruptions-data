@@ -9,6 +9,7 @@ interface SelectProps<T> extends FormBase<T> {
     selectValues: DisplayValuePair[];
     width?: string;
     updateOnChange?: boolean;
+    useDefaultValue?: boolean;
 }
 
 const Select = <T extends object>({
@@ -23,6 +24,7 @@ const Select = <T extends object>({
     schema,
     width = "3/4",
     updateOnChange = false,
+    useDefaultValue = false,
 }: SelectProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -56,7 +58,8 @@ const Select = <T extends object>({
                         className={`govuk-select w-${width}`}
                         name={inputName}
                         id={`${inputId}-input`}
-                        value={value ?? ""}
+                        defaultValue={useDefaultValue ? value ?? "" : undefined}
+                        value={!useDefaultValue ? value ?? "" : undefined}
                         onBlur={
                             !updateOnChange
                                 ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
