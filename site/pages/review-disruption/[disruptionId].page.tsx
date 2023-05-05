@@ -16,6 +16,7 @@ import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { formatTime } from "../../utils/dates";
+import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -426,6 +427,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             accountToPublish: "Example account 2",
         },
     ];
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
     return {
         props: {
