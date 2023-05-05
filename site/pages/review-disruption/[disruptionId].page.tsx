@@ -15,8 +15,8 @@ import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
-import { formatTime } from "../../utils/dates";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
+import { formatTime } from "../../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
