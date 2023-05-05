@@ -8,6 +8,7 @@ describe("formUtils tests", () => {
         ["weekly", "27/05/2023", "03/05/2023", "07/05/2023", "27/05/2023"],
         ["weekly", "28/05/2023", "03/05/2023", "04/05/2023", "25/05/2023"],
         ["weekly", "24/05/2023", "03/05/2023", "05/05/2023", "24/05/2023"],
+        ["weekly", "26/05/2023", "03/05/2023", "03/05/2023", "24/05/2023"],
     ])("should return expected end date", (repeats, endingOnDate, startDate, endDate, result) => {
         expect(getEndingOnDateText(repeats, endingOnDate, startDate, endDate)).toEqual(result);
     });

@@ -86,7 +86,10 @@ export const getEndingOnDateText = (
         const diffInDaysWithEndDate =
             startDateDay < endDateDay ? endDateDay - startDateDay : endDateDay - startDateDay + 7;
 
-        if (diffInDaysWithEndingOn <= diffInDaysWithEndDate || startDateDay === endingOnDateDay) {
+        if (
+            disruptionEndDate !== disruptionStartDate &&
+            (diffInDaysWithEndingOn <= diffInDaysWithEndDate || startDateDay === endingOnDateDay)
+        ) {
             return disruptionRepeatsEndDate;
         } else {
             const diffInDays =
