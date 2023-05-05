@@ -580,7 +580,6 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    
                     const modeToAdd = swapModeValueToModeDisplay(consequence.vehicleMode);
                     if (!modes.includes(modeToAdd)) {
                         modes.push(modeToAdd);
