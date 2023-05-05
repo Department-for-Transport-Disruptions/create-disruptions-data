@@ -26,7 +26,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         if (!validatedBody.success) {
             const body = req.body as ConsequenceType;
 
-            if (!body.disruptionId || !!body.consequenceIndex) {
+            if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
             setCookieOnResponseObject(

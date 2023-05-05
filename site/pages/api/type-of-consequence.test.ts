@@ -4,7 +4,6 @@ import { randomUUID } from "crypto";
 import addConsequence from "./type-of-consequence.api";
 import { TYPE_OF_CONSEQUENCE_PAGE_PATH, COOKIES_CONSEQUENCE_TYPE_ERRORS } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
-import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
@@ -22,9 +21,9 @@ describe("addConsequence", () => {
 
     const disruptionId = randomUUID();
 
-    const disruptionData: ConsequenceType = {
+    const disruptionData = {
         disruptionId: disruptionId,
-        consequenceIndex: 0,
+        consequenceIndex: "0",
         consequenceType: "operatorWide",
     };
 
