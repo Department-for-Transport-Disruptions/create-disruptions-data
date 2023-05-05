@@ -9,6 +9,7 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
 import { getDatetimeFromDateAndTime } from "./dates";
+import { getEndingOnDateText } from "./formUtils";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
@@ -16,7 +17,23 @@ const getValidityPeriod = (period: Validity): Period => ({
     StartTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
     ...(period.disruptionEndDate && period.disruptionEndTime
         ? {
-              EndTime: getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString(),
+              EndTime:
+                  period.disruptionRepeats === "weekly"
+                      ? getDatetimeFromDateAndTime(
+                            getEndingOnDateText(
+                                period.disruptionRepeats,
+                                period.disruptionRepeatsEndDate,
+                                period.disruptionStartDate,
+                                period.disruptionEndDate,
+                            ),
+                            period.disruptionEndTime,
+                        ).toISOString()
+                      : getDatetimeFromDateAndTime(
+                            period.disruptionRepeatsEndDate
+                                ? period.disruptionRepeatsEndDate
+                                : period.disruptionEndDate,
+                            period.disruptionEndTime,
+                        ).toISOString(),
           }
         : {}),
 });
@@ -31,6 +48,8 @@ export const getPtSituationElementFromDraft = (disruption: Disruption) => {
         disruptionStartTime: disruption.disruptionStartTime,
         disruptionEndDate: disruption.disruptionEndDate,
         disruptionEndTime: disruption.disruptionEndTime,
+        disruptionRepeats: disruption.disruptionRepeats,
+        disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {

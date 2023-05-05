@@ -30,7 +30,7 @@ import {
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
-import { getStateUpdater } from "../../utils/formUtils";
+import { getEndingOnDateText, getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -192,20 +192,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         });
     };
 
-    const getEndingDateText = () => {
-        console.log("validity.disruptionRepeatsEndDat-----", validity.disruptionRepeatsEndDate);
+    const getEndingDateDisplay = () => {
         return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
-            ? `The validity period ends on ${getEndingOnDate()}${
-                  validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""
-              }`
+            ? `The validity period ends on ${getEndingOnDateText(
+                  validity.disruptionRepeats,
+                  validity.disruptionRepeatsEndDate,
+                  validity.disruptionStartDate,
+                  validity.disruptionEndDate,
+              )}${validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""}`
             : null;
-    };
-
-    const getEndingOnDate = () => {
-        if (validity.disruptionRepeats === "daily" || validity.disruptionStartDate || validity.disruptionEndDate)
-            return validity.disruptionRepeatsEndDate || "";
-
-        return "weekly";
     };
 
     return (
@@ -428,7 +423,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             }
                             initialErrors={pageState.errors}
                         />
-                        <legend>{getEndingDateText()}</legend>
+                        <legend>{getEndingDateDisplay()}</legend>
 
                         <button
                             className="govuk-button govuk-button--secondary mt-8"

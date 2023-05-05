@@ -22,6 +22,7 @@ import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { formatTime } from "../../utils/dates";
+import { getEndingOnDateText } from "../../utils/formUtils";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
@@ -76,12 +77,20 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
                 validity.disruptionRepeats === "daily" ? (
                     <>
                         <br />
-                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate}
+                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate} at{" "}
+                        {validity.disruptionEndTime}
                     </>
                 ) : validity.disruptionRepeats === "weekly" ? (
                     <>
                         <br />
-                        Repeats every week until {validity.disruptionRepeatsEndDate}
+                        Repeats every week until{" "}
+                        {getEndingOnDateText(
+                            validity.disruptionRepeats,
+                            validity.disruptionRepeatsEndDate,
+                            validity.disruptionStartDate,
+                            validity.disruptionEndDate,
+                        )}{" "}
+                        at {validity.disruptionEndTime}
                     </>
                 ) : (
                     <></>
