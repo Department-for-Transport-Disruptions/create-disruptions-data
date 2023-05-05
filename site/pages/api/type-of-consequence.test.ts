@@ -20,15 +20,15 @@ describe("addConsequence", () => {
         vi.resetAllMocks();
     });
 
+    const disruptionId = randomUUID();
+
+    const disruptionData: ConsequenceType = {
+        disruptionId: disruptionId,
+        consequenceIndex: 0,
+        consequenceType: "operatorWide",
+    };
+
     it("should redirect to operator consequence page when 'Operator wide' selected", () => {
-        const disruptionId = randomUUID();
-
-        const disruptionData: ConsequenceType = {
-            disruptionId: disruptionId,
-            consequenceIndex: 0,
-            consequenceType: "operatorWide",
-        };
-
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
         addConsequence(req, res);
@@ -37,15 +37,10 @@ describe("addConsequence", () => {
     });
 
     it("should redirect to operator consequence page when 'Network wide' selected", () => {
-        const disruptionId = randomUUID();
-
-        const disruptionData: ConsequenceType = {
-            disruptionId: disruptionId,
-            consequenceIndex: 0,
-            consequenceType: "networkWide",
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, consequenceType: "networkWide" },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
         addConsequence(req, res);
 
@@ -53,13 +48,12 @@ describe("addConsequence", () => {
     });
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Required", id: "disruptionId" },
-            { errorMessage: "Select a consequence type", id: "consequenceType" },
-            { errorMessage: "Expected number, received nan", id: "consequenceIndex" },
-        ];
+        const errors: ErrorInfo[] = [{ errorMessage: "Select a consequence type", id: "consequenceType" }];
 
-        const { req, res } = getMockRequestAndResponse({ body: {}, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, consequenceType: "" },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
         addConsequence(req, res);
 
@@ -71,19 +65,16 @@ describe("addConsequence", () => {
             res,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: TYPE_OF_CONSEQUENCE_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruptionId}/0` });
     });
 
     it("should redirect back to add consequence page (/type-of-consequence) when incorrect values are passed", () => {
-        const disruptionData = {
-            disruptionId: randomUUID(),
-            consequenceIndex: 0,
-            consequenceType: "incorrect type",
-        };
-
         const errors: ErrorInfo[] = [{ errorMessage: "Select a consequence type", id: "consequenceType" }];
 
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, consequenceType: "incorrect type" },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
         addConsequence(req, res);
 
@@ -95,6 +86,6 @@ describe("addConsequence", () => {
             res,
         );
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: TYPE_OF_CONSEQUENCE_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruptionId}/0` });
     });
 });
