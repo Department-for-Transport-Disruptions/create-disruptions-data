@@ -102,7 +102,8 @@ export const getPtSituationElementFromDraft = (disruption: Disruption) => {
                                   : {}),
                               ...((consequence.consequenceType === "stops" ||
                                   consequence.consequenceType === "services") &&
-                              consequence.stops
+                              consequence.stops &&
+                              consequence.stops.length > 0
                                   ? {
                                         StopPoints: {
                                             AffectedStopPoint: consequence.stops.map((stop) => ({
