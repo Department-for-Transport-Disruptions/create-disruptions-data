@@ -7,7 +7,7 @@ import {
     CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
 } from "../../constants/index";
-import { typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
+import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -24,6 +24,11 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
+            const body = req.body as ConsequenceType;
+
+            if (!body.disruptionId || !body.consequenceIndex) {
+                throw new Error("No disruptionId or consequenceIndex found");
+            }
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_TYPE_ERRORS,
                 JSON.stringify({
@@ -32,7 +37,13 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 }),
                 res,
             );
-            redirectTo(res, TYPE_OF_CONSEQUENCE_PAGE_PATH);
+
+            redirectTo(
+                res,
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}${
+                    queryParam ? `?${queryParam}` : ""
+                }`,
+            );
             return;
         }
 
