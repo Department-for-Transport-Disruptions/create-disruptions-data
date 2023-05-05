@@ -42,6 +42,7 @@ exports[`pages > dashboard > should render correctly when there are both live an
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <h1
         className="govuk-heading-xl"
@@ -599,6 +600,7 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <h1
         className="govuk-heading-xl"
@@ -1052,6 +1054,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <h1
         className="govuk-heading-xl"
@@ -1608,6 +1611,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <h1
         className="govuk-heading-xl"

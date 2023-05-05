@@ -42,6 +42,7 @@ exports[`Layout > should render correctly 1`] = `
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <div
         className="govuk-grid-row"

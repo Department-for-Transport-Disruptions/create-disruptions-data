@@ -46,7 +46,7 @@ exports[`Header > should render correctly 1`] = `
       </a>
     </div>
     <div
-      className="govuk-header__content"
+      className="govuk-header__content max-[950px]:float-none max-[950px]:pl-0"
     >
       <a
         className="govuk-header__link govuk-header__link--service-name"
@@ -66,7 +66,13 @@ exports[`Header > should render correctly 1`] = `
         className="group govuk-header__link mr-1.5 overflow-hidden float-right"
       >
         <button
-          className="text-base border-none outline-none text-white px-5 py-2 m-0"
+          aria-expanded={false}
+          aria-haspopup={true}
+          className="text-white px-5 py-2 m-0 focus:outline-govYellow focus:bg-govYellow focus:text-focusText"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex={0}
         >
           <svg
             aria-hidden="true"
@@ -107,23 +113,30 @@ exports[`Header > should render correctly 1`] = `
           </svg>
         </button>
         <div
-          className="hidden absolute bg-white min-w-max shadow-md z-10 group-hover:block"
+          className="absolute bg-white min-w-max shadow-md z-10 group-hover:block group-focus:block invisible"
+          role="menu"
         >
           <a
-            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2"
+            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
             href="/account-settings"
             onClick={[Function]}
+            onKeyDown={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
+            role="menuitem"
+            tabIndex={-1}
           >
             Account settings
           </a>
           <a
-            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2"
+            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
             href="/sign-out"
             onClick={[Function]}
+            onKeyDown={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
+            role="menuitem"
+            tabIndex={-1}
           >
             Sign out
           </a>

@@ -219,6 +219,8 @@ export const LOGIN_PAGE_PATH = "/login";
 export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
+export const CHANGE_PASSWORD_PAGE_PATH = "/change-password";
+export const ACCOUNT_SETTINGS_PAGE_PATH = "/account-settings";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -227,7 +229,8 @@ export const COOKIES_CONSEQUENCE_OPERATOR_ERRORS = "cdd-consequence-operator-err
 export const COOKIES_CONSEQUENCE_NETWORK_ERRORS = "cdd-consequence-network-errors";
 export const COOKIES_CONSEQUENCE_STOPS_ERRORS = "cdd-consequence-stops-errors";
 export const COOKIES_CONSEQUENCE_SERVICES_ERRORS = "cdd-consequence-services-errors";
-export const COOKIES_LOGIN_ERRORS = "cdd-consequence-login-errors";
+export const COOKIES_LOGIN_ERRORS = "cdd-login-errors";
+export const COOKIES_CHANGE_PASSWORD_ERRORS = "cdd-change-password-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIE_ID_TOKEN = "cdd-id-token";
@@ -238,3 +241,4 @@ export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const ADMIN_AREA_CODE = "099";
+export const MIN_PASSWORD_LENGTH = 8;

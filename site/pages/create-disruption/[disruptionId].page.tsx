@@ -512,8 +512,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId);
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
-
     if (!disruption) {
         return {
             props: {

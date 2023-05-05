@@ -42,6 +42,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-stops"
@@ -854,6 +855,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-stops"
@@ -1608,6 +1610,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-stops"
@@ -2308,6 +2311,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
   >
     <main
       className="govuk-main-wrapper"
+      id="main-content"
     >
       <form
         action="/api/create-consequence-stops"
