@@ -8,7 +8,7 @@ import {
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
-import { getDatetimeFromDateAndTime, getEndingOnDateText, getFormattedDate } from "./dates";
+import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
