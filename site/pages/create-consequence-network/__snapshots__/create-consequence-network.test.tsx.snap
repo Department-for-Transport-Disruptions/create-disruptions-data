@@ -121,10 +121,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -307,10 +307,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value="severe"
                 >
                   <option
                     disabled={true}
@@ -687,10 +687,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -871,10 +871,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -1250,10 +1250,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -1436,10 +1436,10 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value="severe"
                 >
                   <option
                     disabled={true}

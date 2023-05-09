@@ -24,7 +24,7 @@ const Select = <T extends object>({
     schema,
     width = "3/4",
     updateOnChange = false,
-    useDefaultValue = false,
+    useDefaultValue = true,
 }: SelectProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);

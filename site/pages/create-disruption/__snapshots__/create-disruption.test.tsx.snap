@@ -231,10 +231,10 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
                   onBlur={[Function]}
-                  value="routeDiversion"
                 >
                   <option
                     disabled={true}
@@ -1702,10 +1702,10 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="disruption-reason-input"
                   name="disruptionReason"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -3095,10 +3095,10 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
                   onBlur={[Function]}
-                  value="routeDiversion"
                 >
                   <option
                     disabled={true}

@@ -520,6 +520,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                         width="1/4"
                         updateOnChange
+                        useDefaultValue={false}
                     />
                     <button
                         className="govuk-button govuk-button--secondary mt-2"
@@ -565,8 +566,8 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
-                    const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode) as string;
-                    if (!modes.includes(modeToAdd)) {
+                    const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode);
+                    if (!!modeToAdd && !modes.includes(modeToAdd)) {
                         modes.push(modeToAdd);
                     }
 

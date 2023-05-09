@@ -157,10 +157,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -554,10 +554,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value="severe"
                 >
                   <option
                     disabled={true}
@@ -933,10 +933,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -1307,10 +1307,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value="severe"
                 >
                   <option
                     disabled={true}
@@ -1687,10 +1687,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -2008,10 +2008,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -2387,10 +2387,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
                   onBlur={[Function]}
-                  value=""
                 >
                   <option
                     disabled={true}
@@ -2761,10 +2761,10 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               >
                 <select
                   className="govuk-select w-3/4"
+                  defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
                   onBlur={[Function]}
-                  value="severe"
                 >
                   <option
                     disabled={true}
