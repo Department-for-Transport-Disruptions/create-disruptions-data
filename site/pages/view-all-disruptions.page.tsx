@@ -500,6 +500,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
                         width="1/4"
                         updateOnChange
+                        useDefaultValue={false}
                     />
                     <Select
                         inputName="statusFilter"
@@ -510,6 +511,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
                         width="1/4"
                         updateOnChange
+                        useDefaultValue={false}
                     />
                     <Select
                         inputName="modeFilter"
