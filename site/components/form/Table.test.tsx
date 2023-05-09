@@ -7,7 +7,7 @@ describe("Table", () => {
         const tree = renderer
             .create(
                 <Table
-                    caption="test table"
+                    caption={{ text: "test table", size: "l" }}
                     columns={["test col 1", "test col 2"]}
                     rows={[
                         {
@@ -28,7 +28,7 @@ describe("Table", () => {
         const tree = renderer
             .create(
                 <Table
-                    caption="test table"
+                    caption={{ text: "test table", size: "l" }}
                     columns={["test col 1", "test col 2"]}
                     rows={[
                         {
@@ -47,7 +47,7 @@ describe("Table", () => {
         const tree = renderer
             .create(
                 <Table
-                    caption="test table"
+                    caption={{ text: "test table", size: "l" }}
                     columns={["test col 1", "test col 2"]}
                     rows={[
                         {

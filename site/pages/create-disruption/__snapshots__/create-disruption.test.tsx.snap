@@ -150,7 +150,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-input w-3/4"
                   defaultValue="New disruption"
                   id="summary-input"
-                  maxLength={50}
+                  maxLength={100}
                   name="summary"
                   onBlur={[Function]}
                   type="text"
@@ -1624,7 +1624,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <input
                   className="govuk-input w-3/4"
                   id="summary-input"
-                  maxLength={50}
+                  maxLength={100}
                   name="summary"
                   onBlur={[Function]}
                   type="text"
@@ -3016,7 +3016,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="govuk-input w-3/4"
                   defaultValue="New disruption"
                   id="summary-input"
-                  maxLength={50}
+                  maxLength={100}
                   name="summary"
                   onBlur={[Function]}
                   type="text"

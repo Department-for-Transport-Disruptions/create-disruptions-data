@@ -12,7 +12,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
-import { notEmpty } from "../utils";
+import { notEmpty, flattenZodErrors } from "../utils";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -37,6 +37,7 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+        logger.warn(flattenZodErrors(parsedDisruption.error));
 
         return null;
     }
