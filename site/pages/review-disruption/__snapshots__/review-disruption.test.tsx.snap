@@ -1081,7 +1081,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/type-of-consequence/2/3"
+            href="/type-of-consequence/2/3?return=%2Freview-disruption"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
