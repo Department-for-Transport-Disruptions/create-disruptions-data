@@ -8,32 +8,60 @@ import {
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import dayjs from "dayjs";
-import { getDatetimeFromDateAndTime } from "./dates";
-import { getEndingOnDateText } from "./formUtils";
+import { getDatetimeFromDateAndTime, getEndingOnDateText, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
-const getValidityPeriod = (period: Validity): Period => ({
+const getValidityPeriod = (period: Validity): Period[] => {
+    const siriValidityPeriods: Period[] = [];
+
+    siriValidityPeriods.push(getPeriod(period));
+    if (
+        period.disruptionRepeatsEndDate &&
+        period.disruptionEndDate &&
+        (period.disruptionRepeats === "daily" || period.disruptionRepeats === "weekly")
+    ) {
+        let startDate =
+            period.disruptionRepeats === "daily"
+                ? getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).add(1, "day")
+                : getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).add(7, "day");
+        let endDate =
+            period.disruptionRepeats === "daily"
+                ? getDatetimeFromDateAndTime(
+                      period.disruptionEndDate,
+                      period.disruptionEndTime ? period.disruptionEndTime : "",
+                  ).add(1, "day")
+                : getDatetimeFromDateAndTime(
+                      period.disruptionEndDate,
+                      period.disruptionEndTime ? period.disruptionEndTime : "",
+                  ).add(7, "day");
+
+        const endingOnDate = getFormattedDate(period.disruptionRepeatsEndDate).add(1, "day");
+
+        while (startDate.isBefore(endingOnDate)) {
+            siriValidityPeriods.push({
+                StartTime: startDate.toISOString(),
+                EndTime: endDate.isBefore(endingOnDate)
+                    ? endDate.toISOString()
+                    : getDatetimeFromDateAndTime(
+                          period.disruptionRepeatsEndDate,
+                          period.disruptionEndTime ? period.disruptionEndTime : "",
+                      ).toISOString(),
+            });
+
+            startDate = startDate.add(period.disruptionRepeats === "daily" ? 1 : 7, "day");
+            endDate = endDate.add(period.disruptionRepeats === "daily" ? 1 : 7, "day");
+        }
+    }
+
+    return siriValidityPeriods;
+};
+
+const getPeriod = (period: Validity): Period => ({
     StartTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
     ...(period.disruptionEndDate && period.disruptionEndTime
         ? {
-              EndTime:
-                  period.disruptionRepeats === "weekly"
-                      ? getDatetimeFromDateAndTime(
-                            getEndingOnDateText(
-                                period.disruptionRepeats,
-                                period.disruptionRepeatsEndDate,
-                                period.disruptionStartDate,
-                                period.disruptionEndDate,
-                            ),
-                            period.disruptionEndTime,
-                        ).toISOString()
-                      : getDatetimeFromDateAndTime(
-                            period.disruptionRepeatsEndDate
-                                ? period.disruptionRepeatsEndDate
-                                : period.disruptionEndDate,
-                            period.disruptionEndTime,
-                        ).toISOString(),
+              EndTime: getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString(),
           }
         : {}),
 });
@@ -74,8 +102,8 @@ export const getPtSituationElementFromDraft = (disruption: Disruption) => {
                 : {}),
         },
         ValidityPeriod: disruption.validity
-            ? [...disruption.validity.map((period) => getValidityPeriod(period)), validityPeriod]
-            : [validityPeriod],
+            ? [...disruption.validity.flatMap((period) => getValidityPeriod(period)), ...validityPeriod]
+            : validityPeriod,
         Progress: Progress.open,
         Source: {
             SourceType: SourceType.feed,

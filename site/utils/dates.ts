@@ -37,3 +37,39 @@ export const checkOverlap = (
         firstStartDate.isSame(secondStartDate)
     );
 };
+
+export const getEndingOnDateText = (
+    disruptionRepeats: string | undefined,
+    disruptionRepeatsEndDate: string | undefined,
+    disruptionStartDate?: string,
+    disruptionEndDate?: string,
+) => {
+    if (disruptionRepeats === "weekly" && disruptionStartDate && disruptionRepeatsEndDate && disruptionEndDate) {
+        const startDateDay = getFormattedDate(disruptionStartDate).day();
+        const endDateDay = getFormattedDate(disruptionEndDate).day();
+        const endingOnDateDay = getFormattedDate(disruptionRepeatsEndDate).day();
+
+        const diffInDaysWithEndingOn =
+            startDateDay < endingOnDateDay ? endingOnDateDay - startDateDay : endingOnDateDay - startDateDay + 7;
+
+        const diffInDaysWithEndDate =
+            startDateDay < endDateDay ? endDateDay - startDateDay : endDateDay - startDateDay + 7;
+
+        if (
+            disruptionEndDate !== disruptionStartDate &&
+            (diffInDaysWithEndingOn <= diffInDaysWithEndDate || startDateDay === endingOnDateDay)
+        ) {
+            return disruptionRepeatsEndDate;
+        } else {
+            const diffInDays =
+                endDateDay < endingOnDateDay ? endingOnDateDay - endDateDay : endingOnDateDay - endDateDay + 7;
+
+            return convertDateTimeToFormat(
+                getFormattedDate(disruptionRepeatsEndDate).subtract(diffInDays, "day").toDate(),
+                CD_DATE_FORMAT,
+            );
+        }
+    }
+
+    return disruptionRepeatsEndDate || "";
+};

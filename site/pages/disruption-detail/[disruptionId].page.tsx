@@ -21,8 +21,7 @@ import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { formatTime } from "../../utils/dates";
-import { getEndingOnDateText } from "../../utils/formUtils";
+import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 

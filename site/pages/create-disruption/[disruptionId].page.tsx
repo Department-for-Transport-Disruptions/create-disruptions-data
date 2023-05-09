@@ -30,7 +30,8 @@ import {
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import { getPageState } from "../../utils/apiUtils";
-import { getEndingOnDateText, getStateUpdater } from "../../utils/formUtils";
+import { getEndingOnDateText } from "../../utils/dates";
+import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
