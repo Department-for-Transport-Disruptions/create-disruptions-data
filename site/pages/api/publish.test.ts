@@ -104,7 +104,7 @@ describe("publish", () => {
         expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
     });
 
-    it("should redirect to error page if no consequences", async () => {
+    it("should redirect to review page if no consequences", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithNoConsequences);
         const { req, res } = getMockRequestAndResponse({
             body: {

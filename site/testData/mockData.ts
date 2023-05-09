@@ -44,7 +44,7 @@ export const getMockRequestAndResponse = ({
     const res = mockResponse({ writeHead: mockWriteHeadFn, end: mockEndFn });
 
     const {
-        idToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXN0b206bm9jIjoiVEVTVCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImp0aSI6Ijg1MmQ1MTVlLTU5YWUtNDllZi1iMTA5LTI4YTRhNzk3YWFkNSIsImlhdCI6MTU5Mjk4NzMwNywiZXhwIjoxNTkyOTkwOTA3fQ.DFdxnpdhykDONOMeZMNeMUFpCHZ-hQ3UXczq_Qh0IAI",
+        idToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZThhODM5NS1mY2I4LTRlNzItYmUxZi0wMjJjMjA3MjkyY2QiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJjdXN0b206b3JnSWQiOiIzNWJhZTMyNy00YWYwLTRiYmYtOGJmYS0yYzA4NWYyMTQ0ODMiLCJjb2duaXRvOmdyb3VwcyI6WyJzeXN0ZW0tYWRtaW5zIl19.POSmQ0BvCrpRECR4rdDrPNzK9anmZXo7QIdSYYzpJik",
         cookiePolicy = null,
     } = cookieValues;
 

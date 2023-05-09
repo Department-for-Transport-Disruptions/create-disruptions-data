@@ -29,7 +29,7 @@ import {
     DisruptionInfo,
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
-import { getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
 
@@ -509,6 +509,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId, session.username);
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 
     if (!disruption) {
         return {

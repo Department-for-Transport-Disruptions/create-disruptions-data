@@ -46,8 +46,6 @@ CustomApp.getInitialProps = async (context: AppContext): Promise<AppInitialProps
         session = getSession(context.ctx.req);
     }
 
-    console.log(session);
-
     return { ...ctx, csrfToken: getCsrfToken(context.ctx), session };
 };
 
