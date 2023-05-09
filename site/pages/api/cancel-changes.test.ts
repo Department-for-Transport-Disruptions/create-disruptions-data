@@ -1,4 +1,3 @@
-import * as cookies from "nookies";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import cancelChanges from "./cancel-changes.api";
 import { COOKIES_DISRUPTION_DETAIL_REFERER, ERROR_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
@@ -20,8 +19,6 @@ describe("cancelChanges", () => {
         deleteDisruptionsInEdit: vi.fn(),
     }));
 
-    const parseCookies = vi.spyOn(cookies, "parseCookies");
-
     afterEach(() => {
         vi.resetAllMocks();
     });
@@ -42,12 +39,12 @@ describe("cancelChanges", () => {
     });
 
     it("should redirect to /view-all-disruptions page after deleting disruptions", async () => {
-        parseCookies.mockImplementation(() => ({
-            [COOKIES_DISRUPTION_DETAIL_REFERER]: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-        }));
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
+            },
+            cookieValues: {
+                [COOKIES_DISRUPTION_DETAIL_REFERER]: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
             },
             mockWriteHeadFn: writeHeadMock,
         });

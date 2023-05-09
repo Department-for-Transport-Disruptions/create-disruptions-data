@@ -19,6 +19,8 @@ import { Consequence, Operator } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
+export const DEFAULT_USER_ID = "ee8a8395-fcb8-4e72-be1f-022c207292cd";
+
 export interface GetMockContextInput {
     session?: { [key: string]: any };
     cookies?: any;
@@ -76,7 +78,14 @@ export const getMockRequestAndResponse = ({
             origin: "localhost:3000",
             ...requestHeaders,
         },
-        cookies: cookieValues,
+        cookies: cookieString.split(";").reduce((p, c) => {
+            const splitCookie = c.split("=");
+
+            return {
+                ...p,
+                [splitCookie[0]]: splitCookie[1],
+            };
+        }, {}),
         session: { ...defaultSession },
     });
 

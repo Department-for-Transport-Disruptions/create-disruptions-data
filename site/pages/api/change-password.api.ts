@@ -1,3 +1,4 @@
+import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_CHANGE_PASSWORD_ERRORS, CHANGE_PASSWORD_PAGE_PATH } from "../../constants";
 import { initiateAuth, updateUserPassword } from "../../data/cognito";
@@ -32,6 +33,7 @@ const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
             }
 
             const authResponse = await initiateAuth(session.email, currentPassword);
+
             if (authResponse?.AuthenticationResult) {
                 await updateUserPassword(newPassword, session.email);
             } else {
@@ -43,26 +45,26 @@ const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
         redirectTo(res, `${CHANGE_PASSWORD_PAGE_PATH}${validatedBody.success ? "?success=true" : ""}`);
         return;
     } catch (e) {
+        if (e instanceof NotAuthorizedException) {
+            setCookieOnResponseObject(
+                COOKIES_CHANGE_PASSWORD_ERRORS,
+                JSON.stringify({
+                    inputs: req.body as object,
+                    errors: [
+                        {
+                            errorMessage: "Incorrect current password",
+                            id: "",
+                        },
+                    ],
+                }),
+                res,
+            );
+
+            redirectTo(res, CHANGE_PASSWORD_PAGE_PATH);
+            return;
+        }
+
         if (e instanceof Error) {
-            if (e.name === "NotAuthorizedException") {
-                setCookieOnResponseObject(
-                    COOKIES_CHANGE_PASSWORD_ERRORS,
-                    JSON.stringify({
-                        inputs: req.body as object,
-                        errors: [
-                            {
-                                errorMessage: "Incorrect current password",
-                                id: "",
-                            },
-                        ],
-                    }),
-                    res,
-                );
-
-                redirectTo(res, CHANGE_PASSWORD_PAGE_PATH);
-                return;
-            }
-
             const message = "There was a problem while changing passwords.";
             redirectToError(res, message, "api.change-password", e);
             return;

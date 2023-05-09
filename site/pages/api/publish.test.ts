@@ -9,6 +9,7 @@ import {
     ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
+    DEFAULT_USER_ID,
 } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -59,6 +60,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
+            DEFAULT_USER_ID,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

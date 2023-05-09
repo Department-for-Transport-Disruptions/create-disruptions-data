@@ -1,3 +1,4 @@
+import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ID_TOKEN,
@@ -56,26 +57,26 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
+        if (e instanceof NotAuthorizedException) {
+            setCookieOnResponseObject(
+                COOKIES_LOGIN_ERRORS,
+                JSON.stringify({
+                    inputs: req.body as object,
+                    errors: [
+                        {
+                            errorMessage: "Incorrect username or password",
+                            id: "",
+                        },
+                    ],
+                }),
+                res,
+            );
+
+            redirectTo(res, LOGIN_PAGE_PATH);
+            return;
+        }
+
         if (e instanceof Error) {
-            if (e.name === "NotAuthorizedException") {
-                setCookieOnResponseObject(
-                    COOKIES_LOGIN_ERRORS,
-                    JSON.stringify({
-                        inputs: req.body as object,
-                        errors: [
-                            {
-                                errorMessage: "Incorrect username or password",
-                                id: "",
-                            },
-                        ],
-                    }),
-                    res,
-                );
-
-                redirectTo(res, LOGIN_PAGE_PATH);
-                return;
-            }
-
             const message = "There was a problem during login.";
             redirectToError(res, message, "api.login", e);
             return;

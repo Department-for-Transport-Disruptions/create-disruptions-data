@@ -5,6 +5,7 @@ import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
+    DEFAULT_USER_ID,
     disruptionWithConsequences,
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
@@ -64,6 +65,7 @@ describe("publishEdit", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
+            DEFAULT_USER_ID,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

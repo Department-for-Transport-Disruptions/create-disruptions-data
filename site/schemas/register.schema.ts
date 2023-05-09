@@ -8,7 +8,7 @@ export const registerSchema = z.object({
         .string(setZodDefaultError("Enter a password"))
         .min(MIN_PASSWORD_LENGTH, { message: `Enter a minimum of ${MIN_PASSWORD_LENGTH} characters` }),
     confirmPassword: z.string(),
-    key: z.string(),
+    key: z.string(setZodDefaultError("Invalid register link")).min(1, { message: "Invalid register link" }),
     organisation: z.string().optional(),
 });
 

@@ -6,11 +6,33 @@ import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[di
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
+    session: {
+        email: "test@example.com",
+        username: "Test",
+        orgId: "org",
+        adminAreaCodes: [],
+        orgName: "Test Org",
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
+    },
 };
 
 const withInputs: CreateConsequenceServicesProps = {
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    session: {
+        email: "test@example.com",
+        username: "Test",
+        orgId: "org",
+        adminAreaCodes: [],
+        orgName: "Test Org",
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
+    },
     inputs: {
         stops: [
             {
@@ -56,6 +78,17 @@ beforeEach(() => {
 });
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
+    session: {
+        email: "test@example.com",
+        username: "Test",
+        orgId: "org",
+        adminAreaCodes: [],
+        orgName: "Test Org",
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
+    },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },

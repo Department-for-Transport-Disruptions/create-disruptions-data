@@ -10,7 +10,20 @@ describe("Header", () => {
 
     it("should render correctly with a session", () => {
         const tree = renderer
-            .create(<Header session={{ email: "test@example.com", username: "test", orgId: "org" }} csrfToken="" />)
+            .create(
+                <Header
+                    session={{
+                        email: "test@example.com",
+                        username: "test",
+                        orgId: "org",
+                        isOrgAdmin: true,
+                        isOrgPublisher: true,
+                        isOrgStaff: true,
+                        isSystemAdmin: true,
+                    }}
+                    csrfToken=""
+                />,
+            )
             .toJSON();
         expect(tree).toMatchSnapshot();
     });

@@ -13,6 +13,10 @@ describe("accountSettings", () => {
                         orgId: "org",
                         adminAreaCodes: [],
                         orgName: "Test Org",
+                        isOrgAdmin: true,
+                        isOrgPublisher: true,
+                        isOrgStaff: true,
+                        isSystemAdmin: true,
                     }}
                 />,
             )

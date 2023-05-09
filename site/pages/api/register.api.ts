@@ -19,6 +19,9 @@ import logger from "../../utils/logger";
 
 const register = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+        destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
+        destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
+
         const validatedBody = registerSchemaRefined.safeParse(req.body);
         if (!validatedBody.success) {
             const body = req.body as RegisterSchema;
@@ -49,9 +52,6 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
             );
             await globalSignOut(validatedBody.data.email);
 
-            destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
-            destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
-
             logger.info("", {
                 context: "api.register",
                 message: "registration successful",
@@ -66,8 +66,8 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem while changing password.";
-            redirectToError(res, message, "api.change-password", e);
+            const message = "There was a problem while registering.";
+            redirectToError(res, message, "api.register", e);
             return;
         }
 

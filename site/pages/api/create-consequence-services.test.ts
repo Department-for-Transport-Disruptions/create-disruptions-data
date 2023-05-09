@@ -9,7 +9,7 @@ import {
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { DEFAULT_USER_ID, getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -59,29 +59,32 @@ describe("create-consequence-services API", () => {
         await createConsequenceServices(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith({
-            disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            removeFromJourneyPlanners: "no",
-            disruptionDelay: "45",
-            disruptionDirection: "inbound",
-            disruptionSeverity: "severe",
-            vehicleMode: "bus",
-            consequenceIndex: 0,
-            consequenceType: "services",
-            services: [
-                {
-                    destination: "HigH Green",
-                    id: 23127,
-                    lineName: "1",
-                    nocCode: "TEST",
-                    operatorShortName: "First South Yorkshire",
-                    origin: "Jordanthorpe",
-                },
-            ],
-            stops: [],
-        });
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "45",
+                disruptionDirection: "inbound",
+                disruptionSeverity: "severe",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceType: "services",
+                services: [
+                    {
+                        destination: "HigH Green",
+                        id: 23127,
+                        lineName: "1",
+                        nocCode: "TEST",
+                        operatorShortName: "First South Yorkshire",
+                        origin: "Jordanthorpe",
+                    },
+                ],
+                stops: [],
+            },
+            DEFAULT_USER_ID,
+        );
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -115,44 +118,47 @@ describe("create-consequence-services API", () => {
         await createConsequenceServices(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith({
-            disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            removeFromJourneyPlanners: "no",
-            disruptionDelay: "45",
-            disruptionDirection: "inbound",
-            disruptionSeverity: "severe",
-            vehicleMode: "bus",
-            consequenceIndex: 0,
-            consequenceType: "services",
-            services: [
-                {
-                    destination: "HigH Green",
-                    id: 23127,
-                    lineName: "1",
-                    nocCode: "TEST",
-                    operatorShortName: "First South Yorkshire",
-                    origin: "Jordanthorpe",
-                },
-            ],
-            stops: [
-                {
-                    atcoCode: "0100BRP90310",
-                    commonName: "Temple Meads Stn",
-                    indicator: "T3",
-                    latitude: 51.44901,
-                    longitude: -2.58569,
-                },
-                {
-                    atcoCode: "0100BRP90311",
-                    commonName: "Temple Meads Stn",
-                    indicator: "T7",
-                    latitude: 51.45014,
-                    longitude: -2.5856,
-                },
-            ],
-        });
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "45",
+                disruptionDirection: "inbound",
+                disruptionSeverity: "severe",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceType: "services",
+                services: [
+                    {
+                        destination: "HigH Green",
+                        id: 23127,
+                        lineName: "1",
+                        nocCode: "TEST",
+                        operatorShortName: "First South Yorkshire",
+                        origin: "Jordanthorpe",
+                    },
+                ],
+                stops: [
+                    {
+                        atcoCode: "0100BRP90310",
+                        commonName: "Temple Meads Stn",
+                        indicator: "T3",
+                        latitude: 51.44901,
+                        longitude: -2.58569,
+                    },
+                    {
+                        atcoCode: "0100BRP90311",
+                        commonName: "Temple Meads Stn",
+                        indicator: "T7",
+                        latitude: 51.45014,
+                        longitude: -2.5856,
+                    },
+                ],
+            },
+            DEFAULT_USER_ID,
+        );
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,

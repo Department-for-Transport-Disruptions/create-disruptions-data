@@ -53,7 +53,7 @@ export type SessionWithOrgDetail = z.infer<typeof sessionSchemaWithOrgDetail>;
 
 export const getSession = (req: NextApiRequest | IncomingMessage): Session | null => {
     const cookies = parseCookies({ req });
-    const idToken = cookies[COOKIES_ID_TOKEN];
+    const idToken = cookies?.[COOKIES_ID_TOKEN];
 
     if (idToken) {
         return sessionSchema.parse(decodeJwt(idToken));
@@ -66,7 +66,7 @@ export const getSessionWithOrgDetail = async (
     req: NextApiRequest | IncomingMessage,
 ): Promise<SessionWithOrgDetail | null> => {
     const cookies = parseCookies({ req });
-    const idToken = cookies[COOKIES_ID_TOKEN];
+    const idToken = cookies?.[COOKIES_ID_TOKEN];
 
     if (idToken) {
         return sessionSchemaWithOrgDetail.parseAsync(decodeJwt(idToken));

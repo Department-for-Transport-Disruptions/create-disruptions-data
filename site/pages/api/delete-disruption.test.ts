@@ -8,6 +8,7 @@ import {
     disruptionWithConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
+    DEFAULT_USER_ID,
 } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -55,7 +56,11 @@ describe("deleteDisruption", () => {
         await deleteDisruption(req, res);
 
         expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(disruptionWithConsequences, expect.any(String));
+        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
+            disruptionWithConsequences,
+            defaultDisruptionId,
+            DEFAULT_USER_ID,
+        );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 

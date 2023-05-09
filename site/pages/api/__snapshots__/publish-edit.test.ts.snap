@@ -124,6 +124,7 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
       },
     ],
   },
+  "ee8a8395-fcb8-4e72-be1f-022c207292cd",
 ]
 `;
 
