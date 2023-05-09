@@ -9,12 +9,17 @@ import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
-import { TYPE_OF_CONSEQUENCE_PAGE_PATH, COOKIES_REVIEW_DISRUPTION_ERRORS } from "../../constants";
+import {
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    COOKIES_REVIEW_DISRUPTION_ERRORS,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
+import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
@@ -291,7 +296,10 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`}
+                            href={{
+                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
+                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
+                            }}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another consequence
@@ -434,6 +442,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             accountToPublish: "Example account 2",
         },
     ];
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
     return {
         props: {

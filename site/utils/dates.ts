@@ -73,3 +73,19 @@ export const getEndingOnDateText = (
 
     return disruptionRepeatsEndDate || "";
 };
+
+export const filterDatePeriodMatchesDisruptionDatePeriod = (
+    filterStartDate: dayjs.Dayjs,
+    filterEndDate: dayjs.Dayjs,
+    disruptionStartDate: dayjs.Dayjs,
+    disruptionEndDate: dayjs.Dayjs | undefined,
+): boolean => {
+    if (disruptionEndDate) {
+        return (
+            disruptionStartDate.isBetween(filterStartDate, filterEndDate) ||
+            disruptionEndDate.isBetween(filterStartDate, filterEndDate)
+        );
+    }
+
+    return disruptionStartDate.isBetween(filterStartDate, filterEndDate);
+};

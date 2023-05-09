@@ -29,7 +29,7 @@ import {
     DisruptionInfo,
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
-import { getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getEndingOnDateText } from "../../utils/dates";
 import { getStateUpdater } from "../../utils/formUtils";
 
@@ -234,7 +234,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             display="Summary"
                             inputName="summary"
                             widthClass="w-3/4"
-                            maxLength={50}
+                            maxLength={100}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.summary}
                             initialErrors={pageState.errors}
@@ -512,6 +512,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId);
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 
     if (!disruption) {
         return {

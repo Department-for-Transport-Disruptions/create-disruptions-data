@@ -20,7 +20,7 @@ import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
-import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
@@ -398,6 +398,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!disruption) {
         throw new Error("Disruption not found for disruption detail page");
     }
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_ERRORS, ctx.res);
 
     return {
         props: {

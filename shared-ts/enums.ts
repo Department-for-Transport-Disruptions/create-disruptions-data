@@ -15,7 +15,6 @@ export enum SourceType {
 
 export enum Progress {
     draft = "draft",
-    approvedDraft = "approvedDraft",
     open = "open",
     published = "published",
     closing = "closing",

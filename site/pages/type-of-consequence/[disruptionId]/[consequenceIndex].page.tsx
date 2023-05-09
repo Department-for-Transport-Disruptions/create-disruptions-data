@@ -16,7 +16,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
-import { getPageState } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
@@ -89,6 +89,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!disruption) {
         throw new Error("Disruption not found for consequence type page");
     }
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, ctx.res);
 
     return {
         props: {

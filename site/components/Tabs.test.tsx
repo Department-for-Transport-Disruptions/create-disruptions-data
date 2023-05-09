@@ -14,7 +14,7 @@ describe("Tabs", () => {
                             tabHeader: "Live",
                             content: (
                                 <Table
-                                    caption="Live disruptions"
+                                    caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
                                     rows={[
                                         {
@@ -41,7 +41,7 @@ describe("Tabs", () => {
                             tabHeader: "Upcoming",
                             content: (
                                 <Table
-                                    caption="Live disruptions"
+                                    caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
                                     rows={[
                                         {

@@ -162,7 +162,7 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
                         content: (
                             <>
                                 <Table
-                                    caption="Live disruptions"
+                                    caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
                                     rows={formatDisruptionsIntoRows(
                                         liveDisruptionsToDisplay,
@@ -182,7 +182,7 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
                         content: (
                             <>
                                 <Table
-                                    caption="Upcoming disruptions"
+                                    caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
                                     rows={formatDisruptionsIntoRows(
                                         upcomingDisruptionsToDisplay,
