@@ -176,7 +176,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         summary,
         disruptionId,
         ...(validityPeriods.length > 0
-            ? { publishEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 8)), publishEndTime: "2330" }
+            ? { publishEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 8)), publishEndTime: "23:30" }
             : {}),
         ...(validityPeriods.length > 0 ? {} : { disruptionNoEndDateTime: "true" }),
         ...(validityPeriods.length > 0

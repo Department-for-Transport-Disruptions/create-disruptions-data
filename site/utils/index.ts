@@ -8,11 +8,12 @@ import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import {
+    Service,
     Consequence,
     NetworkConsequence,
     OperatorConsequence,
-    ServicesConsequence,
     StopsConsequence,
+    ServicesConsequence,
 } from "../schemas/consequence.schema";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
@@ -104,6 +105,9 @@ export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startC
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
     items.find((item) => item.value === value)?.display;
+
+export const getServiceLabel = (service: Service) =>
+    `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
 
 export const isFullConsequence = (consequence: unknown): consequence is Consequence =>
     !!(consequence as Consequence).description;

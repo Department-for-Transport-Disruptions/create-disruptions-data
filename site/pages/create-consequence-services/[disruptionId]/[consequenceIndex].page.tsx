@@ -36,7 +36,7 @@ import {
     servicesConsequenceSchema,
     Routes,
 } from "../../../schemas/consequence.schema";
-import { flattenZodErrors, isServicesConsequence } from "../../../utils";
+import { flattenZodErrors, getServiceLabel, isServicesConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
@@ -194,11 +194,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     };
 
-    const getServiceLabel = (service: Service) =>
-        `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
-
-    const getServiceValue = (service: Service) => service.id.toString();
-
     const handleServiceChange = (value: SingleValue<Service>) => {
         setSelectedService(value);
         if (!pageState.inputs.services || !pageState.inputs.services.some((data) => data.id === value?.id)) {
@@ -353,7 +348,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             handleChange={handleServiceChange}
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
-                            getOptionValue={getServiceValue}
+                            getOptionValue={(service: Service) => service.id.toString()}
                             display="Services impacted"
                             hint="Services"
                             displaySize="l"
