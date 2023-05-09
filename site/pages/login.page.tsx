@@ -8,7 +8,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import { COOKIES_LOGIN_ERRORS } from "../constants";
 import { PageState } from "../interfaces";
 import { LoginSchema, loginSchema } from "../schemas/login.schema";
-import { getPageState } from "../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Sign in - Create Transport Disruptions Service";
@@ -26,7 +26,7 @@ const Login = (props: LoginPageProps): ReactElement => {
             <h1 className="govuk-heading-xl">Sign in</h1>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
-                    <CsrfForm action="/api/auth/signin/test" method="post" csrfToken={pageState.csrfToken}>
+                    <CsrfForm action="/api/login" method="post" csrfToken={pageState.csrfToken}>
                         <>
                             <ErrorSummary errors={pageState.errors} />
 
@@ -88,6 +88,8 @@ const Login = (props: LoginPageProps): ReactElement => {
 export const getServerSideProps = (ctx: NextPageContext): { props: LoginPageProps } => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_LOGIN_ERRORS];
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, ctx.res);
 
     return {
         props: {

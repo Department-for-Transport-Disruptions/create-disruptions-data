@@ -1,4 +1,5 @@
 import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
 import { randomUUID } from "crypto";
@@ -13,6 +14,7 @@ import {
     reduceStringWithEllipsis,
     mapValidityPeriods,
 } from "../utils";
+import { getSession } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
 
 const title = "View All Disruptions";
@@ -145,8 +147,25 @@ const ViewAllDisruptions = ({ disruptions, newDisruptionId }: ViewAllDisruptions
     );
 };
 
-export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsProps }> => {
-    const data = await getPublishedDisruptionsDataFromDynamo();
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllDisruptionsProps }> => {
+    const baseProps = {
+        props: {
+            disruptions: [],
+            newDisruptionId: randomUUID(),
+        },
+    };
+
+    if (!ctx.req) {
+        return baseProps;
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session?.username) {
+        return baseProps;
+    }
+
+    const data = await getPublishedDisruptionsDataFromDynamo(session.username);
 
     if (data) {
         const sortedDisruptions = sortDisruptionsByStartDate(data);

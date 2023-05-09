@@ -1,6 +1,7 @@
 import { Duration } from "aws-cdk-lib";
 import {
     AccountRecovery,
+    CfnUserPoolGroup,
     ClientAttributes,
     OAuthScope,
     StringAttribute,
@@ -89,6 +90,26 @@ export const CognitoStack = ({ stack }: StackContext) => {
                 authorizationCodeGrant: true,
             },
         },
+    });
+
+    new CfnUserPoolGroup(stack, "cdd-user-pool-system-admin-group", {
+        userPoolId: userPool.userPoolId,
+        groupName: "system-admins",
+    });
+
+    new CfnUserPoolGroup(stack, "cdd-user-pool-org-admin-group", {
+        userPoolId: userPool.userPoolId,
+        groupName: "org-admins",
+    });
+
+    new CfnUserPoolGroup(stack, "cdd-user-pool-org-publisher-group", {
+        userPoolId: userPool.userPoolId,
+        groupName: "org-publishers",
+    });
+
+    new CfnUserPoolGroup(stack, "cdd-user-pool-org-staff-group", {
+        userPoolId: userPool.userPoolId,
+        groupName: "org-staff",
     });
 
     return {

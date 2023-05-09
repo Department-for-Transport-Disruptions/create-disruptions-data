@@ -4,19 +4,21 @@ import { COOKIES_DISRUPTION_DETAIL_REFERER, ERROR_PATH } from "../../constants";
 import { deleteDisruptionsInEdit } from "../../data/dynamo";
 import { publishSchema } from "../../schemas/publish.schema";
 import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
+        const session = getSession(req);
 
-        if (!validatedBody.success) {
+        if (!validatedBody.success || !session?.username) {
             redirectTo(res, ERROR_PATH);
             return;
         }
 
         const disruptionId = validatedBody.data.disruptionId;
 
-        await deleteDisruptionsInEdit(disruptionId);
+        await deleteDisruptionsInEdit(disruptionId, session.username);
         const cookies = parseCookies({ req });
         const ddCookieReferer = cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
 

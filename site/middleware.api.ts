@@ -1,6 +1,93 @@
+/* eslint-disable no-console */
+import {
+    CognitoIdentityProviderClient,
+    AdminInitiateAuthCommand,
+    AdminInitiateAuthCommandInput,
+    AdminInitiateAuthCommandOutput,
+    AdminUserGlobalSignOutCommand,
+    AdminUserGlobalSignOutCommandInput,
+} from "@aws-sdk/client-cognito-identity-provider";
 import csrf from "edge-csrf";
+import * as jose from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, LOGIN_PAGE_PATH } from "./constants";
+
+const {
+    COGNITO_CLIENT_ID: cognitoClientId,
+    COGNITO_CLIENT_SECRET: cognitoClientSecret,
+    COGNITO_USER_POOL_ID: userPoolId,
+    MIDDLEWARE_AWS_ACCESS_KEY_ID: accessKeyId,
+    MIDDLEWARE_AWS_SECRET_ACCESS_KEY: secretAccessKey,
+} = process.env;
+
+if (!cognitoClientSecret || !cognitoClientId || !userPoolId || !accessKeyId || !secretAccessKey) {
+    throw new Error("Cognito env vars not set");
+}
+
+const cognito = new CognitoIdentityProviderClient({
+    region: "eu-west-2",
+    credentials: {
+        accessKeyId,
+        secretAccessKey,
+    },
+});
+
+const calculateSecretHash = async (username: string): Promise<string> => {
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+        "raw",
+        enc.encode(cognitoClientSecret),
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign", "verify"],
+    );
+
+    const sig = await crypto.subtle.sign("HMAC", key, enc.encode(username + cognitoClientId));
+
+    return Buffer.from(String.fromCharCode(...new Uint8Array(sig)), "binary").toString("base64");
+};
+
+const initiateRefreshAuth = async (username: string, refreshToken: string): Promise<AdminInitiateAuthCommandOutput> => {
+    const params: AdminInitiateAuthCommandInput = {
+        AuthFlow: "REFRESH_TOKEN_AUTH",
+        ClientId: cognitoClientId,
+        UserPoolId: userPoolId,
+        AuthParameters: {
+            REFRESH_TOKEN: refreshToken,
+            SECRET_HASH: await calculateSecretHash(username),
+        },
+    };
+
+    try {
+        const response = await cognito.send(new AdminInitiateAuthCommand(params));
+
+        return response;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to refresh user session: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+const globalSignOut = async (username: string): Promise<void> => {
+    const params: AdminUserGlobalSignOutCommandInput = {
+        Username: username,
+        UserPoolId: userPoolId,
+    };
+
+    try {
+        await cognito.send(new AdminUserGlobalSignOutCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to perform global sign out: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
 
 const csrfProtect = csrf({
     cookie: {
@@ -9,6 +96,34 @@ const csrfProtect = csrf({
     },
 });
 
+const unauthenticatedRoutes = [
+    "/login",
+    "/api/login",
+    "/register",
+    "/api/register",
+    "/forgot-password",
+    "/api/forgot-password",
+    "/reset-password",
+    "/api/reset-password",
+    "/api/cookies",
+    "/_next",
+    "/assets",
+    "/scripts",
+    "/error",
+    "/contact",
+    "/request-access",
+    "/cookies",
+    "/cookie-details",
+    "/accessibility",
+    "/privacy",
+    "/robots.txt",
+    "/favicon.ico",
+    "/500",
+    "/404",
+];
+
+const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`));
+
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
@@ -16,6 +131,75 @@ export async function middleware(request: NextRequest) {
 
     if (csrfError) {
         return new NextResponse("invalid csrf token", { status: 403 });
+    }
+
+    if (
+        request.nextUrl.pathname &&
+        unauthenticatedRoutes.every((route) => !request.nextUrl.pathname.startsWith(route)) &&
+        request.nextUrl.pathname !== "/"
+    ) {
+        const signOutUserAndRedirectToLogin = async (username?: string) => {
+            console.log("Signing out user");
+
+            if (username) {
+                try {
+                    await globalSignOut(username);
+                } catch (e) {}
+            }
+
+            const newResponse = NextResponse.redirect(new URL(LOGIN_PAGE_PATH, request.url));
+
+            newResponse.cookies.delete(COOKIES_ID_TOKEN);
+            newResponse.cookies.delete(COOKIES_REFRESH_TOKEN);
+
+            return newResponse;
+        };
+
+        const idToken = request.cookies.get(COOKIES_ID_TOKEN);
+
+        if (!idToken) {
+            return signOutUserAndRedirectToLogin();
+        }
+
+        try {
+            await jose.jwtVerify(idToken.value, JWKS, {
+                audience: process.env.COGNITO_CLIENT_ID,
+                issuer: process.env.COGNITO_ISSUER,
+                algorithms: ["RS256"],
+            });
+
+            return response;
+        } catch (e) {
+            const decodedToken = jose.decodeJwt(idToken.value);
+            const username = (decodedToken["cognito:username"] as string) ?? null;
+
+            const error = e as jose.errors.JWTExpired;
+
+            if (error.code === "ERR_JWT_EXPIRED") {
+                const refreshToken = request.cookies.get(COOKIES_REFRESH_TOKEN);
+
+                if (refreshToken && username) {
+                    try {
+                        const refreshResult = await initiateRefreshAuth(username, refreshToken.value);
+                        if (refreshResult.AuthenticationResult?.IdToken) {
+                            console.log("Token refresh successful");
+                            response.cookies.set(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken);
+
+                            return response;
+                        }
+                    } catch (e) {
+                        console.warn("Token refresh failed");
+                        return signOutUserAndRedirectToLogin(username);
+                    }
+                }
+            }
+
+            if (e instanceof Error) {
+                console.error("Unexpected error when validating token: ", e.stack);
+            }
+
+            return signOutUserAndRedirectToLogin(username);
+        }
     }
 
     return response;

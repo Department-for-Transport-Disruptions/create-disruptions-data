@@ -5,7 +5,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import {
     COOKIES_POLICY_COOKIE,
     COOKIE_CSRF,
-    COOKIE_ID_TOKEN,
+    COOKIES_ID_TOKEN,
     COOKIE_PREFERENCES_COOKIE,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -61,7 +61,7 @@ export const redirectToError = (
 export const cleardownCookies = (req: NextApiRequest, res: NextApiResponse) => {
     const cookies = parseCookies({ req });
 
-    const saveList = [COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, COOKIE_ID_TOKEN, COOKIE_CSRF];
+    const saveList = [COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, COOKIES_ID_TOKEN, COOKIE_CSRF];
 
     Object.keys(cookies).forEach((cookie) => {
         if (!saveList.includes(cookie)) {

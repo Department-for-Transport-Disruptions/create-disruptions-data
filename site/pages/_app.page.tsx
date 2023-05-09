@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Header from "../components/layout/Header";
 import { getCsrfToken } from "../utils";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import type { Session } from "../utils/apiUtils/auth";
 
 config.autoAddCss = false;
 
@@ -20,25 +21,34 @@ declare global {
 
 type ExtendedAppProps = {
     csrfToken: string;
+    session: Session | null;
 };
 
-const CustomApp = ({ Component, pageProps, csrfToken }: AppProps & ExtendedAppProps) => {
+const CustomApp = ({ Component, pageProps, csrfToken, session }: AppProps & ExtendedAppProps) => {
     useEffect(() => {
         document.getElementsByTagName("body")[0].classList.add("js-enabled");
     });
 
     return (
         <>
-            <Header />
-            <Component {...pageProps} csrfToken={csrfToken} />
+            <Header session={session} csrfToken={csrfToken} />
+            <Component {...pageProps} csrfToken={csrfToken} session={session} />
         </>
     );
 };
 
 CustomApp.getInitialProps = async (context: AppContext): Promise<AppInitialProps & ExtendedAppProps> => {
     const ctx = await App.getInitialProps(context);
+    const { getSession } = await import("../utils/apiUtils/auth");
+    let session: Session | null = null;
 
-    return { ...ctx, csrfToken: getCsrfToken(context.ctx) };
+    if (context.ctx.req) {
+        session = getSession(context.ctx.req);
+    }
+
+    console.log(session);
+
+    return { ...ctx, csrfToken: getCsrfToken(context.ctx), session };
 };
 
 export default CustomApp;

@@ -15,6 +15,7 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 interface OperatorConsequenceRequest extends NextApiRequest {
     body: OperatorConsequence & {
@@ -26,6 +27,11 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
     try {
         const queryParam = getReturnPage(req);
         const consequenceOperatorsData = req.body.consequenceOperators;
+        const session = getSession(req);
+
+        if (!session?.username) {
+            throw new Error("No session found");
+        }
 
         const consequenceOperators: string[] =
             !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
@@ -64,7 +70,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             return;
         }
 
-        await upsertConsequence(validatedBody.data);
+        await upsertConsequence(validatedBody.data, session.username);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =

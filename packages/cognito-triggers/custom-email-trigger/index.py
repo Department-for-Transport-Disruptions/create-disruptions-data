@@ -9,6 +9,7 @@ def main(event, context):
         event['response']['emailMessage'] = template_register(
             event['request']['usernameParameter'],
             event['request']['codeParameter'],
+            event['request']['userAttributes']['custom:orgId'],
             register_link
         )
     elif event['triggerSource'] == "CustomMessage_ForgotPassword":
@@ -30,11 +31,11 @@ def main(event, context):
     return event
 
 
-def template_register(username, key, register_link):
+def template_register(username, key, orgId, register_link):
     template = f"""<div style="font-family: Arial, sans-serif; padding-left: 30px">
                        <h1>Create account - Create Transport Disruptions Data service</h1>
                        <p>To create an account to access the Create Transport Disruptions Data service click the link below:</p>
-                       <a href="{register_link}?key={key}&email={username}">Link to registration</a>
+                       <a href="{register_link}?key={key}&email={username}&orgId={orgId}">Link to registration</a>
                        <p>The link is valid for 72 hours for the following email address {username}.</p>
                    </div>"""
 
@@ -60,7 +61,7 @@ def get_base_template(message_body):
                                  <div>
                                    <header style="font-size: 1rem; line-height: 1.25; height: 60px; border-bottom: 10px solid #1d70b8; font-family: Arial, sans-serif; font-weight: 400; color: #ffffff; background: #0b0c0c;" class="govuk-header">
                                      <div style="font-family: Arial, sans-serif;">
-                                       <div style="width: 33.33%; padding-left: 10px; float: left;">
+                                       <div style="padding-left: 10px; float: left;">
                                          <a style="font-weight: 700; display: inline-block; font-size: 30px; line-height: 2; text-decoration: none; color: #ffffff;"
                                            href="https://www.gov.uk/"
                                            ><span style="display: inline-block; margin-right: 5px; color: #ffffff;"
@@ -81,13 +82,6 @@ def get_base_template(message_body):
                                                >GOV.UK</span
                                              ></span
                                            ></a
-                                         >
-                                       </div>
-                                       <div style="width: 66.66%; padding-left: 15px;">
-                                         <a style="color: #ffffff;display: inline-block; margin-bottom: 10px; font-size: 25px; font-weight: 700; text-decoration: none; line-height: 2.5;"
-                                           href="/"
-                                           id="title_link"
-                                           >Create Transport Disruptions Data service</a
                                          >
                                        </div>
                                      </div>

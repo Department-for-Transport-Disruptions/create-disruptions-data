@@ -5,11 +5,13 @@ import {
     DeleteCommand,
     TransactWriteCommand,
     PutCommand,
+    GetCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
+import { Organisation, organisationSchema } from "../schemas/organisation.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
@@ -17,6 +19,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 
 const tableName = process.env.TABLE_NAME as string;
 const siriTableName = process.env.SIRI_TABLE_NAME as string;
+const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
@@ -41,7 +44,7 @@ const collectDisruptionsData = (
     return parsedDisruption.data;
 };
 
-export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruption[]> => {
+export const getPublishedDisruptionsDataFromDynamo = async (username: string): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
@@ -50,7 +53,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruptio
             KeyConditionExpression: "PK = :1",
             FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
-                ":1": "1",
+                ":1": username,
                 ":2": "PUBLISHED",
             },
         }),
@@ -63,7 +66,28 @@ export const getPublishedDisruptionsDataFromDynamo = async (): Promise<Disruptio
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const deletePublishedDisruption = async (disruption: Disruption, disruptionId: string) => {
+export const getOrganisationInfoById = async (orgId: string): Promise<Organisation | null> => {
+    logger.info(`Getting organisation (${orgId}) from DynamoDB table...`);
+
+    const dbData = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+            },
+        }),
+    );
+
+    const parsedOrg = organisationSchema.safeParse(dbData.Item);
+
+    if (!parsedOrg.success) {
+        return null;
+    }
+
+    return parsedOrg.data;
+};
+
+export const deletePublishedDisruption = async (disruption: Disruption, disruptionId: string, username: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
 
     const consequenceDeleteCommands: {
@@ -76,7 +100,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             Delete: {
                 TableName: tableName,
                 Key: {
-                    PK: "1", // TODO: replace with user ID when we have auth
+                    PK: username,
                     SK: `${disruptionId}#CONSEQUENCE#${index}`,
                 },
             },
@@ -92,7 +116,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             Delete: {
                 TableName: tableName,
                 Key: {
-                    PK: "1", // TODO: replace with user ID when we have auth
+                    PK: username,
                     SK: `${disruptionId}#CONSEQUENCE#${index}#EDIT`,
                 },
             },
@@ -105,7 +129,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                     Delete: {
                         TableName: siriTableName,
                         Key: {
-                            PK: "1", // TODO: replace with user ID when we have auth
+                            PK: username,
                             SK: disruptionId,
                         },
                     },
@@ -114,7 +138,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                     Delete: {
                         TableName: tableName,
                         Key: {
-                            PK: "1", // TODO: replace with user ID when we have auth
+                            PK: username,
                             SK: `${disruptionId}#INFO`,
                         },
                     },
@@ -123,7 +147,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                     Delete: {
                         TableName: tableName,
                         Key: {
-                            PK: "1", // TODO: replace with user ID when we have auth
+                            PK: username,
                             SK: `${disruptionId}#INFO#EDIT`,
                         },
                     },
@@ -138,6 +162,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
 export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     ptSituationElement: PtSituationElement,
     disruption: Disruption,
+    username: string,
 ) => {
     logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
 
@@ -153,7 +178,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             Update: {
                 TableName: tableName,
                 Key: {
-                    PK: "1", // TODO: replace with user ID when we have auth
+                    PK: username,
                     SK: `${disruption.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
                 },
                 UpdateExpression: "SET publishStatus = :1",
@@ -170,7 +195,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                     Put: {
                         TableName: siriTableName,
                         Item: {
-                            PK: "1", // TODO: replace with user ID when we have auth
+                            PK: username,
                             SK: disruption.disruptionId,
                             ...ptSituationElement,
                         },
@@ -180,7 +205,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                     Update: {
                         TableName: tableName,
                         Key: {
-                            PK: "1", // TODO: replace with user ID when we have auth
+                            PK: username,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
                         UpdateExpression: "SET publishStatus = :1",
@@ -195,9 +220,9 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     );
 };
 
-export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
+export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, username: string) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
-    const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId);
+    const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, username);
     const isEditing =
         currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
 
@@ -205,7 +230,7 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
         new PutCommand({
             TableName: tableName,
             Item: {
-                PK: "1", // TODO: replace with user ID when we have auth
+                PK: username,
                 SK: `${disruptionInfo.disruptionId}#INFO${isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
             },
@@ -215,20 +240,21 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo) => {
 
 export const upsertConsequence = async (
     consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
+    username: string,
 ) => {
     logger.info(
         `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
             consequence.disruptionId || ""
         }) in DynamoDB table...`,
     );
-    const currentDisruption = await getDisruptionById(consequence.disruptionId);
+    const currentDisruption = await getDisruptionById(consequence.disruptionId, username);
     const isEditing =
         currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
             Item: {
-                PK: "1", // TODO: replace with user ID when we have auth
+                PK: username,
                 SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}${
                     isEditing ? "#EDIT" : ""
                 }`,
@@ -238,28 +264,28 @@ export const upsertConsequence = async (
     );
 };
 
-export const removeConsequenceFromDisruption = async (index: number, disruptionId: string) => {
+export const removeConsequenceFromDisruption = async (index: number, disruptionId: string, username: string) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId}) in DynamoDB table...`);
 
     await ddbDocClient.send(
         new DeleteCommand({
             TableName: tableName,
             Key: {
-                PK: "1", // TODO: replace with user ID when we have auth
+                PK: username,
                 SK: `${disruptionId}#CONSEQUENCE#${index}`,
             },
         }),
     );
 };
 
-export const getDisruptionById = async (disruptionId: string): Promise<Disruption | null> => {
+export const getDisruptionById = async (disruptionId: string, username: string): Promise<Disruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
-                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":1": username,
                 ":2": `${disruptionId}`,
             },
         }),
@@ -310,14 +336,14 @@ export const getDisruptionById = async (disruptionId: string): Promise<Disruptio
     return parsedDisruption.data;
 };
 
-export const publishEditedConsequences = async (disruptionId: string) => {
+export const publishEditedConsequences = async (disruptionId: string, username: string) => {
     logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
-                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":1": username,
                 ":2": `${disruptionId}`,
             },
         }),
@@ -354,7 +380,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                                 TableName: tableName,
                                 Item: {
                                     ...disruption,
-                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    PK: username,
                                     SK: `${disruptionId}#INFO`,
                                 },
                             },
@@ -364,7 +390,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                                 TableName: tableName,
                                 Item: {
                                     ...consequence,
-                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    PK: username,
                                     SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
                                 },
                             },
@@ -373,7 +399,7 @@ export const publishEditedConsequences = async (disruptionId: string) => {
                             Delete: {
                                 TableName: tableName,
                                 Key: {
-                                    PK: "1", // TODO: replace with user ID when we have auth
+                                    PK: username,
                                     SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
                                 },
                             },
@@ -384,14 +410,14 @@ export const publishEditedConsequences = async (disruptionId: string) => {
     }
 };
 
-export const deleteDisruptionsInEdit = async (disruptionId: string) => {
+export const deleteDisruptionsInEdit = async (disruptionId: string, username: string) => {
     logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
-                ":1": "1", // TODO: replace with user ID when we have auth,
+                ":1": username,
                 ":2": `${disruptionId}#CONSEQUENCE`,
             },
         }),
@@ -415,7 +441,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string) => {
                 Delete: {
                     TableName: tableName,
                     Key: {
-                        PK: "1", // TODO: replace with user ID when we have auth
+                        PK: username,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#EDIT`,
                     },
                 },
@@ -428,7 +454,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string) => {
                         Delete: {
                             TableName: tableName,
                             Key: {
-                                PK: "1", // TODO: replace with user ID when we have auth
+                                PK: username,
                                 SK: `${disruptionId}#INFO#EDIT`,
                             },
                         },

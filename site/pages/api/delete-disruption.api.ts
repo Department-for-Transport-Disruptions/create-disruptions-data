@@ -2,21 +2,23 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ERROR_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const body = req.body as { id: string | undefined };
-
         const id = body?.id;
 
-        if (!id || Array.isArray(id)) {
+        const session = getSession(req);
+
+        if (!id || Array.isArray(id) || !session?.username) {
             throw new Error(
                 `Insufficient data provided for deleting a disruption by id: ${id ? id.toString() : "undefined"}`,
             );
         }
 
-        const disruption = await getDisruptionById(id);
+        const disruption = await getDisruptionById(id, session.username);
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);
@@ -24,7 +26,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             return;
         }
 
-        await deletePublishedDisruption(disruption, id);
+        await deletePublishedDisruption(disruption, id, session.username);
 
         redirectTo(res, "/dashboard");
         return;

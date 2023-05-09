@@ -219,9 +219,10 @@ export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
 export const ACCOUNT_SETTINGS_PAGE_PATH = "/account-settings";
-export const LOGIN_PAGE_PATH = "/auth/login";
-export const CHANGE_PASSWORD_PAGE_PATH = "/auth/change-password";
-export const REGISTER_PAGE_PATH = "/auth/register";
+export const LOGIN_PAGE_PATH = "/login";
+export const CHANGE_PASSWORD_PAGE_PATH = "/change-password";
+export const REGISTER_PAGE_PATH = "/register";
+export const HOME_PAGE_PATH = "/";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -235,12 +236,12 @@ export const COOKIES_CHANGE_PASSWORD_ERRORS = "cdd-change-password-errors";
 export const COOKIES_REGISTER_ERRORS = "cdd-register-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
-export const COOKIE_ID_TOKEN = "cdd-id-token";
+export const COOKIES_ID_TOKEN = "cdd-id-token";
+export const COOKIES_REFRESH_TOKEN = "cdd-refresh-token";
 export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer";
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";
 export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
-export const ADMIN_AREA_CODE = "099";
 export const MIN_PASSWORD_LENGTH = 8;

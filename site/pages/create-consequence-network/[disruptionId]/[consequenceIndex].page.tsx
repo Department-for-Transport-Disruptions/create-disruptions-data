@@ -24,6 +24,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { NetworkConsequence, networkConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
@@ -167,7 +168,17 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_NETWORK_ERRORS];
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session?.username) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.username);
 
     if (!disruption) {
         throw new Error("No disruption found for network consequence page");

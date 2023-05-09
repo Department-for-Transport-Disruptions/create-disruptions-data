@@ -2,7 +2,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
-import { disruptionArray, disruptionWithConsequences } from "../testData/mockData";
+import { disruptionArray, disruptionWithConsequences, getMockContext } from "../testData/mockData";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 vi.mock("../data/dynamo");
@@ -108,7 +108,9 @@ describe("pages", () => {
             it("should return no disruptions if there is no data returned from the database call", async () => {
                 getDisruptionsSpy.mockResolvedValue([]);
 
-                const actualProps = await getServerSideProps();
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
                     upcomingDisruptions: [],
@@ -119,7 +121,9 @@ describe("pages", () => {
             it("should return live disruptions if the data returned from the database has live dates", async () => {
                 getDisruptionsSpy.mockResolvedValue([disruptionWithConsequences]);
 
-                const actualProps = await getServerSideProps();
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [
                         {
@@ -149,7 +153,9 @@ describe("pages", () => {
                     },
                 ]);
 
-                const actualProps = await getServerSideProps();
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
 
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
@@ -175,7 +181,9 @@ describe("pages", () => {
                     },
                 ]);
 
-                const actualProps = await getServerSideProps();
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
 
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [

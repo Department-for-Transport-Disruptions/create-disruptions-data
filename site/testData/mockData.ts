@@ -14,7 +14,7 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
+import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
@@ -55,7 +55,7 @@ export const getMockRequestAndResponse = ({
 
     let cookieString = "";
 
-    cookieString += isLoggedin ? `${COOKIE_ID_TOKEN}=${idToken};` : "";
+    cookieString += isLoggedin ? `${COOKIES_ID_TOKEN}=${idToken};` : "";
 
     cookieString += cookiePolicy ? `${COOKIES_POLICY_COOKIE}=${encodeURI(JSON.stringify(cookiePolicy))}` : "";
 

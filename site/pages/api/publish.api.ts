@@ -4,19 +4,21 @@ import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } 
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
+        const session = getSession(req);
 
-        if (!validatedBody.success) {
+        if (!validatedBody.success || !session?.username) {
             redirectTo(res, ERROR_PATH);
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId);
+        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.username);
 
         if (!draftDisruption || (draftDisruption && Object.keys(draftDisruption).length === 0)) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
@@ -41,6 +43,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
+            session.username,
         );
 
         cleardownCookies(req, res);

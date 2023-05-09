@@ -7,6 +7,7 @@ import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import { BaseLayout } from "../components/layout/Layout";
 import { COOKIES_REGISTER_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
+import { getOrganisationInfoById } from "../data/dynamo";
 import { PageState } from "../interfaces";
 import { RegisterSchema, registerSchema } from "../schemas/register.schema";
 import { redirectTo } from "../utils";
@@ -89,13 +90,13 @@ const Register = (props: RegisterPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: RegisterPageProps } | void => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: RegisterPageProps } | void> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REGISTER_ERRORS];
 
-    const { key, email, organisation } = ctx.query;
+    const { key, email, orgId } = ctx.query;
 
-    if (!key || !email) {
+    if (!key || !email || !orgId) {
         if (ctx.res) {
             redirectTo(ctx.res, "/request-access");
         }
@@ -103,11 +104,13 @@ export const getServerSideProps = (ctx: NextPageContext): { props: RegisterPageP
         return;
     }
 
+    const orgDetail = await getOrganisationInfoById(orgId.toString());
+
     const pageState = getPageState(errorCookie, registerSchema);
 
     pageState.inputs.key = key.toString();
     pageState.inputs.email = email.toString();
-    pageState.inputs.organisation = organisation?.toString() ?? "";
+    pageState.inputs.organisation = orgDetail?.name;
 
     return {
         props: {

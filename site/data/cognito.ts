@@ -7,6 +7,8 @@ import {
     AdminRespondToAuthChallengeCommandInput,
     AdminUserGlobalSignOutCommand,
     AdminUserGlobalSignOutCommandInput,
+    AdminSetUserPasswordCommand,
+    AdminSetUserPasswordCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
@@ -36,18 +38,18 @@ export const initiateAuth = async (username: string, password: string): Promise<
         message: "initiating auth",
     });
 
-    const params: AdminInitiateAuthCommandInput = {
-        AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
-        ClientId: cognitoClientId,
-        UserPoolId: userPoolId,
-        AuthParameters: {
-            USERNAME: username,
-            PASSWORD: password,
-            SECRET_HASH: calculateSecretHash(username),
-        },
-    };
-
     try {
+        const params: AdminInitiateAuthCommandInput = {
+            AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+            ClientId: cognitoClientId,
+            UserPoolId: userPoolId,
+            AuthParameters: {
+                USERNAME: username,
+                PASSWORD: password,
+                SECRET_HASH: calculateSecretHash(username),
+            },
+        };
+
         return cognito.send(new AdminInitiateAuthCommand(params));
     } catch (error) {
         if (error instanceof Error) {
@@ -68,19 +70,19 @@ export const respondToNewPasswordChallenge = async (
         message: "new password challenge initiated",
     });
 
-    const params: AdminRespondToAuthChallengeCommandInput = {
-        ChallengeName: "NEW_PASSWORD_REQUIRED",
-        ClientId: cognitoClientId,
-        UserPoolId: userPoolId,
-        ChallengeResponses: {
-            USERNAME: username,
-            NEW_PASSWORD: password,
-            SECRET_HASH: calculateSecretHash(username),
-        },
-        Session: session,
-    };
-
     try {
+        const params: AdminRespondToAuthChallengeCommandInput = {
+            ChallengeName: "NEW_PASSWORD_REQUIRED",
+            ClientId: cognitoClientId,
+            UserPoolId: userPoolId,
+            ChallengeResponses: {
+                USERNAME: username,
+                NEW_PASSWORD: password,
+                SECRET_HASH: calculateSecretHash(username),
+            },
+            Session: session,
+        };
+
         await cognito.send(new AdminRespondToAuthChallengeCommand(params));
     } catch (error) {
         if (error instanceof Error) {
@@ -107,6 +109,30 @@ export const globalSignOut = async (username: string): Promise<void> => {
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to perform global sign out: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const updateUserPassword = async (newPassword: string, username: string): Promise<void> => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "updating user password",
+    });
+
+    const params: AdminSetUserPasswordCommandInput = {
+        Password: newPassword,
+        Permanent: true,
+        Username: username,
+        UserPoolId: userPoolId,
+    };
+
+    try {
+        await cognito.send(new AdminSetUserPasswordCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to update user password: ${error.stack || ""}`);
         }
 
         throw error;

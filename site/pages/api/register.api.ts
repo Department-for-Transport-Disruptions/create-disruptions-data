@@ -1,5 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_REGISTER_ERRORS, REGISTER_PAGE_PATH, DASHBOARD_PAGE_PATH } from "../../constants";
+import {
+    COOKIES_REGISTER_ERRORS,
+    REGISTER_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+} from "../../constants";
 import { globalSignOut, initiateAuth, respondToNewPasswordChallenge } from "../../data/cognito";
 import { RegisterSchema, registerSchemaRefined } from "../../schemas/register.schema";
 import { flattenZodErrors } from "../../utils";
@@ -42,6 +48,9 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
                 Session,
             );
             await globalSignOut(validatedBody.data.email);
+
+            destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
+            destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
 
             logger.info("", {
                 context: "api.register",

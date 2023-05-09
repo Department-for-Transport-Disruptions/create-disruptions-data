@@ -16,6 +16,7 @@ import {
     changePasswordSchemaRefined,
 } from "../schemas/change-password.schema";
 import { getPageState } from "../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Change Password - Create Transport Disruptions Service";
@@ -27,17 +28,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
-
-    const getRows = () => [
-        {
-            header: "Email address",
-            cells: ["user.name@bus.co.uk"],
-        },
-        {
-            header: "Organisation",
-            cells: ["Nexus"],
-        },
-    ];
 
     const queryParams = useRouter().query;
     const displaySuccessMessage = queryParams["success"];
@@ -57,7 +47,18 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                         </>
                     ) : (
                         <>
-                            <Table rows={getRows()} />
+                            <Table
+                                rows={[
+                                    {
+                                        header: "Email address",
+                                        cells: [pageState.sessionWithOrg?.email],
+                                    },
+                                    {
+                                        header: "Organisation",
+                                        cells: [pageState.sessionWithOrg?.orgName],
+                                    },
+                                ]}
+                            />
                             <TextInput<ChangePasswordSchema>
                                 display="Current password"
                                 inputName="currentPassword"
@@ -111,13 +112,24 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ChangePasswordPageProps } => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ChangePasswordPageProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CHANGE_PASSWORD_ERRORS];
+
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session?.username) {
+        throw new Error("No session found");
+    }
 
     return {
         props: {
             ...getPageState(errorCookie, changePasswordSchemaRefined),
+            sessionWithOrg: session,
         },
     };
 };

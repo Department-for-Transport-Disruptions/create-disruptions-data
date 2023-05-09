@@ -2,6 +2,7 @@ import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
 import { Service, Stop } from "../schemas/consequence.schema";
+import { Session, SessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -62,6 +63,8 @@ export interface PageState<T> {
     csrfToken?: string;
     disruptionId?: string;
     consequenceIndex?: number;
+    session?: Session | null;
+    sessionWithOrg?: SessionWithOrgDetail | null;
 }
 
 export interface SocialMediaPost {
