@@ -59,7 +59,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
                 const stopsData = await fetchStops({
-                    adminAreaCode: props.sessionWithOrg?.adminAreaCodes?.[0] ?? "undefined",
+                    adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                     searchString: searchInput,
                 });
 

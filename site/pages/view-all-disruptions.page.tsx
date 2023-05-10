@@ -574,7 +574,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const data = await getPublishedDisruptionsDataFromDynamo(session.username);
-    const services: Service[] = await fetchServices({ adminAreaCode: session.adminAreaCodes[0] });
+    const services: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
 
     if (data) {
         const sortedDisruptions = sortDisruptionsByStartDate(data);

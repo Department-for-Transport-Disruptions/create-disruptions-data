@@ -547,7 +547,7 @@ export const getServerSideProps = async (
 
     let services: Service[] = [];
 
-    const servicesData = await fetchServices({ adminAreaCode: session.adminAreaCodes?.[0] ?? "undefined" });
+    const servicesData = await fetchServices({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
     if (servicesData.length > 0) {
         services = sortServices(servicesData);

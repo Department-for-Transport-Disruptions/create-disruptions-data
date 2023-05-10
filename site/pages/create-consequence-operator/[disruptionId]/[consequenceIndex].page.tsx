@@ -252,7 +252,7 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
-    const operators = await fetchOperators({ adminAreaCode: session.adminAreaCodes?.[0] ?? "undefined" });
+    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
     return { props: { ...pageState, consequenceIndex: index, operators } };
 };

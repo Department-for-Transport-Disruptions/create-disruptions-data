@@ -173,7 +173,7 @@ const Map = ({
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 const stopsData = await fetchStops({
-                    adminAreaCode: state.sessionWithOrg?.adminAreaCodes?.[0] ?? "undefined",
+                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                     polygon,
                 });
                 if (stopsData) {
