@@ -227,6 +227,8 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.operators.length > 0) {
+            console.log(filter.operators);
+            console.log(disruption.operators);
             const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
 
             if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator.operatorRef))) {
@@ -666,7 +668,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceIds: string[] = [];
-            const operators: DisruptionOperator[] = [];
+            const disruptionOperators: DisruptionOperator[] = [];
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
@@ -682,6 +684,16 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                             serviceIds.push(service.id.toString());
                         });
                     }
+
+                    if (consequence.consequenceType === "operatorWide") {
+                        consequence.consequenceOperators.forEach((consOp) => {
+                            const foundOperator = operators.find((op) => op.nocCode === consOp) as Operator;
+                            disruptionOperators.push({
+                                operatorName: foundOperator.operatorPublicName,
+                                operatorRef: foundOperator.nocCode,
+                            });
+                        });
+                    }
                 });
             }
 
@@ -690,7 +702,7 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
                 status: Progress.open,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
-                operators,
+                operators: disruptionOperators,
                 id: disruption.disruptionId,
                 summary: reduceStringWithEllipsis(disruption.summary, 95),
                 validityPeriods: mapValidityPeriods(disruption),
