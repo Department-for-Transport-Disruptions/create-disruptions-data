@@ -227,8 +227,6 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.operators.length > 0) {
-            console.log(filter.operators);
-            console.log(disruption.operators);
             const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
 
             if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator.operatorRef))) {
