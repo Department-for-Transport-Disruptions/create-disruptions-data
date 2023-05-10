@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
 import {
     DayType,
     EnvironmentReason,
@@ -14,6 +13,7 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
+import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
@@ -22,15 +22,15 @@ import { Disruption } from "../schemas/disruption.schema";
 export const DEFAULT_USER_ID = "ee8a8395-fcb8-4e72-be1f-022c207292cd";
 
 export interface GetMockContextInput {
-    session?: { [key: string]: any };
-    cookies?: any;
-    body?: any;
-    url?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
+    session?: Record<string, string> | null;
+    cookies?: Record<string, string>;
+    body?: Record<string, string | string[]> | null;
+    url?: string | null;
+    uuid?: string | null;
+    mockWriteHeadFn?: Mock | null;
+    mockEndFn?: Mock | null;
     isLoggedin?: boolean;
-    query?: any;
+    query?: qs.ParsedQs | null;
 }
 
 export const getMockRequestAndResponse = ({
@@ -49,11 +49,6 @@ export const getMockRequestAndResponse = ({
         idToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZThhODM5NS1mY2I4LTRlNzItYmUxZi0wMjJjMjA3MjkyY2QiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJjdXN0b206b3JnSWQiOiIzNWJhZTMyNy00YWYwLTRiYmYtOGJmYS0yYzA4NWYyMTQ0ODMiLCJjb2duaXRvOmdyb3VwcyI6WyJzeXN0ZW0tYWRtaW5zIl19.POSmQ0BvCrpRECR4rdDrPNzK9anmZXo7QIdSYYzpJik",
         cookiePolicy = null,
     } = cookieValues;
-
-    const defaultSession = {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        destroy: (): void => {},
-    };
 
     let cookieString = "";
 
@@ -78,15 +73,7 @@ export const getMockRequestAndResponse = ({
             origin: "localhost:3000",
             ...requestHeaders,
         },
-        cookies: cookieString.split(";").reduce((p, c) => {
-            const splitCookie = c.split("=");
-
-            return {
-                ...p,
-                [splitCookie[0]]: splitCookie[1],
-            };
-        }, {}),
-        session: { ...defaultSession },
+        cookies: cookieValues,
     });
 
     if (body) {
@@ -102,12 +89,12 @@ export const getMockRequestAndResponse = ({
 export const getMockContext = ({
     cookies = {},
     body = null,
-    uuid = {},
+    uuid = null,
     mockWriteHeadFn = vi.fn(),
     mockEndFn = vi.fn(),
     isLoggedin = true,
     url = null,
-    query = "",
+    query = null,
 }: GetMockContextInput = {}): NextPageContext => {
     const { req, res } = getMockRequestAndResponse({
         cookieValues: cookies,
@@ -118,14 +105,14 @@ export const getMockContext = ({
         requestHeaders: {},
         isLoggedin,
         url,
+        query,
     });
 
     const ctx: NextPageContext = {
         res,
         req,
         pathname: "",
-        query,
-        // eslint-disable-next-line react/display-name
+        query: query ? (query as ParsedUrlQuery) : {},
         AppTree: () => React.createElement("div"),
     };
 
@@ -133,15 +120,15 @@ export const getMockContext = ({
 };
 
 export interface GetMockRequestAndResponse {
-    cookieValues?: { [key: string]: string };
-    body?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
-    requestHeaders?: any;
+    cookieValues?: Record<string, string>;
+    body?: Record<string, string | string[]> | null;
+    uuid?: string | null;
+    mockWriteHeadFn?: Mock | null;
+    mockEndFn?: Mock | null;
+    requestHeaders?: Record<string, string> | null;
     isLoggedin?: boolean;
-    url?: any;
-    query?: any;
+    url?: string | null;
+    query?: qs.ParsedQs | null;
 }
 
 export const databaseData: PtSituationElement[] = [

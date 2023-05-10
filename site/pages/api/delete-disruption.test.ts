@@ -80,7 +80,7 @@ describe("deleteDisruption", () => {
         getDisruptionSpy.mockResolvedValue({} as Disruption);
         const { req, res } = getMockRequestAndResponse({
             body: {
-                id: null,
+                id: "",
             },
             mockWriteHeadFn: writeHeadMock,
         });

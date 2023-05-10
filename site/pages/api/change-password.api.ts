@@ -65,7 +65,7 @@ const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         if (e instanceof Error) {
-            const message = "There was a problem while changing passwords.";
+            const message = "There was a problem while changing password.";
             redirectToError(res, message, "api.change-password", e);
             return;
         }
