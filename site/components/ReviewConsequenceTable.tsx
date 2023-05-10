@@ -65,24 +65,6 @@ const getRows = (
     ) => void,
     isDisruptionDetail?: boolean,
 ) => {
-    const hiddenInputs = [
-        {
-            name: "id",
-            value: consequence.consequenceIndex.toString(),
-        },
-        {
-            name: "disruptionId",
-            value: disruption.disruptionId,
-        },
-    ];
-
-    if (isDisruptionDetail) {
-        hiddenInputs.push({
-            name: "inEdit",
-            value: "true",
-        });
-    }
-
     const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
         {
             header: "Consequence type",
@@ -221,21 +203,6 @@ const getRows = (
                 ),
             ],
         },
-        {
-            cells: [
-                <button
-                    key={consequence.consequenceIndex}
-                    className="govuk-button govuk-button--warning ml-5 mt-8"
-                    data-module="govuk-button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        deleteActionHandler("consequence", hiddenInputs);
-                    }}
-                >
-                    Delete consequence
-                </button>,
-            ],
-        },
     );
     return rows;
 };
@@ -259,7 +226,39 @@ const ReviewConsequenceTable = ({
     deleteActionHandler,
     isDisruptionDetail,
 }: ReviewConsequenceTableProps): ReactElement => {
-    return <Table rows={getRows(consequence, disruption, deleteActionHandler, isDisruptionDetail)} />;
+    const hiddenInputs = [
+        {
+            name: "id",
+            value: consequence.consequenceIndex.toString(),
+        },
+        {
+            name: "disruptionId",
+            value: disruption.disruptionId,
+        },
+    ];
+
+    if (isDisruptionDetail) {
+        hiddenInputs.push({
+            name: "inEdit",
+            value: "true",
+        });
+    }
+    return (
+        <>
+            <Table rows={getRows(consequence, disruption, deleteActionHandler, isDisruptionDetail)} />
+            <button
+                key={consequence.consequenceIndex}
+                className="govuk-button govuk-button--warning mt-4"
+                data-module="govuk-button"
+                onClick={(e) => {
+                    e.preventDefault();
+                    deleteActionHandler("consequence", hiddenInputs);
+                }}
+            >
+                Delete consequence
+            </button>
+        </>
+    );
 };
 
 export default ReviewConsequenceTable;
