@@ -1,73 +1,125 @@
 import { Period } from "@create-disruptions-data/shared-ts/siriTypes";
 import { describe, it, expect } from "vitest";
+import { getDatetimeFromDateAndTime } from "./dates";
 import { getValidityPeriod } from "./siri";
 import { Validity } from "../schemas/create-disruption.schema";
+
+const validityDisruptionEndTime = "1000";
+const valditityDisruptionEndDate = "07/05/2023";
 
 const weeklyValidity: Validity = {
     disruptionStartDate: "02/05/2023",
     disruptionStartTime: "0900",
-    disruptionEndDate: "07/05/2023",
-    disruptionEndTime: "1000",
+    disruptionEndDate: valditityDisruptionEndDate,
+    disruptionEndTime: validityDisruptionEndTime,
     disruptionRepeats: "weekly",
     disruptionRepeatsEndDate: "22/05/2023",
 };
 
 const weeklyValidityPeriodOutput: Period[] = [
     {
-        StartTime: "2023-05-02T08:00:00.000Z",
-        EndTime: "2023-05-07T09:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(
+            weeklyValidity.disruptionStartDate,
+            weeklyValidity.disruptionStartTime,
+        ).toISOString(),
+        EndTime: getDatetimeFromDateAndTime(valditityDisruptionEndDate, validityDisruptionEndTime).toISOString(),
     },
     {
-        StartTime: "2023-05-09T08:00:00.000Z",
-        EndTime: "2023-05-14T09:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(weeklyValidity.disruptionStartDate, weeklyValidity.disruptionStartTime)
+            .add(7, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(valditityDisruptionEndDate, validityDisruptionEndTime)
+            .add(7, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-16T08:00:00.000Z",
-        EndTime: "2023-05-21T09:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(weeklyValidity.disruptionStartDate, weeklyValidity.disruptionStartTime)
+            .add(2 * 7, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(valditityDisruptionEndDate, validityDisruptionEndTime)
+            .add(2 * 7, "day")
+            .toISOString(),
     },
 ];
+
+const dailyValidityDisruptionEndTime = "1200";
+const dailyValditityDisruptionEndDate = "05/05/2023";
 
 const dailyValidity: Validity = {
     disruptionStartDate: "05/05/2023",
     disruptionStartTime: "1000",
-    disruptionEndDate: "05/05/2023",
-    disruptionEndTime: "1200",
+    disruptionEndDate: dailyValditityDisruptionEndDate,
+    disruptionEndTime: dailyValidityDisruptionEndTime,
     disruptionRepeats: "daily",
     disruptionRepeatsEndDate: "12/05/2023",
 };
 
 const dailyValidityPeriodOutput: Period[] = [
     {
-        StartTime: "2023-05-05T09:00:00.000Z",
-        EndTime: "2023-05-05T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(
+            dailyValidity.disruptionStartDate,
+            dailyValidity.disruptionStartTime,
+        ).toISOString(),
+        EndTime: getDatetimeFromDateAndTime(
+            dailyValditityDisruptionEndDate,
+            dailyValidityDisruptionEndTime,
+        ).toISOString(),
     },
     {
-        StartTime: "2023-05-06T09:00:00.000Z",
-        EndTime: "2023-05-06T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(1, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(1, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-07T09:00:00.000Z",
-        EndTime: "2023-05-07T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(2, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(2, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-08T09:00:00.000Z",
-        EndTime: "2023-05-08T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(3, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(3, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-09T09:00:00.000Z",
-        EndTime: "2023-05-09T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(4, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(4, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-10T09:00:00.000Z",
-        EndTime: "2023-05-10T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(5, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(5, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-11T09:00:00.000Z",
-        EndTime: "2023-05-11T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(6, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(6, "day")
+            .toISOString(),
     },
     {
-        StartTime: "2023-05-12T09:00:00.000Z",
-        EndTime: "2023-05-12T11:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(dailyValidity.disruptionStartDate, dailyValidity.disruptionStartTime)
+            .add(7, "day")
+            .toISOString(),
+        EndTime: getDatetimeFromDateAndTime(dailyValditityDisruptionEndDate, dailyValidityDisruptionEndTime)
+            .add(7, "day")
+            .toISOString(),
     },
 ];
 
@@ -79,7 +131,10 @@ const nonRepeatingValidity: Validity = {
 
 const nonRepeatingPeriod: Period[] = [
     {
-        StartTime: "2023-05-15T09:00:00.000Z",
+        StartTime: getDatetimeFromDateAndTime(
+            nonRepeatingValidity.disruptionStartDate,
+            nonRepeatingValidity.disruptionStartTime,
+        ).toISOString(),
     },
 ];
 
@@ -97,8 +152,15 @@ describe("siri tests", () => {
     it("should return expected periods for weekly validity when repeating end date day is on the same day as the start date day", () => {
         expect(getValidityPeriod({ ...weeklyValidity, disruptionRepeatsEndDate: "23/05/2023" })).toEqual(
             weeklyValidityPeriodOutput.concat({
-                StartTime: "2023-05-23T08:00:00.000Z",
-                EndTime: "2023-05-23T09:00:00.000Z",
+                StartTime: getDatetimeFromDateAndTime(
+                    weeklyValidity.disruptionStartDate,
+                    weeklyValidity.disruptionStartTime,
+                )
+                    .add(3 * 7, "day")
+                    .toISOString(),
+                EndTime: getDatetimeFromDateAndTime(weeklyValidity.disruptionStartDate, validityDisruptionEndTime)
+                    .add(3 * 7, "day")
+                    .toISOString(),
             }),
         );
     });
@@ -106,8 +168,13 @@ describe("siri tests", () => {
     it("should return expected periods for weekly validity when repeating end date day is in between the start date and end date days", () => {
         expect(getValidityPeriod({ ...weeklyValidity, disruptionRepeatsEndDate: "18/05/2023" })).toEqual(
             weeklyValidityPeriodOutput.slice(0, -1).concat({
-                StartTime: "2023-05-16T08:00:00.000Z",
-                EndTime: "2023-05-18T09:00:00.000Z",
+                StartTime: getDatetimeFromDateAndTime(
+                    weeklyValidity.disruptionStartDate,
+                    weeklyValidity.disruptionStartTime,
+                )
+                    .add(2 * 7, "day")
+                    .toISOString(),
+                EndTime: getDatetimeFromDateAndTime("18/05/2023", validityDisruptionEndTime).toISOString(),
             }),
         );
     });
@@ -125,8 +192,11 @@ describe("siri tests", () => {
             getValidityPeriod({ ...nonRepeatingValidity, disruptionEndDate: "23/07/2023", disruptionEndTime: "1000" }),
         ).toEqual([
             {
-                StartTime: "2023-05-15T09:00:00.000Z",
-                EndTime: "2023-07-23T09:00:00.000Z",
+                StartTime: getDatetimeFromDateAndTime(
+                    nonRepeatingValidity.disruptionStartDate,
+                    nonRepeatingValidity.disruptionStartTime,
+                ).toISOString(),
+                EndTime: getDatetimeFromDateAndTime("23/07/2023", "1000").toISOString(),
             },
         ]);
     });
