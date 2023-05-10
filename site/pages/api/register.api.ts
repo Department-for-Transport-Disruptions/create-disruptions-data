@@ -15,12 +15,19 @@ import {
     redirectTo,
     destroyCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
 const register = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
-        destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
+        const session = getSession(req);
+
+        if (session) {
+            await globalSignOut(session.username);
+
+            destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
+            destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
+        }
 
         const validatedBody = registerSchemaRefined.safeParse(req.body);
         if (!validatedBody.success) {
