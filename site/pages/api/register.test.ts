@@ -82,7 +82,7 @@ describe("register", () => {
         await register(req, res);
 
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(3);
-        expect(cognito.globalSignOut).toHaveBeenCalledTimes(1);
+        expect(cognito.globalSignOut).toHaveBeenCalledTimes(2);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

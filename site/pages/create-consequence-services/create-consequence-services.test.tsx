@@ -6,7 +6,7 @@ import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[di
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
-    session: {
+    sessionWithOrg: {
         email: "test@example.com",
         username: "Test",
         orgId: "org",
@@ -22,7 +22,7 @@ const blankInputs: CreateConsequenceServicesProps = {
 const withInputs: CreateConsequenceServicesProps = {
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    session: {
+    sessionWithOrg: {
         email: "test@example.com",
         username: "Test",
         orgId: "org",
@@ -78,7 +78,7 @@ beforeEach(() => {
 });
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
-    session: {
+    sessionWithOrg: {
         email: "test@example.com",
         username: "Test",
         orgId: "org",

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import { LOGIN_PAGE_PATH } from "../../constants";
-import { Session } from "../../utils/apiUtils/auth";
+import { Session } from "../../schemas/session.schema";
 import CsrfForm from "../form/CsrfForm";
 
 interface HeaderProps {

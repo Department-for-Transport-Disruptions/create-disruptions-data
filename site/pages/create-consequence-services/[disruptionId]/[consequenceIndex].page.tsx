@@ -37,7 +37,7 @@ import {
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
-import { SessionWithOrgDetail, getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
@@ -79,9 +79,7 @@ const sortServices = (services: Service[]) => {
 
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
-        CreateConsequenceProps {
-    session: SessionWithOrgDetail;
-}
+        CreateConsequenceProps {}
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(props);
@@ -584,7 +582,7 @@ export const getServerSideProps = async (
             initialServices: services,
             initialStops: stops,
             consequenceIndex: index,
-            session,
+            sessionWithOrg: session,
         },
     };
 };

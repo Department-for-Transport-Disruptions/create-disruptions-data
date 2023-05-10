@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { SessionWithOrgDetail, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
+import { SessionWithOrgDetail } from "../schemas/session.schema";
+import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Account settings - Create Transport Disruption Data Service";
 const description = "Account settings page for the Create Transport Disruption Data Service";

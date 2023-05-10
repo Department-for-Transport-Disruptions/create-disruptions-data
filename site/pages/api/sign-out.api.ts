@@ -2,13 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, LOGIN_PAGE_PATH } from "../../constants";
 import { globalSignOut } from "../../data/cognito";
 import { destroyCookieOnResponseObject, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 const signOut = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { username } = req.body as Record<string, string>;
+        const session = getSession(req);
 
-        if (username) {
-            await globalSignOut(username);
+        if (session) {
+            await globalSignOut(session.username);
         }
 
         destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);

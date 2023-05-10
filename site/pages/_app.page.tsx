@@ -4,9 +4,9 @@ import type { AppContext, AppInitialProps, AppProps } from "next/app";
 import App from "next/app";
 import { useEffect } from "react";
 import Header from "../components/layout/Header";
+import type { Session } from "../schemas/session.schema";
 import { getCsrfToken } from "../utils";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import type { Session } from "../utils/apiUtils/auth";
 
 config.autoAddCss = false;
 
