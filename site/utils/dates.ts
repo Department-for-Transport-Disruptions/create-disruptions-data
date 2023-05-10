@@ -3,12 +3,18 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { CD_DATE_FORMAT } from "../constants";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+dayjs.tz.setDefault("Europe/London");
 
 export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = CD_DATE_FORMAT) => {
     return dayjs(dateOrTime).format(format);
