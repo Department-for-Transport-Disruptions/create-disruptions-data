@@ -687,11 +687,14 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
                     if (consequence.consequenceType === "operatorWide") {
                         consequence.consequenceOperators.forEach((consOp) => {
-                            const foundOperator = operators.find((op) => op.nocCode === consOp) as Operator;
-                            disruptionOperators.push({
-                                operatorName: foundOperator.operatorPublicName,
-                                operatorRef: foundOperator.nocCode,
-                            });
+                            const foundOperator = operators.find((op) => op.nocCode === consOp);
+
+                            if (foundOperator) {
+                                disruptionOperators.push({
+                                    operatorName: foundOperator.operatorPublicName,
+                                    operatorRef: foundOperator.nocCode,
+                                });
+                            }
                         });
                     }
                 });
