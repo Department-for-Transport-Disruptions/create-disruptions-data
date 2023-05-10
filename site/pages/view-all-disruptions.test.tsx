@@ -7,7 +7,7 @@ import ViewAllDisruptions, {
     getWorstSeverity,
     TableDisruption,
 } from "./view-all-disruptions.page";
-import { mockServices } from "../testData/mockData";
+import { mockOperators, mockServices } from "../testData/mockData";
 
 const disruptions: TableDisruption[] = [
     {
@@ -76,6 +76,7 @@ describe("pages", () => {
                         disruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         services={mockServices}
+                        operators={mockOperators}
                     />,
                 )
                 .toJSON();
@@ -89,6 +90,7 @@ describe("pages", () => {
                         disruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
                         services={mockServices}
+                        operators={mockOperators}
                     />,
                 )
                 .toJSON();
@@ -102,6 +104,7 @@ describe("pages", () => {
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         services={mockServices}
+                        operators={mockOperators}
                     />,
                 )
                 .toJSON();
