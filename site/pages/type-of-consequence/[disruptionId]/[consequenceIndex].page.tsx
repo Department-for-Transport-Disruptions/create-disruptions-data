@@ -40,7 +40,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Add a Consequence</h1>
+                        <h1 className="govuk-heading-xl">Add a consequence</h1>
 
                         <Radios<ConsequenceType>
                             display="Select consequence type"
