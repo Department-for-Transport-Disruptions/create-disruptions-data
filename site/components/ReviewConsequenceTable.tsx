@@ -53,18 +53,7 @@ export const createChangeLink = (
     );
 };
 
-const getRows = (
-    consequence: Consequence,
-    disruption: Disruption,
-    deleteActionHandler: (
-        name: string,
-        hiddenInputs: {
-            name: string;
-            value: string;
-        }[],
-    ) => void,
-    isDisruptionDetail?: boolean,
-) => {
+const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionDetail?: boolean) => {
     const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
         {
             header: "Consequence type",
@@ -245,7 +234,7 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, deleteActionHandler, isDisruptionDetail)} />
+            <Table rows={getRows(consequence, disruption, isDisruptionDetail)} />
             <button
                 key={consequence.consequenceIndex}
                 className="govuk-button govuk-button--warning mt-4"
