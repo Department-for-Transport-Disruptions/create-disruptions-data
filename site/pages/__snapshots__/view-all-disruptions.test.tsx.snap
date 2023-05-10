@@ -77,14 +77,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             />
           </svg>
         </a>
-        <button
-          className="govuk-button govuk-button--secondary block"
-          data-module="govuk-button"
-          onClick={[Function]}
+        <div
+          className="flex"
         >
-          F
-          ilters
-        </button>
+          <button
+            className="govuk-button govuk-button--secondary block"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Show 
+            filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Clear filters
+          </button>
+        </div>
       </div>
       <table
         className="govuk-table"
@@ -557,14 +568,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             />
           </svg>
         </a>
-        <button
-          className="govuk-button govuk-button--secondary block"
-          data-module="govuk-button"
-          onClick={[Function]}
+        <div
+          className="flex"
         >
-          F
-          ilters
-        </button>
+          <button
+            className="govuk-button govuk-button--secondary block"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Show 
+            filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Clear filters
+          </button>
+        </div>
       </div>
       <table
         className="govuk-table"
@@ -1455,14 +1477,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
             />
           </svg>
         </a>
-        <button
-          className="govuk-button govuk-button--secondary block"
-          data-module="govuk-button"
-          onClick={[Function]}
+        <div
+          className="flex"
         >
-          F
-          ilters
-        </button>
+          <button
+            className="govuk-button govuk-button--secondary block"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Show 
+            filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Clear filters
+          </button>
+        </div>
       </div>
       <table
         className="govuk-table"

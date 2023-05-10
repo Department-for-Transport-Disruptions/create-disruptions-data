@@ -36,7 +36,7 @@ import {
     servicesConsequenceSchema,
     Routes,
 } from "../../../schemas/consequence.schema";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence } from "../../../utils";
+import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
@@ -64,17 +64,6 @@ export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
     }
 
     return [];
-};
-
-const sortServices = (services: Service[]) => {
-    return services.sort((a, b) => {
-        return (
-            a.lineName.localeCompare(b.lineName, "en", { numeric: true }) ||
-            a.origin.localeCompare(b.origin) ||
-            a.destination.localeCompare(b.destination) ||
-            a.operatorShortName.localeCompare(b.operatorShortName)
-        );
-    });
 };
 
 export interface CreateConsequenceServicesProps
