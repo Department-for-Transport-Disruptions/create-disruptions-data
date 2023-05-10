@@ -84,35 +84,50 @@ const nonRepeatingPeriod: Period[] = [
 ];
 
 describe("siri tests", () => {
-    it.each([
-        [weeklyValidity, weeklyValidityPeriodOutput],
-        [{ ...weeklyValidity, disruptionRepeatsEndDate: "21/05/2023" }, weeklyValidityPeriodOutput],
-        [
-            { ...weeklyValidity, disruptionRepeatsEndDate: "23/05/2023" },
+    it("should return expected periods for weekly validity when repeating end date day is between the end date and start date day", () => {
+        expect(getValidityPeriod(weeklyValidity)).toEqual(weeklyValidityPeriodOutput);
+    });
+
+    it("should return expected periods for weekly validity when repeating end date day is on the same day as the end date day", () => {
+        expect(getValidityPeriod({ ...weeklyValidity, disruptionRepeatsEndDate: "21/05/2023" })).toEqual(
+            weeklyValidityPeriodOutput,
+        );
+    });
+
+    it("should return expected periods for weekly validity when repeating end date day is on the same day as the start date day", () => {
+        expect(getValidityPeriod({ ...weeklyValidity, disruptionRepeatsEndDate: "23/05/2023" })).toEqual(
             weeklyValidityPeriodOutput.concat({
                 StartTime: "2023-05-23T08:00:00.000Z",
                 EndTime: "2023-05-23T09:00:00.000Z",
             }),
-        ],
-        [
-            { ...weeklyValidity, disruptionRepeatsEndDate: "18/05/2023" },
+        );
+    });
+
+    it("should return expected periods for weekly validity when repeating end date day is in between the start date and end date days", () => {
+        expect(getValidityPeriod({ ...weeklyValidity, disruptionRepeatsEndDate: "18/05/2023" })).toEqual(
             weeklyValidityPeriodOutput.slice(0, -1).concat({
                 StartTime: "2023-05-16T08:00:00.000Z",
                 EndTime: "2023-05-18T09:00:00.000Z",
             }),
-        ],
-        [dailyValidity, dailyValidityPeriodOutput],
-        [nonRepeatingValidity, nonRepeatingPeriod],
-        [
-            { ...nonRepeatingValidity, disruptionEndDate: "23/07/2023", disruptionEndTime: "1000" },
-            [
-                {
-                    StartTime: "2023-05-15T09:00:00.000Z",
-                    EndTime: "2023-07-23T09:00:00.000Z",
-                },
-            ],
-        ],
-    ])("should return expect periods for validity", (validity, result) => {
-        expect(getValidityPeriod(validity)).toEqual(result);
+        );
+    });
+
+    it("should return expected periods for daily validity", () => {
+        expect(getValidityPeriod(dailyValidity)).toEqual(dailyValidityPeriodOutput);
+    });
+
+    it("should return expected periods for non repeating validity without end date", () => {
+        expect(getValidityPeriod(nonRepeatingValidity)).toEqual(nonRepeatingPeriod);
+    });
+
+    it("should return expected periods for non repeating validity with end date and time", () => {
+        expect(
+            getValidityPeriod({ ...nonRepeatingValidity, disruptionEndDate: "23/07/2023", disruptionEndTime: "1000" }),
+        ).toEqual([
+            {
+                StartTime: "2023-05-15T09:00:00.000Z",
+                EndTime: "2023-07-23T09:00:00.000Z",
+            },
+        ]);
     });
 });
