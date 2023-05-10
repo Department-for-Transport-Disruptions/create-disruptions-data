@@ -12,7 +12,7 @@ import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
-const getValidityPeriod = (period: Validity): Period[] => {
+export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
     siriValidityPeriods.push(getPeriod(period));
