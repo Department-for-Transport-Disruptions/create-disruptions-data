@@ -30,6 +30,7 @@ import {
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
+import { getEndingOnDateText } from "../../utils/dates";
 import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
@@ -188,7 +189,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             ...validity,
             [field]: change,
             disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
+            disruptionRepeatsEndDate: "",
         });
+    };
+
+    const getEndingDateDisplay = () => {
+        return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
+            ? `The validity period ends on ${getEndingOnDateText(
+                  validity.disruptionRepeats,
+                  validity.disruptionRepeatsEndDate,
+                  validity.disruptionStartDate,
+                  validity.disruptionEndDate,
+              )}${validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""}`
+            : null;
     };
 
     return (
@@ -411,6 +424,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             }
                             initialErrors={pageState.errors}
                         />
+                        <legend>{getEndingDateDisplay()}</legend>
 
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
