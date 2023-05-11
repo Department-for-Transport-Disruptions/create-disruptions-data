@@ -52,13 +52,14 @@ export const CognitoStack = ({ stack }: StackContext) => {
             requireUppercase: false,
             tempPasswordValidity: Duration.days(3),
         },
-        email: isSandbox(stack.stage)
-            ? UserPoolEmail.withCognito()
-            : UserPoolEmail.withSES({
-                  fromEmail: `noreply@${domain}`,
-                  fromName: "Create Transport Disruption Data Service",
-                  sesVerifiedDomain: domain,
-              }),
+        email:
+            stack.stage === "prod"
+                ? UserPoolEmail.withSES({
+                      fromEmail: `noreply@${domain}`,
+                      fromName: "Create Transport Disruption Data Service",
+                      sesVerifiedDomain: domain,
+                  })
+                : UserPoolEmail.withCognito(),
         selfSignUpEnabled: false,
         accountRecovery: AccountRecovery.EMAIL_ONLY,
         autoVerify: {
