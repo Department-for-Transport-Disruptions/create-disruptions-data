@@ -8,6 +8,7 @@ import DateSelector from "../components/form/DateSelector";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
+import OperatorSearch from "../components/OperatorSearch";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import {
@@ -17,8 +18,8 @@ import {
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
 import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { fetchServices } from "../data/refDataApi";
-import { Service } from "../schemas/consequence.schema";
+import { fetchOperators, fetchServices } from "../data/refDataApi";
+import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
 import {
     sortDisruptionsByStartDate,
@@ -27,6 +28,7 @@ import {
     getServiceLabel,
     mapValidityPeriods,
     getDisplayByValue,
+    sortServices,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
@@ -34,12 +36,13 @@ import {
     filterDatePeriodMatchesDisruptionDatePeriod,
     getDate,
     getFormattedDate,
+    dateIsSameOrBeforeSecondDate,
 } from "../utils/dates";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
 
-interface Operator {
+interface DisruptionOperator {
     operatorName: string;
     operatorRef: string;
 }
@@ -55,13 +58,14 @@ export interface TableDisruption {
     severity: string;
     status: string;
     serviceIds: string[];
-    operators: Operator[];
+    operators: DisruptionOperator[];
 }
 
 export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
     services: Service[];
     newDisruptionId: string;
+    operators: Operator[];
 }
 
 export interface Filter {
@@ -72,7 +76,7 @@ export interface Filter {
     };
     severity?: string;
     status?: string;
-    operators: Operator[];
+    operators: DisruptionOperator[];
     mode?: string;
 }
 
@@ -242,7 +246,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
     return disruptionsToDisplay;
 };
 
-const useFiltersOnDisruptions = (
+const applyFiltersToDisruptions = (
     disruptions: TableDisruption[],
     setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     currentPage: number,
@@ -258,12 +262,23 @@ const useFiltersOnDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
-const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllDisruptionsProps): ReactElement => {
+const ViewAllDisruptions = ({
+    disruptions,
+    services,
+    newDisruptionId,
+    operators,
+}: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
     );
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
+    const [selectedOperatorsNocs, setSelectedOperatorsNocs] = useState<string[]>([]);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const stateUpdater = (change: string[], _field: string): void => {
+        setSelectedOperatorsNocs(change);
+    };
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
@@ -275,6 +290,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
     const [endDateFilterError, setEndDateFilterError] = useState(false);
+    const [incompatibleDatesError, setIncompatibleDatesError] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -303,7 +319,13 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
             }
 
             if (!!endDateFilter && success) {
-                setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
+                if (dateIsSameOrBeforeSecondDate(getDate(value), getDate(endDateFilter))) {
+                    setIncompatibleDatesError(false);
+                    setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
+                } else {
+                    setIncompatibleDatesError(true);
+                    setFilter({ ...filter, period: undefined });
+                }
             } else {
                 setFilter({ ...filter, period: undefined });
             }
@@ -316,7 +338,13 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
             }
 
             if (!!startDateFilter && success) {
-                setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
+                if (dateIsSameOrBeforeSecondDate(getDate(startDateFilter), getDate(value))) {
+                    setIncompatibleDatesError(false);
+                    setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
+                } else {
+                    setIncompatibleDatesError(true);
+                    setFilter({ ...filter, period: undefined });
+                }
             } else {
                 setFilter({ ...filter, period: undefined });
             }
@@ -329,6 +357,9 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
             setStartDateFilterError(false);
             setEndDateFilter("");
             setEndDateFilterError(false);
+            setSelectedOperatorsNocs([]);
+            setSelectedServices([]);
+            setClearButtonClicked(false);
         }
     }, [clearButtonClicked]);
 
@@ -341,9 +372,15 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
             setStartDateFilterError(true);
         }
 
-        if ((startDateFilter && endDateFilter) || (!startDateFilter && !endDateFilter)) {
+        if (startDateFilter && endDateFilter) {
             setEndDateFilterError(false);
             setStartDateFilterError(false);
+        }
+
+        if (!startDateFilter && !endDateFilter) {
+            setEndDateFilterError(false);
+            setStartDateFilterError(false);
+            setIncompatibleDatesError(false);
         }
     }, [startDateFilter, endDateFilter]);
 
@@ -353,8 +390,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useFiltersOnDisruptions(
+        applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
             currentPage,
@@ -364,12 +400,37 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
     }, [selectedServices]);
 
     useEffect(() => {
+        const disruptionOperatorsToSet: DisruptionOperator[] = [];
+        selectedOperatorsNocs.forEach((selOpNoc) => {
+            const operator = operators.find((op) => op.nocCode === selOpNoc);
+            if (operator) {
+                disruptionOperatorsToSet.push({
+                    operatorName: operator.operatorPublicName,
+                    operatorRef: operator.nocCode,
+                });
+            }
+        });
+
+        setFilter({
+            ...filter,
+            operators: disruptionOperatorsToSet,
+        });
+
+        applyFiltersToDisruptions(
+            disruptions,
+            setDisruptionsToDisplay,
+            currentPage,
+            { ...filter, operators: disruptionOperatorsToSet },
+            setNumberOfDisruptionsPages,
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedOperatorsNocs]);
+
+    useEffect(() => {
         if (filterIsEmpty(filter)) {
             setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useFiltersOnDisruptions(
+            applyFiltersToDisruptions(
                 disruptions,
                 setDisruptionsToDisplay,
                 currentPage,
@@ -404,23 +465,74 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                         <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
                     </svg>
                 </Link>
-                <button
-                    className="govuk-button govuk-button--secondary block"
-                    data-module="govuk-button"
-                    onClick={() => {
-                        if (showFilters) {
-                            setShowFilters(false);
-                        } else {
-                            setShowFilters(true);
-                        }
-                    }}
-                >
-                    {showFilters ? "Hide and clear f" : "F"}ilters
-                </button>
+                <div className="flex">
+                    <button
+                        className="govuk-button govuk-button--secondary block"
+                        data-module="govuk-button"
+                        onClick={() => {
+                            if (showFilters) {
+                                setFilter({ services: [], operators: [] });
+                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setClearButtonClicked(true);
+                                setShowFilters(false);
+                            } else {
+                                setShowFilters(true);
+                            }
+                        }}
+                    >
+                        {showFilters ? "Hide and clear " : "Show "}filters
+                    </button>
+                    {showFilters && (
+                        <button
+                            className="govuk-button govuk-button--secondary ml-2"
+                            data-module="govuk-button"
+                            onClick={() => {
+                                setFilter({ services: [], operators: [] });
+                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setClearButtonClicked(true);
+                            }}
+                        >
+                            Clear filters
+                        </button>
+                    )}
+                </div>
             </div>
 
             {showFilters ? (
                 <>
+                    <OperatorSearch
+                        display="Operators"
+                        displaySize="s"
+                        operators={operators}
+                        selectedOperatorNocs={selectedOperatorsNocs}
+                        stateUpdater={stateUpdater}
+                        initialErrors={[]}
+                        inputName="operatorsFilter"
+                        reset={clearButtonClicked}
+                    />
+                    {selectedOperatorsNocs.length > 0 ? (
+                        <Table
+                            rows={selectedOperatorsNocs.map((selOpNoc) => {
+                                return {
+                                    cells: [
+                                        operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
+                                        selOpNoc,
+                                        <button
+                                            key={selOpNoc}
+                                            className="govuk-link"
+                                            onClick={() => {
+                                                const selectedOperatorsWithRemoved =
+                                                    selectedOperatorsNocs.filter((opNoc) => opNoc !== selOpNoc) || [];
+                                                stateUpdater(selectedOperatorsWithRemoved, "");
+                                            }}
+                                        >
+                                            Remove
+                                        </button>,
+                                    ],
+                                };
+                            })}
+                        />
+                    ) : null}
                     <ServiceSearch
                         services={services}
                         setSelectedServices={setSelectedServices}
@@ -430,7 +542,7 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}
 
-                    {startDateFilterError && (
+                    {(startDateFilterError || endDateFilterError) && (
                         <div>
                             <span className="govuk-error-message">
                                 <span className="govuk-visually-hidden">Error: </span>
@@ -438,104 +550,106 @@ const ViewAllDisruptions = ({ disruptions, services, newDisruptionId }: ViewAllD
                             </span>
                         </div>
                     )}
-                    <DateSelector
-                        display="Start date"
-                        hiddenHint="Enter in format DD/MM/YYYY"
-                        value=""
-                        disabled={false}
-                        disablePast={false}
-                        inputName="disruptionStartDate"
-                        stateUpdater={(value) => {
-                            handleDateFilterUpdate(
-                                filter,
-                                setFilter,
-                                "start",
-                                value,
-                                setStartDateFilter,
-                                setEndDateFilter,
-                                validitySchema.shape.disruptionStartDate,
-                            );
-                            setClearButtonClicked(false);
-                        }}
-                        reset={clearButtonClicked}
-                        schema={validitySchema.shape.disruptionStartDate}
-                        errorOnBlur={startDateFilterError || endDateFilterError}
-                    />
-                    {endDateFilterError && (
+
+                    {incompatibleDatesError && (
                         <div>
                             <span className="govuk-error-message">
                                 <span className="govuk-visually-hidden">Error: </span>
-                                Both start date and end date must be provided to filter by date.
+                                The end date must be the same day or after the start date.
                             </span>
                         </div>
                     )}
-                    <DateSelector
-                        display="End date"
-                        hiddenHint="Enter in format DD/MM/YYYY"
-                        value=""
-                        disabled={false}
-                        disablePast={false}
-                        inputName="disruptionEndDate"
-                        stateUpdater={(value) => {
-                            handleDateFilterUpdate(
-                                filter,
-                                setFilter,
-                                "end",
-                                value,
-                                setStartDateFilter,
-                                setEndDateFilter,
-                                validitySchema.shape.disruptionEndDate,
-                            );
-                            setClearButtonClicked(false);
-                        }}
-                        reset={clearButtonClicked}
-                        schema={validitySchema.shape.disruptionEndDate}
-                        errorOnBlur={startDateFilterError || endDateFilterError}
-                    />
-                    <Select
-                        inputName="severityFilter"
-                        display="Severity"
-                        value={filter.severity}
-                        defaultDisplay="Select a severity"
-                        selectValues={DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display))}
-                        stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
-                        width="1/4"
-                        updateOnChange
-                        useDefaultValue={false}
-                    />
-                    <Select
-                        inputName="statusFilter"
-                        display="Status"
-                        value={filter.status}
-                        defaultDisplay="Select a status"
-                        selectValues={DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display))}
-                        stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
-                        width="1/4"
-                        updateOnChange
-                        useDefaultValue={false}
-                    />
-                    <Select
-                        inputName="modeFilter"
-                        display="Mode"
-                        value={filter.mode}
-                        defaultDisplay="Select a mode"
-                        selectValues={VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display))}
-                        stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
-                        width="1/4"
-                        updateOnChange
-                        useDefaultValue={false}
-                    />
-                    <button
-                        className="govuk-button govuk-button--secondary mt-2"
-                        data-module="govuk-button"
-                        onClick={() => {
-                            setFilter({ services: [], operators: [] });
-                            setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
-                            setClearButtonClicked(true);
-                        }}
-                    >
-                        Clear filters
-                    </button>
+
+                    <div className="flex">
+                        <DateSelector
+                            display="Start date"
+                            hiddenHint="Enter in format DD/MM/YYYY"
+                            value=""
+                            disabled={false}
+                            disablePast={false}
+                            inputName="disruptionStartDate"
+                            stateUpdater={(value) => {
+                                handleDateFilterUpdate(
+                                    filter,
+                                    setFilter,
+                                    "start",
+                                    value,
+                                    setStartDateFilter,
+                                    setEndDateFilter,
+                                    validitySchema.shape.disruptionStartDate,
+                                );
+                                setClearButtonClicked(false);
+                            }}
+                            reset={clearButtonClicked}
+                            schema={validitySchema.shape.disruptionStartDate}
+                            errorOnBlur={startDateFilterError || endDateFilterError}
+                        />
+                        <div className="ml-5">
+                            <DateSelector
+                                display="End date"
+                                hiddenHint="Enter in format DD/MM/YYYY"
+                                value=""
+                                disabled={false}
+                                disablePast={false}
+                                inputName="disruptionEndDate"
+                                stateUpdater={(value) => {
+                                    handleDateFilterUpdate(
+                                        filter,
+                                        setFilter,
+                                        "end",
+                                        value,
+                                        setStartDateFilter,
+                                        setEndDateFilter,
+                                        validitySchema.shape.disruptionEndDate,
+                                    );
+                                    setClearButtonClicked(false);
+                                }}
+                                reset={clearButtonClicked}
+                                schema={validitySchema.shape.disruptionEndDate}
+                                errorOnBlur={startDateFilterError || endDateFilterError}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex">
+                        <Select
+                            inputName="severityFilter"
+                            display="Severity"
+                            value={filter.severity}
+                            defaultDisplay="Select a severity"
+                            selectValues={DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display))}
+                            stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
+                            width="1/4"
+                            updateOnChange
+                            useDefaultValue={false}
+                        />
+                        <div className="ml-10">
+                            <Select
+                                inputName="statusFilter"
+                                display="Status"
+                                value={filter.status}
+                                defaultDisplay="Select a status"
+                                selectValues={DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display))}
+                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
+                                width="1/4"
+                                updateOnChange
+                                useDefaultValue={false}
+                            />
+                        </div>
+                        <div className="ml-10">
+                            <Select
+                                inputName="modeFilter"
+                                display="Mode"
+                                value={filter.mode}
+                                defaultDisplay="Select a mode"
+                                selectValues={VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display))}
+                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
+                                width="1/4"
+                                updateOnChange
+                                useDefaultValue={false}
+                            />
+                        </div>
+                    </div>
                 </>
             ) : null}
 
@@ -560,6 +674,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptions: [],
             newDisruptionId: randomUUID(),
             services: [],
+            operators: [],
         },
     };
 
@@ -572,9 +687,28 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!session) {
         return baseProps;
     }
-
+    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
     const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
-    const services: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
+    const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
+    let services: Service[] = [];
+
+    if (servicesData.length > 0) {
+        services = sortServices(servicesData);
+
+        const setOfServices = new Set();
+
+        const filteredServices: Service[] = services.filter((item) => {
+            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+            if (!setOfServices.has(serviceDisplay)) {
+                setOfServices.add(serviceDisplay);
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        services = filteredServices;
+    }
 
     if (data) {
         const sortedDisruptions = sortDisruptionsByStartDate(data);
@@ -582,7 +716,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceIds: string[] = [];
-            const operators: Operator[] = [];
+            const disruptionOperators: DisruptionOperator[] = [];
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
@@ -598,6 +732,19 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                             serviceIds.push(service.id.toString());
                         });
                     }
+
+                    if (consequence.consequenceType === "operatorWide") {
+                        consequence.consequenceOperators.forEach((consOp) => {
+                            const foundOperator = operators.find((op) => op.nocCode === consOp);
+
+                            if (foundOperator) {
+                                disruptionOperators.push({
+                                    operatorName: foundOperator.operatorPublicName,
+                                    operatorRef: foundOperator.nocCode,
+                                });
+                            }
+                        });
+                    }
                 });
             }
 
@@ -606,7 +753,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 status: Progress.open,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
-                operators,
+                operators: disruptionOperators,
                 id: disruption.disruptionId,
                 summary: reduceStringWithEllipsis(disruption.summary, 95),
                 validityPeriods: mapValidityPeriods(disruption),
@@ -618,6 +765,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 disruptions: shortenedData,
                 services,
                 newDisruptionId: randomUUID(),
+                operators,
             },
         };
     }
@@ -627,6 +775,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptions: [],
             services,
             newDisruptionId: randomUUID(),
+            operators,
         },
     };
 };

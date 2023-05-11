@@ -82,10 +82,13 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
 ): boolean => {
     if (disruptionEndDate) {
         return (
-            disruptionStartDate.isBetween(filterStartDate, filterEndDate) ||
-            disruptionEndDate.isBetween(filterStartDate, filterEndDate)
+            disruptionStartDate.isBetween(filterStartDate, filterEndDate, "day", "[]") ||
+            disruptionEndDate.isBetween(filterStartDate, filterEndDate, "day", "[]")
         );
     }
 
-    return disruptionStartDate.isBetween(filterStartDate, filterEndDate);
+    return disruptionStartDate.isBetween(filterStartDate, filterEndDate, "day", "[]");
 };
+
+export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate: dayjs.Dayjs): boolean =>
+    firstDate.isSameOrBefore(secondDate);

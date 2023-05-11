@@ -175,3 +175,14 @@ export const flattenZodErrors = (errors: ZodError) =>
  */
 export const zodTimeInMinutes = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(minutesRegex);
+
+export const sortServices = (services: Service[]) => {
+    return services.sort((a, b) => {
+        return (
+            a.lineName.localeCompare(b.lineName, "en", { numeric: true }) ||
+            a.origin.localeCompare(b.origin) ||
+            a.destination.localeCompare(b.destination) ||
+            a.operatorShortName.localeCompare(b.operatorShortName)
+        );
+    });
+};

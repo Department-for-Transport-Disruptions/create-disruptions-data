@@ -98,6 +98,7 @@ const OperatorSearch = <T extends object>({
                         inputId="operator-search-dropdown-value"
                         menuPlacement="auto"
                         menuPosition="fixed"
+                        value={null}
                     />
                 </FormElementWrapper>
             </div>

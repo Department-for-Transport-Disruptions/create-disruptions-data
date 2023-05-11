@@ -121,6 +121,8 @@ const DateSelector = <T extends object>({
                             setDateValue(newValue);
                             if (newValue) {
                                 stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                            } else {
+                                stateUpdater("", inputName);
                             }
                         }}
                         onAccept={() => setErrors([])}
