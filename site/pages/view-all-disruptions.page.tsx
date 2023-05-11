@@ -244,7 +244,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
     return disruptionsToDisplay;
 };
 
-const useFiltersOnDisruptions = (
+const applyFiltersToDisruptions = (
     disruptions: TableDisruption[],
     setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     currentPage: number,
@@ -369,8 +369,7 @@ const ViewAllDisruptions = ({
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useFiltersOnDisruptions(
+        applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
             currentPage,
@@ -380,21 +379,23 @@ const ViewAllDisruptions = ({
     }, [selectedServices]);
 
     useEffect(() => {
-        const operatorsToSet = selectedOperatorsNocs.map(
-            (selOpNoc) => operators.find((op) => op.nocCode === selOpNoc) as Operator,
-        );
-        const disruptionOperatorsToSet: DisruptionOperator[] = operatorsToSet.map((op) => {
-            return {
-                operatorName: op.operatorPublicName,
-                operatorRef: op.nocCode,
-            };
+        const disruptionOperatorsToSet: DisruptionOperator[] = [];
+        selectedOperatorsNocs.forEach((selOpNoc) => {
+            const operator = operators.find((op) => op.nocCode === selOpNoc);
+            if (operator) {
+                disruptionOperatorsToSet.push({
+                    operatorName: operator.operatorPublicName,
+                    operatorRef: operator.nocCode,
+                });
+            }
         });
+
         setFilter({
             ...filter,
             operators: disruptionOperatorsToSet,
         });
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useFiltersOnDisruptions(
+
+        applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
             currentPage,
@@ -408,8 +409,7 @@ const ViewAllDisruptions = ({
             setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useFiltersOnDisruptions(
+            applyFiltersToDisruptions(
                 disruptions,
                 setDisruptionsToDisplay,
                 currentPage,
