@@ -18,12 +18,12 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
 
-        if (!validatedBody.success || !session?.username) {
+        if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.username);
+        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
@@ -45,12 +45,12 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await publishEditedConsequences(draftDisruption.disruptionId, session.username);
-        await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.username);
+        await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
+        await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
-            session.username,
+            session.orgId,
         );
 
         cleardownCookies(req, res);

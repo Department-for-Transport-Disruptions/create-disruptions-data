@@ -503,12 +503,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const session = getSession(ctx.req);
 
-    if (!session?.username) {
+    if (!session) {
         throw new Error("No session found");
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.username);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

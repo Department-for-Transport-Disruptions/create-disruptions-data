@@ -52,7 +52,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
 
-    if (!sessionWithOrg?.username) {
+    if (!sessionWithOrg) {
         throw new Error("No session found");
     }
 

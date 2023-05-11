@@ -5,7 +5,7 @@ import createDisruption, { formatCreateDisruptionBody } from "./create-disruptio
 import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { DEFAULT_USER_ID, getMockRequestAndResponse } from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getFutureDateAsString } from "../../utils/dates";
 
@@ -121,7 +121,7 @@ describe("create-disruption API", () => {
                     },
                 ],
             },
-            DEFAULT_USER_ID,
+            DEFAULT_ORG_ID,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });

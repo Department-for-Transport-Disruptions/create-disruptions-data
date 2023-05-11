@@ -12,13 +12,13 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const session = getSession(req);
 
-        if (!id || Array.isArray(id) || !session?.username) {
+        if (!id || Array.isArray(id) || !session) {
             throw new Error(
                 `Insufficient data provided for deleting a disruption by id: ${id ? id.toString() : "undefined"}`,
             );
         }
 
-        const disruption = await getDisruptionById(id, session.username);
+        const disruption = await getDisruptionById(id, session.orgId);
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);
@@ -26,7 +26,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             return;
         }
 
-        await deletePublishedDisruption(disruption, id, session.username);
+        await deletePublishedDisruption(disruption, id, session.orgId);
 
         redirectTo(res, "/dashboard");
         return;

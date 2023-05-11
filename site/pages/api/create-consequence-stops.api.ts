@@ -42,7 +42,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
 
         const session = getSession(req);
 
-        if (!session?.username) {
+        if (!session) {
             throw new Error("No session found");
         }
 
@@ -71,7 +71,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.username);
+        await upsertConsequence(validatedBody.data, session.orgId);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =

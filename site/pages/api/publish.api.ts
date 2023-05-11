@@ -13,12 +13,12 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
 
-        if (!validatedBody.success || !session?.username) {
+        if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.username);
+        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
         if (!draftDisruption || (draftDisruption && Object.keys(draftDisruption).length === 0)) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
@@ -43,7 +43,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
-            session.username,
+            session.orgId,
         );
 
         cleardownCookies(req, res);

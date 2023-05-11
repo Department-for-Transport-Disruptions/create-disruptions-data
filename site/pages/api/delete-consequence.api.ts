@@ -9,7 +9,7 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
     try {
         const session = getSession(req);
 
-        if (!session?.username) {
+        if (!session) {
             throw new Error("No session found");
         }
 
@@ -42,11 +42,11 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 consequenceIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertConsequence(consequence, session.username);
+            await upsertConsequence(consequence, session.orgId);
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeConsequenceFromDisruption(Number(id), disruptionId, session.username);
+            await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId);
         }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);

@@ -19,7 +19,7 @@ import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
-export const DEFAULT_USER_ID = "ee8a8395-fcb8-4e72-be1f-022c207292cd";
+export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 
 export interface GetMockContextInput {
     session?: Record<string, string> | null;

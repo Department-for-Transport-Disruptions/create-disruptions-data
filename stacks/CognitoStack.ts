@@ -10,6 +10,7 @@ import {
     UserPoolEmail,
 } from "aws-cdk-lib/aws-cognito";
 import { Function, StackContext } from "sst/constructs";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { getDomain, isSandbox } from "./utils";
 
 export const CognitoStack = ({ stack }: StackContext) => {
@@ -92,24 +93,11 @@ export const CognitoStack = ({ stack }: StackContext) => {
         },
     });
 
-    new CfnUserPoolGroup(stack, "cdd-user-pool-system-admin-group", {
-        userPoolId: userPool.userPoolId,
-        groupName: "system-admins",
-    });
-
-    new CfnUserPoolGroup(stack, "cdd-user-pool-org-admin-group", {
-        userPoolId: userPool.userPoolId,
-        groupName: "org-admins",
-    });
-
-    new CfnUserPoolGroup(stack, "cdd-user-pool-org-publisher-group", {
-        userPoolId: userPool.userPoolId,
-        groupName: "org-publishers",
-    });
-
-    new CfnUserPoolGroup(stack, "cdd-user-pool-org-staff-group", {
-        userPoolId: userPool.userPoolId,
-        groupName: "org-staff",
+    Object.values(UserGroups).forEach((group) => {
+        new CfnUserPoolGroup(stack, `cdd-user-pool-${group}-group`, {
+            userPoolId: userPool.userPoolId,
+            groupName: group,
+        });
     });
 
     return {

@@ -1,3 +1,4 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { getOrganisationInfoById } from "../data/dynamo";
 
@@ -6,21 +7,16 @@ export const sessionSchema = z
         sub: z.string().uuid(),
         email: z.string().email(),
         "custom:orgId": z.string().uuid(),
-        "cognito:groups": z.array(
-            z.union([
-                z.literal("system-admins"),
-                z.literal("org-admins"),
-                z.literal("org-publishers"),
-                z.literal("org-staff"),
-            ]),
-        ),
+        "cognito:groups": z.array(z.nativeEnum(UserGroups)).optional(),
     })
     .transform((item) => {
-        const isSystemAdmin = item["cognito:groups"].includes("system-admins");
-        const isOrgAdmin = isSystemAdmin || item["cognito:groups"].includes("org-admins");
-        const isOrgPublisher = isSystemAdmin || isOrgAdmin || item["cognito:groups"].includes("org-publishers");
+        const isSystemAdmin = item["cognito:groups"]?.includes(UserGroups.systemAdmins) ?? false;
+        const isOrgAdmin = (isSystemAdmin || item["cognito:groups"]?.includes(UserGroups.orgAdmins)) ?? false;
+        const isOrgPublisher =
+            (isSystemAdmin || isOrgAdmin || item["cognito:groups"]?.includes(UserGroups.orgPublishers)) ?? false;
         const isOrgStaff =
-            isSystemAdmin || isOrgAdmin || isOrgPublisher || item["cognito:groups"].includes("org-staff");
+            (isSystemAdmin || isOrgAdmin || isOrgPublisher || item["cognito:groups"]?.includes(UserGroups.orgStaff)) ??
+            false;
 
         return {
             username: item.sub,

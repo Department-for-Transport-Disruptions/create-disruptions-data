@@ -569,11 +569,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
-    if (!session?.username) {
+    if (!session) {
         return baseProps;
     }
 
-    const data = await getPublishedDisruptionsDataFromDynamo(session.username);
+    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
     const services: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
 
     if (data) {

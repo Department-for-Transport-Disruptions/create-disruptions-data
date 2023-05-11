@@ -23,7 +23,9 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
         const session = getSession(req);
 
         if (session) {
-            await globalSignOut(session.username);
+            try {
+                await globalSignOut(session.username);
+            } catch {}
 
             destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
             destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);

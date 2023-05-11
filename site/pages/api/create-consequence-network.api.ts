@@ -23,7 +23,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
         const session = getSession(req);
 
-        if (!session?.username) {
+        if (!session) {
             throw new Error("No session found");
         }
 
@@ -52,7 +52,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.username);
+        await upsertConsequence(validatedBody.data, session.orgId);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =

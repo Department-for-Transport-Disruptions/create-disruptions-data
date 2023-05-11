@@ -241,11 +241,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const session = getSession(ctx.req);
 
-    if (!session?.username) {
+    if (!session) {
         return baseProps;
     }
 
-    const data = await getPublishedDisruptionsDataFromDynamo(session.username);
+    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
 
     if (data) {
         const liveDisruptions: Disruption[] = [];

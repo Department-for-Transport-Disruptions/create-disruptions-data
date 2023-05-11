@@ -68,7 +68,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const session = getSession(req);
 
-        if (!session?.username) {
+        if (!session) {
             throw new Error("No session found");
         }
 
@@ -94,7 +94,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data, session.username);
+        await upsertDisruptionInfo(validatedBody.data, session.orgId);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 

@@ -11,14 +11,14 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
 
-        if (!validatedBody.success || !session?.username) {
+        if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
             return;
         }
 
         const disruptionId = validatedBody.data.disruptionId;
 
-        await deleteDisruptionsInEdit(disruptionId, session.username);
+        await deleteDisruptionsInEdit(disruptionId, session.orgId);
         const cookies = parseCookies({ req });
         const ddCookieReferer = cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
 
