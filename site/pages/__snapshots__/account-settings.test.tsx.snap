@@ -86,7 +86,7 @@ exports[`accountSettings > should render correctly 1`] = `
                   <td
                     className="govuk-table__cell align-middle"
                   >
-                    user.name@bus.co.uk
+                    test@example.com
                   </td>
                   <td
                     className="govuk-table__cell align-middle"
@@ -139,7 +139,7 @@ exports[`accountSettings > should render correctly 1`] = `
                   <td
                     className="govuk-table__cell align-middle"
                   >
-                    NEXTUS
+                    Test Org
                   </td>
                   <td
                     className="govuk-table__cell align-middle"

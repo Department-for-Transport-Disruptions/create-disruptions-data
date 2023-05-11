@@ -1,4 +1,5 @@
 import { SSTConfig } from "sst";
+import { CognitoStack } from "./stacks/CognitoStack";
 import { DnsStack } from "./stacks/DnsStack";
 import { DynamoDBStack } from "./stacks/DynamoDBStack";
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
@@ -14,6 +15,7 @@ export default {
     },
     stacks(app) {
         app.stack(DnsStack);
+        app.stack(CognitoStack);
         app.stack(DynamoDBStack);
         app.stack(SiteStack);
         app.stack(SiriGeneratorStack);

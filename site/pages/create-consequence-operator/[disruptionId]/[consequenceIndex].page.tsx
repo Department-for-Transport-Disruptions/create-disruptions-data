@@ -13,7 +13,6 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/OperatorSearch";
 import {
-    ADMIN_AREA_CODE,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
@@ -27,6 +26,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
@@ -223,7 +223,17 @@ export const getServerSideProps = async (
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");
@@ -242,7 +252,7 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
-    const operators = await fetchOperators({ adminAreaCode: ADMIN_AREA_CODE });
+    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
     return { props: { ...pageState, consequenceIndex: index, operators } };
 };

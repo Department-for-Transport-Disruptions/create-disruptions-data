@@ -20,7 +20,8 @@ import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
-import { formatTime } from "../../utils/dates";
+import { getSession } from "../../utils/apiUtils/auth";
+import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -75,12 +76,20 @@ const ReviewDisruption = ({
                 validity.disruptionRepeats === "daily" ? (
                     <>
                         <br />
-                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate}
+                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate} at{" "}
+                        {validity.disruptionEndTime}
                     </>
                 ) : validity.disruptionRepeats === "weekly" ? (
                     <>
                         <br />
-                        Repeats every week until {validity.disruptionRepeatsEndDate}
+                        Repeats every week until{" "}
+                        {getEndingOnDateText(
+                            validity.disruptionRepeats,
+                            validity.disruptionRepeatsEndDate,
+                            validity.disruptionStartDate,
+                            validity.disruptionEndDate,
+                        )}{" "}
+                        at {validity.disruptionEndTime}
                     </>
                 ) : (
                     <></>
@@ -407,7 +416,17 @@ const ReviewDisruption = ({
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ReviewDisruptionProps } | void> => {
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 

@@ -17,6 +17,7 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
@@ -40,7 +41,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Add a Consequence</h1>
+                        <h1 className="govuk-heading-xl">Add a consequence</h1>
 
                         <Radios<ConsequenceType>
                             display="Select consequence type"
@@ -83,7 +84,17 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_TYPE_ERRORS];
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
     if (!disruption) {

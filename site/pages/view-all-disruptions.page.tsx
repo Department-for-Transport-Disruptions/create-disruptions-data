@@ -1,4 +1,5 @@
 import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
@@ -11,7 +12,6 @@ import OperatorSearch from "../components/OperatorSearch";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import {
-    ADMIN_AREA_CODE,
     DISRUPTION_SEVERITIES,
     DISRUPTION_STATUSES,
     VEHICLE_MODES,
@@ -30,6 +30,7 @@ import {
     getDisplayByValue,
     sortServices,
 } from "../utils";
+import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
     convertDateTimeToFormat,
     filterDatePeriodMatchesDisruptionDatePeriod,
@@ -667,10 +668,29 @@ const ViewAllDisruptions = ({
     );
 };
 
-export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsProps }> => {
-    let services: Service[] = [];
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllDisruptionsProps }> => {
+    const baseProps = {
+        props: {
+            disruptions: [],
+            newDisruptionId: randomUUID(),
+            services: [],
+            operators: [],
+        },
+    };
 
-    const servicesData = await fetchServices({ adminAreaCode: ADMIN_AREA_CODE });
+    if (!ctx.req) {
+        return baseProps;
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        return baseProps;
+    }
+    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
+    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
+    let services: Service[] = [];
 
     if (servicesData.length > 0) {
         services = sortServices(servicesData);
@@ -689,10 +709,6 @@ export const getServerSideProps = async (): Promise<{ props: ViewAllDisruptionsP
 
         services = filteredServices;
     }
-
-    const operators = await fetchOperators({ adminAreaCode: ADMIN_AREA_CODE });
-
-    const data = await getPublishedDisruptionsDataFromDynamo();
 
     if (data) {
         const sortedDisruptions = sortDisruptionsByStartDate(data);

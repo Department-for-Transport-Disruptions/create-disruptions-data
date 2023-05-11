@@ -9,7 +9,7 @@ import {
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -50,17 +50,20 @@ describe("create-consequence-network API", () => {
         await createConsequenceNetwork(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith({
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            removeFromJourneyPlanners: "no",
-            disruptionDelay: "",
-            disruptionSeverity: Severity.slight,
-            vehicleMode: VehicleMode.bus,
-            consequenceType: "networkWide",
-            consequenceIndex: 0,
-            disruptionId: defaultDisruptionId,
-        });
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "",
+                disruptionSeverity: Severity.slight,
+                vehicleMode: VehicleMode.bus,
+                consequenceType: "networkWide",
+                consequenceIndex: 0,
+                disruptionId: defaultDisruptionId,
+            },
+            DEFAULT_ORG_ID,
+        );
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,

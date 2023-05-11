@@ -30,6 +30,8 @@ import {
 } from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
+import { getEndingOnDateText } from "../../utils/dates";
 import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
@@ -188,7 +190,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             ...validity,
             [field]: change,
             disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
+            disruptionRepeatsEndDate: "",
         });
+    };
+
+    const getEndingDateDisplay = () => {
+        return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
+            ? `The validity period ends on ${getEndingOnDateText(
+                  validity.disruptionRepeats,
+                  validity.disruptionRepeatsEndDate,
+                  validity.disruptionStartDate,
+                  validity.disruptionEndDate,
+              )}${validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""}`
+            : null;
     };
 
     return (
@@ -411,6 +425,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             }
                             initialErrors={pageState.errors}
                         />
+                        <legend>{getEndingDateDisplay()}</legend>
 
                         <button
                             className="govuk-button govuk-button--secondary mt-8"
@@ -496,8 +511,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_ERRORS];
 
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

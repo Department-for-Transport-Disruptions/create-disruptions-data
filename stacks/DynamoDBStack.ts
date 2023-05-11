@@ -39,8 +39,25 @@ export function DynamoDBStack({ stack }: StackContext) {
         },
     });
 
+    const organisationsTable = new Table(stack, "cdd-dynamodb-organisations-table", {
+        fields: {
+            PK: "string",
+        },
+        primaryIndex: {
+            partitionKey: "PK",
+        },
+        cdk: {
+            table: {
+                tableName: `cdd-organisations-table-${stack.stage}`,
+                billingMode: BillingMode.PAY_PER_REQUEST,
+                pointInTimeRecovery: stack.stage === "prod",
+            },
+        },
+    });
+
     return {
         table,
         siriTable,
+        organisationsTable,
     };
 }

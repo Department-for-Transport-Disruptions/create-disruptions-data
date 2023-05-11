@@ -1,0 +1,12 @@
+{
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "importHelpers": true,
+        "module": "commonjs",
+        "outDir": "dist",
+        "strict": true,
+        "target": "es2019"
+    },
+    "include": ["src/**/*", "../shared-ts"]
+}

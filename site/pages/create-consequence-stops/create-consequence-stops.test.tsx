@@ -33,6 +33,17 @@ const withInputs: CreateConsequenceStopsProps = {
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
+    sessionWithOrg: {
+        email: "test@example.com",
+        username: "Test",
+        orgId: "org",
+        adminAreaCodes: [],
+        orgName: "Test Org",
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
+    },
 };
 
 const withInputsAndErrors: CreateConsequenceStopsProps = {
@@ -59,6 +70,17 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         ],
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
+    },
+    sessionWithOrg: {
+        email: "test@example.com",
+        username: "Test",
+        orgId: "org",
+        adminAreaCodes: [],
+        orgName: "Test Org",
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
     },
 };
 

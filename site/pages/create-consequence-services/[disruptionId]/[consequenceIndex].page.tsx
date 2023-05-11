@@ -19,7 +19,6 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -38,6 +37,7 @@ import {
 } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
@@ -123,6 +123,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             stops.splice(index, 1);
 
             setPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     stops,
@@ -169,6 +170,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         } else {
             if (stopToAdd && (pageState.inputs.stops ? pageState.inputs.stops.length < 100 : true)) {
                 setPageState({
+                    ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         stops: sortStops([...(pageState.inputs.stops ?? []), stopToAdd]),
@@ -215,6 +217,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         } else {
             if (serviceToAdd) {
                 setPageState({
+                    ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         services: sortServices([...(pageState.inputs.services ?? []), serviceToAdd]),
@@ -250,6 +253,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             const newServices = [...pageState.inputs.services].filter((service) => service.id !== serviceId);
 
             setPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     ...(pageState.inputs.stops && {
@@ -503,7 +507,17 @@ export const getServerSideProps = async (
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");
@@ -522,7 +536,7 @@ export const getServerSideProps = async (
 
     let services: Service[] = [];
 
-    const servicesData = await fetchServices({ adminAreaCode: ADMIN_AREA_CODE });
+    const servicesData = await fetchServices({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
     if (servicesData.length > 0) {
         services = sortServices(servicesData);
@@ -557,6 +571,7 @@ export const getServerSideProps = async (
             initialServices: services,
             initialStops: stops,
             consequenceIndex: index,
+            sessionWithOrg: session,
         },
     };
 };

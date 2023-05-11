@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { checkOverlap, convertDateTimeToFormat, formatTime, getDatetimeFromDateAndTime } from "./dates";
+import {
+    checkOverlap,
+    convertDateTimeToFormat,
+    formatTime,
+    getDatetimeFromDateAndTime,
+    getEndingOnDateText,
+} from "./dates";
 
 describe("date/time tests", () => {
     it.each([
@@ -47,5 +53,18 @@ describe("date/time tests", () => {
         ],
     ])("should confirm that the dates overlap", (firstStartDate, firstEndDate, secondStartDate, secondEndDate) => {
         expect(checkOverlap(firstStartDate, firstEndDate, secondStartDate, secondEndDate)).toEqual(true);
+    });
+
+    it.each([
+        ["weekly", "26/05/2023", "04/05/2023", "05/05/2023", "26/05/2023"],
+        ["weekly", "30/05/2023", "03/05/2023", "07/05/2023", "28/05/2023"],
+        ["weekly", "27/05/2023", "03/05/2023", "07/05/2023", "27/05/2023"],
+        ["weekly", "28/05/2023", "03/05/2023", "04/05/2023", "25/05/2023"],
+        ["weekly", "24/05/2023", "03/05/2023", "05/05/2023", "24/05/2023"],
+        ["weekly", "26/05/2023", "03/05/2023", "03/05/2023", "24/05/2023"],
+        ["doesntRepeat", "15/05/2023", undefined, undefined, "15/05/2023"],
+        ["daily", "10/05/2023", "03/05/2023", "03/05/2023", "10/05/2023"],
+    ])("should return expected end date", (repeats, endingOnDate, startDate, endDate, result) => {
+        expect(getEndingOnDateText(repeats, endingOnDate, startDate, endDate)).toEqual(result);
     });
 });

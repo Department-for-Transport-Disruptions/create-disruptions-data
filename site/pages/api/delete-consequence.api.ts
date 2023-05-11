@@ -3,9 +3,16 @@ import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../
 import { removeConsequenceFromDisruption, upsertConsequence } from "../../data/dynamo";
 import { Consequence } from "../../schemas/consequence.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
+
         const body = req.body as {
             id: string | undefined;
             disruptionId: string | undefined;
@@ -35,11 +42,11 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 consequenceIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertConsequence(consequence);
+            await upsertConsequence(consequence, session.orgId);
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeConsequenceFromDisruption(Number(id), disruptionId);
+            await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId);
         }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);

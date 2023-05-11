@@ -411,7 +411,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  01/04/2023 0100 - 01/08/2023 0200
+                  01/04/2023 0100 - 03/04/2023 0200
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -440,7 +440,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <input
             name="validity1"
             type="hidden"
-            value="01/08/2023"
+            value="03/04/2023"
           />
           <input
             name="validity1"
@@ -496,7 +496,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value=""
+                      value="10/03/2023"
                     />
                   </div>
                 </div>
@@ -504,7 +504,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date"
+                    aria-label="Choose date, selected date is Mar 10, 2023"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -567,7 +567,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
+                  defaultValue="0100"
                   disabled={false}
                   id="disruption-start-time-input"
                   name="disruptionStartTime"
@@ -614,7 +614,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value=""
+                      value="13/03/2023"
                     />
                   </div>
                 </div>
@@ -622,7 +622,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date"
+                    aria-label="Choose date, selected date is Mar 13, 2023"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -685,7 +685,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
+                  defaultValue="0200"
                   disabled={false}
                   id="disruption-end-time-input"
                   name="disruptionEndTime"
@@ -772,7 +772,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-doesntRepeat-conditional"
-                      defaultChecked={true}
+                      defaultChecked={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
                       onBlur={[Function]}
@@ -906,7 +906,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-weekly-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       disabled={false}
                       id="disruption-repeats-weekly"
                       name="disruptionRepeats"
@@ -965,7 +965,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
-                                  value=""
+                                  value="30/03/2023"
                                 />
                               </div>
                             </div>
@@ -973,7 +973,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                aria-label="Choose date"
+                                aria-label="Choose date, selected date is Mar 30, 2023"
                                 className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                                 disabled={false}
                                 onBlur={[Function]}
@@ -1017,6 +1017,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </fieldset>
           </div>
+          <legend>
+            The validity period ends on 27/03/2023 at 0200
+          </legend>
           <button
             className="govuk-button govuk-button--secondary mt-8"
             data-module="govuk-button"
@@ -2417,6 +2420,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </fieldset>
           </div>
+          <legend />
           <button
             className="govuk-button govuk-button--secondary mt-8"
             data-module="govuk-button"
@@ -3277,7 +3281,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  01/04/2023 0100 - 01/08/2023 0200
+                  01/04/2023 0100 - 03/04/2023 0200
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -3306,7 +3310,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <input
             name="validity1"
             type="hidden"
-            value="01/08/2023"
+            value="03/04/2023"
           />
           <input
             name="validity1"
@@ -3362,7 +3366,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value=""
+                      value="10/03/2023"
                     />
                   </div>
                 </div>
@@ -3370,7 +3374,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date"
+                    aria-label="Choose date, selected date is Mar 10, 2023"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -3430,7 +3434,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 <input
                   aria-describedby="disruption-start-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
+                  defaultValue="0100"
                   disabled={false}
                   id="disruption-start-time-input"
                   name="disruptionStartTime"
@@ -3477,7 +3481,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value=""
+                      value="13/03/2023"
                     />
                   </div>
                 </div>
@@ -3485,7 +3489,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date"
+                    aria-label="Choose date, selected date is Mar 13, 2023"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -3545,7 +3549,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 <input
                   aria-describedby="disruption-end-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue=""
+                  defaultValue="0200"
                   disabled={false}
                   id="disruption-end-time-input"
                   name="disruptionEndTime"
@@ -3632,7 +3636,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-doesntRepeat-conditional"
-                      defaultChecked={true}
+                      defaultChecked={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
                       onBlur={[Function]}
@@ -3712,7 +3716,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
-                                  value=""
+                                  value="30/03/2023"
                                 />
                               </div>
                             </div>
@@ -3720,7 +3724,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                aria-label="Choose date"
+                                aria-label="Choose date, selected date is Mar 30, 2023"
                                 className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                                 disabled={false}
                                 onBlur={[Function]}
@@ -3763,7 +3767,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     <input
                       className="govuk-radios__input"
                       data-aria-controls="disruption-repeats-weekly-conditional"
-                      defaultChecked={false}
+                      defaultChecked={true}
                       disabled={false}
                       id="disruption-repeats-weekly"
                       name="disruptionRepeats"
@@ -3822,7 +3826,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
-                                  value=""
+                                  value="30/03/2023"
                                 />
                               </div>
                             </div>
@@ -3830,7 +3834,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                aria-label="Choose date"
+                                aria-label="Choose date, selected date is Mar 30, 2023"
                                 className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                                 disabled={false}
                                 onBlur={[Function]}
@@ -3871,6 +3875,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </fieldset>
           </div>
+          <legend>
+            The validity period ends on 27/03/2023 at 0200
+          </legend>
           <button
             className="govuk-button govuk-button--secondary mt-8"
             data-module="govuk-button"

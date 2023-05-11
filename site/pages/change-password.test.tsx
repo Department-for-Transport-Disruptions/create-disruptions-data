@@ -14,6 +14,17 @@ const withInputsAndNoErrors: ChangePasswordPageProps = {
         newPassword: "dummyPassword",
         confirmPassword: "dummyPassword",
     },
+    sessionWithOrg: {
+        email: "test@example.com",
+        orgId: "test",
+        orgName: "Test Org",
+        username: "test",
+        adminAreaCodes: [],
+        isOrgAdmin: true,
+        isOrgPublisher: true,
+        isOrgStaff: true,
+        isSystemAdmin: true,
+    },
 };
 
 const withInputsAndErrors: ChangePasswordPageProps = {

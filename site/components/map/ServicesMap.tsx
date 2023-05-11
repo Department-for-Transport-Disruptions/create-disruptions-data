@@ -17,7 +17,6 @@ import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
-import { ADMIN_AREA_CODE } from "../../constants";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import {
@@ -31,6 +30,7 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { sortStops } from "../../utils/formUtils";
+
 interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
@@ -121,6 +121,7 @@ const Map = ({
                 const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
+                    ...state,
                     inputs: {
                         ...state.inputs,
                         stops,
@@ -138,6 +139,7 @@ const Map = ({
                 const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
 
                 stateUpdater({
+                    ...state,
                     inputs: {
                         ...state.inputs,
                         stops: sortStops([...selected, ...stop]),
@@ -225,7 +227,10 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, polygon });
+                const stopsData = await fetchStops({
+                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                    polygon,
+                });
 
                 if (stopsData) {
                     setMarkerData(stopsData);
@@ -238,6 +243,7 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
 
     const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
@@ -275,6 +281,7 @@ const Map = ({
         if (selectedServices) {
             if (!showSelectAllText) {
                 stateUpdater({
+                    ...state,
                     inputs: {
                         ...state.inputs,
                         stops: [],
@@ -344,6 +351,7 @@ const Map = ({
                         );
 
                         stateUpdater({
+                            ...state,
                             inputs: {
                                 ...state.inputs,
                                 stops: sortStops(

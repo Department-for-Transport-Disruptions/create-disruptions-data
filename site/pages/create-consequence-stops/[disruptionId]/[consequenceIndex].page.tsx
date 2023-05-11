@@ -18,7 +18,6 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    ADMIN_AREA_CODE,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -29,6 +28,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
@@ -58,7 +58,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     useEffect(() => {
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
-                const stopsData = await fetchStops({ adminAreaCode: ADMIN_AREA_CODE, searchString: searchInput });
+                const stopsData = await fetchStops({
+                    adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                    searchString: searchInput,
+                });
 
                 if (stopsData) {
                     setStopOptions(stopsData);
@@ -71,6 +74,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         loadOptions()
             // eslint-disable-next-line no-console
             .catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchInput]);
 
     const removeStop = (e: SyntheticEvent, index: number) => {
@@ -80,6 +84,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
             stops.splice(index, 1);
 
             setPageState({
+                ...pageState,
                 inputs: {
                     ...pageState.inputs,
                     stops,
@@ -124,6 +129,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         } else {
             if (stopToAdd && (pageState.inputs.stops ? pageState.inputs.stops.length < 100 : true)) {
                 setPageState({
+                    ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         stops: [...(pageState.inputs.stops ?? []), stopToAdd].sort((a, b) => {
@@ -311,7 +317,17 @@ export const getServerSideProps = async (
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");
@@ -330,7 +346,7 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, ctx.res);
 
-    return { props: { ...pageState, consequenceIndex: index } };
+    return { props: { ...pageState, consequenceIndex: index, sessionWithOrg: session } };
 };
 
 export default CreateConsequenceStops;

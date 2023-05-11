@@ -3,8 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ReactElement } from "react";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+import { LOGIN_PAGE_PATH } from "../../constants";
+import { Session } from "../../schemas/session.schema";
+import CsrfForm from "../form/CsrfForm";
 
-const Header = (): ReactElement => {
+interface HeaderProps {
+    session: Session | null;
+    csrfToken: string;
+}
+
+const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
     const { buttonProps, itemProps, isOpen } = useDropdownMenu(2);
 
     return (
@@ -40,7 +48,7 @@ const Header = (): ReactElement => {
                 </div>
 
                 <div className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2">
-                    {true ? (
+                    {session ? (
                         <>
                             <div className="group govuk-header__link mr-1.5 overflow-hidden float-right">
                                 <button
@@ -64,18 +72,19 @@ const Header = (): ReactElement => {
                                     >
                                         Account settings
                                     </Link>
-                                    <Link
-                                        className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                        href="/sign-out"
-                                        {...itemProps[1]}
-                                    >
-                                        Sign out
-                                    </Link>
+                                    <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
+                                        <button
+                                            className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                            {...(itemProps[1] as object)}
+                                        >
+                                            Sign out
+                                        </button>
+                                    </CsrfForm>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <Link href={"/login"} className="govuk-header__link">
+                        <Link href={LOGIN_PAGE_PATH} className="govuk-header__link">
                             <span> {"Sign in"} </span>
                         </Link>
                     )}
