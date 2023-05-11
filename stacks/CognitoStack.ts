@@ -14,14 +14,15 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { getDomain, isSandbox } from "./utils";
 
 export const CognitoStack = ({ stack }: StackContext) => {
-    const domain = isSandbox(stack.stage) ? "http://localhost:3000" : getDomain(stack.stage);
+    const domain = isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage);
+    const scheme = isSandbox(stack.stage) ? "http://" : "https://";
 
     const customEmailLambda = new Function(stack, "cdd-custom-email-cognito-trigger", {
         functionName: `cdd-custom-email-cognito-trigger-${stack.stage}`,
         environment: {
-            REGISTRATION_LINK: `${domain}/register`,
-            FORGOTTEN_PASSWORD_LINK: `${domain}/reset-password`,
-            CONTACT_LINK: `${domain}/contact`,
+            REGISTRATION_LINK: `${scheme}${domain}/register`,
+            FORGOTTEN_PASSWORD_LINK: `${scheme}${domain}/reset-password`,
+            CONTACT_LINK: `${scheme}${domain}/contact`,
         },
         handler: "packages/cognito-triggers/custom-email-trigger/index.main",
         timeout: 30,
@@ -86,7 +87,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         preventUserExistenceErrors: true,
         oAuth: {
             scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
-            callbackUrls: [`${domain}/api/auth/callback/cognito`],
+            callbackUrls: [`${scheme}${domain}/api/auth/callback/cognito`],
             flows: {
                 authorizationCodeGrant: true,
             },
