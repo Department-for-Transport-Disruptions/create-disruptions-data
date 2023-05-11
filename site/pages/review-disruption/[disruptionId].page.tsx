@@ -21,7 +21,7 @@ import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
-import { formatTime } from "../../utils/dates";
+import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -76,12 +76,20 @@ const ReviewDisruption = ({
                 validity.disruptionRepeats === "daily" ? (
                     <>
                         <br />
-                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate}
+                        Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate} at{" "}
+                        {validity.disruptionEndTime}
                     </>
                 ) : validity.disruptionRepeats === "weekly" ? (
                     <>
                         <br />
-                        Repeats every week until {validity.disruptionRepeatsEndDate}
+                        Repeats every week until{" "}
+                        {getEndingOnDateText(
+                            validity.disruptionRepeats,
+                            validity.disruptionRepeatsEndDate,
+                            validity.disruptionStartDate,
+                            validity.disruptionEndDate,
+                        )}{" "}
+                        at {validity.disruptionEndTime}
                     </>
                 ) : (
                     <></>
