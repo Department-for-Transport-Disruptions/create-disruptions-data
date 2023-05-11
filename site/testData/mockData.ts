@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
 import {
     DayType,
     EnvironmentReason,
@@ -14,21 +13,24 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { COOKIE_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
+import { ParsedUrlQuery } from "querystring";
+import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
+export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
+
 export interface GetMockContextInput {
-    session?: { [key: string]: any };
-    cookies?: any;
-    body?: any;
-    url?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
+    session?: Record<string, string> | null;
+    cookies?: Record<string, string>;
+    body?: Record<string, string | string[]> | null;
+    url?: string | null;
+    uuid?: string | null;
+    mockWriteHeadFn?: Mock | null;
+    mockEndFn?: Mock | null;
     isLoggedin?: boolean;
-    query?: any;
+    query?: qs.ParsedQs | null;
 }
 
 export const getMockRequestAndResponse = ({
@@ -44,18 +46,13 @@ export const getMockRequestAndResponse = ({
     const res = mockResponse({ writeHead: mockWriteHeadFn, end: mockEndFn });
 
     const {
-        idToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXN0b206bm9jIjoiVEVTVCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImp0aSI6Ijg1MmQ1MTVlLTU5YWUtNDllZi1iMTA5LTI4YTRhNzk3YWFkNSIsImlhdCI6MTU5Mjk4NzMwNywiZXhwIjoxNTkyOTkwOTA3fQ.DFdxnpdhykDONOMeZMNeMUFpCHZ-hQ3UXczq_Qh0IAI",
+        idToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZThhODM5NS1mY2I4LTRlNzItYmUxZi0wMjJjMjA3MjkyY2QiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJjdXN0b206b3JnSWQiOiIzNWJhZTMyNy00YWYwLTRiYmYtOGJmYS0yYzA4NWYyMTQ0ODMiLCJjb2duaXRvOmdyb3VwcyI6WyJzeXN0ZW0tYWRtaW5zIl19.POSmQ0BvCrpRECR4rdDrPNzK9anmZXo7QIdSYYzpJik",
         cookiePolicy = null,
     } = cookieValues;
 
-    const defaultSession = {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        destroy: (): void => {},
-    };
-
     let cookieString = "";
 
-    cookieString += isLoggedin ? `${COOKIE_ID_TOKEN}=${idToken};` : "";
+    cookieString += isLoggedin ? `${COOKIES_ID_TOKEN}=${idToken};` : "";
 
     cookieString += cookiePolicy ? `${COOKIES_POLICY_COOKIE}=${encodeURI(JSON.stringify(cookiePolicy))}` : "";
 
@@ -77,7 +74,6 @@ export const getMockRequestAndResponse = ({
             ...requestHeaders,
         },
         cookies: cookieValues,
-        session: { ...defaultSession },
     });
 
     if (body) {
@@ -93,12 +89,12 @@ export const getMockRequestAndResponse = ({
 export const getMockContext = ({
     cookies = {},
     body = null,
-    uuid = {},
+    uuid = null,
     mockWriteHeadFn = vi.fn(),
     mockEndFn = vi.fn(),
     isLoggedin = true,
     url = null,
-    query = "",
+    query = null,
 }: GetMockContextInput = {}): NextPageContext => {
     const { req, res } = getMockRequestAndResponse({
         cookieValues: cookies,
@@ -109,14 +105,14 @@ export const getMockContext = ({
         requestHeaders: {},
         isLoggedin,
         url,
+        query,
     });
 
     const ctx: NextPageContext = {
         res,
         req,
         pathname: "",
-        query,
-        // eslint-disable-next-line react/display-name
+        query: query ? (query as ParsedUrlQuery) : {},
         AppTree: () => React.createElement("div"),
     };
 
@@ -124,15 +120,15 @@ export const getMockContext = ({
 };
 
 export interface GetMockRequestAndResponse {
-    cookieValues?: { [key: string]: string };
-    body?: any;
-    uuid?: any;
-    mockWriteHeadFn?: Mock<any, any>;
-    mockEndFn?: Mock<any, any>;
-    requestHeaders?: any;
+    cookieValues?: Record<string, string>;
+    body?: Record<string, string | string[]> | null;
+    uuid?: string | null;
+    mockWriteHeadFn?: Mock | null;
+    mockEndFn?: Mock | null;
+    requestHeaders?: Record<string, string> | null;
     isLoggedin?: boolean;
-    url?: any;
-    query?: any;
+    url?: string | null;
+    query?: qs.ParsedQs | null;
 }
 
 export const databaseData: PtSituationElement[] = [

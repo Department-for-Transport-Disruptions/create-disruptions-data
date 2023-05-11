@@ -20,6 +20,7 @@ import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
@@ -415,7 +416,17 @@ const ReviewDisruption = ({
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ReviewDisruptionProps } | void> => {
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 

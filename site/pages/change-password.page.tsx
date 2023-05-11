@@ -8,36 +8,26 @@ import CsrfForm from "../components/form/CsrfForm";
 import Table from "../components/form/Table";
 import TextInput from "../components/form/TextInput";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS } from "../constants";
+import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
 import { PageState } from "../interfaces";
 import {
-    ChangePasswordProps,
+    ChangePasswordSchema,
     changePasswordSchema,
     changePasswordSchemaRefined,
 } from "../schemas/change-password.schema";
 import { getPageState } from "../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Change Password - Create Transport Disruptions Service";
 const description = "Change Password page for the Create Transport Disruptions Service";
 
-export interface ChangePasswordPageProps extends PageState<Partial<ChangePasswordProps>> {}
+export interface ChangePasswordPageProps extends PageState<Partial<ChangePasswordSchema>> {}
 
 const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
-
-    const getRows = () => [
-        {
-            header: "Email address",
-            cells: ["user.name@bus.co.uk"],
-        },
-        {
-            header: "Organisation",
-            cells: ["Nexus"],
-        },
-    ];
 
     const queryParams = useRouter().query;
     const displaySuccessMessage = queryParams["success"];
@@ -57,8 +47,19 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                         </>
                     ) : (
                         <>
-                            <Table rows={getRows()} />
-                            <TextInput<ChangePasswordProps>
+                            <Table
+                                rows={[
+                                    {
+                                        header: "Email address",
+                                        cells: [pageState.sessionWithOrg?.email],
+                                    },
+                                    {
+                                        header: "Organisation",
+                                        cells: [pageState.sessionWithOrg?.orgName],
+                                    },
+                                ]}
+                            />
+                            <TextInput<ChangePasswordSchema>
                                 display="Current password"
                                 inputName="currentPassword"
                                 widthClass="w"
@@ -70,7 +71,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 isPassword
                             />
 
-                            <TextInput<ChangePasswordProps>
+                            <TextInput<ChangePasswordSchema>
                                 display="New password"
                                 inputName="newPassword"
                                 widthClass="w"
@@ -79,11 +80,11 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 schema={changePasswordSchema.shape.newPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
-                                hint="Your password should be at least 8 characters long"
+                                hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
                                 isPassword
                             />
 
-                            <TextInput<ChangePasswordProps>
+                            <TextInput<ChangePasswordSchema>
                                 display="Confirm new password"
                                 inputName="confirmPassword"
                                 widthClass="w"
@@ -111,13 +112,24 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ChangePasswordPageProps } => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ChangePasswordPageProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CHANGE_PASSWORD_ERRORS];
+
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
 
     return {
         props: {
             ...getPageState(errorCookie, changePasswordSchemaRefined),
+            sessionWithOrg: session,
         },
     };
 };

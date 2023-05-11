@@ -148,3 +148,10 @@ export enum Severity {
     severe = "severe",
     verySevere = "verySevere",
 }
+
+export enum UserGroups {
+    systemAdmins = "system-admins",
+    orgAdmins = "org-admins",
+    orgPublishers = "org-publishers",
+    orgStaff = "org-staff",
+}

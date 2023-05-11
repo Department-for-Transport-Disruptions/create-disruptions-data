@@ -15,6 +15,7 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     const stops = Object.entries(body)
@@ -52,6 +53,12 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
 
         const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
 
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
+
         if (!validatedBody.success) {
             const body = req.body as ServicesConsequence;
 
@@ -77,7 +84,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             return;
         }
 
-        await upsertConsequence(validatedBody.data);
+        await upsertConsequence(validatedBody.data, session.orgId);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
 
         const redirectPath =

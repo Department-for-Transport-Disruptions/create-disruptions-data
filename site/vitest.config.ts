@@ -7,5 +7,6 @@ export default defineConfig({
         include: ["**/*.{test,spec}.{js,ts,tsx}"],
         environment: "jsdom",
         threads: false,
+        restoreMocks: true,
     },
 });

@@ -14,6 +14,7 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 export const formatCreateDisruptionBody = (body: object) => {
     const validity = Object.entries(body)
@@ -65,6 +66,12 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             throw new Error("No disruptionId found");
         }
 
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
+
         const formattedBody = formatCreateDisruptionBody(req.body as object);
 
         const validatedBody = createDisruptionsSchemaRefined.safeParse(formattedBody);
@@ -87,7 +94,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data);
+        await upsertDisruptionInfo(validatedBody.data, session.orgId);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 

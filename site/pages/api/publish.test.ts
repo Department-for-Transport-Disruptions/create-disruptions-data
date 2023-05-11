@@ -9,6 +9,7 @@ import {
     ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
+    DEFAULT_ORG_ID,
 } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -59,6 +60,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
+            DEFAULT_ORG_ID,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -104,7 +106,7 @@ describe("publish", () => {
         expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
     });
 
-    it("should redirect to error page if no consequences", async () => {
+    it("should redirect to review page if no consequences", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithNoConsequences);
         const { req, res } = getMockRequestAndResponse({
             body: {

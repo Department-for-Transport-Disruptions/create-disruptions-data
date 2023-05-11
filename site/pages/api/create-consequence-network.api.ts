@@ -15,11 +15,17 @@ import {
     redirectToError,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
 
         if (!validatedBody.success) {
             const body = req.body as NetworkConsequence;
@@ -46,7 +52,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             return;
         }
 
-        await upsertConsequence(validatedBody.data);
+        await upsertConsequence(validatedBody.data, session.orgId);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =

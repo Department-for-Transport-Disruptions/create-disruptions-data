@@ -10,7 +10,7 @@ import {
 } from "../schemas/consequence.schema";
 
 interface FetchStopsInput {
-    adminAreaCode: string;
+    adminAreaCodes: string[];
     polygon?: Position[];
     searchString?: string;
 }
@@ -18,7 +18,7 @@ interface FetchStopsInput {
 export const fetchStops = async (input: FetchStopsInput) => {
     const searchApiUrl = `${API_BASE_URL}/stops`;
 
-    const queryStringItems = [`adminAreaCodes=${input.adminAreaCode}`];
+    const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
 
     if (input.polygon) {
         queryStringItems.push(`polygon=${JSON.stringify(input.polygon)}`);
@@ -42,7 +42,7 @@ export const fetchStops = async (input: FetchStopsInput) => {
 };
 
 interface FetchServicesInput {
-    adminAreaCode?: string;
+    adminAreaCodes?: string[];
 }
 
 export const fetchServices = async (input: FetchServicesInput) => {
@@ -50,8 +50,8 @@ export const fetchServices = async (input: FetchServicesInput) => {
 
     const queryStringItems = [];
 
-    if (input.adminAreaCode) {
-        queryStringItems.push(`adminAreaCodes=${input.adminAreaCode}`);
+    if (input.adminAreaCodes && input.adminAreaCodes.length > 0) {
+        queryStringItems.push(`adminAreaCodes=${input.adminAreaCodes.join(",")}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -139,13 +139,13 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 };
 
 interface FetchOperatorsInput {
-    adminAreaCode: string;
+    adminAreaCodes: string[];
 }
 
 export const fetchOperators = async (input: FetchOperatorsInput) => {
     const searchApiUrl = `${API_BASE_URL}/operators`;
 
-    const queryStringItems = [`adminAreaCodes=${input.adminAreaCode}`];
+    const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",

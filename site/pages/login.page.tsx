@@ -7,14 +7,14 @@ import TextInput from "../components/form/TextInput";
 import { BaseLayout } from "../components/layout/Layout";
 import { COOKIES_LOGIN_ERRORS } from "../constants";
 import { PageState } from "../interfaces";
-import { LoginProps, loginSchema } from "../schemas/login.schema";
-import { getPageState } from "../utils/apiUtils";
+import { LoginSchema, loginSchema } from "../schemas/login.schema";
+import { destroyCookieOnResponseObject, getPageState } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Sign in - Create Transport Disruptions Service";
 const description = "Login page for the Create Transport Disruptions Service";
 
-export interface LoginPageProps extends PageState<Partial<LoginProps>> {}
+export interface LoginPageProps extends PageState<Partial<LoginSchema>> {}
 
 const Login = (props: LoginPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -34,7 +34,7 @@ const Login = (props: LoginPageProps): ReactElement => {
                                 Enter your Create Transport Disruption Data account details to sign in
                             </h2>
 
-                            <TextInput<LoginProps>
+                            <TextInput<LoginSchema>
                                 display="Email address"
                                 inputName="email"
                                 widthClass="w-3/4"
@@ -45,7 +45,7 @@ const Login = (props: LoginPageProps): ReactElement => {
                                 maxLength={100}
                             />
 
-                            <TextInput<LoginProps>
+                            <TextInput<LoginSchema>
                                 display="Password"
                                 inputName="password"
                                 widthClass="w-3/4"
@@ -88,6 +88,8 @@ const Login = (props: LoginPageProps): ReactElement => {
 export const getServerSideProps = (ctx: NextPageContext): { props: LoginPageProps } => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_LOGIN_ERRORS];
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, ctx.res);
 
     return {
         props: {

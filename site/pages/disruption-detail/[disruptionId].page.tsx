@@ -21,6 +21,7 @@ import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
@@ -379,7 +380,17 @@ const DisruptionDetail = ({ disruption, redirect, csrfToken, errors }: Disruptio
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DisruptionDetailProps } | void> => {
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "");
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];

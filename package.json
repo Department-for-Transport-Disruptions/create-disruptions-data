@@ -46,7 +46,9 @@
         "packages/*",
         "site/*",
         "site",
-        "shared-ts/*"
+        "shared-ts/*",
+        "cli-helpers/*",
+        "cli-helpers"
     ],
     "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.282.0",

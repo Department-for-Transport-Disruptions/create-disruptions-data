@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { randomUUID } from "crypto";
@@ -11,6 +12,7 @@ import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
+import { getSession } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
@@ -224,8 +226,26 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
     );
 };
 
-export const getServerSideProps = async (): Promise<{ props: DashboardProps }> => {
-    const data = await getPublishedDisruptionsDataFromDynamo();
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DashboardProps }> => {
+    const baseProps = {
+        props: {
+            liveDisruptions: [],
+            upcomingDisruptions: [],
+            newDisruptionId: randomUUID(),
+        },
+    };
+
+    if (!ctx.req) {
+        return baseProps;
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        return baseProps;
+    }
+
+    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
 
     if (data) {
         const liveDisruptions: Disruption[] = [];
@@ -298,13 +318,7 @@ export const getServerSideProps = async (): Promise<{ props: DashboardProps }> =
         };
     }
 
-    return {
-        props: {
-            liveDisruptions: [],
-            upcomingDisruptions: [],
-            newDisruptionId: randomUUID(),
-        },
-    };
+    return baseProps;
 };
 
 export default Dashboard;
