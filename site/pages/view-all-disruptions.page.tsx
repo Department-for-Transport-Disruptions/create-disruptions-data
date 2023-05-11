@@ -35,6 +35,7 @@ import {
     filterDatePeriodMatchesDisruptionDatePeriod,
     getDate,
     getFormattedDate,
+    dateIsSameOrBeforeSecondDate,
 } from "../utils/dates";
 
 const title = "View All Disruptions";
@@ -288,6 +289,7 @@ const ViewAllDisruptions = ({
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
     const [endDateFilterError, setEndDateFilterError] = useState(false);
+    const [incompatibleDatesError, setIncompatibleDatesError] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -316,7 +318,13 @@ const ViewAllDisruptions = ({
             }
 
             if (!!endDateFilter && success) {
-                setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
+                if (dateIsSameOrBeforeSecondDate(getDate(value), getDate(endDateFilter))) {
+                    setIncompatibleDatesError(false);
+                    setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
+                } else {
+                    setIncompatibleDatesError(true);
+                    setFilter({ ...filter, period: undefined });
+                }
             } else {
                 setFilter({ ...filter, period: undefined });
             }
@@ -329,7 +337,13 @@ const ViewAllDisruptions = ({
             }
 
             if (!!startDateFilter && success) {
-                setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
+                if (dateIsSameOrBeforeSecondDate(getDate(startDateFilter), getDate(value))) {
+                    setIncompatibleDatesError(false);
+                    setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
+                } else {
+                    setIncompatibleDatesError(true);
+                    setFilter({ ...filter, period: undefined });
+                }
             } else {
                 setFilter({ ...filter, period: undefined });
             }
@@ -357,9 +371,15 @@ const ViewAllDisruptions = ({
             setStartDateFilterError(true);
         }
 
-        if ((startDateFilter && endDateFilter) || (!startDateFilter && !endDateFilter)) {
+        if (startDateFilter && endDateFilter) {
             setEndDateFilterError(false);
             setStartDateFilterError(false);
+        }
+
+        if (!startDateFilter && !endDateFilter) {
+            setEndDateFilterError(false);
+            setStartDateFilterError(false);
+            setIncompatibleDatesError(false);
         }
     }, [startDateFilter, endDateFilter]);
 
@@ -450,25 +470,30 @@ const ViewAllDisruptions = ({
                         data-module="govuk-button"
                         onClick={() => {
                             if (showFilters) {
+                                setFilter({ services: [], operators: [] });
+                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setClearButtonClicked(true);
                                 setShowFilters(false);
                             } else {
                                 setShowFilters(true);
                             }
                         }}
                     >
-                        {showFilters ? "Hide " : "Show "}filters
+                        {showFilters ? "Hide and clear " : "Show "}filters
                     </button>
-                    <button
-                        className="govuk-button govuk-button--secondary ml-2"
-                        data-module="govuk-button"
-                        onClick={() => {
-                            setFilter({ services: [], operators: [] });
-                            setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
-                            setClearButtonClicked(true);
-                        }}
-                    >
-                        Clear filters
-                    </button>
+                    {showFilters && (
+                        <button
+                            className="govuk-button govuk-button--secondary ml-2"
+                            data-module="govuk-button"
+                            onClick={() => {
+                                setFilter({ services: [], operators: [] });
+                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setClearButtonClicked(true);
+                            }}
+                        >
+                            Clear filters
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -521,6 +546,15 @@ const ViewAllDisruptions = ({
                             <span className="govuk-error-message">
                                 <span className="govuk-visually-hidden">Error: </span>
                                 Both start date and end date must be provided to filter by date.
+                            </span>
+                        </div>
+                    )}
+
+                    {incompatibleDatesError && (
+                        <div>
+                            <span className="govuk-error-message">
+                                <span className="govuk-visually-hidden">Error: </span>
+                                The end date must be the same day or after the start date.
                             </span>
                         </div>
                     )}

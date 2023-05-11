@@ -74,6 +74,7 @@ const ServiceSearch = ({
                 inputId="service-filter-dropdown-value"
                 menuPlacement="auto"
                 menuPosition="fixed"
+                value={null}
             />
         </div>
     );

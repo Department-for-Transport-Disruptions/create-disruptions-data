@@ -53,3 +53,6 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
 
     return disruptionStartDate.isBetween(filterStartDate, filterEndDate, "day", "[]");
 };
+
+export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate: dayjs.Dayjs): boolean =>
+    firstDate.isSameOrBefore(secondDate);
