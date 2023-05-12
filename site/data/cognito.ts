@@ -15,6 +15,7 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -158,8 +159,13 @@ export const listUsersWithGroups = async () => {
                     new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName }),
                 );
 
+                const groupName = group.GroupName?.includes("-") ? group.GroupName?.split("-")[1] : "N/A";
+
                 if (usersRequest.Users && usersRequest.Users.length > 0) {
-                    userList.push({ ...usersRequest.Users[0], GroupName: group.GroupName });
+                    userList.push({
+                        ...usersRequest.Users[0],
+                        GroupName: groupName.replace("/.*s$", ""),
+                    });
                 }
             }) ?? [],
         );

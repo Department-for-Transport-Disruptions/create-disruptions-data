@@ -401,7 +401,7 @@ exports[`userManagement > should render correctly with inputs 1`] = `
             <td
               className="govuk-table__cell align-middle"
             >
-              Admin
+              admin org-admins
             </td>
             <td
               className="govuk-table__cell align-middle"

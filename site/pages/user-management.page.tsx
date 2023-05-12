@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
+import PageNumbers from "../components/PageNumbers";
 import { listUsersWithGroups } from "../data/cognito";
+import { scanOrgRecords } from "../data/dynamo";
 import { UserManagementSchema, userManagementSchema } from "../schemas/user-management.schema";
+import { getDataInPages } from "../utils/formUtils";
 
 const title = "User Management";
 const description = "User Management page for the Create Transport Disruptions Service";
@@ -14,12 +17,15 @@ export interface UserManagementPageProps {
 }
 
 const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => {
+    const numberOfUserPages = Math.ceil(userList.length / 10);
+    const [currentPage, setCurrentPage] = useState(1);
+
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
-        userList.forEach((user, index) => {
+        getDataInPages(currentPage, userList).forEach((user, index) => {
             rows.push({
                 cells: [
-                    user.group.toLowerCase().includes("admin") ? "Admin" : "Restricted",
+                    `${user.organisation} ${user.group}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
                     createLink("user-action", index, user.userStatus === "CONFIRMED" ? false : true),
@@ -61,15 +67,33 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
                 <Link role="button" href={"/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
+
+                <PageNumbers
+                    numberOfPages={numberOfUserPages}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </>
         </BaseLayout>
     );
 };
 
 export const getServerSideProps = async (): Promise<{ props: UserManagementPageProps }> => {
-    const cognitoUsers = await listUsersWithGroups();
+    const data = await Promise.all([listUsersWithGroups(), scanOrgRecords()]);
 
-    const userList = userManagementSchema.parse(cognitoUsers);
+    let userList: UserManagementSchema = [];
+
+    const userRecords = data[0];
+    const orgData = data[1];
+
+    if (userRecords) userList = userManagementSchema.parse(userRecords);
+
+    if (data[1])
+        userList = userList.map((userData) => {
+            const orgRecord = orgData?.find((org) => org.PK.S === userData.organisation)?.name;
+
+            return { ...userData, organisation: orgRecord && orgRecord.S ? orgRecord.S : "N/A" };
+        });
 
     return {
         props: { userList },

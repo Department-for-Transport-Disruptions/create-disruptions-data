@@ -16,6 +16,7 @@ export const userManagementSchema = z.array(
             let givenName = "N/A";
             let familyName = "N/A";
             let email = "N/A";
+            let orgId = "N/A";
             item.Attributes.forEach((val) => {
                 switch (val.Name) {
                     case "given_name":
@@ -27,6 +28,9 @@ export const userManagementSchema = z.array(
                     case "email":
                         email = val.Value;
                         break;
+                    case "custom:orgId":
+                        orgId = val.Value;
+                        break;
                     default:
                         break;
                 }
@@ -37,6 +41,7 @@ export const userManagementSchema = z.array(
                 email: email,
                 userStatus: item.UserStatus,
                 group: item.GroupName,
+                organisation: orgId,
             };
         }),
 );

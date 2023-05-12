@@ -15,6 +15,7 @@ const withInputs: UserManagementPageProps = {
             email: "dummy.user@gmail.com",
             userStatus: "CONFIRMED",
             group: UserGroups.orgAdmins.toString(),
+            organisation: "admin",
         },
     ],
 };
