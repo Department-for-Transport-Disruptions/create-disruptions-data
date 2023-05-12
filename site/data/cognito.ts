@@ -15,7 +15,6 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
