@@ -66,3 +66,9 @@ export const sortStops = (stops: Stop[]) => {
         }
     });
 };
+
+export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
+    const startPoint = (pageNumber - 1) * 10;
+    const endPoint = pageNumber * 10;
+    return data.slice(startPoint, endPoint);
+};

@@ -113,7 +113,7 @@ exports[`Header > should render correctly with a session 1`] = `
           </svg>
         </button>
         <div
-          className="absolute bg-white min-w-max shadow-md z-10 group-hover:block group-focus:block invisible"
+          className="absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block invisible"
           role="menu"
         >
           <a
@@ -127,6 +127,18 @@ exports[`Header > should render correctly with a session 1`] = `
             tabIndex={-1}
           >
             Account settings
+          </a>
+          <a
+            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+            href="/admin/user-management"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="menuitem"
+            tabIndex={-1}
+          >
+            User management
           </a>
           <form
             action="/api/sign-out"

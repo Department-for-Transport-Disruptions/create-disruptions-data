@@ -9,6 +9,9 @@ import {
     AdminUserGlobalSignOutCommandInput,
     AdminSetUserPasswordCommand,
     AdminSetUserPasswordCommandInput,
+    ListGroupsCommand,
+    ListUsersInGroupCommand,
+    UserType,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
@@ -133,6 +136,41 @@ export const updateUserPassword = async (newPassword: string, username: string):
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to update user password: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const listUsersWithGroups = async () => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Listing cognito users",
+    });
+
+    try {
+        const groupList = await cognito.send(new ListGroupsCommand({ UserPoolId: userPoolId }));
+
+        const userList: (UserType & { GroupName: string | undefined })[] = [];
+        await Promise.all(
+            groupList.Groups?.map(async (group) => {
+                const usersRequest = await cognito.send(
+                    new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName }),
+                );
+
+                if (usersRequest.Users && usersRequest.Users.length > 0) {
+                    userList.push({
+                        ...usersRequest.Users[0],
+                        GroupName: group.GroupName,
+                    });
+                }
+            }) ?? [],
+        );
+
+        return userList.flat();
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to list cognito users: ${error.stack || ""}`);
         }
 
         throw error;

@@ -13,7 +13,8 @@ interface HeaderProps {
 }
 
 const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
-    const { buttonProps, itemProps, isOpen } = useDropdownMenu(2);
+    const isAdmin = session?.isSystemAdmin || session?.isOrgAdmin;
+    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 3 : 2);
 
     return (
         <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
@@ -60,7 +61,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     <FontAwesomeIcon className="ml-2" icon={faAngleDown} />
                                 </button>
                                 <div
-                                    className={`absolute bg-white min-w-max shadow-md z-10 group-hover:block group-focus:block ${
+                                    className={`absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block ${
                                         isOpen ? "visible" : "invisible"
                                     }`}
                                     role="menu"
@@ -72,6 +73,15 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     >
                                         Account settings
                                     </Link>
+                                    {isAdmin && (
+                                        <Link
+                                            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                            href="/admin/user-management"
+                                            {...itemProps[2]}
+                                        >
+                                            User management
+                                        </Link>
+                                    )}
                                     <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
                                         <button
                                             className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
