@@ -3,11 +3,11 @@ import { z } from "zod";
 import { setZodDefaultError } from "../utils";
 
 export const addUserSchema = z.object({
-    givenName: z.string(setZodDefaultError("Enter first name")).min(1),
-    familyName: z.string(setZodDefaultError("Enter last name")).min(1),
-    email: z.string().email(),
+    givenName: z.string(setZodDefaultError("Enter a first name")).min(1),
+    familyName: z.string(setZodDefaultError("Enter a last name")).min(1),
+    email: z.string(setZodDefaultError("Enter a valid email address")).email(),
     orgId: z.string().uuid(),
-    group: z.nativeEnum(UserGroups),
+    group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
 });
 
 export type AddUserSchema = z.infer<typeof addUserSchema>;

@@ -161,12 +161,12 @@ export const listUsersWithGroups = async () => {
                     new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName }),
                 );
 
-                if (usersRequest.Users && usersRequest.Users.length > 0) {
+                usersRequest.Users?.forEach((user) => {
                     userList.push({
-                        ...usersRequest.Users[0],
+                        ...user,
                         GroupName: group.GroupName,
                     });
-                }
+                });
             }) ?? [],
         );
 
@@ -185,7 +185,6 @@ export const createUser = async (userData: AddUserSchema) => {
         context: "data.cognito",
         message: "Adding a new user",
     });
-    console.log("userData-----", userData);
     const createUserResult = await cognito.send(
         new AdminCreateUserCommand({
             Username: userData.email,
@@ -208,7 +207,6 @@ export const createUser = async (userData: AddUserSchema) => {
         }),
     );
 
-    console.log("after send-----");
     await cognito.send(
         new AdminAddUserToGroupCommand({
             GroupName: userData.group,
@@ -216,6 +214,4 @@ export const createUser = async (userData: AddUserSchema) => {
             UserPoolId: userPoolId,
         }),
     );
-
-    console.log("completed-----");
 };

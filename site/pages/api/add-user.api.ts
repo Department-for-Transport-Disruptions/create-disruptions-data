@@ -41,7 +41,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
                     inputs: req.body as object,
                     errors: [
                         {
-                            errorMessage: "Email already registered",
+                            errorMessage: "This email address is already in use",
                             id: "email",
                         },
                     ],
