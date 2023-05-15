@@ -7,13 +7,13 @@ import {
     AdminUserGlobalSignOutCommand,
     AdminUserGlobalSignOutCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import csrf from "edge-csrf";
 import * as jose from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
 import { z } from "zod";
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
