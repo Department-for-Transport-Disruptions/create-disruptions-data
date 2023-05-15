@@ -10,6 +10,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         await deleteAdminUser(username);
 
         redirectTo(res, "/admin/user-management");
+        return;
     } catch (error) {
         const message = "There was a problem deleting a user.";
         redirectToError(res, message, "api.deleteUser", error as Error);
