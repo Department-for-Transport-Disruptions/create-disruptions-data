@@ -12,9 +12,11 @@ import {
     ListGroupsCommand,
     ListUsersInGroupCommand,
     UserType,
+    AdminCreateUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
+import { AddUserSchema } from "../schemas/add-user.schema";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -175,4 +177,36 @@ export const listUsersWithGroups = async () => {
 
         throw error;
     }
+};
+
+export const createUser = (userData: AddUserSchema) => {
+    const createUserResult = await cognito.send(
+        new AdminCreateUserCommand({
+            Username: email,
+            UserPoolId: poolId,
+            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            UserAttributes: [
+                {
+                    Name: "custom:orgId",
+                    Value: orgId,
+                },
+                {
+                    Name: "given_name",
+                    Value: firstName,
+                },
+                {
+                    Name: "family_name",
+                    Value: lastName,
+                },
+            ],
+        }),
+    );
+
+    await cognito.send(
+        new AdminAddUserToGroupCommand({
+            GroupName: group,
+            Username: createUserResult.User?.Username,
+            UserPoolId: poolId,
+        }),
+    );
 };

@@ -73,7 +73,7 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
                     columns={["Account type", "User email", "Status", "Action"]}
                     rows={getRows()}
                 ></Table>
-                <Link role="button" href={"/add-user"} className="govuk-button--secondary govuk-button mt-5">
+                <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
 

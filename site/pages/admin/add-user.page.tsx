@@ -1,14 +1,20 @@
-import { ReactElement, useState } from "react";
-import { PageState } from "../interfaces";
-import { AddUserSchema, addUserSchema } from "../schemas/add-user.schema";
-import { getStateUpdater } from "../utils/formUtils";
-import TwoThirdsLayout from "../components/layout/Layout";
-import CsrfForm from "../components/form/CsrfForm";
-import ErrorSummary from "../components/ErrorSummary";
-import TextInput from "../components/form/TextInput";
-import Table from "../components/form/Table";
-import Radios from "../components/form/Radios";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { NextPageContext } from "next";
+import Link from "next/link";
+import { parseCookies } from "nookies";
+import { ReactElement, useState } from "react";
+import ErrorSummary from "../../components/ErrorSummary";
+import CsrfForm from "../../components/form/CsrfForm";
+import Radios from "../../components/form/Radios";
+import Table from "../../components/form/Table";
+import TextInput from "../../components/form/TextInput";
+import { TwoThirdsLayout } from "../../components/layout/Layout";
+import { COOKIES_ADD_USER_ERRORS } from "../../constants";
+import { PageState } from "../../interfaces";
+import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
+import { getPageState } from "../../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
+import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Add User - Create Transport Disruptions Service";
 const description = "Add User page for the Create Transport Disruptions Service";
@@ -35,7 +41,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         schema={addUserSchema.shape.givenName}
                         stateUpdater={stateUpdater}
                         maxLength={100}
-                        isPassword
                     />
                     <TextInput<AddUserSchema>
                         display="Last name"
@@ -46,7 +51,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         schema={addUserSchema.shape.familyName}
                         stateUpdater={stateUpdater}
                         maxLength={100}
-                        isPassword
                     />
                     <TextInput<AddUserSchema>
                         display="Email address"
@@ -57,7 +61,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         schema={addUserSchema.shape.email}
                         stateUpdater={stateUpdater}
                         maxLength={100}
-                        isPassword
                     />
 
                     <Table rows={[{ header: "Organisation", cells: [pageState.sessionWithOrg?.orgName, ""] }]} />
@@ -84,8 +87,43 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         value={pageState.inputs.group?.toString()}
                         initialErrors={pageState.errors}
                     />
+
+                    <button className="govuk-button mt-8" data-module="govuk-button">
+                        Send invitation
+                    </button>
+                    <Link
+                        role="button"
+                        href="/admin/user-management"
+                        className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                    >
+                        Cancel Changes
+                    </Link>
                 </>
             </CsrfForm>
         </TwoThirdsLayout>
     );
 };
+
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AddUserPageProps }> => {
+    const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_ADD_USER_ERRORS];
+
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = await getSessionWithOrgDetail(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    return {
+        props: {
+            ...getPageState(errorCookie, addUserSchema),
+            sessionWithOrg: session,
+        },
+    };
+};
+
+export default AddUser;

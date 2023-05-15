@@ -7,7 +7,7 @@ export const addUserSchema = z.object({
     familyName: z.string(setZodDefaultError("Enter last name")).min(1),
     email: z.string().email(),
     orgId: z.string().uuid(),
-    group: z.array(z.nativeEnum(Omit<UserGroups, UserGroups.systemAdmins>)),
+    group: z.nativeEnum(UserGroups),
 });
 
 export type AddUserSchema = z.infer<typeof addUserSchema>;
