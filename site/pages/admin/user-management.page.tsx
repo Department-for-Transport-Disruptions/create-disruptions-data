@@ -22,7 +22,7 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const getAccountType = (groupName: UserGroups) => {
+    const getAccountType = (groupName: UserGroups): string => {
         switch (groupName) {
             case UserGroups.systemAdmins:
             case UserGroups.orgAdmins:
