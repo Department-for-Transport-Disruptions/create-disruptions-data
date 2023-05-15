@@ -284,7 +284,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
               onTouchStart={[Function]}
               role="button"
             >
-              Cancel Changes
+              Cancel
             </a>
           </form>
         </div>
@@ -768,7 +768,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
               onTouchStart={[Function]}
               role="button"
             >
-              Cancel Changes
+              Cancel
             </a>
           </form>
         </div>

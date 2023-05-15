@@ -96,7 +96,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         href="/admin/user-management"
                         className="govuk-button mt-8 ml-5 govuk-button--secondary"
                     >
-                        Cancel Changes
+                        Cancel
                     </Link>
                 </>
             </CsrfForm>
