@@ -3,24 +3,24 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import addUser from "./add-user.api";
-import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
-import * as cognito from "../../data/cognito";
-import { ErrorInfo } from "../../interfaces";
-import { AddUserSchema } from "../../schemas/add-user.schema";
-import { getMockRequestAndResponse } from "../../testData/mockData";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import * as cognito from "../../../data/cognito";
+import { ErrorInfo } from "../../../interfaces";
+import { AddUserSchema } from "../../../schemas/add-user.schema";
+import { getMockRequestAndResponse } from "../../../testData/mockData";
+import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
 
 describe("addUser", () => {
     const writeHeadMock = vi.fn();
-    vi.mock("../../utils/apiUtils", async () => ({
-        ...(await vi.importActual<object>("../../utils/apiUtils")),
+    vi.mock("../../../utils/apiUtils", async () => ({
+        ...(await vi.importActual<object>("../../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
     const createUserSpy = vi.spyOn(cognito, "createUser");
 
-    vi.mock("../../data/cognito", () => ({
+    vi.mock("../../../data/cognito", () => ({
         createUser: vi.fn(),
     }));
 
@@ -48,7 +48,6 @@ describe("addUser", () => {
             { errorMessage: "Enter a first name", id: "givenName" },
             { errorMessage: "Enter a last name", id: "familyName" },
             { errorMessage: "Enter a valid email address", id: "email" },
-            { errorMessage: "Required", id: "orgId" },
             { errorMessage: "Select which account is required", id: "group" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);

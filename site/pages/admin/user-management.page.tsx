@@ -115,10 +115,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         .parse(userRecords)
         .filter((user) => user.organisation === sessionWithOrg.orgId)
         .sort((a, b) => {
-            return (
-                a.givenName.toLowerCase().localeCompare(b.givenName.toLowerCase()) ||
-                a.familyName.toLowerCase().localeCompare(b.givenName.toLowerCase())
-            );
+            return a.email.toLowerCase().localeCompare(b.email.toLowerCase(), "en", { numeric: true });
         });
 
     return {

@@ -28,7 +28,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={pageState.errors}>
-            <CsrfForm action="/api/add-user" method="post" csrfToken={pageState.csrfToken}>
+            <CsrfForm action="/api/admin/add-user" method="post" csrfToken={pageState.csrfToken}>
                 <>
                     <ErrorSummary errors={pageState.errors} />
                     <h1 className="govuk-heading-xl">Add new user</h1>
@@ -64,7 +64,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                     />
 
                     <Table rows={[{ header: "Organisation", cells: [pageState.sessionWithOrg?.orgName, ""] }]} />
-                    <input type="hidden" name="orgId" value={pageState.sessionWithOrg?.orgId} />
 
                     <Radios<AddUserSchema>
                         display="What account do they require?"

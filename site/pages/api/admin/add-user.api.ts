@@ -1,19 +1,26 @@
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
-import { createUser } from "../../data/cognito";
-import { addUserSchema } from "../../schemas/add-user.schema";
-import { flattenZodErrors } from "../../utils";
+import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import { createUser } from "../../../data/cognito";
+import { addUserSchema } from "../../../schemas/add-user.schema";
+import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
-} from "../../utils/apiUtils";
+} from "../../../utils/apiUtils";
+import { getSession } from "../../../utils/apiUtils/auth";
 
 const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const validatedBody = addUserSchema.safeParse(req.body);
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
+
+        const validatedBody = addUserSchema.safeParse({ ...req.body, orgId: session.orgId });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
