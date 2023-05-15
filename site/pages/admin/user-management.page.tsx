@@ -4,6 +4,7 @@ import { ReactElement, ReactNode, useState } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import PageNumbers from "../../components/PageNumbers";
+import Popup from "../../components/Popup";
 import { listUsersWithGroups } from "../../data/cognito";
 import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
@@ -17,7 +18,7 @@ export interface UserManagementPageProps {
     csrfToken?: string;
 }
 
-const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => {
+const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): ReactElement => {
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,12 +45,35 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
         return rows;
     };
 
-    const createLink = (key: string, index?: number, sendInvite?: boolean) => {
-        return sendInvite ? (
+    const cancelActionHandler = () => {
+        setShowPopUp(false);
+    };
+    const resendInvite = () => {
+        setShowPopUp(!showPopUp);
+    };
+    const [showPopUp, setShowPopUp] = useState<boolean>(false);
+    const createLink = (key: string, index: number, sendInvite?: boolean) => {
+        return true ? (
             <>
-                <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
+                {showPopUp ? (
+                    <Popup
+                        action={"/resend-invite"}
+                        cancelActionHandler={cancelActionHandler}
+                        csrfToken={csrfToken || ""}
+                        continueText="Yes, resend"
+                        cancelText="No, return"
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userList[index].username,
+                            },
+                        ]}
+                        questionText={`Are you sure you wish to resend the invite?`}
+                    />
+                ) : null}
+                <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={resendInvite}>
                     Resend invite
-                </Link>
+                </button>
                 <br />
                 <Link key={`${key}${index ? `-remove-${index}` : "-remove"}`} className="govuk-link" href="/">
                     Remove
