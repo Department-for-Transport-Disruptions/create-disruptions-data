@@ -1,12 +1,13 @@
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
-import Table from "../components/form/Table";
-import { BaseLayout } from "../components/layout/Layout";
-import PageNumbers from "../components/PageNumbers";
-import { listUsersWithGroups } from "../data/cognito";
-import { scanOrgRecords } from "../data/dynamo";
-import { UserManagementSchema, userManagementSchema } from "../schemas/user-management.schema";
-import { getDataInPages } from "../utils/formUtils";
+import Table from "../../components/form/Table";
+import { BaseLayout } from "../../components/layout/Layout";
+import PageNumbers from "../../components/PageNumbers";
+import { listUsersWithGroups } from "../../data/cognito";
+import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
+import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
+import { getDataInPages } from "../../utils/formUtils";
 
 const title = "User Management";
 const description = "User Management page for the Create Transport Disruptions Service";
@@ -20,12 +21,20 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
 
+    const getOrgDisplay = (orgName: string) => {
+        const userGroupName = orgName.includes("-") ? orgName.split("-")[1] : orgName;
+        return (
+            userGroupName.charAt(0).toUpperCase() +
+            (userGroupName.toLowerCase().endsWith("s") ? userGroupName.slice(1, -1) : userGroupName.slice(1))
+        );
+    };
+
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
         getDataInPages(currentPage, userList).forEach((user, index) => {
             rows.push({
                 cells: [
-                    `${user.organisation} ${user.group}`,
+                    `${getOrgDisplay(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
                     createLink("user-action", index, user.userStatus === "CONFIRMED" ? false : true),
@@ -42,7 +51,7 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
                     Resend invite
                 </Link>
                 <br />
-                <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
+                <Link key={`${key}${index ? `-remove-${index}` : "-remove"}`} className="govuk-link" href="/">
                     Remove
                 </Link>
             </>
@@ -78,22 +87,25 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
     );
 };
 
-export const getServerSideProps = async (): Promise<{ props: UserManagementPageProps }> => {
-    const data = await Promise.all([listUsersWithGroups(), scanOrgRecords()]);
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: UserManagementPageProps }> => {
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
+    const userRecords = await listUsersWithGroups();
 
     let userList: UserManagementSchema = [];
-
-    const userRecords = data[0];
-    const orgData = data[1];
+    const reducedList: UserManagementSchema = [];
 
     if (userRecords) userList = userManagementSchema.parse(userRecords);
 
-    if (data[1])
-        userList = userList.map((userData) => {
-            const orgRecord = orgData?.find((org) => org.PK.S === userData.organisation)?.name;
-
-            return { ...userData, organisation: orgRecord && orgRecord.S ? orgRecord.S : "N/A" };
-        });
+    userList = userList.reduce((reducedUserList, user) => {
+        if (user.organisation === sessionWithOrg?.orgId) {
+            reducedUserList.push({ ...user, organisation: sessionWithOrg.orgName });
+        }
+        return reducedUserList;
+    }, reducedList);
 
     return {
         props: { userList },
