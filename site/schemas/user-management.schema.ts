@@ -1,3 +1,4 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 
 export const userManagementSchema = z.array(
@@ -10,40 +11,27 @@ export const userManagementSchema = z.array(
                 }),
             ),
             UserStatus: z.string(),
-            GroupName: z.string(),
+            GroupName: z.nativeEnum(UserGroups),
         })
-        .transform((item) => {
-            let givenName = "N/A";
-            let familyName = "N/A";
-            let email = "N/A";
-            let orgId = "N/A";
-            item.Attributes.forEach((val) => {
-                switch (val.Name) {
-                    case "given_name":
-                        givenName = val.Value;
-                        break;
-                    case "family_name":
-                        familyName = val.Value;
-                        break;
-                    case "email":
-                        email = val.Value;
-                        break;
-                    case "custom:orgId":
-                        orgId = val.Value;
-                        break;
-                    default:
-                        break;
-                }
-            });
-            return {
-                givenName: givenName,
-                familyName: familyName,
-                email: email,
-                userStatus: item.UserStatus,
-                group: item.GroupName,
-                organisation: orgId,
-            };
-        }),
+        .transform((item) =>
+            item.Attributes.reduce(
+                (p, c) => ({
+                    ...p,
+                    givenName: c.Name === "given_name" ? c.Value : p.givenName,
+                    familyName: c.Name === "family_name" ? c.Value : p.familyName,
+                    email: c.Name === "email" ? c.Value : p.email,
+                    organisation: c.Name === "custom:orgId" ? c.Value : p.organisation,
+                }),
+                {
+                    userStatus: item.UserStatus,
+                    group: item.GroupName,
+                    givenName: "N/A",
+                    familyName: "N/A",
+                    email: "N/A",
+                    organisation: "N/A",
+                },
+            ),
+        ),
 );
 
 export type UserManagementSchema = z.infer<typeof userManagementSchema>;

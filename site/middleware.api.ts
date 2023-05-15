@@ -7,11 +7,13 @@ import {
     AdminUserGlobalSignOutCommand,
     AdminUserGlobalSignOutCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import csrf from "edge-csrf";
 import * as jose from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, LOGIN_PAGE_PATH } from "./constants";
+import { z } from "zod";
+import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -162,11 +164,19 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            await jose.jwtVerify(idToken.value, JWKS, {
+            const decodedToken = await jose.jwtVerify(idToken.value, JWKS, {
                 audience: process.env.COGNITO_CLIENT_ID,
                 issuer: process.env.COGNITO_ISSUER,
                 algorithms: ["RS256"],
             });
+
+            if (request.nextUrl.pathname.startsWith("/admin/")) {
+                const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
+
+                if (!groups.includes(UserGroups.systemAdmins) && !groups.includes(UserGroups.orgAdmins)) {
+                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                }
+            }
 
             return response;
         } catch (e) {

@@ -14,14 +14,14 @@ const withInputs: UserManagementPageProps = {
             familyName: "user",
             email: "dummy.user@gmail.com",
             userStatus: "CONFIRMED",
-            group: UserGroups.orgAdmins.toString(),
+            group: UserGroups.orgAdmins,
             organisation: "admin",
         },
     ],
 };
 
 describe("userManagement", () => {
-    vi.mock("../data/cognito", () => ({
+    vi.mock("../../data/cognito", () => ({
         listUsersWithGroups: vi.fn(),
     }));
 

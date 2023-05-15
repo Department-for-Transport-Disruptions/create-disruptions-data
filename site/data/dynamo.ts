@@ -1,4 +1,4 @@
-import { AttributeValue, DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
     QueryCommand,
@@ -465,33 +465,4 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
             }),
         );
     }
-};
-
-export const scanOrgRecords = async (
-    lastEvaluatedKey?: Record<string, AttributeValue>,
-    orgRecords?: Record<string, AttributeValue>[] | undefined,
-) => {
-    logger.info(`Retrieving Organisation info from DynamoDB table...`);
-
-    const orgData = await ddbDocClient.send(
-        new ScanCommand({
-            TableName: organisationsTableName,
-            ExclusiveStartKey: lastEvaluatedKey,
-            ProjectionExpression: "PK, #name",
-            ExpressionAttributeNames: {
-                "#name": "name",
-            },
-        }),
-    );
-
-    if (orgData.Items) orgRecords ? orgRecords.concat(orgData.Items) : (orgRecords = orgData.Items);
-
-    lastEvaluatedKey = orgData.LastEvaluatedKey;
-
-    if (lastEvaluatedKey) {
-        await scanOrgRecords(lastEvaluatedKey);
-    } else {
-        return orgRecords;
-    }
-    return [];
 };
