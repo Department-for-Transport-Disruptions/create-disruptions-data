@@ -28,6 +28,12 @@ export interface CookiesApiRequest extends NextApiRequest {
     };
 }
 
+export interface DeleteUserApiRequest extends NextApiRequest {
+    body: {
+        username: string;
+    };
+}
+
 export interface FormBase<T> {
     value?: string;
     display: string;

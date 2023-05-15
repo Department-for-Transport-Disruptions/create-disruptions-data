@@ -12,7 +12,10 @@ import {
     ListGroupsCommand,
     ListUsersInGroupCommand,
     UserType,
+    AdminDeleteUserCommand,
+    AdminDeleteUserRequest,
 } from "@aws-sdk/client-cognito-identity-provider";
+
 import { createHmac } from "crypto";
 import logger from "../utils/logger";
 
@@ -29,6 +32,22 @@ if (!cognitoClientSecret || !cognitoClientId || !userPoolId) {
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
+
+export const deleteAdminUser = (username: string) => {
+    try {
+        const params: AdminDeleteUserRequest = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        return cognito.send(new AdminDeleteUserCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to delete user: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
 
 const calculateSecretHash = (username: string): string =>
     createHmac("SHA256", cognitoClientSecret)

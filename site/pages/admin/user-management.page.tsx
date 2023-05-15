@@ -2,6 +2,7 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import PageNumbers from "../../components/PageNumbers";
@@ -18,9 +19,10 @@ export interface UserManagementPageProps {
     csrfToken?: string;
 }
 
-const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => {
+const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): ReactElement => {
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
+    const [showRemovePopup, setShowRemovePopup] = useState<boolean>(false);
 
     const getAccountType = (groupName: UserGroups): string => {
         switch (groupName) {
@@ -49,21 +51,51 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
         return rows;
     };
 
-    const createLink = (key: string, index?: number, sendInvite?: boolean) => {
-        return sendInvite ? (
+    const removeUser = () => {
+        setShowRemovePopup(!showRemovePopup);
+    };
+
+    const cancelActionHandler = () => {
+        setShowRemovePopup(false);
+    };
+
+    const createLink = (key: string, index: number, sendInvite?: boolean) => {
+        return (
             <>
-                <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
-                    Resend invite
-                </Link>
-                <br />
-                <Link key={`${key}${index ? `-remove-${index}` : "-remove"}`} className="govuk-link" href="/">
-                    Remove
-                </Link>
+                {showRemovePopup ? (
+                    <DeleteConfirmationPopup
+                        entityName="user"
+                        deleteUrl="/api/delete-user"
+                        cancelActionHandler={cancelActionHandler}
+                        csrfToken={csrfToken || ""}
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userList[index].username,
+                            },
+                        ]}
+                    />
+                ) : null}
+                {sendInvite ? (
+                    <>
+                        <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
+                            Resend invite
+                        </Link>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={removeUser}
+                        >
+                            Remove
+                        </button>
+                    </>
+                ) : (
+                    <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={removeUser}>
+                        Remove
+                    </button>
+                )}
             </>
-        ) : (
-            <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
-                Remove
-            </Link>
         );
     };
 
@@ -81,7 +113,6 @@ const UserManagement = ({ userList }: UserManagementPageProps): ReactElement => 
                 <Link role="button" href={"/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
-
                 <PageNumbers
                     numberOfPages={numberOfUserPages}
                     currentPage={currentPage}
