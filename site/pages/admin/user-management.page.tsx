@@ -93,19 +93,22 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
+    if (!sessionWithOrg) {
+        throw new Error("No session found");
+    }
     const userRecords = await listUsersWithGroups();
 
-    let userList: UserManagementSchema = [];
-    const reducedList: UserManagementSchema = [];
+    if (!userRecords) {
+        return {
+            props: {
+                userList: [],
+            },
+        };
+    }
 
-    if (userRecords) userList = userManagementSchema.parse(userRecords);
-
-    userList = userList.reduce((reducedUserList, user) => {
-        if (user.organisation === sessionWithOrg?.orgId) {
-            reducedUserList.push({ ...user, organisation: sessionWithOrg.orgName });
-        }
-        return reducedUserList;
-    }, reducedList);
+    const userList = userManagementSchema
+        .parse(userRecords)
+        .filter((user) => user.organisation === sessionWithOrg.orgId);
 
     return {
         props: { userList },
