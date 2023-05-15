@@ -9,14 +9,15 @@ import {
     AdminUserGlobalSignOutCommandInput,
     AdminSetUserPasswordCommand,
     AdminSetUserPasswordCommandInput,
+    AdminAddUserToGroupCommand,
     ListGroupsCommand,
     ListUsersInGroupCommand,
     UserType,
     AdminCreateUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
-import logger from "../utils/logger";
 import { AddUserSchema } from "../schemas/add-user.schema";
+import logger from "../utils/logger";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -179,34 +180,42 @@ export const listUsersWithGroups = async () => {
     }
 };
 
-export const createUser = (userData: AddUserSchema) => {
+export const createUser = async (userData: AddUserSchema) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Adding a new user",
+    });
+    console.log("userData-----", userData);
     const createUserResult = await cognito.send(
         new AdminCreateUserCommand({
-            Username: email,
-            UserPoolId: poolId,
+            Username: userData.email,
+            UserPoolId: userPoolId,
             TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
             UserAttributes: [
                 {
                     Name: "custom:orgId",
-                    Value: orgId,
+                    Value: userData.orgId,
                 },
                 {
                     Name: "given_name",
-                    Value: firstName,
+                    Value: userData.givenName,
                 },
                 {
                     Name: "family_name",
-                    Value: lastName,
+                    Value: userData.familyName,
                 },
             ],
         }),
     );
 
+    console.log("after send-----");
     await cognito.send(
         new AdminAddUserToGroupCommand({
-            GroupName: group,
+            GroupName: userData.group,
             Username: createUserResult.User?.Username,
-            UserPoolId: poolId,
+            UserPoolId: userPoolId,
         }),
     );
+
+    console.log("completed-----");
 };

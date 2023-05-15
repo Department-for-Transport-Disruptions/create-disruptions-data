@@ -1,13 +1,8 @@
-import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
+import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-    COOKIES_CHANGE_PASSWORD_ERRORS,
-    CHANGE_PASSWORD_PAGE_PATH,
-    ADD_USER_PAGE_PATH,
-    COOKIES_ADD_USER_ERRORS,
-    USER_MANAGEMENT_PAGE_PATH,
-} from "../../constants";
-import { initiateAuth, updateUserPassword } from "../../data/cognito";
+import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
+import { createUser } from "../../data/cognito";
+import { addUserSchema } from "../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     redirectToError,
@@ -15,8 +10,6 @@ import {
     redirectTo,
     destroyCookieOnResponseObject,
 } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
-import { addUserSchema } from "../../schemas/add-user.schema";
 
 const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -35,31 +28,34 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        await createUser(validatedBody.data);
+
+        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
         redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
         return;
     } catch (e) {
-        if (e instanceof NotAuthorizedException) {
+        if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(
-                COOKIES_CHANGE_PASSWORD_ERRORS,
+                COOKIES_ADD_USER_ERRORS,
                 JSON.stringify({
                     inputs: req.body as object,
                     errors: [
                         {
-                            errorMessage: "Incorrect current password",
-                            id: "",
+                            errorMessage: "Email already registered",
+                            id: "email",
                         },
                     ],
                 }),
                 res,
             );
 
-            redirectTo(res, CHANGE_PASSWORD_PAGE_PATH);
+            redirectTo(res, ADD_USER_PAGE_PATH);
             return;
         }
 
         if (e instanceof Error) {
-            const message = "There was a problem while changing password.";
-            redirectToError(res, message, "api.change-password", e);
+            const message = "There was a problem while adding a user.";
+            redirectToError(res, message, "api.add-user", e);
             return;
         }
 
@@ -68,4 +64,4 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default changePassword;
+export default addUser;

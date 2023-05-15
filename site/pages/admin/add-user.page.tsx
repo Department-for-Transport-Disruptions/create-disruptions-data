@@ -12,7 +12,7 @@ import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
 
@@ -111,6 +111,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!ctx.req) {
         throw new Error("No context request");
     }
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, ctx.res);
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
