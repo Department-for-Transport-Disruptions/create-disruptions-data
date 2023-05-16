@@ -17,7 +17,7 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo, getSubmittedDisruptionsDataFromDynamo } from "../data/dynamo";
+import { getSubmittedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";

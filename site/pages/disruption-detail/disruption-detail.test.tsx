@@ -1,11 +1,11 @@
 import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
+import { randomUUID } from "crypto";
 import DisruptionDetail from "./[disruptionId].page";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { Session } from "../../schemas/session.schema";
-import { randomUUID } from "crypto";
 
 const previousConsequencesInformation: Consequence[] = [
     {
