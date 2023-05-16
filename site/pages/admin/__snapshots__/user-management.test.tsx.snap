@@ -420,13 +420,6 @@ exports[`userManagement > should render correctly with inputs 1`] = `
                 className="govuk-link"
                 onClick={[Function]}
               >
-                Resend invite
-              </button>
-              <br />
-              <button
-                className="govuk-link"
-                onClick={[Function]}
-              >
                 Remove
               </button>
             </td>
