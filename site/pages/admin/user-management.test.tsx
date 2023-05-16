@@ -16,6 +16,7 @@ const withInputs: UserManagementPageProps = {
             userStatus: "CONFIRMED",
             group: UserGroups.orgAdmins,
             organisation: "admin",
+            username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
         },
     ],
 };

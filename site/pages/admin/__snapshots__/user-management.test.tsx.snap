@@ -416,15 +416,12 @@ exports[`userManagement > should render correctly with inputs 1`] = `
             <td
               className="govuk-table__cell align-middle"
             >
-              <a
+              <button
                 className="govuk-link"
-                href="/"
                 onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Remove
-              </a>
+              </button>
             </td>
           </tr>
         </tbody>
