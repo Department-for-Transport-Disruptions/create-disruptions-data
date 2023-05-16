@@ -34,7 +34,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         return;
     } catch (error) {
         const message = "There was a problem deleting a user.";
-        redirectToError(res, message, "api.deleteUser", error as Error);
+        redirectToError(res, message, "api.delete-user", error as Error);
     }
 };
 
