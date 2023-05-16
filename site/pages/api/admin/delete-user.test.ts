@@ -1,5 +1,4 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { error } from "node:console";
 import deleteUser from "./delete-user.api";
 import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
