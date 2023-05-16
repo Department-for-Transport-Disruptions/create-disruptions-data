@@ -1,3 +1,4 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
@@ -22,12 +23,16 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const getOrgDisplay = (orgName: string) => {
-        const userGroupName = orgName.includes("-") ? orgName.split("-")[1] : orgName;
-        return (
-            userGroupName.charAt(0).toUpperCase() +
-            (userGroupName.toLowerCase().endsWith("s") ? userGroupName.slice(1, -1) : userGroupName.slice(1))
-        );
+    const getAccountType = (groupName: UserGroups): string => {
+        switch (groupName) {
+            case UserGroups.systemAdmins:
+            case UserGroups.orgAdmins:
+                return "Admin";
+            case UserGroups.orgPublishers:
+                return "Publisher";
+            case UserGroups.orgStaff:
+                return "Staff";
+        }
     };
 
     const getRows = () => {
@@ -35,7 +40,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         getDataInPages(currentPage, userList).forEach((user, index) => {
             rows.push({
                 cells: [
-                    `${getOrgDisplay(user.group)}`,
+                    `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
                     createLink("user-action", index, user.userStatus === "CONFIRMED" ? false : true),
@@ -97,7 +102,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     columns={["Account type", "User email", "Status", "Action"]}
                     rows={getRows()}
                 ></Table>
-                <Link role="button" href={"/add-user"} className="govuk-button--secondary govuk-button mt-5">
+                <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
 
@@ -117,19 +122,25 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
+    if (!sessionWithOrg) {
+        throw new Error("No session found");
+    }
     const userRecords = await listUsersWithGroups();
 
-    let userList: UserManagementSchema = [];
-    const reducedList: UserManagementSchema = [];
+    if (!userRecords) {
+        return {
+            props: {
+                userList: [],
+            },
+        };
+    }
 
-    if (userRecords) userList = userManagementSchema.parse(userRecords);
-
-    userList = userList.reduce((reducedUserList, user) => {
-        if (user.organisation === sessionWithOrg?.orgId) {
-            reducedUserList.push({ ...user, organisation: sessionWithOrg.orgName });
-        }
-        return reducedUserList;
-    }, reducedList);
+    const userList = userManagementSchema
+        .parse(userRecords)
+        .filter((user) => user.organisation === sessionWithOrg.orgId)
+        .sort((a, b) => {
+            return a.email.toLowerCase().localeCompare(b.email.toLowerCase(), "en", { numeric: true });
+        });
 
     return {
         props: { userList },

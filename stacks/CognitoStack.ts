@@ -28,6 +28,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         timeout: 30,
         memorySize: 256,
         runtime: "python3.9",
+        enableLiveDev: false,
     });
 
     const userPool = new UserPool(stack, "cdd-user-pool", {

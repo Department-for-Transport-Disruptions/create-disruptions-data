@@ -12,6 +12,7 @@ export const userManagementSchema = z.array(
             ),
             UserStatus: z.string(),
             GroupName: z.nativeEnum(UserGroups),
+            Username: z.string(),
         })
         .transform((item) =>
             item.Attributes.reduce(
@@ -25,6 +26,7 @@ export const userManagementSchema = z.array(
                 {
                     userStatus: item.UserStatus,
                     group: item.GroupName,
+                    username: item.Username,
                     givenName: "N/A",
                     familyName: "N/A",
                     email: "N/A",

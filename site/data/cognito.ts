@@ -9,11 +9,14 @@ import {
     AdminUserGlobalSignOutCommandInput,
     AdminSetUserPasswordCommand,
     AdminSetUserPasswordCommandInput,
+    AdminAddUserToGroupCommand,
     ListGroupsCommand,
     ListUsersInGroupCommand,
     UserType,
+    AdminCreateUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { createHmac } from "crypto";
+import { AddUserSchema } from "../schemas/add-user.schema";
 import logger from "../utils/logger";
 
 const {
@@ -158,12 +161,12 @@ export const listUsersWithGroups = async () => {
                     new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName }),
                 );
 
-                if (usersRequest.Users && usersRequest.Users.length > 0) {
+                usersRequest.Users?.forEach((user) => {
                     userList.push({
-                        ...usersRequest.Users[0],
+                        ...user,
                         GroupName: group.GroupName,
                     });
-                }
+                });
             }) ?? [],
         );
 
@@ -175,4 +178,40 @@ export const listUsersWithGroups = async () => {
 
         throw error;
     }
+};
+
+export const createUser = async (userData: AddUserSchema) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Adding a new user",
+    });
+    const createUserResult = await cognito.send(
+        new AdminCreateUserCommand({
+            Username: userData.email,
+            UserPoolId: userPoolId,
+            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            UserAttributes: [
+                {
+                    Name: "custom:orgId",
+                    Value: userData.orgId,
+                },
+                {
+                    Name: "given_name",
+                    Value: userData.givenName,
+                },
+                {
+                    Name: "family_name",
+                    Value: userData.familyName,
+                },
+            ],
+        }),
+    );
+
+    await cognito.send(
+        new AdminAddUserToGroupCommand({
+            GroupName: userData.group,
+            Username: createUserResult.User?.Username,
+            UserPoolId: userPoolId,
+        }),
+    );
 };
