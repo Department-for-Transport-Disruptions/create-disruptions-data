@@ -170,7 +170,7 @@ export async function middleware(request: NextRequest) {
                 algorithms: ["RS256"],
             });
 
-            if (request.nextUrl.pathname.startsWith("/admin/")) {
+            if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
                 const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
 
                 if (!groups.includes(UserGroups.systemAdmins) && !groups.includes(UserGroups.orgAdmins)) {
