@@ -198,7 +198,10 @@ export async function middleware(request: NextRequest) {
                             return response;
                         }
                     } catch (e) {
-                        console.warn("Token refresh failed");
+                        if (e instanceof Error) {
+                            console.warn("Token refresh failed: ", e.stack);
+                        }
+
                         return signOutUserAndRedirectToLogin(username);
                     }
                 }
