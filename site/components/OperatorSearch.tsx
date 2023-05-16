@@ -48,16 +48,16 @@ const OperatorSearch = <T extends object>({
 
     const controlStyles = (state: ControlProps<Operator, false, GroupBase<Operator>>) => ({
         fontFamily: "GDS Transport, arial, sans-serif",
-        border: "black solid 3px",
+        border: "#0b0c0c solid 2px",
         outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
-        color: state.isFocused ? "white" : "black",
+        color: state.isFocused ? "white" : "#0b0c0c",
         marginBottom: "20px",
-        "&:hover": { borderColor: "black" },
+        "&:hover": { borderColor: "#0b0c0c" },
         width: "75%",
     });
 
     const optionStyles = (state: OptionProps<Operator, false, GroupBase<Operator>>) => ({
-        color: state.isFocused ? "white" : "black",
+        color: state.isFocused ? "white" : "#0b0c0c",
         backgroundColor: state.isFocused ? "#3399ff" : "white",
     });
 
