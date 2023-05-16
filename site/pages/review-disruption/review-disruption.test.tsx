@@ -1,4 +1,5 @@
 import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import { randomUUID } from "crypto";
@@ -7,7 +8,6 @@ import { SocialMediaPost } from "../../interfaces/index";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { Session } from "../../schemas/session.schema";
-import { render } from "@testing-library/react";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
