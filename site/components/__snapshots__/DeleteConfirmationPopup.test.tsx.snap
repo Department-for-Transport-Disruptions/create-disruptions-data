@@ -20,13 +20,11 @@ exports[`DeleteConfirmationPopup > should render correctly 1`] = `
         <h1
           class="govuk-heading-l"
         >
-          Are you sure you wish to delete 
-          test
-          ?
+          Are you sure you wish to delete test?
         </h1>
         <span
           class="govuk-hint"
-          id="delete-hint"
+          id="popup-hint"
         />
         <input
           name="id"
@@ -36,7 +34,7 @@ exports[`DeleteConfirmationPopup > should render correctly 1`] = `
         <button
           class="govuk-button mr-6 mt-4 mb-0 mt-11"
           data-module="govuk-button"
-          id="popup-delete-button"
+          id="popup-continue-button"
         >
           Yes, delete
         </button>

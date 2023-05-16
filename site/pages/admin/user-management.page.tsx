@@ -73,7 +73,11 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
             <>
                 {sendInvite ? (
                     <>
-                        <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={resendInvite}>
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => resendInvite(username)}
+                        >
                             Resend invite
                         </button>
                         <br />
