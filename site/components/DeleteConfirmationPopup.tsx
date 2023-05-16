@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import CsrfForm from "./form/CsrfForm";
 import Popup from "./Popup";
 
 interface PopUpProps {

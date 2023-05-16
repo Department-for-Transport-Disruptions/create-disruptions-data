@@ -77,7 +77,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const createLink = (key: string, index: number, username: string, userGroup: string, sendInvite?: boolean) => {
         return (
             <>
-                {true ? (
+                {sendInvite ? (
                     <>
                         <button
                             key={`${key}${index ? `-${index}` : ""}`}
