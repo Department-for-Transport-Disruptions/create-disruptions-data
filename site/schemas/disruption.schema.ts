@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { consequenceSchema } from "./consequence.schema";
 import { createDisruptionsSchemaRefined } from "./create-disruption.schema";
@@ -5,9 +6,7 @@ import { createDisruptionsSchemaRefined } from "./create-disruption.schema";
 export const disruptionSchema = createDisruptionsSchemaRefined.and(
     z.object({
         consequences: z.array(consequenceSchema).optional(),
-        publishStatus: z
-            .union([z.literal("DRAFT"), z.literal("PUBLISHED"), z.literal("EDITING"), z.literal("PENDING APPROVAL")])
-            .default("DRAFT"),
+        publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
     }),
 );
 

@@ -39,6 +39,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const authResponse = await initiateAuth(email, password);
 
+        console.log("auth respponse-----", authResponse);
         if (!authResponse.AuthenticationResult?.IdToken || !authResponse.AuthenticationResult?.RefreshToken) {
             throw new Error("Invalid auth response");
         }

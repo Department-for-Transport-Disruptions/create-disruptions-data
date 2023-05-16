@@ -7,6 +7,7 @@ import {
     PutCommand,
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
@@ -54,7 +55,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "PUBLISHED",
+                ":2": PublishStatus.published,
             },
         }),
     );
@@ -67,7 +68,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
 };
 
 export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
+    logger.info("Getting published and pending disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
@@ -76,8 +77,8 @@ export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus = :2 OR publishStatus = :3",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "PUBLISHED",
-                ":3": "PENDING APPROVAL",
+                ":2": PublishStatus.published,
+                ":3": PublishStatus.pendingApproval,
             },
         }),
     );
@@ -212,19 +213,26 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             },
         })) ?? [];
 
+    const putSiriTable =
+        status !== PublishStatus.pendingApproval
+            ? [
+                  {
+                      Put: {
+                          TableName: siriTableName,
+                          Item: {
+                              PK: id,
+                              SK: disruption.disruptionId,
+                              ...ptSituationElement,
+                          },
+                      },
+                  },
+              ]
+            : [];
+
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
-                {
-                    Put: {
-                        TableName: siriTableName,
-                        Item: {
-                            PK: id,
-                            SK: disruption.disruptionId,
-                            ...ptSituationElement,
-                        },
-                    },
-                },
+                ...putSiriTable,
                 {
                     Update: {
                         TableName: tableName,
@@ -248,9 +256,9 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
     const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" ||
-        currentDisruption?.publishStatus === "EDITING" ||
-        currentDisruption?.publishStatus === "PENDING APPROVAL";
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
 
     await ddbDocClient.send(
         new PutCommand({
@@ -275,9 +283,9 @@ export const upsertConsequence = async (
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
     const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" ||
-        currentDisruption?.publishStatus === "EDITING" ||
-        currentDisruption?.publishStatus === "PENDING APPROVAL";
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
