@@ -243,7 +243,6 @@ export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const REGISTER_PAGE_PATH = "/register";
 export const HOME_PAGE_PATH = "/";
-export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
