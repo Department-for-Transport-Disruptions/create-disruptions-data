@@ -362,7 +362,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
-        publishStatus: isEdited ? "EDITING" : (info?.publishStatus as string),
+        publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {

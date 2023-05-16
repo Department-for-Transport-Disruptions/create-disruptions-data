@@ -24,6 +24,7 @@ import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
@@ -42,10 +43,10 @@ const DisruptionDetail = ({
     errors,
     session,
 }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = disruption.publishStatus === "EDITING";
+    const displayCancelButton = disruption.publishStatus === PublishStatus.editing;
 
     const title =
-        disruption.publishStatus === "EDITING"
+        disruption.publishStatus === PublishStatus.editing
             ? "Review your answers before submitting your changes"
             : "Disruption Overview";
 
