@@ -4,6 +4,8 @@ import { describe, it, expect } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { Session } from "../../schemas/session.schema";
+import { randomUUID } from "crypto";
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -80,12 +82,27 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
+const userSession: Session = {
+    username: "dummy.user@gmail.com",
+    email: "dummy.user@gmail.com",
+    orgId: randomUUID(),
+    isSystemAdmin: true,
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+};
+
 describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
-                    <DisruptionDetail disruption={previousDisruptionInformation} redirect={"/dashboard"} errors={[]} />,
+                    <DisruptionDetail
+                        disruption={previousDisruptionInformation}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        session={userSession}
+                    />,
                 )
                 .toJSON();
             expect(tree).toMatchSnapshot();
@@ -101,6 +118,24 @@ describe("pages", () => {
                         }}
                         redirect={"/view-all-disruptions"}
                         errors={[]}
+                        session={userSession}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and user role set to staff", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            publishStatus: "EDITING",
+                        }}
+                        redirect={"/view-all-disruptions"}
+                        errors={[]}
+                        session={{ ...userSession, isSystemAdmin: false, isOrgStaff: true }}
                     />,
                 )
                 .toJSON();

@@ -66,6 +66,7 @@ describe("publishEdit", () => {
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
+            "PUBLISHED",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

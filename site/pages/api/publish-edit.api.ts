@@ -51,6 +51,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
             session.orgId,
+            session.isOrgStaff ? "PENDING APPROVAL" : "PUBLISHED",
         );
 
         cleardownCookies(req, res);
