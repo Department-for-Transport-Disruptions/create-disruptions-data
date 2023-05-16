@@ -2,7 +2,7 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import deleteUser from "./delete-user.api";
 import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
-import { getMockRequestAndResponse } from "../../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
 
 describe("login", () => {
     const writeHeadMock = vi.fn();
@@ -11,7 +11,7 @@ describe("login", () => {
 
     const getUserDetailsSpy = vi.spyOn(cognito, "getUserDetails");
 
-    vi.mock("../../data/cognito", () => ({
+    vi.mock("../../../data/cognito", () => ({
         deleteUser: vi.fn(),
         getUserDetails: vi.fn(),
     }));
@@ -36,7 +36,7 @@ describe("login", () => {
                 UserAttributes: [
                     {
                         Name: "custom:orgId",
-                        Value: "ce2c16af-72e7-4ee6-83a7-cb97d8e85a3a",
+                        Value: DEFAULT_ORG_ID,
                     },
                 ],
             }),
