@@ -1,6 +1,29 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 
+export const deleteUser = z
+    .object({
+        UserAttributes: z.array(
+            z.object({
+                Name: z.string(),
+                Value: z.string(),
+            }),
+        ),
+        Username: z.string(),
+    })
+    .transform((item) =>
+        item.UserAttributes.reduce(
+            (p, c) => ({
+                ...p,
+                organisation: c.Name === "custom:orgId" ? c.Value : p.organisation,
+            }),
+            {
+                organisation: "N/A",
+                username: item.Username,
+            },
+        ),
+    );
+
 export const userManagementSchema = z.array(
     z
         .object({

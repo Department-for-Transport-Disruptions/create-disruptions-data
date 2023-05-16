@@ -13,8 +13,13 @@ import {
     ListGroupsCommand,
     ListUsersInGroupCommand,
     UserType,
+    AdminDeleteUserCommand,
+    AdminGetUserCommand,
+    AdminGetUserCommandInput,
+    AdminDeleteUserCommandInput,
     AdminCreateUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+
 import { createHmac } from "crypto";
 import { AddUserSchema } from "../schemas/add-user.schema";
 import logger from "../utils/logger";
@@ -32,6 +37,38 @@ if (!cognitoClientSecret || !cognitoClientId || !userPoolId) {
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
+
+export const deleteUser = (username: string) => {
+    try {
+        const params: AdminDeleteUserCommandInput = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        return cognito.send(new AdminDeleteUserCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to delete user: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const getUserDetails = (username: string) => {
+    try {
+        const params: AdminGetUserCommandInput = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        return cognito.send(new AdminGetUserCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to get user details by username: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
 
 const calculateSecretHash = (username: string): string =>
     createHmac("SHA256", cognitoClientSecret)

@@ -52,6 +52,7 @@ const TextInput = <T extends object>({
                             maxLength={maxLength}
                             defaultValue={value}
                             onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     ) : (
                         <input
@@ -62,6 +63,7 @@ const TextInput = <T extends object>({
                             maxLength={maxLength}
                             defaultValue={value}
                             onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     )}
                 </FormElementWrapper>

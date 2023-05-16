@@ -2,6 +2,7 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import PageNumbers from "../../components/PageNumbers";
@@ -22,6 +23,8 @@ export interface UserManagementPageProps {
 const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): ReactElement => {
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
+    const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [userToResendInvite, setUserToResendInvite] = useState<string | null>(null);
 
     const getAccountType = (groupName: UserGroups): string => {
         switch (groupName) {
@@ -43,57 +46,91 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink("user-action", index, user.userStatus === "CONFIRMED" ? false : true),
+                    createLink("user-action", index, user.username, user.userStatus === "CONFIRMED" ? false : true),
                 ],
             });
         });
         return rows;
     };
 
+    const removeUser = (username: string) => {
+        setUserToDelete(username);
+    };
+
+    const cancelResendActionHandler = () => {
+        setUserToResendInvite(null);
+    };
+    const resendInvite = (username: string) => {
+        setUserToResendInvite(username);
+    };
+
     const cancelActionHandler = () => {
-        setShowPopUp(false);
+        setUserToDelete(null);
     };
-    const resendInvite = () => {
-        setShowPopUp(!showPopUp);
-    };
-    const [showPopUp, setShowPopUp] = useState<boolean>(false);
-    const createLink = (key: string, index: number, sendInvite?: boolean) => {
-        return true ? (
+
+    const createLink = (key: string, index: number, username: string, sendInvite?: boolean) => {
+        return (
             <>
-                {showPopUp ? (
-                    <Popup
-                        action={"/resend-invite"}
-                        cancelActionHandler={cancelActionHandler}
-                        csrfToken={csrfToken || ""}
-                        continueText="Yes, resend"
-                        cancelText="No, return"
-                        hiddenInputs={[
-                            {
-                                name: "username",
-                                value: userList[index].username,
-                            },
-                        ]}
-                        questionText={`Are you sure you wish to resend the invite?`}
-                    />
-                ) : null}
-                <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={resendInvite}>
-                    Resend invite
-                </button>
-                <br />
-                <Link key={`${key}${index ? `-remove-${index}` : "-remove"}`} className="govuk-link" href="/">
-                    Remove
-                </Link>
+                {sendInvite ? (
+                    <>
+                        <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={resendInvite}>
+                            Resend invite
+                        </button>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={() => removeUser(username)}
+                        >
+                            Remove
+                        </button>
+                    </>
+                ) : (
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={() => removeUser(username)}
+                    >
+                        Remove
+                    </button>
+                )}
             </>
-        ) : (
-            <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
-                Remove
-            </Link>
         );
     };
 
     return (
         <BaseLayout title={title} description={description}>
             <>
+                {userToDelete ? (
+                    <DeleteConfirmationPopup
+                        entityName="user"
+                        deleteUrl="/api/admin/delete-user"
+                        cancelActionHandler={cancelActionHandler}
+                        csrfToken={csrfToken || ""}
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userToDelete,
+                            },
+                        ]}
+                    />
+                ) : null}
+                {userToResendInvite ? (
+                    <Popup
+                        action={"/resend-invite"}
+                        cancelActionHandler={cancelResendActionHandler}
+                        csrfToken={csrfToken || ""}
+                        continueText="Yes, resend"
+                        cancelText="No, return"
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userToResendInvite,
+                            },
+                        ]}
+                        questionText={`Are you sure you wish to resend the invite?`}
+                    />
+                ) : null}
                 <div className="govuk-form-group">
                     <h1 className="govuk-heading-xl">User Management</h1>
                 </div>
@@ -105,7 +142,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                 <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
-
                 <PageNumbers
                     numberOfPages={numberOfUserPages}
                     currentPage={currentPage}

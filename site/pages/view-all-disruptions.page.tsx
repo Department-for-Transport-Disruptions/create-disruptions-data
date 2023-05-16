@@ -78,6 +78,7 @@ export interface Filter {
     status?: string;
     operators: DisruptionOperator[];
     mode?: string;
+    searchText?: string;
 }
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -236,6 +237,10 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
             }
         }
 
+        if (filter.searchText && filter.searchText.length > 2) {
+            return disruption.summary.toLowerCase().includes(filter.searchText.toLowerCase());
+        }
+
         return true;
     });
 
@@ -291,6 +296,7 @@ const ViewAllDisruptions = ({
     const [startDateFilterError, setStartDateFilterError] = useState(false);
     const [endDateFilterError, setEndDateFilterError] = useState(false);
     const [incompatibleDatesError, setIncompatibleDatesError] = useState(false);
+    const [searchText, setSearchText] = useState("");
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -319,7 +325,7 @@ const ViewAllDisruptions = ({
             }
 
             if (!!endDateFilter && success) {
-                if (dateIsSameOrBeforeSecondDate(getDate(value), getDate(endDateFilter))) {
+                if (dateIsSameOrBeforeSecondDate(getFormattedDate(value), getFormattedDate(endDateFilter))) {
                     setIncompatibleDatesError(false);
                     setFilter({ ...filter, period: { startTime: value, endTime: endDateFilter } });
                 } else {
@@ -338,7 +344,7 @@ const ViewAllDisruptions = ({
             }
 
             if (!!startDateFilter && success) {
-                if (dateIsSameOrBeforeSecondDate(getDate(startDateFilter), getDate(value))) {
+                if (dateIsSameOrBeforeSecondDate(getFormattedDate(startDateFilter), getFormattedDate(value))) {
                     setIncompatibleDatesError(false);
                     setFilter({ ...filter, period: { startTime: startDateFilter, endTime: value } });
                 } else {
@@ -360,6 +366,7 @@ const ViewAllDisruptions = ({
             setSelectedOperatorsNocs([]);
             setSelectedServices([]);
             setClearButtonClicked(false);
+            setSearchText("");
         }
     }, [clearButtonClicked]);
 
@@ -398,6 +405,17 @@ const ViewAllDisruptions = ({
             setNumberOfDisruptionsPages,
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedServices]);
+
+    useEffect(() => {
+        setFilter({ ...filter, searchText });
+        applyFiltersToDisruptions(
+            disruptions,
+            setDisruptionsToDisplay,
+            currentPage,
+            { ...filter, searchText },
+            setNumberOfDisruptionsPages,
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchText]);
 
     useEffect(() => {
         const disruptionOperatorsToSet: DisruptionOperator[] = [];
@@ -500,6 +518,28 @@ const ViewAllDisruptions = ({
 
             {showFilters ? (
                 <>
+                    <div className="flex">
+                        <div>
+                            <label className="govuk-label govuk-label--s" htmlFor="summary-search">
+                                Summary
+                            </label>
+                            <div id="summary-search-hint" className="govuk-hint">
+                                3 characters minimum
+                            </div>
+                            <input
+                                className="govuk-input govuk-input--width-20 mb-4"
+                                id="summary-search"
+                                name="summarySearch"
+                                type="text"
+                                maxLength={20}
+                                onChange={(e) => {
+                                    setSearchText(e.target.value);
+                                }}
+                                value={searchText}
+                                aria-describedby="summary-search-hint"
+                            />
+                        </div>
+                    </div>
                     <OperatorSearch
                         display="Operators"
                         displaySize="s"

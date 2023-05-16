@@ -189,7 +189,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                     className="css-1f43avz-a11yText-A11yText"
                   />
                   <div
-                    className=" css-1kxfjwu-control"
+                    className=" css-1efjb9t-control"
                     onMouseDown={[Function]}
                     onTouchEnd={[Function]}
                   >
@@ -346,6 +346,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
@@ -922,7 +923,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                     className="css-1f43avz-a11yText-A11yText"
                   />
                   <div
-                    className=" css-1kxfjwu-control"
+                    className=" css-1efjb9t-control"
                     onMouseDown={[Function]}
                     onTouchEnd={[Function]}
                   >
@@ -1035,6 +1036,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   id="description-input"
                   maxLength={500}
@@ -1608,7 +1610,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                     className="css-1f43avz-a11yText-A11yText"
                   />
                   <div
-                    className=" css-1kxfjwu-control"
+                    className=" css-1efjb9t-control"
                     onMouseDown={[Function]}
                     onTouchEnd={[Function]}
                   >
@@ -1765,6 +1767,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"

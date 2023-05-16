@@ -1599,6 +1599,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
@@ -2534,6 +2535,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   id="description-input"
                   maxLength={500}
@@ -3543,6 +3545,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 className=""
               >
                 <textarea
+                  aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
