@@ -14,6 +14,7 @@ import {
     UserType,
     AdminDeleteUserCommand,
     AdminDeleteUserRequest,
+    AdminGetUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -33,7 +34,7 @@ const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
 
-export const deleteAdminUser = (username: string) => {
+export const deleteUser = (username: string) => {
     try {
         const params: AdminDeleteUserRequest = {
             UserPoolId: userPoolId,
@@ -43,6 +44,22 @@ export const deleteAdminUser = (username: string) => {
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to delete user: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const getUserDetails = (username: string) => {
+    try {
+        const params: AdminDeleteUserRequest = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        return cognito.send(new AdminGetUserCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to get user details by username: ${error.stack || ""}`);
         }
 
         throw error;

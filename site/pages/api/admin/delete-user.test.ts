@@ -1,16 +1,19 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import deleteUser from "./delete-user.api";
-import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
-import * as cognito from "../../data/cognito";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import * as cognito from "../../../data/cognito";
+import { getMockRequestAndResponse } from "../../../testData/mockData";
 
 describe("login", () => {
     const writeHeadMock = vi.fn();
 
-    const deleteAdminUserSpy = vi.spyOn(cognito, "deleteAdminUser");
+    const deleteAdminUserSpy = vi.spyOn(cognito, "deleteUser");
+
+    const getUserDetailsSpy = vi.spyOn(cognito, "getUserDetails");
 
     vi.mock("../../data/cognito", () => ({
-        deleteAdminUser: vi.fn(),
+        deleteUser: vi.fn(),
+        getUserDetails: vi.fn(),
     }));
 
     afterEach(() => {
@@ -22,6 +25,20 @@ describe("login", () => {
             Promise.resolve({
                 body: {},
                 $metadata: { httpStatusCode: 302 },
+            }),
+        );
+
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: "ce2c16af-72e7-4ee6-83a7-cb97d8e85a3a",
+                    },
+                ],
             }),
         );
 
@@ -43,6 +60,15 @@ describe("login", () => {
                 cause: "Invalid",
             });
         });
+
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 400 },
+                Username: "",
+                UserAttributes: [],
+            }),
+        );
 
         const { req, res } = getMockRequestAndResponse({
             body: {},

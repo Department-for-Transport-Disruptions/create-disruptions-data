@@ -65,7 +65,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                 {showRemovePopup ? (
                     <DeleteConfirmationPopup
                         entityName="user"
-                        deleteUrl="/api/delete-user"
+                        deleteUrl="/api/admin/delete-user"
                         cancelActionHandler={cancelActionHandler}
                         csrfToken={csrfToken || ""}
                         hiddenInputs={[
