@@ -352,9 +352,24 @@ const DisruptionDetail = ({
                             </Link>
                         ) : (
                             <>
-                                <button className="govuk-button mt-8" data-module="govuk-button">
-                                    {session.isOrgStaff ? "Send to review" : "Publish disruption"}
-                                </button>
+                                {session.isOrgStaff ? (
+                                    <button className="govuk-button mt-8" data-module="govuk-button">
+                                        Send to review
+                                    </button>
+                                ) : (
+                                    <>
+                                        <button className="govuk-button mt-8" data-module="govuk-button">
+                                            Publish disruption
+                                        </button>
+                                        <button
+                                            className="govuk-button mt-8 govuk-button--secondary ml-5"
+                                            data-module="govuk-button"
+                                            formAction="/api/reject"
+                                        >
+                                            Reject disruption
+                                        </button>
+                                    </>
+                                )}
 
                                 <button
                                     className="govuk-button govuk-button--secondary mt-8 ml-5"

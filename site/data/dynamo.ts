@@ -73,11 +73,10 @@ export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1",
-            FilterExpression: "publishStatus = :2 OR publishStatus = :3",
+            FilterExpression: "publishStatus <> :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "PUBLISHED",
-                ":3": "PENDING APPROVAL",
+                ":2": "DRAFT",
             },
         }),
     );
@@ -247,10 +246,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
 export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: string) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
-    const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" ||
-        currentDisruption?.publishStatus === "EDITING" ||
-        currentDisruption?.publishStatus === "PENDING APPROVAL";
+    const isEditing = currentDisruption?.publishStatus !== "DRAFT";
 
     await ddbDocClient.send(
         new PutCommand({
@@ -274,10 +270,7 @@ export const upsertConsequence = async (
         }) in DynamoDB table...`,
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
-    const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" ||
-        currentDisruption?.publishStatus === "EDITING" ||
-        currentDisruption?.publishStatus === "PENDING APPROVAL";
+    const isEditing = currentDisruption?.publishStatus !== "DRAFT";
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,

@@ -688,7 +688,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
-    const data = await getSubmittedDisruptionsDataFromDynamo(session.orgId);
+    const data = await getSubmittedDisruptionsDataFromDynamo(session.orgId, session.isOrgStaff);
     const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
     let services: Service[] = [];
 

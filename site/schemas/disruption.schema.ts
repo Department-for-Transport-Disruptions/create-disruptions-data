@@ -6,7 +6,13 @@ export const disruptionSchema = createDisruptionsSchemaRefined.and(
     z.object({
         consequences: z.array(consequenceSchema).optional(),
         publishStatus: z
-            .union([z.literal("DRAFT"), z.literal("PUBLISHED"), z.literal("EDITING"), z.literal("PENDING APPROVAL")])
+            .union([
+                z.literal("DRAFT"),
+                z.literal("PUBLISHED"),
+                z.literal("EDITING"),
+                z.literal("PENDING APPROVAL"),
+                z.literal("REJECTED"),
+            ])
             .default("DRAFT"),
     }),
 );
