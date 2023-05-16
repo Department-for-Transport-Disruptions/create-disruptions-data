@@ -22,7 +22,7 @@ export interface UserManagementPageProps {
 const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): ReactElement => {
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [showRemovePopup, setShowRemovePopup] = useState<boolean>(false);
+    const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
     const getAccountType = (groupName: UserGroups): string => {
         switch (groupName) {
@@ -44,38 +44,24 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink("user-action", index, user.userStatus === "CONFIRMED" ? false : true),
+                    createLink("user-action", index, user.username, user.userStatus === "CONFIRMED" ? false : true),
                 ],
             });
         });
         return rows;
     };
 
-    const removeUser = () => {
-        setShowRemovePopup(!showRemovePopup);
+    const removeUser = (username: string) => {
+        setUserToDelete(username);
     };
 
     const cancelActionHandler = () => {
-        setShowRemovePopup(false);
+        setUserToDelete(null);
     };
 
-    const createLink = (key: string, index: number, sendInvite?: boolean) => {
+    const createLink = (key: string, index: number, username: string, sendInvite?: boolean) => {
         return (
             <>
-                {showRemovePopup ? (
-                    <DeleteConfirmationPopup
-                        entityName="user"
-                        deleteUrl="/api/admin/delete-user"
-                        cancelActionHandler={cancelActionHandler}
-                        csrfToken={csrfToken || ""}
-                        hiddenInputs={[
-                            {
-                                name: "username",
-                                value: userList[index].username,
-                            },
-                        ]}
-                    />
-                ) : null}
                 {sendInvite ? (
                     <>
                         <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
@@ -85,13 +71,17 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                         <button
                             key={`${key}${index ? `-remove-${index}` : "-remove"}`}
                             className="govuk-link"
-                            onClick={removeUser}
+                            onClick={() => removeUser(username)}
                         >
                             Remove
                         </button>
                     </>
                 ) : (
-                    <button key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" onClick={removeUser}>
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={() => removeUser(username)}
+                    >
                         Remove
                     </button>
                 )}
@@ -102,6 +92,20 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     return (
         <BaseLayout title={title} description={description}>
             <>
+                {userToDelete ? (
+                    <DeleteConfirmationPopup
+                        entityName="user"
+                        deleteUrl="/api/admin/delete-user"
+                        cancelActionHandler={cancelActionHandler}
+                        csrfToken={csrfToken || ""}
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userToDelete,
+                            },
+                        ]}
+                    />
+                ) : null}
                 <div className="govuk-form-group">
                     <h1 className="govuk-heading-xl">User Management</h1>
                 </div>
