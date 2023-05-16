@@ -110,7 +110,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     columns={["Account type", "User email", "Status", "Action"]}
                     rows={getRows()}
                 ></Table>
-                <Link role="button" href={"/add-user"} className="govuk-button--secondary govuk-button mt-5">
+                <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5">
                     Add new user
                 </Link>
                 <PageNumbers
@@ -144,7 +144,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const userList = userManagementSchema
         .parse(userRecords)
-        .filter((user) => user.organisation === sessionWithOrg.orgId);
+        .filter((user) => user.organisation === sessionWithOrg.orgId)
+        .sort((a, b) => {
+            return a.email.toLowerCase().localeCompare(b.email.toLowerCase(), "en", { numeric: true });
+        });
 
     return {
         props: { userList },
