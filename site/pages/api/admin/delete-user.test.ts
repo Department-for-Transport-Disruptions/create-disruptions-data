@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
+import { error } from "node:console";
 import deleteUser from "./delete-user.api";
 import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
@@ -52,6 +53,34 @@ describe("login", () => {
         await deleteUser(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
+    });
+
+    it("should redirect to /500 if organisation ids do not match", async () => {
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: "1234",
+                    },
+                ],
+            }),
+        );
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await deleteUser(req, res);
+
+        expect(deleteAdminUserSpy).not.toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
     it("should redirect to /500 if delete operation failed", async () => {

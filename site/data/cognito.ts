@@ -13,8 +13,9 @@ import {
     ListUsersInGroupCommand,
     UserType,
     AdminDeleteUserCommand,
-    AdminDeleteUserRequest,
     AdminGetUserCommand,
+    AdminGetUserCommandInput,
+    AdminDeleteUserCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -36,7 +37,7 @@ const cognito = new CognitoIdentityProviderClient({
 
 export const deleteUser = (username: string) => {
     try {
-        const params: AdminDeleteUserRequest = {
+        const params: AdminDeleteUserCommandInput = {
             UserPoolId: userPoolId,
             Username: username,
         };
@@ -52,7 +53,7 @@ export const deleteUser = (username: string) => {
 
 export const getUserDetails = (username: string) => {
     try {
-        const params: AdminDeleteUserRequest = {
+        const params: AdminGetUserCommandInput = {
             UserPoolId: userPoolId,
             Username: username,
         };
