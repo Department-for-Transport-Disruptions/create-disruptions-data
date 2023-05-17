@@ -5,6 +5,7 @@ import createConsequenceOperator from "./create-consequence-operator.api";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    DASHBOARD_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -165,6 +166,33 @@ describe("create-consequence-operator API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
+    });
+
+    it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
+        const { req, res } = getMockRequestAndResponse({ body: bodyData, mockWriteHeadFn: writeHeadMock, query:{draft:"true"} });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "",
+                disruptionSeverity: "slight",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceOperators: ["FMAN"],
+                consequenceType: "operatorWide",
+            },
+            DEFAULT_ORG_ID,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: DASHBOARD_PAGE_PATH,
         });
     });
 });

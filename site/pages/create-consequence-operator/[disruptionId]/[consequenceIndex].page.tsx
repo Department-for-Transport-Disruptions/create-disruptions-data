@@ -40,6 +40,7 @@ export interface CreateConsequenceOperatorProps
 
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
+    const [draft, setDraft] = useState(false);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
@@ -50,7 +51,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-operator${draft ? "?draft=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -210,13 +215,15 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <Link
-                            role="button"
-                            href={"/api/create-consequence-operator?draft=true"}
+                        <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            onClick={() => {
+                                setDraft(true);
+                            }}
                         >
                             Save as draft
-                        </Link>
+                        </button>
                     </div>
                 </>
             </CsrfForm>

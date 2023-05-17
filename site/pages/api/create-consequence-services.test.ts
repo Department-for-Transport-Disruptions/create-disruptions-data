@@ -5,6 +5,7 @@ import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } f
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
+    DASHBOARD_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -236,6 +237,48 @@ describe("create-consequence-services API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_SERVICES_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
+    });
+
+    it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: defaultServicesData,
+            mockWriteHeadFn: writeHeadMock,
+            query: { draft: "true" },
+        });
+
+        await createConsequenceServices(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "45",
+                disruptionDirection: "inbound",
+                disruptionSeverity: "severe",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceType: "services",
+                services: [
+                    {
+                        destination: "HigH Green",
+                        id: 23127,
+                        lineName: "1",
+                        nocCode: "TEST",
+                        operatorShortName: "First South Yorkshire",
+                        origin: "Jordanthorpe",
+                    },
+                ],
+                stops: [],
+            },
+            DEFAULT_ORG_ID,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: DASHBOARD_PAGE_PATH,
         });
     });
 });

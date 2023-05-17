@@ -1284,6 +1284,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           >
             Save and continue
           </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Save as draft
+          </button>
         </div>
       </form>
     </main>
@@ -2675,6 +2682,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             data-module="govuk-button"
           >
             Save and continue
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Save as draft
           </button>
         </div>
       </form>
@@ -4146,6 +4160,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           >
             Cancel Changes
           </a>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Save as draft
+          </button>
         </div>
       </form>
     </main>

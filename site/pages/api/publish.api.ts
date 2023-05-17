@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_REVIEW_DISRUPTION_ERRORS, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import {
+    COOKIES_REVIEW_DISRUPTION_ERRORS,
+    DASHBOARD_PAGE_PATH,
+    ERROR_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -10,6 +15,13 @@ import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+        const { draft } = req.query;
+
+        if (draft) {
+            redirectTo(res, DASHBOARD_PAGE_PATH);
+            return;
+        }
+
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
 
@@ -48,7 +60,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         cleardownCookies(req, res);
 
-        redirectTo(res, "/dashboard");
+        redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
