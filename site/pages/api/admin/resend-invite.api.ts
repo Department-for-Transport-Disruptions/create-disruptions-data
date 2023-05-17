@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { Console } from "console";
 import { USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser, deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
 import { user } from "../../../schemas/user-management.schema";
@@ -27,6 +28,10 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
 
         if (!validatedBody.success) {
             throw Error("Insufficient values provided to resend an invite");
+        }
+
+        if (validatedBody.data.userStatus !== "FORCE_CHANGE_PASSWORD") {
+            throw Error("Users must have a pending status to resend an invite");
         }
 
         if (validatedBody.data.orgId !== session.orgId) {
