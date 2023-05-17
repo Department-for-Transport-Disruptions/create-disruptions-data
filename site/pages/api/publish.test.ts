@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
@@ -61,7 +62,7 @@ describe("publish", () => {
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
-            "PUBLISHED",
+            PublishStatus.published,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

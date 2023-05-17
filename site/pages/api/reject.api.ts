@@ -12,6 +12,7 @@ import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObjec
 import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 
 const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -51,7 +52,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
             session.orgId,
-            "REJECTED",
+            PublishStatus.rejected,
         );
 
         cleardownCookies(req, res);

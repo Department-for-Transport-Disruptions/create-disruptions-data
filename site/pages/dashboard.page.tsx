@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { Dayjs } from "dayjs";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import Tabs from "../components/Tabs";
-import { DASHBOARD_PAGE_PATH } from "../constants";
+import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
@@ -31,6 +32,7 @@ export interface DashboardProps {
     liveDisruptions: DashboardDisruption[];
     upcomingDisruptions: DashboardDisruption[];
     newDisruptionId: string;
+    pendingApprovalCount?: number;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -103,7 +105,12 @@ const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisrupti
     return disruptions.slice(startPoint, endPoint);
 };
 
-const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: DashboardProps): ReactElement => {
+const Dashboard = ({
+    liveDisruptions,
+    upcomingDisruptions,
+    newDisruptionId,
+    pendingApprovalCount,
+}: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
     const numberOfUpcomingDisruptionsPages = Math.ceil(upcomingDisruptions.length / 10);
@@ -135,6 +142,30 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
     return (
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">Dashboard</h1>
+            {pendingApprovalCount && pendingApprovalCount > 0 ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        You have {pendingApprovalCount} new disruptions that require approval.
+                        <Link
+                            className="govuk-link"
+                            href={{
+                                pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+                                query: {
+                                    status: PublishStatus.pendingApproval,
+                                },
+                            }}
+                        >
+                            <h2 className="govuk-heading-s text-govBlue">View all</h2>
+                        </Link>
+                    </strong>
+                </div>
+            ) : (
+                <></>
+            )}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}
                 role="button"
@@ -214,14 +245,6 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
             <Link className="govuk-link" href="/dashboard">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-
-            <div className="govuk-!-padding-top-5">
-                <h2 className="govuk-heading-s">Reviews</h2>
-                <p className="govuk-body">You have nothing to review</p>
-                <Link className="govuk-link" href="/dashboard">
-                    <h2 className="govuk-heading-s text-govBlue">View all</h2>
-                </Link>
-            </div>
         </BaseLayout>
     );
 };
@@ -251,6 +274,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         const liveDisruptions: Disruption[] = [];
         const upcomingDisruptions: Disruption[] = [];
         const today = getDate();
+        let pendingApprovalCount = 0;
 
         data.forEach((disruption) => {
             // end time before today --> dont show
@@ -294,6 +318,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     );
                 });
 
+                if (disruption.publishStartTime === PublishStatus.pendingApproval) {
+                    pendingApprovalCount++;
+                }
+
                 if (isLive) {
                     liveDisruptions.push(disruption);
                 }
@@ -314,6 +342,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 liveDisruptions: mapDisruptions(liveDisruptions),
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 newDisruptionId: randomUUID(),
+                pendingApprovalCount: pendingApprovalCount,
             },
         };
     }

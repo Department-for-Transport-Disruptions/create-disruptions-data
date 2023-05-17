@@ -7,6 +7,7 @@ import {
     PutCommand,
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
@@ -54,7 +55,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "PUBLISHED",
+                ":2": PublishStatus.published,
             },
         }),
     );
@@ -67,7 +68,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
 };
 
 export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
+    logger.info("Getting published and pending disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
@@ -76,7 +77,7 @@ export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus <> :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "DRAFT",
+                ":2": PublishStatus.draft,
             },
         }),
     );
@@ -211,19 +212,26 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             },
         })) ?? [];
 
+    const putSiriTable =
+        status === PublishStatus.pendingApproval || status === PublishStatus.rejected
+            ? []
+            : [
+                  {
+                      Put: {
+                          TableName: siriTableName,
+                          Item: {
+                              PK: id,
+                              SK: disruption.disruptionId,
+                              ...ptSituationElement,
+                          },
+                      },
+                  },
+              ];
+
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
-                {
-                    Put: {
-                        TableName: siriTableName,
-                        Item: {
-                            PK: id,
-                            SK: disruption.disruptionId,
-                            ...ptSituationElement,
-                        },
-                    },
-                },
+                ...putSiriTable,
                 {
                     Update: {
                         TableName: tableName,
@@ -246,7 +254,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
 export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: string) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
-    const isEditing = currentDisruption?.publishStatus !== "DRAFT";
+    const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
         new PutCommand({
@@ -270,7 +278,8 @@ export const upsertConsequence = async (
         }) in DynamoDB table...`,
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
-    const isEditing = currentDisruption?.publishStatus !== "DRAFT";
+    const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
+
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
@@ -315,8 +324,8 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         return null;
     }
     const isEdited = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#EDIT"));
-    let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
 
+    let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
     let consequences = dynamoDisruption.Items.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
@@ -347,7 +356,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
-        publishStatus: isEdited ? "EDITING" : (info?.publishStatus as string),
+        publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {

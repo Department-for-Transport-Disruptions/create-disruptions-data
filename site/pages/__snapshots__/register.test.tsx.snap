@@ -115,6 +115,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
                   className=""
                 >
                   <input
+                    aria-describedby="password-hint"
                     className="govuk-input w-3/4"
                     id="password-input"
                     maxLength={100}
@@ -492,6 +493,7 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                   className=""
                 >
                   <input
+                    aria-describedby="password-hint"
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
                     id="password-input"
@@ -902,6 +904,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                   className=""
                 >
                   <input
+                    aria-describedby="password-hint"
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
                     id="password-input"

@@ -13,6 +13,7 @@ import * as jose from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
+import { Buffer } from "buffer";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
 
 const {
@@ -198,7 +199,10 @@ export async function middleware(request: NextRequest) {
                             return response;
                         }
                     } catch (e) {
-                        console.warn("Token refresh failed");
+                        if (e instanceof Error) {
+                            console.warn("Token refresh failed: ", e.stack);
+                        }
+
                         return signOutUserAndRedirectToLogin(username);
                     }
                 }

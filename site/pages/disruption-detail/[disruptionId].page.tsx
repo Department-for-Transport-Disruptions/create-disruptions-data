@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -42,10 +43,12 @@ const DisruptionDetail = ({
     errors,
     session,
 }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = disruption.publishStatus === "EDITING";
+    const displayCancelButton =
+        disruption.publishStatus !== PublishStatus.editing ||
+        (session.isOrgStaff && disruption.publishStatus === PublishStatus.pendingApproval);
 
     const title =
-        disruption.publishStatus === "EDITING"
+        disruption.publishStatus === PublishStatus.editing
             ? "Review your answers before submitting your changes"
             : "Disruption Overview";
 
@@ -346,40 +349,51 @@ const DisruptionDetail = ({
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {!displayCancelButton ? (
-                            <Link role="button" href={redirect} className="govuk-button mt-8 govuk-button">
+                        {disruption.publishStatus !== PublishStatus.editing ? (
+                            <Link
+                                role="button"
+                                href={redirect}
+                                className={`govuk-button mt-8 ${
+                                    disruption.publishStatus === PublishStatus.pendingApproval
+                                        ? "govuk-button--secondary mr-5"
+                                        : ""
+                                }`}
+                            >
                                 Close and Return
                             </Link>
-                        ) : (
-                            <>
-                                {session.isOrgStaff ? (
-                                    <button className="govuk-button mt-8" data-module="govuk-button">
-                                        Send to review
-                                    </button>
-                                ) : (
-                                    <>
-                                        <button className="govuk-button mt-8" data-module="govuk-button">
-                                            Publish disruption
-                                        </button>
-                                        <button
-                                            className="govuk-button mt-8 govuk-button--secondary ml-5"
-                                            data-module="govuk-button"
-                                            formAction="/api/reject"
-                                        >
-                                            Reject disruption
-                                        </button>
-                                    </>
-                                )}
+                        ) : null}
 
+                        {session.isOrgStaff && disruption.publishStatus === PublishStatus.editing ? (
+                            <button className="govuk-button mt-8" data-module="govuk-button">
+                                Send to review
+                            </button>
+                        ) : null}
+
+                        {!session.isOrgStaff && disruption.publishStatus !== PublishStatus.published ? (
+                            <>
+                                <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
+                                    Publish disruption
+                                </button>
                                 <button
-                                    className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                    className="govuk-button mt-8 govuk-button--secondary ml-5"
                                     data-module="govuk-button"
-                                    formAction="/api/cancel-changes"
+                                    formAction="/api/reject"
                                 >
-                                    Cancel all changes
+                                    Reject disruption
                                 </button>
                             </>
-                        )}
+                        ) : null}
+
+                        {disruption.publishStatus === PublishStatus.editing ? (
+                            <button
+                                className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                data-module="govuk-button"
+                                formAction="/api/cancel-changes"
+                            >
+                                Cancel all changes
+                            </button>
+                        ) : null}
+
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
                             data-module="govuk-button"

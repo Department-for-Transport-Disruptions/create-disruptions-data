@@ -11,6 +11,7 @@ import {
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
 } from "../../testData/mockData";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -66,7 +67,7 @@ describe("reject", () => {
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
-            "REJECTED",
+            PublishStatus.rejected,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
