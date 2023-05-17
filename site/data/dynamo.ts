@@ -187,7 +187,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     ptSituationElement: PtSituationElement,
     disruption: Disruption,
     id: string,
-    status: string,
+    status: PublishStatus,
 ) => {
     logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
 
@@ -214,7 +214,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         })) ?? [];
 
     const putSiriTable =
-        status !== PublishStatus.pendingApproval
+        status === PublishStatus.published
             ? [
                   {
                       Put: {
