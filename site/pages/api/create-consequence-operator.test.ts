@@ -170,7 +170,11 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
-        const { req, res } = getMockRequestAndResponse({ body: bodyData, mockWriteHeadFn: writeHeadMock, query:{draft:"true"} });
+        const { req, res } = getMockRequestAndResponse({
+            body: bodyData,
+            mockWriteHeadFn: writeHeadMock,
+            query: { draft: "true" },
+        });
 
         await createConsequenceOperator(req, res);
 

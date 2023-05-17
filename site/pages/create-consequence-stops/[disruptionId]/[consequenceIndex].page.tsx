@@ -157,7 +157,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action={`/api/create-consequence-stops${draft ? "?draft=true" : ""}`} method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-stops${draft ? "?draft=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
