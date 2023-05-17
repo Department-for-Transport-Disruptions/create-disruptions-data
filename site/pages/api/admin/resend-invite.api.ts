@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Console } from "console";
 import { USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser, deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
 import { user } from "../../../schemas/user-management.schema";
