@@ -1,0 +1,47 @@
+name: Release published
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  deploy_to_prod:
+    name: Deploy to Production
+    environment: DISRUPTIONS_PROD
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Get Artifact from Release
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: ${{ github.event.release.id }}
+          file: build.zip
+
+      - name: Unzip artifact
+        run: unzip -q build.zip
+
+      - name: Setup Node.js and cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.15.x'
+          cache: 'npm'
+
+      - name: Rebuild npm
+        run: npm rebuild
+
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+      - name: Deploy to prod
+        env:
+          ROOT_DOMAIN: ${{ vars.ROOT_DOMAIN }}
+          AWS_SES_IDENTITY_ARN: ${{ secrets.AWS_SES_TEST_IDENTITY }}
+          MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
+        run: |
+          npm run deploy -- --stage prod

@@ -52,10 +52,11 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1",
-            FilterExpression: "publishStatus = :2",
+            FilterExpression: "publishStatus = :2 or publishStatus = :3",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": PublishStatus.published,
+                ":3": PublishStatus.pendingApproval,
             },
         }),
     );
@@ -186,7 +187,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     ptSituationElement: PtSituationElement,
     disruption: Disruption,
     id: string,
-    status: string,
+    status: PublishStatus,
 ) => {
     logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
 
@@ -213,9 +214,8 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         })) ?? [];
 
     const putSiriTable =
-        status === PublishStatus.pendingApproval || status === PublishStatus.rejected
-            ? []
-            : [
+        status === PublishStatus.published
+            ? [
                   {
                       Put: {
                           TableName: siriTableName,
@@ -226,7 +226,8 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                           },
                       },
                   },
-              ];
+              ]
+            : [];
 
     await ddbDocClient.send(
         new TransactWriteCommand({

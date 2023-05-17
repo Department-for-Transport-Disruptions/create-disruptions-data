@@ -12,6 +12,7 @@ import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constant
 import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
+import { Session } from "../schemas/session.schema";
 import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { getSession } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
@@ -33,6 +34,7 @@ export interface DashboardProps {
     upcomingDisruptions: DashboardDisruption[];
     newDisruptionId: string;
     pendingApprovalCount?: number;
+    session?: Session;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -110,6 +112,7 @@ const Dashboard = ({
     upcomingDisruptions,
     newDisruptionId,
     pendingApprovalCount,
+    session,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -142,7 +145,7 @@ const Dashboard = ({
     return (
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">Dashboard</h1>
-            {pendingApprovalCount && pendingApprovalCount > 0 ? (
+            {pendingApprovalCount && pendingApprovalCount > 0 && !session?.isOrgStaff ? (
                 <div className="govuk-warning-text">
                     <span className="govuk-warning-text__icon" aria-hidden="true">
                         !
@@ -163,9 +166,7 @@ const Dashboard = ({
                         </Link>
                     </strong>
                 </div>
-            ) : (
-                <></>
-            )}
+            ) : null}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}
                 role="button"
@@ -277,62 +278,64 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         let pendingApprovalCount = 0;
 
         data.forEach((disruption) => {
-            // end time before today --> dont show
-            const validityPeriods: Validity[] = [
-                ...(disruption.validity ?? []),
-                {
-                    disruptionStartDate: disruption.disruptionStartDate,
-                    disruptionStartTime: disruption.disruptionStartTime,
-                    disruptionEndDate: disruption.disruptionEndDate,
-                    disruptionEndTime: disruption.disruptionEndTime,
-                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                    disruptionRepeats: disruption.disruptionRepeats,
-                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-                },
-            ];
+            if (disruption.publishStatus === PublishStatus.pendingApproval) {
+                pendingApprovalCount = pendingApprovalCount + 1;
+            } else {
+                // end time before today --> dont show
+                const validityPeriods: Validity[] = [
+                    ...(disruption.validity ?? []),
+                    {
+                        disruptionStartDate: disruption.disruptionStartDate,
+                        disruptionStartTime: disruption.disruptionStartTime,
+                        disruptionEndDate: disruption.disruptionEndDate,
+                        disruptionEndTime: disruption.disruptionEndTime,
+                        disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                        disruptionRepeats: disruption.disruptionRepeats,
+                        disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
+                    },
+                ];
 
-            const shouldNotDisplayDisruption = validityPeriods.every(
-                (period) =>
-                    !!period.disruptionEndDate &&
-                    !!period.disruptionEndTime &&
-                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
-            );
-
-            if (!shouldNotDisplayDisruption) {
-                // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                const isLive = validityPeriods.some((period) => {
-                    const startTime = getDatetimeFromDateAndTime(
-                        period.disruptionStartDate,
-                        period.disruptionStartTime,
-                    );
-
-                    return (
-                        startTime.isSameOrBefore(today) &&
-                        (!period.disruptionEndDate ||
-                            (!!period.disruptionEndDate &&
-                                !!period.disruptionEndTime &&
-                                getDatetimeFromDateAndTime(
-                                    period.disruptionEndDate,
-                                    period.disruptionEndTime,
-                                ).isSameOrAfter(today)))
-                    );
-                });
-
-                if (disruption.publishStartTime === PublishStatus.pendingApproval) {
-                    pendingApprovalCount++;
-                }
-
-                if (isLive) {
-                    liveDisruptions.push(disruption);
-                }
-
-                // start time after today --> upcoming
-                const isUpcoming = validityPeriods.every((period) =>
-                    getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(today),
+                const shouldNotDisplayDisruption = validityPeriods.every(
+                    (period) =>
+                        !!period.disruptionEndDate &&
+                        !!period.disruptionEndTime &&
+                        getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
                 );
 
-                if (isUpcoming) {
-                    upcomingDisruptions.push(disruption);
+                if (!shouldNotDisplayDisruption) {
+                    // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
+                    const isLive = validityPeriods.some((period) => {
+                        const startTime = getDatetimeFromDateAndTime(
+                            period.disruptionStartDate,
+                            period.disruptionStartTime,
+                        );
+
+                        return (
+                            startTime.isSameOrBefore(today) &&
+                            (!period.disruptionEndDate ||
+                                (!!period.disruptionEndDate &&
+                                    !!period.disruptionEndTime &&
+                                    getDatetimeFromDateAndTime(
+                                        period.disruptionEndDate,
+                                        period.disruptionEndTime,
+                                    ).isSameOrAfter(today)))
+                        );
+                    });
+
+                    if (isLive) {
+                        liveDisruptions.push(disruption);
+                    }
+
+                    // start time after today --> upcoming
+                    const isUpcoming = validityPeriods.every((period) =>
+                        getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(
+                            today,
+                        ),
+                    );
+
+                    if (isUpcoming) {
+                        upcomingDisruptions.push(disruption);
+                    }
                 }
             }
         });
@@ -343,6 +346,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 newDisruptionId: randomUUID(),
                 pendingApprovalCount: pendingApprovalCount,
+                session: session,
             },
         };
     }

@@ -801,7 +801,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
             return {
                 modes,
-                status: PublishStatus.published,
+                status: disruption.publishStatus,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
                 operators: disruptionOperators,

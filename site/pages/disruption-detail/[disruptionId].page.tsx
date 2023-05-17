@@ -354,7 +354,7 @@ const DisruptionDetail = ({
                                 role="button"
                                 href={redirect}
                                 className={`govuk-button mt-8 ${
-                                    disruption.publishStatus === PublishStatus.pendingApproval
+                                    !session.isOrgStaff && disruption.publishStatus === PublishStatus.pendingApproval
                                         ? "govuk-button--secondary mr-5"
                                         : ""
                                 }`}
