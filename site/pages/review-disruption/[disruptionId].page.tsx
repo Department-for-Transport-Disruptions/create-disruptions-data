@@ -408,6 +408,13 @@ const ReviewDisruption = ({
                         >
                             Delete disruption
                         </button>
+                        <Link
+                            role="button"
+                            href={"/api/publish?draft=true"}
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                        >
+                            Save as draft
+                        </Link>
                     </div>
                 </>
             </CsrfForm>

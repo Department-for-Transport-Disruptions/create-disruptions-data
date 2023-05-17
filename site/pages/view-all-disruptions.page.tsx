@@ -17,7 +17,11 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import {
+    getDisruptionsDataFromDynamo,
+    getDraftAndPublishedDisruptionsDataFromDynamo,
+    getPublishedDisruptionsDataFromDynamo,
+} from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
@@ -728,7 +732,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
-    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    let data = await getDisruptionsDataFromDynamo(session.orgId);
+    console.log(JSON.stringify(data));
     const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
     let services: Service[] = [];
 
@@ -751,6 +756,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (data) {
+        data = data.filter((item) => item.publishStatus === "PUBLISHED" || item.publishStatus === "DRAFT");
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
@@ -790,7 +796,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
             return {
                 modes,
-                status: Progress.open,
+                status: disruption.publishStatus === "PUBLISHED" ? Progress.open : Progress.draft,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
                 operators: disruptionOperators,

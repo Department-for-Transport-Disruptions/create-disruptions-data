@@ -67,6 +67,26 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
+export const getDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+    logger.info("Getting disruptions data from DynamoDB table...");
+
+    const dbData = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1",
+            ExpressionAttributeValues: {
+                ":1": id,
+            },
+        }),
+    );
+
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
+
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+};
+
 export const getOrganisationInfoById = async (orgId: string): Promise<Organisation | null> => {
     logger.info(`Getting organisation (${orgId}) from DynamoDB table...`);
 

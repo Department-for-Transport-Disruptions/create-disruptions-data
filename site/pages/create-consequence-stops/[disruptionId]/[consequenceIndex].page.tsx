@@ -304,6 +304,13 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 Cancel Changes
                             </Link>
                         ) : null}
+                        <Link
+                            role="button"
+                            href={"/api/create-consequence-stops?draft=true"}
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                        >
+                            Save as draft
+                        </Link>
                     </div>
                 </>
             </CsrfForm>

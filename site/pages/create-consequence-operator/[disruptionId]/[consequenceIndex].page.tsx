@@ -210,6 +210,13 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 Cancel Changes
                             </Link>
                         ) : null}
+                        <Link
+                            role="button"
+                            href={"/api/create-consequence-operator?draft=true"}
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                        >
+                            Save as draft
+                        </Link>
                     </div>
                 </>
             </CsrfForm>
