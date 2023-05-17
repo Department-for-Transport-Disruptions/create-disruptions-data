@@ -29,6 +29,8 @@ import {
     mapValidityPeriods,
     getDisplayByValue,
     sortServices,
+    SortedDisruption,
+    getSortedDisruptionFinalEndDate,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
@@ -80,6 +82,29 @@ export interface Filter {
     mode?: string;
     searchText?: string;
 }
+
+export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+    if (disruption.publishStatus === "DRAFT") {
+        return Progress.draft;
+    }
+
+    if (!disruption.validity) {
+        return Progress.closed;
+    }
+
+    const today = getDate();
+    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
+
+    if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
+        if (disruptionEndDate.isBefore(today)) {
+            return Progress.closed;
+        } else {
+            return Progress.closing;
+        }
+    }
+
+    return Progress.open;
+};
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
     return disruptions.map((disruption, index) => {
@@ -788,9 +813,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 });
             }
 
+            const status = getDisruptionStatus(disruption);
+
             return {
                 modes,
-                status: Progress.open,
+                status,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
                 operators: disruptionOperators,

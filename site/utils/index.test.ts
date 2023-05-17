@@ -8,7 +8,12 @@ import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/conse
 import { createDisruptionSchema, DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { disruptionInfoTest } from "../testData/mockData";
-import { sortDisruptionsByStartDate, splitCamelCaseToString } from ".";
+import {
+    getSortedDisruptionFinalEndDate,
+    sortDisruptionsByStartDate,
+    SortedDisruption,
+    splitCamelCaseToString,
+} from ".";
 
 describe("utils tests", () => {
     it.each([
@@ -226,5 +231,85 @@ describe("sortDisruptionsByStartDate", () => {
                 ],
             },
         ]);
+    });
+});
+
+describe("getSortedDisruptionFinalEndDate", () => {
+    it("gets the final end date for a non-repeating sorted disruption", () => {
+        const disruption: SortedDisruption = {
+            publishStatus: "DRAFT",
+            disruptionId: "test",
+            description: "Test description",
+            disruptionType: "planned",
+            summary: "Some summary",
+            associatedLink: "https://example.com",
+            disruptionReason: MiscellaneousReason.accident,
+            publishStartDate: "10/03/2023",
+            publishStartTime: "1200",
+            validity: [
+                {
+                    disruptionStartDate: "25/03/2021",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/03/2021",
+                    disruptionEndTime: "1123",
+                },
+                {
+                    disruptionStartDate: "25/12/2022",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/12/2022",
+                    disruptionEndTime: "1123",
+                },
+                {
+                    disruptionStartDate: "25/03/2024",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/03/2024",
+                    disruptionEndTime: "1123",
+                },
+            ],
+        };
+
+        const result = getSortedDisruptionFinalEndDate(disruption);
+
+        expect(result?.toISOString()).toBe("2024-03-30T11:23:00.000Z");
+    });
+
+    it("gets the final end date for a repeating sorted disruption", () => {
+        const disruption: SortedDisruption = {
+            publishStatus: "DRAFT",
+            disruptionId: "test",
+            description: "Test description",
+            disruptionType: "planned",
+            summary: "Some summary",
+            associatedLink: "https://example.com",
+            disruptionReason: MiscellaneousReason.accident,
+            publishStartDate: "10/03/2023",
+            publishStartTime: "1200",
+            validity: [
+                {
+                    disruptionStartDate: "25/03/2021",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/03/2021",
+                    disruptionEndTime: "1123",
+                },
+                {
+                    disruptionStartDate: "25/12/2022",
+                    disruptionStartTime: "1123",
+                    disruptionEndDate: "30/12/2022",
+                    disruptionEndTime: "1123",
+                },
+                {
+                    disruptionStartDate: "02/05/2023",
+                    disruptionStartTime: "0900",
+                    disruptionEndDate: "30/12/2022",
+                    disruptionEndTime: "1123",
+                    disruptionRepeats: "weekly",
+                    disruptionRepeatsEndDate: "22/05/2023",
+                },
+            ],
+        };
+
+        const result = getSortedDisruptionFinalEndDate(disruption);
+
+        expect(result?.toString()).toBe("Sun, 21 May 2023 23:00:00 GMT");
     });
 });
