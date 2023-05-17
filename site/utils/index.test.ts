@@ -310,6 +310,6 @@ describe("getSortedDisruptionFinalEndDate", () => {
 
         const result = getSortedDisruptionFinalEndDate(disruption);
 
-        expect(result?.toString()).toBe("Sun, 21 May 2023 23:00:00 GMT");
+        expect(result?.format("DD/MM/YYYY")).toBe("22/05/2023");
     });
 });
