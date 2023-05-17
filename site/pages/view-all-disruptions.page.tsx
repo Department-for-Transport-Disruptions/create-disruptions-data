@@ -17,11 +17,7 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import {
-    getDisruptionsDataFromDynamo,
-    getDraftAndPublishedDisruptionsDataFromDynamo,
-    getPublishedDisruptionsDataFromDynamo,
-} from "../data/dynamo";
+import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
@@ -63,6 +59,7 @@ export interface TableDisruption {
     status: string;
     serviceIds: string[];
     operators: DisruptionOperator[];
+    consequenceLength?: number;
 }
 
 export interface ViewAllDisruptionsProps {
@@ -97,10 +94,22 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: numbe
             header: (
                 <Link
                     className="govuk-link"
-                    href={{
-                        pathname: `/disruption-detail/${disruption.id}`,
-                        query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
-                    }}
+                    href={
+                        disruption.status === Progress.draft
+                            ? disruption.consequenceLength && disruption.consequenceLength > 0
+                                ? {
+                                      pathname: `/review-disruption/${disruption.id}`,
+                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                  }
+                                : {
+                                      pathname: `/type-of-consequence/${disruption.id}/0`,
+                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                  }
+                            : {
+                                  pathname: `/disruption-detail/${disruption.id}`,
+                                  query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                              }
+                    }
                     key={disruption.id}
                 >
                     {index + 1 + offset}
@@ -733,7 +742,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
     let data = await getDisruptionsDataFromDynamo(session.orgId);
-    console.log(JSON.stringify(data));
+
     const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
     let services: Service[] = [];
 
@@ -796,6 +805,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
             return {
                 modes,
+                consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status: disruption.publishStatus === "PUBLISHED" ? Progress.open : Progress.draft,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
