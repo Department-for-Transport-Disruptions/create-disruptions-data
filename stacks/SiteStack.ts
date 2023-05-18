@@ -102,6 +102,7 @@ export function SiteStack({ stack }: StackContext) {
                     "cognito-idp:AdminAddUserToGroup",
                     "cognito-idp:AdminDeleteUser",
                     "cognito-idp:AdminCreateUser",
+                    "cognito-idp:ListUsersInGroup",
                 ],
             }),
         ],
