@@ -126,6 +126,34 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
+    it("should redirect to /create-disruption when disruptionNoEndDateTime is false and there is no publish end date/time", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionNoEndDateTime: "",
+            disruptionEndDate: getFutureDateAsString(48),
+            disruptionEndTime: "1200",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Enter an end date for the disruption", id: "publishEndDate" },
+            { errorMessage: "Enter an end time for the disruption", id: "publishEndTime" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },

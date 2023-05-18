@@ -5,7 +5,7 @@ import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { getDatetimeFromDateAndTime } from "./dates";
+import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import {
     Service,
@@ -18,7 +18,7 @@ import {
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
-type SortedDisruption = Omit<
+export type SortedDisruption = Omit<
     Disruption,
     | "disruptionStartDate"
     | "disruptionStartTime"
@@ -26,6 +26,37 @@ type SortedDisruption = Omit<
     | "disruptionEndTime"
     | "disruptionNoEndDateTime"
 >;
+
+export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption): Dayjs | null => {
+    let disruptionEndDate: Dayjs | null = null;
+
+    if (!disruption.validity) {
+        throw new Error("Validity missing");
+    }
+
+    let noEndDatesFound = false;
+
+    disruption.validity.forEach((validity) => {
+        if (!noEndDatesFound) {
+            const repeatsEndDate =
+                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
+                validity.disruptionRepeatsEndDate
+                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
+                    : validity.disruptionEndDate && validity.disruptionEndTime
+                    ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
+                    : null;
+
+            if (repeatsEndDate && (repeatsEndDate.isAfter(disruptionEndDate) || disruptionEndDate === null)) {
+                disruptionEndDate = repeatsEndDate;
+            } else if (!repeatsEndDate) {
+                disruptionEndDate = null;
+                noEndDatesFound = true;
+            }
+        }
+    });
+
+    return disruptionEndDate;
+};
 
 export const sortDisruptionsByStartDate = (disruptions: Disruption[]): SortedDisruption[] => {
     const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);

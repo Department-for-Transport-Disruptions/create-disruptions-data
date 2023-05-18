@@ -16,8 +16,8 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         const { username } = req.body;
 
         const session = getSession(req);
-        if ((session && !session.orgId) || !session) {
-            throw Error("Organisation Id is required to delete a user");
+        if ((session && !session.orgId) || !session || !username) {
+            throw Error("Insufficient values provided to delete a user");
         }
 
         const userDetails = await getUserDetails(username);
@@ -34,7 +34,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         return;
     } catch (error) {
         const message = "There was a problem deleting a user.";
-        redirectToError(res, message, "api.deleteUser", error as Error);
+        redirectToError(res, message, "api.delete-user", error as Error);
     }
 };
 
