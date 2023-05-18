@@ -394,6 +394,7 @@ const Map = ({
     }, [searchedRoutes]);
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
+        setPopupInfo({});
         const service = event.features && event.features[0];
         if (service && service.properties && service.properties.serviceId) {
             setHoverInfo({
