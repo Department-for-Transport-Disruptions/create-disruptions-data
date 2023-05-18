@@ -243,16 +243,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 >
                   Save and continue
                 </button>
-                <a
-                  className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                  href="/api/type-of-consequence?draft=true"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Save as draft
-                </a>
               </div>
             </div>
           </form>
@@ -645,16 +635,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 >
                   Save and continue
                 </button>
-                <a
-                  className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                  href="/api/type-of-consequence?draft=true"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Save as draft
-                </a>
               </div>
             </div>
           </form>
@@ -1047,16 +1027,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                 >
                   Save and continue
                 </button>
-                <a
-                  className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                  href="/api/type-of-consequence?draft=true"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Save as draft
-                </a>
               </div>
             </div>
           </form>
@@ -1458,16 +1428,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   role="button"
                 >
                   Cancel Changes
-                </a>
-                <a
-                  className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                  href="/api/type-of-consequence?draft=true"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Save as draft
                 </a>
               </div>
             </div>

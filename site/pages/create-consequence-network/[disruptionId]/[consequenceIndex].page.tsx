@@ -34,7 +34,6 @@ export interface CreateConsequenceNetworkProps extends PageState<Partial<Network
 
 const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactElement => {
     const [pageState, setConsequenceNetworkPageState] = useState<PageState<Partial<NetworkConsequence>>>(props);
-    const [draft, setDraft] = useState(false);
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
@@ -45,11 +44,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm
-                action={`/api/create-consequence-network${draft ? "?draft=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -165,9 +160,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            onClick={() => {
-                                setDraft(true);
-                            }}
+                            formAction={`/api/create-consequence-network?draft=true`}
                         >
                             Save as draft
                         </button>

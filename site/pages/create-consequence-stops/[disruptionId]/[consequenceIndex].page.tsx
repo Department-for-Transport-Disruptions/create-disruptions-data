@@ -42,7 +42,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [searchInput, setSearchInput] = useState("");
-    const [draft, setDraft] = useState(false);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -157,11 +156,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm
-                action={`/api/create-consequence-stops${draft ? "?draft=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/create-consequence-stops" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -312,9 +307,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            onClick={() => {
-                                setDraft(true);
-                            }}
+                            formAction={`/api/create-consequence-network?draft=true`}
                         >
                             Save as draft
                         </button>

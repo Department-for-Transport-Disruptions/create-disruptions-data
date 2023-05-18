@@ -122,22 +122,4 @@ describe("publish", () => {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
-
-    it("should redirect to /dashboard if the disruption is save draft", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                disruptionId: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
-            query: {
-                draft: "true",
-            },
-        });
-
-        await publish(req, res);
-
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
-    });
 });

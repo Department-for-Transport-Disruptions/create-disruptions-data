@@ -72,13 +72,6 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             ) : (
                                 <></>
                             )}
-                            <Link
-                                role="button"
-                                href={"/api/type-of-consequence?draft=true"}
-                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            >
-                                Save as draft
-                            </Link>
                         </div>
                     </div>
                 </>

@@ -41,7 +41,6 @@ const ReviewDisruption = ({
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
-    const [draft, setDraft] = useState(false);
 
     const deleteActionHandler = (name: string, hiddenInputs: { name: string; value: string }[]): void => {
         setPopUpState({ name, hiddenInputs });
@@ -130,7 +129,7 @@ const ReviewDisruption = ({
                     hiddenInputs={popUpState.hiddenInputs}
                 />
             ) : null}
-            <CsrfForm action={`/api/publish${draft ? "?draft=true" : ""}`} method="post" csrfToken={csrfToken}>
+            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
@@ -409,15 +408,13 @@ const ReviewDisruption = ({
                         >
                             Delete disruption
                         </button>
-                        <button
+                        <Link
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            onClick={() => {
-                                setDraft(true);
-                            }}
+                            href="/dashboard"
                         >
                             Save as draft
-                        </button>
+                        </Link>
                     </div>
                 </>
             </CsrfForm>

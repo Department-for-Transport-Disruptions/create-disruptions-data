@@ -79,7 +79,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
-    const [draft, setDraft] = useState(false);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -295,11 +294,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm
-                action={`/api/create-consequence-services${draft ? "?draft=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/create-consequence-services" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -502,9 +497,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            onClick={() => {
-                                setDraft(true);
-                            }}
+                            formAction={`/api/create-consequence-network?draft=true`}
                         >
                             Save as draft
                         </button>

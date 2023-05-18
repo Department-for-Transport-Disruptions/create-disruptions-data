@@ -45,7 +45,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       id="main-content"
     >
       <form
-        action="/api/create-disruption"
+        action="api/create-disruption"
         method="post"
       >
         <input
@@ -1287,7 +1287,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            onClick={[Function]}
+            formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
@@ -1530,7 +1530,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       id="main-content"
     >
       <form
-        action="/api/create-disruption"
+        action="api/create-disruption"
         method="post"
       >
         <input
@@ -2686,7 +2686,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            onClick={[Function]}
+            formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
@@ -2929,7 +2929,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
       id="main-content"
     >
       <form
-        action="/api/create-disruption"
+        action="api/create-disruption"
         method="post"
       >
         <input
@@ -4163,7 +4163,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            onClick={[Function]}
+            formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>

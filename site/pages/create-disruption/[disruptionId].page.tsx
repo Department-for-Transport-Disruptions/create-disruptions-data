@@ -53,7 +53,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [pageState, setDisruptionPageState] = useState(props);
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
-    const [draft, setDraft] = useState(false);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -208,11 +207,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm
-                action={`/api/create-disruption${draft ? "?draft=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="api/create-disruption" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -508,9 +503,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            onClick={() => {
-                                setDraft(true);
-                            }}
+                            formAction={`/api/create-consequence-network?draft=true`}
                         >
                             Save as draft
                         </button>

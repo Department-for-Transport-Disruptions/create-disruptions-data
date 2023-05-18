@@ -15,13 +15,6 @@ import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const { draft } = req.query;
-
-        if (draft) {
-            redirectTo(res, DASHBOARD_PAGE_PATH);
-            return;
-        }
-
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
 
