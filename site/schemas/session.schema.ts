@@ -11,12 +11,9 @@ export const sessionSchema = z
     })
     .transform((item) => {
         const isSystemAdmin = item["cognito:groups"]?.includes(UserGroups.systemAdmins) ?? false;
-        const isOrgAdmin = (isSystemAdmin || item["cognito:groups"]?.includes(UserGroups.orgAdmins)) ?? false;
-        const isOrgPublisher =
-            (isSystemAdmin || isOrgAdmin || item["cognito:groups"]?.includes(UserGroups.orgPublishers)) ?? false;
-        const isOrgStaff =
-            (isSystemAdmin || isOrgAdmin || isOrgPublisher || item["cognito:groups"]?.includes(UserGroups.orgStaff)) ??
-            false;
+        const isOrgAdmin = item["cognito:groups"]?.includes(UserGroups.orgAdmins) ?? false;
+        const isOrgPublisher = item["cognito:groups"]?.includes(UserGroups.orgPublishers) ?? false;
+        const isOrgStaff = item["cognito:groups"]?.includes(UserGroups.orgStaff) ?? false;
 
         return {
             username: item.sub,

@@ -1,4 +1,4 @@
-import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import ReviewConsequenceTable from "./ReviewConsequenceTable";
@@ -43,7 +43,7 @@ const previousDisruptionInformation: Disruption = {
     disruptionEndTime: "1400",
     disruptionNoEndDateTime: "",
     consequences: [previousConsequencesInformation],
-    publishStatus: "DRAFT",
+    publishStatus: PublishStatus.draft,
 };
 
 describe("ReviewConsequenceTable", () => {
