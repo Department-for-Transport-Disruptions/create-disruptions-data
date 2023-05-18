@@ -237,7 +237,7 @@ describe("sortDisruptionsByStartDate", () => {
 describe("getSortedDisruptionFinalEndDate", () => {
     it("gets the final end date for a non-repeating sorted disruption", () => {
         const disruption: SortedDisruption = {
-            publishStatus: "DRAFT",
+            publishStatus: PublishStatus.draft,
             disruptionId: "test",
             description: "Test description",
             disruptionType: "planned",
@@ -275,7 +275,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
 
     it("gets the final end date for a repeating sorted disruption", () => {
         const disruption: SortedDisruption = {
-            publishStatus: "DRAFT",
+            publishStatus: PublishStatus.draft,
             disruptionId: "test",
             description: "Test description",
             disruptionType: "planned",
