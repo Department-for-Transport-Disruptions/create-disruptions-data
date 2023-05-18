@@ -394,6 +394,7 @@ const Map = ({
     }, [searchedRoutes]);
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
+        setPopupInfo({});
         const service = event.features && event.features[0];
         if (service && service.properties && service.properties.serviceId) {
             setHoverInfo({
@@ -438,7 +439,7 @@ const Map = ({
 
         [filter],
     );
-
+    console.log(popupInfo);
     const getSourcesOutbound = useCallback(
         (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
             searchedRoutes.map((searchedRoute) =>
