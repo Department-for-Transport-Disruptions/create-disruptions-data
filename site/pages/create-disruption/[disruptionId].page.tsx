@@ -207,7 +207,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="api/create-disruption" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

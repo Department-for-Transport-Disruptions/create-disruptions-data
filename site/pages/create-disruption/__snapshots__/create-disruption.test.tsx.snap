@@ -45,7 +45,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       id="main-content"
     >
       <form
-        action="api/create-disruption"
+        action="/api/create-disruption"
         method="post"
       >
         <input
@@ -1530,7 +1530,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       id="main-content"
     >
       <form
-        action="api/create-disruption"
+        action="/api/create-disruption"
         method="post"
       >
         <input
@@ -2929,7 +2929,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
       id="main-content"
     >
       <form
-        action="api/create-disruption"
+        action="/api/create-disruption"
         method="post"
       >
         <input
