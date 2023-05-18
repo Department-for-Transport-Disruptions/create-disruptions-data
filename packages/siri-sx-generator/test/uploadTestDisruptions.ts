@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { BatchWriteCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { randomUUID } from "crypto";
@@ -189,7 +189,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
             Item: {
                 PK: "1",
                 SK: `${disruptionId}#INFO`,
-                publishStatus: "PUBLISHED",
+                publishStatus: PublishStatus.published,
                 ...disruption,
             },
         },
@@ -201,7 +201,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
                 Item: {
                     PK: "1",
                     SK: `${disruptionId}#CONSEQUENCE#${index}`,
-                    publishStatus: "PUBLISHED",
+                    publishStatus: PublishStatus.published,
                     ...consequence,
                     disruptionId,
                 },

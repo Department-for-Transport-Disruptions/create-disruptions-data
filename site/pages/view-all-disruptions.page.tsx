@@ -17,7 +17,7 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import { getSubmittedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
@@ -753,7 +753,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
-    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    const data = await getSubmittedDisruptionsDataFromDynamo(session.orgId);
     const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
     let services: Service[] = [];
 

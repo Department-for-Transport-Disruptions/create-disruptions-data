@@ -155,3 +155,11 @@ export enum UserGroups {
     orgPublishers = "org-publishers",
     orgStaff = "org-staff",
 }
+
+export enum PublishStatus {
+    draft = "DRAFT",
+    published = "PUBLISHED",
+    editing = "EDITING",
+    pendingApproval = "PENDING_APPROVAL",
+    rejected = "REJECTED",
+}

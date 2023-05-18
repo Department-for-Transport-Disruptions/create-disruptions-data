@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_REVIEW_DISRUPTION_ERRORS, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/dynamo";
@@ -44,6 +45,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
             session.orgId,
+            session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
         );
 
         cleardownCookies(req, res);

@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import {
@@ -51,6 +52,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
             session.orgId,
+            session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
         );
 
         cleardownCookies(req, res);

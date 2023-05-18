@@ -1,4 +1,4 @@
-import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
 import { randomUUID } from "crypto";
 import { getPageState } from "./apiUtils";
@@ -81,7 +81,7 @@ describe("sortDisruptionsByStartDate", () => {
     const mixedUpDisruptions: Disruption[] = [
         {
             ...disruptionInfoTest,
-            publishStatus: "DRAFT",
+            publishStatus: PublishStatus.draft,
             disruptionStartDate: "25/03/2026",
             disruptionStartTime: "1123",
             validity: [
@@ -107,13 +107,13 @@ describe("sortDisruptionsByStartDate", () => {
         },
         {
             ...disruptionInfoTest,
-            publishStatus: "DRAFT",
+            publishStatus: PublishStatus.draft,
             disruptionStartDate: "21/03/2025",
             disruptionStartTime: "1123",
         },
         {
             ...disruptionInfoTest,
-            publishStatus: "DRAFT",
+            publishStatus: PublishStatus.draft,
             disruptionStartDate: "24/04/2022",
             disruptionStartTime: "1123",
             validity: [
@@ -132,7 +132,7 @@ describe("sortDisruptionsByStartDate", () => {
 
         expect(result).toStrictEqual([
             {
-                publishStatus: "DRAFT",
+                publishStatus: PublishStatus.draft,
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
@@ -175,7 +175,7 @@ describe("sortDisruptionsByStartDate", () => {
                 ],
             },
             {
-                publishStatus: "DRAFT",
+                publishStatus: PublishStatus.draft,
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
@@ -206,7 +206,7 @@ describe("sortDisruptionsByStartDate", () => {
                 ],
             },
             {
-                publishStatus: "DRAFT",
+                publishStatus: PublishStatus.draft,
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
