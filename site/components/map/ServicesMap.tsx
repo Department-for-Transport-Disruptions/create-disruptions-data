@@ -439,7 +439,7 @@ const Map = ({
 
         [filter],
     );
-    console.log(popupInfo);
+    
     const getSourcesOutbound = useCallback(
         (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
             searchedRoutes.map((searchedRoute) =>
