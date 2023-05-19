@@ -10,7 +10,7 @@ import { DisplayValuePair } from "../../interfaces";
 import { History } from "../../schemas/disruption.schema";
 import { getDisplayByValue, getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
-import { getDate, getDaysInPast } from "../../utils/dates";
+import { convertDateTimeToFormat, getDate, getDaysInPast } from "../../utils/dates";
 
 const title = "Disruption history";
 const description = "Disruption history page for the Create Transport Disruptions Service";
@@ -72,7 +72,7 @@ const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps
                                 {status && <p className="govuk-body mb-0">{status}</p>}
                             </Fragment>,
                             <p className="text-right" key={`${item.datetime}-1`}>
-                                {getDate(item.datetime).format("DD/MM/YYYY HH:mm")}
+                                {convertDateTimeToFormat(item.datetime, "DD/MM/YYYY HH:mm")}
                             </p>,
                         ],
                     };
