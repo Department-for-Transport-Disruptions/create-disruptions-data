@@ -21,6 +21,7 @@ import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
+export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export interface GetMockContextInput {
     session?: Record<string, string> | null;

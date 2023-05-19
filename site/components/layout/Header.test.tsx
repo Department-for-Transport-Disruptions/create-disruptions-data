@@ -20,6 +20,7 @@ describe("Header", () => {
                         isOrgPublisher: true,
                         isOrgStaff: true,
                         isSystemAdmin: true,
+                        name: "Test User",
                     }}
                     csrfToken=""
                 />,

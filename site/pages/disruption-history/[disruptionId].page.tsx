@@ -1,26 +1,15 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { parseCookies } from "nookies";
-import { Fragment, ReactElement, useState } from "react";
-import ErrorSummary from "../../components/ErrorSummary";
-import CsrfForm from "../../components/form/CsrfForm";
-import Radios from "../../components/form/Radios";
-import { BaseLayout, TwoThirdsLayout } from "../../components/layout/Layout";
-import {
-    COOKIES_CONSEQUENCE_TYPE_ERRORS,
-    CONSEQUENCE_TYPES,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants/index";
-import { getDisruptionById } from "../../data/dynamo";
-import { PageState } from "../../interfaces/index";
-import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
-import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../utils/formUtils";
-import { History } from "../../schemas/disruption.schema";
+import { Fragment, ReactElement } from "react";
 import Table from "../../components/form/Table";
+import { BaseLayout } from "../../components/layout/Layout";
+import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants/index";
+import { getDisruptionById } from "../../data/dynamo";
+import { DisplayValuePair } from "../../interfaces";
+import { History } from "../../schemas/disruption.schema";
+import { getDisplayByValue, getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "../../utils";
+import { getSession } from "../../utils/apiUtils/auth";
 import { getDate, getDaysInPast } from "../../utils/dates";
 
 const title = "Disruption history";
@@ -31,13 +20,43 @@ export interface DisruptionHistoryPageProps {
     disruptionId: string;
 }
 
-const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps): ReactElement => {
-    return (
-        <BaseLayout title={title} description={description}>
-            <h1 className="govuk-heading-xl">{title}</h1>
+const statusMap: DisplayValuePair[] = [
+    {
+        display: "Open",
+        value: PublishStatus.published,
+    },
+    {
+        display: "Draft pending approval",
+        value: PublishStatus.pendingApproval,
+    },
+];
+
+const getStatusToDisplay = (status: PublishStatus, nextStatus: PublishStatus | null) => {
+    if (!nextStatus) {
+        return `Status: ${status === PublishStatus.published ? "Open" : "Draft pending approval"}`;
+    }
+
+    const currentDisplayStatus = getDisplayByValue(statusMap, status);
+    const previousDisplayStatus = getDisplayByValue(statusMap, nextStatus);
+
+    if (status !== nextStatus && currentDisplayStatus && previousDisplayStatus) {
+        return `Changed status: ${previousDisplayStatus} to ${currentDisplayStatus}`;
+    }
+
+    return null;
+};
+
+const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps): ReactElement => (
+    <BaseLayout title={title} description={description}>
+        <h1 className="govuk-heading-xl">{title}</h1>
+        {history.length > 0 ? (
             <Table
-                rows={history.map((item) => {
+                rows={history.map((item, historyIndex) => {
                     const daysInPast = getDaysInPast(item.datetime);
+                    const status = getStatusToDisplay(
+                        item.status,
+                        historyIndex !== history.length - 1 ? history[historyIndex + 1].status : null,
+                    );
 
                     return {
                         cells: [
@@ -45,11 +64,12 @@ const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps
                                 <h2 className="govuk-heading-s mb-3">
                                     {item.user}, {daysInPast} day{daysInPast === 1 ? "" : "s"} ago
                                 </h2>
-                                {item.historyItems.map((historyItem, index2) => (
-                                    <p className="govuk-body mb-0" key={`${historyItem}-${index2}`}>
+                                {item.historyItems.map((historyItem, index) => (
+                                    <p className="govuk-body mb-0" key={`${historyItem}-${index}`}>
                                         {historyItem}
                                     </p>
                                 ))}
+                                {status && <p className="govuk-body mb-0">{status}</p>}
                             </Fragment>,
                             <p className="text-right" key={`${item.datetime}-1`}>
                                 {getDate(item.datetime).format("DD/MM/YYYY HH:mm")}
@@ -58,16 +78,18 @@ const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps
                     };
                 })}
             />
-            <Link
-                role="button"
-                href={`${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`}
-                className="govuk-button mt-8 govuk-button govuk-button--secondary"
-            >
-                Back to details
-            </Link>
-        </BaseLayout>
-    );
-};
+        ) : (
+            <p className="govuk-body pl-0.5">No disruption history</p>
+        )}
+        <Link
+            role="button"
+            href={`${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`}
+            className="govuk-button mt-8 govuk-button govuk-button--secondary"
+        >
+            Back to details
+        </Link>
+    </BaseLayout>
+);
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
@@ -88,9 +110,21 @@ export const getServerSideProps = async (
         throw new Error("Disruption not found for disruption history page");
     }
 
+    const history = disruption.history ? disruption.history.sort((a, b) => -a.datetime.localeCompare(b.datetime)) : [];
+
+    const finalEndDate = getSortedDisruptionFinalEndDate(sortDisruptionsByStartDate([disruption])[0]);
+
+    if (finalEndDate && finalEndDate.isBefore(getDate())) {
+        history.unshift({
+            datetime: finalEndDate.toISOString(),
+            status: PublishStatus.published,
+            user: "System",
+            historyItems: ["Changed status: Open to closed"],
+        });
+    }
     return {
         props: {
-            history: disruption.history ? disruption.history.sort((a, b) => -a.datetime.localeCompare(b.datetime)) : [],
+            history,
             disruptionId: disruption.disruptionId,
         },
     };

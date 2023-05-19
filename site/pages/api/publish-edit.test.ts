@@ -68,6 +68,8 @@ describe("publishEdit", () => {
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
+            "test@example.com",
+            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

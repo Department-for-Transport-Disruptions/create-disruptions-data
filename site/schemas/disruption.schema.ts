@@ -15,7 +15,7 @@ export type History = z.infer<typeof historySchema>;
 export const disruptionSchema = createDisruptionsSchemaRefined.and(
     z.object({
         consequences: z.array(consequenceSchema).optional(),
-        deletedConsequences: z.array(consequenceSchema).optional(),
+        deletedConsequences: z.array(z.object({ consequenceIndex: z.number() })).optional(),
         history: z.array(historySchema).optional(),
         newHistory: z.array(z.string()).optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),

@@ -91,6 +91,7 @@ const userSession: Session = {
     isOrgAdmin: false,
     isOrgPublisher: false,
     isOrgStaff: false,
+    name: "Test User",
 };
 
 describe("pages", () => {

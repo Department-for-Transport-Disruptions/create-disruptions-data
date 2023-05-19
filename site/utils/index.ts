@@ -27,7 +27,7 @@ export type SortedDisruption = Omit<
     | "disruptionNoEndDateTime"
 >;
 
-export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption): Dayjs | null => {
+export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | Disruption): Dayjs | null => {
     let disruptionEndDate: Dayjs | null = null;
 
     if (!disruption.validity) {
@@ -159,13 +159,13 @@ export const getLargestConsequenceIndex = (disruption: Disruption) => {
     const largestConsequenceIndex =
         disruption.consequences && disruption.consequences.length > 0
             ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex + 1
+                  .consequenceIndex
             : 0;
 
     const largestDeletedConsequenceIndex =
         disruption.deletedConsequences && disruption.deletedConsequences.length > 0
             ? disruption.deletedConsequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex + 1
+                  .consequenceIndex
             : 0;
 
     return Math.max(largestConsequenceIndex, largestDeletedConsequenceIndex);

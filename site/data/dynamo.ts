@@ -366,7 +366,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
     let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
 
-    let consequences = disruptionItems.filter(
+    const consequences = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
             false,
@@ -432,12 +432,21 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         });
     }
 
-    consequences = consequences.filter((consequence) => !consequence.isDeleted);
+    const consequencesToShow: Record<string, unknown>[] = [];
+    const deletedConsequences: Record<string, unknown>[] = [];
+
+    consequences.forEach((consequence) => {
+        if (consequence.isDeleted) {
+            deletedConsequences.push(consequence);
+        } else {
+            consequencesToShow.push(consequence);
+        }
+    });
 
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
-        consequences,
-        deletedConsequences: consequences.filter((consequence) => consequence.isDeleted),
+        consequences: consequencesToShow,
+        deletedConsequences,
         history,
         newHistory: newHistoryItems,
         publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
