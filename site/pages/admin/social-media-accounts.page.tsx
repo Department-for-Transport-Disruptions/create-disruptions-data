@@ -1,33 +1,19 @@
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils/formUtils";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
 
-const SocialMediaAccounts = (): ReactElement => {
-    const data = [
-        {
-            accountType: "Hootsuite",
-            usernamePage: "ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Chris Cavanagh",
-            expiresIn: "Never",
-            hootsuiteProfiles: [
-                { type: "TWITTER", id: "43308270" },
-                { type: "TWITTER", id: "29669438" },
-            ],
-        },
-        {
-            accountType: "Hootsuite",
-            usernamePage: "2ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Anna Simpson",
-            expiresIn: "Never",
-            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888" }],
-        },
-    ];
+export interface SocialMediaAccountsPageProps {
+    socialMediaData: SocialMediaAccountsSchema;
+}
 
+const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps): ReactElement => {
     const getLink = (type: string, id: string) => {
         switch (type) {
             case "TWITTER":
@@ -40,7 +26,7 @@ const SocialMediaAccounts = (): ReactElement => {
     };
 
     const getRows = () => {
-        return data.map((item) => ({
+        return socialMediaData.map((item) => ({
             cells: [
                 ...Object.values(item)
                     .splice(0, Object.values(item).length - 1)
@@ -76,6 +62,36 @@ const SocialMediaAccounts = (): ReactElement => {
             </>
         </BaseLayout>
     );
+};
+
+export const getServerSideProps = (ctx: NextPageContext): { props: SocialMediaAccountsPageProps } => {
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const data = [
+        {
+            accountType: "Hootsuite",
+            usernamePage: "ask@iverpoolcityregion-ca-gov.uk",
+            addedBy: "Chris Cavanagh",
+            expiresIn: "Never",
+            hootsuiteProfiles: [
+                { type: "TWITTER", id: "43308270" },
+                { type: "TWITTER", id: "29669438" },
+            ],
+        },
+        {
+            accountType: "Hootsuite",
+            usernamePage: "2ask@iverpoolcityregion-ca-gov.uk",
+            addedBy: "Anna Simpson",
+            expiresIn: "Never",
+            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888" }],
+        },
+    ];
+
+    return {
+        props: { socialMediaData: data },
+    };
 };
 
 export default SocialMediaAccounts;
