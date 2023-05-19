@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
@@ -42,6 +43,8 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
 
         const session = getSession(req);
 
+        const { draft } = req.query;
+
         if (!session) {
             throw new Error("No session found");
         }
@@ -79,8 +82,11 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
+        if (draft) {
+            redirectTo(res, DASHBOARD_PAGE_PATH);
+            return;
+        }
         redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
-
         return;
     } catch (e) {
         if (e instanceof Error) {

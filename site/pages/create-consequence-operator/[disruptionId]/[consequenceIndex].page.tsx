@@ -14,6 +14,7 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+    CREATE_CONSEQUENCE_OPERATOR_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -210,6 +211,13 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 Cancel Changes
                             </Link>
                         ) : null}
+                        <button
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            formAction={`/api${CREATE_CONSEQUENCE_OPERATOR_PATH}?draft=true`}
+                        >
+                            Save as draft
+                        </button>
                     </div>
                 </>
             </CsrfForm>

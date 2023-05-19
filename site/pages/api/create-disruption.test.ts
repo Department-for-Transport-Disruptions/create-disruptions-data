@@ -2,7 +2,7 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
-import { COOKIES_DISRUPTION_ERRORS } from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../testData/mockData";
@@ -641,5 +641,83 @@ describe("create-disruption API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({
+            body: disruptionData,
+            mockWriteHeadFn: writeHeadMock,
+            query: { draft: "true" },
+        });
+
+        await createDisruption(req, res);
+
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: defaultDisruptionId,
+                disruptionType: "unplanned",
+                summary: "Lorem ipsum dolor sit amet",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                associatedLink: "",
+                disruptionReason: MiscellaneousReason.roadworks,
+                publishStartDate: defaultPublishStartDate,
+                publishStartTime: "0900",
+                publishEndDate: "",
+                publishEndTime: "",
+                disruptionStartDate: getFutureDateAsString(40),
+                disruptionStartTime: "1200",
+                disruptionEndDate: "",
+                disruptionEndTime: "",
+                disruptionNoEndDateTime: "true",
+                validity: [
+                    {
+                        disruptionStartDate: defaultDisruptionStartDate,
+                        disruptionStartTime: "1000",
+                        disruptionEndDate: defaultDisruptionStartDate,
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "daily",
+                        disruptionRepeatsEndDate: getFutureDateAsString(11),
+                    },
+                    {
+                        disruptionStartDate: getFutureDateAsString(11),
+                        disruptionStartTime: "0900",
+                        disruptionEndDate: getFutureDateAsString(13),
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "weekly",
+                        disruptionRepeatsEndDate: getFutureDateAsString(40),
+                    },
+                ],
+            },
+            DEFAULT_ORG_ID,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 });
