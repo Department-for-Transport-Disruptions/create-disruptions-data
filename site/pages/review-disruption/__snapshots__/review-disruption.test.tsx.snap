@@ -1408,6 +1408,16 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           >
             Delete disruption
           </button>
+          <a
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            href="/dashboard"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            Save as draft
+          </a>
         </div>
       </form>
     </main>
