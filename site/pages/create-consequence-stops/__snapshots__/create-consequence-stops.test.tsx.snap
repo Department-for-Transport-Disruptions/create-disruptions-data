@@ -622,7 +622,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-stops?draft=true"
           >
             Save as draft
           </button>
@@ -1385,7 +1385,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-stops?draft=true"
           >
             Save as draft
           </button>
@@ -2094,7 +2094,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-stops?draft=true"
           >
             Save as draft
           </button>
@@ -2867,7 +2867,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-stops?draft=true"
           >
             Save as draft
           </button>

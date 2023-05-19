@@ -18,6 +18,7 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    CREATE_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
@@ -503,7 +504,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            formAction={`/api/create-consequence-network?draft=true`}
+                            formAction={`/api${CREATE_DISRUPTION_PAGE_PATH}?draft=true`}
                         >
                             Save as draft
                         </button>

@@ -543,7 +543,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-operator?draft=true"
           >
             Save as draft
           </button>
@@ -1237,7 +1237,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-operator?draft=true"
           >
             Save as draft
           </button>
@@ -1988,7 +1988,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formAction="/api/create-consequence-operator?draft=true"
           >
             Save as draft
           </button>

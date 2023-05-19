@@ -13,6 +13,7 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
+    CREATE_CONSEQUENCE_NETWORK_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -160,7 +161,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         <button
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            formAction={`/api/create-consequence-network?draft=true`}
+                            formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
                         >
                             Save as draft
                         </button>
