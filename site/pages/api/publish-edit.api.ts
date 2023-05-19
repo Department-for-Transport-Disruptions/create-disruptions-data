@@ -53,6 +53,8 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption,
             session.orgId,
             session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
+            session.name,
+            true,
         );
 
         cleardownCookies(req, res);

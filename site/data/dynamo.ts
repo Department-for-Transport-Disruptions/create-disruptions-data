@@ -13,7 +13,8 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
-import { notEmpty, flattenZodErrors } from "../utils";
+import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
+import { getDate } from "../utils/dates";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -188,8 +189,12 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     disruption: Disruption,
     id: string,
     status: PublishStatus,
+    user: string,
+    isEdit: boolean,
 ) => {
     logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
+
+    const currentTime = getDate();
 
     const consequenceUpdateCommands: {
         Update: {
@@ -229,6 +234,34 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
               ]
             : [];
 
+    const historyItems = disruption.newHistory;
+
+    if (!isEdit) {
+        historyItems?.push(
+            status === PublishStatus.pendingApproval
+                ? "Disruption submitted for review"
+                : "Disruption created and published",
+        );
+    }
+
+    const historyPutCommand = historyItems
+        ? [
+              {
+                  Put: {
+                      TableName: tableName,
+                      Item: {
+                          PK: id,
+                          SK: `${disruption.disruptionId}#HISTORY#${currentTime.unix()}`,
+                          historyItems,
+                          user,
+                          datetime: currentTime.toISOString(),
+                          status,
+                      },
+                  },
+              },
+          ]
+        : [];
+
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
@@ -247,6 +280,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                     },
                 },
                 ...consequenceUpdateCommands,
+                ...historyPutCommand,
             ],
         }),
     );
@@ -326,20 +360,42 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
             },
         }),
     );
-    if (!dynamoDisruption.Items) {
+
+    const { Items: disruptionItems } = dynamoDisruption;
+
+    if (!disruptionItems) {
         return null;
     }
-    const isEdited = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#EDIT"));
-    let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
+    const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
+    let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
 
-    let consequences = dynamoDisruption.Items.filter(
+    let consequences = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
             false,
     );
+
+    const history = disruptionItems.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
+    );
+
+    const newHistoryItems: string[] = [];
+
     if (isEdited) {
-        info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
-        const editedConsequences = dynamoDisruption.Items.filter(
+        const editedInfo = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#EDIT`);
+
+        if (editedInfo) {
+            newHistoryItems.push("Disruption Overview: Edited");
+        }
+
+        info = editedInfo
+            ? {
+                  ...editedInfo,
+                  isEdited: true,
+              }
+            : info;
+
+        const editedConsequences = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                     (item.SK as string).endsWith("#EDIT")) ??
@@ -350,9 +406,31 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                 (c) => c.consequenceIndex === editedConsequence.consequenceIndex,
             );
             if (existingIndex > -1) {
+                if (editedConsequence.isDeleted) {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            consequences[existingIndex].consequenceType as string,
+                        )}: Deleted`,
+                    );
+                } else {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            editedConsequence.consequenceType as string,
+                        )}: Edited`,
+                    );
+                }
+
                 consequences[existingIndex] = editedConsequence;
             } else {
-                consequences.push(editedConsequence);
+                if (editedConsequence.consequenceType) {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            editedConsequence.consequenceType as string,
+                        )}: Added`,
+                    );
+
+                    consequences.push(editedConsequence);
+                }
             }
         });
     }
@@ -362,6 +440,9 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
+        deletedConsequences: consequences.filter((consequence) => consequence.isDeleted),
+        history,
+        newHistory: newHistoryItems,
         publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
     });
 

@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -92,3 +92,5 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
 
 export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate: dayjs.Dayjs): boolean =>
     firstDate.isSameOrBefore(secondDate, "day");
+
+export const getDaysInPast = (date: Dayjs | string) => getDate().diff(date, "days");
