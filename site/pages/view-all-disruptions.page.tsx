@@ -1,4 +1,4 @@
-import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
@@ -12,8 +12,11 @@ import OperatorSearch from "../components/OperatorSearch";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import {
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     DISRUPTION_STATUSES,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
@@ -123,15 +126,15 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: numbe
                         disruption.status === Progress.draft
                             ? disruption.consequenceLength && disruption.consequenceLength > 0
                                 ? {
-                                      pathname: `/review-disruption/${disruption.id}`,
+                                      pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${disruption.id}`,
                                       query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                                   }
                                 : {
-                                      pathname: `/type-of-consequence/${disruption.id}/0`,
+                                      pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.id}/0`,
                                       query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                                   }
                             : {
-                                  pathname: `/disruption-detail/${disruption.id}`,
+                                  pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${disruption.id}`,
                                   query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                               }
                     }
@@ -790,7 +793,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (data) {
-        data = data.filter((item) => item.publishStatus === "PUBLISHED" || item.publishStatus === "DRAFT");
+        data = data.filter(
+            (item) =>
+                item.publishStatus === PublishStatus.published ||
+                item.publishStatus === PublishStatus.draft ||
+                item.publishStatus === PublishStatus.pendingApproval,
+        );
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
