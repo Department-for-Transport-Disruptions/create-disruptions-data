@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
     const isAdmin = session?.isSystemAdmin || session?.isOrgAdmin;
-    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 3 : 2);
+    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 4 : 2);
 
     return (
         <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
@@ -80,6 +80,15 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                             {...itemProps[2]}
                                         >
                                             User management
+                                        </Link>
+                                    )}
+                                    {isAdmin && (
+                                        <Link
+                                            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                            href="/admin/social-media-accounts"
+                                            {...itemProps[3]}
+                                        >
+                                            Social media
                                         </Link>
                                     )}
                                     <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
