@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import { toLowerStartCase } from "../../utils/formUtils";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
@@ -14,8 +15,8 @@ const SocialMediaAccounts = (): ReactElement => {
             addedBy: "Chris Cavanagh",
             expiresIn: "Never",
             hootsuiteProfiles: [
-                { display: "Twitter/43308270", link: "https://twitter.com/43308270" },
-                { display: "Twitter/29669438", link: "https://twitter.com/29669438" },
+                { type: "TWITTER", id: "43308270" },
+                { type: "TWITTER", id: "29669438" },
             ],
         },
         {
@@ -23,9 +24,20 @@ const SocialMediaAccounts = (): ReactElement => {
             usernamePage: "2ask@iverpoolcityregion-ca-gov.uk",
             addedBy: "Anna Simpson",
             expiresIn: "Never",
-            hootsuiteProfiles: [{ display: "Twitter/43308888", link: "https://twitter.com/43308888" }],
+            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888" }],
         },
     ];
+
+    const getLink = (type: string, id: string) => {
+        switch (type) {
+            case "TWITTER":
+                return `https://twitter.com/${id}/`;
+            case "FACEBOOK":
+                return `https://facebook.com/${id}/`;
+            default:
+                return "";
+        }
+    };
 
     const getRows = () => {
         return data.map((item) => ({
@@ -36,8 +48,12 @@ const SocialMediaAccounts = (): ReactElement => {
                 item.hootsuiteProfiles.map((profile) => (
                     <>
                         <li className="list-none">
-                            <Link className="govuk-link text-govBlue" key={profile.display} href={profile.link}>
-                                {profile.display}
+                            <Link
+                                className="govuk-link text-govBlue"
+                                key={`${toLowerStartCase(profile.type)}/${profile.id}`}
+                                href={getLink(profile.type, profile.id)}
+                            >
+                                {`${toLowerStartCase(profile.type)}/${profile.id}`}
                             </Link>
                         </li>
                     </>
