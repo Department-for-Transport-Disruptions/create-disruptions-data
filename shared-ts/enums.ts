@@ -162,4 +162,5 @@ export enum PublishStatus {
     editing = "EDITING",
     pendingApproval = "PENDING_APPROVAL",
     rejected = "REJECTED",
+    editPendingApproval = "EDIT_PENDING_APPROVAL",
 }
