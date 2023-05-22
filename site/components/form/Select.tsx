@@ -10,6 +10,7 @@ interface SelectProps<T> extends FormBase<T> {
     width?: string;
     updateOnChange?: boolean;
     useDefaultValue?: boolean;
+    hint?: string;
 }
 
 const Select = <T extends object>({
@@ -25,6 +26,7 @@ const Select = <T extends object>({
     width = "3/4",
     updateOnChange = false,
     useDefaultValue = true,
+    hint,
 }: SelectProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -53,6 +55,11 @@ const Select = <T extends object>({
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
+                {hint ? (
+                    <div id={`${inputId}-hint`} className="govuk-hint">
+                        {hint}
+                    </div>
+                ) : null}
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-select--error">
                     <select
                         className={`govuk-select w-${width}`}
