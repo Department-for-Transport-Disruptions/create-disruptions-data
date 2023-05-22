@@ -1,19 +1,18 @@
-import uniqueId from "lodash/uniqueId";
 import {
     CSSProperties,
     Dispatch,
     ReactElement,
-    ReactNode,
     SetStateAction,
     SyntheticEvent,
     useCallback,
     useEffect,
     useState,
 } from "react";
-import MapBox, { Marker, Popup, ViewState } from "react-map-gl";
+import MapBox, { Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
+import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
@@ -94,78 +93,6 @@ const Map = ({
             }
         },
         [searched, selected, state, stateUpdater, markerData],
-    );
-
-    const getMarkers = useCallback(
-        (selected: Stop[], searched: Stop[]): ReactNode => {
-            const inTable =
-                selected && selected.length > 0
-                    ? selected.map((s: Stop) => (
-                          <Marker
-                              key={uniqueId(s.atcoCode)}
-                              longitude={Number(s.longitude)}
-                              latitude={Number(s.latitude)}
-                              onClick={() => {
-                                  unselectMarker(s.atcoCode);
-                              }}
-                          >
-                              <div
-                                  className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
-                                  onMouseEnter={() => {
-                                      handleMouseEnter(s.atcoCode);
-                                  }}
-                                  onMouseLeave={() => {
-                                      setPopupInfo({});
-                                  }}
-                              />
-                          </Marker>
-                      ))
-                    : [];
-            const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
-                selected && selected.length > 0
-                    ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                    : sToFilter,
-            );
-
-            const notInTable = searched
-                .filter((sToFilter: Stop) =>
-                    selected && selected.length > 0
-                        ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                        : sToFilter,
-                )
-                .filter((sToFilter: Stop) =>
-                    markerData && markerData.length > 0
-                        ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                        : sToFilter,
-                );
-
-            const greyMarkers = [...dataFromPolygon, ...notInTable].map((s) => (
-                <Marker
-                    key={uniqueId(s.atcoCode)}
-                    longitude={Number(s.longitude)}
-                    latitude={Number(s.latitude)}
-                    color="grey"
-                    onClick={() => {
-                        selectMarker(s.atcoCode);
-                    }}
-                >
-                    <div
-                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
-                        onMouseEnter={() => {
-                            handleMouseEnter(s.atcoCode);
-                        }}
-                        onMouseLeave={() => {
-                            setPopupInfo({});
-                        }}
-                    />
-                </Marker>
-            ));
-
-            const markers = [...inTable, ...greyMarkers];
-
-            return markers.length > 0 ? markers.slice(0, 100) : null;
-        },
-        [markerData, handleMouseEnter, selectMarker, unselectMarker],
     );
 
     useEffect(() => {
@@ -302,7 +229,15 @@ const Map = ({
                 onRender={(event) => event.target.resize()}
             >
                 <MapControls onUpdate={onUpdate} onDelete={onDelete} />
-                {selected && searched ? getMarkers(selected, searched) : null}
+                <Markers
+                    selected={selected}
+                    searched={searched}
+                    handleMouseEnter={handleMouseEnter}
+                    markerData={markerData}
+                    selectMarker={selectMarker}
+                    unselectMarker={unselectMarker}
+                    setPopupInfo={setPopupInfo}
+                />
                 {popupInfo.atcoCode && (
                     <Popup
                         anchor="top"

@@ -1,5 +1,4 @@
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import uniqueId from "lodash/uniqueId";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
@@ -7,16 +6,16 @@ import {
     ReactElement,
     SetStateAction,
     SyntheticEvent,
-    memo,
     useCallback,
     useEffect,
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
+import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import {
@@ -66,90 +65,6 @@ const initialHoverState = {
     latitude: 0,
     serviceId: -1,
 };
-
-interface MarkersProps {
-    selected: Stop[];
-    searched: Stop[];
-    markerData: Stop[];
-    unselectMarker: (id: string) => void;
-    selectMarker: (id: string) => void;
-    handleMouseEnter: (id: string) => void;
-    setPopupInfo: Dispatch<SetStateAction<Partial<Stop>>>;
-}
-
-const Markers = ({
-    selected,
-    searched,
-    markerData,
-    unselectMarker,
-    selectMarker,
-    handleMouseEnter,
-    setPopupInfo,
-}: MarkersProps): ReactElement | null => {
-    const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
-        selected && selected.length > 0 ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode) : sToFilter,
-    );
-
-    const notInTable = searched
-        .filter((sToFilter: Stop) =>
-            selected && selected.length > 0 ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode) : sToFilter,
-        )
-        .filter((sToFilter: Stop) =>
-            markerData && markerData.length > 0
-                ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                : sToFilter,
-        );
-
-    return (
-        <>
-            {selected && selected.length > 0
-                ? selected.map((s: Stop) => (
-                      <Marker
-                          key={uniqueId(s.atcoCode)}
-                          longitude={Number(s.longitude)}
-                          latitude={Number(s.latitude)}
-                          onClick={() => {
-                              unselectMarker(s.atcoCode);
-                          }}
-                      >
-                          <div
-                              className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
-                              onMouseEnter={() => {
-                                  handleMouseEnter(s.atcoCode);
-                              }}
-                              onMouseLeave={() => {
-                                  setPopupInfo({});
-                              }}
-                          />
-                      </Marker>
-                  ))
-                : null}
-            {[...dataFromPolygon, ...notInTable].map((s) => (
-                <Marker
-                    key={uniqueId(s.atcoCode)}
-                    longitude={Number(s.longitude)}
-                    latitude={Number(s.latitude)}
-                    color="grey"
-                    onClick={() => {
-                        selectMarker(s.atcoCode);
-                    }}
-                >
-                    <div
-                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
-                        onMouseEnter={() => {
-                            handleMouseEnter(s.atcoCode);
-                        }}
-                        onMouseLeave={() => {
-                            setPopupInfo({});
-                        }}
-                    />
-                </Marker>
-            ))}
-        </>
-    );
-};
-
-const MemoisedMarkers = memo(Markers);
 
 const Map = ({
     initialViewState,
@@ -552,7 +467,7 @@ const Map = ({
                 onRender={(event) => event.target.resize()}
             >
                 <MapControls onUpdate={onUpdate} onDelete={onDelete} />
-                <MemoisedMarkers
+                <Markers
                     selected={selected}
                     searched={searched}
                     handleMouseEnter={handleMouseEnter}
