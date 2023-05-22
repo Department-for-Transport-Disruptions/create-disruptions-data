@@ -4,7 +4,6 @@ import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PA
 import {
     deleteDisruptionsInEdit,
     getDisruptionById,
-    isDisruptionInPending,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     publishEditedConsequences,
     publishEditedConsequencesIntoPending,
@@ -51,7 +50,9 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const isEditPendingDsp = await isDisruptionInPending(validatedBody.data.disruptionId, session.orgId);
+        const isEditPendingDsp =
+            draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
+            draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (session.isOrgStaff && isEditPendingDsp)
             await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);

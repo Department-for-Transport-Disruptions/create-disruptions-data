@@ -31,7 +31,6 @@ describe("publishEdit", () => {
         getDisruptionById: vi.fn(),
         publishEditedConsequences: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
-        isDisruptionInPending: vi.fn(),
         publishEditedConsequencesIntoPending: vi.fn(),
         publishPendingConsequences: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
@@ -46,7 +45,6 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const isDisruptionInPendingSpy = vi.spyOn(dynamo, "isDisruptionInPending");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -66,7 +64,6 @@ describe("publishEdit", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(false);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -92,7 +89,6 @@ describe("publishEdit", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for staff user", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(false);
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
@@ -119,7 +115,6 @@ describe("publishEdit", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(true);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -148,7 +143,6 @@ describe("publishEdit", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for staff user with records in pending", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(true);
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
@@ -209,7 +203,6 @@ describe("publishEdit", () => {
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
-            isDisruptionInPendingSpy.mockResolvedValue(false);
             const { req, res } = getMockRequestAndResponse({
                 body: {
                     disruptionId: disruption.disruptionId,

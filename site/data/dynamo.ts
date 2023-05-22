@@ -407,24 +407,6 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
     );
 };
 
-export const isDisruptionInPending = async (disruptionId: string, id: string) => {
-    logger.info(`Retrieving the disruption (${disruptionId}) without the edit tag from DynamoDB table...`);
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
-            TableName: tableName,
-            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
-            ExpressionAttributeValues: {
-                ":1": id,
-                ":2": `${disruptionId}`,
-            },
-        }),
-    );
-
-    const isPending = dynamoDisruption?.Items?.some((item) => (item.SK as string).includes("#PENDING"));
-
-    return isPending || false;
-};
-
 export const getDisruptionById = async (disruptionId: string, id: string): Promise<Disruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
@@ -497,7 +479,9 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         ...info,
         consequences,
         publishStatus:
-            isEdited || (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus))
+            isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)
+                ? PublishStatus.pendingAndEditing
+                : isEdited
                 ? PublishStatus.editing
                 : (info?.publishStatus as string),
     });
@@ -510,7 +494,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
 };
 
 export const publishEditedConsequences = async (disruptionId: string, id: string) => {
-    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
+    logger.info(`Publishing edited disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
@@ -584,7 +568,7 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
 };
 
 export const publishEditedConsequencesIntoPending = async (disruptionId: string, id: string) => {
-    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
+    logger.info(`Publishing edited disruption(${disruptionId}) to pending status in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
@@ -659,7 +643,7 @@ export const publishEditedConsequencesIntoPending = async (disruptionId: string,
 };
 
 export const publishPendingConsequences = async (disruptionId: string, id: string) => {
-    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
+    logger.info(`Publishing pending disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,

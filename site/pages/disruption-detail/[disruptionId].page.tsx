@@ -44,7 +44,8 @@ const DisruptionDetail = ({
     session,
 }: DisruptionDetailProps): ReactElement => {
     const title =
-        disruption.publishStatus === PublishStatus.editing
+        disruption.publishStatus === PublishStatus.editing ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
             : "Disruption Overview";
 
@@ -345,7 +346,8 @@ const DisruptionDetail = ({
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {disruption.publishStatus !== PublishStatus.editing ? (
+                        {disruption.publishStatus !== PublishStatus.editing &&
+                        disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
                             <Link
                                 role="button"
                                 href={redirect}
@@ -359,7 +361,9 @@ const DisruptionDetail = ({
                             </Link>
                         ) : null}
 
-                        {session.isOrgStaff && disruption.publishStatus === PublishStatus.editing ? (
+                        {session.isOrgStaff &&
+                        (disruption.publishStatus === PublishStatus.editing ||
+                            disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
                                 Send to review
                             </button>
@@ -370,17 +374,20 @@ const DisruptionDetail = ({
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     Publish disruption
                                 </button>
-                                <button
-                                    className="govuk-button mt-8 govuk-button--secondary ml-5"
-                                    data-module="govuk-button"
-                                    formAction="/api/reject"
-                                >
-                                    Reject disruption
-                                </button>
+                                {disruption.publishStatus !== PublishStatus.editing ? (
+                                    <button
+                                        className="govuk-button mt-8 govuk-button--secondary ml-5"
+                                        data-module="govuk-button"
+                                        formAction="/api/reject"
+                                    >
+                                        Reject disruption
+                                    </button>
+                                ) : null}
                             </>
                         ) : null}
 
-                        {disruption.publishStatus === PublishStatus.editing ? (
+                        {disruption.publishStatus === PublishStatus.editing ||
+                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"

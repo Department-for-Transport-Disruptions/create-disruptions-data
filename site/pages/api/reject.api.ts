@@ -6,7 +6,6 @@ import {
     deleteDisruptionsInPending,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    isDisruptionInPending,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -47,15 +46,16 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const data = await Promise.all([
-            isDisruptionInPending(draftDisruption.disruptionId, session.orgId),
+        await Promise.all([
             deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
             deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
         ]);
 
-        const isPending = data[0];
+        const isEditPendingDsp =
+            draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
+            draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
-        if (!isPending) {
+        if (!isEditPendingDsp) {
             await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
                 getPtSituationElementFromDraft(draftDisruption),
                 draftDisruption,

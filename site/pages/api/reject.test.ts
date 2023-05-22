@@ -30,7 +30,6 @@ describe("reject", () => {
         insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
         getDisruptionById: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
-        isDisruptionInPending: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
     }));
 
@@ -42,7 +41,6 @@ describe("reject", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const isDisruptionInPendingSpy = vi.spyOn(dynamo, "isDisruptionInPending");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -62,7 +60,6 @@ describe("reject", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(false);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -87,7 +84,6 @@ describe("reject", () => {
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for records with EDIT_PENDING_APPROVAL status", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(true);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -107,7 +103,6 @@ describe("reject", () => {
 
     it("should redirect to error page if disruptionId not passed", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        isDisruptionInPendingSpy.mockResolvedValue(false);
 
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
@@ -123,7 +118,6 @@ describe("reject", () => {
 
     it("should redirect to error page if disruption is invalid", async () => {
         getDisruptionSpy.mockResolvedValue({} as Disruption);
-        isDisruptionInPendingSpy.mockResolvedValue(false);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -144,7 +138,6 @@ describe("reject", () => {
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
-            isDisruptionInPendingSpy.mockResolvedValue(false);
             const { req, res } = getMockRequestAndResponse({
                 body: {
                     disruptionId: disruption.disruptionId,
