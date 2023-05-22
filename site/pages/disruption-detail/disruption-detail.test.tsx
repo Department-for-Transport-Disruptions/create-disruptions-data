@@ -2,11 +2,9 @@ import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import { randomUUID } from "crypto";
 import DisruptionDetail from "./[disruptionId].page";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -83,16 +81,6 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
-const userSession: Session = {
-    username: "dummy.user@gmail.com",
-    email: "dummy.user@gmail.com",
-    orgId: randomUUID(),
-    isSystemAdmin: true,
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-};
-
 describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
@@ -102,7 +90,7 @@ describe("pages", () => {
                         disruption={previousDisruptionInformation}
                         redirect={"/dashboard"}
                         errors={[]}
-                        session={userSession}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -119,7 +107,7 @@ describe("pages", () => {
                         }}
                         redirect={"/view-all-disruptions"}
                         errors={[]}
-                        session={userSession}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -135,7 +123,7 @@ describe("pages", () => {
                     }}
                     redirect={"/view-all-disruptions"}
                     errors={[]}
-                    session={{ ...userSession, isSystemAdmin: false, isOrgStaff: true }}
+                    canPublish={false}
                 />,
             );
 
@@ -152,7 +140,7 @@ describe("pages", () => {
                     }}
                     redirect={"/view-all-disruptions"}
                     errors={[]}
-                    session={userSession}
+                    canPublish
                 />,
             );
 

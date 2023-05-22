@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ERROR_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -12,10 +12,14 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const session = getSession(req);
 
-        if (!id || Array.isArray(id) || !session || session.isOrgStaff) {
+        if (!id || Array.isArray(id) || !session) {
             throw new Error(
                 `Insufficient data provided for deleting a disruption by id: ${id ? id.toString() : "undefined"}`,
             );
+        }
+
+        if (!canPublish(session)) {
+            throw new Error(`Insufficient permissions to delete disruption (${id})`);
         }
 
         const disruption = await getDisruptionById(id, session.orgId);

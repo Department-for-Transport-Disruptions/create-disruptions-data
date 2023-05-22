@@ -20,10 +20,9 @@ import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
@@ -32,7 +31,7 @@ interface DisruptionDetailProps {
     disruption: Disruption;
     redirect: string;
     errors: ErrorInfo[];
-    session: Session;
+    canPublish: boolean;
     csrfToken?: string;
 }
 
@@ -41,7 +40,7 @@ const DisruptionDetail = ({
     redirect,
     csrfToken,
     errors,
-    session,
+    canPublish,
 }: DisruptionDetailProps): ReactElement => {
     const displayCancelButton = disruption.publishStatus === PublishStatus.editing;
 
@@ -354,7 +353,7 @@ const DisruptionDetail = ({
                         ) : (
                             <>
                                 <button className="govuk-button mt-8" data-module="govuk-button">
-                                    {session.isOrgStaff ? "Send to review" : "Publish disruption"}
+                                    {canPublish ? "Publish disruption" : "Send to review"}
                                 </button>
 
                                 <button
@@ -426,7 +425,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruption: disruption,
             redirect: referer,
             errors: errors,
-            session: session,
+            canPublish: canPublish(session),
         },
     };
 };
