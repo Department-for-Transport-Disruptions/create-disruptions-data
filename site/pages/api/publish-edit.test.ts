@@ -126,11 +126,8 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesIntoPending).toBeCalledTimes(1);
-        expect(dynamo.publishPendingConsequences).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
         expect(dynamo.updatePendingDisruptionStatus).not.toBeCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
@@ -156,13 +153,15 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.publishEditedConsequencesIntoPending).toBeCalledTimes(1);
-        expect(dynamo.publishPendingConsequences).not.toBeCalled();
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
-        expect(dynamo.updatePendingDisruptionStatus).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequences,
+            DEFAULT_ORG_ID,
+            PublishStatus.pendingApproval,
+        );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 

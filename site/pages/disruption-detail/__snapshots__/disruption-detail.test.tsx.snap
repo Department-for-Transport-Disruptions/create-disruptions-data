@@ -2401,13 +2401,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             Publish disruption
           </button>
           <button
-            className="govuk-button mt-8 govuk-button--secondary ml-5"
-            data-module="govuk-button"
-            formAction="/api/reject"
-          >
-            Reject disruption
-          </button>
-          <button
             className="govuk-button govuk-button--secondary mt-8 ml-5"
             data-module="govuk-button"
             formAction="/api/cancel-changes"
