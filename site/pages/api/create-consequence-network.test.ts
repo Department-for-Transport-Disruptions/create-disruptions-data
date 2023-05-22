@@ -176,6 +176,7 @@ describe("create-consequence-network API", () => {
                 disruptionId: defaultDisruptionId,
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

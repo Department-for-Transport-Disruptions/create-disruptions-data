@@ -203,6 +203,7 @@ describe("create-consequence-operator API", () => {
                 consequenceType: "operatorWide",
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

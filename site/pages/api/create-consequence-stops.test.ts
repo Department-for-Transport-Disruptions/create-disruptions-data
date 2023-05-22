@@ -226,6 +226,7 @@ describe("create-consequence-stops API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

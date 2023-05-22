@@ -727,6 +727,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

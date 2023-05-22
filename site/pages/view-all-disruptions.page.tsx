@@ -65,6 +65,7 @@ export interface TableDisruption {
     status: string;
     serviceIds: string[];
     operators: DisruptionOperator[];
+    dbStatus: string;
     consequenceLength?: number;
 }
 
@@ -86,6 +87,7 @@ export interface Filter {
     operators: DisruptionOperator[];
     mode?: string;
     searchText?: string;
+    displayPending?: boolean;
 }
 
 export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
@@ -268,13 +270,16 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && disruption.status !== filter.status) {
-            if (
-                filter.status === PublishStatus.pendingApproval &&
-                disruption.status === PublishStatus.editPendingApproval
-            ) {
-                return true;
-            }
+            return false;
+        }
 
+        if (
+            filter.displayPending &&
+            !(
+                disruption.dbStatus === PublishStatus.pendingApproval ||
+                disruption.dbStatus === PublishStatus.editPendingApproval
+            )
+        ) {
             return false;
         }
 
@@ -338,7 +343,8 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: (query["status"] as string) || undefined,
+        status: (query["pending"] as string) ? Progress.open : undefined,
+        displayPending: (query["pending"] as string) ? true : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
@@ -410,7 +416,7 @@ const ViewAllDisruptions = ({
     };
 
     useEffect(() => {
-        const statusValue = query["status"];
+        const statusValue = query["pending"];
         if (statusValue) {
             setShowFilters(true);
         }
@@ -816,7 +822,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval,
+                item.publishStatus === PublishStatus.pendingApproval ||
+                item.publishStatus === PublishStatus.editPendingApproval,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
@@ -861,6 +868,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 modes,
                 consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status,
+                dbStatus: disruption.publishStatus,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
                 operators: disruptionOperators,

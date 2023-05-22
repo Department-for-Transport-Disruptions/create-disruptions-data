@@ -141,7 +141,7 @@ const Dashboard = ({
                             href={{
                                 pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
                                 query: {
-                                    status: Progress.open,
+                                    pending: true,
                                 },
                             }}
                         >
