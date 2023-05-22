@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ReactElement } from "react";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
-import { LOGIN_PAGE_PATH } from "../../constants";
+import { LOGIN_PAGE_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
 import { Session } from "../../schemas/session.schema";
 import CsrfForm from "../form/CsrfForm";
 
@@ -76,8 +76,8 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     {isAdmin && (
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            href="/admin/user-management"
-                                            {...itemProps[2]}
+                                            href={USER_MANAGEMENT_PAGE_PATH}
+                                            {...itemProps[1]}
                                         >
                                             User management
                                         </Link>
@@ -85,8 +85,8 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     {isAdmin && (
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            href="/admin/social-media-accounts"
-                                            {...itemProps[3]}
+                                            href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}
+                                            {...itemProps[2]}
                                         >
                                             Social media
                                         </Link>
@@ -94,7 +94,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
                                         <button
                                             className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            {...(itemProps[1] as object)}
+                                            {...(itemProps[itemProps.length - 1] as object)}
                                         >
                                             Sign out
                                         </button>

@@ -73,5 +73,3 @@ export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
     const endPoint = pageNumber * 10;
     return data.slice(startPoint, endPoint);
 };
-
-export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());

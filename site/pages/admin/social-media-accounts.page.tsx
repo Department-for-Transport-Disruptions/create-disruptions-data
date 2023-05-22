@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
-import { toLowerStartCase } from "../../utils/formUtils";
+import { toLowerStartCase } from "../../utils";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
