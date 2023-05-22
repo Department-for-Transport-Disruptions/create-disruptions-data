@@ -26,10 +26,57 @@ const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
 ): Disruption | null => {
-    const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
-    const consequences = disruptionItems.filter(
-        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+    let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+    let consequences = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
+            false,
     );
+
+    const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
+    const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
+
+    if (isPending) {
+        info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
+        const pendingConsequences = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).endsWith("#PENDING")) ??
+                false,
+        );
+        pendingConsequences.forEach((pendingConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === pendingConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                consequences[existingIndex] = pendingConsequence;
+            } else {
+                consequences.push(pendingConsequence);
+            }
+        });
+    }
+
+    if (isEdited) {
+        info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
+        const editedConsequences = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).endsWith("#EDIT")) ??
+                false,
+        );
+        editedConsequences.forEach((editedConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === editedConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                consequences[existingIndex] = editedConsequence;
+            } else {
+                consequences.push(editedConsequence);
+            }
+        });
+    }
+
+    consequences = consequences.filter((consequence) => !consequence.isDeleted);
 
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
@@ -45,8 +92,9 @@ const collectDisruptionsData = (
 
     return parsedDisruption.data;
 };
-export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
+
+export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Set<string>> => {
+    logger.info("Getting disruptions in pending status from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
@@ -55,8 +103,34 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus = :2 or publishStatus = :3",
             ExpressionAttributeValues: {
                 ":1": id,
+                ":2": PublishStatus.pendingApproval,
+                ":3": PublishStatus.editPendingApproval,
+            },
+        }),
+    );
+
+    const disruptionIds = new Set<string>();
+
+    dbData.Items?.forEach((item) => {
+        if (item.disruptionId && !disruptionIds.has(item.disruptionId as string)) {
+            disruptionIds.add(item.disruptionId as string);
+        }
+    });
+
+    return disruptionIds;
+};
+
+export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+    logger.info("Getting disruptions data from DynamoDB table...");
+
+    const dbData = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1",
+            FilterExpression: "publishStatus = :2",
+            ExpressionAttributeValues: {
+                ":1": id,
                 ":2": PublishStatus.published,
-                ":3": PublishStatus.pendingApproval,
             },
         }),
     );
@@ -252,9 +326,32 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     );
 };
 
-export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: string) => {
+export const updatePendingDisruptionStatus = async (disruption: Disruption, id: string) => {
+    logger.info(`Updating status of pending disruption (${disruption.disruptionId}) into DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: [
+                {
+                    Put: {
+                        TableName: tableName,
+                        Item: {
+                            PK: id,
+                            SK: `${disruption.disruptionId}#INFO#PENDING`,
+                            ...disruption,
+                        },
+                    },
+                },
+            ],
+        }),
+    );
+};
+
+export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: string, isUserStaff?: boolean) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
+    const isPending =
+        isUserStaff && currentDisruption?.publishStatus && currentDisruption?.publishStatus === PublishStatus.published;
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -262,7 +359,7 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
             TableName: tableName,
             Item: {
                 PK: id,
-                SK: `${disruptionInfo.disruptionId}#INFO${isEditing ? "#EDIT" : ""}`,
+                SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
             },
         }),
@@ -272,6 +369,7 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
 export const upsertConsequence = async (
     consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
     id: string,
+    isUserStaff?: boolean,
 ) => {
     logger.info(
         `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
@@ -279,6 +377,8 @@ export const upsertConsequence = async (
         }) in DynamoDB table...`,
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
+    const isPending =
+        isUserStaff && currentDisruption?.publishStatus && currentDisruption?.publishStatus === PublishStatus.published;
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -287,7 +387,7 @@ export const upsertConsequence = async (
             Item: {
                 PK: id,
                 SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}${
-                    isEditing ? "#EDIT" : ""
+                    isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
                 ...consequence,
             },
@@ -309,6 +409,24 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
     );
 };
 
+export const isDisruptionInPending = async (disruptionId: string, id: string) => {
+    logger.info(`Retrieving the disruption (${disruptionId}) without the edit tag from DynamoDB table...`);
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": id,
+                ":2": `${disruptionId}`,
+            },
+        }),
+    );
+
+    const isPending = dynamoDisruption?.Items?.some((item) => (item.SK as string).includes("#PENDING"));
+
+    return isPending || false;
+};
+
 export const getDisruptionById = async (disruptionId: string, id: string): Promise<Disruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
@@ -325,13 +443,36 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         return null;
     }
     const isEdited = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#EDIT"));
+    const isPending = dynamoDisruption.Items.some((item) => (item.SK as string).includes("#PENDING"));
 
     let info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO`);
+
     let consequences = dynamoDisruption.Items.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
             false,
     );
+
+    if (isPending) {
+        info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
+        const pendingConsequences = dynamoDisruption.Items.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).endsWith("#PENDING")) ??
+                false,
+        );
+        pendingConsequences.forEach((pendingConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === pendingConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                consequences[existingIndex] = pendingConsequence;
+            } else {
+                consequences.push(pendingConsequence);
+            }
+        });
+    }
+
     if (isEdited) {
         info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
         const editedConsequences = dynamoDisruption.Items.filter(
@@ -357,7 +498,10 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
-        publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
+        publishStatus:
+            isEdited || (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus))
+                ? PublishStatus.editing
+                : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {
@@ -441,6 +585,155 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
     }
 };
 
+export const publishEditedConsequencesIntoPending = async (disruptionId: string, id: string) => {
+    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": id,
+                ":2": `${disruptionId}`,
+            },
+        }),
+    );
+
+    if (dynamoDisruption.Items) {
+        const editedConsequences: Record<string, unknown>[] = [];
+        const deleteConsequences: Record<string, unknown>[] = [];
+        const editedDisruption: Record<string, unknown>[] = [];
+
+        dynamoDisruption.Items.forEach((item) => {
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                (item.SK as string).includes("#EDIT")
+            ) {
+                if (item.isDeleted) {
+                    deleteConsequences.push(item);
+                } else {
+                    editedConsequences.push(item);
+                }
+            }
+
+            if ((item.SK as string) === `${disruptionId}#INFO#EDIT`) {
+                editedDisruption.push(item);
+            }
+        });
+
+        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequences.length > 0)
+            await ddbDocClient.send(
+                new TransactWriteCommand({
+                    TransactItems: [
+                        ...editedDisruption.map((disruption) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...disruption,
+                                    PK: id,
+                                    SK: `${disruptionId}#INFO#PENDING`,
+                                },
+                            },
+                        })),
+                        ...editedConsequences.map((consequence) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...consequence,
+                                    PK: id,
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
+                                },
+                            },
+                        })),
+                        ...deleteConsequences.map((consequence) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...consequence,
+                                    PK: id,
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
+                                },
+                            },
+                        })),
+                    ],
+                }),
+            );
+    }
+};
+
+export const publishPendingConsequences = async (disruptionId: string, id: string) => {
+    logger.info(`Publishing (${disruptionId}) in DynamoDB table...`);
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": id,
+                ":2": `${disruptionId}`,
+            },
+        }),
+    );
+
+    if (dynamoDisruption.Items) {
+        const pendingConsequences: Record<string, unknown>[] = [];
+        const deleteConsequences: Record<string, unknown>[] = [];
+        const pendingDisruption: Record<string, unknown>[] = [];
+
+        dynamoDisruption.Items.forEach((item) => {
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                (item.SK as string).includes("#PENDING")
+            ) {
+                if (item.isDeleted) {
+                    deleteConsequences.push(item);
+                } else {
+                    pendingConsequences.push(item);
+                }
+            }
+
+            if ((item.SK as string) === `${disruptionId}#INFO`) {
+                pendingDisruption.push(item);
+            }
+        });
+
+        if (pendingConsequences.length > 0 || pendingDisruption.length > 0 || deleteConsequences.length > 0)
+            await ddbDocClient.send(
+                new TransactWriteCommand({
+                    TransactItems: [
+                        ...pendingDisruption.map((disruption) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...disruption,
+                                    PK: id,
+                                    SK: `${disruptionId}#INFO`,
+                                },
+                            },
+                        })),
+                        ...pendingConsequences.map((consequence) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...consequence,
+                                    PK: id,
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
+                                },
+                            },
+                        })),
+                        ...deleteConsequences.map((consequence) => ({
+                            Delete: {
+                                TableName: tableName,
+                                Key: {
+                                    PK: id,
+                                    SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
+                                },
+                            },
+                        })),
+                    ],
+                }),
+            );
+    }
+};
+
 export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) => {
     logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
@@ -487,6 +780,62 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
                             Key: {
                                 PK: id,
                                 SK: `${disruptionId}#INFO#EDIT`,
+                            },
+                        },
+                    },
+                    ...consequenceDeleteCommands,
+                ],
+            }),
+        );
+    }
+};
+
+export const deleteDisruptionsInPending = async (disruptionId: string, id: string) => {
+    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": id,
+                ":2": `${disruptionId}#CONSEQUENCE`,
+            },
+        }),
+    );
+
+    if (dynamoDisruption.Items) {
+        const pendingConsequences = dynamoDisruption.Items.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).includes("#PENDING")) ??
+                false,
+        );
+
+        const consequenceDeleteCommands: {
+            Delete: {
+                TableName: string;
+                Key: Record<string, string>;
+            };
+        }[] =
+            pendingConsequences.map((consequence) => ({
+                Delete: {
+                    TableName: tableName,
+                    Key: {
+                        PK: id,
+                        SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
+                    },
+                },
+            })) ?? [];
+
+        await ddbDocClient.send(
+            new TransactWriteCommand({
+                TransactItems: [
+                    {
+                        Delete: {
+                            TableName: tableName,
+                            Key: {
+                                PK: id,
+                                SK: `${disruptionId}#INFO#PENDING`,
                             },
                         },
                     },

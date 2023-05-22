@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
@@ -9,8 +9,9 @@ import {
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
@@ -61,6 +62,14 @@ describe("create-consequence-stops API", () => {
         vi.resetAllMocks();
     });
 
+    const getSessionSpy = vi.spyOn(session, "getSession");
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+    });
+
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultStopsData, mockWriteHeadFn: writeHeadMock });
 
@@ -96,6 +105,7 @@ describe("create-consequence-stops API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

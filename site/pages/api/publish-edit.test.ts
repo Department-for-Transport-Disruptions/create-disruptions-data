@@ -1,6 +1,6 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
+import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -11,7 +11,9 @@ import {
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
+    mockSession,
 } from "../../testData/mockData";
+import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -29,6 +31,11 @@ describe("publishEdit", () => {
         getDisruptionById: vi.fn(),
         publishEditedConsequences: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
+        isDisruptionInPending: vi.fn(),
+        publishEditedConsequencesIntoPending: vi.fn(),
+        publishPendingConsequences: vi.fn(),
+        deleteDisruptionsInPending: vi.fn(),
+        updatePendingDisruptionStatus: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -39,6 +46,7 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const isDisruptionInPendingSpy = vi.spyOn(dynamo, "isDisruptionInPending");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -48,9 +56,46 @@ describe("publishEdit", () => {
         MockDate.reset();
     });
 
-    it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+    const getSessionSpy = vi.spyOn(session, "getSession");
 
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(false);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequences).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequences,
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect for staff user", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(false);
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
+        });
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -67,8 +112,63 @@ describe("publishEdit", () => {
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
+            PublishStatus.pendingApproval,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(true);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesIntoPending).toBeCalledTimes(1);
+        expect(dynamo.publishPendingConsequences).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.updatePendingDisruptionStatus).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequences,
+            DEFAULT_ORG_ID,
             PublishStatus.published,
         );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect for staff user with records in pending", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(true);
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
+        });
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(dynamo.publishEditedConsequencesIntoPending).toBeCalledTimes(1);
+        expect(dynamo.publishPendingConsequences).not.toBeCalled();
+        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(dynamo.updatePendingDisruptionStatus).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
@@ -83,6 +183,7 @@ describe("publishEdit", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(dynamo.publishEditedConsequences).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -100,6 +201,7 @@ describe("publishEdit", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(dynamo.publishEditedConsequences).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -107,6 +209,7 @@ describe("publishEdit", () => {
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
+            isDisruptionInPendingSpy.mockResolvedValue(false);
             const { req, res } = getMockRequestAndResponse({
                 body: {
                     disruptionId: disruption.disruptionId,

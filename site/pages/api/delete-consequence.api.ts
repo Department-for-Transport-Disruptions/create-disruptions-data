@@ -42,7 +42,7 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 consequenceIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertConsequence(consequence, session.orgId);
+            await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {

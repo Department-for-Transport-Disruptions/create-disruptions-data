@@ -9,7 +9,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import Tabs from "../components/Tabs";
 import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
@@ -264,23 +264,27 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const session = getSession(ctx.req);
-
     if (!session) {
         return baseProps;
     }
 
-    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    const data = await Promise.all([
+        getPublishedDisruptionsDataFromDynamo(session.orgId),
+        getPendingDisruptionsIdsFromDynamo(session.orgId),
+    ]);
 
-    if (data) {
+    const publishedDisruption = data[0];
+    const pendingDisruption = data[1];
+
+    if (publishedDisruption) {
         const liveDisruptions: Disruption[] = [];
         const upcomingDisruptions: Disruption[] = [];
         const today = getDate();
-        let pendingApprovalCount = 0;
+        const pendingApprovalCount = pendingDisruption.size;
 
-        data.forEach((disruption) => {
-            if (disruption.publishStatus === PublishStatus.pendingApproval) {
-                pendingApprovalCount = pendingApprovalCount + 1;
-            } else {
+        publishedDisruption
+            .filter((data) => !pendingDisruption.has(data.disruptionId))
+            .forEach((disruption) => {
                 // end time before today --> dont show
                 const validityPeriods: Validity[] = [
                     ...(disruption.validity ?? []),
@@ -337,8 +341,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         upcomingDisruptions.push(disruption);
                     }
                 }
-            }
-        });
+            });
 
         return {
             props: {

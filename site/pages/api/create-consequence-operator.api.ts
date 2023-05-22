@@ -70,7 +70,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId);
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =

@@ -1,5 +1,962 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`pages > viewAllDisruptions > should render correctly when filter is set to pending approval status 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          alpha
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <h1
+        className="govuk-heading-xl"
+      >
+        View all disruptions
+      </h1>
+      <div>
+        <a
+          className="govuk-button govuk-button--start"
+          data-module="govuk-button"
+          draggable="false"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          id="create-new-button"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+        >
+          Create new disruption
+          <svg
+            className="govuk-button__start-icon"
+            focusable="false"
+            height="19"
+            role="presentation"
+            viewBox="0 0 33 40"
+            width="17.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 0h13l20 20-20 20H0l20-20z"
+              fill="currentColor"
+            />
+          </svg>
+        </a>
+        <div
+          className="flex"
+        >
+          <button
+            className="govuk-button govuk-button--secondary block"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Hide and clear 
+            filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Clear filters
+          </button>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <div>
+          <label
+            className="govuk-label govuk-label--s"
+            htmlFor="summary-search"
+          >
+            Summary
+          </label>
+          <div
+            className="govuk-hint"
+            id="summary-search-hint"
+          >
+            3 characters minimum
+          </div>
+          <input
+            aria-describedby="summary-search-hint"
+            className="govuk-input govuk-input--width-20 mb-4"
+            id="summary-search"
+            maxLength={20}
+            name="summarySearch"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="govuk-form-group"
+      >
+        <div
+          className="govuk-form-group"
+          id="operators-filter"
+        >
+          <label
+            className="govuk-label govuk-label--s"
+            htmlFor="operator-search-dropdown-value"
+          >
+            Operators
+          </label>
+          <div
+            className=""
+          >
+            <div
+              className=" css-b62m3t-container"
+              id="operator-search"
+              onKeyDown={[Function]}
+            >
+              <span
+                className="css-1f43avz-a11yText-A11yText"
+                id="react-select-operator-dropdown-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                className="css-1f43avz-a11yText-A11yText"
+              />
+              <div
+                className=" css-1efjb9t-control"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+              >
+                <div
+                  className=" css-1fdsijx-ValueContainer"
+                >
+                  <div
+                    className=" css-1jqq78o-placeholder"
+                    id="react-select-operator-dropdown-placeholder"
+                  >
+                    Select operators
+                  </div>
+                  <div
+                    className=" css-qbdosj-Input"
+                    data-value=""
+                  >
+                    <input
+                      aria-autocomplete="list"
+                      aria-describedby="react-select-operator-dropdown-placeholder"
+                      aria-expanded={false}
+                      aria-haspopup={true}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className=""
+                      disabled={false}
+                      id="operator-search-dropdown-value"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      role="combobox"
+                      spellCheck="false"
+                      style={
+                        {
+                          "background": 0,
+                          "border": 0,
+                          "color": "inherit",
+                          "font": "inherit",
+                          "gridArea": "1 / 2",
+                          "label": "input",
+                          "margin": 0,
+                          "minWidth": "2px",
+                          "opacity": 1,
+                          "outline": 0,
+                          "padding": 0,
+                          "width": "100%",
+                        }
+                      }
+                      tabIndex={0}
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    className=" css-1u9des2-indicatorSeparator"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className=" css-1xc3v61-indicatorContainer"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="css-tj5bde-Svg"
+                      focusable="false"
+                      height={20}
+                      viewBox="0 0 20 20"
+                      width={20}
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="govuk-form-group"
+      >
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="service-filter-dropdown-value"
+        >
+          Services
+        </label>
+        <div
+          className=" css-b62m3t-container"
+          id="service-filter"
+          onKeyDown={[Function]}
+        >
+          <span
+            className="css-1f43avz-a11yText-A11yText"
+            id="react-select-service-filter-dropdown-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            className="css-1f43avz-a11yText-A11yText"
+          />
+          <div
+            className=" css-1efjb9t-control"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <div
+              className=" css-1fdsijx-ValueContainer"
+            >
+              <div
+                className=" css-1jqq78o-placeholder"
+                id="react-select-service-filter-dropdown-placeholder"
+              >
+                Select services
+              </div>
+              <div
+                className=" css-qbdosj-Input"
+                data-value=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-describedby="react-select-service-filter-dropdown-placeholder"
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className=""
+                  disabled={false}
+                  id="service-filter-dropdown-value"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  role="combobox"
+                  spellCheck="false"
+                  style={
+                    {
+                      "background": 0,
+                      "border": 0,
+                      "color": "inherit",
+                      "font": "inherit",
+                      "gridArea": "1 / 2",
+                      "label": "input",
+                      "margin": 0,
+                      "minWidth": "2px",
+                      "opacity": 1,
+                      "outline": 0,
+                      "padding": 0,
+                      "width": "100%",
+                    }
+                  }
+                  tabIndex={0}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className=" css-1hb7zxy-IndicatorsContainer"
+            >
+              <span
+                className=" css-1u9des2-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                className=" css-1xc3v61-indicatorContainer"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+              >
+                <svg
+                  aria-hidden="true"
+                  className="css-tj5bde-Svg"
+                  focusable="false"
+                  height={20}
+                  viewBox="0 0 20 20"
+                  width={20}
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group govuk-!-margin-bottom-0"
+            id="disruption-start-date"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="disruption-start-date-input"
+            >
+              Start date
+            </label>
+            <div
+              className="govuk-hint govuk-visually-hidden"
+            >
+              Enter in format DD/MM/YYYY
+            </div>
+            <div
+              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+            >
+              <div
+                className="govuk-date-input__item govuk-!-margin-right-0"
+              >
+                <div
+                  className=""
+                >
+                  <input
+                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                    disabled={false}
+                    id="disruption-start-date-input"
+                    name="disruptionStartDate"
+                    onChange={[Function]}
+                    placeholder="DD/MM/YYYY"
+                    type="tel"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+              >
+                <button
+                  aria-label="Choose date"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="CalendarIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                    />
+                  </svg>
+                  <span
+                    className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-5"
+        >
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group govuk-!-margin-bottom-0"
+              id="disruption-end-date"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="disruption-end-date-input"
+              >
+                End date
+              </label>
+              <div
+                className="govuk-hint govuk-visually-hidden"
+              >
+                Enter in format DD/MM/YYYY
+              </div>
+              <div
+                className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+              >
+                <div
+                  className="govuk-date-input__item govuk-!-margin-right-0"
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      className="govuk-input govuk-date-input__input govuk-input--width-6"
+                      disabled={false}
+                      id="disruption-end-date-input"
+                      name="disruptionEndDate"
+                      onChange={[Function]}
+                      placeholder="DD/MM/YYYY"
+                      type="tel"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+                >
+                  <button
+                    aria-label="Choose date"
+                    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onDragLeave={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    tabIndex={0}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="CalendarIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                      />
+                    </svg>
+                    <span
+                      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group"
+            id="severity-filter"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="severity-filter-input"
+            >
+              Severity
+            </label>
+            <div
+              className=""
+            >
+              <select
+                className="govuk-select w-1/4"
+                id="severity-filter-input"
+                name="severityFilter"
+                onChange={[Function]}
+                value=""
+              >
+                <option
+                  disabled={true}
+                  value=""
+                >
+                  Select a severity
+                </option>
+                <option
+                  value="normal"
+                >
+                  Normal
+                </option>
+                <option
+                  value="severe"
+                >
+                  Severe
+                </option>
+                <option
+                  value="slight"
+                >
+                  Slight
+                </option>
+                <option
+                  value="unknown"
+                >
+                  Unknown
+                </option>
+                <option
+                  value="verySevere"
+                >
+                  Very severe
+                </option>
+                <option
+                  value="verySlight"
+                >
+                  Very slight
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-10"
+        >
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="status-filter"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="status-filter-input"
+              >
+                Status
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-1/4"
+                  id="status-filter-input"
+                  name="statusFilter"
+                  onChange={[Function]}
+                  value="PENDING_APPROVAL"
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select a status
+                  </option>
+                  <option
+                    value="DRAFT"
+                  >
+                    Draft
+                  </option>
+                  <option
+                    value="EDITING"
+                  >
+                    Editing
+                  </option>
+                  <option
+                    value="PENDING_APPROVAL"
+                  >
+                    Pending approval
+                  </option>
+                  <option
+                    value="PUBLISHED"
+                  >
+                    Published
+                  </option>
+                  <option
+                    value="REJECTED"
+                  >
+                    Rejected
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-10"
+        >
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="mode-filter"
+            >
+              <label
+                className="govuk-label govuk-label--s"
+                htmlFor="mode-filter-input"
+              >
+                Mode
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-1/4"
+                  id="mode-filter-input"
+                  name="modeFilter"
+                  onChange={[Function]}
+                  value=""
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select a mode
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <table
+        className="govuk-table"
+      >
+        <thead
+          className="govuk-table__head"
+        >
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              ID
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Summary
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Modes
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Starts
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Ends
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Severity
+            </th>
+            <th
+              className="govuk-table__header align-middle"
+              scope="col"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
+        />
+      </table>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
 exports[`pages > viewAllDisruptions > should render correctly when there are enough disruptions for no pagination 1`] = `
 [
   <div

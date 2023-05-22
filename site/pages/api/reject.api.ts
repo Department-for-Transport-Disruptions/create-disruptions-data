@@ -1,10 +1,12 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import {
     deleteDisruptionsInEdit,
+    deleteDisruptionsInPending,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    publishEditedConsequences,
+    isDisruptionInPending,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -12,7 +14,6 @@ import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObjec
 import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 
 const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -46,14 +47,22 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
-        await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
-        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-            getPtSituationElementFromDraft(draftDisruption),
-            draftDisruption,
-            session.orgId,
-            PublishStatus.rejected,
-        );
+        const data = await Promise.all([
+            isDisruptionInPending(draftDisruption.disruptionId, session.orgId),
+            deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
+            deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
+        ]);
+
+        const isPending = data[0];
+
+        if (!isPending) {
+            await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+                getPtSituationElementFromDraft(draftDisruption),
+                draftDisruption,
+                session.orgId,
+                PublishStatus.rejected,
+            );
+        }
 
         cleardownCookies(req, res);
 

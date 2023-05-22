@@ -4,8 +4,13 @@ import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PA
 import {
     deleteDisruptionsInEdit,
     getDisruptionById,
+    isDisruptionInPending,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     publishEditedConsequences,
+    publishEditedConsequencesIntoPending,
+    publishPendingConsequences,
+    deleteDisruptionsInPending,
+    updatePendingDisruptionStatus,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -46,14 +51,38 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
-        await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
-        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-            getPtSituationElementFromDraft(draftDisruption),
-            draftDisruption,
-            session.orgId,
-            session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
-        );
+        const isEditPendingDsp = await isDisruptionInPending(validatedBody.data.disruptionId, session.orgId);
+
+        if (session.isOrgStaff && isEditPendingDsp)
+            await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
+
+        if (isEditPendingDsp && !session.isOrgStaff) {
+            await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
+            await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
+        }
+
+        if (!isEditPendingDsp) await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
+
+        if (!session.isOrgStaff) {
+            await Promise.all([
+                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
+                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
+            ]);
+        } else {
+            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
+        }
+
+        isEditPendingDsp && session.isOrgStaff
+            ? await updatePendingDisruptionStatus(
+                  { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
+                  session.orgId,
+              )
+            : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+                  getPtSituationElementFromDraft(draftDisruption),
+                  draftDisruption,
+                  session.orgId,
+                  session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
+              );
 
         cleardownCookies(req, res);
 

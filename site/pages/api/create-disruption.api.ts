@@ -94,7 +94,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data, session.orgId);
+        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff);
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 

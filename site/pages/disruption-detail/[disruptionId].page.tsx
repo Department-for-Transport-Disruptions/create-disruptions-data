@@ -43,10 +43,6 @@ const DisruptionDetail = ({
     errors,
     session,
 }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton =
-        disruption.publishStatus !== PublishStatus.editing ||
-        (session.isOrgStaff && disruption.publishStatus === PublishStatus.pendingApproval);
-
     const title =
         disruption.publishStatus === PublishStatus.editing
             ? "Review your answers before submitting your changes"
@@ -354,7 +350,7 @@ const DisruptionDetail = ({
                                 role="button"
                                 href={redirect}
                                 className={`govuk-button mt-8 ${
-                                    !session.isOrgStaff && disruption.publishStatus === PublishStatus.pendingApproval
+                                    !session.isOrgStaff && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
                                         : ""
                                 }`}

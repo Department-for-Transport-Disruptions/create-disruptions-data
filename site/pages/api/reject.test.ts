@@ -1,5 +1,6 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
+import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import reject from "./reject.api";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -10,8 +11,9 @@ import {
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
+    mockSession,
 } from "../../testData/mockData";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -27,8 +29,9 @@ describe("reject", () => {
     vi.mock("../../data/dynamo", () => ({
         insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
         getDisruptionById: vi.fn(),
-        publishEditedConsequences: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
+        isDisruptionInPending: vi.fn(),
+        deleteDisruptionsInPending: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -39,6 +42,7 @@ describe("reject", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const isDisruptionInPendingSpy = vi.spyOn(dynamo, "isDisruptionInPending");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -48,8 +52,17 @@ describe("reject", () => {
         MockDate.reset();
     });
 
+    const getSessionSpy = vi.spyOn(session, "getSession");
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+    });
+
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(false);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -61,8 +74,8 @@ describe("reject", () => {
         await reject(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequences).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
@@ -72,22 +85,10 @@ describe("reject", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
-    it("should redirect to error page if disruptionId not passed", async () => {
+    it("should retrieve valid data from cookies, write to dynamo and redirect for records with EDIT_PENDING_APPROVAL status", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        const { req, res } = getMockRequestAndResponse({
-            mockWriteHeadFn: writeHeadMock,
-        });
+        isDisruptionInPendingSpy.mockResolvedValue(true);
 
-        await reject(req, res);
-
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
-        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
-    });
-
-    it("should redirect to error page if disruption is invalid", async () => {
-        getDisruptionSpy.mockResolvedValue({} as Disruption);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -98,8 +99,44 @@ describe("reject", () => {
         await reject(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should redirect to error page if disruptionId not passed", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        isDisruptionInPendingSpy.mockResolvedValue(false);
+
+        const { req, res } = getMockRequestAndResponse({
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await reject(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
+    });
+
+    it("should redirect to error page if disruption is invalid", async () => {
+        getDisruptionSpy.mockResolvedValue({} as Disruption);
+        isDisruptionInPendingSpy.mockResolvedValue(false);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await reject(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -107,6 +144,7 @@ describe("reject", () => {
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
+            isDisruptionInPendingSpy.mockResolvedValue(false);
             const { req, res } = getMockRequestAndResponse({
                 body: {
                     disruptionId: disruption.disruptionId,

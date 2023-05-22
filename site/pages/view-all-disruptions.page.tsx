@@ -1,7 +1,6 @@
 import { PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import { randomUUID } from "crypto";
@@ -39,6 +38,7 @@ import {
     getFormattedDate,
     dateIsSameOrBeforeSecondDate,
 } from "../utils/dates";
+import { useRouter } from "next/router";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -227,6 +227,13 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && disruption.status !== filter.status) {
+            if (
+                filter.status === PublishStatus.pendingApproval &&
+                disruption.status === PublishStatus.editPendingApproval
+            ) {
+                return true;
+            }
+
             return false;
         }
 
@@ -285,12 +292,12 @@ const ViewAllDisruptions = ({
     const stateUpdater = (change: string[], _field: string): void => {
         setSelectedOperatorsNocs(change);
     };
-    const searchParams = useSearchParams();
-
+    const router = useRouter();
+    const query = router.query;
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: searchParams.get("status") || undefined,
+        status: (query["status"] as string) || undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
@@ -362,7 +369,7 @@ const ViewAllDisruptions = ({
     };
 
     useEffect(() => {
-        const statusValue = searchParams.get("status");
+        const statusValue = query["status"];
         if (statusValue) {
             setShowFilters(true);
         }
