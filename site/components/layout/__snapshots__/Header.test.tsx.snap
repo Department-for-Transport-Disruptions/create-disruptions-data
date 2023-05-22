@@ -151,6 +151,7 @@ exports[`Header > should render correctly with a session 1`] = `
             />
             <button
               className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+              onClick={[Function]}
               onKeyDown={[Function]}
               role="menuitem"
               tabIndex={-1}

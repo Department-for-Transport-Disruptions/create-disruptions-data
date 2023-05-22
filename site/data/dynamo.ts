@@ -28,8 +28,12 @@ const collectDisruptionsData = (
 ): Disruption | null => {
     const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
     const consequences = disruptionItems.filter(
-        (item) => (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) ?? false,
+        (item) => ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !item.isDeleted) ?? false,
     );
+
+    if (!info) {
+        return null;
+    }
 
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,

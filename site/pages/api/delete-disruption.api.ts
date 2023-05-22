@@ -12,7 +12,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const session = getSession(req);
 
-        if (!id || Array.isArray(id) || !session) {
+        if (!id || Array.isArray(id) || !session || session.isOrgStaff) {
             throw new Error(
                 `Insufficient data provided for deleting a disruption by id: ${id ? id.toString() : "undefined"}`,
             );

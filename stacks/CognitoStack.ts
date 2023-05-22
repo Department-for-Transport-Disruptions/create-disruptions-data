@@ -77,7 +77,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         userPoolClientName: `cdd-site-client-${stack.stage}`,
         accessTokenValidity: Duration.minutes(20),
         idTokenValidity: Duration.minutes(20),
-        refreshTokenValidity: Duration.days(1),
+        refreshTokenValidity: Duration.days(30),
         authFlows: {
             adminUserPassword: true,
         },
