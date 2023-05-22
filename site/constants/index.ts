@@ -5,7 +5,6 @@ import {
     EquipmentReason,
     VehicleMode,
     Severity,
-    PublishStatus,
     Progress,
 } from "@create-disruptions-data/shared-ts/enums";
 import { DisplayValuePair } from "../interfaces";

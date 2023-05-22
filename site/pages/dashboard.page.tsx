@@ -1,4 +1,3 @@
-import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
