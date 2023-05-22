@@ -91,4 +91,4 @@ export const filterDatePeriodMatchesDisruptionDatePeriod = (
 };
 
 export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate: dayjs.Dayjs): boolean =>
-    firstDate.isSameOrBefore(secondDate);
+    firstDate.isSameOrBefore(secondDate, "day");

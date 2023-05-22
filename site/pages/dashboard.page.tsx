@@ -1,5 +1,4 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { Dayjs } from "dayjs";
+import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
@@ -13,9 +12,9 @@ import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDyna
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
-import { reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
+import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { getSession } from "../utils/apiUtils/auth";
-import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "../utils/dates";
+import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -39,23 +38,7 @@ export interface DashboardProps {
 
 const mapDisruptions = (disruptions: Disruption[]) => {
     return sortDisruptionsByStartDate(disruptions).map((disruption) => {
-        let maxEndDate: Dayjs | null = getDate().subtract(100, "years");
-
-        disruption.validity?.forEach((validity) => {
-            const repeatsEndDate =
-                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
-                validity.disruptionRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
-                    : validity.disruptionEndDate && validity.disruptionEndTime
-                    ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
-                    : null;
-
-            if (repeatsEndDate && repeatsEndDate.isAfter(maxEndDate)) {
-                maxEndDate = repeatsEndDate;
-            } else if (!repeatsEndDate) {
-                maxEndDate = null;
-            }
-        });
+        const maxEndDate = getSortedDisruptionFinalEndDate(disruption);
 
         return {
             id: disruption.disruptionId,
@@ -158,7 +141,7 @@ const Dashboard = ({
                             href={{
                                 pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
                                 query: {
-                                    status: PublishStatus.pendingApproval,
+                                    status: Progress.open,
                                 },
                             }}
                         >

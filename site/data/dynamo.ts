@@ -142,17 +142,15 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getSubmittedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
-    logger.info("Getting published and pending disruptions data from DynamoDB table...");
+export const getDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+    logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
             TableName: tableName,
             KeyConditionExpression: "PK = :1",
-            FilterExpression: "publishStatus <> :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": PublishStatus.draft,
             },
         }),
     );

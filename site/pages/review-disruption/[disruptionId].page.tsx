@@ -411,6 +411,13 @@ const ReviewDisruption = ({
                         >
                             Delete disruption
                         </button>
+                        <Link
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            href="/dashboard"
+                        >
+                            Save as draft
+                        </Link>
                     </div>
                 </>
             </CsrfForm>

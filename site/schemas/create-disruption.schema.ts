@@ -308,10 +308,32 @@ export const createDisruptionsSchemaRefined = createDisruptionSchema
             message: "Publish end datetime must be after start datetime",
         },
     )
-    .refine((val) => val.publishEndDate || val.publishEndTime || val.disruptionNoEndDateTime, {
-        path: ["disruptionNoEndDateTime"],
-        message: '"No end date/time" should be selected or a publish date and time should be entered',
-    })
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime) {
+                return !!val.publishEndDate;
+            }
+
+            return true;
+        },
+        {
+            path: ["publishEndDate"],
+            message: "Enter an end date for the disruption",
+        },
+    )
+    .refine(
+        (val) => {
+            if (!val.disruptionNoEndDateTime) {
+                return !!val.publishEndTime;
+            }
+
+            return true;
+        },
+        {
+            path: ["publishEndTime"],
+            message: "Enter an end time for the disruption",
+        },
+    )
     .refine(
         (val) => {
             if (val.disruptionRepeats === "daily" && !val.disruptionRepeatsEndDate) {

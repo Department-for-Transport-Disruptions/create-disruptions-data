@@ -6,6 +6,7 @@ import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import PageNumbers from "../../components/PageNumbers";
+import Popup from "../../components/Popup";
 import { listUsersWithGroups } from "../../data/cognito";
 import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
@@ -23,6 +24,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [userToResendInvite, setUserToResendInvite] = useState<{ username: string; userGroup: string } | null>(null);
 
     const getAccountType = (groupName: UserGroups): string => {
         switch (groupName) {
@@ -44,7 +46,13 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink("user-action", index, user.username, user.userStatus === "CONFIRMED" ? false : true),
+                    createLink(
+                        "user-action",
+                        index,
+                        user.username,
+                        user.group,
+                        user.userStatus === "CONFIRMED" ? false : true,
+                    ),
                 ],
             });
         });
@@ -55,18 +63,29 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         setUserToDelete(username);
     };
 
+    const cancelResendActionHandler = () => {
+        setUserToResendInvite(null);
+    };
+    const resendInvite = (username: string, userGroup: string) => {
+        setUserToResendInvite({ username, userGroup });
+    };
+
     const cancelActionHandler = () => {
         setUserToDelete(null);
     };
 
-    const createLink = (key: string, index: number, username: string, sendInvite?: boolean) => {
+    const createLink = (key: string, index: number, username: string, userGroup: string, sendInvite?: boolean) => {
         return (
             <>
                 {sendInvite ? (
                     <>
-                        <Link key={`${key}${index ? `-${index}` : ""}`} className="govuk-link" href="/">
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => resendInvite(username, userGroup)}
+                        >
                             Resend invite
-                        </Link>
+                        </button>
                         <br />
                         <button
                             key={`${key}${index ? `-remove-${index}` : "-remove"}`}
@@ -104,6 +123,26 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                                 value: userToDelete,
                             },
                         ]}
+                    />
+                ) : null}
+                {userToResendInvite ? (
+                    <Popup
+                        action={"/api/admin/resend-invite"}
+                        cancelActionHandler={cancelResendActionHandler}
+                        csrfToken={csrfToken || ""}
+                        continueText="Yes, resend"
+                        cancelText="No, return"
+                        hiddenInputs={[
+                            {
+                                name: "username",
+                                value: userToResendInvite.username,
+                            },
+                            {
+                                name: "group",
+                                value: userToResendInvite.userGroup,
+                            },
+                        ]}
+                        questionText={`Are you sure you wish to resend the invite?`}
                     />
                 ) : null}
                 <div className="govuk-form-group">

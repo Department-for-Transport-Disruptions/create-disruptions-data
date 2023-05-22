@@ -6,6 +6,7 @@ import {
     VehicleMode,
     Severity,
     PublishStatus,
+    Progress,
 } from "@create-disruptions-data/shared-ts/enums";
 import { DisplayValuePair } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";
@@ -143,21 +144,21 @@ export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [
     { value: Severity.verySevere, display: "Very severe" },
 ];
 
-export const DISRUPTION_STATUSES: DisplayValuePair<PublishStatus>[] = [
-    { value: PublishStatus.editing, display: "Editing" },
+export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
+    { value: Progress.closed, display: "Closed" },
     {
-        value: PublishStatus.pendingApproval,
-        display: "Pending approval",
+        value: Progress.closing,
+        display: "Closing",
     },
     {
-        value: PublishStatus.draft,
+        value: Progress.draft,
         display: "Draft",
     },
     {
-        value: PublishStatus.rejected,
-        display: "Rejected",
+        value: Progress.open,
+        display: "Open",
     },
-    { value: PublishStatus.published, display: "Published" },
+    { value: Progress.published, display: "Published" },
 ];
 
 export const OPERATORS: DisplayValuePair[] = [

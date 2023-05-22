@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { upsertDisruptionInfo } from "../../data/dynamo";
@@ -60,6 +61,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
     try {
         const queryParam = getReturnPage(req);
 
+        const { draft } = req.query;
+
         const body = req.body as DisruptionInfo;
 
         if (!body.disruptionId) {
@@ -100,6 +103,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         queryParam
             ? redirectTo(res, `${decodeURIComponent(queryParam.split("=")[1])}/${validatedBody.data.disruptionId}`)
+            : draft
+            ? redirectTo(res, DASHBOARD_PAGE_PATH)
             : redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
 
         return;
