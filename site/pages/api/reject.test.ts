@@ -94,9 +94,15 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequences,
+            DEFAULT_ORG_ID,
+            PublishStatus.rejected,
+        );
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
