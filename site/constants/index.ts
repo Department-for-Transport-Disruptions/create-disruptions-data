@@ -264,6 +264,7 @@ export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer"
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";
 export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
+export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const MIN_PASSWORD_LENGTH = 8;

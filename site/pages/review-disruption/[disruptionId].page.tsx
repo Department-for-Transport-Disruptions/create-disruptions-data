@@ -120,6 +120,8 @@ const ReviewDisruption = ({
                   .consequenceIndex + 1
             : 0;
 
+    const nextIndexSocialMedia = 0;
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
@@ -338,7 +340,7 @@ const ReviewDisruption = ({
                                                         post.messageToAppear,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            "/social-media-posts",
+                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -349,7 +351,7 @@ const ReviewDisruption = ({
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            "/social-media-posts",
+                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -360,7 +362,7 @@ const ReviewDisruption = ({
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            "/social-media-posts",
+                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -371,7 +373,7 @@ const ReviewDisruption = ({
                                                         post.accountToPublish,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            "/social-media-posts",
+                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -384,7 +386,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href="/social-media-posts"
+                            href={`/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another social media post

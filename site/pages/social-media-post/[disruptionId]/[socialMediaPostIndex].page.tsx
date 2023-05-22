@@ -1,0 +1,166 @@
+import { NextPageContext } from "next";
+import { parseCookies } from "nookies";
+import { ReactElement, useState } from "react";
+import ErrorSummary from "../../../components/ErrorSummary";
+import CsrfForm from "../../../components/form/CsrfForm";
+import DateSelector from "../../../components/form/DateSelector";
+import Select from "../../../components/form/Select";
+import TextInput from "../../../components/form/TextInput";
+import TimeSelector from "../../../components/form/TimeSelector";
+import { BaseLayout } from "../../../components/layout/Layout";
+import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
+import { getDisruptionById } from "../../../data/dynamo";
+import { PageState } from "../../../interfaces";
+import { SocialMediaPost as SocialMedia, socialMediaPostSchema } from "../../../schemas/social-media.schema";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSession } from "../../../utils/apiUtils/auth";
+import { getStateUpdater } from "../../../utils/formUtils";
+
+const title = "Social media message";
+const description = "Social media message page for the Create Transport Disruptions Service";
+
+export interface SocialMediaPostPageProps extends PageState<Partial<SocialMedia>> {
+    disruptionSummary: string;
+    socialMediaPostIndex: number;
+}
+
+const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<SocialMedia>>>(props);
+
+    const stateUpdater = getStateUpdater(setPageState, pageState);
+    return (
+        <BaseLayout title={title} description={description} errors={[]}>
+            <CsrfForm action="/api/social-media" method="post" csrfToken={""}>
+                <>
+                    <ErrorSummary errors={[]} />
+                    <div className="govuk-form-group">
+                        <h1 className="govuk-heading-xl">Social media message</h1>
+
+                        <TextInput<SocialMedia>
+                            display="Message content"
+                            inputName="messageContent"
+                            widthClass="w-3/4"
+                            displaySize="l"
+                            textArea
+                            rows={3}
+                            hint={"You can enter up to 200 characters"}
+                            maxLength={500}
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.messageContent}
+                            initialErrors={[]}
+                            schema={socialMediaPostSchema.shape.messageContent}
+                        />
+
+                        <button
+                            disabled={!!(pageState.inputs.messageContent && pageState.inputs.messageContent.length > 0)}
+                            className="mt-3 govuk-link"
+                            data-module="govuk-button"
+                            onClick={() => {
+                                stateUpdater(props.disruptionSummary, "messageContent");
+                            }}
+                        >
+                            <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                        </button>
+
+                        <br />
+
+                        <button className="govuk-button mt-8 govuk-button--secondary" data-module="govuk-button">
+                            Upload image
+                        </button>
+                    </div>
+                    <div className="govuk-form-group">
+                        <h2 className="govuk-heading-l">Publish time and date</h2>
+
+                        <DateSelector<SocialMedia>
+                            display="Date"
+                            hint="Enter in format DD/MM/YYYY"
+                            value={pageState.inputs.publishDate}
+                            disabled={false}
+                            disablePast={false}
+                            inputName="publishDate"
+                            stateUpdater={stateUpdater}
+                            initialErrors={[]}
+                            schema={socialMediaPostSchema.shape.publishDate}
+                        />
+
+                        <TimeSelector<SocialMedia>
+                            display="Time"
+                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                            value={pageState.inputs.publishTime}
+                            disabled={false}
+                            inputName="publishTime"
+                            stateUpdater={stateUpdater}
+                            initialErrors={[]}
+                            schema={socialMediaPostSchema.shape.publishTime}
+                        />
+
+                        <div className="govuk-form-group govuk-!-padding-top-3">
+                            <h2 className="govuk-heading-l">Select social media account</h2>
+
+                            <Select<SocialMedia>
+                                inputName="socialAccount"
+                                selectValues={[]}
+                                defaultDisplay="Social account"
+                                stateUpdater={stateUpdater}
+                                value={pageState.inputs.socialAccount}
+                                initialErrors={[]}
+                                schema={socialMediaPostSchema.shape.socialAccount}
+                                displaySize="l"
+                                display={""}
+                            />
+                            <Select<SocialMedia>
+                                inputName="hootsuiteProfile"
+                                defaultDisplay="Social account"
+                                hint={"Select Hootsuite profile"}
+                                display={""}
+                                selectValues={[]}
+                                stateUpdater={stateUpdater}
+                                value={pageState.inputs.hootsuiteProfile}
+                                initialErrors={[]}
+                                schema={socialMediaPostSchema.shape.hootsuiteProfile}
+                                displaySize="l"
+                            />
+                        </div>
+                        <input type="hidden" name="disruptionId" value={""} />
+
+                        <button className="govuk-button mt-8" data-module="govuk-button">
+                            Save and continue
+                        </button>
+                    </div>
+                </>
+            </CsrfForm>
+        </BaseLayout>
+    );
+};
+
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
+    const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_SOCIAL_MEDIA_ERRORS];
+
+    if (!ctx.req) {
+        throw new Error("No context request");
+    }
+
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
+    const index = ctx.query.socialMediaPostIndex ? Number(ctx.query.socialMediaPostIndex) : 0;
+
+    const disruptionId = ctx.query.disruptionId?.toString() ?? "";
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
+
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
+
+    return {
+        props: {
+            ...getPageState(errorCookie, socialMediaPostSchema, disruptionId),
+            disruptionSummary: disruption?.summary,
+            socialMediaPostIndex: index,
+        },
+    };
+};
+
+export default SocialMediaPost;
