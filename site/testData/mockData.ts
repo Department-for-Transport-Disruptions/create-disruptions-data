@@ -14,7 +14,6 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { randomUUID } from "crypto";
 import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator, Service } from "../schemas/consequence.schema";

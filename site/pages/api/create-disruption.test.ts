@@ -7,8 +7,8 @@ import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
-import { getFutureDateAsString } from "../../utils/dates";
 import * as session from "../../utils/apiUtils/auth";
+import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
