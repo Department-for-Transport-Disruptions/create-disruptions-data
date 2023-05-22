@@ -373,6 +373,7 @@ const ViewAllDisruptions = ({
         if (statusValue) {
             setShowFilters(true);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
