@@ -33,7 +33,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
         <BaseLayout title={title} description={description} errors={[]}>
             <CsrfForm action="/api/create-social-media-post" method="post" csrfToken={props.csrfToken}>
                 <>
-                    <ErrorSummary errors={[]} />
+                    <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Social media message</h1>
 
@@ -48,7 +48,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                             maxLength={500}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.messageContent}
-                            initialErrors={[]}
+                            initialErrors={pageState.errors}
                             schema={socialMediaPostSchema.shape.messageContent}
                         />
 
@@ -80,7 +80,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                             disablePast={false}
                             inputName="publishDate"
                             stateUpdater={stateUpdater}
-                            initialErrors={[]}
+                            initialErrors={pageState.errors}
                             schema={socialMediaPostSchema.shape.publishDate}
                         />
 
@@ -91,7 +91,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                             disabled={false}
                             inputName="publishTime"
                             stateUpdater={stateUpdater}
-                            initialErrors={[]}
+                            initialErrors={pageState.errors}
                             schema={socialMediaPostSchema.shape.publishTime}
                         />
 
@@ -104,7 +104,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                                 defaultDisplay="Social account"
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.socialAccount}
-                                initialErrors={[]}
+                                initialErrors={pageState.errors}
                                 schema={socialMediaPostSchema.shape.socialAccount}
                                 displaySize="l"
                                 display={""}
@@ -117,12 +117,13 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                                 selectValues={[]}
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.hootsuiteProfile}
-                                initialErrors={[]}
+                                initialErrors={pageState.errors}
                                 schema={socialMediaPostSchema.shape.hootsuiteProfile}
                                 displaySize="l"
                             />
                         </div>
-                        <input type="hidden" name="disruptionId" value={""} />
+                        <input type="hidden" name="disruptionId" value={pageState.disruptionId} />
+                        <input type="hidden" name="socialMediaPostIndex" value={props.socialMediaPostIndex} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue

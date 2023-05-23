@@ -244,6 +244,7 @@ export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const REGISTER_PAGE_PATH = "/register";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
+export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/social-media-post";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
