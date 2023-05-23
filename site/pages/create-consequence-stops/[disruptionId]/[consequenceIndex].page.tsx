@@ -21,6 +21,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    CREATE_CONSEQUENCE_STOPS_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -304,6 +305,13 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 Cancel Changes
                             </Link>
                         ) : null}
+                        <button
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            formAction={`/api${CREATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
+                        >
+                            Save as draft
+                        </button>
                     </div>
                 </>
             </CsrfForm>

@@ -1,7 +1,8 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import publish from "./publish.api";
-import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
@@ -61,8 +62,9 @@ describe("publish", () => {
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
+            PublishStatus.published,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {

@@ -7,6 +7,7 @@ import {
     PutCommand,
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
@@ -44,7 +45,6 @@ const collectDisruptionsData = (
 
     return parsedDisruption.data;
 };
-
 export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
@@ -55,7 +55,27 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
             FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": "PUBLISHED",
+                ":2": PublishStatus.published,
+            },
+        }),
+    );
+
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
+
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+};
+
+export const getDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+    logger.info("Getting disruptions data from DynamoDB table...");
+
+    const dbData = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1",
+            ExpressionAttributeValues: {
+                ":1": id,
             },
         }),
     );
@@ -164,6 +184,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     ptSituationElement: PtSituationElement,
     disruption: Disruption,
     id: string,
+    status: PublishStatus,
 ) => {
     logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
 
@@ -184,24 +205,31 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                 },
                 UpdateExpression: "SET publishStatus = :1",
                 ExpressionAttributeValues: {
-                    ":1": "PUBLISHED",
+                    ":1": status,
                 },
             },
         })) ?? [];
 
+    const putSiriTable =
+        status === PublishStatus.published
+            ? [
+                  {
+                      Put: {
+                          TableName: siriTableName,
+                          Item: {
+                              PK: id,
+                              SK: disruption.disruptionId,
+                              ...ptSituationElement,
+                          },
+                      },
+                  },
+              ]
+            : [];
+
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
-                {
-                    Put: {
-                        TableName: siriTableName,
-                        Item: {
-                            PK: id,
-                            SK: disruption.disruptionId,
-                            ...ptSituationElement,
-                        },
-                    },
-                },
+                ...putSiriTable,
                 {
                     Update: {
                         TableName: tableName,
@@ -211,7 +239,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                         },
                         UpdateExpression: "SET publishStatus = :1",
                         ExpressionAttributeValues: {
-                            ":1": "PUBLISHED",
+                            ":1": status,
                         },
                     },
                 },
@@ -225,7 +253,9 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
     const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
 
     await ddbDocClient.send(
         new PutCommand({
@@ -250,7 +280,9 @@ export const upsertConsequence = async (
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
     const isEditing =
-        currentDisruption?.publishStatus === "PUBLISHED" || currentDisruption?.publishStatus === "EDITING";
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
@@ -327,7 +359,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
-        publishStatus: isEdited ? "EDITING" : (info?.publishStatus as string),
+        publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {

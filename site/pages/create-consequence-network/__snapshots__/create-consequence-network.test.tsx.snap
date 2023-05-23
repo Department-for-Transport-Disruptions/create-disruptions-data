@@ -374,6 +374,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           >
             Save and continue
           </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?draft=true"
+          >
+            Save as draft
+          </button>
         </div>
       </form>
     </main>
@@ -938,6 +945,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             data-module="govuk-button"
           >
             Save and continue
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?draft=true"
+          >
+            Save as draft
           </button>
         </div>
       </form>
@@ -1517,6 +1531,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           >
             Cancel Changes
           </a>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?draft=true"
+          >
+            Save as draft
+          </button>
         </div>
       </form>
     </main>

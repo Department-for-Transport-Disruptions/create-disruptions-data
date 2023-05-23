@@ -1,10 +1,13 @@
-import { EnvironmentReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
+import { randomUUID } from "crypto";
 import ReviewDisruption from "./[disruptionId].page";
 import { SocialMediaPost } from "../../interfaces/index";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { Session } from "../../schemas/session.schema";
 
 const previousSocialMediaPosts: SocialMediaPost[] = [
     {
@@ -67,7 +70,7 @@ const previousConsequencesInformation: Consequence[] = [
 ];
 
 const previousDisruptionInformation: Disruption = {
-    publishStatus: "DRAFT",
+    publishStatus: PublishStatus.draft,
     disruptionType: "planned",
     disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -96,6 +99,16 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
+const userSession: Session = {
+    username: "dummy.user@gmail.com",
+    email: "dummy.user@gmail.com",
+    orgId: randomUUID(),
+    isSystemAdmin: true,
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+};
+
 describe("pages", () => {
     describe("ReviewDisruption", () => {
         it("should render correctly with inputs and no errors", () => {
@@ -105,10 +118,39 @@ describe("pages", () => {
                         disruption={previousDisruptionInformation}
                         previousSocialMediaPosts={previousSocialMediaPosts}
                         errors={[]}
+                        session={userSession}
                     />,
                 )
                 .toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and display Send to review button for staff user role", () => {
+            const { getAllByRole } = render(
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    previousSocialMediaPosts={previousSocialMediaPosts}
+                    errors={[]}
+                    session={{ ...userSession, isSystemAdmin: false, isOrgStaff: true }}
+                />,
+            );
+
+            const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
+            expect(sendToReviewButton).toBeTruthy();
+        });
+
+        it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
+            const { getAllByRole } = render(
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    previousSocialMediaPosts={previousSocialMediaPosts}
+                    errors={[]}
+                    session={userSession}
+                />,
+            );
+
+            const publishButton = getAllByRole("button", { name: "Publish disruption" });
+            expect(publishButton).toBeTruthy();
         });
     });
 });

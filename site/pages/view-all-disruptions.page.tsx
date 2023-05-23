@@ -1,4 +1,4 @@
-import { Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
@@ -12,12 +12,15 @@ import OperatorSearch from "../components/OperatorSearch";
 import PageNumbers from "../components/PageNumbers";
 import ServiceSearch from "../components/ServiceSearch";
 import {
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     DISRUPTION_STATUSES,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
@@ -61,6 +64,7 @@ export interface TableDisruption {
     status: string;
     serviceIds: string[];
     operators: DisruptionOperator[];
+    consequenceLength?: number;
 }
 
 export interface ViewAllDisruptionsProps {
@@ -118,10 +122,22 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: numbe
             header: (
                 <Link
                     className="govuk-link"
-                    href={{
-                        pathname: `/disruption-detail/${disruption.id}`,
-                        query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
-                    }}
+                    href={
+                        disruption.status === Progress.draft
+                            ? disruption.consequenceLength && disruption.consequenceLength > 0
+                                ? {
+                                      pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${disruption.id}`,
+                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                  }
+                                : {
+                                      pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.id}/0`,
+                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                  }
+                            : {
+                                  pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${disruption.id}`,
+                                  query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                              }
+                    }
                     key={disruption.id}
                 >
                     {index + 1 + offset}
@@ -753,7 +769,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
-    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    let data = await getDisruptionsDataFromDynamo(session.orgId);
+
     const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
     let services: Service[] = [];
 
@@ -776,6 +793,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (data) {
+        data = data.filter(
+            (item) =>
+                item.publishStatus === PublishStatus.published ||
+                item.publishStatus === PublishStatus.draft ||
+                item.publishStatus === PublishStatus.pendingApproval,
+        );
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
@@ -817,6 +840,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
             return {
                 modes,
+                consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status,
                 severity: getWorstSeverity(severitys),
                 serviceIds,

@@ -18,6 +18,7 @@ import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { Session } from "../../schemas/session.schema";
 import { splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -31,6 +32,7 @@ interface ReviewDisruptionProps {
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
     errors: ErrorInfo[];
+    session: Session;
 }
 
 const ReviewDisruption = ({
@@ -38,6 +40,7 @@ const ReviewDisruption = ({
     previousSocialMediaPosts,
     csrfToken,
     errors,
+    session,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -391,7 +394,7 @@ const ReviewDisruption = ({
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            Publish disruption
+                            {session.isOrgStaff ? "Send to review" : "Publish disruption"}
                         </button>
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -408,6 +411,13 @@ const ReviewDisruption = ({
                         >
                             Delete disruption
                         </button>
+                        <Link
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            href="/dashboard"
+                        >
+                            Save as draft
+                        </Link>
                     </div>
                 </>
             </CsrfForm>
@@ -461,6 +471,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruption,
             previousSocialMediaPosts,
             errors,
+            session,
         },
     };
 };

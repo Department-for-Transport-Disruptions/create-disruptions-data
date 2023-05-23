@@ -5,6 +5,7 @@ import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./crea
 import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    DASHBOARD_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -173,6 +174,52 @@ describe("create-consequence-stops API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
+    });
+
+    it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: defaultStopsData,
+            mockWriteHeadFn: writeHeadMock,
+            query: { draft: "true" },
+        });
+
+        await createConsequenceStops(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "45",
+                disruptionSeverity: "severe",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceType: "stops",
+                stops: [
+                    {
+                        atcoCode: "0100BRP90310",
+                        commonName: "Temple Meads Stn",
+                        indicator: "T3",
+                        longitude: -2.58569,
+                        latitude: 51.44901,
+                    },
+                    {
+                        atcoCode: "0100BRP90311",
+                        commonName: "Temple Meads Stn",
+                        indicator: "T7",
+                        longitude: -2.5856,
+                        latitude: 51.45014,
+                    },
+                ],
+            },
+            DEFAULT_ORG_ID,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: DASHBOARD_PAGE_PATH,
         });
     });
 });
