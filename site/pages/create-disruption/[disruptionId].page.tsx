@@ -313,7 +313,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     schema={validitySchema.shape.disruptionStartDate}
                                 />
                             </div>
-                            <div className="pl-5">
+                            <div className="pl-4">
                                 <TimeSelector<Validity>
                                     display="Start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -387,7 +387,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     schema={createDisruptionSchema.shape.publishStartDate}
                                 />
                             </div>
-                            <div className="pl-5">
+                            <div className="pl-4">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -509,7 +509,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <Link
                             role="button"
                             href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes
                         </Link>
