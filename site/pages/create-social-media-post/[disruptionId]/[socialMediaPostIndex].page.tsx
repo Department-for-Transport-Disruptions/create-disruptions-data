@@ -30,7 +30,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
-        <BaseLayout title={title} description={description} errors={[]}>
+        <BaseLayout title={title} description={description}>
             <CsrfForm action="/api/create-social-media-post" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
