@@ -100,7 +100,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                             <Select<SocialMediaPost>
                                 inputName="socialAccount"
-                                selectValues={[]}
+                                selectValues={[{ value: "TWITTER", display: "Twitter" }]}
                                 defaultDisplay="Social account"
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.socialAccount}
@@ -114,7 +114,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 defaultDisplay="Social account"
                                 hint={"Select Hootsuite profile"}
                                 display={""}
-                                selectValues={[]}
+                                selectValues={[{ value: "hootsuite1", display: "Hootsuite 1" }]}
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.hootsuiteProfile}
                                 initialErrors={pageState.errors}
