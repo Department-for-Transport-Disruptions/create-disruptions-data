@@ -34,7 +34,7 @@ describe("cancelChanges", () => {
 
     const isDisruptionInEditSpy = vi.spyOn(dynamo, "isDisruptionInEdit");
 
-    it("should redirect to /disruption-detail page after deleting disruptions for admin user", async () => {
+    it("should redirect to /disruption-detail page after cancelling disruptions for admin user", async () => {
         isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -52,7 +52,7 @@ describe("cancelChanges", () => {
         });
     });
 
-    it("should redirect to /disruption-detail page after deleting disruptions for staff user", async () => {
+    it("should redirect to /disruption-detail page after cancelling disruptions for staff user", async () => {
         isDisruptionInEditSpy.mockResolvedValue(false);
         const { req, res } = getMockRequestAndResponse({
             body: {

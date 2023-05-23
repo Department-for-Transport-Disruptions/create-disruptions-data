@@ -54,17 +54,14 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
-        if (session.isOrgStaff && isEditPendingDsp)
+        if (isEditPendingDsp) {
             await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
-
-        if (isEditPendingDsp && !session.isOrgStaff) {
-            await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
-            await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
+        } else {
+            await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
         }
 
-        if (!isEditPendingDsp) await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
-
         if (!session.isOrgStaff) {
+            if (isEditPendingDsp) await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
                 deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
                 deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),

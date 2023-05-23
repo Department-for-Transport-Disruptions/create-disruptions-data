@@ -54,7 +54,7 @@ describe("reject", () => {
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
-            return mockSession;
+            return { ...mockSession, isOrgAdmin: true, isSystemAdmin: false };
         });
     });
 

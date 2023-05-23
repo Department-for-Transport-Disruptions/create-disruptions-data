@@ -18,8 +18,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
-
-        if (!validatedBody.success || !session) {
+        if (!validatedBody.success || !session || !(session.isOrgAdmin || session.isOrgPublisher)) {
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -27,7 +26,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
-            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
+            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to reject`);
             redirectTo(res, ERROR_PATH);
 
             return;
