@@ -101,6 +101,7 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
         disruption.publishStatus === PublishStatus.editPendingApproval ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
     ) {
+        return Progress.pendingApproval;
     }
 
     if (!disruption.validity) {
