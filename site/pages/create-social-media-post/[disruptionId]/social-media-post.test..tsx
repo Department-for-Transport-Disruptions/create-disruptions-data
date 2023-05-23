@@ -1,27 +1,28 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import SocialMediaPost from "./[socialMediaPostIndex].page";
-import { SocialMediaPost as SocialMedia } from "../../../schemas/social-media.schema";
+import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
+import { SocialMediaPost } from "../../../schemas/social-media.schema";
 
-const previousSocialMediaPostInformation: SocialMedia = {
+const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     disruptionId: "2",
     publishDate: "13/01/2022",
     publishTime: "1300",
     messageContent: "Test post 12345",
     socialAccount: "Twitter",
     hootsuiteProfile: "Twitter/1234",
+    socialMediaPostIndex: 0,
 };
 
 describe("pages", () => {
-    describe("SocialMediaPost", () => {
+    describe("CreateSocialMediaPost", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
-                    <SocialMediaPost
+                    <CreateSocialMediaPost
                         disruptionSummary="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
-                        inputs={previousSocialMediaPostInformation}
+                        inputs={previousCreateSocialMediaPostInformation}
                     />,
                 )
                 .toJSON();
@@ -31,7 +32,7 @@ describe("pages", () => {
         it("should render correctly with no inputs", () => {
             const tree = renderer
                 .create(
-                    <SocialMediaPost
+                    <CreateSocialMediaPost
                         disruptionSummary="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}

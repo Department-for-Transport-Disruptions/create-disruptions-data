@@ -11,22 +11,22 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
-import { SocialMediaPost as SocialMedia, socialMediaPostSchema } from "../../../schemas/social-media.schema";
+import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../../utils/formUtils";
 
-const title = "Social media message";
-const description = "Social media message page for the Create Transport Disruptions Service";
+const title = "Create social media message";
+const description = "Create social media message page for the Create Transport Disruptions Service";
 
-export interface SocialMediaPostPageProps extends PageState<Partial<SocialMedia>> {
+export interface CreateSocialMediaPostPageProps extends PageState<Partial<SocialMediaPost>> {
     disruptionSummary: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
 }
 
-const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<SocialMedia>>>(props);
+const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
+    const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
@@ -37,7 +37,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Social media message</h1>
 
-                        <TextInput<SocialMedia>
+                        <TextInput<SocialMediaPost>
                             display="Message content"
                             inputName="messageContent"
                             widthClass="w-3/4"
@@ -72,7 +72,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                     <div className="govuk-form-group">
                         <h2 className="govuk-heading-l">Publish time and date</h2>
 
-                        <DateSelector<SocialMedia>
+                        <DateSelector<SocialMediaPost>
                             display="Date"
                             hint="Enter in format DD/MM/YYYY"
                             value={pageState.inputs.publishDate}
@@ -84,7 +84,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                             schema={socialMediaPostSchema.shape.publishDate}
                         />
 
-                        <TimeSelector<SocialMedia>
+                        <TimeSelector<SocialMediaPost>
                             display="Time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs.publishTime}
@@ -98,7 +98,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                         <div className="govuk-form-group govuk-!-padding-top-3">
                             <h2 className="govuk-heading-l">Select social media account</h2>
 
-                            <Select<SocialMedia>
+                            <Select<SocialMediaPost>
                                 inputName="socialAccount"
                                 selectValues={[]}
                                 defaultDisplay="Social account"
@@ -109,7 +109,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
                                 displaySize="l"
                                 display={""}
                             />
-                            <Select<SocialMedia>
+                            <Select<SocialMediaPost>
                                 inputName="hootsuiteProfile"
                                 defaultDisplay="Social account"
                                 hint={"Select Hootsuite profile"}
@@ -165,4 +165,4 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     };
 };
 
-export default SocialMediaPost;
+export default CreateSocialMediaPost;
