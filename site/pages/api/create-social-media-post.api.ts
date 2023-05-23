@@ -6,7 +6,7 @@ import {
 } from "../../constants/index";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
-import { SocialMediaPost, imageSchema, socialMediaPostSchema } from "../../schemas/social-media.schema";
+import { SocialMediaPost, socialMediaPostSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -15,11 +15,28 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
+import { formParse } from "../../utils/apiUtils/fileUpload";
+import { readFile } from "fs/promises";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const validatedBody = imageSchema.safeParse(req.body.image);
-        console.log(JSON.stringify(validatedBody));
+        const { files } = await formParse(req);
+        const image = Array.isArray(files["image"]) ? files["image"][0] : files["image"];
+
+        const parsedBody = socialMediaPostSchema.parse({ ...req.body, image });
+
+        const session = getSession(req);
+
+        if (!session) {
+            throw new Error("No session found");
+        }
+
+        if (parsedBody.image) {
+            const imageContents = await readFile(parsedBody.image?.filepath);
+
+            await putItem(process.env.IMAGE_BUCKET_NAME || "", "test.png", imageContents);
+        }
+
         res.send(JSON.stringify(req.body));
 
         return;
@@ -74,6 +91,12 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
         redirectToError(res);
         return;
     }
+};
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
 };
 
 export default createSocialMediaPost;

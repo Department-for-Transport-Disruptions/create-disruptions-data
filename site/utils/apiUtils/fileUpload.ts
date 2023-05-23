@@ -38,22 +38,26 @@ export const formParse = async (req: NextApiRequest): Promise<FilesAndFields> =>
     });
 };
 
-export const getFormData = async (req: NextApiRequest): Promise<FileData> => {
-    const { files, fields } = await formParse(req);
-    const { type, name } = files["image"];
-    let fileContents = "";
+// export const getFormData = async (req: NextApiRequest): Promise<void> => {
+//     console.log("HELLO");
+//     const { files, fields } = await formParse(req);
+//     const image: formidable.File = Array.isArray(files["image"]) ? files["image"][0] : files["image"];
 
-    if (ACCEPTED_IMAGE_TYPES.includes(type)) {
-        fileContents = await fs.promises.readFile(files["image"].path, "utf-8");
-    }
+//     z.instanceof(File).refine((file) => file.size <= MAX_FILE_SIZE);
 
-    return {
-        files,
-        fileContents,
-        fields,
-        name,
-    };
-};
+//     console.log(fields);
+
+//     // if (ACCEPTED_IMAGE_TYPES.includes(type)) {
+//     //     fileContents = await fs.promises.readFile(files["image"].path, "utf-8");
+//     // }
+
+//     // return {
+//     //     files,
+//     //     fileContents,
+//     //     fields,
+//     //     name,
+//     // };
+// };
 
 // export const validateFile = (fileData: formidable.File, fileContents: string): string => {
 //     const { size, type, name } = fileData;
