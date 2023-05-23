@@ -269,3 +269,6 @@ export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const MIN_PASSWORD_LENGTH = 8;
+
+export const MAX_FILE_SIZE = 500000;
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];

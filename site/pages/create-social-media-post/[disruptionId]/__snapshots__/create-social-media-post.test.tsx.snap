@@ -109,12 +109,17 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             </p>
           </button>
           <br />
-          <button
-            className="govuk-button mt-8 govuk-button--secondary"
-            data-module="govuk-button"
+          <div
+            className="govuk-form-group"
           >
-            Upload image
-          </button>
+            <input
+              accept="image/png, image/jpeg"
+              className="govuk-file-upload"
+              id="image"
+              name="image"
+              type="file"
+            />
+          </div>
         </div>
         <div
           className="govuk-form-group"
@@ -643,12 +648,17 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             </p>
           </button>
           <br />
-          <button
-            className="govuk-button mt-8 govuk-button--secondary"
-            data-module="govuk-button"
+          <div
+            className="govuk-form-group"
           >
-            Upload image
-          </button>
+            <input
+              accept="image/png, image/jpeg"
+              className="govuk-file-upload"
+              id="image"
+              name="image"
+              type="file"
+            />
+          </div>
         </div>
         <div
           className="govuk-form-group"

@@ -4,12 +4,15 @@ import { NextjsSite, StackContext, use } from "sst/constructs";
 import { CognitoStack } from "./CognitoStack";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { createBucket } from "./services/Buckets";
 import { getDomain } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { table, siriTable, organisationsTable } = use(DynamoDBStack);
     const { hostedZone } = use(DnsStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
+
+    const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
@@ -60,6 +63,15 @@ export function SiteStack({ stack }: StackContext) {
             hostedZone: hostedZone.zoneName,
         },
         permissions: [
+            new PolicyStatement({
+                resources: [`${siteImageBucket.bucketArn}/*`],
+                actions: ["s3:GetObject"],
+            }),
+
+            new PolicyStatement({
+                resources: [`${siteImageBucket.bucketArn}/*`],
+                actions: ["s3:PutObject"],
+            }),
             new PolicyStatement({
                 resources: [table.tableArn, siriTable.tableArn, organisationsTable.tableArn],
                 actions: [

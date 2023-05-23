@@ -4,6 +4,7 @@ import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import DateSelector from "../../../components/form/DateSelector";
+import { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
 import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
@@ -65,9 +66,15 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                         <br />
 
-                        <button className="govuk-button mt-8 govuk-button--secondary" data-module="govuk-button">
-                            Upload image
-                        </button>
+                        <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
+                            <input
+                                className="govuk-file-upload"
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/png, image/jpeg, image/jpg"
+                            />
+                        </FormGroupWrapper>
                     </div>
                     <div className="govuk-form-group">
                         <h2 className="govuk-heading-l">Publish time and date</h2>
