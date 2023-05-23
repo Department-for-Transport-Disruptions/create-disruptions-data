@@ -15,11 +15,6 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
       Start date
     </label>
     <div
-      className="govuk-hint govuk-visually-hidden"
-    >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
       className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     >
       <div
@@ -97,11 +92,6 @@ exports[`DateSelector > should render correctly with an input 1`] = `
       Start date
     </label>
     <div
-      className="govuk-hint govuk-visually-hidden"
-    >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
       className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     >
       <div
@@ -178,11 +168,6 @@ exports[`DateSelector > should render correctly with errors 1`] = `
     >
       Start date
     </label>
-    <div
-      className="govuk-hint govuk-visually-hidden"
-    >
-      Enter in format DD/MM/YYYY
-    </div>
     <div
       className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     >
@@ -275,11 +260,6 @@ exports[`DateSelector > should render correctly with no input 1`] = `
     >
       Start date
     </label>
-    <div
-      className="govuk-hint govuk-visually-hidden"
-    >
-      Enter in format DD/MM/YYYY
-    </div>
     <div
       className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
     >
