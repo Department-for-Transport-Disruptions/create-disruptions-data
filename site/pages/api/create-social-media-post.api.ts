@@ -6,7 +6,12 @@ import {
 } from "../../constants/index";
 import { SocialMediaPost, socialMediaPostSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
-import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
+import {
+    destroyCookieOnResponseObject,
+    redirectTo,
+    redirectToError,
+    setCookieOnResponseObject,
+} from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -38,6 +43,8 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             redirectTo(res, `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${body.disruptionId}/${body.socialMediaPostIndex}}`);
             return;
         }
+
+        destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
         return;
     } catch (e) {
