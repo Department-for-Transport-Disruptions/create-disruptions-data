@@ -4,6 +4,7 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
+import { upsertSocialMediaPost } from "../../data/dynamo";
 import { SocialMediaPost, socialMediaPostSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -43,6 +44,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             redirectTo(res, `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${body.disruptionId}/${body.socialMediaPostIndex}}`);
             return;
         }
+        await upsertSocialMediaPost(validatedBody.data, session.orgId);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);

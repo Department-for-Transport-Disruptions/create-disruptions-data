@@ -13,6 +13,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import { SocialMediaPost } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors } from "../utils";
 import logger from "../utils/logger";
 
@@ -292,6 +293,34 @@ export const upsertConsequence = async (
                     isEditing ? "#EDIT" : ""
                 }`,
                 ...consequence,
+            },
+        }),
+    );
+};
+
+export const upsertSocialMediaPost = async (
+    socialMediaPost: SocialMediaPost | Pick<SocialMediaPost, "disruptionId" | "socialMediaPostIndex">,
+    id: string,
+) => {
+    logger.info(
+        `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex || ""} in disruption (${
+            socialMediaPost.socialMediaPostIndex || ""
+        }) in DynamoDB table...`,
+    );
+    const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
+    const isEditing =
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: tableName,
+            Item: {
+                PK: id,
+                SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
+                    isEditing ? "#EDIT" : ""
+                }`,
+                ...socialMediaPost,
             },
         }),
     );
