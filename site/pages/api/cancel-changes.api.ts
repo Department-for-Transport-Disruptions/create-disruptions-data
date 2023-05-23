@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
-import { deleteDisruptionsInEdit, deleteDisruptionsInPending } from "../../data/dynamo";
+import { deleteDisruptionsInEdit, deleteDisruptionsInPending, isDisruptionInEdit } from "../../data/dynamo";
 import { publishSchema } from "../../schemas/publish.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -16,8 +16,9 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const disruptionId = validatedBody.data.disruptionId;
+        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
 
-        if (session.isOrgStaff) {
+        if (session.isOrgStaff && !isEdited) {
             await Promise.all([
                 deleteDisruptionsInEdit(disruptionId, session.orgId),
                 deleteDisruptionsInPending(disruptionId, session.orgId),

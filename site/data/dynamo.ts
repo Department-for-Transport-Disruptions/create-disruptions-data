@@ -479,7 +479,8 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         ...info,
         consequences,
         publishStatus:
-            isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)
+            (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)) ||
+            (isPending && isEdited)
                 ? PublishStatus.pendingAndEditing
                 : isEdited
                 ? PublishStatus.editing
@@ -826,4 +827,22 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
             }),
         );
     }
+};
+
+export const isDisruptionInEdit = async (disruptionId: string, id: string) => {
+    logger.info(`Check if there are any edit records for disruption (${disruptionId}) from DynamoDB table...`);
+    const dynamoDisruption = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": id,
+                ":2": `${disruptionId}`,
+            },
+        }),
+    );
+
+    const isEdited = dynamoDisruption?.Items?.some((item) => (item.SK as string).includes("#EDIT"));
+
+    return isEdited || false;
 };

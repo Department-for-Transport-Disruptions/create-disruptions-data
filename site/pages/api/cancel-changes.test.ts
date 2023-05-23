@@ -15,6 +15,7 @@ describe("cancelChanges", () => {
     vi.mock("../../data/dynamo", () => ({
         deleteDisruptionsInEdit: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
+        isDisruptionInEdit: vi.fn(),
     }));
 
     afterEach(() => {
@@ -31,7 +32,10 @@ describe("cancelChanges", () => {
         });
     });
 
+    const isDisruptionInEditSpy = vi.spyOn(dynamo, "isDisruptionInEdit");
+
     it("should redirect to /disruption-detail page after deleting disruptions for admin user", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -49,6 +53,7 @@ describe("cancelChanges", () => {
     });
 
     it("should redirect to /disruption-detail page after deleting disruptions for staff user", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(false);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -71,6 +76,7 @@ describe("cancelChanges", () => {
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });
