@@ -22,6 +22,7 @@ const description = "Social media message page for the Create Transport Disrupti
 export interface SocialMediaPostPageProps extends PageState<Partial<SocialMedia>> {
     disruptionSummary: string;
     socialMediaPostIndex: number;
+    csrfToken?: string;
 }
 
 const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
@@ -30,7 +31,7 @@ const SocialMediaPost = (props: SocialMediaPostPageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
         <BaseLayout title={title} description={description} errors={[]}>
-            <CsrfForm action="/api/social-media" method="post" csrfToken={""}>
+            <CsrfForm action="/api/create-social-media-post" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={[]} />
                     <div className="govuk-form-group">
