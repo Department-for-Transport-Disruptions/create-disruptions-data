@@ -16,7 +16,6 @@ const disruptions: TableDisruption[] = [
         validityPeriods: [{ startTime: "2022-01-05T04:42:17.239Z", endTime: null }],
         modes: ["Tram"],
         status: Progress.open,
-        dbStatus: PublishStatus.published,
         severity: Severity.verySevere,
         serviceIds: ["1212", "323"],
         operators: [
@@ -32,7 +31,6 @@ const disruptions: TableDisruption[] = [
         validityPeriods: [{ startTime: "2022-01-18T09:36:12.327Z", endTime: null }],
         modes: ["Tram"],
         status: Progress.open,
-        dbStatus: PublishStatus.published,
         severity: Severity.verySevere,
         serviceIds: ["42545"],
         operators: [
@@ -52,7 +50,6 @@ const disruptions: TableDisruption[] = [
         ],
         modes: ["Tram", "Ferry", "Train"],
         status: Progress.draft,
-        dbStatus: PublishStatus.draft,
         severity: Severity.severe,
         serviceIds: ["6758"],
         operators: [
