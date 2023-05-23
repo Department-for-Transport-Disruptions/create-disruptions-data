@@ -9,7 +9,7 @@ import { flattenZodErrors } from "../../utils";
 import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
-const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const body = req.body as SocialMediaPost;
 
@@ -52,4 +52,4 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
     }
 };
 
-export default createDisruption;
+export default createSocialMediaPost;

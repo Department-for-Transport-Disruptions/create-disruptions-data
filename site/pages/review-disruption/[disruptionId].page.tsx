@@ -13,6 +13,8 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     REVIEW_DISRUPTION_PAGE_PATH,
+    CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo, SocialMediaPost } from "../../interfaces";
@@ -340,7 +342,7 @@ const ReviewDisruption = ({
                                                         post.messageToAppear,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -351,7 +353,7 @@ const ReviewDisruption = ({
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -362,7 +364,7 @@ const ReviewDisruption = ({
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -373,7 +375,7 @@ const ReviewDisruption = ({
                                                         post.accountToPublish,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            `/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -386,7 +388,7 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={`/social-media-post/${disruption.disruptionId}/${nextIndexSocialMedia}`}
+                            href={`/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
                             Add another social media post
@@ -416,7 +418,7 @@ const ReviewDisruption = ({
                         <Link
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            href="/dashboard"
+                            href={DASHBOARD_PAGE_PATH}
                         >
                             Save as draft
                         </Link>
