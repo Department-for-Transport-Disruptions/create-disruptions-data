@@ -97,12 +97,12 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     //     return Progress.pendingApproval;
     // }
 
-    if (
-        disruption.publishStatus === PublishStatus.editPendingApproval ||
-        disruption.publishStatus === PublishStatus.pendingAndEditing
-    ) {
-        return Progress.pendingApproval;
-    }
+    // if (
+    //     disruption.publishStatus === PublishStatus.editPendingApproval ||
+    //     disruption.publishStatus === PublishStatus.pendingAndEditing
+    // ) {
+    //     return Progress.pendingApproval;
+    // }
 
     if (!disruption.validity) {
         return Progress.closed;
