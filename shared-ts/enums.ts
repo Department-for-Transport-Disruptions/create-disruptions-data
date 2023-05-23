@@ -19,6 +19,7 @@ export enum Progress {
     published = "published",
     closing = "closing",
     closed = "closed",
+    pendingApproval = "pendingApproval",
 }
 
 export enum MiscellaneousReason {

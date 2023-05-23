@@ -612,7 +612,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                   id="status-filter-input"
                   name="statusFilter"
                   onChange={[Function]}
-                  value="open"
+                  value="pendingApproval"
                 >
                   <option
                     disabled={true}
@@ -639,6 +639,11 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                     value="open"
                   >
                     Open
+                  </option>
+                  <option
+                    value="pendingApproval"
+                  >
+                    Pending Approval
                   </option>
                   <option
                     value="published"

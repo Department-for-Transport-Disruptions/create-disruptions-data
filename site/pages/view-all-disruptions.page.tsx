@@ -65,7 +65,6 @@ export interface TableDisruption {
     status: string;
     serviceIds: string[];
     operators: DisruptionOperator[];
-    dbStatus: string;
     consequenceLength?: number;
 }
 
@@ -87,12 +86,18 @@ export interface Filter {
     operators: DisruptionOperator[];
     mode?: string;
     searchText?: string;
-    displayPending?: boolean;
 }
 
 export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     if (disruption.publishStatus === "DRAFT") {
         return Progress.draft;
+    }
+    if (
+        disruption.publishStatus === PublishStatus.pendingApproval ||
+        disruption.publishStatus === PublishStatus.editPendingApproval ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
+    ) {
+        return Progress.pendingApproval;
     }
 
     if (!disruption.validity) {
@@ -273,16 +278,6 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
             return false;
         }
 
-        if (
-            filter.displayPending &&
-            !(
-                disruption.dbStatus === PublishStatus.pendingApproval ||
-                disruption.dbStatus === PublishStatus.editPendingApproval
-            )
-        ) {
-            return false;
-        }
-
         if (filter.operators.length > 0) {
             const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
 
@@ -343,8 +338,7 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: (query["pending"] as string) ? Progress.open : undefined,
-        displayPending: (query["pending"] as string) ? true : undefined,
+        status: (query["pending"] as string) ? Progress.pendingApproval : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
@@ -868,7 +862,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 modes,
                 consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status,
-                dbStatus: disruption.publishStatus,
                 severity: getWorstSeverity(severitys),
                 serviceIds,
                 operators: disruptionOperators,

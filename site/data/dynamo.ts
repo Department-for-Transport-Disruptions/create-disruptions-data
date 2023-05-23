@@ -29,7 +29,8 @@ const collectDisruptionsData = (
     let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
     let consequences = disruptionItems.filter(
         (item) =>
-            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
@@ -376,7 +377,9 @@ export const upsertConsequence = async (
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
     const isPending =
-        isUserStaff && currentDisruption?.publishStatus && currentDisruption?.publishStatus === PublishStatus.published;
+        isUserStaff &&
+        (currentDisruption?.publishStatus === PublishStatus.published ||
+            currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -429,7 +432,8 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
 
     let consequences = dynamoDisruption.Items.filter(
         (item) =>
-            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
@@ -673,7 +677,7 @@ export const publishPendingConsequences = async (disruptionId: string, id: strin
                 }
             }
 
-            if ((item.SK as string) === `${disruptionId}#INFO`) {
+            if ((item.SK as string) === `${disruptionId}#INFO#PENDING`) {
                 pendingDisruption.push(item);
             }
         });
