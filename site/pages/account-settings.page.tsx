@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
+import { getOrganisationInfoById } from "../data/dynamo";
+import { Organisation } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
@@ -11,9 +13,10 @@ const description = "Account settings page for the Create Transport Disruption D
 
 interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
+    orgInfo: Organisation | null | undefined;
 }
 
-const AccountSettings = ({ sessionWithOrg }: AccountSettingsProps): ReactElement => (
+const AccountSettings = ({ sessionWithOrg, orgInfo }: AccountSettingsProps): ReactElement => (
     <TwoThirdsLayout title={title} description={description}>
         <div>
             <h1 className="govuk-heading-l">My account</h1>
@@ -39,6 +42,7 @@ const AccountSettings = ({ sessionWithOrg }: AccountSettingsProps): ReactElement
                         ],
                     },
                     { header: "Organisation", cells: [sessionWithOrg.orgName, ""] },
+                    { header: "Admin area", cells: [orgInfo?.adminAreaCodes.join(", "), ""] },
                 ]}
             />
         </div>
@@ -52,6 +56,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
 
+    const orgInfo = sessionWithOrg?.orgId ? await getOrganisationInfoById(sessionWithOrg?.orgId) : undefined;
+
     if (!sessionWithOrg) {
         throw new Error("No session found");
     }
@@ -59,6 +65,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             sessionWithOrg,
+            orgInfo,
         },
     };
 };
