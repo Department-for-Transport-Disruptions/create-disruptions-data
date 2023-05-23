@@ -13,7 +13,7 @@ const description = "Account settings page for the Create Transport Disruption D
 
 interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
-    orgInfo: Organisation | null | undefined;
+    orgInfo: Organisation | null;
 }
 
 const AccountSettings = ({ sessionWithOrg, orgInfo }: AccountSettingsProps): ReactElement => (
@@ -56,7 +56,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
 
-    const orgInfo = sessionWithOrg?.orgId ? await getOrganisationInfoById(sessionWithOrg?.orgId) : undefined;
+    let orgInfo: Organisation | null = null;
+
+    if (sessionWithOrg?.orgId) orgInfo = await getOrganisationInfoById(sessionWithOrg?.orgId);
 
     if (!sessionWithOrg) {
         throw new Error("No session found");
