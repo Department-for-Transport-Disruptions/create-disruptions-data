@@ -57,6 +57,7 @@ export function SiteStack({ stack }: StackContext) {
             COGNITO_USER_POOL_ID: userPoolId,
             MIDDLEWARE_AWS_ACCESS_KEY_ID: middlewareCognitoUserAccessKey.accessKeyId,
             MIDDLEWARE_AWS_SECRET_ACCESS_KEY: middlewareCognitoUserSecret.secretValue.toString(),
+            IMAGE_BUCKET_NAME: siteImageBucket.bucketName,
         },
         customDomain: {
             domainName: getDomain(stack.stage),

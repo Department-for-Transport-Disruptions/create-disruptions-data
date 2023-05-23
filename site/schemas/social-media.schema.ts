@@ -28,3 +28,10 @@ export interface File {
     size: number;
     type: string;
 }
+
+export const imageSchema = z.any();
+// .refine((file: File) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+// .refine(
+//     (file: File) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+//     "Only .jpg, .jpeg, .png and .webp formats are supported.",
+// );

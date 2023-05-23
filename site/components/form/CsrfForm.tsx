@@ -5,12 +5,13 @@ interface CsrfFormProps {
     method: string;
     csrfToken?: string;
     children: ReactNode;
+    hideCsrf?: boolean;
     [props: string]: unknown;
 }
 
-const CsrfForm = ({ action, method, csrfToken, children, ...props }: CsrfFormProps): ReactElement => (
+const CsrfForm = ({ action, method, csrfToken, children, hideCsrf = false, ...props }: CsrfFormProps): ReactElement => (
     <form action={action} method={method} {...props}>
-        <input type="hidden" name="csrf_token" value={csrfToken || ""} />
+        {!hideCsrf ? <input type="hidden" name="csrf_token" value={csrfToken || ""} /> : null}
         {children}
     </form>
 );

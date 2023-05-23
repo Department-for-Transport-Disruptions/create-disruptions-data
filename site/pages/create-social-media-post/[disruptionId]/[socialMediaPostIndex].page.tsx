@@ -32,7 +32,13 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-social-media-post" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                encType="multipart/form-data"
+                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+                hideCsrf
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

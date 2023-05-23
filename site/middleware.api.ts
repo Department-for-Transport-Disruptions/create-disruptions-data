@@ -130,11 +130,11 @@ const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
-    const csrfError = await csrfProtect(request, response);
+    // const csrfError = await csrfProtect(request, response);
 
-    if (csrfError) {
-        return new NextResponse("invalid csrf token", { status: 403 });
-    }
+    // if (csrfError) {
+    //     return new NextResponse("invalid csrf token", { status: 403 });
+    // }
 
     if (
         request.nextUrl.pathname &&
