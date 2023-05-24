@@ -22,22 +22,27 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
     try {
         const session = getSession(req);
 
+        console.log("here6");
         if (!session) {
             throw new Error("No session found");
         }
 
+        console.log("here7");
         if (!process.env.IMAGE_BUCKET_NAME) {
             throw new Error("No image bucket to upload image to");
         }
 
-        const { files, fields } = await formParse(req);
+        console.log("here5");
 
+        const { files, fields } = await formParse(req);
+        console.log("here4");
         if (!fields?.disruptionId && !fields?.socialMediaPostIndex) {
             throw new Error("No image data to upload");
         }
 
         const image = Array.isArray(files["image"]) ? files["image"][0] : files["image"];
 
+        console.log("here3");
         const validatedBody = refineImageSchema.safeParse({ ...fields, image });
 
         if (!validatedBody.success) {
@@ -59,14 +64,21 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             return;
         }
 
-        if (validatedBody.data.image) {
+        console.log("here2");
+
+        const isImage = validatedBody.data.image && validatedBody.data.image.size;
+        if (isImage) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
             const key = `${session.orgId}/${validatedBody.data.image.key}`;
             await putItem(process.env.IMAGE_BUCKET_NAME || "", key, imageContents);
         }
 
-        await upsertSocialMediaPost(validatedBody.data, session.orgId);
+        console.log("here");
+        await upsertSocialMediaPost(
+            { ...validatedBody.data, image: isImage ? validatedBody.data.image : undefined },
+            session.orgId,
+        );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
