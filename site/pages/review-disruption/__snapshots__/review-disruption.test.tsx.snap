@@ -1130,7 +1130,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1158,7 +1158,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1186,7 +1186,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1214,7 +1214,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1281,7 +1281,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1309,7 +1309,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1337,7 +1337,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1365,7 +1365,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="//create-social-media-post/2/0/2"
+                          href="/create-social-media-post/2/0/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1381,13 +1381,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="//create-social-media-post/2/0"
+            href="/create-social-media-post/2/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
             role="button"
           >
-            Add another social media post
+            Add a social media post
           </a>
           <br />
           <input

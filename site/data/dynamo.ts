@@ -13,7 +13,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
-import { SocialMediaPost } from "../schemas/social-media.schema";
+import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors } from "../utils";
 import logger from "../utils/logger";
 
@@ -298,15 +298,13 @@ export const upsertConsequence = async (
     );
 };
 
-export const upsertSocialMediaPost = async (
-    socialMediaPost: SocialMediaPost | Pick<SocialMediaPost, "disruptionId" | "socialMediaPostIndex">,
-    id: string,
-) => {
+export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTransformed, id: string) => {
     logger.info(
         `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex || ""} in disruption (${
             socialMediaPost.socialMediaPostIndex || ""
         }) in DynamoDB table...`,
     );
+    const key = `${id}/${socialMediaPost.image.key}`;
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
     const isEditing =
         currentDisruption?.publishStatus === PublishStatus.published ||
@@ -320,7 +318,7 @@ export const upsertSocialMediaPost = async (
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
                     isEditing ? "#EDIT" : ""
                 }`,
-                ...socialMediaPost,
+                ...{ ...socialMediaPost, image: { ...socialMediaPost.image, key } },
             },
         }),
     );
@@ -363,6 +361,14 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) && !(item.SK as string).includes("#EDIT")) ??
             false,
     );
+    const socialMediaPosts = dynamoDisruption.Items.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                !(item.SK as string).includes("#EDIT")) ??
+            false,
+    );
+
+    console.log(JSON.stringify(socialMediaPosts));
     if (isEdited) {
         info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
         const editedConsequences = dynamoDisruption.Items.filter(
@@ -388,11 +394,13 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
+        socialMediaPosts,
         publishStatus: isEdited ? PublishStatus.editing : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+        console.log(parsedDisruption.error);
         return null;
     }
     return parsedDisruption.data;

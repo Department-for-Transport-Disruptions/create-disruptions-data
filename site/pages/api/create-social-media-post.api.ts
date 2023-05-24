@@ -7,7 +7,7 @@ import {
 } from "../../constants/index";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
-import { SocialMediaPost, socialMediaPostSchema } from "../../schemas/social-media.schema";
+import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -21,53 +21,55 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const session = getSession(req);
-        console.log(JSON.stringify(req.body));
+
         if (!session) {
             throw new Error("No session found");
         }
-
-        const body = req.body as SocialMediaPost;
 
         if (!process.env.IMAGE_BUCKET_NAME) {
             throw new Error("No image bucket to upload image to");
         }
 
-        const { files } = await formParse(req);
+        const { files, fields } = await formParse(req);
+
+        if (!fields?.disruptionId && !fields?.socialMediaPostIndex) {
+            throw new Error("No image data to upload");
+        }
+
         const image = Array.isArray(files["image"]) ? files["image"][0] : files["image"];
 
-        const validatedBody = socialMediaPostSchema.safeParse({ ...body, image });
+        const validatedBody = refineImageSchema.safeParse({ ...fields, image });
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_SOCIAL_MEDIA_ERRORS,
                 JSON.stringify({
-                    inputs: body,
+                    inputs: fields,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
             );
 
-            redirectTo(res, `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${body.disruptionId}/${body.socialMediaPostIndex}}`);
+            redirectTo(
+                res,
+                `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
+                    fields.socialMediaPostIndex as string
+                }}`,
+            );
             return;
         }
 
         if (validatedBody.data.image) {
-            const imageContents = await readFile(validatedBody.data.image?.filepath);
+            const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
-            console.log(process.env.IMAGE_BUCKET_NAME);
-            await putItem(
-                process.env.IMAGE_BUCKET_NAME || "",
-                `${session.orgId}#${validatedBody.data.disruptionId}#${
-                    validatedBody.data.socialMediaPostIndex
-                }.${validatedBody.data.image.type.replace("image/", "")}`,
-                imageContents,
-            );
+            const key = `${session.orgId}/${validatedBody.data.image.key}`;
+            await putItem(process.env.IMAGE_BUCKET_NAME || "", key, imageContents);
         }
 
         await upsertSocialMediaPost(validatedBody.data, session.orgId);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
+        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

@@ -45,14 +45,10 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
       id="main-content"
     >
       <form
-        action="/api/create-social-media-post"
+        action="/api/create-social-media-post?_csrf="
+        encType="multipart/form-data"
         method="post"
       >
-        <input
-          name="csrf_token"
-          type="hidden"
-          value=""
-        />
         <div
           className="govuk-form-group"
         >
@@ -112,13 +108,31 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           <div
             className="govuk-form-group"
           >
-            <input
-              accept="image/png, image/jpeg"
-              className="govuk-file-upload"
-              id="image"
-              name="image"
-              type="file"
-            />
+            <fieldset
+              className="govuk-fieldset"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-fieldset__legend--m"
+              >
+                <h2
+                  className="govuk-fieldset__heading govuk-visually-hidden"
+                  id="passenger-type-page-heading"
+                >
+                  Upload file
+                </h2>
+              </legend>
+              <div
+                className=""
+              >
+                <input
+                  accept="image/png, image/jpeg, image/jpg"
+                  className="govuk-file-upload"
+                  id="image"
+                  name="image"
+                  type="file"
+                />
+              </div>
+            </fieldset>
           </div>
         </div>
         <div
@@ -585,14 +599,10 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
       id="main-content"
     >
       <form
-        action="/api/create-social-media-post"
+        action="/api/create-social-media-post?_csrf="
+        encType="multipart/form-data"
         method="post"
       >
-        <input
-          name="csrf_token"
-          type="hidden"
-          value=""
-        />
         <div
           className="govuk-form-group"
         >
@@ -651,13 +661,31 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           <div
             className="govuk-form-group"
           >
-            <input
-              accept="image/png, image/jpeg"
-              className="govuk-file-upload"
-              id="image"
-              name="image"
-              type="file"
-            />
+            <fieldset
+              className="govuk-fieldset"
+            >
+              <legend
+                className="govuk-fieldset__legend govuk-fieldset__legend--m"
+              >
+                <h2
+                  className="govuk-fieldset__heading govuk-visually-hidden"
+                  id="passenger-type-page-heading"
+                >
+                  Upload file
+                </h2>
+              </legend>
+              <div
+                className=""
+              >
+                <input
+                  accept="image/png, image/jpeg, image/jpg"
+                  className="govuk-file-upload"
+                  id="image"
+                  name="image"
+                  type="file"
+                />
+              </div>
+            </fieldset>
           </div>
         </div>
         <div

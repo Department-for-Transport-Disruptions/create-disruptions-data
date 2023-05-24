@@ -4,7 +4,7 @@ import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import DateSelector from "../../../components/form/DateSelector";
-import { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
+import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
 import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
@@ -73,13 +73,31 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         <br />
 
                         <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
-                            <input
-                                className="govuk-file-upload"
-                                type="file"
-                                id="image"
-                                name="image"
-                                accept="image/png, image/jpeg, image/jpg"
-                            />
+                            <fieldset className="govuk-fieldset">
+                                <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                    <h2
+                                        className="govuk-fieldset__heading govuk-visually-hidden"
+                                        id="passenger-type-page-heading"
+                                    >
+                                        Upload file
+                                    </h2>
+                                </legend>
+                                <FormElementWrapper
+                                    errorId="image"
+                                    errorClass="govuk-file-upload--error"
+                                    errors={pageState.errors}
+                                >
+                                    <>
+                                        <input
+                                            className="govuk-file-upload"
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                        />
+                                    </>
+                                </FormElementWrapper>
+                            </fieldset>
                         </FormGroupWrapper>
                     </div>
                     <div className="govuk-form-group">
@@ -166,13 +184,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const socialMediaPost = disruption?.socialMediaPosts?.find((s) => s.socialMediaPostIndex === index);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
 
     return {
         props: {
-            ...getPageState(errorCookie, socialMediaPostSchema, disruptionId),
-            disruptionSummary: disruption?.summary,
+            ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
+            disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
         },
     };

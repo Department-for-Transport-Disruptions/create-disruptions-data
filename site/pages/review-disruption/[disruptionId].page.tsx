@@ -122,7 +122,11 @@ const ReviewDisruption = ({
                   .consequenceIndex + 1
             : 0;
 
-    const nextIndexSocialMedia = 0;
+    const nextIndexSocialMedia =
+        disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+            ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
+                  .socialMediaPostIndex + 1
+            : 0;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -342,7 +346,7 @@ const ReviewDisruption = ({
                                                         post.messageToAppear,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -353,7 +357,7 @@ const ReviewDisruption = ({
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -364,7 +368,7 @@ const ReviewDisruption = ({
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -375,7 +379,7 @@ const ReviewDisruption = ({
                                                         post.accountToPublish,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            `/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
@@ -388,10 +392,12 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href={`/${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
+                            href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
-                            Add another social media post
+                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                ? "Add another social media post"
+                                : "Add a social media post"}
                         </Link>
                         <br />
 
