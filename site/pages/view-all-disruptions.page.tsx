@@ -86,26 +86,27 @@ export interface Filter {
     operators: DisruptionOperator[];
     mode?: string;
     searchText?: string;
+    displayAllPending?: boolean;
 }
 
-export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
-    if (disruption.publishStatus === (PublishStatus.pendingApproval as string)) {
-        return Progress.pendingApproval;
+const getDisruptionStatus = (disruption: SortedDisruption): string => {
+    if (disruption.publishStatus === PublishStatus.draft) {
+        return "draft";
     }
 
-    if (disruption.publishStatus === "DRAFT") {
-        return Progress.draft;
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.draftPendingApproval;
     }
 
     if (
         disruption.publishStatus === PublishStatus.editPendingApproval ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
     ) {
-        return Progress.pendingApproval;
+        return Progress.editPendingApproval;
     }
 
     if (!disruption.validity) {
-        return Progress.closed;
+        return "closed";
     }
 
     const today = getDate();
@@ -113,13 +114,13 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
 
     if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
         if (disruptionEndDate.isBefore(today)) {
-            return Progress.closed;
+            return "closed";
         } else {
-            return Progress.closing;
+            return "closing";
         }
     }
 
-    return Progress.open;
+    return "open";
 };
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -279,7 +280,14 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && disruption.status !== filter.status) {
-            return false;
+            if (!filter.displayAllPending) {
+                return false;
+            } else if (
+                disruption.status !== Progress.editPendingApproval &&
+                disruption.status !== Progress.draftPendingApproval
+            ) {
+                return false;
+            }
         }
 
         if (filter.operators.length > 0) {
@@ -343,6 +351,7 @@ const ViewAllDisruptions = ({
         services: [],
         operators: [],
         status: (query["pending"] as string) ? Progress.pendingApproval : undefined,
+        displayAllPending: !!(query["pending"] as string),
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);

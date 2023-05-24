@@ -20,6 +20,8 @@ export enum Progress {
     closing = "closing",
     closed = "closed",
     pendingApproval = "pendingApproval",
+    editPendingApproval = "editPendingApproval",
+    draftPendingApproval = "draftPendingApproval",
 }
 
 export enum MiscellaneousReason {

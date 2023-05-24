@@ -636,6 +636,11 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                     Draft
                   </option>
                   <option
+                    value="editPendingApproval"
+                  >
+                    Edit Pending Approval
+                  </option>
+                  <option
                     value="open"
                   >
                     Open

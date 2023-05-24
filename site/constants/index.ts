@@ -161,6 +161,10 @@ export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
         value: Progress.pendingApproval,
         display: "Pending Approval",
     },
+    {
+        value: Progress.editPendingApproval,
+        display: "Edit Pending Approval",
+    },
     { value: Progress.published, display: "Published" },
 ];
 
@@ -247,6 +251,7 @@ export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const REGISTER_PAGE_PATH = "/register";
 export const HOME_PAGE_PATH = "/";
+export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";

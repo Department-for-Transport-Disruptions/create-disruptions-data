@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ReactElement } from "react";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
-import { LOGIN_PAGE_PATH } from "../../constants";
+import { LOGIN_PAGE_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../constants";
 import { Session } from "../../schemas/session.schema";
 import CsrfForm from "../form/CsrfForm";
 
@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
     const isAdmin = session?.isSystemAdmin || session?.isOrgAdmin;
-    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 3 : 2);
+    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 4 : 2);
 
     return (
         <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
@@ -76,16 +76,25 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     {isAdmin && (
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            href="/admin/user-management"
-                                            {...itemProps[2]}
+                                            href={USER_MANAGEMENT_PAGE_PATH}
+                                            {...itemProps[1]}
                                         >
                                             User management
+                                        </Link>
+                                    )}
+                                    {isAdmin && (
+                                        <Link
+                                            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                            href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}
+                                            {...itemProps[2]}
+                                        >
+                                            Social media
                                         </Link>
                                     )}
                                     <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
                                         <button
                                             className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            {...(itemProps[1] as object)}
+                                            {...(itemProps[itemProps.length - 1] as object)}
                                         >
                                             Sign out
                                         </button>
