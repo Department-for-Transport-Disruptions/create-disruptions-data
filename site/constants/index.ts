@@ -165,6 +165,10 @@ export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
         value: Progress.editPendingApproval,
         display: "Edit Pending Approval",
     },
+    {
+        value: Progress.draftPendingApproval,
+        display: "Draft Pending Approval",
+    },
     { value: Progress.published, display: "Published" },
 ];
 

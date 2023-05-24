@@ -86,7 +86,6 @@ export interface Filter {
     operators: DisruptionOperator[];
     mode?: string;
     searchText?: string;
-    displayAllPending?: boolean;
 }
 
 const getDisruptionStatus = (disruption: SortedDisruption): string => {
@@ -280,12 +279,13 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && disruption.status !== filter.status) {
-            if (!filter.displayAllPending) {
-                return false;
-            } else if (
+            if (
+                filter.status === Progress.pendingApproval &&
                 disruption.status !== Progress.editPendingApproval &&
                 disruption.status !== Progress.draftPendingApproval
             ) {
+                return false;
+            } else if (filter.status !== Progress.pendingApproval) {
                 return false;
             }
         }
@@ -351,7 +351,6 @@ const ViewAllDisruptions = ({
         services: [],
         operators: [],
         status: (query["pending"] as string) ? Progress.pendingApproval : undefined,
-        displayAllPending: !!(query["pending"] as string),
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
