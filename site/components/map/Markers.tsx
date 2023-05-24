@@ -22,19 +22,20 @@ const Markers = ({
     handleMouseEnter,
     setPopupInfo,
 }: MarkersProps): ReactElement | null => {
-    const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
-        selected && selected.length > 0 ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode) : sToFilter,
-    );
+    const dataFromPolygon =
+        selected && selected.length > 0
+            ? markerData.filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
+            : markerData;
 
-    const notInTable = searched
-        .filter((sToFilter: Stop) =>
-            selected && selected.length > 0 ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode) : sToFilter,
-        )
-        .filter((sToFilter: Stop) =>
-            markerData && markerData.length > 0
-                ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                : sToFilter,
-        );
+    const filterSelected =
+        selected && selected.length > 0
+            ? searched.filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
+            : searched;
+
+    const notInTable =
+        markerData && markerData.length > 0
+            ? filterSelected.filter((sToFilter: Stop) => !markerData.some((s) => s.atcoCode === sToFilter.atcoCode))
+            : filterSelected;
 
     return (
         <>

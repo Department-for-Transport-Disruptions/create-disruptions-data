@@ -63,16 +63,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           </h1>
           <a
             className="govuk-link"
-            href="/view-disruption-history"
+            href="/disruption-history/2"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
           >
-            <h1
+            <h2
               className="govuk-heading-s text-govBlue"
             >
               View disruption history
-            </h1>
+            </h2>
           </a>
           <br />
           <table
@@ -1086,7 +1086,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             value="2"
           />
           <a
-            className="govuk-button mt-8 govuk-button"
+            className="govuk-button mt-8 govuk-button--secondary mr-5"
             href="/dashboard"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -1095,6 +1095,19 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Close and Return
           </a>
+          <button
+            className="govuk-button mt-8 govuk-button"
+            data-module="govuk-button"
+          >
+            Publish disruption
+          </button>
+          <button
+            className="govuk-button mt-8 govuk-button--secondary ml-5"
+            data-module="govuk-button"
+            formAction="/api/reject"
+          >
+            Reject disruption
+          </button>
           <button
             className="govuk-button govuk-button--warning ml-5 mt-8"
             data-module="govuk-button"
@@ -1359,16 +1372,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
           </h1>
           <a
             className="govuk-link"
-            href="/view-disruption-history"
+            href="/disruption-history/2"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
           >
-            <h1
+            <h2
               className="govuk-heading-s text-govBlue"
             >
               View disruption history
-            </h1>
+            </h2>
           </a>
           <br />
           <table
@@ -2382,7 +2395,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             value="2"
           />
           <button
-            className="govuk-button mt-8"
+            className="govuk-button mt-8 govuk-button"
             data-module="govuk-button"
           >
             Publish disruption

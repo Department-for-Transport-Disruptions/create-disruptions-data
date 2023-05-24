@@ -6,12 +6,12 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/PageNumbers";
 import Tabs from "../components/Tabs";
-import { DASHBOARD_PAGE_PATH } from "../constants";
-import { getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
+import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
-import { getSession } from "../utils/apiUtils/auth";
+import { canPublish, getSession } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
@@ -30,6 +30,8 @@ export interface DashboardProps {
     liveDisruptions: DashboardDisruption[];
     upcomingDisruptions: DashboardDisruption[];
     newDisruptionId: string;
+    pendingApprovalCount?: number;
+    canPublish: boolean;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -86,7 +88,13 @@ const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisrupti
     return disruptions.slice(startPoint, endPoint);
 };
 
-const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: DashboardProps): ReactElement => {
+const Dashboard = ({
+    liveDisruptions,
+    upcomingDisruptions,
+    newDisruptionId,
+    pendingApprovalCount,
+    canPublish,
+}: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
     const numberOfUpcomingDisruptionsPages = Math.ceil(upcomingDisruptions.length / 10);
@@ -118,6 +126,29 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
     return (
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">Dashboard</h1>
+            {pendingApprovalCount && pendingApprovalCount > 0 && canPublish ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        You have {pendingApprovalCount} new disruption{pendingApprovalCount > 1 ? "s" : ""} that require
+                        {pendingApprovalCount === 1 ? "s" : ""} approval.
+                        <Link
+                            className="govuk-link"
+                            href={{
+                                pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+                                query: {
+                                    pending: true,
+                                },
+                            }}
+                        >
+                            <h2 className="govuk-heading-s text-govBlue">View all</h2>
+                        </Link>
+                    </strong>
+                </div>
+            ) : null}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}
                 role="button"
@@ -197,14 +228,6 @@ const Dashboard = ({ liveDisruptions, upcomingDisruptions, newDisruptionId }: Da
             <Link className="govuk-link" href="/dashboard">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-
-            <div className="govuk-!-padding-top-5">
-                <h2 className="govuk-heading-s">Reviews</h2>
-                <p className="govuk-body">You have nothing to review</p>
-                <Link className="govuk-link" href="/dashboard">
-                    <h2 className="govuk-heading-s text-govBlue">View all</h2>
-                </Link>
-            </div>
         </BaseLayout>
     );
 };
@@ -215,6 +238,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             liveDisruptions: [],
             upcomingDisruptions: [],
             newDisruptionId: randomUUID(),
+            canPublish: false,
         },
     };
 
@@ -223,80 +247,92 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const session = getSession(ctx.req);
-
     if (!session) {
         return baseProps;
     }
 
-    const data = await getPublishedDisruptionsDataFromDynamo(session.orgId);
+    const data = await Promise.all([
+        getPublishedDisruptionsDataFromDynamo(session.orgId),
+        getPendingDisruptionsIdsFromDynamo(session.orgId),
+    ]);
 
-    if (data) {
+    const publishedDisruption = data[0];
+    const pendingDisruption = data[1];
+
+    if (publishedDisruption) {
         const liveDisruptions: Disruption[] = [];
         const upcomingDisruptions: Disruption[] = [];
         const today = getDate();
+        const pendingApprovalCount = pendingDisruption.size;
 
-        data.forEach((disruption) => {
-            // end time before today --> dont show
-            const validityPeriods: Validity[] = [
-                ...(disruption.validity ?? []),
-                {
-                    disruptionStartDate: disruption.disruptionStartDate,
-                    disruptionStartTime: disruption.disruptionStartTime,
-                    disruptionEndDate: disruption.disruptionEndDate,
-                    disruptionEndTime: disruption.disruptionEndTime,
-                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                    disruptionRepeats: disruption.disruptionRepeats,
-                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-                },
-            ];
+        publishedDisruption
+            .filter((data) => !pendingDisruption.has(data.disruptionId))
+            .forEach((disruption) => {
+                // end time before today --> dont show
+                const validityPeriods: Validity[] = [
+                    ...(disruption.validity ?? []),
+                    {
+                        disruptionStartDate: disruption.disruptionStartDate,
+                        disruptionStartTime: disruption.disruptionStartTime,
+                        disruptionEndDate: disruption.disruptionEndDate,
+                        disruptionEndTime: disruption.disruptionEndTime,
+                        disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                        disruptionRepeats: disruption.disruptionRepeats,
+                        disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
+                    },
+                ];
 
-            const shouldNotDisplayDisruption = validityPeriods.every(
-                (period) =>
-                    !!period.disruptionEndDate &&
-                    !!period.disruptionEndTime &&
-                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
-            );
-
-            if (!shouldNotDisplayDisruption) {
-                // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                const isLive = validityPeriods.some((period) => {
-                    const startTime = getDatetimeFromDateAndTime(
-                        period.disruptionStartDate,
-                        period.disruptionStartTime,
-                    );
-
-                    return (
-                        startTime.isSameOrBefore(today) &&
-                        (!period.disruptionEndDate ||
-                            (!!period.disruptionEndDate &&
-                                !!period.disruptionEndTime &&
-                                getDatetimeFromDateAndTime(
-                                    period.disruptionEndDate,
-                                    period.disruptionEndTime,
-                                ).isSameOrAfter(today)))
-                    );
-                });
-
-                if (isLive) {
-                    liveDisruptions.push(disruption);
-                }
-
-                // start time after today --> upcoming
-                const isUpcoming = validityPeriods.every((period) =>
-                    getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(today),
+                const shouldNotDisplayDisruption = validityPeriods.every(
+                    (period) =>
+                        !!period.disruptionEndDate &&
+                        !!period.disruptionEndTime &&
+                        getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
                 );
 
-                if (isUpcoming) {
-                    upcomingDisruptions.push(disruption);
+                if (!shouldNotDisplayDisruption) {
+                    // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
+                    const isLive = validityPeriods.some((period) => {
+                        const startTime = getDatetimeFromDateAndTime(
+                            period.disruptionStartDate,
+                            period.disruptionStartTime,
+                        );
+
+                        return (
+                            startTime.isSameOrBefore(today) &&
+                            (!period.disruptionEndDate ||
+                                (!!period.disruptionEndDate &&
+                                    !!period.disruptionEndTime &&
+                                    getDatetimeFromDateAndTime(
+                                        period.disruptionEndDate,
+                                        period.disruptionEndTime,
+                                    ).isSameOrAfter(today)))
+                        );
+                    });
+
+                    if (isLive) {
+                        liveDisruptions.push(disruption);
+                    }
+
+                    // start time after today --> upcoming
+                    const isUpcoming = validityPeriods.every((period) =>
+                        getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(
+                            today,
+                        ),
+                    );
+
+                    if (isUpcoming) {
+                        upcomingDisruptions.push(disruption);
+                    }
                 }
-            }
-        });
+            });
 
         return {
             props: {
                 liveDisruptions: mapDisruptions(liveDisruptions),
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 newDisruptionId: randomUUID(),
+                pendingApprovalCount: pendingApprovalCount,
+                canPublish: canPublish(session),
             },
         };
     }

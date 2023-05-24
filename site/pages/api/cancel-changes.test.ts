@@ -1,50 +1,45 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import cancelChanges from "./cancel-changes.api";
-import { COOKIES_DISRUPTION_DETAIL_REFERER, ERROR_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
+import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
+import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
+const getSessionSpy = vi.spyOn(session, "getSession");
+
 describe("cancelChanges", () => {
     const writeHeadMock = vi.fn();
-    vi.mock("../../utils/apiUtils", async () => ({
-        ...(await vi.importActual<object>("../../utils/apiUtils")),
-        setCookieOnResponseObject: vi.fn(),
-        destroyCookieOnResponseObject: vi.fn(),
-        cleardownCookies: vi.fn(),
-    }));
 
     vi.mock("../../data/dynamo", () => ({
         deleteDisruptionsInEdit: vi.fn(),
+        deleteDisruptionsInPending: vi.fn(),
+        isDisruptionInEdit: vi.fn(),
     }));
 
     afterEach(() => {
         vi.resetAllMocks();
     });
 
-    it("should redirect to /dashboard page after deleting disruptions", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                disruptionId: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
+    vi.mock("../../utils/apiUtils/auth", async () => ({
+        ...(await vi.importActual<object>("../../utils/apiUtils/auth")),
+        getSession: vi.fn(),
+    }));
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
         });
-
-        await cancelChanges(req, res);
-
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
-    it("should redirect to /view-all-disruptions page after deleting disruptions", async () => {
+    const isDisruptionInEditSpy = vi.spyOn(dynamo, "isDisruptionInEdit");
+
+    it("should redirect to /disruption-detail page after cancelling disruptions for admin user", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
-            },
-            cookieValues: {
-                [COOKIES_DISRUPTION_DETAIL_REFERER]: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -53,10 +48,36 @@ describe("cancelChanges", () => {
 
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_DISRUPTIONS_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /disruption-detail page after cancelling disruptions for staff user", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(false);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
+        });
+
+        await cancelChanges(req, res);
+
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
+        });
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });

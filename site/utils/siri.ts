@@ -7,8 +7,7 @@ import {
     Reason,
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-import dayjs from "dayjs";
-import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
+import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 
@@ -67,7 +66,7 @@ const getPeriod = (period: Validity): Period => ({
 });
 
 export const getPtSituationElementFromDraft = (disruption: Disruption) => {
-    const currentTime = dayjs().toISOString();
+    const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
 

@@ -72,6 +72,7 @@ export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
     adminAreaCodes: string[];
     newDisruptionId: string;
+    showPending?: boolean;
 }
 
 export interface Filter {
@@ -87,13 +88,24 @@ export interface Filter {
     searchText?: string;
 }
 
-export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
-    if (disruption.publishStatus === "DRAFT") {
-        return Progress.draft;
+const getDisruptionStatus = (disruption: SortedDisruption): string => {
+    if (disruption.publishStatus === PublishStatus.draft) {
+        return "draft";
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.draftPendingApproval;
+    }
+
+    if (
+        disruption.publishStatus === PublishStatus.editPendingApproval ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
+    ) {
+        return Progress.editPendingApproval;
     }
 
     if (!disruption.validity) {
-        return Progress.closed;
+        return "closed";
     }
 
     const today = getDate();
@@ -101,13 +113,13 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
 
     if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
         if (disruptionEndDate.isBefore(today)) {
-            return Progress.closed;
+            return "closed";
         } else {
-            return Progress.closing;
+            return "closing";
         }
     }
 
-    return Progress.open;
+    return "open";
 };
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -267,7 +279,15 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && filter.status !== "any" && disruption.status !== filter.status) {
-            return false;
+            if (
+                filter.status === Progress.pendingApproval &&
+                disruption.status !== Progress.editPendingApproval &&
+                disruption.status !== Progress.draftPendingApproval
+            ) {
+                return false;
+            } else if (filter.status !== Progress.pendingApproval) {
+                return false;
+            }
         }
 
         if (filter.operators.length > 0) {
@@ -312,6 +332,7 @@ const ViewAllDisruptions = ({
     disruptions,
     newDisruptionId,
     adminAreaCodes,
+    showPending = false,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
@@ -327,6 +348,7 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
+        status: showPending ? Progress.pendingApproval : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
@@ -682,7 +704,7 @@ const ViewAllDisruptions = ({
                     <div className="flex">
                         <DateSelector
                             display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
+                            hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                             value=""
                             disabled={false}
                             disablePast={false}
@@ -706,7 +728,7 @@ const ViewAllDisruptions = ({
                         <div className="ml-5">
                             <DateSelector
                                 display="End date"
-                                hiddenHint="Enter in format DD/MM/YYYY"
+                                hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
                                 disabled={false}
                                 disablePast={false}
@@ -822,7 +844,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval,
+                item.publishStatus === PublishStatus.pendingApproval ||
+                item.publishStatus === PublishStatus.editPendingApproval,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
@@ -869,11 +892,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             };
         });
 
+        const showPending = ctx.query.pending?.toString() === "true";
+
         return {
             props: {
                 disruptions: shortenedData,
                 adminAreaCodes: session.adminAreaCodes,
                 newDisruptionId: randomUUID(),
+                showPending,
             },
         };
     }

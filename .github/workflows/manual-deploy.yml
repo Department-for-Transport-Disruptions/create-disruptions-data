@@ -1,14 +1,29 @@
-name: Release published
+name: Manual release
+run-name: Manual release of ${{ inputs.tag }} to ${{ inputs.stage }}
 
 on:
-  release:
-    types:
-      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag for the release to trigger the pipeline for, eg v1.1.0'
+        type: string
+        required: true
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+      stage:
+        description: 'Stage to deploy to, must match choice of environment'
+        type: choice
+        options:
+          - test
+          - preprod
+          - prod
 
 jobs:
-  deploy_to_prod:
-    name: Deploy to Production
-    environment: DISRUPTIONS_PROD
+  deploy:
+    name: Deploy to ${{ inputs.stage }}
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
@@ -17,7 +32,7 @@ jobs:
       - name: Get Artifact from Release
         uses: dsaltares/fetch-gh-release-asset@master
         with:
-          version: ${{ github.event.release.id }}
+          version: tags/${{ inputs.tag }}
           file: build.zip
 
       - name: Unzip artifact
@@ -38,10 +53,10 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: Deploy to prod
+      - name: Deploy to ${{ inputs.stage }}
         env:
           ROOT_DOMAIN: ${{ vars.ROOT_DOMAIN }}
           AWS_SES_IDENTITY_ARN: ${{ secrets.AWS_SES_TEST_IDENTITY }}
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
-          npm run deploy -- --stage prod
+          npm run deploy -- --stage ${{ inputs.stage }}

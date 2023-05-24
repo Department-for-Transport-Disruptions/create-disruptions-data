@@ -1,6 +1,6 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import ViewAllDisruptions, {
     Filter,
     filterDisruptions,
@@ -48,6 +48,14 @@ const disruptions: TableDisruption[] = [
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
+    }));
+});
+
 describe("pages", () => {
     describe("viewAllDisruptions", () => {
         it("should render correctly when there are no disruptions", () => {
@@ -77,6 +85,23 @@ describe("pages", () => {
         });
 
         it("should render correctly when there are enough disruptions for pagination", () => {
+            const tree = renderer
+                .create(
+                    <ViewAllDisruptions
+                        disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly when filter is set to pending approval status", () => {
+            useRouter.mockImplementation(() => ({
+                query: { pending: true },
+            }));
+
             const tree = renderer
                 .create(
                     <ViewAllDisruptions

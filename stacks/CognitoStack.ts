@@ -83,7 +83,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         },
         generateSecret: true,
         readAttributes: new ClientAttributes()
-            .withStandardAttributes({ email: true, emailVerified: true })
+            .withStandardAttributes({ email: true, emailVerified: true, givenName: true, familyName: true })
             .withCustomAttributes("orgId"),
         writeAttributes: new ClientAttributes().withStandardAttributes({ email: true }).withCustomAttributes("orgId"),
         preventUserExistenceErrors: true,

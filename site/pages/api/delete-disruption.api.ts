@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ERROR_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
@@ -18,16 +19,16 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             );
         }
 
-        if (!canPublish(session)) {
-            throw new Error(`Insufficient permissions to delete disruption (${id})`);
-        }
-
         const disruption = await getDisruptionById(id, session.orgId);
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);
             redirectTo(res, ERROR_PATH);
             return;
+        }
+
+        if (!canPublish(session) && disruption.publishStatus !== PublishStatus.draft) {
+            throw new Error(`Insufficient permissions to delete disruption (${id})`);
         }
 
         await deletePublishedDisruption(disruption, id, session.orgId);

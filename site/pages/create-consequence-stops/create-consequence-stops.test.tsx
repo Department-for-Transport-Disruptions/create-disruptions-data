@@ -43,6 +43,7 @@ const withInputs: CreateConsequenceStopsProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
 };
 
@@ -81,6 +82,7 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
 };
 

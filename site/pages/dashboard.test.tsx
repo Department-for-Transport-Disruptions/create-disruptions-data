@@ -1,13 +1,39 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
+import { Session } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequences, getMockContext } from "../testData/mockData";
+import * as session from "../utils/apiUtils/auth";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
+const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
 vi.mock("../data/dynamo");
 
+const getSessionSpy = vi.spyOn(session, "getSession");
+vi.mock("../utils/apiUtils/auth", async () => ({
+    ...(await vi.importActual<object>("../utils/apiUtils/auth")),
+    getSession: vi.fn(),
+}));
+
+beforeEach(() => {
+    getSessionSpy.mockImplementation(() => {
+        return defaultSession;
+    });
+});
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
+const defaultSession: Session = {
+    email: "test@example.com",
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: true,
+    orgId: randomUUID(),
+    username: "test@example.com",
+    name: "Test User",
+};
 
 const disruptions: DashboardDisruption[] = [
     {
@@ -55,6 +81,7 @@ describe("pages", () => {
                         liveDisruptions={[]}
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -68,6 +95,7 @@ describe("pages", () => {
                         liveDisruptions={disruptions}
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -81,6 +109,7 @@ describe("pages", () => {
                         liveDisruptions={[]}
                         upcomingDisruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -94,6 +123,7 @@ describe("pages", () => {
                         liveDisruptions={[disruptions[0]]}
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -103,6 +133,10 @@ describe("pages", () => {
         describe("getServerSideProps", () => {
             afterEach(() => {
                 vi.resetAllMocks();
+            });
+
+            beforeEach(() => {
+                getPendingDisruptionsSpy.mockResolvedValue(new Set<string>());
             });
 
             it("should return no disruptions if there is no data returned from the database call", async () => {
@@ -115,12 +149,13 @@ describe("pages", () => {
                     liveDisruptions: [],
                     upcomingDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
                 });
             });
 
             it("should return live disruptions if the data returned from the database has live dates", async () => {
                 getDisruptionsSpy.mockResolvedValue([disruptionWithConsequences]);
-
                 const ctx = getMockContext();
 
                 const actualProps = await getServerSideProps(ctx);
@@ -140,6 +175,8 @@ describe("pages", () => {
                     ],
                     upcomingDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
                 });
             });
 
@@ -167,6 +204,8 @@ describe("pages", () => {
                         },
                     ],
                     newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
                 });
             });
 
@@ -223,6 +262,8 @@ describe("pages", () => {
                         },
                     ],
                     newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
                 });
             });
         });

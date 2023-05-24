@@ -14,13 +14,14 @@ import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_HISTORY_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -42,10 +43,9 @@ const DisruptionDetail = ({
     errors,
     canPublish,
 }: DisruptionDetailProps): ReactElement => {
-    const displayCancelButton = disruption.publishStatus === PublishStatus.editing;
-
     const title =
-        disruption.publishStatus === PublishStatus.editing
+        disruption.publishStatus === PublishStatus.editing ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
             : "Disruption Overview";
 
@@ -127,11 +127,7 @@ const DisruptionDetail = ({
         });
     };
 
-    const nextIndex =
-        disruption.consequences && disruption.consequences.length > 0
-            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex + 1
-            : 0;
+    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -150,8 +146,11 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        <Link className="govuk-link" href="/view-disruption-history">
-                            <h1 className="govuk-heading-s text-govBlue">View disruption history</h1>
+                        <Link
+                            className="govuk-link"
+                            href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                        >
+                            <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
                         </Link>
                         <br />
                         <Table
@@ -346,40 +345,74 @@ const DisruptionDetail = ({
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {!displayCancelButton ? (
-                            <Link role="button" href={redirect} className="govuk-button mt-8 govuk-button">
+                        {disruption.publishStatus !== PublishStatus.editing &&
+                        disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
+                            <Link
+                                role="button"
+                                href={redirect}
+                                className={`govuk-button mt-8 ${
+                                    canPublish && disruption.publishStatus !== PublishStatus.published
+                                        ? "govuk-button--secondary mr-5"
+                                        : ""
+                                }`}
+                            >
                                 Close and Return
                             </Link>
-                        ) : (
-                            <>
-                                <button className="govuk-button mt-8" data-module="govuk-button">
-                                    {canPublish ? "Publish disruption" : "Send to review"}
-                                </button>
+                        ) : null}
 
-                                <button
-                                    className="govuk-button govuk-button--secondary mt-8 ml-5"
-                                    data-module="govuk-button"
-                                    formAction="/api/cancel-changes"
-                                >
-                                    Cancel all changes
+                        {!canPublish &&
+                        (disruption.publishStatus === PublishStatus.editing ||
+                            disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
+                            <button className="govuk-button mt-8" data-module="govuk-button">
+                                Send to review
+                            </button>
+                        ) : null}
+
+                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
+                            <>
+                                <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
+                                    Publish disruption
                                 </button>
+                                {disruption.publishStatus !== PublishStatus.editing ? (
+                                    <button
+                                        className="govuk-button mt-8 govuk-button--secondary ml-5"
+                                        data-module="govuk-button"
+                                        formAction="/api/reject"
+                                    >
+                                        Reject disruption
+                                    </button>
+                                ) : null}
                             </>
+                        ) : null}
+
+                        {disruption.publishStatus === PublishStatus.editing ||
+                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
+                            <button
+                                className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                data-module="govuk-button"
+                                formAction="/api/cancel-changes"
+                            >
+                                Cancel all changes
+                            </button>
+                        ) : null}
+
+                        {canPublish && (
+                            <button
+                                className="govuk-button govuk-button--warning ml-5 mt-8"
+                                data-module="govuk-button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteActionHandler("disruption", [
+                                        {
+                                            name: "id",
+                                            value: disruption.disruptionId,
+                                        },
+                                    ]);
+                                }}
+                            >
+                                Delete disruption
+                            </button>
                         )}
-                        <button
-                            className="govuk-button govuk-button--warning ml-5 mt-8"
-                            data-module="govuk-button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                deleteActionHandler("disruption", [
-                                    {
-                                        name: "id",
-                                        value: disruption.disruptionId,
-                                    },
-                                ]);
-                            }}
-                        >
-                            Delete disruption
-                        </button>
                     </div>
                 </>
             </CsrfForm>

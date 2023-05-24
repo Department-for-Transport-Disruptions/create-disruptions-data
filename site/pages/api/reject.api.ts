@@ -3,27 +3,22 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import {
     deleteDisruptionsInEdit,
+    deleteDisruptionsInPending,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    publishEditedConsequences,
-    publishEditedConsequencesIntoPending,
-    publishPendingConsequences,
-    deleteDisruptionsInPending,
-    updatePendingDisruptionStatus,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { canPublish, getSession } from "../../utils/apiUtils/auth";
+import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
 
-const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
+const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
-
-        if (!validatedBody.success || !session) {
+        if (!validatedBody.success || !session || !(session.isOrgAdmin || session.isOrgPublisher)) {
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -31,7 +26,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
-            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
+            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to reject`);
             redirectTo(res, ERROR_PATH);
 
             return;
@@ -50,38 +45,24 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        await Promise.all([
+            deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
+            deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
+        ]);
+
         const isEditPendingDsp =
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
-        if (isEditPendingDsp) {
-            await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
-        } else {
-            await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
+        if (!isEditPendingDsp) {
+            await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+                getPtSituationElementFromDraft(draftDisruption),
+                draftDisruption,
+                session.orgId,
+                PublishStatus.rejected,
+                session.name,
+            );
         }
-
-        if (canPublish(session)) {
-            if (isEditPendingDsp) await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
-            await Promise.all([
-                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
-                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
-            ]);
-        } else {
-            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
-        }
-
-        isEditPendingDsp && !canPublish(session)
-            ? await updatePendingDisruptionStatus(
-                  { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
-                  session.orgId,
-              )
-            : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  getPtSituationElementFromDraft(draftDisruption),
-                  draftDisruption,
-                  session.orgId,
-                  canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
-                  session.name,
-              );
 
         cleardownCookies(req, res);
 
@@ -89,8 +70,8 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem publishing the edited disruption.";
-            redirectToError(res, message, "api.publish-edit", e);
+            const message = "There was a problem rejecting the disruption.";
+            redirectToError(res, message, "api.reject", e);
             return;
         }
 
@@ -99,4 +80,4 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default publishEdit;
+export default reject;

@@ -114,8 +114,8 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs and display Send to review button for staff user role", () => {
-            const { getAllByRole } = render(
+        it("should display Send to review button for staff user role", () => {
+            const { getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{
                         ...previousDisruptionInformation,
@@ -129,10 +129,12 @@ describe("pages", () => {
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
             expect(sendToReviewButton).toBeTruthy();
+
+            unmount();
         });
 
-        it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
-            const { getAllByRole } = render(
+        it("should display Publish disruption button for admin user role", () => {
+            const { getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{
                         ...previousDisruptionInformation,
@@ -146,6 +148,30 @@ describe("pages", () => {
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
             expect(publishButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should not display Delete disruption button for staff user role", () => {
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        publishStatus: PublishStatus.editing,
+                    }}
+                    redirect={"/view-all-disruptions"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+
+            expect(deleteButton).toBeFalsy();
+
+            unmount();
         });
     });
 });
