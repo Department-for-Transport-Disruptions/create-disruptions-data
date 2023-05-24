@@ -300,16 +300,15 @@ export const upsertConsequence = async (
 
 export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTransformed, id: string) => {
     logger.info(
-        `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex || ""} in disruption (${
-            socialMediaPost.socialMediaPostIndex || ""
-        }) in DynamoDB table...`,
+        `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
     );
-    const key = `${id}/${socialMediaPost.image.key}`;
+
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
     const isEditing =
         currentDisruption?.publishStatus === PublishStatus.published ||
         currentDisruption?.publishStatus === PublishStatus.editing ||
         currentDisruption?.publishStatus === PublishStatus.pendingApproval;
+
     await ddbDocClient.send(
         new PutCommand({
             TableName: tableName,
@@ -318,7 +317,7 @@ export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTran
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
                     isEditing ? "#EDIT" : ""
                 }`,
-                ...{ ...socialMediaPost, image: { ...socialMediaPost.image, key } },
+                ...socialMediaPost,
             },
         }),
     );

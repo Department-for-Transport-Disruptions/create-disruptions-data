@@ -40,10 +40,16 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             throw new Error("No image data to upload");
         }
 
-        const image = Array.isArray(files["image"]) ? files["image"][0] : files["image"];
+        const imageFile = files[0]
+            ? {
+                  ...files[0],
+                  key: `${session.orgId}/${fields.disruptionId as string}/${fields.socialMediaPostIndex as string}.${
+                      files[0].mimetype?.replace("image/", "") ?? ""
+                  }`,
+              }
+            : null;
 
-        console.log("here3");
-        const validatedBody = refineImageSchema.safeParse({ ...fields, image });
+        const validatedBody = refineImageSchema.safeParse({ ...fields, ...(imageFile ? { image: imageFile } : {}) });
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
@@ -66,19 +72,15 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         console.log("here2");
 
-        const isImage = validatedBody.data.image && validatedBody.data.image.size;
-        if (isImage) {
+        if (validatedBody.data.image) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
-            const key = `${session.orgId}/${validatedBody.data.image.key}`;
-            await putItem(process.env.IMAGE_BUCKET_NAME || "", key, imageContents);
+            await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
 
         console.log("here");
-        await upsertSocialMediaPost(
-            { ...validatedBody.data, image: isImage ? validatedBody.data.image : undefined },
-            session.orgId,
-        );
+
+        await upsertSocialMediaPost(validatedBody.data, session.orgId);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
