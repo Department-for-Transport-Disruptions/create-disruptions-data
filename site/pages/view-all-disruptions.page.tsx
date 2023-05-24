@@ -100,12 +100,12 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
         return Progress.pendingApproval;
     }
 
-    if (disruption.publishStatus === PublishStatus.pendingApproval) {
-        return Progress.pendingApproval;
-    }
-
     if (!disruption.validity) {
         return Progress.closed;
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.pendingApproval;
     }
 
     const today = getDate();
