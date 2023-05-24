@@ -89,6 +89,10 @@ export interface Filter {
 }
 
 export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.pendingApproval;
+    }
+
     if (disruption.publishStatus === "DRAFT") {
         return Progress.draft;
     }
@@ -102,10 +106,6 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
 
     if (!disruption.validity) {
         return Progress.closed;
-    }
-
-    if (disruption.publishStatus === PublishStatus.pendingApproval) {
-        return Progress.pendingApproval;
     }
 
     const today = getDate();
