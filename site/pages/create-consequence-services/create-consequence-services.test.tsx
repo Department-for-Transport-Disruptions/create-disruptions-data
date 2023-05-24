@@ -16,6 +16,7 @@ const blankInputs: CreateConsequenceServicesProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
 };
 
@@ -32,6 +33,7 @@ const withInputs: CreateConsequenceServicesProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
     inputs: {
         stops: [
@@ -88,6 +90,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },

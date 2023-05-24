@@ -246,6 +246,7 @@ export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
 export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
+export const DISRUPTION_HISTORY_PAGE_PATH = "/disruption-history";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
 export const ACCOUNT_SETTINGS_PAGE_PATH = "/account-settings";

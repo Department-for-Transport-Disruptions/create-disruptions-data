@@ -24,6 +24,7 @@ const withInputsAndNoErrors: ChangePasswordPageProps = {
         isOrgPublisher: true,
         isOrgStaff: true,
         isSystemAdmin: true,
+        name: "Test User",
     },
 };
 

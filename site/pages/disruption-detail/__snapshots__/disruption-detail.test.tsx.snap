@@ -63,16 +63,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           </h1>
           <a
             className="govuk-link"
-            href="/view-disruption-history"
+            href="/disruption-history/2"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
           >
-            <h1
+            <h2
               className="govuk-heading-s text-govBlue"
             >
               View disruption history
-            </h1>
+            </h2>
           </a>
           <br />
           <table
@@ -1372,16 +1372,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
           </h1>
           <a
             className="govuk-link"
-            href="/view-disruption-history"
+            href="/disruption-history/2"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
           >
-            <h1
+            <h2
               className="govuk-heading-s text-govBlue"
             >
               View disruption history
-            </h1>
+            </h2>
           </a>
           <br />
           <table

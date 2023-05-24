@@ -60,6 +60,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
                 draftDisruption,
                 session.orgId,
                 PublishStatus.rejected,
+                session.name,
             );
         }
 

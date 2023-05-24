@@ -1,6 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
@@ -32,7 +32,7 @@ const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps):
                     .splice(0, Object.values(item).length - 1)
                     .map((value, i) => <p key={i}>{value as string}</p>),
                 item.hootsuiteProfiles.map((profile) => (
-                    <>
+                    <Fragment key={profile.id}>
                         <li className="list-none">
                             <Link
                                 className="govuk-link text-govBlue"
@@ -42,7 +42,7 @@ const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps):
                                 {`${toLowerStartCase(profile.type)}/${profile.id}`}
                             </Link>
                         </li>
-                    </>
+                    </Fragment>
                 )),
             ],
         }));

@@ -63,6 +63,8 @@ describe("publish", () => {
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
+            "test@example.com",
+            "Disruption created and published",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

@@ -31,6 +31,7 @@ const defaultSession: Session = {
     isSystemAdmin: true,
     orgId: randomUUID(),
     username: "test@example.com",
+    name: "Test User",
 };
 
 const disruptions: DashboardDisruption[] = [

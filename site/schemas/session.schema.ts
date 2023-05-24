@@ -6,6 +6,8 @@ export const sessionSchema = z
     .object({
         sub: z.string().uuid(),
         email: z.string().email(),
+        given_name: z.string().optional(),
+        family_name: z.string().optional(),
         "custom:orgId": z.string().uuid(),
         "cognito:groups": z.array(z.nativeEnum(UserGroups)).optional(),
     })
@@ -19,6 +21,7 @@ export const sessionSchema = z
             username: item.sub,
             email: item.email,
             orgId: item["custom:orgId"],
+            name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
             isSystemAdmin,
             isOrgAdmin,
             isOrgPublisher,

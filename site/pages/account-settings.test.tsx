@@ -17,6 +17,7 @@ describe("accountSettings", () => {
                         isOrgPublisher: true,
                         isOrgStaff: true,
                         isSystemAdmin: true,
+                        name: "Test User",
                     }}
                 />,
             )

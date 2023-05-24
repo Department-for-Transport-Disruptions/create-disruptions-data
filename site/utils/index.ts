@@ -27,7 +27,7 @@ export type SortedDisruption = Omit<
     | "disruptionNoEndDateTime"
 >;
 
-export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption): Dayjs | null => {
+export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | Disruption): Dayjs | null => {
     let disruptionEndDate: Dayjs | null = null;
 
     if (!disruption.validity) {
@@ -154,6 +154,22 @@ export const isStopsConsequence = (consequence: unknown): consequence is StopsCo
 
 export const isServicesConsequence = (consequence: unknown): consequence is ServicesConsequence =>
     isFullConsequence(consequence) && consequence.consequenceType === "services";
+
+export const getLargestConsequenceIndex = (disruption: Disruption) => {
+    const largestConsequenceIndex =
+        disruption.consequences && disruption.consequences.length > 0
+            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex
+            : 0;
+
+    const largestDeletedConsequenceIndex =
+        disruption.deletedConsequences && disruption.deletedConsequences.length > 0
+            ? disruption.deletedConsequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex
+            : 0;
+
+    return Math.max(largestConsequenceIndex, largestDeletedConsequenceIndex);
+};
 
 // Zod
 export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorMap } = (errorMessage: string) => ({

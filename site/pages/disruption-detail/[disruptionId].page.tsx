@@ -14,6 +14,7 @@ import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_HISTORY_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -21,7 +22,7 @@ import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { Session } from "../../schemas/session.schema";
-import { splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -127,11 +128,7 @@ const DisruptionDetail = ({
         });
     };
 
-    const nextIndex =
-        disruption.consequences && disruption.consequences.length > 0
-            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex + 1
-            : 0;
+    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -150,8 +147,11 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        <Link className="govuk-link" href="/view-disruption-history">
-                            <h1 className="govuk-heading-s text-govBlue">View disruption history</h1>
+                        <Link
+                            className="govuk-link"
+                            href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                        >
+                            <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
                         </Link>
                         <br />
                         <Table

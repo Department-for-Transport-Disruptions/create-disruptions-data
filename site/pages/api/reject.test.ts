@@ -78,6 +78,7 @@ describe("reject", () => {
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
+            "Test User",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -102,6 +103,7 @@ describe("reject", () => {
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
+            "Test User",
         );
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
