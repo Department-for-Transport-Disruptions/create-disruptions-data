@@ -156,9 +156,7 @@ exports[`accountSettings > should render correctly 1`] = `
                   </th>
                   <td
                     className="govuk-table__cell align-middle"
-                  >
-                    001, 002
-                  </td>
+                  />
                   <td
                     className="govuk-table__cell align-middle"
                   />
