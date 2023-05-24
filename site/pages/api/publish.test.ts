@@ -64,7 +64,7 @@ describe("publish", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "test@example.com",
-            false,
+            "Disruption created and published",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

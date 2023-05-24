@@ -125,7 +125,9 @@ const unauthenticatedRoutes = [
     "/404",
 ];
 
-const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`));
+const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`), {
+    timeoutDuration: 10000,
+});
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();

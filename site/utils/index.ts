@@ -233,3 +233,5 @@ export const sortServices = (services: Service[]) => {
         );
     });
 };
+
+export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());

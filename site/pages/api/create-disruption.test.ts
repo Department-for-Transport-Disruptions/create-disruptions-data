@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
@@ -50,6 +51,14 @@ describe("create-disruption API", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
+    });
+
+    const getSessionSpy = vi.spyOn(session, "getSession");
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
@@ -122,6 +131,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
@@ -717,6 +727,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

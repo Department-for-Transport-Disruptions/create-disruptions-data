@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
+exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
 [
   {
     "Consequences": {
@@ -125,8 +125,9 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
     ],
   },
   "35bae327-4af0-4bbf-8bfa-2c085f214483",
-  "PUBLISHED",
-  "test@example.com",
-  "Disruption created and published",
+  "REJECTED",
+  "Test User",
 ]
 `;
+
+exports[`reject > should write the correct disruptions data to dynamoDB 2`] = `undefined`;

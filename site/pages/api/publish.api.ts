@@ -52,7 +52,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             session.orgId,
             session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
             session.name,
-            false,
+            session.isOrgStaff ? "Disruption submitted for review" : "Disruption created and published",
         );
 
         cleardownCookies(req, res);

@@ -19,6 +19,7 @@ import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
+import { Session } from "../schemas/session.schema";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
@@ -574,3 +575,14 @@ export const mockOperators: Operator[] = [
         dataOwner: "",
     },
 ];
+
+export const mockSession: Session = {
+    email: "test@example.com",
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: true,
+    orgId: DEFAULT_ORG_ID,
+    username: "test@example.com",
+    name: "Test User",
+};

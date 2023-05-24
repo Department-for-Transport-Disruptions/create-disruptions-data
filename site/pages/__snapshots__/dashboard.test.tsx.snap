@@ -339,33 +339,6 @@ exports[`pages > dashboard > should render correctly when there are both live an
           Draft disruptions
         </h2>
       </a>
-      <div
-        className="govuk-!-padding-top-5"
-      >
-        <h2
-          className="govuk-heading-s"
-        >
-          Reviews
-        </h2>
-        <p
-          className="govuk-body"
-        >
-          You have nothing to review
-        </p>
-        <a
-          className="govuk-link"
-          href="/dashboard"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <h2
-            className="govuk-heading-s text-govBlue"
-          >
-            View all
-          </h2>
-        </a>
-      </div>
     </main>
     <div>
       <h2
@@ -793,33 +766,6 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
           Draft disruptions
         </h2>
       </a>
-      <div
-        className="govuk-!-padding-top-5"
-      >
-        <h2
-          className="govuk-heading-s"
-        >
-          Reviews
-        </h2>
-        <p
-          className="govuk-body"
-        >
-          You have nothing to review
-        </p>
-        <a
-          className="govuk-link"
-          href="/dashboard"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <h2
-            className="govuk-heading-s text-govBlue"
-          >
-            View all
-          </h2>
-        </a>
-      </div>
     </main>
     <div>
       <h2
@@ -1350,33 +1296,6 @@ exports[`pages > dashboard > should render correctly when there are only live di
           Draft disruptions
         </h2>
       </a>
-      <div
-        className="govuk-!-padding-top-5"
-      >
-        <h2
-          className="govuk-heading-s"
-        >
-          Reviews
-        </h2>
-        <p
-          className="govuk-body"
-        >
-          You have nothing to review
-        </p>
-        <a
-          className="govuk-link"
-          href="/dashboard"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <h2
-            className="govuk-heading-s text-govBlue"
-          >
-            View all
-          </h2>
-        </a>
-      </div>
     </main>
     <div>
       <h2
@@ -1907,33 +1826,6 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
           Draft disruptions
         </h2>
       </a>
-      <div
-        className="govuk-!-padding-top-5"
-      >
-        <h2
-          className="govuk-heading-s"
-        >
-          Reviews
-        </h2>
-        <p
-          className="govuk-body"
-        >
-          You have nothing to review
-        </p>
-        <a
-          className="govuk-link"
-          href="/dashboard"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <h2
-            className="govuk-heading-s text-govBlue"
-          >
-            View all
-          </h2>
-        </a>
-      </div>
     </main>
     <div>
       <h2
