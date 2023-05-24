@@ -638,12 +638,12 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                   <option
                     value="draftPendingApproval"
                   >
-                    Draft Pending Approval
+                    Draft pending approval
                   </option>
                   <option
                     value="editPendingApproval"
                   >
-                    Edit Pending Approval
+                    Edit pending approval
                   </option>
                   <option
                     value="open"
@@ -653,7 +653,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                   <option
                     value="pendingApproval"
                   >
-                    Pending Approval
+                    Pending approval
                   </option>
                   <option
                     value="published"
