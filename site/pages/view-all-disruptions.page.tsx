@@ -493,13 +493,7 @@ const ViewAllDisruptions = ({
             setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
-            applyFiltersToDisruptions(
-                disruptions,
-                setDisruptionsToDisplay,
-                currentPage,
-                filter,
-                setNumberOfDisruptionsPages,
-            );
+            applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, 1, filter, setNumberOfDisruptionsPages);
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
@@ -553,6 +547,7 @@ const ViewAllDisruptions = ({
                                 setFilter({ services: [], operators: [] });
                                 setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
                                 setClearButtonClicked(true);
+                                setCurrentPage(1);
                             }}
                         >
                             Clear filters
