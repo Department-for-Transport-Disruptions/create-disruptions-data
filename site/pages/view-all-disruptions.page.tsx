@@ -648,7 +648,7 @@ const ViewAllDisruptions = ({
                     <div className="flex">
                         <DateSelector
                             display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
+                            hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                             value=""
                             disabled={false}
                             disablePast={false}
@@ -672,7 +672,7 @@ const ViewAllDisruptions = ({
                         <div className="ml-5">
                             <DateSelector
                                 display="End date"
-                                hiddenHint="Enter in format DD/MM/YYYY"
+                                hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
                                 disabled={false}
                                 disablePast={false}
