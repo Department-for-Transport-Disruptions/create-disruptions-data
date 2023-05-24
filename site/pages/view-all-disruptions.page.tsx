@@ -87,13 +87,17 @@ export interface Filter {
     searchText?: string;
 }
 
-export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
-    if (disruption.publishStatus === "DRAFT") {
-        return Progress.draft;
+const getDisruptionStatus = (disruption: SortedDisruption): string => {
+    if (disruption.publishStatus === PublishStatus.draft) {
+        return "draft";
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return "draft pending approval";
     }
 
     if (!disruption.validity) {
-        return Progress.closed;
+        return "closed";
     }
 
     const today = getDate();
@@ -101,13 +105,13 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
 
     if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
         if (disruptionEndDate.isBefore(today)) {
-            return Progress.closed;
+            return "closed";
         } else {
-            return Progress.closing;
+            return "closing";
         }
     }
 
-    return Progress.open;
+    return "open";
 };
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -644,7 +648,7 @@ const ViewAllDisruptions = ({
                     <div className="flex">
                         <DateSelector
                             display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
+                            hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                             value=""
                             disabled={false}
                             disablePast={false}
@@ -668,7 +672,7 @@ const ViewAllDisruptions = ({
                         <div className="ml-5">
                             <DateSelector
                                 display="End date"
-                                hiddenHint="Enter in format DD/MM/YYYY"
+                                hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
                                 disabled={false}
                                 disablePast={false}
