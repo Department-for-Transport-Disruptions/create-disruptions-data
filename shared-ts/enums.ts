@@ -19,6 +19,9 @@ export enum Progress {
     published = "published",
     closing = "closing",
     closed = "closed",
+    pendingApproval = "pendingApproval",
+    editPendingApproval = "editPendingApproval",
+    draftPendingApproval = "draftPendingApproval",
 }
 
 export enum MiscellaneousReason {
@@ -162,4 +165,6 @@ export enum PublishStatus {
     editing = "EDITING",
     pendingApproval = "PENDING_APPROVAL",
     rejected = "REJECTED",
+    editPendingApproval = "EDIT_PENDING_APPROVAL",
+    pendingAndEditing = "PENDING_EDITING",
 }

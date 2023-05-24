@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { parseCookies } from "nookies";
-import { COOKIES_DISRUPTION_DETAIL_REFERER, ERROR_PATH } from "../../constants";
-import { deleteDisruptionsInEdit } from "../../data/dynamo";
+import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
+import { deleteDisruptionsInEdit, deleteDisruptionsInPending, isDisruptionInEdit } from "../../data/dynamo";
 import { publishSchema } from "../../schemas/publish.schema";
-import { cleardownCookies, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,14 +16,18 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const disruptionId = validatedBody.data.disruptionId;
+        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
 
-        await deleteDisruptionsInEdit(disruptionId, session.orgId);
-        const cookies = parseCookies({ req });
-        const ddCookieReferer = cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
+        if (session.isOrgStaff && !isEdited) {
+            await Promise.all([
+                deleteDisruptionsInEdit(disruptionId, session.orgId),
+                deleteDisruptionsInPending(disruptionId, session.orgId),
+            ]);
+        } else {
+            await deleteDisruptionsInEdit(disruptionId, session.orgId);
+        }
 
-        cleardownCookies(req, res);
-
-        redirectTo(res, ddCookieReferer ? ddCookieReferer : "/dashboard");
+        redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {
