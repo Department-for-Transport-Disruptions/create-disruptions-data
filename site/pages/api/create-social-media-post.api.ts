@@ -22,32 +22,29 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
     try {
         const session = getSession(req);
 
-        console.log("here6");
         if (!session) {
             throw new Error("No session found");
         }
 
-        console.log("here7");
         if (!process.env.IMAGE_BUCKET_NAME) {
             throw new Error("No image bucket to upload image to");
         }
 
-        console.log("here5");
-
         const { files, fields } = await formParse(req);
-        console.log("here4");
+
         if (!fields?.disruptionId && !fields?.socialMediaPostIndex) {
             throw new Error("No image data to upload");
         }
 
-        const imageFile = files[0]
-            ? {
-                  ...files[0],
-                  key: `${session.orgId}/${fields.disruptionId as string}/${fields.socialMediaPostIndex as string}.${
-                      files[0].mimetype?.replace("image/", "") ?? ""
-                  }`,
-              }
-            : null;
+        const imageFile =
+            files[0] && files[0].size
+                ? {
+                      ...files[0],
+                      key: `${session.orgId}/${fields.disruptionId as string}/${
+                          fields.socialMediaPostIndex as string
+                      }.${files[0].mimetype?.replace("image/", "") ?? ""}`,
+                  }
+                : null;
 
         const validatedBody = refineImageSchema.safeParse({ ...fields, ...(imageFile ? { image: imageFile } : {}) });
 
@@ -65,20 +62,16 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }}`,
+                }`,
             );
             return;
         }
-
-        console.log("here2");
 
         if (validatedBody.data.image) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
-
-        console.log("here");
 
         await upsertSocialMediaPost(validatedBody.data, session.orgId);
 

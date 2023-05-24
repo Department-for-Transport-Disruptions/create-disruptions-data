@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */
+import formidable from "formidable";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
+import * as fs from "fs/promises";
 import createSocialMediaPost from "./create-social-media-post.api";
-import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import {
+    COOKIES_SOCIAL_MEDIA_ERRORS,
+    CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import * as s3 from "../../data/s3";
+import { ErrorInfo } from "../../interfaces";
 import { DEFAULT_ORG_ID, DEFAULT_IMAGE_BUCKET_NAME, getMockRequestAndResponse } from "../../testData/mockData";
+import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as file from "../../utils/apiUtils/fileUpload";
 import { getFutureDateAsString } from "../../utils/dates";
 
@@ -51,8 +59,13 @@ describe("create-social-media-post API", () => {
     }));
 
     const s3Spy = vi.spyOn(s3, "putItem");
-    vi.mock("../../utils/apiUtils/formUpload", () => ({
+    vi.mock("../../data/s3", () => ({
         putItem: vi.fn(),
+    }));
+
+    const readFileSpy = vi.spyOn(fs, "readFile");
+    vi.mock("fs/promises", () => ({
+        readFile: vi.fn(),
     }));
 
     afterEach(() => {
@@ -65,19 +78,10 @@ describe("create-social-media-post API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        formParseSpy.mockImplementation(() => ({
+        formParseSpy.mockResolvedValue({
             fields: previousCreateSocialMediaPostInformation,
-            files: {
-                image: {
-                    size: 0,
-                    filepath: "/var/folders/85/5c4z0mfs49n56jgsyk737gf80000gp/T/b925f0ad5b82936c08d6a4200",
-                    newFilename: "b925f0ad5b82936c08d6a4200",
-                    mimetype: "application/octet-stream",
-                    mtime: null,
-                    originalFilename: "",
-                },
-            },
-        }));
+            files: [],
+        });
 
         await createSocialMediaPost(req, res);
 
@@ -92,6 +96,195 @@ describe("create-social-media-post API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when all required inputs are passed and an image", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: previousCreateSocialMediaPostInformation,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+
+            files: [
+                {
+                    size: 1000,
+                    filepath: "/testPath",
+                    newFilename: "testFile",
+                    mimetype: "image/jpg",
+                    mtime: null,
+                    originalFilename: "",
+                } as formidable.File,
+            ],
+        });
+        const buffer = Buffer.from("testFile", "base64");
+        await createSocialMediaPost(req, res);
+        readFileSpy.mockResolvedValue(buffer);
+        expect(s3Spy).toHaveBeenCalledTimes(1);
+        s3Spy.mockResolvedValue();
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
+            {
+                ...previousCreateSocialMediaPostInformation,
+                socialMediaPostIndex: 0,
+                image: {
+                    filepath: "/testPath",
+                    key: "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
+                    mimetype: "image/jpg",
+                    size: 1000,
+                },
+            },
+            DEFAULT_ORG_ID,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when all required inputs are passed and an image is size 0", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: previousCreateSocialMediaPostInformation,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+
+            files: [
+                {
+                    size: 0,
+                    filepath: "/testPath",
+                    newFilename: "testFile",
+                    mimetype: "application/octet-stream",
+                    mtime: null,
+                    originalFilename: "",
+                } as formidable.File,
+            ],
+        });
+        await createSocialMediaPost(req, res);
+
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
+            {
+                ...previousCreateSocialMediaPostInformation,
+                socialMediaPostIndex: 0,
+            },
+            DEFAULT_ORG_ID,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /create-social-media-post when the image size is over 5MB", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: previousCreateSocialMediaPostInformation,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+
+            files: [
+                {
+                    size: 90000000,
+                    filepath: "/testPath",
+                    newFilename: "testFile",
+                    mimetype: "image/jpg",
+                    mtime: null,
+                    originalFilename: "",
+                } as formidable.File,
+            ],
+        });
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Max image size is 5MB.", id: "image" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_SOCIAL_MEDIA_ERRORS,
+            JSON.stringify({ inputs: previousCreateSocialMediaPostInformation, errors }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
+    it("should redirect to /create-social-media-post when the image is the wrong type", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: previousCreateSocialMediaPostInformation,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+
+            files: [
+                {
+                    size: 5000,
+                    filepath: "/testPath",
+                    newFilename: "testFile",
+                    mimetype: "image/webapp",
+                    mtime: null,
+                    originalFilename: "",
+                } as formidable.File,
+            ],
+        });
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Only .jpg, .jpeg and .png formats are supported.", id: "image" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_SOCIAL_MEDIA_ERRORS,
+            JSON.stringify({ inputs: previousCreateSocialMediaPostInformation, errors }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
+    it("should redirect to /review-disruption when all required inputs are passed", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        formParseSpy.mockResolvedValue({
+            fields: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
+            files: [],
+        });
+
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Publish date/time must be in the future.", id: "publishDate" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_SOCIAL_MEDIA_ERRORS,
+            JSON.stringify({
+                inputs: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
+                errors,
+            }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
         });
     });
 });

@@ -367,7 +367,6 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
             false,
     );
 
-    console.log(JSON.stringify(socialMediaPosts));
     if (isEdited) {
         info = dynamoDisruption.Items.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
         const editedConsequences = dynamoDisruption.Items.filter(
@@ -399,7 +398,6 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        console.log(parsedDisruption.error);
         return null;
     }
     return parsedDisruption.data;
