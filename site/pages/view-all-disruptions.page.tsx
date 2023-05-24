@@ -89,7 +89,7 @@ export interface Filter {
 }
 
 export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
-    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+    if (disruption.publishStatus === (PublishStatus.pendingApproval as string)) {
         return Progress.pendingApproval;
     }
 
