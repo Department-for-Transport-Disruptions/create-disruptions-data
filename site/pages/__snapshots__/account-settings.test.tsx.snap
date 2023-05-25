@@ -145,6 +145,22 @@ exports[`accountSettings > should render correctly 1`] = `
                     className="govuk-table__cell align-middle"
                   />
                 </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Admin area
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle"
+                  />
+                  <td
+                    className="govuk-table__cell align-middle"
+                  />
+                </tr>
               </tbody>
             </table>
           </div>

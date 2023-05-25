@@ -2,11 +2,9 @@ import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import { randomUUID } from "crypto";
 import DisruptionDetail from "./[disruptionId].page";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -83,17 +81,6 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
 };
 
-const userSession: Session = {
-    username: "dummy.user@gmail.com",
-    email: "dummy.user@gmail.com",
-    orgId: randomUUID(),
-    isSystemAdmin: true,
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-    name: "Test User",
-};
-
 describe("pages", () => {
     describe("DisruptionDetail", () => {
         it("should render correctly with inputs and no errors", () => {
@@ -103,7 +90,7 @@ describe("pages", () => {
                         disruption={previousDisruptionInformation}
                         redirect={"/dashboard"}
                         errors={[]}
-                        session={userSession}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -120,15 +107,15 @@ describe("pages", () => {
                         }}
                         redirect={"/view-all-disruptions"}
                         errors={[]}
-                        session={userSession}
+                        canPublish
                     />,
                 )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs and display Send to review button for staff user role", () => {
-            const { getAllByRole } = render(
+        it("should display Send to review button for staff user role", () => {
+            const { getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{
                         ...previousDisruptionInformation,
@@ -136,16 +123,18 @@ describe("pages", () => {
                     }}
                     redirect={"/view-all-disruptions"}
                     errors={[]}
-                    session={{ ...userSession, isSystemAdmin: false, isOrgStaff: true }}
+                    canPublish={false}
                 />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
             expect(sendToReviewButton).toBeTruthy();
+
+            unmount();
         });
 
-        it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
-            const { getAllByRole } = render(
+        it("should display Publish disruption button for admin user role", () => {
+            const { getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{
                         ...previousDisruptionInformation,
@@ -153,12 +142,36 @@ describe("pages", () => {
                     }}
                     redirect={"/view-all-disruptions"}
                     errors={[]}
-                    session={userSession}
+                    canPublish
                 />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
             expect(publishButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should not display Delete disruption button for staff user role", () => {
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        publishStatus: PublishStatus.editing,
+                    }}
+                    redirect={"/view-all-disruptions"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+
+            expect(deleteButton).toBeFalsy();
+
+            unmount();
         });
     });
 });

@@ -21,10 +21,9 @@ import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
@@ -33,7 +32,7 @@ interface DisruptionDetailProps {
     disruption: Disruption;
     redirect: string;
     errors: ErrorInfo[];
-    session: Session;
+    canPublish: boolean;
     csrfToken?: string;
 }
 
@@ -42,7 +41,7 @@ const DisruptionDetail = ({
     redirect,
     csrfToken,
     errors,
-    session,
+    canPublish,
 }: DisruptionDetailProps): ReactElement => {
     const title =
         disruption.publishStatus === PublishStatus.editing ||
@@ -352,7 +351,7 @@ const DisruptionDetail = ({
                                 role="button"
                                 href={redirect}
                                 className={`govuk-button mt-8 ${
-                                    !session.isOrgStaff && disruption.publishStatus !== PublishStatus.published
+                                    canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
                                         : ""
                                 }`}
@@ -361,7 +360,7 @@ const DisruptionDetail = ({
                             </Link>
                         ) : null}
 
-                        {session.isOrgStaff &&
+                        {!canPublish &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
@@ -369,7 +368,7 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {!session.isOrgStaff && disruption.publishStatus !== PublishStatus.published ? (
+                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     Publish disruption
@@ -397,21 +396,23 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        <button
-                            className="govuk-button govuk-button--warning ml-5 mt-8"
-                            data-module="govuk-button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                deleteActionHandler("disruption", [
-                                    {
-                                        name: "id",
-                                        value: disruption.disruptionId,
-                                    },
-                                ]);
-                            }}
-                        >
-                            Delete disruption
-                        </button>
+                        {canPublish && (
+                            <button
+                                className="govuk-button govuk-button--warning ml-5 mt-8"
+                                data-module="govuk-button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteActionHandler("disruption", [
+                                        {
+                                            name: "id",
+                                            value: disruption.disruptionId,
+                                        },
+                                    ]);
+                                }}
+                            >
+                                Delete disruption
+                            </button>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -457,7 +458,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruption: disruption,
             redirect: referer,
             errors: errors,
-            session: session,
+            canPublish: canPublish(session),
         },
     };
 };

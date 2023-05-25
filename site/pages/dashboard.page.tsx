@@ -10,9 +10,8 @@ import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constant
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
-import { Session } from "../schemas/session.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
-import { getSession } from "../utils/apiUtils/auth";
+import { canPublish, getSession } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
@@ -32,7 +31,7 @@ export interface DashboardProps {
     upcomingDisruptions: DashboardDisruption[];
     newDisruptionId: string;
     pendingApprovalCount?: number;
-    session?: Session;
+    canPublish: boolean;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -94,7 +93,7 @@ const Dashboard = ({
     upcomingDisruptions,
     newDisruptionId,
     pendingApprovalCount,
-    session,
+    canPublish,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -127,14 +126,15 @@ const Dashboard = ({
     return (
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">Dashboard</h1>
-            {pendingApprovalCount && pendingApprovalCount > 0 && !session?.isOrgStaff ? (
+            {pendingApprovalCount && pendingApprovalCount > 0 && canPublish ? (
                 <div className="govuk-warning-text">
                     <span className="govuk-warning-text__icon" aria-hidden="true">
                         !
                     </span>
                     <strong className="govuk-warning-text__text">
                         <span className="govuk-warning-text__assistive">Warning</span>
-                        You have {pendingApprovalCount} new disruptions that require approval.
+                        You have {pendingApprovalCount} new disruption{pendingApprovalCount > 1 ? "s" : ""} that require
+                        {pendingApprovalCount === 1 ? "s" : ""} approval.
                         <Link
                             className="govuk-link"
                             href={{
@@ -238,6 +238,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             liveDisruptions: [],
             upcomingDisruptions: [],
             newDisruptionId: randomUUID(),
+            canPublish: false,
         },
     };
 
@@ -331,7 +332,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 newDisruptionId: randomUUID(),
                 pendingApprovalCount: pendingApprovalCount,
-                session: session,
+                canPublish: canPublish(session),
             },
         };
     }

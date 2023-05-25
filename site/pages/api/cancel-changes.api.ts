@@ -3,7 +3,7 @@ import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import { deleteDisruptionsInEdit, deleteDisruptionsInPending, isDisruptionInEdit } from "../../data/dynamo";
 import { publishSchema } from "../../schemas/publish.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 
 const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -18,7 +18,7 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         const disruptionId = validatedBody.data.disruptionId;
         const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
 
-        if (session.isOrgStaff && !isEdited) {
+        if (!canPublish(session) && !isEdited) {
             await Promise.all([
                 deleteDisruptionsInEdit(disruptionId, session.orgId),
                 deleteDisruptionsInPending(disruptionId, session.orgId),

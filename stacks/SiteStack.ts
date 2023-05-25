@@ -42,6 +42,7 @@ export function SiteStack({ stack }: StackContext) {
 
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
+        warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
         environment: {
             TABLE_NAME: table.tableName,
             SIRI_TABLE_NAME: siriTable.tableName,
