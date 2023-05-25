@@ -13,7 +13,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
-import {  SocialMediaPostTransformed } from "../schemas/social-media.schema";
+import { SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors } from "../utils";
 import logger from "../utils/logger";
 
