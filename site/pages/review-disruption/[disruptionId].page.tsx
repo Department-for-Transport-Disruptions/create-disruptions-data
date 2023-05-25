@@ -21,6 +21,7 @@ import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -482,7 +483,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 
-    let socialMediaWithImageLinks = [];
+    let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
@@ -500,7 +501,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 }
                 return s;
             }),
-        );
+        ) as SocialMediaPost[];
     }
 
     const disruptionWithURLS = {
@@ -521,7 +522,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            disruption: disruptionWithURLS,
+            disruption: disruptionWithURLS as Disruption,
             errors,
             canPublish: canPublish(session),
         },

@@ -1,3 +1,4 @@
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
@@ -11,6 +12,7 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     socialAccount: "Twitter",
     hootsuiteProfile: "Twitter/1234",
     socialMediaPostIndex: 0,
+    status: SocialMediaPostStatus.pending,
 };
 
 describe("pages", () => {
