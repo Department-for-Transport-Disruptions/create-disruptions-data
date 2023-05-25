@@ -39,6 +39,7 @@ const AccountSettings = ({ sessionWithOrg }: AccountSettingsProps): ReactElement
                         ],
                     },
                     { header: "Organisation", cells: [sessionWithOrg.orgName, ""] },
+                    { header: "Admin area", cells: [sessionWithOrg?.adminAreaCodes.join(", "), ""] },
                 ]}
             />
         </div>
