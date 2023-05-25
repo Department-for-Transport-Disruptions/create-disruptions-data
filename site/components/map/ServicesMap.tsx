@@ -29,7 +29,7 @@ import {
     stopSchema,
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { sortStops } from "../../utils/formUtils";
+import { getStopType, sortStops } from "../../utils/formUtils";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -551,11 +551,11 @@ const Map = ({
                         closeOnMove
                     >
                         <div>
-                            <p className="govuk-body-s mb-1">AtcoCode: {popupInfo.atcoCode}</p>
+                            <p className="govuk-body-s mb-1">{`${getStopType(popupInfo.stopType)}: ${
+                                popupInfo.commonName || "N/A"
+                            } (${popupInfo.indicator || ""})`}</p>
                             <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
-                            <p className="govuk-body-s mb-1">{`Name: ${popupInfo.commonName || "N/A"} (${
-                                popupInfo.indicator || ""
-                            })`}</p>
+                            <p className="govuk-body-s mb-1">ATCO code: {popupInfo.atcoCode}</p>
                         </div>
                     </Popup>
                 )}
