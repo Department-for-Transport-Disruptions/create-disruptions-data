@@ -60,7 +60,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-           disruptionWithConsequencesAndSocialMediaPosts,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "test@example.com",
@@ -100,7 +100,7 @@ describe("publish", () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
-                disruptionId:disruptionWithConsequencesAndSocialMediaPosts.disruptionId,
+                disruptionId: disruptionWithConsequencesAndSocialMediaPosts.disruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
