@@ -31,19 +31,12 @@ const description = "Review Disruption page for the Create Transport Disruptions
 
 interface ReviewDisruptionProps {
     disruption: Disruption;
-    previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
     errors: ErrorInfo[];
     session: Session;
 }
 
-const ReviewDisruption = ({
-    disruption,
-    previousSocialMediaPosts,
-    csrfToken,
-    errors,
-    session,
-}: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
 
@@ -317,7 +310,7 @@ const ReviewDisruption = ({
                         <h2 className="govuk-heading-l">Social media posts</h2>
 
                         <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                            {previousSocialMediaPosts.map((post, i) => (
+                            {disruption?.socialMediaPosts?.map((post, i) => (
                                 <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
                                     <div className="govuk-accordion__section-header">
                                         <h2 className="govuk-accordion__section-heading">
@@ -339,7 +332,7 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Message to appear",
                                                     cells: [
-                                                        post.messageToAppear,
+                                                        post.messageContent,
                                                         createChangeLink(
                                                             "message-to-appear",
                                                             `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
@@ -370,15 +363,30 @@ const ReviewDisruption = ({
                                                     ],
                                                 },
                                                 {
-                                                    header: "Account to publish",
+                                                    header: "Account name",
                                                     cells: [
-                                                        post.accountToPublish,
+                                                        post.socialAccount,
                                                         createChangeLink(
                                                             "account-to-publish",
                                                             `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                                             disruption,
                                                         ),
                                                     ],
+                                                },
+                                                {
+                                                    header: "HootSuite profile",
+                                                    cells: [
+                                                        post.hootsuiteProfile,
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            disruption,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Status",
+                                                    cells: ["Pending", ""],
                                                 },
                                             ]}
                                         />
@@ -390,6 +398,7 @@ const ReviewDisruption = ({
                             role="button"
                             href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
                             className="govuk-button mt-2 govuk-button--secondary"
+                            aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length === 5}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
                                 ? "Add another social media post"
@@ -455,27 +464,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Disruption not found for review page");
     }
 
-    const previousSocialMediaPosts: SocialMediaPost[] = [
-        {
-            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-            publishDate: "11/05/2020",
-            publishTime: "11:00",
-            accountToPublish: "Example account",
-        },
-        {
-            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-            publishDate: "11/05/2020",
-            publishTime: "11:00",
-            accountToPublish: "Example account 2",
-        },
-    ];
-
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
     return {
         props: {
             disruption,
-            previousSocialMediaPosts,
             errors,
             session,
         },
