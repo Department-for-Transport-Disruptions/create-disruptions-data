@@ -163,6 +163,7 @@ describe("create-social-media-post API", () => {
         });
         await createSocialMediaPost(req, res);
 
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
             {
@@ -254,7 +255,7 @@ describe("create-social-media-post API", () => {
         });
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed", async () => {
+    it("should redirect to /create-social-media-post when publish date is in the past", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
             mockWriteHeadFn: writeHeadMock,

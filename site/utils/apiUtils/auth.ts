@@ -28,3 +28,6 @@ export const getSessionWithOrgDetail = async (
 
     return null;
 };
+
+export const canPublish = (session: Session | SessionWithOrgDetail) =>
+    session.isSystemAdmin || session.isOrgAdmin || session.isOrgPublisher;

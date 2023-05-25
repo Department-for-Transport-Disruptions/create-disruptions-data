@@ -22,7 +22,8 @@ describe("cancelChanges", () => {
         vi.resetAllMocks();
     });
 
-    vi.mock("../../utils/apiUtils/auth", () => ({
+    vi.mock("../../utils/apiUtils/auth", async () => ({
+        ...(await vi.importActual<object>("../../utils/apiUtils/auth")),
         getSession: vi.fn(),
     }));
 

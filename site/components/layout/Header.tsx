@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
     const isAdmin = session?.isSystemAdmin || session?.isOrgAdmin;
-    const { buttonProps, itemProps, isOpen } = useDropdownMenu(isAdmin ? 4 : 2);
+    const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(isAdmin ? 4 : 2);
 
     return (
         <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
@@ -69,6 +69,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     <Link
                                         className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
                                         href="/account-settings"
+                                        onClick={() => setIsOpen(false)}
                                         {...itemProps[0]}
                                     >
                                         Account settings
@@ -77,6 +78,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
                                             href={USER_MANAGEMENT_PAGE_PATH}
+                                            onClick={() => setIsOpen(false)}
                                             {...itemProps[1]}
                                         >
                                             User management
@@ -86,6 +88,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
                                             href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}
+                                            onClick={() => setIsOpen(false)}
                                             {...itemProps[2]}
                                         >
                                             Social media
@@ -94,6 +97,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                     <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
                                         <button
                                             className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                            onClick={() => setIsOpen(false)}
                                             {...(itemProps[itemProps.length - 1] as object)}
                                         >
                                             Sign out

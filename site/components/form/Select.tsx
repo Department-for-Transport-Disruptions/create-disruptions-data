@@ -77,6 +77,7 @@ const Select = <T extends object>({
                                 ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
                                 : undefined
                         }
+                        aria-describedby={hint ? `${inputName}-hint` : undefined}
                     >
                         {getSelectOptions()}
                     </select>

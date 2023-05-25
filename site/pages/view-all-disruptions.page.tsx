@@ -1,7 +1,7 @@
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { LoadingBox } from "@govuk-react/loading-box";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import { randomUUID } from "crypto";
@@ -64,15 +64,15 @@ export interface TableDisruption {
     severity: string;
     status: string;
     serviceIds: string[];
-    operators: DisruptionOperator[];
+    operators: string[];
     consequenceLength?: number;
 }
 
 export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
-    services: Service[];
+    adminAreaCodes: string[];
     newDisruptionId: string;
-    operators: Operator[];
+    showPending?: boolean;
 }
 
 export interface Filter {
@@ -266,7 +266,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
             }
         }
 
-        if (filter.mode) {
+        if (filter.mode && filter.mode !== "any") {
             const swappedMode = getDisplayByValue(VEHICLE_MODES, filter.mode);
 
             if (!swappedMode || !disruption.modes.includes(swappedMode)) {
@@ -274,11 +274,11 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
             }
         }
 
-        if (filter.severity && disruption.severity !== filter.severity) {
+        if (filter.severity && filter.severity !== "any" && disruption.severity !== filter.severity) {
             return false;
         }
 
-        if (filter.status && disruption.status !== filter.status) {
+        if (filter.status && filter.status !== "any" && disruption.status !== filter.status) {
             if (
                 filter.status === Progress.pendingApproval &&
                 disruption.status !== Progress.editPendingApproval &&
@@ -293,7 +293,7 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         if (filter.operators.length > 0) {
             const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
 
-            if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator.operatorRef))) {
+            if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator))) {
                 return false;
             }
         }
@@ -330,9 +330,9 @@ const filterIsEmpty = (filter: Filter): boolean =>
 
 const ViewAllDisruptions = ({
     disruptions,
-    services,
     newDisruptionId,
-    operators,
+    adminAreaCodes,
+    showPending = false,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
@@ -345,14 +345,13 @@ const ViewAllDisruptions = ({
     const stateUpdater = (change: string[], _field: string): void => {
         setSelectedOperatorsNocs(change);
     };
-    const router = useRouter();
-    const query = router.query;
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: (query["pending"] as string) ? Progress.pendingApproval : undefined,
+        status: showPending ? Progress.pendingApproval : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
+    const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
     const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(getPageOfDisruptions(currentPage, disruptions));
     const [startDateFilter, setStartDateFilter] = useState("");
@@ -361,6 +360,8 @@ const ViewAllDisruptions = ({
     const [endDateFilterError, setEndDateFilterError] = useState(false);
     const [incompatibleDatesError, setIncompatibleDatesError] = useState(false);
     const [searchText, setSearchText] = useState("");
+    const [servicesList, setServicesList] = useState<Service[]>([]);
+    const [operatorsList, setOperatorsList] = useState<Operator[]>([]);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -420,14 +421,6 @@ const ViewAllDisruptions = ({
             }
         }
     };
-
-    useEffect(() => {
-        const statusValue = query["pending"];
-        if (statusValue) {
-            setShowFilters(true);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         if (clearButtonClicked) {
@@ -492,7 +485,7 @@ const ViewAllDisruptions = ({
     useEffect(() => {
         const disruptionOperatorsToSet: DisruptionOperator[] = [];
         selectedOperatorsNocs.forEach((selOpNoc) => {
-            const operator = operators.find((op) => op.nocCode === selOpNoc);
+            const operator = operatorsList.find((op) => op.nocCode === selOpNoc);
             if (operator) {
                 disruptionOperatorsToSet.push({
                     operatorName: operator.operatorPublicName,
@@ -530,6 +523,36 @@ const ViewAllDisruptions = ({
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
+    const setServicesAndOperators = async (adminAreaCodes: string[]) => {
+        const [operators, servicesData] = await Promise.all([
+            fetchOperators({ adminAreaCodes: adminAreaCodes }),
+            fetchServices({ adminAreaCodes: adminAreaCodes }),
+        ]);
+
+        let services: Service[] = [];
+
+        if (servicesData.length > 0) {
+            services = sortServices(servicesData);
+
+            const setOfServices = new Set();
+
+            const filteredServices: Service[] = services.filter((item) => {
+                const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+                if (!setOfServices.has(serviceDisplay)) {
+                    setOfServices.add(serviceDisplay);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            services = filteredServices;
+        }
+
+        setOperatorsList(operators);
+        setServicesList(services);
+    };
+
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">View all disruptions</h1>
@@ -559,7 +582,7 @@ const ViewAllDisruptions = ({
                     <button
                         className="govuk-button govuk-button--secondary block"
                         data-module="govuk-button"
-                        onClick={() => {
+                        onClick={async () => {
                             if (showFilters) {
                                 setFilter({ services: [], operators: [] });
                                 setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
@@ -567,6 +590,12 @@ const ViewAllDisruptions = ({
                                 setShowFilters(false);
                             } else {
                                 setShowFilters(true);
+
+                                if (servicesList.length === 0 && operatorsList.length === 0) {
+                                    setFiltersLoading(true);
+                                    await setServicesAndOperators(adminAreaCodes);
+                                    setFiltersLoading(false);
+                                }
                             }
                         }}
                     >
@@ -589,7 +618,7 @@ const ViewAllDisruptions = ({
             </div>
 
             {showFilters ? (
-                <>
+                <LoadingBox loading={filtersLoading}>
                     <div className="flex">
                         <div>
                             <label className="govuk-label govuk-label--s" htmlFor="summary-search">
@@ -615,7 +644,7 @@ const ViewAllDisruptions = ({
                     <OperatorSearch
                         display="Operators"
                         displaySize="s"
-                        operators={operators}
+                        operators={operatorsList}
                         selectedOperatorNocs={selectedOperatorsNocs}
                         stateUpdater={stateUpdater}
                         initialErrors={[]}
@@ -627,7 +656,7 @@ const ViewAllDisruptions = ({
                             rows={selectedOperatorsNocs.map((selOpNoc) => {
                                 return {
                                     cells: [
-                                        operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
+                                        operatorsList.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
                                         selOpNoc,
                                         <button
                                             key={selOpNoc}
@@ -646,7 +675,7 @@ const ViewAllDisruptions = ({
                         />
                     ) : null}
                     <ServiceSearch
-                        services={services}
+                        services={servicesList}
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
@@ -729,7 +758,10 @@ const ViewAllDisruptions = ({
                             display="Severity"
                             value={filter.severity}
                             defaultDisplay="Select a severity"
-                            selectValues={DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display))}
+                            selectValues={[
+                                { display: "Any", value: "any" },
+                                ...DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display)),
+                            ]}
                             stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
                             width="1/4"
                             updateOnChange
@@ -741,7 +773,10 @@ const ViewAllDisruptions = ({
                                 display="Status"
                                 value={filter.status}
                                 defaultDisplay="Select a status"
-                                selectValues={DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display))}
+                                selectValues={[
+                                    { display: "Any", value: "any" },
+                                    ...DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display)),
+                                ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
                                 width="1/4"
                                 updateOnChange
@@ -754,7 +789,10 @@ const ViewAllDisruptions = ({
                                 display="Mode"
                                 value={filter.mode}
                                 defaultDisplay="Select a mode"
-                                selectValues={VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display))}
+                                selectValues={[
+                                    { display: "Any", value: "any" },
+                                    ...VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display)),
+                                ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"
                                 updateOnChange
@@ -762,7 +800,7 @@ const ViewAllDisruptions = ({
                             />
                         </div>
                     </div>
-                </>
+                </LoadingBox>
             ) : null}
 
             <>
@@ -785,8 +823,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             disruptions: [],
             newDisruptionId: randomUUID(),
-            services: [],
-            operators: [],
+            adminAreaCodes: [],
         },
     };
 
@@ -799,44 +836,23 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!session) {
         return baseProps;
     }
-    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes });
-    let data = await getDisruptionsDataFromDynamo(session.orgId);
 
-    const servicesData: Service[] = await fetchServices({ adminAreaCodes: session.adminAreaCodes });
-    let services: Service[] = [];
+    let disruptionsData = await getDisruptionsDataFromDynamo(session.orgId);
 
-    if (servicesData.length > 0) {
-        services = sortServices(servicesData);
-
-        const setOfServices = new Set();
-
-        const filteredServices: Service[] = services.filter((item) => {
-            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
-            if (!setOfServices.has(serviceDisplay)) {
-                setOfServices.add(serviceDisplay);
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        services = filteredServices;
-    }
-
-    if (data) {
-        data = data.filter(
+    if (disruptionsData) {
+        disruptionsData = disruptionsData.filter(
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
                 item.publishStatus === PublishStatus.pendingApproval ||
                 item.publishStatus === PublishStatus.editPendingApproval,
         );
-        const sortedDisruptions = sortDisruptionsByStartDate(data);
+        const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceIds: string[] = [];
-            const disruptionOperators: DisruptionOperator[] = [];
+            const disruptionOperators: string[] = [];
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
@@ -854,15 +870,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     }
 
                     if (consequence.consequenceType === "operatorWide") {
-                        consequence.consequenceOperators.forEach((consOp) => {
-                            const foundOperator = operators.find((op) => op.nocCode === consOp);
-
-                            if (foundOperator) {
-                                disruptionOperators.push({
-                                    operatorName: foundOperator.operatorPublicName,
-                                    operatorRef: foundOperator.nocCode,
-                                });
-                            }
+                        consequence.consequenceOperators.forEach((op) => {
+                            disruptionOperators.push(op);
                         });
                     }
                 });
@@ -883,12 +892,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             };
         });
 
+        const showPending = ctx.query.pending?.toString() === "true";
+
         return {
             props: {
                 disruptions: shortenedData,
-                services,
+                adminAreaCodes: session.adminAreaCodes,
                 newDisruptionId: randomUUID(),
-                operators,
+                showPending,
             },
         };
     }
@@ -896,9 +907,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             disruptions: [],
-            services,
+            adminAreaCodes: session.adminAreaCodes,
             newDisruptionId: randomUUID(),
-            operators,
         },
     };
 };

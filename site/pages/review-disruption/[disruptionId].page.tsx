@@ -17,13 +17,12 @@ import {
     DASHBOARD_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { ErrorInfo, SocialMediaPost } from "../../interfaces";
+import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
@@ -33,10 +32,10 @@ interface ReviewDisruptionProps {
     disruption: Disruption;
     csrfToken?: string;
     errors: ErrorInfo[];
-    session: Session;
+    canPublish: boolean;
 }
 
-const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
 
@@ -335,8 +334,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                         post.messageContent,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -346,8 +346,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -357,8 +358,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -368,8 +370,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                         post.socialAccount,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -379,8 +382,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                         post.hootsuiteProfile,
                                                         createChangeLink(
                                                             "hootsuite-profile",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -409,7 +413,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            {session.isOrgStaff ? "Send to review" : "Publish disruption"}
+                            {canPublish ? "Publish disruption" : "Send to review"}
                         </button>
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -470,7 +474,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             disruption,
             errors,
-            session,
+            canPublish: canPublish(session),
         },
     };
 };
