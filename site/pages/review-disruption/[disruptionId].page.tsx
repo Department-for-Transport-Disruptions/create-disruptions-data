@@ -342,8 +342,9 @@ const ReviewDisruption = ({
                                                         post.messageToAppear,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -353,8 +354,9 @@ const ReviewDisruption = ({
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -364,8 +366,9 @@ const ReviewDisruption = ({
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -375,8 +378,9 @@ const ReviewDisruption = ({
                                                         post.accountToPublish,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },

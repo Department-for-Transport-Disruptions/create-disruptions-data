@@ -149,6 +149,7 @@ const DateSelector = <T extends object>({
                         disablePast={disablePast}
                         inputFormat="DD/MM/YYYY"
                         disabled={disabled}
+                        aria-describedby={hint ? `${inputName}-hint` : undefined}
                     />
                 </LocalizationProvider>
             </div>
