@@ -350,7 +350,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                                 key={post.image.key}
                                                                 href={post.image?.url ?? ""}
                                                             >
-                                                                {post.image.key}
+                                                                {post.image.originalFilename}
                                                             </Link>
                                                         ) : (
                                                             "No image uploaded"
@@ -488,7 +488,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruption.socialMediaPosts.map(async (s) => {
                 if (s.image) {
                     const url = (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key)) || "";
-                    // console.log("urlll", url);
                     return {
                         ...s,
                         image: {

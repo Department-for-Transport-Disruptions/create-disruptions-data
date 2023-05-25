@@ -21,6 +21,7 @@ export const socialMediaPostSchema = z.object({
             size: z.number(),
             key: z.string(),
             url: z.string().optional(),
+            originalFilename: z.string(),
         })
         .optional(),
     status: z.nativeEnum(SocialMediaPostStatus).default(SocialMediaPostStatus.pending),
