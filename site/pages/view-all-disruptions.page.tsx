@@ -42,7 +42,6 @@ import {
     filterDatePeriodMatchesDisruptionDatePeriod,
     getDate,
     getFormattedDate,
-    dateIsSameOrBeforeSecondDate,
 } from "../utils/dates";
 
 const title = "View All Disruptions";
@@ -111,12 +110,10 @@ const getDisruptionStatus = (disruption: SortedDisruption): string => {
     const today = getDate();
     const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-    if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
-        if (disruptionEndDate.isBefore(today)) {
-            return "closed";
-        } else {
-            return "closing";
-        }
+    if (!!disruptionEndDate && disruptionEndDate.isBefore(today)) {
+        return "closed";
+    } else if (!!disruptionEndDate && disruptionEndDate.isBefore(today.add(24, "hours"))) {
+        return "closing";
     }
 
     return "open";
