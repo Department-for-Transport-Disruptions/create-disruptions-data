@@ -487,7 +487,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
                 if (s.image) {
-                    const url = (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key)) || "";
+                    const url =
+                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
+                        "";
                     return {
                         ...s,
                         image: {

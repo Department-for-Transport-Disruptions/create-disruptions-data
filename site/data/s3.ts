@@ -31,7 +31,7 @@ export const putItem = async (
     }
 };
 
-export const getItem = async (bucket: string, key: string): Promise<string> => {
+export const getItem = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
     logger.info("", {
         context: "data.s3",
         message: "getting item from s3",
@@ -41,6 +41,7 @@ export const getItem = async (bucket: string, key: string): Promise<string> => {
         const input = {
             Bucket: bucket,
             Key: key,
+            ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"',
         };
         const command = new GetObjectCommand(input);
         const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
