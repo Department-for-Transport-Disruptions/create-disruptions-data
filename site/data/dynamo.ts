@@ -13,7 +13,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
-import {  SocialMediaPostTransformed } from "../schemas/social-media.schema";
+import { SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
 import { getDate } from "../utils/dates";
 import logger from "../utils/logger";
@@ -495,13 +495,12 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                 !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
-    const socialMediaPosts = dynamoDisruption.Items.filter(
+    const socialMediaPosts = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                 !(item.SK as string).includes("#EDIT")) ??
             false,
     );
-
 
     const history = disruptionItems.filter(
         (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
