@@ -93,7 +93,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -121,7 +121,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -149,7 +149,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -177,7 +177,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -205,7 +205,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -242,7 +242,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -279,7 +279,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -307,7 +307,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -335,7 +335,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -363,7 +363,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -391,7 +391,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Freview-disruption"
+                    href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -466,7 +466,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/0?return=%2Freview-disruption"
+                          href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -494,7 +494,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+                          href="/create-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -522,7 +522,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+                          href="/create-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -550,7 +550,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+                          href="/create-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -578,7 +578,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Freview-disruption"
+                          href="/create-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -652,7 +652,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/1?return=%2Freview-disruption"
+                          href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -680,7 +680,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Freview-disruption"
+                          href="/create-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -708,7 +708,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Freview-disruption"
+                          href="/create-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -736,7 +736,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Freview-disruption"
+                          href="/create-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -764,7 +764,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Freview-disruption"
+                          href="/create-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -792,7 +792,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Freview-disruption"
+                          href="/create-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -866,7 +866,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/2?return=%2Freview-disruption"
+                          href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -894,7 +894,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -922,7 +922,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -950,7 +950,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -978,7 +978,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1006,7 +1006,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1034,7 +1034,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Freview-disruption"
+                          href="/create-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1057,7 +1057,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/type-of-consequence/2/3?return=%2Freview-disruption"
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1130,7 +1130,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1158,7 +1158,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1186,7 +1186,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1214,7 +1214,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1242,7 +1242,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1270,7 +1270,240 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Social media post 2
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link text-govBlue"
+                          href=""
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          blah.jpg
+                        </a>
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        26/05/2023
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1305,7 +1538,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           <a
             aria-disabled={false}
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/2/1"
+            href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1317,7 +1550,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           <input
             name="disruptionId"
             type="hidden"
-            value="2"
+            value="acde070d-8c4c-4f0d-9d8a-162843c10333"
           />
           <button
             className="govuk-button mt-8"
