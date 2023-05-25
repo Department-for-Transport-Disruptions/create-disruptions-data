@@ -18,7 +18,6 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
-    CREATE_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
@@ -299,56 +298,63 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 />
                             </Fragment>
                         ))}
-
-                        <DateSelector<Validity>
-                            display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
-                            value={validity.disruptionStartDate}
-                            disabled={false}
-                            disablePast={false}
-                            inputName={"disruptionStartDate"}
-                            stateUpdater={validityStateUpdater}
-                            initialErrors={pageState.errors}
-                            reset={addValidityClicked}
-                            schema={validitySchema.shape.disruptionStartDate}
-                        />
-
-                        <TimeSelector<Validity>
-                            display="Start time"
-                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={validity.disruptionStartTime}
-                            disabled={false}
-                            inputName="disruptionStartTime"
-                            stateUpdater={validityStateUpdater}
-                            initialErrors={pageState.errors}
-                            reset={addValidityClicked}
-                            schema={validitySchema.shape.disruptionStartTime}
-                        />
-
-                        <DateSelector<Validity>
-                            display="End date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
-                            value={validity.disruptionEndDate}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
-                            disablePast={false}
-                            inputName="disruptionEndDate"
-                            stateUpdater={validityStateUpdater}
-                            initialErrors={pageState.errors}
-                            reset={addValidityClicked}
-                            schema={validitySchema.shape.disruptionEndDate}
-                        />
-
-                        <TimeSelector<Validity>
-                            display="End time"
-                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={validity.disruptionEndTime}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
-                            inputName="disruptionEndTime"
-                            stateUpdater={validityStateUpdater}
-                            initialErrors={pageState.errors}
-                            reset={addValidityClicked}
-                            schema={validitySchema.shape.disruptionEndTime}
-                        />
+                        <div className="flex pb-8">
+                            <div>
+                                <DateSelector<Validity>
+                                    display="Start date"
+                                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
+                                    value={validity.disruptionStartDate}
+                                    disabled={false}
+                                    disablePast={false}
+                                    inputName={"disruptionStartDate"}
+                                    stateUpdater={validityStateUpdater}
+                                    initialErrors={pageState.errors}
+                                    reset={addValidityClicked}
+                                    schema={validitySchema.shape.disruptionStartDate}
+                                />
+                            </div>
+                            <div className="pl-4">
+                                <TimeSelector<Validity>
+                                    display="Start time"
+                                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                                    value={validity.disruptionStartTime}
+                                    disabled={false}
+                                    inputName="disruptionStartTime"
+                                    stateUpdater={validityStateUpdater}
+                                    initialErrors={pageState.errors}
+                                    reset={addValidityClicked}
+                                    schema={validitySchema.shape.disruptionStartTime}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex pb-8">
+                            <div>
+                                <DateSelector<Validity>
+                                    display="End date"
+                                    hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
+                                    value={validity.disruptionEndDate}
+                                    disabled={validity.disruptionNoEndDateTime === "true"}
+                                    disablePast={false}
+                                    inputName="disruptionEndDate"
+                                    stateUpdater={validityStateUpdater}
+                                    initialErrors={pageState.errors}
+                                    reset={addValidityClicked}
+                                    schema={validitySchema.shape.disruptionEndDate}
+                                />
+                            </div>
+                            <div className="pl-5">
+                                <TimeSelector<Validity>
+                                    display="End time"
+                                    value={validity.disruptionEndTime}
+                                    disabled={validity.disruptionNoEndDateTime === "true"}
+                                    inputName="disruptionEndTime"
+                                    stateUpdater={validityStateUpdater}
+                                    initialErrors={pageState.errors}
+                                    reset={addValidityClicked}
+                                    schema={validitySchema.shape.disruptionEndTime}
+                                />
+                            </div>
+                        </div>
 
                         <Checkbox<Validity>
                             inputName="disruptionNoEndDateTime"
@@ -367,6 +373,61 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
 
+                        <div className="flex pb-8">
+                            <div>
+                                <DateSelector<DisruptionInfo>
+                                    display="Publication start date"
+                                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
+                                    value={pageState.inputs.publishStartDate}
+                                    disabled={false}
+                                    disablePast={false}
+                                    inputName="publishStartDate"
+                                    stateUpdater={stateUpdater}
+                                    initialErrors={pageState.errors}
+                                    schema={createDisruptionSchema.shape.publishStartDate}
+                                />
+                            </div>
+                            <div className="pl-4">
+                                <TimeSelector<DisruptionInfo>
+                                    display="Publication start time"
+                                    hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
+                                    value={pageState.inputs.publishStartTime}
+                                    disabled={false}
+                                    inputName="publishStartTime"
+                                    stateUpdater={stateUpdater}
+                                    initialErrors={pageState.errors}
+                                    schema={createDisruptionSchema.shape.publishStartTime}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex pb-8">
+                            <div>
+                                <DateSelector<DisruptionInfo>
+                                    display="Publication end date"
+                                    hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
+                                    value={pageState.inputs.publishEndDate}
+                                    disabled={validity.disruptionNoEndDateTime === "true"}
+                                    disablePast={false}
+                                    inputName="publishEndDate"
+                                    stateUpdater={stateUpdater}
+                                    initialErrors={pageState.errors}
+                                    schema={createDisruptionSchema.shape.publishEndDate}
+                                />
+                            </div>
+                            <div className="pl-5">
+                                <TimeSelector<DisruptionInfo>
+                                    display="Publication end time"
+                                    value={pageState.inputs.publishEndTime}
+                                    disabled={validity.disruptionNoEndDateTime === "true"}
+                                    inputName="publishEndTime"
+                                    stateUpdater={stateUpdater}
+                                    initialErrors={pageState.errors}
+                                    schema={createDisruptionSchema.shape.publishEndTime}
+                                />
+                            </div>
+                        </div>
+
                         <Radios<DisruptionInfo>
                             display="Does this disruption repeat?"
                             radioDetail={[
@@ -383,7 +444,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     conditionalElement: (
                                         <DateSelector<Validity>
                                             display="Ending on"
-                                            hiddenHint="Enter in format DD/MM/YYYY"
+                                            hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                             value={validity.disruptionRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
@@ -404,7 +465,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     conditionalElement: (
                                         <DateSelector<Validity>
                                             display="Ending on"
-                                            hiddenHint="Enter in format DD/MM/YYYY"
+                                            hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                             value={validity.disruptionRepeatsEndDate}
                                             disabled={false}
                                             disablePast={false}
@@ -437,78 +498,22 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             Add another validity period
                         </button>
                     </div>
-                    <div className="govuk-form-group govuk-!-padding-top-3">
-                        <h2 className="govuk-heading-l">When does the disruption need to be published?</h2>
 
-                        <DateSelector<DisruptionInfo>
-                            display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs.publishStartDate}
-                            disabled={false}
-                            disablePast={false}
-                            inputName="publishStartDate"
-                            stateUpdater={stateUpdater}
-                            initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.publishStartDate}
-                        />
+                    <input type="hidden" name="disruptionId" value={props.disruptionId} />
 
-                        <TimeSelector<DisruptionInfo>
-                            display="Start time"
-                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs.publishStartTime}
-                            disabled={false}
-                            inputName="publishStartTime"
-                            stateUpdater={stateUpdater}
-                            initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.publishStartTime}
-                        />
+                    <button className="govuk-button" data-module="govuk-button">
+                        Save and continue
+                    </button>
 
-                        <DateSelector<DisruptionInfo>
-                            display="End date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
-                            value={pageState.inputs.publishEndDate}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
-                            disablePast={false}
-                            inputName="publishEndDate"
-                            stateUpdater={stateUpdater}
-                            initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.publishEndDate}
-                        />
-
-                        <TimeSelector<DisruptionInfo>
-                            display="End time"
-                            hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                            value={pageState.inputs.publishEndTime}
-                            disabled={validity.disruptionNoEndDateTime === "true"}
-                            inputName="publishEndTime"
-                            stateUpdater={stateUpdater}
-                            initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.publishEndTime}
-                        />
-
-                        <input type="hidden" name="disruptionId" value={props.disruptionId} />
-
-                        <button className="govuk-button mt-8" data-module="govuk-button">
-                            Save and continue
-                        </button>
-
-                        {displayCancelButton && pageState.disruptionId ? (
-                            <Link
-                                role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
-                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            >
-                                Cancel Changes
-                            </Link>
-                        ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_DISRUPTION_PAGE_PATH}?draft=true`}
+                    {displayCancelButton && pageState.disruptionId ? (
+                        <Link
+                            role="button"
+                            href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                            className="govuk-button ml-5 govuk-button--secondary"
                         >
-                            Save as draft
-                        </button>
-                    </div>
+                            Cancel Changes
+                        </Link>
+                    ) : null}
                 </>
             </CsrfForm>
         </BaseLayout>

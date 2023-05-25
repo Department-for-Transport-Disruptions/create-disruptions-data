@@ -157,6 +157,18 @@ export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
         value: Progress.open,
         display: "Open",
     },
+    {
+        value: Progress.pendingApproval,
+        display: "Pending approval",
+    },
+    {
+        value: Progress.editPendingApproval,
+        display: "Edit pending approval",
+    },
+    {
+        value: Progress.draftPendingApproval,
+        display: "Draft pending approval",
+    },
     { value: Progress.published, display: "Published" },
 ];
 
@@ -234,6 +246,7 @@ export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
 export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
+export const DISRUPTION_HISTORY_PAGE_PATH = "/disruption-history";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
 export const ACCOUNT_SETTINGS_PAGE_PATH = "/account-settings";

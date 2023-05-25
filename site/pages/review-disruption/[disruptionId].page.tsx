@@ -21,7 +21,7 @@ import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { Session } from "../../schemas/session.schema";
-import { splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -116,11 +116,7 @@ const ReviewDisruption = ({
         });
     };
 
-    const nextIndex =
-        disruption.consequences && disruption.consequences.length > 0
-            ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex + 1
-            : 0;
+    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
 
     const nextIndexSocialMedia =
         disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0

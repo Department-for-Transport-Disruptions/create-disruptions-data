@@ -1,6 +1,7 @@
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import { randomUUID } from "crypto";
@@ -87,13 +88,24 @@ export interface Filter {
     searchText?: string;
 }
 
-export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
-    if (disruption.publishStatus === "DRAFT") {
-        return Progress.draft;
+const getDisruptionStatus = (disruption: SortedDisruption): string => {
+    if (disruption.publishStatus === PublishStatus.draft) {
+        return "draft";
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.draftPendingApproval;
+    }
+
+    if (
+        disruption.publishStatus === PublishStatus.editPendingApproval ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
+    ) {
+        return Progress.editPendingApproval;
     }
 
     if (!disruption.validity) {
-        return Progress.closed;
+        return "closed";
     }
 
     const today = getDate();
@@ -101,13 +113,13 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
 
     if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
         if (disruptionEndDate.isBefore(today)) {
-            return Progress.closed;
+            return "closed";
         } else {
-            return Progress.closing;
+            return "closing";
         }
     }
 
-    return Progress.open;
+    return "open";
 };
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
@@ -267,7 +279,15 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
         }
 
         if (filter.status && disruption.status !== filter.status) {
-            return false;
+            if (
+                filter.status === Progress.pendingApproval &&
+                disruption.status !== Progress.editPendingApproval &&
+                disruption.status !== Progress.draftPendingApproval
+            ) {
+                return false;
+            } else if (filter.status !== Progress.pendingApproval) {
+                return false;
+            }
         }
 
         if (filter.operators.length > 0) {
@@ -325,9 +345,12 @@ const ViewAllDisruptions = ({
     const stateUpdater = (change: string[], _field: string): void => {
         setSelectedOperatorsNocs(change);
     };
+    const router = useRouter();
+    const query = router.query;
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
+        status: (query["pending"] as string) ? Progress.pendingApproval : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
@@ -397,6 +420,14 @@ const ViewAllDisruptions = ({
             }
         }
     };
+
+    useEffect(() => {
+        const statusValue = query["pending"];
+        if (statusValue) {
+            setShowFilters(true);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (clearButtonClicked) {
@@ -644,7 +675,7 @@ const ViewAllDisruptions = ({
                     <div className="flex">
                         <DateSelector
                             display="Start date"
-                            hiddenHint="Enter in format DD/MM/YYYY"
+                            hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                             value=""
                             disabled={false}
                             disablePast={false}
@@ -668,7 +699,7 @@ const ViewAllDisruptions = ({
                         <div className="ml-5">
                             <DateSelector
                                 display="End date"
-                                hiddenHint="Enter in format DD/MM/YYYY"
+                                hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
                                 disabled={false}
                                 disablePast={false}
@@ -797,7 +828,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval,
+                item.publishStatus === PublishStatus.pendingApproval ||
+                item.publishStatus === PublishStatus.editPendingApproval,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(data);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {

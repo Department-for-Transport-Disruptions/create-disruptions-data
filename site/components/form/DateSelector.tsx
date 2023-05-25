@@ -14,12 +14,14 @@ import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
-    hiddenHint?: string;
+    hint?: {
+        hidden: boolean;
+        text: string;
+    };
     disablePast: boolean;
     reset?: boolean;
     errorOnBlur?: boolean;
     suffixId?: string;
-    hint?: string;
 }
 
 const inputBox = <T extends object>(
@@ -81,14 +83,13 @@ const DateSelector = <T extends object>({
     inputName,
     initialErrors = [],
     disabled,
-    hiddenHint,
+    hint,
     disablePast,
     stateUpdater,
     schema,
     reset = false,
     errorOnBlur = true,
     suffixId,
-    hint,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -114,8 +115,9 @@ const DateSelector = <T extends object>({
                 <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
                     {display}
                 </label>
-                {hiddenHint ? <div className="govuk-hint govuk-visually-hidden">{hiddenHint}</div> : null}
-                {hint ? <div className="govuk-hint">{hint}</div> : null}
+                {hint ? (
+                    <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
+                ) : null}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         renderDay={renderWeekPickerDay}

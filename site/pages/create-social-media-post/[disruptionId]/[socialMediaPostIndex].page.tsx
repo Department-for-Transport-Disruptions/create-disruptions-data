@@ -105,7 +105,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                         <DateSelector<SocialMediaPost>
                             display="Date"
-                            hint="Enter in format DD/MM/YYYY"
+                            hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                             value={pageState.inputs.publishDate}
                             disabled={false}
                             disablePast={false}

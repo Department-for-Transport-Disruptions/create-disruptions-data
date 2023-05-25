@@ -13,7 +13,24 @@ describe("DateSelector", () => {
             .create(
                 <DateSelector<TestInputs>
                     display="Start date"
-                    hiddenHint="Enter in format DD/MM/YYYY"
+                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
+                    value=""
+                    disabled={false}
+                    disablePast={false}
+                    inputName="field1"
+                    stateUpdater={vi.fn()}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly with no input and the hint is hidden", () => {
+        const tree = renderer
+            .create(
+                <DateSelector<TestInputs>
+                    display="Start date"
+                    hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                     value=""
                     disabled={false}
                     disablePast={false}
@@ -30,7 +47,7 @@ describe("DateSelector", () => {
             .create(
                 <DateSelector<TestInputs>
                     display="Start date"
-                    hiddenHint="Enter in format DD/MM/YYYY"
+                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                     initialErrors={[{ errorMessage: "There was an error", id: "field1" }]}
                     value="sss"
                     disabled={false}
@@ -48,7 +65,7 @@ describe("DateSelector", () => {
             .create(
                 <DateSelector<TestInputs>
                     display="Start date"
-                    hiddenHint="Enter in format DD/MM/YYYY"
+                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                     value="01/01/2024"
                     disabled={false}
                     disablePast={false}
@@ -65,7 +82,7 @@ describe("DateSelector", () => {
             .create(
                 <DateSelector<TestInputs>
                     display="Start date"
-                    hiddenHint="Enter in format DD/MM/YYYY"
+                    hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                     value="01/01/2024"
                     disabled
                     disablePast={false}
@@ -81,7 +98,7 @@ describe("DateSelector", () => {
         const { unmount } = render(
             <DateSelector<TestInputs>
                 display="Start date"
-                hiddenHint="Enter in format DD/MM/YYYY"
+                hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                 value=""
                 disabled={false}
                 disablePast={false}
@@ -104,7 +121,7 @@ describe("DateSelector", () => {
         const { unmount } = render(
             <DateSelector<TestInputs>
                 display="Start date"
-                hiddenHint="Enter in format DD/MM/YYYY"
+                hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                 value=""
                 disabled
                 disablePast={false}

@@ -11,7 +11,7 @@ describe("date/time tests", () => {
     it.each([
         ["2019-01-25", "DD/MM/YYYY", "25/01/2019"],
         ["2019-01-25", "DD/MM/YY", "25/01/19"],
-        ["2019-01-25", "", "2019-01-25T00:00:00+00:00"],
+        ["2019-01-25", "", "2019-01-25T00:00:00Z"],
         ["", "DD/MM/YYYY", "Invalid Date"],
         ["", "", "Invalid Date"],
     ])("should convert date/time into format given", (dateOrTime, format, result) => {
