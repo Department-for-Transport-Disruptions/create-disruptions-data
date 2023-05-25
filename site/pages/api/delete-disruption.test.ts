@@ -5,7 +5,7 @@ import { ERROR_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
-    disruptionWithConsequences,
+    disruptionWithConsequencesAndSocialMediaPosts,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
     DEFAULT_ORG_ID,
@@ -45,7 +45,7 @@ describe("deleteDisruption", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 id: defaultDisruptionId,
@@ -57,7 +57,7 @@ describe("deleteDisruption", () => {
 
         expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
         expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             defaultDisruptionId,
             DEFAULT_ORG_ID,
         );
@@ -65,7 +65,7 @@ describe("deleteDisruption", () => {
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });
@@ -91,7 +91,7 @@ describe("deleteDisruption", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it.each([[disruptionWithConsequences], [disruptionWithNoConsequences]])(
+    it.each([[disruptionWithConsequencesAndSocialMediaPosts], [disruptionWithNoConsequences]])(
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);

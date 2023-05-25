@@ -1544,7 +1544,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
             onTouchStart={[Function]}
             role="button"
           >
-            Add a social media post
+            Add another social media post
           </a>
           <br />
           <input

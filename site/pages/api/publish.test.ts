@@ -6,7 +6,7 @@ import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "..
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
-    disruptionWithConsequences,
+    disruptionWithConsequencesAndSocialMediaPosts,
     ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
@@ -47,7 +47,7 @@ describe("publish", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -60,7 +60,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequences,
+           disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "test@example.com",
@@ -70,7 +70,7 @@ describe("publish", () => {
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });
@@ -97,10 +97,10 @@ describe("publish", () => {
     });
 
     it("should write the correct disruptions data to dynamoDB", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
-                disruptionId: disruptionWithConsequences.disruptionId,
+                disruptionId:disruptionWithConsequencesAndSocialMediaPosts.disruptionId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
