@@ -74,21 +74,13 @@ export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
 };
 
 export const getStopType = (stopType: string | undefined) => {
-    let stop = "";
-    switch (stopType) {
-        case "BCT":
-            stop = "Bus stop";
-            break;
-        case "MET" || "PLT":
-            stop = "Tram stop";
-            break;
-        case "FER" || "FBT":
-            stop = "Ferry terminal";
-            break;
-        default:
-            stop = "Stop";
-            break;
+    if (stopType === "BCT") {
+        return "Bus stop";
+    } else if (stopType === "MET" || stopType === "PLT") {
+        return "Tram stop";
+    } else if (stopType === "FER" || stopType === "FBT") {
+        return "Tram stop";
+    } else {
+        return "Stop";
     }
-
-    return stop;
 };
