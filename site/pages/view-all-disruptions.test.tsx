@@ -7,7 +7,7 @@ import ViewAllDisruptions, {
     getWorstSeverity,
     TableDisruption,
 } from "./view-all-disruptions.page";
-import { mockOperators, mockServices } from "../testData/mockData";
+import { mockServices } from "../testData/mockData";
 
 const disruptions: TableDisruption[] = [
     {
@@ -18,12 +18,7 @@ const disruptions: TableDisruption[] = [
         status: Progress.open,
         severity: Severity.verySevere,
         serviceIds: ["1212", "323"],
-        operators: [
-            {
-                operatorName: "Bobs Buses",
-                operatorRef: "BB",
-            },
-        ],
+        operators: ["BB"],
     },
     {
         id: "e234615d-8301-49c2-8143-1fca9dc187db",
@@ -33,12 +28,7 @@ const disruptions: TableDisruption[] = [
         status: Progress.open,
         severity: Severity.verySevere,
         serviceIds: ["42545"],
-        operators: [
-            {
-                operatorName: "Daves Buses",
-                operatorRef: "DB",
-            },
-        ],
+        operators: ["DB"],
     },
     {
         id: "dfd19560-99c1-4da6-8a73-de1220f37056",
@@ -52,16 +42,7 @@ const disruptions: TableDisruption[] = [
         status: Progress.draft,
         severity: Severity.severe,
         serviceIds: ["6758"],
-        operators: [
-            {
-                operatorName: "Bobs Buses",
-                operatorRef: "BB",
-            },
-            {
-                operatorName: "Sams Buses",
-                operatorRef: "SB",
-            },
-        ],
+        operators: ["BB", "SB"],
     },
 ];
 
@@ -83,8 +64,7 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         disruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
-                        services={mockServices}
-                        operators={mockOperators}
+                        adminAreaCodes={["099"]}
                     />,
                 )
                 .toJSON();
@@ -97,8 +77,7 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         disruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
-                        services={mockServices}
-                        operators={mockOperators}
+                        adminAreaCodes={["099"]}
                     />,
                 )
                 .toJSON();
@@ -111,8 +90,7 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
-                        services={mockServices}
-                        operators={mockOperators}
+                        adminAreaCodes={["099"]}
                     />,
                 )
                 .toJSON();
@@ -129,8 +107,7 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
-                        services={mockServices}
-                        operators={mockOperators}
+                        adminAreaCodes={["099"]}
                     />,
                 )
                 .toJSON();

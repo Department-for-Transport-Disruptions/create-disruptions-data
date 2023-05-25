@@ -1,11 +1,9 @@
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import uniqueId from "lodash/uniqueId";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
     ReactElement,
-    ReactNode,
     SetStateAction,
     SyntheticEvent,
     useCallback,
@@ -13,10 +11,11 @@ import {
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Marker, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
+import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import {
@@ -87,6 +86,7 @@ const Map = ({
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
     );
+
     const [selectedServices, setSelectedServices] =
         useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
 
@@ -110,6 +110,7 @@ const Map = ({
                 ...searched.filter((stop) => !markerData.map((marker) => marker.atcoCode).includes(stop.atcoCode)),
             ];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
+
             if (stopInfo) setPopupInfo(stopInfo);
         },
         [searched, selected, markerData],
@@ -149,78 +150,6 @@ const Map = ({
             }
         },
         [searched, selected, state, stateUpdater, markerData],
-    );
-
-    const getMarkers = useCallback(
-        (selected: Stop[], searched: Stop[]): ReactNode => {
-            const inTable =
-                selected && selected.length > 0
-                    ? selected.map((s: Stop) => (
-                          <Marker
-                              key={uniqueId(s.atcoCode)}
-                              longitude={Number(s.longitude)}
-                              latitude={Number(s.latitude)}
-                              onClick={() => {
-                                  unselectMarker(s.atcoCode);
-                              }}
-                          >
-                              <div
-                                  className="bg-markerActive h-4 w-4 rounded-full inline-block cursor-pointer"
-                                  onMouseEnter={() => {
-                                      handleMouseEnter(s.atcoCode);
-                                  }}
-                                  onMouseLeave={() => {
-                                      setPopupInfo({});
-                                  }}
-                              />
-                          </Marker>
-                      ))
-                    : [];
-            const dataFromPolygon = markerData.filter((sToFilter: Stop) =>
-                selected && selected.length > 0
-                    ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                    : sToFilter,
-            );
-
-            const notInTable = searched
-                .filter((sToFilter: Stop) =>
-                    selected && selected.length > 0
-                        ? !selected.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                        : sToFilter,
-                )
-                .filter((sToFilter: Stop) =>
-                    markerData && markerData.length > 0
-                        ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
-                        : sToFilter,
-                );
-
-            const greyMarkers = [...dataFromPolygon, ...notInTable].map((s) => (
-                <Marker
-                    key={uniqueId(s.atcoCode)}
-                    longitude={Number(s.longitude)}
-                    latitude={Number(s.latitude)}
-                    color="grey"
-                    onClick={() => {
-                        selectMarker(s.atcoCode);
-                    }}
-                >
-                    <div
-                        className="bg-markerDefault h-4 w-4 rounded-full inline-block cursor-pointer"
-                        onMouseEnter={() => {
-                            handleMouseEnter(s.atcoCode);
-                        }}
-                        onMouseLeave={() => {
-                            setPopupInfo({});
-                        }}
-                    />
-                </Marker>
-            ));
-
-            const markers = [...inTable, ...greyMarkers];
-
-            return markers.length > 0 ? markers.slice(0, 100) : null;
-        },
-        [markerData, handleMouseEnter, selectMarker, unselectMarker],
     );
 
     useEffect(() => {
@@ -394,7 +323,7 @@ const Map = ({
     }, [searchedRoutes]);
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
-        setPopupInfo({});
+        setHoverInfo(initialHoverState);
         const service = event.features && event.features[0];
         if (service && service.properties && service.properties.serviceId) {
             setHoverInfo({
@@ -538,7 +467,15 @@ const Map = ({
                 onRender={(event) => event.target.resize()}
             >
                 <MapControls onUpdate={onUpdate} onDelete={onDelete} />
-                {selected && searched ? getMarkers(selected, searched) : null}
+                <Markers
+                    selected={selected}
+                    searched={searched}
+                    handleMouseEnter={handleMouseEnter}
+                    markerData={markerData}
+                    selectMarker={selectMarker}
+                    unselectMarker={unselectMarker}
+                    setPopupInfo={setPopupInfo}
+                />
                 {selectedServices ? getSourcesInbound(selectedServices) : null}
                 {selectedServices ? getSourcesOutbound(selectedServices) : null}
                 {popupInfo.atcoCode && (

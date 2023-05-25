@@ -12,7 +12,8 @@ const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromD
 vi.mock("../data/dynamo");
 
 const getSessionSpy = vi.spyOn(session, "getSession");
-vi.mock("../utils/apiUtils/auth", () => ({
+vi.mock("../utils/apiUtils/auth", async () => ({
+    ...(await vi.importActual<object>("../utils/apiUtils/auth")),
     getSession: vi.fn(),
 }));
 
@@ -80,6 +81,7 @@ describe("pages", () => {
                         liveDisruptions={[]}
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -93,6 +95,7 @@ describe("pages", () => {
                         liveDisruptions={disruptions}
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -106,6 +109,7 @@ describe("pages", () => {
                         liveDisruptions={[]}
                         upcomingDisruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -119,6 +123,7 @@ describe("pages", () => {
                         liveDisruptions={[disruptions[0]]}
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
                         newDisruptionId={defaultNewDisruptionId}
+                        canPublish
                     />,
                 )
                 .toJSON();
@@ -145,7 +150,7 @@ describe("pages", () => {
                     upcomingDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
-                    session: defaultSession,
+                    canPublish: true,
                 });
             });
 
@@ -171,7 +176,7 @@ describe("pages", () => {
                     upcomingDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
-                    session: defaultSession,
+                    canPublish: true,
                 });
             });
 
@@ -200,7 +205,7 @@ describe("pages", () => {
                     ],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
-                    session: defaultSession,
+                    canPublish: true,
                 });
             });
 
@@ -258,7 +263,7 @@ describe("pages", () => {
                     ],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
-                    session: defaultSession,
+                    canPublish: true,
                 });
             });
         });

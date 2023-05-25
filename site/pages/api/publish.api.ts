@@ -10,7 +10,7 @@ import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } 
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
 
@@ -50,9 +50,9 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             getPtSituationElementFromDraft(draftDisruption),
             draftDisruption,
             session.orgId,
-            session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
+            canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
             session.name,
-            session.isOrgStaff ? "Disruption submitted for review" : "Disruption created and published",
+            canPublish(session) ? "Disruption created and published" : "Disruption submitted for review",
         );
 
         cleardownCookies(req, res);

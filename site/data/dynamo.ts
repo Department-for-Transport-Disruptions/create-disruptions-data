@@ -28,6 +28,11 @@ const collectDisruptionsData = (
     disruptionId: string,
 ): Disruption | null => {
     let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+
+    if (!info) {
+        return null;
+    }
+
     let consequences = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&

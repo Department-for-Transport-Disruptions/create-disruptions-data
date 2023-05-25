@@ -18,10 +18,9 @@ import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo, SocialMediaPost } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Session } from "../../schemas/session.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
 const title = "Review Disruption";
@@ -32,7 +31,7 @@ interface ReviewDisruptionProps {
     previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
     errors: ErrorInfo[];
-    session: Session;
+    canPublish: boolean;
 }
 
 const ReviewDisruption = ({
@@ -40,7 +39,7 @@ const ReviewDisruption = ({
     previousSocialMediaPosts,
     csrfToken,
     errors,
-    session,
+    canPublish,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -390,7 +389,7 @@ const ReviewDisruption = ({
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            {session.isOrgStaff ? "Send to review" : "Publish disruption"}
+                            {canPublish ? "Publish disruption" : "Send to review"}
                         </button>
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -467,7 +466,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruption,
             previousSocialMediaPosts,
             errors,
-            session,
+            canPublish: canPublish(session),
         },
     };
 };

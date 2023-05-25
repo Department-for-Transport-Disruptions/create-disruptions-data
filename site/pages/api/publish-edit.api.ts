@@ -14,7 +14,7 @@ import {
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
 
@@ -60,7 +60,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
         }
 
-        if (!session.isOrgStaff) {
+        if (canPublish(session)) {
             if (isEditPendingDsp) await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
                 deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
@@ -70,7 +70,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
         }
 
-        isEditPendingDsp && session.isOrgStaff
+        isEditPendingDsp && !canPublish(session)
             ? await updatePendingDisruptionStatus(
                   { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,
@@ -79,7 +79,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                   getPtSituationElementFromDraft(draftDisruption),
                   draftDisruption,
                   session.orgId,
-                  session.isOrgStaff ? PublishStatus.pendingApproval : PublishStatus.published,
+                  canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
                   session.name,
               );
 

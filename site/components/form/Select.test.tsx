@@ -43,7 +43,7 @@ describe("Select", () => {
     });
 
     it("should validate minLength and display error", async () => {
-        const { unmount } = render(
+        const { getByText, unmount } = render(
             <Select<TestInputs>
                 inputName="field1"
                 display="Reason for disruption"
@@ -58,7 +58,7 @@ describe("Select", () => {
         await userEvent.click(screen.getByText("Select a reason"));
         await userEvent.tab();
 
-        expect(screen.getByText("Error: Select an option")).toBeTruthy();
+        expect(getByText("Error: Select an option")).toBeTruthy();
 
         unmount();
     });
