@@ -66,12 +66,7 @@ export function SiteStack({ stack }: StackContext) {
         permissions: [
             new PolicyStatement({
                 resources: [`${siteImageBucket.bucketArn}/*`],
-                actions: ["s3:GetObject"],
-            }),
-
-            new PolicyStatement({
-                resources: [`${siteImageBucket.bucketArn}/*`],
-                actions: ["s3:PutObject"],
+                actions: ["s3:GetObject", "s3:PutObject"],
             }),
             new PolicyStatement({
                 resources: [table.tableArn, siriTable.tableArn, organisationsTable.tableArn],

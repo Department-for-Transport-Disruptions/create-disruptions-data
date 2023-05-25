@@ -97,6 +97,15 @@ const csrfProtect = csrf({
         secure: process.env.NODE_ENV === "production",
         name: "_csrf",
     },
+    token: {
+        value: async (req) => {
+            const queryCsrf = req.nextUrl.search.match(/_csrf=(.[^&]*)/)?.[1];
+
+            return queryCsrf
+                ? decodeURIComponent(queryCsrf)
+                : (await req.formData()).get("csrf_token")?.toString() ?? "";
+        },
+    },
 });
 
 const unauthenticatedRoutes = [
@@ -132,11 +141,11 @@ const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
-    // const csrfError = await csrfProtect(request, response);
+    const csrfError = await csrfProtect(request, response);
 
-    // if (csrfError) {
-    //     return new NextResponse("invalid csrf token", { status: 403 });
-    // }
+    if (csrfError) {
+        return new NextResponse("invalid csrf token", { status: 403 });
+    }
 
     if (
         request.nextUrl.pathname &&
