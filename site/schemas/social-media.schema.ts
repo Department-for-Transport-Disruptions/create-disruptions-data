@@ -1,3 +1,4 @@
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError, zodDate, zodTime } from "../utils";
@@ -21,6 +22,7 @@ export const socialMediaPostSchema = z.object({
             key: z.string(),
         })
         .optional(),
+    status: z.nativeEnum(SocialMediaPostStatus).default(SocialMediaPostStatus.pending),
 });
 
 export const refineImageSchema = socialMediaPostSchema

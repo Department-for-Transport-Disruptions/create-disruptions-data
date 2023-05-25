@@ -386,7 +386,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, session }: ReviewDisr
                                                 },
                                                 {
                                                     header: "Status",
-                                                    cells: ["Pending", ""],
+                                                    cells: [post.status, ""],
                                                 },
                                             ]}
                                         />
