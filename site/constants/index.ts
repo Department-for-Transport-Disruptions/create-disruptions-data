@@ -257,6 +257,7 @@ export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const REGISTER_PAGE_PATH = "/register";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
+export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -277,6 +278,10 @@ export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer"
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";
 export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
+export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const MIN_PASSWORD_LENGTH = 8;
+
+export const MAX_FILE_SIZE = 5242880;
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];

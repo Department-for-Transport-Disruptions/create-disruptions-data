@@ -13,6 +13,8 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     REVIEW_DISRUPTION_PAGE_PATH,
+    CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { ErrorInfo, SocialMediaPost } from "../../interfaces";
@@ -114,6 +116,12 @@ const ReviewDisruption = ({
     };
 
     const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+
+    const nextIndexSocialMedia =
+        disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+            ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
+                  .socialMediaPostIndex + 1
+            : 0;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -333,8 +341,9 @@ const ReviewDisruption = ({
                                                         post.messageToAppear,
                                                         createChangeLink(
                                                             "message-to-appear",
-                                                            "/social-media-posts",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -344,8 +353,9 @@ const ReviewDisruption = ({
                                                         post.publishDate,
                                                         createChangeLink(
                                                             "publish-date",
-                                                            "/social-media-posts",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -355,8 +365,9 @@ const ReviewDisruption = ({
                                                         post.publishTime,
                                                         createChangeLink(
                                                             "publish-time",
-                                                            "/social-media-posts",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -366,8 +377,9 @@ const ReviewDisruption = ({
                                                         post.accountToPublish,
                                                         createChangeLink(
                                                             "account-to-publish",
-                                                            "/social-media-posts",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
+                                                            nextIndexSocialMedia,
                                                         ),
                                                     ],
                                                 },
@@ -379,10 +391,12 @@ const ReviewDisruption = ({
                         </div>
                         <Link
                             role="button"
-                            href="/social-media-posts"
+                            href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
                             className="govuk-button mt-2 govuk-button--secondary"
                         >
-                            Add another social media post
+                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                ? "Add another social media post"
+                                : "Add a social media post"}
                         </Link>
                         <br />
 
@@ -409,7 +423,7 @@ const ReviewDisruption = ({
                         <Link
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             data-module="govuk-button"
-                            href="/dashboard"
+                            href={DASHBOARD_PAGE_PATH}
                         >
                             Save as draft
                         </Link>

@@ -24,6 +24,8 @@ import { Session } from "../schemas/session.schema";
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
+export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";
+
 export interface GetMockContextInput {
     session?: Record<string, string> | null;
     cookies?: Record<string, string>;

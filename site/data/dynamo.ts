@@ -13,6 +13,7 @@ import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import { SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
 import { getDate } from "../utils/dates";
 import logger from "../utils/logger";
@@ -431,6 +432,31 @@ export const upsertConsequence = async (
     );
 };
 
+export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTransformed, id: string) => {
+    logger.info(
+        `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
+    );
+
+    const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
+    const isEditing =
+        currentDisruption?.publishStatus === PublishStatus.published ||
+        currentDisruption?.publishStatus === PublishStatus.editing ||
+        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: tableName,
+            Item: {
+                PK: id,
+                SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
+                    isEditing ? "#EDIT" : ""
+                }`,
+                ...socialMediaPost,
+            },
+        }),
+    );
+};
+
 export const removeConsequenceFromDisruption = async (index: number, disruptionId: string, id: string) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId}) in DynamoDB table...`);
 
@@ -472,6 +498,12 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
+            false,
+    );
+    const socialMediaPosts = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                !(item.SK as string).includes("#EDIT")) ??
             false,
     );
 
@@ -569,6 +601,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences: consequencesToShow,
+        socialMediaPosts,
         deletedConsequences,
         history,
         newHistory: newHistoryItems,

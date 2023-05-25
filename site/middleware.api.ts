@@ -97,6 +97,15 @@ const csrfProtect = csrf({
         secure: process.env.NODE_ENV === "production",
         name: "_csrf",
     },
+    token: {
+        value: async (req) => {
+            const queryCsrf = req.nextUrl.search.match(/_csrf=(.[^&]*)/)?.[1];
+
+            return queryCsrf
+                ? decodeURIComponent(queryCsrf)
+                : (await req.formData()).get("csrf_token")?.toString() ?? "";
+        },
+    },
 });
 
 const unauthenticatedRoutes = [

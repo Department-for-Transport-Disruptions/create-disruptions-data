@@ -2,6 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { consequenceSchema } from "./consequence.schema";
 import { createDisruptionsSchemaRefined } from "./create-disruption.schema";
+import { socialMediaPostSchema } from "./social-media.schema";
 
 const historySchema = z.object({
     historyItems: z.array(z.string()),
@@ -19,6 +20,7 @@ export const disruptionSchema = createDisruptionsSchemaRefined.and(
         history: z.array(historySchema).optional(),
         newHistory: z.array(z.string()).optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
+        socialMediaPosts: z.array(socialMediaPostSchema).optional(),
     }),
 );
 
