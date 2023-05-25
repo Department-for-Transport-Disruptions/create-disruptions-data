@@ -2,7 +2,6 @@ import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
-import CsrfForm from "../../../components/form/CsrfForm";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
 import Select from "../../../components/form/Select";
