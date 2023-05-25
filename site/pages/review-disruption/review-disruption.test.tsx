@@ -1,4 +1,10 @@
-import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import {
+    EnvironmentReason,
+    PublishStatus,
+    Severity,
+    SocialMediaPostStatus,
+    VehicleMode,
+} from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
@@ -6,21 +12,7 @@ import ReviewDisruption from "./[disruptionId].page";
 import { SocialMediaPost } from "../../interfaces/index";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-
-const previousSocialMediaPosts: SocialMediaPost[] = [
-    {
-        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-        publishDate: "13/01/2022",
-        publishTime: "13:00",
-        accountToPublish: "Example account",
-    },
-    {
-        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-        publishDate: "13/01/2022",
-        publishTime: "13:00",
-        accountToPublish: "Example account 2",
-    },
-];
+import { getFutureDateAsString } from "../../utils/dates";
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -67,6 +59,19 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
+const previousCreateSocialMediaPostsInformation = [
+    {
+        disruptionId: "2",
+        publishDate: getFutureDateAsString(1),
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 0,
+        status: SocialMediaPostStatus.pending,
+    },
+];
+
 const previousDisruptionInformation: Disruption = {
     publishStatus: PublishStatus.draft,
     disruptionType: "planned",
@@ -95,32 +100,21 @@ const previousDisruptionInformation: Disruption = {
     disruptionEndTime: "1400",
     disruptionNoEndDateTime: "",
     consequences: previousConsequencesInformation,
+    socialMediaPosts: previousCreateSocialMediaPostsInformation,
 };
 
 describe("pages", () => {
     describe("ReviewDisruption", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={previousDisruptionInformation}
-                        previousSocialMediaPosts={previousSocialMediaPosts}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
+                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
             const { getAllByRole } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    previousSocialMediaPosts={previousSocialMediaPosts}
-                    errors={[]}
-                    canPublish={false}
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
@@ -129,12 +123,7 @@ describe("pages", () => {
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
             const { getAllByRole } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    previousSocialMediaPosts={previousSocialMediaPosts}
-                    errors={[]}
-                    canPublish
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });

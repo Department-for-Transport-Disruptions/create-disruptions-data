@@ -28,6 +28,7 @@ const previousCreateSocialMediaPostInformation = {
     socialAccount: "Twitter",
     hootsuiteProfile: "Twitter/1234",
     socialMediaPostIndex: "0",
+    status: "Pending",
 };
 
 describe("create-social-media-post API", () => {
@@ -114,7 +115,7 @@ describe("create-social-media-post API", () => {
                     newFilename: "testFile",
                     mimetype: "image/jpg",
                     mtime: null,
-                    originalFilename: "",
+                    originalFilename: "blah.jpg",
                 } as formidable.File,
             ],
         });
@@ -132,6 +133,7 @@ describe("create-social-media-post API", () => {
                     filepath: "/testPath",
                     key: "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
                     mimetype: "image/jpg",
+                    originalFilename: "blah.jpg",
                     size: 1000,
                 },
             },

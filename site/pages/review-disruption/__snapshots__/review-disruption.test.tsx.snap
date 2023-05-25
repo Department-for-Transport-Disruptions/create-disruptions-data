@@ -1123,14 +1123,42 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        The road is closed for the following reasons: Example, example, example, example
+                        Test post 12345
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0"
+                          href="/create-social-media-post/2/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1151,14 +1179,14 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        13/01/2022
+                        26/05/2023
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0"
+                          href="/create-social-media-post/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1179,14 +1207,14 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        13:00
+                        1300
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0"
+                          href="/create-social-media-post/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1202,86 +1230,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Account to publish
+                        Account name
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        Example account
+                        Twitter
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div
-              className="govuk-accordion__section"
-            >
-              <div
-                className="govuk-accordion__section-header"
-              >
-                <h2
-                  className="govuk-accordion__section-heading"
-                >
-                  <span
-                    className="govuk-accordion__section-button"
-                    id="accordion-default-heading-2"
-                  >
-                    Social media post 2
-                  </span>
-                </h2>
-              </div>
-              <div
-                aria-labelledby="accordion-default-heading-2"
-                className="govuk-accordion__section-content"
-                id="accordion-default-content-2"
-              >
-                <table
-                  className="govuk-table"
-                >
-                  <thead
-                    className="govuk-table__head"
-                  >
-                    <tr
-                      className="govuk-table__row"
-                    />
-                  </thead>
-                  <tbody
-                    className="govuk-table__body"
-                  >
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Message to appear
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        The road is closed for the following reasons: Example, example, example, example
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-social-media-post/2/0"
+                          href="/create-social-media-post/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1297,19 +1258,19 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Publish date
+                        HootSuite profile
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        13/01/2022
+                        Twitter/1234
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0"
+                          href="/create-social-media-post/2/1"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -1325,54 +1286,16 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        Publish time
+                        Status
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        13:00
+                        Pending
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-social-media-post/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
-                    </tr>
-                    <tr
-                      className="govuk-table__row"
-                    >
-                      <th
-                        className="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Account to publish
-                      </th>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        Example account 2
-                      </td>
-                      <td
-                        className="govuk-table__cell align-middle"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-social-media-post/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
@@ -1380,14 +1303,15 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
             </div>
           </div>
           <a
+            aria-disabled={false}
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/2/0"
+            href="/create-social-media-post/2/1"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
             role="button"
           >
-            Add a social media post
+            Add another social media post
           </a>
           <br />
           <input
