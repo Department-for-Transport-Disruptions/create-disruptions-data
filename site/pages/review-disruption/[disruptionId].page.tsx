@@ -17,6 +17,7 @@ import {
     DASHBOARD_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
+import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
@@ -341,6 +342,28 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                     ],
                                                 },
                                                 {
+                                                    header: "Image",
+                                                    cells: [
+                                                        post.image ? (
+                                                            <Link
+                                                                className="govuk-link text-govBlue"
+                                                                key={post.image.key}
+                                                                href={post.image?.url ?? ""}
+                                                            >
+                                                                {post.image.key}
+                                                            </Link>
+                                                        ) : (
+                                                            "No image uploaded"
+                                                        ),
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            nextIndexSocialMedia,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
                                                     header: "Publish date",
                                                     cells: [
                                                         post.publishDate,
@@ -459,6 +482,31 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 
+    let socialMediaWithImageLinks = [];
+    if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
+        socialMediaWithImageLinks = await Promise.all(
+            disruption.socialMediaPosts.map(async (s) => {
+                if (s.image) {
+                    const url = (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key)) || "";
+                    // console.log("urlll", url);
+                    return {
+                        ...s,
+                        image: {
+                            ...s.image,
+                            url,
+                        },
+                    };
+                }
+                return s;
+            }),
+        );
+    }
+
+    const disruptionWithURLS = {
+        ...disruption,
+        ...(socialMediaWithImageLinks.length > 0 ? { socialMediaPosts: socialMediaWithImageLinks } : {}),
+    };
+
     let errors: ErrorInfo[] = [];
     if (errorCookie) {
         errors = JSON.parse(errorCookie) as ErrorInfo[];
@@ -472,7 +520,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            disruption,
+            disruption: disruptionWithURLS,
             errors,
             canPublish: canPublish(session),
         },

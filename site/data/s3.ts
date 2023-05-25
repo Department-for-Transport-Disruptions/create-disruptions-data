@@ -1,4 +1,5 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import logger from "../utils/logger";
 
 const s3 = new S3Client({ region: "eu-west-2" });
@@ -24,6 +25,29 @@ export const putItem = async (
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to put item into s3: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const getItem = async (bucket: string, key: string): Promise<string> => {
+    logger.info("", {
+        context: "data.s3",
+        message: "getting item from s3",
+    });
+
+    try {
+        const input = {
+            Bucket: bucket,
+            Key: key,
+        };
+        const command = new GetObjectCommand(input);
+        const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        return url;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
         }
 
         throw error;
