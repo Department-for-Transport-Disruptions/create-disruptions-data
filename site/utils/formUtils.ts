@@ -79,7 +79,7 @@ export const getStopType = (stopType: string | undefined) => {
     } else if (stopType === "MET" || stopType === "PLT") {
         return "Tram stop";
     } else if (stopType === "FER" || stopType === "FBT") {
-        return "Tram stop";
+        return "Ferry terminal";
     } else {
         return "Stop";
     }
