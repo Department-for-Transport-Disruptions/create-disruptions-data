@@ -297,6 +297,28 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             },
         })) ?? [];
 
+    const socialMediaPostUpdateCommands: {
+        Update: {
+            TableName: string;
+            Key: Record<string, string>;
+            UpdateExpression: string;
+            ExpressionAttributeValues: Record<string, string>;
+        };
+    }[] =
+        disruption.socialMediaPosts?.map((socialMediaPost) => ({
+            Update: {
+                TableName: tableName,
+                Key: {
+                    PK: id,
+                    SK: `${disruption.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
+                },
+                UpdateExpression: "SET publishStatus = :1",
+                ExpressionAttributeValues: {
+                    ":1": status,
+                },
+            },
+        })) ?? [];
+
     const putSiriTable =
         status === PublishStatus.published
             ? [
@@ -355,6 +377,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                     },
                 },
                 ...consequenceUpdateCommands,
+                ...socialMediaPostUpdateCommands,
                 ...historyPutCommand,
             ],
         }),
