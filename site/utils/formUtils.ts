@@ -72,3 +72,15 @@ export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
     const endPoint = pageNumber * 10;
     return data.slice(startPoint, endPoint);
 };
+
+export const getStopType = (stopType: string | undefined) => {
+    if (stopType === "BCT") {
+        return "Bus stop";
+    } else if (stopType === "MET" || stopType === "PLT") {
+        return "Tram stop";
+    } else if (stopType === "FER" || stopType === "FBT") {
+        return "Ferry terminal";
+    } else {
+        return "Stop";
+    }
+};
