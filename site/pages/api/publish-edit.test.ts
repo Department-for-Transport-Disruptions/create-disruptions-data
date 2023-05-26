@@ -7,7 +7,7 @@ import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
 import {
     DEFAULT_ORG_ID,
-    disruptionWithConsequences,
+    disruptionWithConsequencesAndSocialMediaPosts,
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
@@ -63,7 +63,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -80,7 +80,7 @@ describe("publishEdit", () => {
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
@@ -89,7 +89,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for staff user", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
@@ -107,7 +107,7 @@ describe("publishEdit", () => {
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
@@ -116,7 +116,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -133,7 +133,7 @@ describe("publishEdit", () => {
         expect(dynamo.updatePendingDisruptionStatus).not.toBeCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
@@ -142,7 +142,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for staff user with records in pending", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
@@ -161,7 +161,7 @@ describe("publishEdit", () => {
         expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
@@ -170,7 +170,7 @@ describe("publishEdit", () => {
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });
@@ -202,7 +202,7 @@ describe("publishEdit", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it.each([[disruptionWithConsequences], [disruptionWithNoConsequences]])(
+    it.each([[disruptionWithConsequencesAndSocialMediaPosts], [disruptionWithNoConsequences]])(
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
             getDisruptionSpy.mockResolvedValue(disruption);
