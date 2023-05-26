@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
-import { Session } from "../schemas/session.schema";
+import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequences, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
 
@@ -11,20 +11,18 @@ const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynam
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
 vi.mock("../data/dynamo");
 
-const getSessionSpy = vi.spyOn(session, "getSession");
+const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
 vi.mock("../utils/apiUtils/auth", async () => ({
     ...(await vi.importActual<object>("../utils/apiUtils/auth")),
     getSession: vi.fn(),
 }));
 
 beforeEach(() => {
-    getSessionSpy.mockImplementation(() => {
-        return defaultSession;
-    });
+    getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
 });
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
-const defaultSession: Session = {
+const defaultSession: SessionWithOrgDetail = {
     email: "test@example.com",
     isOrgAdmin: false,
     isOrgPublisher: false,
@@ -33,6 +31,8 @@ const defaultSession: Session = {
     orgId: randomUUID(),
     username: "test@example.com",
     name: "Test User",
+    orgName: "Nexus",
+    adminAreaCodes: ["A", "B", "C"],
 };
 
 const disruptions: DashboardDisruption[] = [
@@ -82,6 +82,7 @@ describe("pages", () => {
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
+                        orgName="Nexus"
                     />,
                 )
                 .toJSON();
@@ -96,6 +97,7 @@ describe("pages", () => {
                         upcomingDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
+                        orgName="Nexus"
                     />,
                 )
                 .toJSON();
@@ -110,6 +112,7 @@ describe("pages", () => {
                         upcomingDisruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
+                        orgName="Nexus"
                     />,
                 )
                 .toJSON();
@@ -124,6 +127,7 @@ describe("pages", () => {
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
+                        orgName="Nexus"
                     />,
                 )
                 .toJSON();
@@ -151,6 +155,7 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
+                    orgName: "Nexus",
                 });
             });
 
@@ -177,6 +182,7 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
+                    orgName: "Nexus",
                 });
             });
 
@@ -206,6 +212,7 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
+                    orgName: "Nexus",
                 });
             });
 
@@ -264,6 +271,7 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
+                    orgName: "Nexus",
                 });
             });
         });
