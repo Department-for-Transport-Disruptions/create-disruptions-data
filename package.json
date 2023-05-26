@@ -17,7 +17,8 @@
         "test": "npm run test:site && npm run test:siri",
         "prepare": "husky install",
         "tsc:build:site": "tsc --noemit -p site",
-        "tsc:build": "tsc --noemit && npm run tsc:build:site"
+        "tsc:build": "tsc --noemit && npm run tsc:build:site",
+        "sst": "sst"
     },
     "devDependencies": {
         "@tsconfig/node18": "^1.0.1",

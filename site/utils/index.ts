@@ -6,6 +6,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
+import { HOOTSUITE_CALLBACK } from "../constants";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import {
     Service,
@@ -235,3 +236,10 @@ export const sortServices = (services: Service[]) => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const getHootsuiteRedirectUri = () => {
+    const isDev = process.env.NODE_ENV === "development";
+
+    // const hootsuiteRedirectUri = "https://www.getpostman.com/oauth2/callback";
+    return `${isDev ? "http" : "https"}://${isDev ? "localhost:3000" : process.env.DOMAIN || ""}${HOOTSUITE_CALLBACK}`;
+};

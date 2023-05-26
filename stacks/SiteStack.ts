@@ -40,6 +40,10 @@ export function SiteStack({ stack }: StackContext) {
         secretStringValue: middlewareCognitoUserAccessKey.secretAccessKey,
     });
 
+    const hootsuiteCreds = new Secret(stack, "cdd-site-hootsuite-creds", {
+        secretName: `cdd-site-hootsuite-creds-${stack.stage}`,
+    });
+
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
@@ -48,6 +52,7 @@ export function SiteStack({ stack }: StackContext) {
             SIRI_TABLE_NAME: siriTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             STAGE: stack.stage,
+            DOMAIN: getDomain(stack.stage),
             API_BASE_URL: apiUrl,
             MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN || "",
             FEEDBACK_EMAIL_ADDRESS: stack.stage === "prod" ? "bodshelpdesk@kpmg.co.uk" : "feedback@dft-create-data.com",
@@ -59,6 +64,7 @@ export function SiteStack({ stack }: StackContext) {
             MIDDLEWARE_AWS_ACCESS_KEY_ID: middlewareCognitoUserAccessKey.accessKeyId,
             MIDDLEWARE_AWS_SECRET_ACCESS_KEY: middlewareCognitoUserSecret.secretValue.toString(),
             IMAGE_BUCKET_NAME: siteImageBucket.bucketName,
+            HOOTSUITE_CREDS_ARN: hootsuiteCreds.secretArn,
         },
         customDomain: {
             domainName: getDomain(stack.stage),
@@ -68,6 +74,14 @@ export function SiteStack({ stack }: StackContext) {
             new PolicyStatement({
                 resources: [`${siteImageBucket.bucketArn}/*`],
                 actions: ["s3:GetObject", "s3:PutObject"],
+            }),
+            new PolicyStatement({
+                resources: [hootsuiteCreds.secretArn],
+                actions: ["secretsmanager:GetSecretValue"],
+            }),
+            new PolicyStatement({
+                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social*`],
+                actions: ["ssm:GetParameter", "ssm:PutParameter"],
             }),
             new PolicyStatement({
                 resources: [table.tableArn, siriTable.tableArn, organisationsTable.tableArn],

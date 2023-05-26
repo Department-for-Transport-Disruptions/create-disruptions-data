@@ -1,19 +1,31 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { setCookie } from "nookies";
 import { Fragment, ReactElement } from "react";
+import { randomUUID } from "crypto";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import { COOKIES_HOOTSUITE_STATE, HOOTSUITE_API_BASE } from "../../constants";
+import { getHootsuiteCreds } from "../../data/secrets";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
-import { toLowerStartCase } from "../../utils";
+import { getHootsuiteRedirectUri, toLowerStartCase } from "../../utils";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
 
 export interface SocialMediaAccountsPageProps {
     socialMediaData: SocialMediaAccountsSchema;
+    hootsuiteRedirectUri: string;
+    hootsuiteClientId: string;
+    state: string;
 }
 
-const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps): ReactElement => {
+const SocialMediaAccounts = ({
+    socialMediaData,
+    hootsuiteClientId,
+    hootsuiteRedirectUri,
+    state,
+}: SocialMediaAccountsPageProps): ReactElement => {
     const getLink = (type: string, id: string) => {
         switch (type) {
             case "TWITTER":
@@ -56,15 +68,19 @@ const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps):
                     columns={["Account type", "Username/page", "Added by", "Expires in", "Hootsuite Profiles"]}
                     rows={getRows()}
                 />
-                <button className="govuk-button mt-8" data-module="govuk-button">
+                <Link
+                    className="govuk-button mt-8"
+                    data-module="govuk-button"
+                    href={`${HOOTSUITE_API_BASE}/oauth2/auth?response_type=code&scope=offline&redirect_uri=${hootsuiteRedirectUri}&client_id=${hootsuiteClientId}&state=${state}`}
+                >
                     Connect hootsuite
-                </button>
+                </Link>
             </>
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: SocialMediaAccountsPageProps } => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: SocialMediaAccountsPageProps }> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
@@ -89,8 +105,23 @@ export const getServerSideProps = (ctx: NextPageContext): { props: SocialMediaAc
         },
     ];
 
+    if (!process.env.HOOTSUITE_CREDS_ARN) {
+        throw new Error("Hootsuite creds not available");
+    }
+
+    const hootsuiteCreds = await getHootsuiteCreds();
+
+    const state = randomUUID();
+
+    setCookie(ctx, COOKIES_HOOTSUITE_STATE, state);
+
     return {
-        props: { socialMediaData: data },
+        props: {
+            socialMediaData: data,
+            hootsuiteClientId: hootsuiteCreds?.clientId ?? "",
+            hootsuiteRedirectUri: getHootsuiteRedirectUri(),
+            state,
+        },
     };
 };
 
