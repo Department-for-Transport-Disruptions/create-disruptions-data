@@ -485,7 +485,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
-        socialMediaWithImageLinks = await Promise.all(
+        socialMediaWithImageLinks = (await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
                 if (s.image) {
                     const url =
@@ -501,7 +501,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 }
                 return s;
             }),
-        ) as SocialMediaPost[];
+        )) as SocialMediaPost[];
     }
 
     const disruptionWithURLS = {
