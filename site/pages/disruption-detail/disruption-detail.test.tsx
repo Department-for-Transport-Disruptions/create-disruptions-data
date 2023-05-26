@@ -1,4 +1,10 @@
-import { EnvironmentReason, PublishStatus, Severity, SocialMediaPostStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import {
+    EnvironmentReason,
+    PublishStatus,
+    Severity,
+    SocialMediaPostStatus,
+    VehicleMode,
+} from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
