@@ -11,7 +11,6 @@ import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -63,7 +62,7 @@ const previousConsequencesInformation: Consequence[] = [
 const previousCreateSocialMediaPostsInformation = [
     {
         disruptionId: defaultDisruptionId,
-        publishDate: getFutureDateAsString(1),
+        publishDate: "14/01/2027",
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",
@@ -73,7 +72,7 @@ const previousCreateSocialMediaPostsInformation = [
     },
     {
         disruptionId: defaultDisruptionId,
-        publishDate: getFutureDateAsString(1),
+        publishDate: "14/01/2028",
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",

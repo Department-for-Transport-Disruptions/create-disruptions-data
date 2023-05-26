@@ -371,7 +371,7 @@ export const consequenceInfoNetworkTest: Consequence = {
 const socialMediaPostsInformation = [
     {
         disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-        publishDate: getFutureDateAsString(1),
+        publishDate: getFutureDateAsString(300),
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",
@@ -381,7 +381,7 @@ const socialMediaPostsInformation = [
     },
     {
         disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-        publishDate: getFutureDateAsString(1),
+        publishDate: getFutureDateAsString(300),
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",
