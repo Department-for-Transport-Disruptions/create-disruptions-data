@@ -1,5 +1,6 @@
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
+import { Dayjs } from "dayjs";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
@@ -88,9 +89,9 @@ export interface Filter {
     searchText?: string;
 }
 
-const getDisruptionStatus = (disruption: SortedDisruption): string => {
+const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
-        return "draft";
+        return Progress.draft;
     }
 
     if (disruption.publishStatus === PublishStatus.pendingApproval) {
@@ -105,25 +106,33 @@ const getDisruptionStatus = (disruption: SortedDisruption): string => {
     }
 
     if (!disruption.validity) {
-        return "closed";
+        return Progress.closed;
     }
 
     const today = getDate();
     const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
     if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
-        if (disruptionEndDate.isBefore(today)) {
-            return "closed";
-        } else {
-            return "closing";
-        }
+        return disruptionIsClosingOrClosed(disruptionEndDate, today);
     }
 
-    return "open";
+    return Progress.open;
 };
 
-const formatDisruptionsIntoRows = (disruptions: TableDisruption[], offset: number) => {
-    return disruptions.map((disruption, index) => {
+export const disruptionIsClosingOrClosed = (disruptionEndDate: Dayjs, today: Dayjs): Progress => {
+    if (disruptionEndDate.isBefore(today)) {
+        return Progress.closed;
+    } else if (disruptionEndDate.diff(today, "hour") < 24) {
+        return Progress.closing;
+    }
+
+    return Progress.open;
+};
+
+const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: number) => {
+    const offset = (currentPage - 1) * 10;
+    const pageOfDisruptions = getPageOfDisruptions(currentPage, disruptions);
+    return pageOfDisruptions.map((disruption, index) => {
         const earliestPeriod: {
             startTime: string;
             endTime: string | null;
@@ -315,13 +324,12 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
 const applyFiltersToDisruptions = (
     disruptions: TableDisruption[],
     setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
-    currentPage: number,
     filter: Filter,
     setNumberOfDisruptionsPages: Dispatch<SetStateAction<number>>,
 ): void => {
     const disruptionsToDisplay = filterDisruptions(disruptions, filter);
 
-    setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptionsToDisplay));
+    setDisruptionsToDisplay(disruptionsToDisplay);
     setNumberOfDisruptionsPages(Math.ceil(disruptionsToDisplay.length / 10));
 };
 
@@ -353,7 +361,7 @@ const ViewAllDisruptions = ({
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(getPageOfDisruptions(currentPage, disruptions));
+    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(disruptions);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -457,15 +465,10 @@ const ViewAllDisruptions = ({
     }, [startDateFilter, endDateFilter]);
 
     useEffect(() => {
-        setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
-    }, [currentPage, disruptions]);
-
-    useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
         applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
-            currentPage,
             { ...filter, services: selectedServices },
             setNumberOfDisruptionsPages,
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -476,7 +479,6 @@ const ViewAllDisruptions = ({
         applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
-            currentPage,
             { ...filter, searchText },
             setNumberOfDisruptionsPages,
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -502,7 +504,6 @@ const ViewAllDisruptions = ({
         applyFiltersToDisruptions(
             disruptions,
             setDisruptionsToDisplay,
-            currentPage,
             { ...filter, operators: disruptionOperatorsToSet },
             setNumberOfDisruptionsPages,
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -510,16 +511,11 @@ const ViewAllDisruptions = ({
 
     useEffect(() => {
         if (filterIsEmpty(filter)) {
-            setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+            setDisruptionsToDisplay(disruptions);
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
-            applyFiltersToDisruptions(
-                disruptions,
-                setDisruptionsToDisplay,
-                currentPage,
-                filter,
-                setNumberOfDisruptionsPages,
-            );
+            applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, filter, setNumberOfDisruptionsPages);
+            setCurrentPage(1);
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
@@ -585,7 +581,8 @@ const ViewAllDisruptions = ({
                         onClick={async () => {
                             if (showFilters) {
                                 setFilter({ services: [], operators: [] });
-                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setDisruptionsToDisplay(disruptions);
+                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
                                 setClearButtonClicked(true);
                                 setShowFilters(false);
                             } else {
@@ -607,8 +604,10 @@ const ViewAllDisruptions = ({
                             data-module="govuk-button"
                             onClick={() => {
                                 setFilter({ services: [], operators: [] });
-                                setDisruptionsToDisplay(getPageOfDisruptions(currentPage, disruptions));
+                                setDisruptionsToDisplay(disruptions);
                                 setClearButtonClicked(true);
+                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
+                                setCurrentPage(1);
                             }}
                         >
                             Clear filters
@@ -806,7 +805,7 @@ const ViewAllDisruptions = ({
             <>
                 <Table
                     columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                    rows={formatDisruptionsIntoRows(disruptionsToDisplay, (currentPage - 1) * 10)}
+                    rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
                 />
                 <PageNumbers
                     numberOfPages={numberOfDisruptionsPages}
