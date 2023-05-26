@@ -1092,7 +1092,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           />
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/2/0"
+            href="/create-social-media-post/2/0?/disruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1100,6 +1100,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Add a social media post
           </a>
+          <br />
           <input
             name="disruptionId"
             type="hidden"
@@ -2421,7 +2422,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
           />
           <a
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/2/0"
+            href="/create-social-media-post/2/0?/disruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -2429,6 +2430,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
           >
             Add a social media post
           </a>
+          <br />
           <input
             name="disruptionId"
             type="hidden"
