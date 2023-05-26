@@ -625,7 +625,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         ...disruption,
         ...(socialMediaWithImageLinks.length > 0 ? { socialMediaPosts: socialMediaWithImageLinks } : {}),
     };
-    console.log(disruptionWithURLS);
+
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_ERRORS, ctx.res);
 
     return {
