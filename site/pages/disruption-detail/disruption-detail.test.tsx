@@ -1,4 +1,4 @@
-import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { EnvironmentReason, PublishStatus, Severity, SocialMediaPostStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
@@ -51,6 +51,36 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
+const previousCreateSocialMediaPostsInformation = [
+    {
+        disruptionId: "1",
+        publishDate: "14/01/2027",
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 0,
+        status: SocialMediaPostStatus.pending,
+    },
+    {
+        disruptionId: "1",
+        publishDate: "14/01/2028",
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 1,
+        status: SocialMediaPostStatus.pending,
+        image: {
+            filepath: "/testPath",
+            key: "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
+            mimetype: "image/jpg",
+            originalFilename: "blah.jpg",
+            size: 1000,
+        },
+    },
+];
+
 const previousDisruptionInformation: Disruption = {
     publishStatus: PublishStatus.draft,
     disruptionType: "planned",
@@ -79,6 +109,7 @@ const previousDisruptionInformation: Disruption = {
     disruptionEndTime: "1400",
     disruptionNoEndDateTime: "",
     consequences: previousConsequencesInformation,
+    socialMediaPosts: previousCreateSocialMediaPostsInformation,
 };
 
 describe("pages", () => {
