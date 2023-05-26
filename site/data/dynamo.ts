@@ -666,7 +666,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     return parsedDisruption.data;
 };
 
-export const publishEditedConsequences = async (disruptionId: string, id: string) => {
+export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId: string, id: string) => {
     logger.info(`Publishing edited disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
@@ -782,7 +782,7 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
     }
 };
 
-export const publishEditedConsequencesIntoPending = async (disruptionId: string, id: string) => {
+export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (disruptionId: string, id: string) => {
     logger.info(`Publishing edited disruption(${disruptionId}) to pending status in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
@@ -900,7 +900,7 @@ export const publishEditedConsequencesIntoPending = async (disruptionId: string,
     }
 };
 
-export const publishPendingConsequences = async (disruptionId: string, id: string) => {
+export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId: string, id: string) => {
     logger.info(`Publishing pending disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({

@@ -5,9 +5,9 @@ import {
     deleteDisruptionsInEdit,
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    publishEditedConsequences,
-    publishEditedConsequencesIntoPending,
-    publishPendingConsequences,
+    publishEditedConsequencesAndSocialMediaPosts,
+    publishEditedConsequencesAndSocialMediaPostsIntoPending,
+    publishPendingConsequencesAndSocialMediaPosts,
     deleteDisruptionsInPending,
     updatePendingDisruptionStatus,
 } from "../../data/dynamo";
@@ -55,13 +55,13 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (isEditPendingDsp) {
-            await publishEditedConsequencesIntoPending(draftDisruption.disruptionId, session.orgId);
+            await publishEditedConsequencesAndSocialMediaPostsIntoPending(draftDisruption.disruptionId, session.orgId);
         } else {
-            await publishEditedConsequences(draftDisruption.disruptionId, session.orgId);
+            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
         }
 
         if (canPublish(session)) {
-            if (isEditPendingDsp) await publishPendingConsequences(draftDisruption.disruptionId, session.orgId);
+            if (isEditPendingDsp) await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
                 deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
                 deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),

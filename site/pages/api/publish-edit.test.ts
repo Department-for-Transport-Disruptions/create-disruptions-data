@@ -29,10 +29,10 @@ describe("publishEdit", () => {
     vi.mock("../../data/dynamo", () => ({
         insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
         getDisruptionById: vi.fn(),
-        publishEditedConsequences: vi.fn(),
+        publishEditedConsequencesAndSocialMediaPosts: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
-        publishEditedConsequencesIntoPending: vi.fn(),
-        publishPendingConsequences: vi.fn(),
+        publishEditedConsequencesAndSocialMediaPostsIntoPending: vi.fn(),
+        publishPendingConsequencesAndSocialMediaPosts: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
         updatePendingDisruptionStatus: vi.fn(),
     }));
@@ -75,7 +75,7 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequences).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
@@ -103,7 +103,7 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequences).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
@@ -178,7 +178,7 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
@@ -196,7 +196,7 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequences).not.toBeCalled();
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
         expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
