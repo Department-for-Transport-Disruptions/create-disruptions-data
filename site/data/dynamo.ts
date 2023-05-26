@@ -216,12 +216,12 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             Key: Record<string, string>;
         };
     }[] =
-        disruption?.socialMediaPosts?.map((_, index) => ({
+        disruption?.socialMediaPosts?.map((socialMediaPost) => ({
             Delete: {
                 TableName: tableName,
                 Key: {
                     PK: id,
-                    SK: `${disruptionId}#SOCIALMEDIAPOST#${index}`,
+                    SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
                 },
             },
         })) ?? [];
