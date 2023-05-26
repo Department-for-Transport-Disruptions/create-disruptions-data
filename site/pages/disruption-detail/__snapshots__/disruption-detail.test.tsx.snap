@@ -1080,6 +1080,26 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             Add another consequence
           </a>
           <br />
+          <h2
+            className="govuk-heading-l"
+          >
+            Social media posts
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          />
+          <a
+            className="govuk-button mt-2 govuk-button--secondary"
+            href="/create-social-media-post/2/0"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Add a social media post
+          </a>
           <input
             name="disruptionId"
             type="hidden"
@@ -2389,6 +2409,26 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             Add another consequence
           </a>
           <br />
+          <h2
+            className="govuk-heading-l"
+          >
+            Social media posts
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          />
+          <a
+            className="govuk-button mt-2 govuk-button--secondary"
+            href="/create-social-media-post/2/0"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Add a social media post
+          </a>
           <input
             name="disruptionId"
             type="hidden"

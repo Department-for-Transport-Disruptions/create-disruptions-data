@@ -339,6 +339,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -361,6 +362,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -373,6 +375,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -385,6 +388,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -397,6 +401,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -409,6 +414,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
                                                             nextIndexSocialMedia,
+                                                            true,
                                                         ),
                                                     ],
                                                 },
@@ -424,7 +430,10 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         </div>
                         <Link
                             role="button"
-                            href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
+                            href={{
+                                pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                query: REVIEW_DISRUPTION_PAGE_PATH,
+                            }}
                             className="govuk-button mt-2 govuk-button--secondary"
                             aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length === 5}
                         >
