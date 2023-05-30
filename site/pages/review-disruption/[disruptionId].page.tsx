@@ -422,16 +422,17 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                 </div>
                             ))}
                         </div>
-                        <Link
-                            role="button"
-                            href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
-                            className="govuk-button mt-2 govuk-button--secondary"
-                            aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length === 5}
-                        >
-                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
-                                ? "Add another social media post"
-                                : "Add a social media post"}
-                        </Link>
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 ? (
+                            <Link
+                                role="button"
+                                href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
+                                className="govuk-button mt-2 govuk-button--secondary"
+                            >
+                                {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                    ? "Add another social media post"
+                                    : "Add a social media post"}
+                            </Link>
+                        ) : null}
                         <br />
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
