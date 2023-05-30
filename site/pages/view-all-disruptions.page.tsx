@@ -112,7 +112,7 @@ const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     const today = getDate();
     const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-    if (!!disruptionEndDate && dateIsSameOrBeforeSecondDate(disruptionEndDate, today)) {
+    if (!!disruptionEndDate) {
         return disruptionIsClosingOrClosed(disruptionEndDate, today);
     }
 
