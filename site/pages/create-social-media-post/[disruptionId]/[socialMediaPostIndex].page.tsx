@@ -10,7 +10,11 @@ import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { COOKIES_SOCIAL_MEDIA_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../../constants";
+import {
+    COOKIES_SOCIAL_MEDIA_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
