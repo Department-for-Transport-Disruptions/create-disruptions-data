@@ -1538,7 +1538,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           <a
             aria-disabled={false}
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?/review-disruption"
+            href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

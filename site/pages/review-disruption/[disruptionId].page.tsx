@@ -432,7 +432,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                             role="button"
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: REVIEW_DISRUPTION_PAGE_PATH,
+                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
                             }}
                             className="govuk-button mt-2 govuk-button--secondary"
                             aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length === 5}

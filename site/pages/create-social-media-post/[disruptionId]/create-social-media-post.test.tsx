@@ -1,6 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
 import { SocialMediaPost } from "../../../schemas/social-media.schema";
 
@@ -17,6 +17,14 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
 
 describe("pages", () => {
     describe("CreateSocialMediaPost", () => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const useRouter = vi.spyOn(require("next/router"), "useRouter");
+        beforeEach(() => {
+            useRouter.mockImplementation(() => ({
+                query: "",
+            }));
+        });
+
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(

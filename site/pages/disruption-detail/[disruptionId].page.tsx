@@ -483,7 +483,7 @@ const DisruptionDetail = ({
                                 role="button"
                                 href={{
                                     pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                    query: DISRUPTION_DETAIL_PAGE_PATH,
+                                    query: { return: DISRUPTION_DETAIL_PAGE_PATH },
                                 }}
                                 className="govuk-button mt-2 govuk-button--secondary"
                             >

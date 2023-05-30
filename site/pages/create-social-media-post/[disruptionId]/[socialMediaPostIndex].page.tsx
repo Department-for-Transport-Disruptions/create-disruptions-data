@@ -1,4 +1,6 @@
 import { NextPageContext } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
@@ -8,7 +10,7 @@ import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
+import { COOKIES_SOCIAL_MEDIA_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
@@ -27,6 +29,11 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
+
+    const queryParams = useRouter().query;
+    const displayCancelButton =
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
@@ -156,6 +163,15 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
+                        {displayCancelButton && pageState.disruptionId ? (
+                            <Link
+                                role="button"
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                className="govuk-button  mt-8 ml-5 govuk-button--secondary"
+                            >
+                                Back
+                            </Link>
+                        ) : null}
                     </div>
                 </>
             </form>
