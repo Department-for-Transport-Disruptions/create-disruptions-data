@@ -548,7 +548,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const socialMediaPosts = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
-                !(item.SK as string).includes("#EDIT")) ??
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
@@ -576,6 +576,23 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                 consequences.push(pendingConsequence);
             }
         });
+
+        const pendingSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#PENDING")) ??
+                false,
+        );
+        pendingSocialMediaPosts.forEach((pendingSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === pendingSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = pendingSocialMediaPost;
+            } else {
+                socialMediaPosts.push(pendingSocialMediaPost);
+            }
+        });
     }
 
     if (isEdited) {
@@ -591,6 +608,23 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                   isEdited: true,
               }
             : info;
+
+        const editedSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#EDIT")) ??
+                false,
+        );
+        editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
+            const existingIndex = consequences.findIndex(
+                (s) => s.socialMediaPostIndex === editedSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = editedSocialMediaPost;
+            } else {
+                socialMediaPosts.push(editedSocialMediaPost);
+            }
+        });
 
         const editedConsequences = disruptionItems.filter(
             (item) =>
@@ -633,6 +667,8 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     }
 
     const consequencesToShow: Record<string, unknown>[] = [];
+    const socialMediaPostsToShow: Record<string, unknown>[] = [];
+    const deletedSocialMediaPosts: Record<string, unknown>[] = [];
     const deletedConsequences: Record<string, unknown>[] = [];
 
     consequences.forEach((consequence) => {
@@ -643,10 +679,18 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         }
     });
 
+    socialMediaPosts.forEach((socialMediaPost) => {
+        if (socialMediaPost.isDeleted) {
+            deletedSocialMediaPosts.push(socialMediaPost);
+        } else {
+            socialMediaPostsToShow.push(socialMediaPost);
+        }
+    });
+
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences: consequencesToShow,
-        socialMediaPosts,
+        socialMediaPosts: socialMediaPostsToShow,
         deletedConsequences,
         history,
         newHistory: newHistoryItems,
@@ -1039,7 +1083,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
 
         const editedSocialMediaPosts = dynamoDisruption.Items?.filter(
             (item) =>
-                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).includes("#EDIT")) ??
                 false,
         );
