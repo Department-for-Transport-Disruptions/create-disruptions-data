@@ -1,13 +1,16 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Dayjs } from "dayjs";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ViewAllDisruptions, {
+    disruptionIsClosingOrClosed,
     Filter,
     filterDisruptions,
     getWorstSeverity,
     TableDisruption,
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
+import { getDatetimeFromDateAndTime } from "../utils/dates";
 
 const disruptions: TableDisruption[] = [
     {
@@ -206,5 +209,23 @@ describe("filterDisruptions", () => {
         };
         const result = filterDisruptions(disruptions, filter);
         expect(result).toStrictEqual([disruptions[0]]);
+    });
+});
+
+describe("disruptionIsClosingOrClosed", () => {
+    it("should return closed for a disruption which has an end date that has passed", () => {
+        const today: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "1000");
+        const disruptionEndDate: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "0700");
+        const result = disruptionIsClosingOrClosed(disruptionEndDate, today);
+
+        expect(result).toEqual("closed");
+    });
+
+    it("should return closing for a disruption which has an end date within 24 hours of today", () => {
+        const today: Dayjs = getDatetimeFromDateAndTime("03/04/2023", "2200");
+        const disruptionEndDate: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "0700");
+        const result = disruptionIsClosingOrClosed(disruptionEndDate, today);
+
+        expect(result).toEqual("closing");
     });
 });
