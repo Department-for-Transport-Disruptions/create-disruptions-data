@@ -47,7 +47,8 @@ exports[`pages > dashboard > should render correctly when there are both live an
       <h1
         className="govuk-heading-xl"
       >
-        Dashboard
+        Nexus
+         disruptions data
       </h1>
       <a
         className="govuk-button govuk-button--start"
@@ -578,7 +579,8 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
       <h1
         className="govuk-heading-xl"
       >
-        Dashboard
+        Nexus
+         disruptions data
       </h1>
       <a
         className="govuk-button govuk-button--start"
@@ -1005,7 +1007,8 @@ exports[`pages > dashboard > should render correctly when there are only live di
       <h1
         className="govuk-heading-xl"
       >
-        Dashboard
+        Nexus
+         disruptions data
       </h1>
       <a
         className="govuk-button govuk-button--start"
@@ -1535,7 +1538,8 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
       <h1
         className="govuk-heading-xl"
       >
-        Dashboard
+        Nexus
+         disruptions data
       </h1>
       <a
         className="govuk-button govuk-button--start"
