@@ -27,6 +27,7 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
+import { getItem } from "../../data/s3";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
@@ -605,9 +606,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
                 if (s.image) {
-                    const url =
-                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
-                        "";
+                    const url: string =
+                        ((await getItem(
+                            process.env.IMAGE_BUCKET_NAME || "",
+                            s.image?.key,
+                            s.image?.originalFilename,
+                        )) as string) || "";
                     return {
                         ...s,
                         image: {

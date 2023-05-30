@@ -61,7 +61,8 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         if (canPublish(session)) {
-            if (isEditPendingDsp) await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
+            if (isEditPendingDsp)
+                await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
                 deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
                 deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
