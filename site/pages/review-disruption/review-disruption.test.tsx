@@ -1,33 +1,25 @@
-import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import {
+    EnvironmentReason,
+    PublishStatus,
+    Severity,
+    SocialMediaPostStatus,
+    VehicleMode,
+} from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
-import { SocialMediaPost } from "../../interfaces/index";
 import { Consequence } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 
-const previousSocialMediaPosts: SocialMediaPost[] = [
-    {
-        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-        publishDate: "13/01/2022",
-        publishTime: "13:00",
-        accountToPublish: "Example account",
-    },
-    {
-        messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-        publishDate: "13/01/2022",
-        publishTime: "13:00",
-        accountToPublish: "Example account 2",
-    },
-];
+const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const previousConsequencesInformation: Consequence[] = [
     {
         vehicleMode: VehicleMode.bus,
         consequenceType: "networkWide",
         consequenceIndex: 0,
-        disruptionId: "1",
+        disruptionId: defaultDisruptionId,
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "33",
@@ -37,7 +29,7 @@ const previousConsequencesInformation: Consequence[] = [
         vehicleMode: VehicleMode.tram,
         consequenceType: "operatorWide",
         consequenceIndex: 1,
-        disruptionId: "1",
+        disruptionId: defaultDisruptionId,
         consequenceOperators: ["FSYO"],
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
@@ -48,7 +40,7 @@ const previousConsequencesInformation: Consequence[] = [
         vehicleMode: VehicleMode.bus,
         consequenceType: "services",
         consequenceIndex: 2,
-        disruptionId: "1",
+        disruptionId: defaultDisruptionId,
         services: [
             {
                 id: 23127,
@@ -67,10 +59,40 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
+const previousCreateSocialMediaPostsInformation = [
+    {
+        disruptionId: defaultDisruptionId,
+        publishDate: "14/01/2027",
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 0,
+        status: SocialMediaPostStatus.pending,
+    },
+    {
+        disruptionId: defaultDisruptionId,
+        publishDate: "14/01/2028",
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 1,
+        status: SocialMediaPostStatus.pending,
+        image: {
+            filepath: "/testPath",
+            key: "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
+            mimetype: "image/jpg",
+            originalFilename: "blah.jpg",
+            size: 1000,
+        },
+    },
+];
+
 const previousDisruptionInformation: Disruption = {
     publishStatus: PublishStatus.draft,
     disruptionType: "planned",
-    disruptionId: "2",
+    disruptionId: defaultDisruptionId,
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -95,32 +117,21 @@ const previousDisruptionInformation: Disruption = {
     disruptionEndTime: "1400",
     disruptionNoEndDateTime: "",
     consequences: previousConsequencesInformation,
+    socialMediaPosts: previousCreateSocialMediaPostsInformation,
 };
 
 describe("pages", () => {
     describe("ReviewDisruption", () => {
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={previousDisruptionInformation}
-                        previousSocialMediaPosts={previousSocialMediaPosts}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
+                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
             const { getAllByRole } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    previousSocialMediaPosts={previousSocialMediaPosts}
-                    errors={[]}
-                    canPublish={false}
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
@@ -129,12 +140,7 @@ describe("pages", () => {
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
             const { getAllByRole } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    previousSocialMediaPosts={previousSocialMediaPosts}
-                    errors={[]}
-                    canPublish
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });

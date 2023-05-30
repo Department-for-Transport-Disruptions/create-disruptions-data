@@ -168,3 +168,9 @@ export enum PublishStatus {
     editPendingApproval = "EDIT_PENDING_APPROVAL",
     pendingAndEditing = "PENDING_EDITING",
 }
+
+export enum SocialMediaPostStatus {
+    pending = "Pending",
+    successful = "Successful",
+    rejected = "Rejected",
+}

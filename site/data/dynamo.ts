@@ -210,6 +210,22 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             },
         })) ?? [];
 
+    const socialMediaPostDeleteCommands: {
+        Delete: {
+            TableName: string;
+            Key: Record<string, string>;
+        };
+    }[] =
+        disruption?.socialMediaPosts?.map((socialMediaPost) => ({
+            Delete: {
+                TableName: tableName,
+                Key: {
+                    PK: id,
+                    SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
+                },
+            },
+        })) ?? [];
+
     const editedConsequenceDeleteCommands: {
         Delete: {
             TableName: string;
@@ -257,6 +273,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                     },
                 },
                 ...consequenceDeleteCommands,
+                ...socialMediaPostDeleteCommands,
                 ...editedConsequenceDeleteCommands,
             ],
         }),
@@ -289,6 +306,28 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                 Key: {
                     PK: id,
                     SK: `${disruption.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
+                },
+                UpdateExpression: "SET publishStatus = :1",
+                ExpressionAttributeValues: {
+                    ":1": status,
+                },
+            },
+        })) ?? [];
+
+    const socialMediaPostUpdateCommands: {
+        Update: {
+            TableName: string;
+            Key: Record<string, string>;
+            UpdateExpression: string;
+            ExpressionAttributeValues: Record<string, string>;
+        };
+    }[] =
+        disruption.socialMediaPosts?.map((socialMediaPost) => ({
+            Update: {
+                TableName: tableName,
+                Key: {
+                    PK: id,
+                    SK: `${disruption.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
                 },
                 UpdateExpression: "SET publishStatus = :1",
                 ExpressionAttributeValues: {
@@ -355,6 +394,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                     },
                 },
                 ...consequenceUpdateCommands,
+                ...socialMediaPostUpdateCommands,
                 ...historyPutCommand,
             ],
         }),

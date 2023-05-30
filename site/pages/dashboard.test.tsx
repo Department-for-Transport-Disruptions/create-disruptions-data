@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import * as dynamo from "../data/dynamo";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
-import { disruptionArray, disruptionWithConsequences, getMockContext } from "../testData/mockData";
+import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
@@ -160,7 +160,7 @@ describe("pages", () => {
             });
 
             it("should return live disruptions if the data returned from the database has live dates", async () => {
-                getDisruptionsSpy.mockResolvedValue([disruptionWithConsequences]);
+                getDisruptionsSpy.mockResolvedValue([disruptionWithConsequencesAndSocialMediaPosts]);
                 const ctx = getMockContext();
 
                 const actualProps = await getServerSideProps(ctx);
@@ -189,7 +189,7 @@ describe("pages", () => {
             it("should return upcoming disruptions if the data returned from the database has upcoming dates", async () => {
                 getDisruptionsSpy.mockResolvedValue([
                     {
-                        ...disruptionWithConsequences,
+                        ...disruptionWithConsequencesAndSocialMediaPosts,
                         validity: [],
                         disruptionStartDate: "12/02/2999",
                         disruptionStartTime: "1200",
@@ -220,7 +220,7 @@ describe("pages", () => {
                 getDisruptionsSpy.mockResolvedValue([
                     ...disruptionArray,
                     {
-                        ...disruptionWithConsequences,
+                        ...disruptionWithConsequencesAndSocialMediaPosts,
                         validity: [],
                         disruptionStartDate: "12/02/2999",
                         disruptionStartTime: "1200",

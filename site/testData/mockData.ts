@@ -6,6 +6,7 @@ import {
     Progress,
     PublishStatus,
     Severity,
+    SocialMediaPostStatus,
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
@@ -20,6 +21,7 @@ import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
+import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
@@ -366,15 +368,51 @@ export const consequenceInfoNetworkTest: Consequence = {
     removeFromJourneyPlanners: "no",
 };
 
+const socialMediaPostsInformation = [
+    {
+        disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        publishDate: getFutureDateAsString(300),
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 0,
+        status: SocialMediaPostStatus.pending,
+    },
+    {
+        disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        publishDate: getFutureDateAsString(300),
+        publishTime: "1300",
+        messageContent: "Test post 12345",
+        socialAccount: "Twitter",
+        hootsuiteProfile: "Twitter/1234",
+        socialMediaPostIndex: 1,
+        status: SocialMediaPostStatus.pending,
+        image: {
+            filepath: "/testPath",
+            key: "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
+            mimetype: "image/jpg",
+            originalFilename: "blah.jpg",
+            size: 1000,
+        },
+    },
+];
+
 export const disruptionWithConsequences: Disruption = {
     ...disruptionWithNoConsequences,
     consequences: [consequenceInfoNetworkTest, consequenceInfoOperatorTest],
 };
 
+export const disruptionWithConsequencesAndSocialMediaPosts: Disruption = {
+    ...disruptionWithNoConsequences,
+    consequences: [consequenceInfoNetworkTest, consequenceInfoOperatorTest],
+    socialMediaPosts: socialMediaPostsInformation,
+};
+
 export const disruptionArray: Disruption[] = [
-    disruptionWithConsequences,
+    disruptionWithConsequencesAndSocialMediaPosts,
     {
-        ...disruptionWithConsequences,
+        ...disruptionWithConsequencesAndSocialMediaPosts,
         validity: [],
         disruptionStartDate: "10/03/2022",
         disruptionStartTime: "1100",

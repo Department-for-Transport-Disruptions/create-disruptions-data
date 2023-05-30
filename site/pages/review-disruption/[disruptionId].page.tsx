@@ -17,9 +17,11 @@ import {
     DASHBOARD_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { ErrorInfo, SocialMediaPost } from "../../interfaces";
+import { getItem } from "../../data/s3";
+import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -30,19 +32,12 @@ const description = "Review Disruption page for the Create Transport Disruptions
 
 interface ReviewDisruptionProps {
     disruption: Disruption;
-    previousSocialMediaPosts: SocialMediaPost[];
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
 }
 
-const ReviewDisruption = ({
-    disruption,
-    previousSocialMediaPosts,
-    csrfToken,
-    errors,
-    canPublish,
-}: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
 
@@ -316,7 +311,7 @@ const ReviewDisruption = ({
                         <h2 className="govuk-heading-l">Social media posts</h2>
 
                         <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                            {previousSocialMediaPosts.map((post, i) => (
+                            {disruption?.socialMediaPosts?.map((post, i) => (
                                 <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
                                     <div className="govuk-accordion__section-header">
                                         <h2 className="govuk-accordion__section-heading">
@@ -338,12 +333,34 @@ const ReviewDisruption = ({
                                                 {
                                                     header: "Message to appear",
                                                     cells: [
-                                                        post.messageToAppear,
+                                                        post.messageContent,
                                                         createChangeLink(
                                                             "message-to-appear",
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
-                                                            nextIndexSocialMedia,
+                                                            post.socialMediaPostIndex,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Image",
+                                                    cells: [
+                                                        post.image ? (
+                                                            <Link
+                                                                className="govuk-link text-govBlue"
+                                                                key={post.image.key}
+                                                                href={post.image?.url ?? ""}
+                                                            >
+                                                                {post.image.originalFilename}
+                                                            </Link>
+                                                        ) : (
+                                                            "No image uploaded"
+                                                        ),
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
                                                         ),
                                                     ],
                                                 },
@@ -355,7 +372,7 @@ const ReviewDisruption = ({
                                                             "publish-date",
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
-                                                            nextIndexSocialMedia,
+                                                            post.socialMediaPostIndex,
                                                         ),
                                                     ],
                                                 },
@@ -367,21 +384,37 @@ const ReviewDisruption = ({
                                                             "publish-time",
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
-                                                            nextIndexSocialMedia,
+                                                            post.socialMediaPostIndex,
                                                         ),
                                                     ],
                                                 },
                                                 {
-                                                    header: "Account to publish",
+                                                    header: "Account name",
                                                     cells: [
-                                                        post.accountToPublish,
+                                                        post.socialAccount,
                                                         createChangeLink(
                                                             "account-to-publish",
                                                             CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                                             disruption,
-                                                            nextIndexSocialMedia,
+                                                            post.socialMediaPostIndex,
                                                         ),
                                                     ],
+                                                },
+                                                {
+                                                    header: "HootSuite profile",
+                                                    cells: [
+                                                        post.hootsuiteProfile,
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Status",
+                                                    cells: [post.status, ""],
                                                 },
                                             ]}
                                         />
@@ -389,15 +422,17 @@ const ReviewDisruption = ({
                                 </div>
                             ))}
                         </div>
-                        <Link
-                            role="button"
-                            href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
-                            className="govuk-button mt-2 govuk-button--secondary"
-                        >
-                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
-                                ? "Add another social media post"
-                                : "Add a social media post"}
-                        </Link>
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 ? (
+                            <Link
+                                role="button"
+                                href={`${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`}
+                                className="govuk-button mt-2 govuk-button--secondary"
+                            >
+                                {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                    ? "Add another social media post"
+                                    : "Add a social media post"}
+                            </Link>
+                        ) : null}
                         <br />
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
@@ -449,6 +484,32 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 
+    let socialMediaWithImageLinks: SocialMediaPost[] = [];
+    if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
+        socialMediaWithImageLinks = await Promise.all(
+            disruption.socialMediaPosts.map(async (s) => {
+                if (s.image) {
+                    const url =
+                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
+                        "";
+                    return {
+                        ...s,
+                        image: {
+                            ...s.image,
+                            url,
+                        },
+                    };
+                }
+                return s;
+            }),
+        );
+    }
+
+    const disruptionWithURLS = {
+        ...disruption,
+        ...(socialMediaWithImageLinks.length > 0 ? { socialMediaPosts: socialMediaWithImageLinks } : {}),
+    };
+
     let errors: ErrorInfo[] = [];
     if (errorCookie) {
         errors = JSON.parse(errorCookie) as ErrorInfo[];
@@ -458,27 +519,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Disruption not found for review page");
     }
 
-    const previousSocialMediaPosts: SocialMediaPost[] = [
-        {
-            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-            publishDate: "11/05/2020",
-            publishTime: "11:00",
-            accountToPublish: "Example account",
-        },
-        {
-            messageToAppear: "The road is closed for the following reasons: Example, example, example, example",
-            publishDate: "11/05/2020",
-            publishTime: "11:00",
-            accountToPublish: "Example account 2",
-        },
-    ];
-
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
     return {
         props: {
-            disruption,
-            previousSocialMediaPosts,
+            disruption: disruptionWithURLS as Disruption,
             errors,
             canPublish: canPublish(session),
         },

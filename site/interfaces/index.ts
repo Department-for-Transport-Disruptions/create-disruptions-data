@@ -67,13 +67,6 @@ export interface PageState<T> {
     sessionWithOrg?: SessionWithOrgDetail | null;
 }
 
-export interface SocialMediaPost {
-    messageToAppear: string;
-    publishDate: string;
-    publishTime: string;
-    accountToPublish: string;
-}
-
 export interface CreateConsequenceProps {
     initialServices?: Service[];
     initialStops?: Stop[];
