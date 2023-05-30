@@ -11,7 +11,7 @@ import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDyna
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
-import { canPublish, getSession } from "../utils/apiUtils/auth";
+import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
@@ -32,6 +32,7 @@ export interface DashboardProps {
     newDisruptionId: string;
     pendingApprovalCount?: number;
     canPublish: boolean;
+    orgName: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -94,6 +95,7 @@ const Dashboard = ({
     newDisruptionId,
     pendingApprovalCount,
     canPublish,
+    orgName,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -125,7 +127,7 @@ const Dashboard = ({
 
     return (
         <BaseLayout title={title} description={description} errors={[]}>
-            <h1 className="govuk-heading-xl">Dashboard</h1>
+            <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish ? (
                 <div className="govuk-warning-text">
                     <span className="govuk-warning-text__icon" aria-hidden="true">
@@ -239,6 +241,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             upcomingDisruptions: [],
             newDisruptionId: randomUUID(),
             canPublish: false,
+            orgName: "",
         },
     };
 
@@ -246,14 +249,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
-    const session = getSession(ctx.req);
-    if (!session) {
+    const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
+    if (!sessionWithOrg) {
         return baseProps;
     }
 
     const data = await Promise.all([
-        getPublishedDisruptionsDataFromDynamo(session.orgId),
-        getPendingDisruptionsIdsFromDynamo(session.orgId),
+        getPublishedDisruptionsDataFromDynamo(sessionWithOrg.orgId),
+        getPendingDisruptionsIdsFromDynamo(sessionWithOrg.orgId),
     ]);
 
     const publishedDisruption = data[0];
@@ -332,7 +335,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 newDisruptionId: randomUUID(),
                 pendingApprovalCount: pendingApprovalCount,
-                canPublish: canPublish(session),
+                canPublish: canPublish(sessionWithOrg),
+                orgName: sessionWithOrg.orgName,
             },
         };
     }
