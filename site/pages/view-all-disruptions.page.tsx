@@ -94,6 +94,10 @@ const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
         return Progress.draft;
     }
 
+    if (disruption.publishStatus === PublishStatus.rejected) {
+        return Progress.rejected;
+    }
+
     if (disruption.publishStatus === PublishStatus.pendingApproval) {
         return Progress.draftPendingApproval;
     }
@@ -844,7 +848,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
                 item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval,
+                item.publishStatus === PublishStatus.editPendingApproval ||
+                item.publishStatus === PublishStatus.rejected,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
         const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
