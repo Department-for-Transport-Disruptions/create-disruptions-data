@@ -22,6 +22,7 @@ export enum Progress {
     pendingApproval = "pendingApproval",
     editPendingApproval = "editPendingApproval",
     draftPendingApproval = "draftPendingApproval",
+    rejected = "rejected",
 }
 
 export enum MiscellaneousReason {
