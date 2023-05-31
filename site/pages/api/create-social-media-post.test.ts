@@ -281,9 +281,7 @@ describe("create-social-media-post API", () => {
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
-        const errors: ErrorInfo[] = [
-            { errorMessage: "Publish date/time must be in the future.", id: "publishDate" },
-        ];
+        const errors: ErrorInfo[] = [{ errorMessage: "Publish date/time must be in the future.", id: "publishDate" }];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_SOCIAL_MEDIA_ERRORS,
