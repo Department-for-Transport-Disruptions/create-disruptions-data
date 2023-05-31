@@ -21,7 +21,6 @@ import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
-import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
@@ -371,7 +370,7 @@ export const consequenceInfoNetworkTest: Consequence = {
 const socialMediaPostsInformation = [
     {
         disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-        publishDate: getFutureDateAsString(300),
+        publishDate: "29/05/2030",
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",
@@ -381,7 +380,7 @@ const socialMediaPostsInformation = [
     },
     {
         disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-        publishDate: getFutureDateAsString(300),
+        publishDate: "29/05/2030",
         publishTime: "1300",
         messageContent: "Test post 12345",
         socialAccount: "Twitter",
