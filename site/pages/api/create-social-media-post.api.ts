@@ -53,7 +53,12 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 COOKIES_SOCIAL_MEDIA_ERRORS,
                 JSON.stringify({
                     inputs: fields,
-                    errors: flattenZodErrors(validatedBody.error),
+                    errors: imageFile
+                        ? [
+                              ...flattenZodErrors(validatedBody.error),
+                              { errorMessage: "Re-upload the image", id: "image" },
+                          ]
+                        : flattenZodErrors(validatedBody.error),
                 }),
                 res,
             );

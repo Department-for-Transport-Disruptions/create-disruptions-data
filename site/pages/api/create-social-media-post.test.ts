@@ -203,7 +203,10 @@ describe("create-social-media-post API", () => {
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Max image size is 5MB.", id: "image" }];
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Max image size is 5MB.", id: "image" },
+            { errorMessage: "Re-upload the image", id: "image" },
+        ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
@@ -242,7 +245,10 @@ describe("create-social-media-post API", () => {
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Only .jpg, .jpeg and .png formats are supported.", id: "image" }];
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Only .jpg, .jpeg and .png formats are supported.", id: "image" },
+            { errorMessage: "Re-upload the image", id: "image" },
+        ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
@@ -275,7 +281,9 @@ describe("create-social-media-post API", () => {
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Publish date/time must be in the future.", id: "publishDate" }];
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Publish date/time must be in the future.", id: "publishDate" },
+        ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_SOCIAL_MEDIA_ERRORS,
