@@ -1,9 +1,9 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
@@ -23,7 +23,7 @@ import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
-import { SocialMediaPost } from "../../schemas/social-media.schema";
+import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -46,11 +46,145 @@ const DisruptionDetail = ({
     errors,
     canPublish,
 }: DisruptionDetailProps): ReactElement => {
+    const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
+        name: string;
+        hiddenInputs: { name: string; value: string }[];
+    }>();
+
     const title =
         disruption.publishStatus === PublishStatus.editing ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
             : "Disruption Overview";
+
+    const hiddenInputs = (index: number) => [
+        {
+            name: "id",
+            value: index.toString(),
+        },
+        {
+            name: "disruptionId",
+            value: disruption.disruptionId,
+        },
+    ];
+
+    const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
+        const socialMediaTableRows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
+            {
+                header: "Message to appear",
+                cells: [
+                    post.messageContent,
+                    createChangeLink(
+                        "message-to-appear",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "Image",
+                cells: [
+                    post.image ? (
+                        <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
+                            {post.image.originalFilename}
+                        </Link>
+                    ) : (
+                        "No image uploaded"
+                    ),
+                    createChangeLink(
+                        "hootsuite-profile",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "Publish date",
+                cells: [
+                    post.publishDate,
+                    createChangeLink(
+                        "publish-date",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "Publish time",
+                cells: [
+                    post.publishTime,
+                    createChangeLink(
+                        "publish-time",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "Account name",
+                cells: [
+                    post.socialAccount,
+                    createChangeLink(
+                        "account-to-publish",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "HootSuite profile",
+                cells: [
+                    post.hootsuiteProfile,
+                    createChangeLink(
+                        "hootsuite-profile",
+                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                        disruption,
+                        post.socialMediaPostIndex,
+                        true,
+                        true,
+                    ),
+                ],
+            },
+            {
+                header: "Status",
+                cells: [post.status],
+            },
+        ];
+
+        if (post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected) {
+            socialMediaTableRows.push({
+                cells: [
+                    <button
+                        key={post.socialMediaPostIndex}
+                        className="govuk-button govuk-button--warning mt-4"
+                        data-module="govuk-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            deleteActionHandlerSocialMediaPost("post", hiddenInputs(post.socialMediaPostIndex));
+                        }}
+                    >
+                        Remove post
+                    </button>,
+                ],
+            });
+        }
+        return socialMediaTableRows;
+    };
 
     const hasInitialised = useRef(false);
 
@@ -58,8 +192,20 @@ const DisruptionDetail = ({
     const cancelActionHandler = (): void => {
         setPopUpState(undefined);
     };
+
+    const cancelActionHandlerSocialMediaPost = (): void => {
+        setSocialMediaPostPopUpState(undefined);
+    };
+
     const deleteActionHandler = (name: string, hiddenInputs: { name: string; value: string }[]): void => {
         setPopUpState({ name, hiddenInputs });
+    };
+
+    const deleteActionHandlerSocialMediaPost = (
+        name: string,
+        hiddenInputs: { name: string; value: string }[],
+    ): void => {
+        setSocialMediaPostPopUpState({ name, hiddenInputs });
     };
 
     useEffect(() => {
@@ -148,6 +294,16 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
+                />
+            ) : null}
+            {socialMediaPostPopUpState && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={`the ${socialMediaPostPopUpState.name}`}
+                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}`}
+                    cancelActionHandler={cancelActionHandlerSocialMediaPost}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
                 />
             ) : null}
             <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
@@ -372,108 +528,7 @@ const DisruptionDetail = ({
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table
-                                            rows={[
-                                                {
-                                                    header: "Message to appear",
-                                                    cells: [
-                                                        post.messageContent,
-                                                        createChangeLink(
-                                                            "message-to-appear",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Image",
-                                                    cells: [
-                                                        post.image ? (
-                                                            <Link
-                                                                className="govuk-link text-govBlue"
-                                                                key={post.image.key}
-                                                                href={post.image?.url ?? ""}
-                                                            >
-                                                                {post.image.originalFilename}
-                                                            </Link>
-                                                        ) : (
-                                                            "No image uploaded"
-                                                        ),
-                                                        createChangeLink(
-                                                            "hootsuite-profile",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Publish date",
-                                                    cells: [
-                                                        post.publishDate,
-                                                        createChangeLink(
-                                                            "publish-date",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Publish time",
-                                                    cells: [
-                                                        post.publishTime,
-                                                        createChangeLink(
-                                                            "publish-time",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Account name",
-                                                    cells: [
-                                                        post.socialAccount,
-                                                        createChangeLink(
-                                                            "account-to-publish",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "HootSuite profile",
-                                                    cells: [
-                                                        post.hootsuiteProfile,
-                                                        createChangeLink(
-                                                            "hootsuite-profile",
-                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                                            disruption,
-                                                            post.socialMediaPostIndex,
-                                                            true,
-                                                            true,
-                                                        ),
-                                                    ],
-                                                },
-                                                {
-                                                    header: "Status",
-                                                    cells: [post.status, ""],
-                                                },
-                                            ]}
-                                        />
+                                        <Table rows={getSocialMediaRows(post)} />
                                     </div>
                                 </div>
                             ))}

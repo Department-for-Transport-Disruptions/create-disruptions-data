@@ -1293,9 +1293,21 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
                       <td
                         className="govuk-table__cell align-middle"
-                      />
+                      >
+                        <button
+                          className="govuk-button govuk-button--warning mt-4"
+                          data-module="govuk-button"
+                          onClick={[Function]}
+                        >
+                          Remove post
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -1526,9 +1538,21 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
                       <td
                         className="govuk-table__cell align-middle"
-                      />
+                      >
+                        <button
+                          className="govuk-button govuk-button--warning mt-4"
+                          data-module="govuk-button"
+                          onClick={[Function]}
+                        >
+                          Remove post
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
