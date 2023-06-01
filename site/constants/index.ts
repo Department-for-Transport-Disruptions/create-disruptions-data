@@ -170,6 +170,7 @@ export const DISRUPTION_STATUSES: DisplayValuePair<Progress>[] = [
         display: "Draft pending approval",
     },
     { value: Progress.published, display: "Published" },
+    { value: Progress.rejected, display: "Rejected" },
 ];
 
 export const OPERATORS: DisplayValuePair[] = [
