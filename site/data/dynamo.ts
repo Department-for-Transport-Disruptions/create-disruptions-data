@@ -616,7 +616,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                 false,
         );
         editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
-            const existingIndex = consequences.findIndex(
+            const existingIndex = socialMediaPosts.findIndex(
                 (s) => s.socialMediaPostIndex === editedSocialMediaPost.socialMediaPostIndex,
             );
             if (existingIndex > -1) {
