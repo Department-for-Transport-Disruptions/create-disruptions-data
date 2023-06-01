@@ -3,6 +3,7 @@ import { readFile } from "fs/promises";
 import {
     COOKIES_SOCIAL_MEDIA_ERRORS,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
 import { upsertSocialMediaPost } from "../../data/dynamo";
@@ -11,6 +12,7 @@ import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    getReturnPage,
     redirectTo,
     redirectToError,
     setCookieOnResponseObject,
@@ -20,6 +22,8 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
+        const queryParam = getReturnPage(req);
+
         const session = getSession(req);
 
         if (!session) {
@@ -62,7 +66,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }`,
+                }${queryParam ? `?${queryParam}` : ""}`,
             );
             return;
         }
@@ -73,10 +77,16 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
 
-        await upsertSocialMediaPost(validatedBody.data, session.orgId);
+        await upsertSocialMediaPost(validatedBody.data, session.orgId, session.isOrgStaff);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+
+        const redirectPath =
+            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+                ? DISRUPTION_DETAIL_PAGE_PATH
+                : REVIEW_DISRUPTION_PAGE_PATH;
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+
         return;
     } catch (e) {
         if (e instanceof Error) {

@@ -13,14 +13,17 @@ import ReviewConsequenceTable, { createChangeLink } from "../../components/Revie
 import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
+    CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
+import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { Validity } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -128,6 +131,12 @@ const DisruptionDetail = ({
     };
 
     const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+
+    const nextIndexSocialMedia =
+        disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+            ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
+                  .socialMediaPostIndex + 1
+            : 0;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -343,6 +352,148 @@ const DisruptionDetail = ({
 
                         <br />
 
+                        <h2 className="govuk-heading-l">Social media posts</h2>
+
+                        <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                            {disruption?.socialMediaPosts?.map((post, i) => (
+                                <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
+                                    <div className="govuk-accordion__section-header">
+                                        <h2 className="govuk-accordion__section-heading">
+                                            <span
+                                                className="govuk-accordion__section-button"
+                                                id={`accordion-default-heading-${i + 1}`}
+                                            >
+                                                {`Social media post ${i + 1}`}
+                                            </span>
+                                        </h2>
+                                    </div>
+                                    <div
+                                        id={`accordion-default-content-${i + 1}`}
+                                        className="govuk-accordion__section-content"
+                                        aria-labelledby={`accordion-default-heading-${i + 1}`}
+                                    >
+                                        <Table
+                                            rows={[
+                                                {
+                                                    header: "Message to appear",
+                                                    cells: [
+                                                        post.messageContent,
+                                                        createChangeLink(
+                                                            "message-to-appear",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Image",
+                                                    cells: [
+                                                        post.image ? (
+                                                            <Link
+                                                                className="govuk-link text-govBlue"
+                                                                key={post.image.key}
+                                                                href={post.image?.url ?? ""}
+                                                            >
+                                                                {post.image.originalFilename}
+                                                            </Link>
+                                                        ) : (
+                                                            "No image uploaded"
+                                                        ),
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Publish date",
+                                                    cells: [
+                                                        post.publishDate,
+                                                        createChangeLink(
+                                                            "publish-date",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Publish time",
+                                                    cells: [
+                                                        post.publishTime,
+                                                        createChangeLink(
+                                                            "publish-time",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Account name",
+                                                    cells: [
+                                                        post.socialAccount,
+                                                        createChangeLink(
+                                                            "account-to-publish",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "HootSuite profile",
+                                                    cells: [
+                                                        post.hootsuiteProfile,
+                                                        createChangeLink(
+                                                            "hootsuite-profile",
+                                                            CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                                            disruption,
+                                                            post.socialMediaPostIndex,
+                                                            true,
+                                                            true,
+                                                        ),
+                                                    ],
+                                                },
+                                                {
+                                                    header: "Status",
+                                                    cells: [post.status, ""],
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 ? (
+                            <Link
+                                role="button"
+                                href={{
+                                    pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                    query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                }}
+                                className="govuk-button mt-2 govuk-button--secondary"
+                            >
+                                {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                    ? "Add another social media post"
+                                    : "Add a social media post"}
+                            </Link>
+                        ) : null}
+                        <br />
+
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         {disruption.publishStatus !== PublishStatus.editing &&
@@ -451,11 +602,37 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Disruption not found for disruption detail page");
     }
 
+    let socialMediaWithImageLinks: SocialMediaPost[] = [];
+    if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
+        socialMediaWithImageLinks = await Promise.all(
+            disruption.socialMediaPosts.map(async (s) => {
+                if (s.image) {
+                    const url: string =
+                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
+                        "";
+                    return {
+                        ...s,
+                        image: {
+                            ...s.image,
+                            url,
+                        },
+                    };
+                }
+                return s;
+            }),
+        );
+    }
+
+    const disruptionWithURLS = {
+        ...disruption,
+        ...(socialMediaWithImageLinks.length > 0 ? { socialMediaPosts: socialMediaWithImageLinks } : {}),
+    };
+
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_ERRORS, ctx.res);
 
     return {
         props: {
-            disruption: disruption,
+            disruption: disruptionWithURLS as Disruption,
             redirect: referer,
             errors: errors,
             canPublish: canPublish(session),

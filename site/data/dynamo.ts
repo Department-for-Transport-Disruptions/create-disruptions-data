@@ -472,16 +472,21 @@ export const upsertConsequence = async (
     );
 };
 
-export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTransformed, id: string) => {
+export const upsertSocialMediaPost = async (
+    socialMediaPost: SocialMediaPostTransformed,
+    id: string,
+    isUserStaff?: boolean,
+) => {
     logger.info(
         `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
     );
 
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
-    const isEditing =
-        currentDisruption?.publishStatus === PublishStatus.published ||
-        currentDisruption?.publishStatus === PublishStatus.editing ||
-        currentDisruption?.publishStatus === PublishStatus.pendingApproval;
+    const isPending =
+        isUserStaff &&
+        (currentDisruption?.publishStatus === PublishStatus.published ||
+            currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
+    const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
         new PutCommand({
@@ -489,7 +494,7 @@ export const upsertSocialMediaPost = async (socialMediaPost: SocialMediaPostTran
             Item: {
                 PK: id,
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
-                    isEditing ? "#EDIT" : ""
+                    isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
                 ...socialMediaPost,
             },
@@ -543,7 +548,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const socialMediaPosts = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
-                !(item.SK as string).includes("#EDIT")) ??
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
@@ -571,6 +576,23 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                 consequences.push(pendingConsequence);
             }
         });
+
+        const pendingSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#PENDING")) ??
+                false,
+        );
+        pendingSocialMediaPosts.forEach((pendingSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === pendingSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = pendingSocialMediaPost;
+            } else {
+                socialMediaPosts.push(pendingSocialMediaPost);
+            }
+        });
     }
 
     if (isEdited) {
@@ -586,6 +608,23 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
                   isEdited: true,
               }
             : info;
+
+        const editedSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#EDIT")) ??
+                false,
+        );
+        editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === editedSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = editedSocialMediaPost;
+            } else {
+                socialMediaPosts.push(editedSocialMediaPost);
+            }
+        });
 
         const editedConsequences = disruptionItems.filter(
             (item) =>
@@ -628,6 +667,8 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     }
 
     const consequencesToShow: Record<string, unknown>[] = [];
+    const socialMediaPostsToShow: Record<string, unknown>[] = [];
+    const deletedSocialMediaPosts: Record<string, unknown>[] = [];
     const deletedConsequences: Record<string, unknown>[] = [];
 
     consequences.forEach((consequence) => {
@@ -638,10 +679,18 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         }
     });
 
+    socialMediaPosts.forEach((socialMediaPost) => {
+        if (socialMediaPost.isDeleted) {
+            deletedSocialMediaPosts.push(socialMediaPost);
+        } else {
+            socialMediaPostsToShow.push(socialMediaPost);
+        }
+    });
+
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences: consequencesToShow,
-        socialMediaPosts,
+        socialMediaPosts: socialMediaPostsToShow,
         deletedConsequences,
         history,
         newHistory: newHistoryItems,
@@ -661,7 +710,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     return parsedDisruption.data;
 };
 
-export const publishEditedConsequences = async (disruptionId: string, id: string) => {
+export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId: string, id: string) => {
     logger.info(`Publishing edited disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
@@ -678,8 +727,10 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
         const editedConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const editedDisruption: Record<string, unknown>[] = [];
+        const editedSocialMediaPosts: Record<string, unknown>[] = [];
+        const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items.forEach((item) => {
+        dynamoDisruption.Items?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#EDIT")
@@ -694,9 +745,26 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
             if ((item.SK as string) === `${disruptionId}#INFO#EDIT`) {
                 editedDisruption.push(item);
             }
+
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                (item.SK as string).includes("#EDIT")
+            ) {
+                if (item.isDeleted) {
+                    deleteSocialMediaPosts.push(item);
+                } else {
+                    editedSocialMediaPosts.push(item);
+                }
+            }
         });
 
-        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequences.length > 0)
+        if (
+            editedConsequences.length > 0 ||
+            editedDisruption.length > 0 ||
+            deleteConsequences.length > 0 ||
+            editedSocialMediaPosts.length > 0 ||
+            deleteSocialMediaPosts.length > 0
+        )
             await ddbDocClient.send(
                 new TransactWriteCommand({
                     TransactItems: [
@@ -729,13 +797,36 @@ export const publishEditedConsequences = async (disruptionId: string, id: string
                                 },
                             },
                         })),
+                        ...editedSocialMediaPosts.map((socialMediaPost) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...socialMediaPost,
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }`,
+                                },
+                            },
+                        })),
+                        ...deleteSocialMediaPosts.map((socialMediaPost) => ({
+                            Delete: {
+                                TableName: tableName,
+                                Key: {
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }`,
+                                },
+                            },
+                        })),
                     ],
                 }),
             );
     }
 };
 
-export const publishEditedConsequencesIntoPending = async (disruptionId: string, id: string) => {
+export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (disruptionId: string, id: string) => {
     logger.info(`Publishing edited disruption(${disruptionId}) to pending status in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
@@ -752,8 +843,10 @@ export const publishEditedConsequencesIntoPending = async (disruptionId: string,
         const editedConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const editedDisruption: Record<string, unknown>[] = [];
+        const editedSocialMediaPosts: Record<string, unknown>[] = [];
+        const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items.forEach((item) => {
+        dynamoDisruption.Items?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#EDIT")
@@ -768,9 +861,26 @@ export const publishEditedConsequencesIntoPending = async (disruptionId: string,
             if ((item.SK as string) === `${disruptionId}#INFO#EDIT`) {
                 editedDisruption.push(item);
             }
+
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                (item.SK as string).includes("#EDIT")
+            ) {
+                if (item.isDeleted) {
+                    deleteSocialMediaPosts.push(item);
+                } else {
+                    editedSocialMediaPosts.push(item);
+                }
+            }
         });
 
-        if (editedConsequences.length > 0 || editedDisruption.length > 0 || deleteConsequences.length > 0)
+        if (
+            editedConsequences.length > 0 ||
+            editedDisruption.length > 0 ||
+            deleteConsequences.length > 0 ||
+            editedSocialMediaPosts.length > 0 ||
+            deleteSocialMediaPosts.length > 0
+        )
             await ddbDocClient.send(
                 new TransactWriteCommand({
                     TransactItems: [
@@ -804,13 +914,37 @@ export const publishEditedConsequencesIntoPending = async (disruptionId: string,
                                 },
                             },
                         })),
+                        ...editedSocialMediaPosts.map((socialMediaPost) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...socialMediaPost,
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }#PENDING`,
+                                },
+                            },
+                        })),
+                        ...deleteSocialMediaPosts.map((socialMediaPost) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...socialMediaPost,
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }#PENDING`,
+                                },
+                            },
+                        })),
                     ],
                 }),
             );
     }
 };
 
-export const publishPendingConsequences = async (disruptionId: string, id: string) => {
+export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId: string, id: string) => {
     logger.info(`Publishing pending disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
@@ -827,8 +961,10 @@ export const publishPendingConsequences = async (disruptionId: string, id: strin
         const pendingConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const pendingDisruption: Record<string, unknown>[] = [];
+        const pendingSocialMediaPosts: Record<string, unknown>[] = [];
+        const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items.forEach((item) => {
+        dynamoDisruption.Items?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#PENDING")
@@ -843,9 +979,26 @@ export const publishPendingConsequences = async (disruptionId: string, id: strin
             if ((item.SK as string) === `${disruptionId}#INFO#PENDING`) {
                 pendingDisruption.push(item);
             }
+
+            if (
+                (item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                (item.SK as string).includes("#PENDING")
+            ) {
+                if (item.isDeleted) {
+                    deleteSocialMediaPosts.push(item);
+                } else {
+                    pendingSocialMediaPosts.push(item);
+                }
+            }
         });
 
-        if (pendingConsequences.length > 0 || pendingDisruption.length > 0 || deleteConsequences.length > 0)
+        if (
+            pendingConsequences.length > 0 ||
+            pendingDisruption.length > 0 ||
+            deleteConsequences.length > 0 ||
+            pendingSocialMediaPosts.length > 0 ||
+            deleteSocialMediaPosts.length > 0
+        )
             await ddbDocClient.send(
                 new TransactWriteCommand({
                     TransactItems: [
@@ -878,6 +1031,29 @@ export const publishPendingConsequences = async (disruptionId: string, id: strin
                                 },
                             },
                         })),
+                        ...pendingSocialMediaPosts.map((socialMediaPost) => ({
+                            Put: {
+                                TableName: tableName,
+                                Item: {
+                                    ...socialMediaPost,
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }`,
+                                },
+                            },
+                        })),
+                        ...deleteSocialMediaPosts.map((socialMediaPost) => ({
+                            Delete: {
+                                TableName: tableName,
+                                Key: {
+                                    PK: id,
+                                    SK: `${disruptionId}#SOCIALMEDIAPOST#${
+                                        socialMediaPost.socialMediaPostIndex as string
+                                    }`,
+                                },
+                            },
+                        })),
                     ],
                 }),
             );
@@ -892,15 +1068,22 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": `${disruptionId}#CONSEQUENCE`,
+                ":2": `${disruptionId}`,
             },
         }),
     );
 
     if (dynamoDisruption.Items) {
-        const editedConsequences = dynamoDisruption.Items.filter(
+        const editedConsequences = dynamoDisruption.Items?.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).includes("#EDIT")) ??
+                false,
+        );
+
+        const editedSocialMediaPosts = dynamoDisruption.Items?.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).includes("#EDIT")) ??
                 false,
         );
@@ -911,12 +1094,28 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
                 Key: Record<string, string>;
             };
         }[] =
-            editedConsequences.map((consequence) => ({
+            editedConsequences?.map((consequence) => ({
                 Delete: {
                     TableName: tableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#EDIT`,
+                    },
+                },
+            })) ?? [];
+
+        const socialMediaPostDeleteCommands: {
+            Delete: {
+                TableName: string;
+                Key: Record<string, string>;
+            };
+        }[] =
+            editedSocialMediaPosts?.map((socialMediaPost) => ({
+                Delete: {
+                    TableName: tableName,
+                    Key: {
+                        PK: id,
+                        SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#EDIT`,
                     },
                 },
             })) ?? [];
@@ -934,6 +1133,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
                         },
                     },
                     ...consequenceDeleteCommands,
+                    ...socialMediaPostDeleteCommands,
                 ],
             }),
         );
@@ -948,15 +1148,22 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
-                ":2": `${disruptionId}#CONSEQUENCE`,
+                ":2": `${disruptionId}`,
             },
         }),
     );
 
     if (dynamoDisruption.Items) {
-        const pendingConsequences = dynamoDisruption.Items.filter(
+        const pendingConsequences = dynamoDisruption.Items?.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).includes("#PENDING")) ??
+                false,
+        );
+
+        const pendingSocialMediaPosts = dynamoDisruption.Items?.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).includes("#PENDING")) ??
                 false,
         );
@@ -967,12 +1174,28 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
                 Key: Record<string, string>;
             };
         }[] =
-            pendingConsequences.map((consequence) => ({
+            pendingConsequences?.map((consequence) => ({
                 Delete: {
                     TableName: tableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
+                    },
+                },
+            })) ?? [];
+
+        const socialMediaPostDeleteCommands: {
+            Delete: {
+                TableName: string;
+                Key: Record<string, string>;
+            };
+        }[] =
+            pendingSocialMediaPosts?.map((socialMediaPost) => ({
+                Delete: {
+                    TableName: tableName,
+                    Key: {
+                        PK: id,
+                        SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#PENDING`,
                     },
                 },
             })) ?? [];
@@ -990,6 +1213,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
                         },
                     },
                     ...consequenceDeleteCommands,
+                    ...socialMediaPostDeleteCommands,
                 ],
             }),
         );

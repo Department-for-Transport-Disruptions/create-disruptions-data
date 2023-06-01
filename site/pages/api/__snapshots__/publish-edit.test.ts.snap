@@ -114,6 +114,35 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
     "publishStatus": "DRAFT",
+    "socialMediaPosts": [
+      {
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "hootsuiteProfile": "Twitter/1234",
+        "messageContent": "Test post 12345",
+        "publishDate": "29/05/2030",
+        "publishTime": "1300",
+        "socialAccount": "Twitter",
+        "socialMediaPostIndex": 0,
+        "status": "Pending",
+      },
+      {
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+        "hootsuiteProfile": "Twitter/1234",
+        "image": {
+          "filepath": "/testPath",
+          "key": "35bae327-4af0-4bbf-8bfa-2c085f214483/acde070d-8c4c-4f0d-9d8a-162843c10333/0.jpg",
+          "mimetype": "image/jpg",
+          "originalFilename": "blah.jpg",
+          "size": 1000,
+        },
+        "messageContent": "Test post 12345",
+        "publishDate": "29/05/2030",
+        "publishTime": "1300",
+        "socialAccount": "Twitter",
+        "socialMediaPostIndex": 1,
+        "status": "Pending",
+      },
+    ],
     "summary": "Some summary",
     "validity": [
       {
