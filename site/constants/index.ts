@@ -256,6 +256,7 @@ export const CHANGE_PASSWORD_PAGE_PATH = "/change-password";
 export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const REGISTER_PAGE_PATH = "/register";
+export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
