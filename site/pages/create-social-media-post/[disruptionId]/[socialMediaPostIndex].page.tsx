@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
@@ -33,6 +33,17 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
+    const [copy, setCopy] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (copy) {
+            setPageState({
+                ...pageState,
+                errors: pageState.errors.filter((e) => e.id !== "messageContent"),
+            });
+        }
+        setCopy(false);
+    }, [copy, pageState]);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -73,6 +84,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
+                                    setCopy(true);
                                     stateUpdater(props.disruptionSummary, "messageContent");
                                 }}
                             >

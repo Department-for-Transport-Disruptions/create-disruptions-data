@@ -1,5 +1,5 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -30,6 +30,10 @@ const TextInput = <T extends object>({
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
+
+    useEffect(() => {
+        setErrors(initialErrors);
+    }, [initialErrors]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
