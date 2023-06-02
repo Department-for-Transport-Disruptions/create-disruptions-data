@@ -5,7 +5,7 @@ import { SocialMediaPostTransformed as SocialMediaPost } from "../../schemas/soc
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
-const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const session = getSession(req);
 
@@ -66,4 +66,4 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
     }
 };
 
-export default deleteConsequence;
+export default deletePost;

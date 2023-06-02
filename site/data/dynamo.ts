@@ -563,7 +563,7 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
 };
 
 export const removeSocialMediaPostFromDisruption = async (index: number, disruptionId: string, id: string) => {
-    logger.info(`Updating socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+    logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
 
     await ddbDocClient.send(
         new DeleteCommand({
