@@ -1,6 +1,6 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
-import deleteSocialMediaPost from "./delete-social-media-post.api";
+import deleteSocialMediaPost from "./delete-post.api";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse } from "../../testData/mockData";
@@ -8,7 +8,7 @@ import { getMockRequestAndResponse } from "../../testData/mockData";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultSocialMediaPostId = "1";
 
-describe("deleteSocialMediaPost", () => {
+describe("deletePost", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),

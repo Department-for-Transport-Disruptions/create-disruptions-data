@@ -66,6 +66,10 @@ const DisruptionDetail = ({
             name: "disruptionId",
             value: disruption.disruptionId,
         },
+        {
+            name: "inEdit",
+            value: "true",
+        },
     ];
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
