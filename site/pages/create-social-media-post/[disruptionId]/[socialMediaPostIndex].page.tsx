@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
