@@ -138,23 +138,6 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
             },
         ];
 
-        if (post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected) {
-            socialMediaTableRows.push({
-                cells: [
-                    <button
-                        key={post.socialMediaPostIndex}
-                        className="govuk-button govuk-button--warning mt-4"
-                        data-module="govuk-button"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            deleteActionHandlerSocialMediaPost("post", hiddenInputs(post.socialMediaPostIndex));
-                        }}
-                    >
-                        Remove post
-                    </button>,
-                ],
-            });
-        }
         return socialMediaTableRows;
     };
 
@@ -478,6 +461,23 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
                                         <Table rows={getSocialMediaRows(post)} />
+                                        {post.status === SocialMediaPostStatus.pending ||
+                                        post.status === SocialMediaPostStatus.rejected ? (
+                                            <button
+                                                key={post.socialMediaPostIndex}
+                                                className="govuk-button govuk-button--warning mt-4"
+                                                data-module="govuk-button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    deleteActionHandlerSocialMediaPost(
+                                                        "post",
+                                                        hiddenInputs(post.socialMediaPostIndex),
+                                                    );
+                                                }}
+                                            >
+                                                Remove post
+                                            </button>
+                                        ) : null}
                                     </div>
                                 </div>
                             ))}
