@@ -33,18 +33,6 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
-    const [copy, setCopy] = useState(false);
-
-    useEffect(() => {
-        if (copy) {
-            setPageState({
-                ...pageState,
-                errors: pageState.errors.filter((e) => e.id !== "messageContent"),
-            });
-            setErrorsMessageContent(errorsMessageContent.filter((e) => e.id !== "messageContent"));
-        }
-        setCopy(false);
-    }, [copy, pageState, errorsMessageContent]);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -107,7 +95,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    setCopy(true);
+                                    setErrorsMessageContent(
+                                        errorsMessageContent.filter((e) => e.id !== "messageContent"),
+                                    );
                                     stateUpdater(props.disruptionSummary, "messageContent");
                                 }}
                             >
