@@ -67,19 +67,18 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             schema={socialMediaPostSchema.shape.messageContent}
                         />
 
-                        <button
-                            disabled={!!(pageState.inputs.messageContent && pageState.inputs.messageContent.length > 0)}
-                            className="mt-3 govuk-link"
-                            data-module="govuk-button"
-                            onClick={() => {
-                                stateUpdater(props.disruptionSummary, "messageContent");
-                            }}
-                        >
-                            {!pageState.inputs.messageContent ||
-                            (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
+                        {!pageState.inputs.messageContent ||
+                        (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
+                            <button
+                                className="mt-3 govuk-link"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    stateUpdater(props.disruptionSummary, "messageContent");
+                                }}
+                            >
                                 <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
-                            ) : null}
-                        </button>
+                            </button>
+                        ) : null}
 
                         <br />
 
