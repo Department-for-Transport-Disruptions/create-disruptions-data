@@ -113,6 +113,7 @@ const unauthenticatedRoutes = [
     "/api/login",
     "/register",
     "/api/register",
+    "/expired-link",
     "/forgot-password",
     "/api/forgot-password",
     "/reset-password",
