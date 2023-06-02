@@ -97,13 +97,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             data-module="govuk-button"
             disabled={true}
             onClick={[Function]}
-          >
-            <p
-              className="text-govBlue govuk-body-m"
-            >
-              Copy from disruption summary
-            </p>
-          </button>
+          />
           <br />
           <div
             className="govuk-form-group"

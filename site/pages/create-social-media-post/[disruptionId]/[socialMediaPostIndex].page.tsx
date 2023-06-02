@@ -75,7 +75,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 stateUpdater(props.disruptionSummary, "messageContent");
                             }}
                         >
-                            <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            {!pageState.inputs.messageContent ||
+                            (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
+                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            ) : null}
                         </button>
 
                         <br />
