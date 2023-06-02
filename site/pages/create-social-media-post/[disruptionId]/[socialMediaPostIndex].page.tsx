@@ -73,7 +73,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    setCopy(true);
                                     stateUpdater(props.disruptionSummary, "messageContent");
                                 }}
                             >
