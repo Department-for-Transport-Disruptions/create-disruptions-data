@@ -31,10 +31,6 @@ const TextInput = <T extends object>({
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
-    useEffect(() => {
-        setErrors(initialErrors);
-    }, [initialErrors]);
-
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
             <div className="govuk-form-group" id={inputId}>

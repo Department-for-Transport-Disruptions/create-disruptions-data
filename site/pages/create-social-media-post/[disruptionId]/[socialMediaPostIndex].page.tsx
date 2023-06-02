@@ -33,17 +33,6 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
-    const [copy, setCopy] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (copy) {
-            setPageState({
-                ...pageState,
-                errors: pageState.errors.filter((e) => e.id !== "messageContent"),
-            });
-        }
-        setCopy(false);
-    }, [copy, pageState]);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
