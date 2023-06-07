@@ -88,6 +88,13 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             Show 
             filters
           </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Export
+          </button>
         </div>
       </div>
       <table
@@ -990,6 +997,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             Show 
             filters
           </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Export
+          </button>
         </div>
       </div>
       <table
@@ -1473,6 +1487,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
           >
             Show 
             filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Export
           </button>
         </div>
       </div>
@@ -2375,6 +2396,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
           >
             Show 
             filters
+          </button>
+          <button
+            className="govuk-button govuk-button--secondary ml-2"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            Export
           </button>
         </div>
       </div>

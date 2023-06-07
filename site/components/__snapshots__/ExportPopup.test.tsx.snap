@@ -1,0 +1,107 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ExportPopup > should render correctly 1`] = `
+<div>
+  <div
+    class="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 "
+  >
+    <div
+      class="relative bg-white w-full max-w-xl p-10"
+    >
+      <div
+        class="govuk-form-group"
+      >
+        <fieldset
+          class="govuk-fieldset"
+          id="export-type"
+        >
+          <legend
+            class="govuk-fieldset__legend govuk-!-padding-top"
+          >
+            <span
+              class="govuk-heading-s govuk-!-margin-bottom-0"
+            >
+              What format would you like to export this as
+            </span>
+          </legend>
+          <div
+            class=""
+          >
+            <div
+              class="govuk-radios"
+              data-module="govuk-radios"
+            >
+              <div
+                class="govuk-radios__item govuk-!-margin-bottom-1"
+              >
+                <input
+                  class="govuk-radios__input"
+                  data-aria-controls="export-type-csv-conditional"
+                  id="export-type-csv"
+                  name="exportType"
+                  type="radio"
+                  value="csv"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  for="export-type-csv"
+                >
+                  CSV
+                </label>
+              </div>
+              <div
+                class="govuk-radios__item govuk-!-margin-bottom-1"
+              >
+                <input
+                  class="govuk-radios__input"
+                  data-aria-controls="export-type-excel-conditional"
+                  id="export-type-excel"
+                  name="exportType"
+                  type="radio"
+                  value="excel"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  for="export-type-excel"
+                >
+                  Excel
+                </label>
+              </div>
+              <div
+                class="govuk-radios__item"
+              >
+                <input
+                  class="govuk-radios__input"
+                  data-aria-controls="export-type-pdf-conditional"
+                  id="export-type-pdf"
+                  name="exportType"
+                  type="radio"
+                  value="pdf"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  for="export-type-pdf"
+                >
+                  PDF
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <button
+        class="govuk-button"
+        data-module="govuk-button"
+      >
+        Export
+      </button>
+      <button
+        class="govuk-button ml-5 govuk-button--secondary"
+        data-module="govuk-button"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;

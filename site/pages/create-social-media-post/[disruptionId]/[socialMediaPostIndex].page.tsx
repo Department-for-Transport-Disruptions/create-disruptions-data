@@ -95,13 +95,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-<<<<<<< HEAD
-                                    setCopy(true);
-=======
                                     setErrorsMessageContent(
                                         errorsMessageContent.filter((e) => e.id !== "messageContent"),
                                     );
->>>>>>> ad27cb5141936b7342d501bcd8e5c11b7825fedd
                                     stateUpdater(props.disruptionSummary, "messageContent");
                                 }}
                             >
