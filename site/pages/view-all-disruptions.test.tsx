@@ -22,6 +22,12 @@ const disruptions: TableDisruption[] = [
         severity: Severity.verySevere,
         serviceIds: ["1212", "323"],
         operators: ["BB"],
+        index: 0,
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+        consequenceLength: 1,
     },
     {
         id: "e234615d-8301-49c2-8143-1fca9dc187db",
@@ -32,6 +38,12 @@ const disruptions: TableDisruption[] = [
         severity: Severity.verySevere,
         serviceIds: ["42545"],
         operators: ["DB"],
+        index: 1,
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+        consequenceLength: 1,
     },
     {
         id: "dfd19560-99c1-4da6-8a73-de1220f37056",
@@ -46,6 +58,12 @@ const disruptions: TableDisruption[] = [
         severity: Severity.severe,
         serviceIds: ["6758"],
         operators: ["BB", "SB"],
+        index: 2,
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+        consequenceLength: 1,
     },
 ];
 
