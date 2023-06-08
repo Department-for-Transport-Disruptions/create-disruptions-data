@@ -39,10 +39,16 @@ export const refineImageSchema = socialMediaPostSchema
             item.image && item.image.size ? ACCEPTED_IMAGE_TYPES.includes(item.image.mimetype ?? "undefined") : true,
         { path: ["image"], message: "Only .jpg, .jpeg and .png formats are supported." },
     )
-    .refine((item) => getDatetimeFromDateAndTime(item.publishDate, item.publishTime).isSameOrAfter(new Date()), {
-        path: ["publishDate"],
-        message: "Publish date/time must be in the future.",
-    });
+    .refine(
+        (item) =>
+            item.publishDate &&
+            item.publishTime &&
+            getDatetimeFromDateAndTime(item.publishDate, item.publishTime).isSameOrAfter(new Date()),
+        {
+            path: ["publishDate"],
+            message: "Publish date/time must be in the future.",
+        },
+    );
 
 export type SocialMediaPost = z.infer<typeof socialMediaPostSchema>;
 
