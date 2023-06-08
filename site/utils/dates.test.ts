@@ -6,6 +6,7 @@ import {
     getDatetimeFromDateAndTime,
     getEndingOnDateText,
 } from "./dates";
+import dayjs from "dayjs";
 
 describe("date/time tests", () => {
     it.each([
@@ -66,5 +67,12 @@ describe("date/time tests", () => {
         ["daily", "10/05/2023", "03/05/2023", "03/05/2023", "10/05/2023"],
     ])("should return expected end date", (repeats, endingOnDate, startDate, endDate, result) => {
         expect(getEndingOnDateText(repeats, endingOnDate, startDate, endDate)).toEqual(result);
+    });
+
+    it.each([
+        ["07/03/2023", "", dayjs("2023-03-07")],
+        ["25/04/2023", "1000", dayjs("2023-04-25").set("hour", 10)],
+    ])("should return expected date time", (date, time, result) => {
+        expect(getDatetimeFromDateAndTime(date, time).toISOString()).toEqual(result.toISOString());
     });
 });
