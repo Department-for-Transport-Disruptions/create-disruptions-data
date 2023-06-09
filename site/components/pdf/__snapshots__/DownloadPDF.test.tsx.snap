@@ -178,49 +178,63 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "width": "6.5%",
           }
         }
-      />
+      >
+        Bus
+      </TEXT>
       <TEXT
         style={
           {
             "width": "6.5%",
           }
         }
-      />
+      >
+        yes
+      </TEXT>
       <TEXT
         style={
           {
             "width": "6.5%",
           }
         }
-      />
+      >
+        no
+      </TEXT>
       <TEXT
         style={
           {
             "width": "6.5%",
           }
         }
-      />
+      >
+        0
+      </TEXT>
       <TEXT
         style={
           {
             "width": "6.5%",
           }
         }
-      />
+      >
+        5
+      </TEXT>
       <TEXT
         style={
           {
             "width": "4.5%",
           }
         }
-      />
+      >
+        Tue 24 May 2023
+      </TEXT>
       <TEXT
         style={
           {
             "width": "4.5%",
           }
         }
-      />
+      >
+        Tue 24 May 2023
+      </TEXT>
       <TEXT
         style={
           {
@@ -237,7 +251,9 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "width": "6.5%",
           }
         }
-      />
+      >
+        yes
+      </TEXT>
       <TEXT
         style={
           {
