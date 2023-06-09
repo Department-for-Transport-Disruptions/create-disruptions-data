@@ -37,7 +37,7 @@ const PDFRows = ({ disruptions }: PDFProps) => {
     const rows = disruptions.map((disruption, rowIndex) => (
         <View key={rowIndex} style={PDFStyles.container}>
             <Text key="0" style={PDFStyles.column}>
-                {rowIndex}
+                {disruption.id}
             </Text>
             <Text key="1" style={PDFStyles.title}>
                 {disruption.title}
