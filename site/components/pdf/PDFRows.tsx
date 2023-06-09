@@ -43,31 +43,31 @@ const PDFRows = ({ disruptions }: PDFProps) => {
                 {disruption.title}
             </Text>
             <Text key="2" style={PDFStyles.column}>
-                {disruption.mode}
+                {disruption.serviceModes}
             </Text>
             <Text key="3" style={PDFStyles.column}>
-                {disruption["operator wide"]}
+                {disruption.operatorWide}
             </Text>
             <Text key="4" style={PDFStyles.column}>
-                {disruption["network wide"]}
+                {disruption.networkWide}
             </Text>
             <Text key="5" style={PDFStyles.column}>
-                {disruption["services affected"]}
+                {disruption.servicesAffectedCount}
             </Text>
             <Text key="6" style={PDFStyles.column}>
-                {disruption["stops affected"]}
+                {disruption.stopsAffectedCount}
             </Text>
             <Text key="7" style={PDFStyles.date}>
-                {disruption.start}
+                {disruption.startDate}
             </Text>
             <Text key="8" style={PDFStyles.date}>
-                {disruption.end}
+                {disruption.endDate}
             </Text>
             <Text key="9" style={PDFStyles.column}>
                 {disruption.severity}
             </Text>
             <Text key="10" style={PDFStyles.column} hyphenationCallback={hyphenCallback}>
-                {disruption.live}
+                {disruption.isLive}
             </Text>
             <Text key="11" style={PDFStyles.status}>
                 {disruption.status}
