@@ -6,6 +6,8 @@ import * as dynamo from "../data/dynamo";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
+import { getDate } from "../utils/dates";
+import { CD_DATE_FORMAT } from "../constants";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
@@ -21,6 +23,9 @@ beforeEach(() => {
     getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
 });
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
+const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
+const isoRecentlyClosedDate = getDate().subtract(4, "day").format("YYYY-MM-DD");
 
 const defaultSession: SessionWithOrgDetail = {
     email: "test@example.com",
@@ -70,6 +75,20 @@ const disruptions: DashboardDisruption[] = [
             },
         ],
     },
+    {
+        id: "55",
+        summary: "Another disruption",
+        validityPeriods: [
+            {
+                startTime: "2023-04-21T11:23:24.529Z",
+                endTime: "2024-03-22T11:23:24.529Z",
+            },
+            {
+                startTime: "2023-04-22T11:23:24.529Z",
+                endTime: null,
+            },
+        ],
+    },
 ];
 
 describe("pages", () => {
@@ -80,6 +99,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={[]}
                         upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -95,6 +115,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={disruptions}
                         upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -110,6 +131,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={[]}
                         upcomingDisruptions={disruptions}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -119,12 +141,29 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly when there are both live and upcoming disruptions", () => {
+        it("should render correctly when there are only recently closed disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={disruptions}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly when there are all three live, upcoming and recently closed disruptions", () => {
             const tree = renderer
                 .create(
                     <Dashboard
                         liveDisruptions={[disruptions[0]]}
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
+                        recentlyClosedDisruptions={[disruptions[4]]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -152,6 +191,7 @@ describe("pages", () => {
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
                     upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
@@ -179,6 +219,7 @@ describe("pages", () => {
                         },
                     ],
                     upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
@@ -209,6 +250,46 @@ describe("pages", () => {
                             validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
+                    recentlyClosedDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
+                    orgName: "Nexus",
+                });
+            });
+
+            it("should return recently closed disruptions if the data returned from the database has end dates within 7 days", async () => {
+                getDisruptionsSpy.mockResolvedValue([
+                    {
+                        ...disruptionWithConsequencesAndSocialMediaPosts,
+                        validity: [],
+                        disruptionStartDate: "12/04/2023",
+                        disruptionStartTime: "1200",
+                        disruptionEndDate: recentlyClosedDate,
+                        disruptionEndTime: "1200",
+                        disruptionNoEndDateTime: undefined,
+                    },
+                ]);
+
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
+
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [],
+                    upcomingDisruptions: [
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    startTime: "2023-04-12T12:00:00.000Z",
+                                    endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
+                                },
+                            ],
+                        },
+                    ],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
