@@ -6,7 +6,6 @@ import {
     getDatetimeFromDateAndTime,
     getEndingOnDateText,
 } from "./dates";
-import dayjs from "dayjs";
 
 describe("date/time tests", () => {
     it.each([
