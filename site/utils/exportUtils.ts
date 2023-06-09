@@ -21,22 +21,22 @@ export const getExportSchema = (): Schema<ExportDisruptionData> => {
         {
             column: "operator wide",
             type: String,
-            value: (objectData: ExportDisruptionData) => objectData["operator wide"],
+            value: (objectData: ExportDisruptionData) => objectData.operatorWide,
         },
         {
             column: "network wide",
             type: String,
-            value: (objectData: ExportDisruptionData) => objectData["network wide"],
+            value: (objectData: ExportDisruptionData) => objectData.operatorWide,
         },
         {
             column: "services affected",
             type: Number,
-            value: (objectData: ExportDisruptionData) => objectData["services affected"],
+            value: (objectData: ExportDisruptionData) => objectData.operatorWide,
         },
         {
             column: "stops affected",
             type: Number,
-            value: (objectData: ExportDisruptionData) => objectData["stops affected"],
+            value: (objectData: ExportDisruptionData) => objectData.operatorWide,
         },
         {
             column: "start",

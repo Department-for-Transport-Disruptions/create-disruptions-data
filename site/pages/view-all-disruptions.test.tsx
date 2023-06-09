@@ -63,7 +63,6 @@ const disruptions: TableDisruption[] = [
         isNetworkWideCq: true,
         isLive: true,
         stopsAffectedCount: 0,
-        consequenceLength: 1,
     },
 ];
 

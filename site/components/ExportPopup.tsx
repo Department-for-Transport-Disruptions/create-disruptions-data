@@ -57,7 +57,7 @@ const ExportPopUp = ({ confirmHandler, closePopUp }: ExportPopUpProps): ReactEle
                     <fieldset className="govuk-fieldset" id={inputId}>
                         <legend className="govuk-fieldset__legend govuk-!-padding-top">
                             <span className="govuk-heading-s govuk-!-margin-bottom-0">
-                                What format would you like to export this as
+                                What format would you like to export this as ?
                             </span>
                         </legend>
                         <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">

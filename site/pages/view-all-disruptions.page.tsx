@@ -548,7 +548,7 @@ const ViewAllDisruptions = ({
                 const blob = await pdf(
                     <PDFDoc disruptions={parseDisruptions.success ? parseDisruptions.data : []} />,
                 ).toBlob();
-                saveAs(blob, "Disruptions.pdf");
+                saveAs(blob, "Disruptions_list.pdf");
                 setDownloadPdf(false);
             }
         };
@@ -631,10 +631,10 @@ const ViewAllDisruptions = ({
                 "id",
                 "title",
                 "mode",
-                "operator wide",
-                "network wide",
-                "services affected",
-                "stops affected",
+                "operatorWide",
+                "networkWide",
+                "servicesAffected",
+                "stopsAffected",
                 "start",
                 "end",
                 "severity",
@@ -646,7 +646,7 @@ const ViewAllDisruptions = ({
 
         const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
 
-        saveAs(blob, "disruptions.csv");
+        saveAs(blob, "Disruptions_list.csv");
     };
 
     const generateExcel = async () => {
@@ -658,7 +658,7 @@ const ViewAllDisruptions = ({
 
         await writeXlsxFile(data, {
             schema: exportSchema,
-            fileName: "disruptions.xlsx",
+            fileName: "Disruptions_list.xlsx",
         });
     };
 

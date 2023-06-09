@@ -21,7 +21,7 @@ exports[`ExportPopup > should render correctly 1`] = `
             <span
               class="govuk-heading-s govuk-!-margin-bottom-0"
             >
-              What format would you like to export this as
+              What format would you like to export this as ?
             </span>
           </legend>
           <div

@@ -258,7 +258,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -402,7 +402,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -546,7 +546,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1167,7 +1167,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1658,7 +1658,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1802,7 +1802,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1946,7 +1946,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             >
               <a
                 className="govuk-link"
-                href="/review-disruption/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
