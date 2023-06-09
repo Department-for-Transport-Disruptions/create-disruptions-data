@@ -980,6 +980,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             let isOperatorWideCq = false;
             let isNetworkWideCq = false;
             let stopsAffectedCount = 0;
+            const atcoCodeSet = new Set<string>();
 
             const isLive = disruption.validity ? isLiveDisruption(disruption.validity) : false;
 
@@ -996,7 +997,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         consequence.services.forEach((service) => {
                             serviceIds.push(service.id.toString());
                         });
-                        stopsAffectedCount += consequence.stops ? consequence.stops.length : 0;
+
+                        consequence.stops?.map((stop) => {
+                            if (!atcoCodeSet.has(stop.atcoCode)) {
+                                atcoCodeSet.add(stop.atcoCode);
+                                stopsAffectedCount++;
+                            }
+                        });
                     } else if (consequence.consequenceType === "operatorWide") {
                         isOperatorWideCq = true;
                         consequence.consequenceOperators.forEach((op) => {
@@ -1005,7 +1012,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     } else if (consequence.consequenceType === "networkWide") {
                         isNetworkWideCq = true;
                     } else if (consequence.consequenceType === "stops") {
-                        stopsAffectedCount += consequence.stops ? consequence.stops.length : 0;
+                        consequence.stops?.map((stop) => {
+                            if (!atcoCodeSet.has(stop.atcoCode)) {
+                                atcoCodeSet.add(stop.atcoCode);
+                                stopsAffectedCount++;
+                            }
+                        });
                     }
                 });
             }
