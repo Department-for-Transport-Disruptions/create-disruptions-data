@@ -563,7 +563,7 @@ const ViewAllDisruptions = ({
             generateExcel().catch(async () => {
                 await writeXlsxFile(["There was an error. Contact your admin team"], {
                     schema: [{ column: "error", type: String, value: (objectData: string) => objectData }],
-                    fileName: "disruptions.xlsx",
+                    fileName: "Disruptions_list.xlsx",
                 });
             });
             setDownloadExcel(false);
@@ -630,15 +630,15 @@ const ViewAllDisruptions = ({
             fields: [
                 "id",
                 "title",
-                "mode",
+                "serviceModes",
                 "operatorWide",
                 "networkWide",
-                "servicesAffected",
-                "stopsAffected",
-                "start",
-                "end",
+                "servicesAffectedCount",
+                "stopsAffectedCount",
+                "startDate",
+                "endDate",
                 "severity",
-                "live",
+                "isLive",
                 "status",
             ],
             data: parseDisruptions.success ? parseDisruptions.data : [],
