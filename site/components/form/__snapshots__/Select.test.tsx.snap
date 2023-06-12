@@ -160,6 +160,21 @@ exports[`Select > should render correctly with errors 1`] = `
         >
           Unknown
         </option>
+        <option
+          value="liftFailure"
+        >
+          Lift failure
+        </option>
+        <option
+          value="escalatorFailure"
+        >
+          Escalator failure
+        </option>
+        <option
+          value="insufficientDemand"
+        >
+          Insufficient demand
+        </option>
       </select>
     </div>
   </div>
@@ -325,6 +340,21 @@ exports[`Select > should render correctly with no errors 1`] = `
           value="unknown"
         >
           Unknown
+        </option>
+        <option
+          value="liftFailure"
+        >
+          Lift failure
+        </option>
+        <option
+          value="escalatorFailure"
+        >
+          Escalator failure
+        </option>
+        <option
+          value="insufficientDemand"
+        >
+          Insufficient demand
         </option>
       </select>
     </div>
