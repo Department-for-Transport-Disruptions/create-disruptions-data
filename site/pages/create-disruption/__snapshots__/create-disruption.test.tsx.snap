@@ -269,6 +269,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Emergency Engineering Work
                   </option>
                   <option
+                    value="escalatorFailure"
+                  >
+                    Escalator failure
+                  </option>
+                  <option
                     value="flooding"
                   >
                     Flooding
@@ -307,6 +312,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     value="industrialAction"
                   >
                     Industrial Action
+                  </option>
+                  <option
+                    value="insufficientDemand"
+                  >
+                    Insufficient demand
+                  </option>
+                  <option
+                    value="liftFailure"
+                  >
+                    Lift failure
                   </option>
                   <option
                     value="maintenanceWork"
@@ -1763,6 +1778,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Emergency Engineering Work
                   </option>
                   <option
+                    value="escalatorFailure"
+                  >
+                    Escalator failure
+                  </option>
+                  <option
                     value="flooding"
                   >
                     Flooding
@@ -1801,6 +1821,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     value="industrialAction"
                   >
                     Industrial Action
+                  </option>
+                  <option
+                    value="insufficientDemand"
+                  >
+                    Insufficient demand
+                  </option>
+                  <option
+                    value="liftFailure"
+                  >
+                    Lift failure
                   </option>
                   <option
                     value="maintenanceWork"
@@ -3177,6 +3207,11 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Emergency Engineering Work
                   </option>
                   <option
+                    value="escalatorFailure"
+                  >
+                    Escalator failure
+                  </option>
+                  <option
                     value="flooding"
                   >
                     Flooding
@@ -3215,6 +3250,16 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     value="industrialAction"
                   >
                     Industrial Action
+                  </option>
+                  <option
+                    value="insufficientDemand"
+                  >
+                    Insufficient demand
+                  </option>
+                  <option
+                    value="liftFailure"
+                  >
+                    Lift failure
                   </option>
                   <option
                     value="maintenanceWork"

@@ -39,6 +39,7 @@ export enum MiscellaneousReason {
     vegetation = "vegetation",
     roadworks = "roadworks",
     specialEvent = "specialEvent",
+    insufficientDemand = "insufficientDemand",
 }
 
 export enum PersonnelReason {
