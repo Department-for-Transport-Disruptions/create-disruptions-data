@@ -93,85 +93,85 @@ const disruptions: DashboardDisruption[] = [
 
 describe("pages", () => {
     describe("dashboard", () => {
-        // it("should render correctly when there are no disruptions", () => {
-        //     const tree = renderer
-        //         .create(
-        //             <Dashboard
-        //                 liveDisruptions={[]}
-        //                 upcomingDisruptions={[]}
-        //                 recentlyClosedDisruptions={[]}
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 canPublish
-        //                 orgName="Nexus"
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are no disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
 
-        // it("should render correctly when there are only live disruptions", () => {
-        //     const tree = renderer
-        //         .create(
-        //             <Dashboard
-        //                 liveDisruptions={disruptions}
-        //                 upcomingDisruptions={[]}
-        //                 recentlyClosedDisruptions={[]}
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 canPublish
-        //                 orgName="Nexus"
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are only live disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={disruptions}
+                        upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
 
-        // it("should render correctly when there are only upcoming disruptions", () => {
-        //     const tree = renderer
-        //         .create(
-        //             <Dashboard
-        //                 liveDisruptions={[]}
-        //                 upcomingDisruptions={disruptions}
-        //                 recentlyClosedDisruptions={[]}
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 canPublish
-        //                 orgName="Nexus"
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are only upcoming disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={disruptions}
+                        recentlyClosedDisruptions={[]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
 
-        // it("should render correctly when there are only recently closed disruptions", () => {
-        //     const tree = renderer
-        //         .create(
-        //             <Dashboard
-        //                 liveDisruptions={[]}
-        //                 upcomingDisruptions={[]}
-        //                 recentlyClosedDisruptions={disruptions}
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 canPublish
-        //                 orgName="Nexus"
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are only recently closed disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={disruptions}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
 
-        // it("should render correctly when there are all three live, upcoming and recently closed disruptions", () => {
-        //     const tree = renderer
-        //         .create(
-        //             <Dashboard
-        //                 liveDisruptions={[disruptions[0]]}
-        //                 upcomingDisruptions={[disruptions[1], disruptions[2]]}
-        //                 recentlyClosedDisruptions={[disruptions[3]]}
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 canPublish
-        //                 orgName="Nexus"
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are all three live, upcoming and recently closed disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[disruptions[0]]}
+                        upcomingDisruptions={[disruptions[1], disruptions[2]]}
+                        recentlyClosedDisruptions={[disruptions[3]]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
 
         describe("getServerSideProps", () => {
             afterEach(() => {
@@ -182,50 +182,50 @@ describe("pages", () => {
                 getPendingDisruptionsSpy.mockResolvedValue(new Set<string>());
             });
 
-            //     it("should return no disruptions if there is no data returned from the database call", async () => {
-            //         getDisruptionsSpy.mockResolvedValue([]);
+            it("should return no disruptions if there is no data returned from the database call", async () => {
+                getDisruptionsSpy.mockResolvedValue([]);
 
-            //         const ctx = getMockContext();
+                const ctx = getMockContext();
 
-            //         const actualProps = await getServerSideProps(ctx);
-            //         expect(actualProps.props).toStrictEqual({
-            //             liveDisruptions: [],
-            //             upcomingDisruptions: [],
-            //             recentlyClosedDisruptions: [],
-            //             newDisruptionId: expect.any(String) as string,
-            //             pendingApprovalCount: 0,
-            //             canPublish: true,
-            //             orgName: "Nexus",
-            //         });
-            //     });
+                const actualProps = await getServerSideProps(ctx);
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [],
+                    upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
+                    orgName: "Nexus",
+                });
+            });
 
-            //     it("should return live disruptions if the data returned from the database has live dates", async () => {
-            //         getDisruptionsSpy.mockResolvedValue([disruptionWithConsequencesAndSocialMediaPosts]);
-            //         const ctx = getMockContext();
+            it("should return live disruptions if the data returned from the database has live dates", async () => {
+                getDisruptionsSpy.mockResolvedValue([disruptionWithConsequencesAndSocialMediaPosts]);
+                const ctx = getMockContext();
 
-            //         const actualProps = await getServerSideProps(ctx);
-            //         expect(actualProps.props).toStrictEqual({
-            //             liveDisruptions: [
-            //                 {
-            //                     id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            //                     summary: "Some summary",
-            //                     validityPeriods: [
-            //                         {
-            //                             startTime: "2023-03-10T12:00:00.000Z",
-            //                             endTime: null,
-            //                         },
-            //                         { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-            //                     ],
-            //                 },
-            //             ],
-            //             upcomingDisruptions: [],
-            //             recentlyClosedDisruptions: [],
-            //             newDisruptionId: expect.any(String) as string,
-            //             pendingApprovalCount: 0,
-            //             canPublish: true,
-            //             orgName: "Nexus",
-            //         });
-            //     });
+                const actualProps = await getServerSideProps(ctx);
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                    endTime: null,
+                                },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
+                            ],
+                        },
+                    ],
+                    upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
+                    orgName: "Nexus",
+                });
+            });
 
             it("should return upcoming disruptions if the data returned from the database has upcoming dates", async () => {
                 getDisruptionsSpy.mockResolvedValue([
@@ -233,7 +233,7 @@ describe("pages", () => {
                         ...disruptionWithConsequencesAndSocialMediaPosts,
                         validity: [],
                         disruptionStartDate: "12/02/2999",
-                        disruptionStartTime: "1200",
+                        disruptionStartTime: "1300",
                     },
                 ]);
 
@@ -247,7 +247,7 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
+                            validityPeriods: [{ startTime: "2999-02-12T13:00:00.000Z", endTime: null }],
                         },
                     ],
                     recentlyClosedDisruptions: [],
@@ -263,10 +263,10 @@ describe("pages", () => {
                     {
                         ...disruptionWithConsequencesAndSocialMediaPosts,
                         validity: [],
-                        disruptionStartDate: "12/04/2023",
-                        disruptionStartTime: "1200",
+                        disruptionStartDate: "12/02/2023",
+                        disruptionStartTime: "1300",
                         disruptionEndDate: recentlyClosedDate,
-                        disruptionEndTime: "1200",
+                        disruptionEndTime: "1300",
                         disruptionNoEndDateTime: undefined,
                     },
                 ]);
@@ -283,7 +283,7 @@ describe("pages", () => {
                             summary: "Some summary",
                             validityPeriods: [
                                 {
-                                    startTime: "2023-04-12T12:00:00.000Z",
+                                    startTime: "2023-02-12T13:00:00.000Z",
                                     endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
                                 },
                             ],
@@ -297,65 +297,65 @@ describe("pages", () => {
                 });
             });
 
-            // it("should return live and upcoming disruptions if the data returned from the database has live and upcoming dates", async () => {
-            //     getDisruptionsSpy.mockResolvedValue([
-            //         ...disruptionArray,
-            //         {
-            //             ...disruptionWithConsequencesAndSocialMediaPosts,
-            //             validity: [],
-            //             disruptionStartDate: "12/02/2999",
-            //             disruptionStartTime: "1200",
-            //         },
-            //     ]);
+            it("should return live and upcoming disruptions if the data returned from the database has live and upcoming dates", async () => {
+                getDisruptionsSpy.mockResolvedValue([
+                    ...disruptionArray,
+                    {
+                        ...disruptionWithConsequencesAndSocialMediaPosts,
+                        validity: [],
+                        disruptionStartDate: "12/02/2999",
+                        disruptionStartTime: "1200",
+                    },
+                ]);
 
-            //     const ctx = getMockContext();
+                const ctx = getMockContext();
 
-            //     const actualProps = await getServerSideProps(ctx);
+                const actualProps = await getServerSideProps(ctx);
 
-            //     expect(actualProps.props).toStrictEqual({
-            //         liveDisruptions: [
-            //             {
-            //                 id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            //                 summary: "Some summary",
-            //                 validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
-            //             },
-            //             {
-            //                 id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            //                 summary: "Some summary",
-            //                 validityPeriods: [
-            //                     {
-            //                         startTime: "2023-03-10T12:00:00.000Z",
-            //                         endTime: null,
-            //                     },
-            //                     { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-            //                 ],
-            //             },
-            //             {
-            //                 id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            //                 summary: "Some summary",
-            //                 validityPeriods: [
-            //                     {
-            //                         startTime: "2023-03-10T12:00:00.000Z",
-            //                         endTime: null,
-            //                     },
-            //                     { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-            //                 ],
-            //             },
-            //         ],
-            //         upcomingDisruptions: [
-            //             {
-            //                 id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-            //                 summary: "Some summary",
-            //                 validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
-            //             },
-            //         ],
-            //         recentlyClosedDisruptions: [],
-            //         newDisruptionId: expect.any(String) as string,
-            //         pendingApprovalCount: 0,
-            //         canPublish: true,
-            //         orgName: "Nexus",
-            //     });
-            // });
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
+                        },
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                    endTime: null,
+                                },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
+                            ],
+                        },
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                    endTime: null,
+                                },
+                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
+                            ],
+                        },
+                    ],
+                    upcomingDisruptions: [
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
+                        },
+                    ],
+                    recentlyClosedDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
+                    orgName: "Nexus",
+                });
+            });
         });
     });
 });

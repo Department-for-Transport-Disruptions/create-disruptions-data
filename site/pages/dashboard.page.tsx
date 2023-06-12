@@ -40,14 +40,6 @@ const mapDisruptions = (disruptions: Disruption[]) => {
     return sortDisruptionsByStartDate(disruptions).map((disruption) => {
         const maxEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-        (disruption.validity || []).map((period) => {
-            console.log("period.disruptionStartTime-----", period.disruptionStartTime);
-            console.log(
-                "start time---------",
-                getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
-            );
-        });
-
         return {
             id: disruption.disruptionId,
             summary: disruption.summary,
@@ -354,7 +346,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     });
 
                     if (isLive) {
-                        console.log("disruption live-------", disruption);
                         liveDisruptions.push(disruption);
                     }
 
@@ -367,7 +358,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
                     if (isUpcoming) {
                         upcomingDisruptions.push(disruption);
-                        console.log("disruption upcoming-------", mapDisruptions(upcomingDisruptions));
                     }
                 } else {
                     const getEndDateTime = getSortedDisruptionFinalEndDate({
@@ -378,7 +368,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     const isRecentlyClosed = !!getEndDateTime && getEndDateTime.isAfter(today.subtract(7, "day"));
 
                     if (isRecentlyClosed) recentlyClosedDisruptions.push(disruption);
-                    console.log("disruption recent-------", mapDisruptions(recentlyClosedDisruptions));
                 }
             });
 
