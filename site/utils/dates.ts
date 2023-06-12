@@ -6,6 +6,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { CD_DATE_FORMAT } from "../constants";
+import { Validity } from "../schemas/create-disruption.schema";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
@@ -21,6 +22,8 @@ export const convertDateTimeToFormat = (dateOrTime: string | Date, format: strin
 export const getDate = (input?: string) => (input ? dayjs.tz(input, "Europe/London") : dayjs().tz("Europe/London"));
 
 export const getFormattedDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
+
+export const getDateForExporter = (date: string) => dayjs(date).format("ddd DD MMM YY");
 
 export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
 
@@ -99,3 +102,21 @@ export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate:
     firstDate.isSameOrBefore(secondDate, "day");
 
 export const getDaysInPast = (date: Dayjs | string) => getDate().diff(date, "days");
+
+export const isLiveDisruption = (validityPeriods: Validity[]) => {
+    const today = getDate();
+
+    return validityPeriods.some((period) => {
+        const startTime = getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime);
+
+        return (
+            startTime.isSameOrBefore(today) &&
+            (!period.disruptionEndDate ||
+                (!!period.disruptionEndDate &&
+                    !!period.disruptionEndTime &&
+                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isSameOrAfter(
+                        today,
+                    )))
+        );
+    });
+};

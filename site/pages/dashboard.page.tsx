@@ -12,7 +12,7 @@ import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime } from "../utils/dates";
+import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, isLiveDisruption } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -294,23 +294,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
                 if (!shouldNotDisplayDisruption) {
                     // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                    const isLive = validityPeriods.some((period) => {
-                        const startTime = getDatetimeFromDateAndTime(
-                            period.disruptionStartDate,
-                            period.disruptionStartTime,
-                        );
-
-                        return (
-                            startTime.isSameOrBefore(today) &&
-                            (!period.disruptionEndDate ||
-                                (!!period.disruptionEndDate &&
-                                    !!period.disruptionEndTime &&
-                                    getDatetimeFromDateAndTime(
-                                        period.disruptionEndDate,
-                                        period.disruptionEndTime,
-                                    ).isSameOrAfter(today)))
-                        );
-                    });
+                    const isLive = isLiveDisruption(validityPeriods);
 
                     if (isLive) {
                         liveDisruptions.push(disruption);
