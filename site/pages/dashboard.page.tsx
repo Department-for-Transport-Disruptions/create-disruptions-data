@@ -360,14 +360,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         upcomingDisruptions.push(disruption);
                     }
                 } else {
-                    const isRecentlyClosed = validityPeriods.every(
-                        (period) =>
-                            !!period.disruptionEndDate &&
-                            !!period.disruptionEndTime &&
-                            getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isAfter(
-                                today.subtract(7, "day"),
-                            ),
-                    );
+                    const getEndDateTime = getSortedDisruptionFinalEndDate({
+                        ...disruption,
+                        validity: validityPeriods,
+                    });
+
+                    const isRecentlyClosed = !!getEndDateTime && getEndDateTime.isAfter(today.subtract(7, "day"));
+
                     if (isRecentlyClosed) recentlyClosedDisruptions.push(disruption);
                 }
             });

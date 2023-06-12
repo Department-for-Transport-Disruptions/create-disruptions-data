@@ -46,6 +46,9 @@ export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | D
                     ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
                     : null;
 
+            console.log("validity.disruptionEndDate-----", validity.disruptionEndDate);
+            console.log("repeatsEndDate-----", repeatsEndDate);
+
             if (repeatsEndDate && (repeatsEndDate.isAfter(disruptionEndDate) || disruptionEndDate === null)) {
                 disruptionEndDate = repeatsEndDate;
             } else if (!repeatsEndDate) {
@@ -55,6 +58,7 @@ export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | D
         }
     });
 
+    console.log("disruptionEndDate-----", disruptionEndDate);
     return disruptionEndDate;
 };
 
