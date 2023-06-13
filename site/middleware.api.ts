@@ -14,6 +14,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Buffer } from "buffer";
+import crypto from "crypto";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
 
 const {
@@ -51,7 +52,10 @@ const calculateSecretHash = async (username: string): Promise<string> => {
     return Buffer.from(String.fromCharCode(...new Uint8Array(sig)), "binary").toString("base64");
 };
 
-const initiateRefreshAuth = async (username: string, refreshToken: string): Promise<AdminInitiateAuthCommandOutput> => {
+export const initiateRefreshAuth = async (
+    username: string,
+    refreshToken: string,
+): Promise<AdminInitiateAuthCommandOutput> => {
     const params: AdminInitiateAuthCommandInput = {
         AuthFlow: "REFRESH_TOKEN_AUTH",
         ClientId: cognitoClientId,
@@ -118,6 +122,8 @@ const unauthenticatedRoutes = [
     "/api/forgot-password",
     "/reset-password",
     "/api/reset-password",
+    "/api/hootsuite-callback",
+    // "/admin/social-media-accounts",
     "/api/cookies",
     "/_next",
     "/assets",
@@ -151,8 +157,10 @@ export async function middleware(request: NextRequest) {
     if (
         request.nextUrl.pathname &&
         unauthenticatedRoutes.every((route) => !request.nextUrl.pathname.startsWith(route)) &&
+        !request.nextUrl.pathname.startsWith("/api/hootsuite-callback") &&
         request.nextUrl.pathname !== "/"
     ) {
+        console.log("path", request.nextUrl.pathname);
         const signOutUserAndRedirectToLogin = async (username?: string) => {
             console.log("Signing out user");
 
@@ -171,7 +179,6 @@ export async function middleware(request: NextRequest) {
         };
 
         const idToken = request.cookies.get(COOKIES_ID_TOKEN);
-
         if (!idToken) {
             return signOutUserAndRedirectToLogin();
         }
