@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import crypto from "crypto";
 import ErrorSummary from "../../../components/ErrorSummary";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
@@ -15,12 +16,13 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { getParameter, getParametersByPath, putParameter } from "../../../data/ssm";
 import { PageState, ErrorInfo } from "../../../interfaces";
+import { HootsuiteProfiles, SocialMediaAccountsSchema } from "../../../schemas/social-media-accounts.schema";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, handleBlur } from "../../../utils/formUtils";
-
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
@@ -28,6 +30,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     disruptionSummary: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
+    socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -166,7 +169,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                             <Select<SocialMediaPost>
                                 inputName="socialAccount"
-                                selectValues={[{ value: "TWITTER", display: "Twitter" }]}
+                                selectValues={props.socialAccounts.map((account) => ({
+                                    value: account.value,
+                                    display: account.display,
+                                }))}
                                 defaultDisplay="Social account"
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.socialAccount}
@@ -180,7 +186,11 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 defaultDisplay="Social account"
                                 hint={"Select Hootsuite profile"}
                                 display={""}
-                                selectValues={[{ value: "hootsuite1", display: "Hootsuite 1" }]}
+                                selectValues={
+                                    props.socialAccounts?.find(
+                                        (account) => account.value === pageState.inputs.socialAccount,
+                                    )?.socialMediaProfiles || []
+                                }
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.hootsuiteProfile}
                                 initialErrors={pageState.errors}
@@ -232,11 +242,95 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
 
+    const tokensByOrganisation = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
+
+    const refreshTokens = tokensByOrganisation?.Parameters?.map((token) => ({
+        value: token.Value,
+        name: token.Name,
+        userId: token?.Name?.split("hootsuite/")[1] ?? "",
+    }));
+
+    let userData: SocialMediaAccountsSchema = [];
+    const clientId = await getParameter(`/social/hootsuite/client_id`);
+    const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
+    if (!clientId || !clientSecret) {
+        throw new Error("clientId and clientSecret must be defined");
+    }
+
+    const key = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
+
+    const authToken = `Basic ${Buffer.from(key).toString("base64")}`;
+
+    if (refreshTokens) {
+        await Promise.all(
+            refreshTokens?.map(async (token) => {
+                const resp = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        grant_type: "refresh_token",
+                        refresh_token: token.value ?? "",
+                    }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        Authorization: authToken,
+                    },
+                });
+                if (resp.ok) {
+                    const tokenResult = await resp.json();
+                    const key = `/social/${session.orgId}/hootsuite/${token.userId}`;
+                    await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
+                    const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                        },
+                    });
+                    if (userDetailsResponse.ok) {
+                        const userDetails = await userDetailsResponse.json();
+                        const userInfo = userDetails.data || {};
+
+                        const socialProfilesResponse = await fetch(`https://platform.hootsuite.com/v1/socialProfiles`, {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                            },
+                        });
+                        if (socialProfilesResponse.ok) {
+                            const socialProfiles = await socialProfilesResponse.json();
+
+                            userData = [
+                                ...userData,
+                                {
+                                    ...userInfo,
+                                    hootsuiteProfiles: (socialProfiles?.data?.map((sp: HootsuiteProfiles[0]) => ({
+                                        type: sp.type,
+                                        socialNetworkId: sp.socialNetworkId,
+                                        id: sp.id,
+                                    })) ?? []) as HootsuiteProfiles,
+                                },
+                            ] as SocialMediaAccountsSchema;
+                        }
+                    }
+                }
+            }),
+        );
+    }
+
+    const socialAccounts = userData?.map((info) => ({
+        value: info.id,
+        display: info.email,
+        socialMediaProfiles: info.hootsuiteProfiles.map((smp) => ({
+            value: smp.socialNetworkId,
+            display: `${smp.type}/${smp.id}`,
+        })),
+    }));
+    console.log(JSON.stringify(socialAccounts));
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
+            socialAccounts,
         },
     };
 };
