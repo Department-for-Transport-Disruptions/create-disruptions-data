@@ -260,6 +260,7 @@ export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
+export const SYSADMIN_MANAGE_ORGANISATIONS = "/sysadmin/manage-organisations";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";

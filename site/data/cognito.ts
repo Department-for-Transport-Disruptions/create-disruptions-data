@@ -18,6 +18,7 @@ import {
     AdminGetUserCommandInput,
     AdminDeleteUserCommandInput,
     AdminCreateUserCommand,
+    ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -211,6 +212,42 @@ export const listUsersWithGroups = async () => {
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to list cognito users: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const deleteUsersByAttribute = async (attributeName: string, attributeValue: string) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Listing cognito users based on custom attributes and deleting the users that match the value",
+    });
+
+    try {
+        const userList = await cognito.send(
+            new ListUsersCommand({ UserPoolId: userPoolId, AttributesToGet: [attributeName] }),
+        );
+
+        const deletePromises = userList.Users?.filter((user) =>
+            user.Attributes?.find((value) => value.Value === attributeValue),
+        ).map((user) => {
+            return cognito.send(
+                new AdminDeleteUserCommand({
+                    UserPoolId: userPoolId,
+                    Username: user.Username,
+                }),
+            );
+        });
+
+        await Promise.all(deletePromises ?? []);
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(
+                `Failed to list cognito users based on attribute ${attributeName} with value ${attributeValue}: ${
+                    error.stack || ""
+                }`,
+            );
         }
 
         throw error;

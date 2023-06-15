@@ -1,4 +1,4 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
     QueryCommand,
@@ -12,7 +12,7 @@ import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes
 import { Consequence } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
-import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
 import { SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
 import { getDate } from "../utils/dates";
@@ -183,6 +183,24 @@ export const getOrganisationInfoById = async (orgId: string): Promise<Organisati
     );
 
     const parsedOrg = organisationSchema.safeParse(dbData.Item);
+
+    if (!parsedOrg.success) {
+        return null;
+    }
+
+    return parsedOrg.data;
+};
+
+export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
+    logger.info(`Getting all organisations from DynamoDB table...`);
+
+    const dbData = await ddbDocClient.send(
+        new ScanCommand({
+            TableName: organisationsTableName,
+        }),
+    );
+
+    const parsedOrg = organisationsSchema.safeParse(dbData.Items);
 
     if (!parsedOrg.success) {
         return null;
@@ -511,6 +529,19 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
             Key: {
                 PK: id,
                 SK: `${disruptionId}#CONSEQUENCE#${index}`,
+            },
+        }),
+    );
+};
+
+export const removeOrganisation = async (orgId: string) => {
+    logger.info(`Deleting organisation (${orgId}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new DeleteCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
             },
         }),
     );

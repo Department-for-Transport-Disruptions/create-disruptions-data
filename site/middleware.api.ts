@@ -14,7 +14,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Buffer } from "buffer";
-import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
+import {
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+    DASHBOARD_PAGE_PATH,
+    LOGIN_PAGE_PATH,
+    SYSADMIN_MANAGE_ORGANISATIONS,
+} from "./constants";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -186,7 +192,20 @@ export async function middleware(request: NextRequest) {
             if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
                 const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
 
-                if (!groups.includes(UserGroups.systemAdmins) && !groups.includes(UserGroups.orgAdmins)) {
+                if (!groups.includes(UserGroups.orgAdmins)) {
+                    if (!groups.includes(UserGroups.systemAdmins)) {
+                        return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                    } else {
+                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS, request.url));
+                    }
+                }
+            } else if (
+                request.nextUrl.pathname.startsWith("/sysadmin/") ||
+                request.nextUrl.pathname.startsWith("/api/sysadmin/")
+            ) {
+                const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
+
+                if (!groups.includes(UserGroups.systemAdmins)) {
                     return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
                 }
             }
