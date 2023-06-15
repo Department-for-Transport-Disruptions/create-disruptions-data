@@ -320,7 +320,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         value: info.id,
         display: info.email,
         socialMediaProfiles: info.hootsuiteProfiles.map((smp) => ({
-            value: smp.socialNetworkId,
+            value: smp.id,
             display: `${smp.type}/${smp.id}`,
         })),
     }));
