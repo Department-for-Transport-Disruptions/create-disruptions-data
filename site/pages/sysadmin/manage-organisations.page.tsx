@@ -1,6 +1,6 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
