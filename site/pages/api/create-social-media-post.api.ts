@@ -22,6 +22,8 @@ import {
 import { getSession } from "../../utils/apiUtils/auth";
 import { formParse } from "../../utils/apiUtils/fileUpload";
 
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
@@ -125,6 +127,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 
             let imageLink = { id: "", url: "" };
+            let canUpload = false;
             if (validatedBody.data.image) {
                 const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
@@ -158,7 +161,38 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                     });
                     if (uploadResponse.ok) {
                         console.log("image uploaded");
+
+                        for (let i = 0; i < 3; i++) {
+                            const imageStatus = await fetch(`https://platform.hootsuite.com/v1/media/${imageLink.id}`, {
+                                method: "GET",
+                                headers: {
+                                    Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                                },
+                            });
+                            if (imageStatus.ok) {
+                                const imageState = await imageStatus.json();
+                                console.log("state", imageState.data.state);
+                                if (imageState.data.state === "READY") {
+                                    canUpload = true;
+                                    console.log("yaaa");
+                                    break;
+                                } else {
+                                    await delay(1000);
+                                }
+                            } else {
+                                throw new Error("Cannot retrieve media details from hootsuite");
+                            }
+                        }
+                        if (!canUpload) {
+                            await delay(5000);
+                            canUpload = true;
+                            console.log("here 2");
+                        }
+                    } else {
+                        throw new Error("Cannot upload image to hootsuite");
                     }
+                } else {
+                    throw new Error("Cannot retrieve upload url from hootsuite");
                 }
             }
 
@@ -172,7 +206,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                     text: validatedBody.data.messageContent,
                     scheduledSendTime: formattedDate,
                     socialProfileIds: [validatedBody.data.hootsuiteProfile],
-                    ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
+                    ...(imageLink.id && canUpload ? { media: [{ id: imageLink.id }] } : {}),
                 }),
             );
             //tomorrow you need to call the /media url to upload images and then in that way you can send it via the post
@@ -191,6 +225,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                     Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
                 },
             });
+
             const respe = {
                 data: [
                     {
@@ -219,8 +254,8 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             };
             const test = await createSocialPostResponse.json();
             console.log(createSocialPostResponse.status, JSON.stringify(test));
-            if (createSocialPostResponse.ok) {
-                console.log("yay");
+            if (!createSocialPostResponse.ok) {
+                throw new Error("Failed to create social media post");
             }
         }
 
