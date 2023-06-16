@@ -12,6 +12,7 @@ import {
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
     mockSession,
+    disruptionWithConsequences,
 } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
@@ -63,7 +64,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -80,7 +81,7 @@ describe("publishEdit", () => {
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequencesAndSocialMediaPosts,
+            disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
@@ -116,7 +117,7 @@ describe("publishEdit", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -133,7 +134,7 @@ describe("publishEdit", () => {
         expect(dynamo.updatePendingDisruptionStatus).not.toBeCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequencesAndSocialMediaPosts,
+            disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
