@@ -121,6 +121,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             };
         });
 
+        console.log(JSON.stringify(refreshTokens));
         if (refreshTokens && refreshTokens.length > 0) {
             await Promise.all(
                 refreshTokens?.map(async (token) => {
@@ -136,10 +137,19 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         },
                     });
                     if (resp.ok) {
+                        console.log("heree");
                         const tokenResult = await resp.json();
-                        const key = `/social/${session.orgId}/hootsuite/${token.userId}-${
-                            session.name?.replace(" ", "_") || session.username
-                        }`;
+                        const keys = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
+
+                        if (!keys || (refreshTokens && keys.Parameters?.length === 0)) {
+                            throw new Error("Refresh token is required to fetch dropdown data");
+                        }
+                        const key: string =
+                            keys.Parameters?.find((rt) => rt.Name?.includes(`${token.userId}`))?.Name || "";
+                        if (!key) {
+                            throw new Error("Refresh token is required to fetch dropdown data");
+                        }
+                        console.log(key, tokenResult.refresh_token, "TOKEN");
                         console.log("social account", key);
                         await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                         const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {

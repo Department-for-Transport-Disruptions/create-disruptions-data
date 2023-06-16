@@ -250,6 +250,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         userId: token?.Name?.split("hootsuite/")[1].split("-")[0] ?? "",
     }));
 
+    console.log(JSON.stringify(refreshTokens));
     let userData: SocialMediaAccountsSchema = [];
     const clientId = await getParameter(`/social/hootsuite/client_id`);
     const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
@@ -257,13 +258,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("clientId and clientSecret must be defined");
     }
 
-    const key = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
+    const hootsuiteKey = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
-    const authToken = `Basic ${Buffer.from(key).toString("base64")}`;
-
+    const authToken = `Basic ${Buffer.from(hootsuiteKey).toString("base64")}`;
+    console.log(authToken);
     if (refreshTokens) {
+        console.log("---------");
         await Promise.all(
             refreshTokens?.map(async (token) => {
+                console.log(token.value);
                 const resp = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
                     method: "POST",
                     body: new URLSearchParams({
@@ -275,13 +278,24 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         Authorization: authToken,
                     },
                 });
+                console.log("-----");
+
+            
                 if (resp.ok) {
                     const tokenResult = await resp.json();
-                    const key = `/social/${session.orgId}/hootsuite/${token.userId}-${
-                        session.name?.replace(" ", "_") || session.username
-                    }`;
-                    console.log(key);
-                    console.log(token.userId);
+                    console.log("oop");
+
+                    const keys = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
+
+                    if (!keys || (refreshTokens && keys.Parameters?.length === 0)) {
+                        throw new Error("Refresh token is required to fetch dropdown data");
+                    }
+                    const key: string = keys.Parameters?.find((rt) => rt.Name?.includes(`${token.userId}`))?.Name || "";
+                    if (!key) {
+                        throw new Error("Refresh token is required to fetch dropdown data");
+                    }
+                    console.log(key, "keyyy");
+                    console.log(token.userId, "userid");
                     console.log(session.name);
                     console.log(session.name?.replace(" ", "_"));
                     await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);

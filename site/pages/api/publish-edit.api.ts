@@ -14,7 +14,7 @@ import {
     updatePendingDisruptionStatus,
     upsertSocialMediaPost,
 } from "../../data/dynamo";
-import { getParameter, putParameter } from "../../data/ssm";
+import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -97,12 +97,21 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                 validatedDisruptionBody.data.socialMediaPosts
                     .filter((s) => s.status === SocialMediaPostStatus.pending)
                     .map(async (socialMediaPost) => {
-                        const refreshToken = await getParameter(
-                            `/social/${session.orgId}/hootsuite/${socialMediaPost.socialAccount ?? ""}-${
-                                session.name?.replace(" ", "_") || session.username
-                            }`,
-                        );
+                        const refreshTokens = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
 
+                        if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
+                            await upsertSocialMediaPost(
+                                {
+                                    ...socialMediaPost,
+                                    status: SocialMediaPostStatus.rejected,
+                                },
+                                session.orgId,
+                            );
+                            console.log("Refresh token is required when creating a social media post");
+                        }
+                        const refreshToken = refreshTokens.Parameters?.find((rt) =>
+                            rt.Name?.includes(`${socialMediaPost.socialAccount}`),
+                        );
                         if (!refreshToken) {
                             await upsertSocialMediaPost(
                                 {
@@ -113,7 +122,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                             );
                             console.log("Refresh token is required when creating a social media post");
                         }
-                        console.log("hello 1", refreshToken);
+                        console.log("hello 1", refreshToken?.Value);
                         const clientId = await getParameter(`/social/hootsuite/client_id`);
                         const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
                         if (!clientId || !clientSecret) {
@@ -136,7 +145,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                             method: "POST",
                             body: new URLSearchParams({
                                 grant_type: "refresh_token",
-                                refresh_token: refreshToken.Parameter?.Value ?? "",
+                                refresh_token: refreshToken.Value ?? "",
                             }),
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded",
@@ -149,9 +158,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                         console.log("hello 2");
                         if (responseToken.ok) {
                             const tokenResult = await responseToken.json();
-                            const key = `/social/${session.orgId}/hootsuite/${socialMediaPost.socialAccount ?? ""}-${
-                                session.name?.replace(" ", "_") || session.username
-                            }`;
+                            const key = refreshToken?.Name;
                             console.log(key);
                             await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 
