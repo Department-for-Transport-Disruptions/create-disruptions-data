@@ -9,7 +9,7 @@ import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, HOOTSUITE_URL } from "../../co
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { HootsuiteMe, HootsuiteSocialProfiles, HootsuiteToken } from "../../interfaces";
 import { HootsuiteProfiles, SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
-import { hootsuiteTokenCall, toLowerStartCase } from "../../utils";
+import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
@@ -58,7 +58,17 @@ export const getHootsuiteData = async (
         if (refreshTokens && refreshTokens.length > 0) {
             await Promise.all(
                 refreshTokens?.map(async (token) => {
-                    const resp = await hootsuiteTokenCall(token.value || "", authToken);
+                    const resp = await fetch(`${HOOTSUITE_URL}oauth2/token`, {
+                        method: "POST",
+                        body: new URLSearchParams({
+                            grant_type: "refresh_token",
+                            refresh_token: token.value ?? "",
+                        }),
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            Authorization: authToken,
+                        },
+                    });
                     if (resp.ok) {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         const tokenResult: HootsuiteToken = await resp.json();

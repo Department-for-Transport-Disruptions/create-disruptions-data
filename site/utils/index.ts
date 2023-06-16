@@ -236,17 +236,3 @@ export const sortServices = (services: Service[]) => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
-
-export const hootsuiteTokenCall = async (refreshToken: string, authToken: string) => {
-    return await fetch(`${HOOTSUITE_URL}oauth2/token`, {
-        method: "POST",
-        body: new URLSearchParams({
-            grant_type: "refresh_token",
-            refresh_token: refreshToken ?? "",
-        }),
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: authToken,
-        },
-    });
-};

@@ -5,7 +5,6 @@ import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
 import { readFile } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
-import { hootsuiteTokenCall } from "..";
 import {
     COOKIES_POLICY_COOKIE,
     COOKIE_CSRF,
@@ -164,7 +163,17 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 const credentials = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
                 const authToken = `Basic ${Buffer.from(credentials).toString("base64")}`;
-                const responseToken = await hootsuiteTokenCall(refreshToken?.Value ?? "", authToken);
+                const responseToken = await fetch(`${HOOTSUITE_URL}oauth2/token`, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        grant_type: "refresh_token",
+                        refresh_token: refreshToken?.Value ?? "",
+                    }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        Authorization: authToken,
+                    },
+                });
 
                 if (responseToken.ok) {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
