@@ -1,7 +1,13 @@
 import * as jose from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
+import {
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+    HOOTSUITE_URL,
+    SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
+} from "../../constants";
 import { getParameter, putParameter } from "../../data/ssm";
+import { HootsuiteMe, HootsuiteToken } from "../../interfaces";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
@@ -42,7 +48,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         }
 
-        const tokenResponse = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
+        const tokenResponse = await fetch(`${HOOTSUITE_URL}oauth2/token`, {
             method: "POST",
             body: new URLSearchParams({
                 grant_type: "authorization_code",
@@ -60,14 +66,15 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error(message);
         }
 
-        const tokenResult = await tokenResponse.json();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const tokenResult: HootsuiteToken = await tokenResponse.json();
 
-        const session = await getSession(req);
+        const session = getSession(req);
         if (!session) {
             throw new Error("Session data not found");
         }
 
-        const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
+        const userDetailsResponse = await fetch(`${HOOTSUITE_URL}v1/me`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${tokenResult.access_token}`,
@@ -79,7 +86,8 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error(message);
         }
 
-        const userDetails = await userDetailsResponse.json();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const userDetails: HootsuiteMe = await userDetailsResponse.json();
 
         const userId: string = userDetails.data.id;
 

@@ -76,3 +76,37 @@ export interface DisruptionDetailCookie {
     referer: string;
     state?: string;
 }
+
+export interface HootsuiteSocialProfiles {
+    data: { id: string; type: string; socialNetworkId: string }[];
+}
+
+export interface HootsuiteMe {
+    data: {
+        id: string;
+        email: string;
+        fullName: string;
+    };
+}
+
+export interface HootsuiteToken {
+    refresh_token: string;
+    access_token: string;
+}
+
+export interface HootsuiteMedia {
+    data: {
+        id: string;
+        uploadUrl: string;
+        uploadUrlDurationSeconds: number;
+    };
+}
+
+export interface HootsuiteMediaStatus {
+    data: {
+        id: string;
+        state: string;
+        downloadUrl: string;
+        downloadUrlDurationSeconds: number;
+    };
+}

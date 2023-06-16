@@ -6,6 +6,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
+import { HOOTSUITE_URL } from "../constants";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import {
     Service,
@@ -235,3 +236,17 @@ export const sortServices = (services: Service[]) => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const hootsuiteTokenCall = async (refreshToken: string, authToken: string) => {
+    return await fetch(`${HOOTSUITE_URL}oauth2/token`, {
+        method: "POST",
+        body: new URLSearchParams({
+            grant_type: "refresh_token",
+            refresh_token: refreshToken ?? "",
+        }),
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: authToken,
+        },
+    });
+};
