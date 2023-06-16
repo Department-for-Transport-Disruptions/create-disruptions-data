@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
 import {
@@ -9,7 +8,6 @@ import {
 } from "../../constants/index";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
-import { getParameter, putParameter } from "../../data/ssm";
 import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -21,8 +19,6 @@ import {
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formParse } from "../../utils/apiUtils/fileUpload";
-
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -80,183 +76,10 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             return;
         }
 
-        //NOTE TO SELF WE NEED TO MOVE THIS TO PUBLISH.API.JS
-        const refreshToken = await getParameter(
-            `/social/${session.orgId}/hootsuite/${validatedBody.data.socialAccount ?? ""}`,
-        );
+        if (validatedBody.data.image) {
+            const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
-        if (!refreshToken) {
-            throw new Error("Refresh token is required when creating a social media post");
-        }
-        // const rep = {
-        //     messageContent: "this is the ultimate test",
-        //     publishDate: "30/05/2023",
-        //     publishTime: "1200",
-        //     socialAccount: "25825334",
-        //     hootsuiteProfile: "1659487521879871490",
-        //     disruptionId: "c53ee4ae-14b5-4daa-b210-e007cea8286c",
-        //     socialMediaPostIndex: "1",
-        // };
-
-        const clientId = await getParameter(`/social/hootsuite/client_id`);
-        const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
-        if (!clientId || !clientSecret) {
-            throw new Error("clientId and clientSecret must be defined");
-        }
-
-        const key = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
-
-        const authToken = `Basic ${Buffer.from(key).toString("base64")}`;
-
-        const resp = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
-            method: "POST",
-            body: new URLSearchParams({
-                grant_type: "refresh_token",
-                refresh_token: refreshToken.Parameter?.Value ?? "",
-            }),
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                Authorization: authToken,
-            },
-        });
-
-        if (resp.ok) {
-            const tokenResult = await resp.json();
-            console.log(tokenResult);
-            const key = `/social/${session.orgId}/hootsuite/${validatedBody.data.socialAccount ?? ""}`;
-            await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
-
-            let imageLink = { id: "", url: "" };
-            let canUpload = false;
-            if (validatedBody.data.image) {
-                const imageContents = await readFile(validatedBody.data.image?.filepath || "");
-
-                await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
-
-                const responseImage = await fetch(`https://platform.hootsuite.com/v1/media`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        sizeBytes: validatedBody.data.image.size,
-                        mimeType: validatedBody.data.image.mimetype,
-                        // mediaFileData: imageContents,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
-                    },
-                });
-                console.log(responseImage.status);
-                if (responseImage.ok) {
-                    console.log("yay 1");
-                    const image = await responseImage.json();
-                    console.log(responseImage.status, JSON.stringify(image));
-                    imageLink = { url: image.data.uploadUrl, id: image.data.id };
-
-                    const uploadResponse = await fetch(imageLink.url, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": validatedBody.data.image.mimetype,
-                        },
-                        body: imageContents,
-                    });
-                    if (uploadResponse.ok) {
-                        console.log("image uploaded");
-
-                        for (let i = 0; i < 3; i++) {
-                            const imageStatus = await fetch(`https://platform.hootsuite.com/v1/media/${imageLink.id}`, {
-                                method: "GET",
-                                headers: {
-                                    Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
-                                },
-                            });
-                            if (imageStatus.ok) {
-                                const imageState = await imageStatus.json();
-                                console.log("state", imageState.data.state);
-                                if (imageState.data.state === "READY") {
-                                    canUpload = true;
-                                    console.log("yaaa");
-                                    break;
-                                } else {
-                                    await delay(1000);
-                                }
-                            } else {
-                                throw new Error("Cannot retrieve media details from hootsuite");
-                            }
-                        }
-                        if (!canUpload) {
-                            await delay(5000);
-                            canUpload = true;
-                            console.log("here 2");
-                        }
-                    } else {
-                        throw new Error("Cannot upload image to hootsuite");
-                    }
-                } else {
-                    throw new Error("Cannot retrieve upload url from hootsuite");
-                }
-            }
-
-            const formattedDate = dayjs(
-                `${validatedBody.data.publishDate} ${validatedBody.data.publishTime}`,
-                "DD/MM/YYYY HHmm",
-            ).toISOString();
-
-            console.log(
-                JSON.stringify({
-                    text: validatedBody.data.messageContent,
-                    scheduledSendTime: formattedDate,
-                    socialProfileIds: [validatedBody.data.hootsuiteProfile],
-                    ...(imageLink.id && canUpload ? { media: [{ id: imageLink.id }] } : {}),
-                }),
-            );
-            //tomorrow you need to call the /media url to upload images and then in that way you can send it via the post
-            console.log("imageID", imageLink.id);
-            const createSocialPostResponse = await fetch(`https://platform.hootsuite.com/v1/messages`, {
-                method: "POST",
-                body: JSON.stringify({
-                    text: validatedBody.data.messageContent,
-                    scheduledSendTime: formattedDate,
-                    socialProfileIds: [validatedBody.data.hootsuiteProfile],
-                    ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
-                    // ...(imageLink.url ? { mediaUrls: [{ url: imageLink.url }] } : {}),
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
-                },
-            });
-
-            const respe = {
-                data: [
-                    {
-                        id: "12776159376",
-                        state: "SCHEDULED",
-                        text: "another one",
-                        scheduledSendTime: "2023-06-15T09:20:00Z",
-                        socialProfile: { id: "138133798" },
-                        mediaUrls: null,
-                        media: null,
-                        webhookUrls: null,
-                        tags: null,
-                        targeting: null,
-                        privacy: null,
-                        location: null,
-                        emailNotification: false,
-                        postUrl: null,
-                        postId: null,
-                        reviewers: null,
-                        createdByMember: { id: "25825334" },
-                        lastUpdatedByMember: { id: "25825334" },
-                        extendedInfo: null,
-                        sequenceNumber: null,
-                    },
-                ],
-            };
-            const test = await createSocialPostResponse.json();
-            console.log(createSocialPostResponse.status, JSON.stringify(test));
-            if (!createSocialPostResponse.ok) {
-                throw new Error("Failed to create social media post");
-            }
+            await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
 
         await upsertSocialMediaPost(validatedBody.data, session.orgId, session.isOrgStaff);

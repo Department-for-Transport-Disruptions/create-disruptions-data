@@ -80,10 +80,13 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const userDetails = await userDetailsResponse.json();
-        console.log("me", userDetails);
 
-        const userId = userDetails.data.id;
-        const key = `/social/${session.orgId}/hootsuite/${userId}`;
+        const userId: string = userDetails.data.id;
+
+        const key = `/social/${session.orgId}/hootsuite/${userId}-${
+            session.name?.replace(" ", "_") || session.username
+        }`;
+        console.log("key", key);
         await putParameter(key, tokenResult.refresh_token, "SecureString", true);
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;

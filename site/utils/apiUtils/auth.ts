@@ -10,11 +10,14 @@ export const getSession = (req: NextApiRequest | IncomingMessage): Session | nul
     const idToken = cookies?.[COOKIES_ID_TOKEN];
 
     if (idToken) {
+        console.log(decodeJwt(idToken));
         return sessionSchema.parse(decodeJwt(idToken));
     }
 
     return null;
 };
+
+export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const getSessionWithOrgDetail = async (
     req: NextApiRequest | IncomingMessage,

@@ -27,6 +27,12 @@ export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -
 export const getDatetimeFromDateAndTime = (date: string, time: string) =>
     dayjs.tz(`${date} ${time}`, `DD/MM/YYYY ${time ? "HHmm" : ""}`, "Europe/London");
 
+export const isAtLeast5MinutesAfter = (date: dayjs.Dayjs) => {
+    const currentDateTime = dayjs();
+    const fiveMinutesAfterCurrent = currentDateTime.add(5, "minutes");
+    return date.isSameOrAfter(fiveMinutesAfterCurrent);
+};
+
 export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORMAT) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };

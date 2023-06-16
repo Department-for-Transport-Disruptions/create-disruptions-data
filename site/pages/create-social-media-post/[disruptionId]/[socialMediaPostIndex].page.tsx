@@ -247,7 +247,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const refreshTokens = tokensByOrganisation?.Parameters?.map((token) => ({
         value: token.Value,
         name: token.Name,
-        userId: token?.Name?.split("hootsuite/")[1] ?? "",
+        userId: token?.Name?.split("hootsuite/")[1].split("-")[0] ?? "",
     }));
 
     let userData: SocialMediaAccountsSchema = [];
@@ -277,7 +277,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 });
                 if (resp.ok) {
                     const tokenResult = await resp.json();
-                    const key = `/social/${session.orgId}/hootsuite/${token.userId}`;
+                    const key = `/social/${session.orgId}/hootsuite/${token.userId}-${
+                        session.name?.replace(" ", "_") || session.username
+                    }`;
+                    console.log(key);
+                    console.log(token.userId);
+                    console.log(session.name);
+                    console.log(session.name?.replace(" ", "_"));
                     await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                     const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                         method: "GET",
@@ -324,7 +330,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             display: `${smp.type}/${smp.id}`,
         })),
     }));
-    console.log(JSON.stringify(socialAccounts));
+
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),

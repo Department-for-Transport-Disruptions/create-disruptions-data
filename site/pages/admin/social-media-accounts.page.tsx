@@ -1,3 +1,4 @@
+import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -109,14 +110,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             ]);
 
         const tokensByOrganisation = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
+        console.log(JSON.stringify(tokensByOrganisation.Parameters));
+        const refreshTokens = await tokensByOrganisation?.Parameters?.map((token) => {
+            return {
+                value: token.Value,
+                name: token.Name,
+                userId: token?.Name?.split("hootsuite/")[1]?.split("-")[0] ?? "",
+                accountType: startCase(token?.Name?.split("/")[3]) ?? "",
+                addedBy: token?.Name?.split("/")[4]?.replace("_", " ")?.split("-")[1] ?? "",
+            };
+        });
 
-        const refreshTokens = tokensByOrganisation?.Parameters?.map((token) => ({
-            value: token.Value,
-            name: token.Name,
-            userId: token?.Name?.split("hootsuite/")[1] ?? "",
-        }));
-
-        if (refreshTokens) {
+        if (refreshTokens && refreshTokens.length > 0) {
             await Promise.all(
                 refreshTokens?.map(async (token) => {
                     const resp = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
@@ -132,7 +137,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     });
                     if (resp.ok) {
                         const tokenResult = await resp.json();
-                        const key = `/social/${session.orgId}/hootsuite/${token.userId}`;
+                        const key = `/social/${session.orgId}/hootsuite/${token.userId}-${
+                            session.name?.replace(" ", "_") || session.username
+                        }`;
+                        console.log("social account", key);
                         await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                         const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                             method: "GET",
@@ -146,8 +154,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
                             const extraInfo = {
                                 ...userInfo,
-                                accountType: "Hootsuite",
-                                addedBy: "Chris",
+                                accountType: token.accountType || "",
+                                addedBy: token.addedBy || "",
                                 expiresIn: "Never",
                             } as SocialMediaAccountsSchema[0];
 

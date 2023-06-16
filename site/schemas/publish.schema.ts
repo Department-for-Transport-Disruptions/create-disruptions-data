@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { consequenceSchema } from "./consequence.schema";
 import { createDisruptionsSchemaRefined } from "./create-disruption.schema";
+import { socialMediaPostSchema } from "./social-media.schema";
 
 export const publishSchema = z.object({
     disruptionId: z.string().uuid(),
@@ -11,6 +12,7 @@ export const publishDisruptionSchema = createDisruptionsSchemaRefined.and(
         consequences: z.array(consequenceSchema).min(1, {
             message: "You must create a consequence before publishing the disruption",
         }),
+        socialMediaPosts: z.array(socialMediaPostSchema).optional(),
     }),
 );
 
