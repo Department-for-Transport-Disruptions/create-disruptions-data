@@ -159,7 +159,6 @@ export async function middleware(request: NextRequest) {
         !request.nextUrl.pathname.startsWith("/api/hootsuite-callback") &&
         request.nextUrl.pathname !== "/"
     ) {
-        console.log("path", request.nextUrl.pathname);
         const signOutUserAndRedirectToLogin = async (username?: string) => {
             console.log("Signing out user");
 
