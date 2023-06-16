@@ -281,11 +281,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     >
                       Social account
                     </option>
-                    <option
-                      value="TWITTER"
-                    >
-                      Twitter
-                    </option>
                   </select>
                 </div>
               </div>
@@ -323,11 +318,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       value=""
                     >
                       Social account
-                    </option>
-                    <option
-                      value="hootsuite1"
-                    >
-                      Hootsuite 1
                     </option>
                   </select>
                 </div>
@@ -836,11 +826,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     >
                       Social account
                     </option>
-                    <option
-                      value="TWITTER"
-                    >
-                      Twitter
-                    </option>
                   </select>
                 </div>
               </div>
@@ -878,11 +863,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                       value=""
                     >
                       Social account
-                    </option>
-                    <option
-                      value="hootsuite1"
-                    >
-                      Hootsuite 1
                     </option>
                   </select>
                 </div>

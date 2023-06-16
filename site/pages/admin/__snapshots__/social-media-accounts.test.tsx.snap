@@ -94,12 +94,16 @@ exports[`socialMediaAccounts > should render correctly when there are no inputs 
           className="govuk-table__body"
         />
       </table>
-      <button
+      <a
         className="govuk-button mt-8"
         data-module="govuk-button"
+        href="https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=6ab8fd00-4b2d-42a7-beef-8558da21c82d&state=6ab8fd00-4b2d-42a7-beef-8558da21c82d"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Connect hootsuite
-      </button>
+      </a>
     </main>
     <div>
       <h2
@@ -424,7 +428,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link text-govBlue"
-                  href="https://twitter.com/43308270/"
+                  href="https://twitter.com/intent/user?user_id=1234567/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -437,7 +441,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link text-govBlue"
-                  href="https://twitter.com/29669438/"
+                  href="https://twitter.com/intent/user?user_id=1234567/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -486,7 +490,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link text-govBlue"
-                  href="https://twitter.com/43308888/"
+                  href="https://twitter.com/intent/user?user_id=1234567/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -498,12 +502,16 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
           </tr>
         </tbody>
       </table>
-      <button
+      <a
         className="govuk-button mt-8"
         data-module="govuk-button"
+        href="https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=6ab8fd00-4b2d-42a7-beef-8558da21c82d&state=6ab8fd00-4b2d-42a7-beef-8558da21c82d"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Connect hootsuite
-      </button>
+      </a>
     </main>
     <div>
       <h2
