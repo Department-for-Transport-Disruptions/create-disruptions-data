@@ -35,7 +35,7 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
         return rows;
     };
 
-    const createLink = (index: number, ordId: string) => {
+    const createLink = (index: number, orgId: string) => {
         return (
             <div className="flex">
                 <Link key={`org${index ? `-edit-${index}` : "-edit"}`} className="govuk-link mr-5" href="#">
@@ -44,14 +44,14 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                 <Link
                     key={`org${index ? `-users-${index}` : "-users"}`}
                     className="govuk-link mr-5"
-                    href="/sysadmin/users"
+                    href={`/sysadmin/users?orgId=${orgId}`}
                 >
                     Users
                 </Link>
                 <button
                     key={`org${index ? `-remove-${index}` : "-remove"}`}
                     className="govuk-link text-govBlue"
-                    onClick={() => removeOrg(ordId)}
+                    onClick={() => removeOrg(orgId)}
                 >
                     Remove
                 </button>
