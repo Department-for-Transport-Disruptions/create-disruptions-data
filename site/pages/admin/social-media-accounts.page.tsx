@@ -110,7 +110,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             ]);
 
         const tokensByOrganisation = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
-        console.log(JSON.stringify(tokensByOrganisation.Parameters));
         const refreshTokens = await tokensByOrganisation?.Parameters?.map((token) => {
             return {
                 value: token.Value,
@@ -121,7 +120,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             };
         });
 
-        console.log(JSON.stringify(refreshTokens));
         if (refreshTokens && refreshTokens.length > 0) {
             await Promise.all(
                 refreshTokens?.map(async (token) => {
@@ -137,7 +135,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         },
                     });
                     if (resp.ok) {
-                        console.log("heree");
                         const tokenResult = await resp.json();
                         const keys = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
 
@@ -149,8 +146,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         if (!key) {
                             throw new Error("Refresh token is required to fetch dropdown data");
                         }
-                        console.log(key, tokenResult.refresh_token, "TOKEN");
-                        console.log("social account", key);
+                     
                         await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                         const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                             method: "GET",

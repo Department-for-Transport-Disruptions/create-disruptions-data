@@ -250,7 +250,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         userId: token?.Name?.split("hootsuite/")[1].split("-")[0] ?? "",
     }));
 
-    console.log(JSON.stringify(refreshTokens));
     let userData: SocialMediaAccountsSchema = [];
     const clientId = await getParameter(`/social/hootsuite/client_id`);
     const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
@@ -261,12 +260,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteKey = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
     const authToken = `Basic ${Buffer.from(hootsuiteKey).toString("base64")}`;
-    console.log(authToken);
+
     if (refreshTokens) {
-        console.log("---------");
         await Promise.all(
             refreshTokens?.map(async (token) => {
-                console.log(token.value);
                 const resp = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
                     method: "POST",
                     body: new URLSearchParams({
@@ -278,12 +275,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         Authorization: authToken,
                     },
                 });
-                console.log("-----");
 
-            
                 if (resp.ok) {
                     const tokenResult = await resp.json();
-                    console.log("oop");
 
                     const keys = await getParametersByPath(`/social/${session.orgId}/hootsuite`);
 
@@ -294,10 +288,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     if (!key) {
                         throw new Error("Refresh token is required to fetch dropdown data");
                     }
-                    console.log(key, "keyyy");
-                    console.log(token.userId, "userid");
-                    console.log(session.name);
-                    console.log(session.name?.replace(" ", "_"));
+              
                     await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                     const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                         method: "GET",

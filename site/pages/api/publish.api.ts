@@ -81,7 +81,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 },
                                 session.orgId,
                             );
-                            console.log("Refresh token is required when creating a social media post");
+                            logger.debug("Refresh token is required when creating a social media post");
                         }
                         const refreshToken = refreshTokens.Parameters?.find((rt) =>
                             rt.Name?.includes(`${socialMediaPost.socialAccount}`),
@@ -94,9 +94,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 },
                                 session.orgId,
                             );
-                            console.log("Refresh token is required when creating a social media post");
+                            logger.debug("Refresh token is required when creating a social media post");
                         }
-                        console.log("hello 1", refreshToken);
                         const clientId = await getParameter(`/social/hootsuite/client_id`);
                         const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
                         if (!clientId || !clientSecret) {
@@ -107,13 +106,12 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 },
                                 session.orgId,
                             );
-                            console.log("clientId and clientSecret must be defined");
+                            logger.debug("clientId and clientSecret must be defined");
                         }
 
                         const credentials = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
                         const authToken = `Basic ${Buffer.from(credentials).toString("base64")}`;
-                        console.log("test", credentials, authToken);
                         const responseToken = await fetch(`https://platform.hootsuite.com/oauth2/token`, {
                             method: "POST",
                             body: new URLSearchParams({
@@ -126,13 +124,9 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                             },
                         });
 
-                        console.log(session.name, "name");
-
-                        console.log("hello 2");
                         if (responseToken.ok) {
                             const tokenResult = await responseToken.json();
                             const key = refreshToken?.Name;
-                            console.log(key);
                             await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 
                             let imageLink = { id: "", url: "" };
@@ -152,7 +146,6 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 });
 
                                 if (responseImage.ok) {
-                                    console.log("hello 3");
                                     const image = await responseImage.json();
                                     const imageContents = await readFile(socialMediaPost.image.filepath || "");
                                     imageLink = { url: image.data.uploadUrl, id: image.data.id };
@@ -193,7 +186,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                                     },
                                                     session.orgId,
                                                 );
-                                                console.log("Cannot retrieve media details from hootsuite");
+                                                logger.debug("Cannot retrieve media details from hootsuite");
                                             }
                                         }
                                         if (!canUpload) {
@@ -208,7 +201,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                             },
                                             session.orgId,
                                         );
-                                        console.log("Cannot upload image to hootsuite");
+                                        logger.debug("Cannot upload image to hootsuite");
                                     }
                                 } else {
                                     await upsertSocialMediaPost(
@@ -218,7 +211,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                         },
                                         session.orgId,
                                     );
-                                    console.log("Cannot retrieve upload url from hootsuite");
+                                    logger.debug("Cannot retrieve upload url from hootsuite");
                                 }
                             }
 
@@ -240,10 +233,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                     Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
                                 },
                             });
-                            console.log("hello 4");
 
                             if (!createSocialPostResponse.ok) {
-                                console.log("hello 5");
                                 await upsertSocialMediaPost(
                                     {
                                         ...socialMediaPost,
@@ -251,10 +242,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                     },
                                     session.orgId,
                                 );
-                                console.log("Failed to create social media post");
+                                logger.debug("Failed to create social media post");
                             } else {
-                                console.log("hello 6");
-                                //put into dynamo for that social media the updated status
                                 await upsertSocialMediaPost(
                                     {
                                         ...socialMediaPost,
@@ -271,7 +260,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                                 },
                                 session.orgId,
                             );
-                            console.log("Could not retrieve token from Hootsuite");
+                            logger.debug("Could not retrieve token from Hootsuite");
                         }
                     }),
             );

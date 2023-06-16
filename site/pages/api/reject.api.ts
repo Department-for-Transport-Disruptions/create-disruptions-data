@@ -19,11 +19,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
-        if (
-            !validatedBody.success ||
-            !session ||
-            !(session.isOrgAdmin || session.isOrgPublisher || session.isSystemAdmin)
-        ) {
+        if (!validatedBody.success || !session || !(session.isOrgAdmin || session.isOrgPublisher)) {
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -33,10 +29,9 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to reject`);
             redirectTo(res, ERROR_PATH);
-            console.log("here");
             return;
         }
-        console.log("here 0");
+
         const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
@@ -49,7 +44,6 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
-        console.log("here 1");
         await Promise.all([
             deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
             deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
@@ -60,7 +54,6 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (!isEditPendingDsp) {
-            console.log("here 2");
             if (
                 validatedDisruptionBody.data.socialMediaPosts &&
                 validatedDisruptionBody.data.socialMediaPosts.length > 0
@@ -89,7 +82,6 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         cleardownCookies(req, res);
-        console.log("here 3");
         redirectTo(res, "/dashboard");
         return;
     } catch (e) {
