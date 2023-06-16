@@ -123,6 +123,12 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         value: MiscellaneousReason.unknown,
         display: "Unknown",
     },
+    { value: EquipmentReason.liftFailure, display: "Lift failure" },
+    { value: EquipmentReason.escalatorFailure, display: "Escalator failure" },
+    {
+        value: MiscellaneousReason.insufficientDemand,
+        display: "Insufficient demand",
+    },
 ];
 
 export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [

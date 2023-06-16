@@ -2,10 +2,12 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
+import { CD_DATE_FORMAT } from "../constants";
 import * as dynamo from "../data/dynamo";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
+import { getDate } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
@@ -21,6 +23,9 @@ beforeEach(() => {
     getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
 });
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
+const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
+const isoRecentlyClosedDate = getDate().subtract(4, "day").format("YYYY-MM-DD");
 
 const defaultSession: SessionWithOrgDetail = {
     email: "test@example.com",
@@ -70,6 +75,20 @@ const disruptions: DashboardDisruption[] = [
             },
         ],
     },
+    {
+        id: "55",
+        summary: "Another disruption",
+        validityPeriods: [
+            {
+                startTime: "2023-04-21T11:23:24.529Z",
+                endTime: "2024-03-22T11:23:24.529Z",
+            },
+            {
+                startTime: "2023-04-22T11:23:24.529Z",
+                endTime: null,
+            },
+        ],
+    },
 ];
 
 describe("pages", () => {
@@ -80,6 +99,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={[]}
                         upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -95,6 +115,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={disruptions}
                         upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -110,6 +131,7 @@ describe("pages", () => {
                     <Dashboard
                         liveDisruptions={[]}
                         upcomingDisruptions={disruptions}
+                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -119,12 +141,29 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly when there are both live and upcoming disruptions", () => {
+        it("should render correctly when there are only recently closed disruptions", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[]}
+                        upcomingDisruptions={[]}
+                        recentlyClosedDisruptions={disruptions}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Nexus"
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly when there are all three live, upcoming and recently closed disruptions", () => {
             const tree = renderer
                 .create(
                     <Dashboard
                         liveDisruptions={[disruptions[0]]}
                         upcomingDisruptions={[disruptions[1], disruptions[2]]}
+                        recentlyClosedDisruptions={[disruptions[3]]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
@@ -152,6 +191,7 @@ describe("pages", () => {
                 expect(actualProps.props).toStrictEqual({
                     liveDisruptions: [],
                     upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
@@ -179,6 +219,7 @@ describe("pages", () => {
                         },
                     ],
                     upcomingDisruptions: [],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
@@ -192,7 +233,7 @@ describe("pages", () => {
                         ...disruptionWithConsequencesAndSocialMediaPosts,
                         validity: [],
                         disruptionStartDate: "12/02/2999",
-                        disruptionStartTime: "1200",
+                        disruptionStartTime: "1300",
                     },
                 ]);
 
@@ -206,9 +247,49 @@ describe("pages", () => {
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
-                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
+                            validityPeriods: [{ startTime: "2999-02-12T13:00:00.000Z", endTime: null }],
                         },
                     ],
+                    recentlyClosedDisruptions: [],
+                    newDisruptionId: expect.any(String) as string,
+                    pendingApprovalCount: 0,
+                    canPublish: true,
+                    orgName: "Nexus",
+                });
+            });
+
+            it("should return recently closed disruptions if the data returned from the database has end dates within 7 days", async () => {
+                getDisruptionsSpy.mockResolvedValue([
+                    {
+                        ...disruptionWithConsequencesAndSocialMediaPosts,
+                        validity: [],
+                        disruptionStartDate: "12/02/2023",
+                        disruptionStartTime: "1300",
+                        disruptionEndDate: recentlyClosedDate,
+                        disruptionEndTime: "1300",
+                        disruptionNoEndDateTime: undefined,
+                    },
+                ]);
+
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
+
+                expect(actualProps.props).toStrictEqual({
+                    liveDisruptions: [],
+                    recentlyClosedDisruptions: [
+                        {
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    startTime: "2023-02-12T13:00:00.000Z",
+                                    endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
+                                },
+                            ],
+                        },
+                    ],
+                    upcomingDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
@@ -268,6 +349,7 @@ describe("pages", () => {
                             validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
                         },
                     ],
+                    recentlyClosedDisruptions: [],
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
