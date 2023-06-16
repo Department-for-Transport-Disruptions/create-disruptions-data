@@ -126,7 +126,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
                         if (responseToken.ok) {
                             const tokenResult = await responseToken.json();
-                            const key = refreshToken?.Name;
+                            const key = refreshToken?.Name || "";
                             await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 
                             let imageLink = { id: "", url: "" };

@@ -33,6 +33,7 @@ describe("pages", () => {
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={previousCreateSocialMediaPostInformation}
+                        socialAccounts={[]}
                     />,
                 )
                 .toJSON();
@@ -47,6 +48,7 @@ describe("pages", () => {
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={{}}
+                        socialAccounts={[]}
                     />,
                 )
                 .toJSON();

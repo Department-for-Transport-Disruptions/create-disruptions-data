@@ -144,7 +144,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                             method: "POST",
                             body: new URLSearchParams({
                                 grant_type: "refresh_token",
-                                refresh_token: refreshToken.Value ?? "",
+                                refresh_token: refreshToken?.Value ?? "",
                             }),
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded",
@@ -154,7 +154,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
 
                         if (responseToken.ok) {
                             const tokenResult = await responseToken.json();
-                            const key = refreshToken?.Name;
+                            const key = refreshToken?.Name || "";
 
                             await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 

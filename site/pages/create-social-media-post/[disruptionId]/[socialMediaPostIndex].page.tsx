@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import crypto from "crypto";
 import ErrorSummary from "../../../components/ErrorSummary";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
@@ -288,7 +287,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     if (!key) {
                         throw new Error("Refresh token is required to fetch dropdown data");
                     }
-              
+
                     await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                     const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                         method: "GET",

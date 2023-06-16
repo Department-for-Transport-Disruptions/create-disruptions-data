@@ -2,12 +2,11 @@ import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, ReactNode } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN } from "../../constants";
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
-import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import { HootsuiteProfiles, SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
@@ -17,10 +16,11 @@ const description = "Social Media Accounts page for the Create Transport Disrupt
 
 export interface SocialMediaAccountsPageProps {
     socialMediaData: SocialMediaAccountsSchema;
-    session: SessionWithOrgDetail;
+    username: string;
+    clientId: string;
 }
 
-const SocialMediaAccounts = ({ socialMediaData, session }: SocialMediaAccountsPageProps): ReactElement => {
+const SocialMediaAccounts = ({ socialMediaData, username, clientId }: SocialMediaAccountsPageProps): ReactElement => {
     const getLink = (type: string, id: string) => {
         switch (type.toLocaleUpperCase()) {
             case "TWITTER":
@@ -35,9 +35,9 @@ const SocialMediaAccounts = ({ socialMediaData, session }: SocialMediaAccountsPa
     const getRows = () => {
         const keys = ["accountType", "email", "addedBy", "expiresIn"];
         return socialMediaData.length > 0
-            ? socialMediaData.map((item) => ({
+            ? socialMediaData.map((item: SocialMediaAccountsSchema[0]) => ({
                   cells: [
-                      ...keys.map((k) => <p key={k}>{item[k] as string}</p>),
+                      ...keys.map((k) => <p key={k}>{item[k as keyof SocialMediaAccountsSchema[0]] as ReactNode}</p>),
                       item.hootsuiteProfiles.map((profile) => (
                           <Fragment key={profile.id}>
                               <li className="list-none">
@@ -67,7 +67,7 @@ const SocialMediaAccounts = ({ socialMediaData, session }: SocialMediaAccountsPa
                 <Link
                     className="govuk-button mt-8"
                     data-module="govuk-button"
-                    href={`https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=bdf22cf5-fc59-4265-9879-449a1246fc79&state=${session.username}`}
+                    href={`https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
                 >
                     Connect hootsuite
                 </Link>
@@ -87,6 +87,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
+    let clientIdValue = "";
     let userData: SocialMediaAccountsSchema = [];
     const cookies = parseCookies(ctx);
     try {
@@ -99,6 +100,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             throw new Error("clientId and clientSecret must be defined");
         }
 
+        clientIdValue = clientId.Parameter?.Value || "";
         const key = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
         const authToken = `Basic ${Buffer.from(key).toString("base64")}`;
@@ -146,7 +148,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         if (!key) {
                             throw new Error("Refresh token is required to fetch dropdown data");
                         }
-                     
+
                         await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
                         const userDetailsResponse = await fetch(`https://platform.hootsuite.com/v1/me`, {
                             method: "GET",
@@ -198,7 +200,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error(`${(e as Error).message}`);
     }
     return {
-        props: { socialMediaData: userData, session: session },
+        props: { socialMediaData: userData, username: session.username, clientId: clientIdValue },
     };
 };
 

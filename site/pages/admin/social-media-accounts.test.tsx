@@ -4,26 +4,32 @@ import SocialMediaAccounts, { SocialMediaAccountsPageProps } from "./social-medi
 
 const blankInputs: SocialMediaAccountsPageProps = {
     socialMediaData: [],
+    username: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
+    clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
 };
 
 const withInputs: SocialMediaAccountsPageProps = {
+    username: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
+    clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
     socialMediaData: [
         {
+            id: "12345",
             accountType: "Hootsuite",
-            usernamePage: "ask@iverpoolcityregion-ca-gov.uk",
+            email: "ask@iverpoolcityregion-ca-gov.uk",
             addedBy: "Chris Cavanagh",
             expiresIn: "Never",
             hootsuiteProfiles: [
-                { type: "TWITTER", id: "43308270" },
-                { type: "TWITTER", id: "29669438" },
+                { type: "TWITTER", id: "43308270", socialNetworkId: "1234567" },
+                { type: "TWITTER", id: "29669438", socialNetworkId: "1234567" },
             ],
         },
         {
+            id: "12345",
             accountType: "Hootsuite",
-            usernamePage: "2ask@iverpoolcityregion-ca-gov.uk",
+            email: "2ask@iverpoolcityregion-ca-gov.uk",
             addedBy: "Anna Simpson",
             expiresIn: "Never",
-            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888" }],
+            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888", socialNetworkId: "1234567" }],
         },
     ],
 };
