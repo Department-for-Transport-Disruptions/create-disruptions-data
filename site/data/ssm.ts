@@ -28,7 +28,6 @@ export const putParameter = async (
             Type: type,
             Overwrite: overwrite,
         };
-        logger.info(`the key is ----------${name}`);
         const command = new PutParameterCommand(input);
         await ssm.send(command);
     } catch (error) {
