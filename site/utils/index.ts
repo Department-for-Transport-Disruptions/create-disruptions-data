@@ -6,7 +6,6 @@ import { NextApiResponse, NextPageContext } from "next";
 import { z, ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
-import { HOOTSUITE_URL } from "../constants";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import {
     Service,
