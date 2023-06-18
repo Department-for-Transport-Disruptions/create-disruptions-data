@@ -1,9 +1,9 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
+import { randomUUID } from "crypto";
 import deleteUser from "./delete-user.api";
 import { ERROR_PATH, SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
-import { randomUUID } from "crypto";
 
 describe("delete-user", () => {
     const writeHeadMock = vi.fn();
