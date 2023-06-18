@@ -1,0 +1,269 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DownloadPDF > should render correctly 1`] = `
+<DOCUMENT>
+  <PAGE
+    size="A1"
+    style={
+      {
+        "flexDirection": "column",
+        "fontFamily": "Helvetica",
+      }
+    }
+    wrap={true}
+  >
+    <VIEW
+      fixed={true}
+      style={
+        {
+          "alignItems": "flex-start",
+          "borderBottomWidth": 4,
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopWidth": 0,
+          "flexDirection": "row",
+          "fontFamily": "Helvetica-Bold",
+          "fontStyle": "bold",
+          "margin": 5,
+          "textAlign": "left",
+        }
+      }
+    >
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        id
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "30.5%",
+          }
+        }
+      >
+        title
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        mode
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        operator wide
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        network wide
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        services affected
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        stops affected
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "4.5%",
+          }
+        }
+      >
+        start
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "4.5%",
+          }
+        }
+      >
+        end
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        severity
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        live
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "8.5%",
+          }
+        }
+      >
+        status
+      </TEXT>
+    </VIEW>
+    <VIEW
+      style={
+        {
+          "alignItems": "flex-start",
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopWidth": 0,
+          "flexDirection": "row",
+          "fontFamily": "Helvetica",
+          "margin": 5,
+          "paddingBottom": 5,
+          "textAlign": "left",
+        }
+      }
+    >
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        0
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "30.5%",
+          }
+        }
+      >
+        Test summary
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        Bus
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        yes
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        no
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        0
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        5
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "4.5%",
+          }
+        }
+      >
+        Tue 24 May 2023
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "4.5%",
+          }
+        }
+      >
+        Tue 24 May 2023
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        Unknown
+      </TEXT>
+      <TEXT
+        hyphenationCallback={[Function]}
+        style={
+          {
+            "width": "6.5%",
+          }
+        }
+      >
+        yes
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "width": "8.5%",
+          }
+        }
+      >
+        Pending Approval
+      </TEXT>
+    </VIEW>
+  </PAGE>
+</DOCUMENT>
+`;

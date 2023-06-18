@@ -7,7 +7,7 @@ import {
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
-    SYSADMIN_MANAGE_ORGANISATIONS,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
 } from "../../constants";
 import { initiateAuth } from "../../data/cognito";
 import { loginSchema } from "../../schemas/login.schema";
@@ -60,7 +60,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, res);
 
         if (session?.isSystemAdmin) {
-            redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS);
+            redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH);
             return;
         }
         redirectTo(res, DASHBOARD_PAGE_PATH);

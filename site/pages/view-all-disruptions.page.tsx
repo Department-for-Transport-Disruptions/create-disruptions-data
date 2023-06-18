@@ -1,17 +1,23 @@
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
+import { pdf } from "@react-pdf/renderer";
 import { Dayjs } from "dayjs";
+import { saveAs } from "file-saver";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import Papa from "papaparse";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
+import writeXlsxFile, { Schema } from "write-excel-file";
 import { z } from "zod";
 import { randomUUID } from "crypto";
+import ExportPopUp from "../components/ExportPopup";
 import DateSelector from "../components/form/DateSelector";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import OperatorSearch from "../components/OperatorSearch";
 import PageNumbers from "../components/PageNumbers";
+import PDFDoc from "../components/pdf/DownloadPDF";
 import ServiceSearch from "../components/ServiceSearch";
 import {
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -26,6 +32,7 @@ import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
+import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
 import {
     sortDisruptionsByStartDate,
     splitCamelCaseToString,
@@ -44,7 +51,9 @@ import {
     getDate,
     getFormattedDate,
     dateIsSameOrBeforeSecondDate,
+    isLiveDisruption,
 } from "../utils/dates";
+import { getExportSchema } from "../utils/exportUtils";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -55,6 +64,7 @@ interface DisruptionOperator {
 }
 
 export interface TableDisruption {
+    index: number;
     id: string;
     summary: string;
     modes: string[];
@@ -66,6 +76,10 @@ export interface TableDisruption {
     status: string;
     serviceIds: string[];
     operators: string[];
+    isOperatorWideCq: boolean;
+    isNetworkWideCq: boolean;
+    isLive: boolean;
+    stopsAffectedCount: number;
     consequenceLength?: number;
 }
 
@@ -374,6 +388,10 @@ const ViewAllDisruptions = ({
     const [searchText, setSearchText] = useState("");
     const [servicesList, setServicesList] = useState<Service[]>([]);
     const [operatorsList, setOperatorsList] = useState<Operator[]>([]);
+    const [popUpState, setPopUpState] = useState(false);
+    const [downloadPdf, setDownloadPdf] = useState(false);
+    const [downloadExcel, setDownloadExcel] = useState(false);
+    const [downloadCsv, setDownloadCsv] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -523,6 +541,44 @@ const ViewAllDisruptions = ({
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
+    useEffect(() => {
+        const generatePdf = async () => {
+            if (downloadPdf) {
+                const parseDisruptions = exportDisruptionsSchema.safeParse(disruptionsToDisplay);
+                const blob = await pdf(
+                    <PDFDoc disruptions={parseDisruptions.success ? parseDisruptions.data : []} />,
+                ).toBlob();
+                saveAs(blob, "Disruptions_list.pdf");
+                setDownloadPdf(false);
+            }
+        };
+        generatePdf().catch(() => {
+            saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf");
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [downloadPdf]);
+
+    useEffect(() => {
+        if (downloadExcel) {
+            generateExcel().catch(async () => {
+                await writeXlsxFile(["There was an error. Contact your admin team"], {
+                    schema: [{ column: "error", type: String, value: (objectData: string) => objectData }],
+                    fileName: "Disruptions_list.xlsx",
+                });
+            });
+            setDownloadExcel(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [downloadExcel]);
+
+    useEffect(() => {
+        if (downloadCsv) {
+            generateCsv();
+            setDownloadCsv(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [downloadCsv]);
+
     const setServicesAndOperators = async (adminAreaCodes: string[]) => {
         const [operators, servicesData] = await Promise.all([
             fetchOperators({ adminAreaCodes: adminAreaCodes }),
@@ -553,8 +609,62 @@ const ViewAllDisruptions = ({
         setServicesList(services);
     };
 
+    const cancelActionHandler = (): void => {
+        setPopUpState(false);
+    };
+
+    const exportHandler = (fileType: string) => {
+        if (fileType === "pdf") {
+            setDownloadPdf(true);
+        } else if (fileType === "excel") {
+            setDownloadExcel(true);
+        } else if (fileType === "csv") {
+            setDownloadCsv(true);
+        }
+    };
+
+    const generateCsv = () => {
+        const parseDisruptions = exportDisruptionsSchema.safeParse(disruptionsToDisplay);
+
+        const csvData = Papa.unparse({
+            fields: [
+                "id",
+                "title",
+                "serviceModes",
+                "operatorWide",
+                "networkWide",
+                "servicesAffectedCount",
+                "stopsAffectedCount",
+                "startDate",
+                "endDate",
+                "severity",
+                "isLive",
+                "status",
+            ],
+            data: parseDisruptions.success ? parseDisruptions.data : [],
+        });
+
+        const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
+
+        saveAs(blob, "Disruptions_list.csv");
+    };
+
+    const generateExcel = async () => {
+        const parseDisruptions = exportDisruptionsSchema.safeParse(disruptionsToDisplay);
+
+        const data = parseDisruptions.success ? parseDisruptions.data : [];
+
+        const exportSchema: Schema<ExportDisruptionData> = getExportSchema();
+
+        await writeXlsxFile(data, {
+            schema: exportSchema,
+            fileName: "Disruptions_list.xlsx",
+        });
+    };
+
     return (
         <BaseLayout title={title} description={description}>
+            {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
             <h1 className="govuk-heading-xl">View all disruptions</h1>
             <div>
                 <Link
@@ -617,6 +727,15 @@ const ViewAllDisruptions = ({
                             Clear filters
                         </button>
                     )}
+                    <button
+                        className="govuk-button govuk-button--secondary ml-2"
+                        data-module="govuk-button"
+                        onClick={() => {
+                            setPopUpState(true);
+                        }}
+                    >
+                        Export
+                    </button>
                 </div>
             </div>
 
@@ -852,11 +971,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 item.publishStatus === PublishStatus.rejected,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
-        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
+
+        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption, index) => {
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceIds: string[] = [];
             const disruptionOperators: string[] = [];
+            let isOperatorWideCq = false;
+            let isNetworkWideCq = false;
+            let stopsAffectedCount = 0;
+            const atcoCodeSet = new Set<string>();
+
+            const isLive = disruption.validity ? isLiveDisruption(disruption.validity) : false;
 
             if (disruption.consequences) {
                 disruption.consequences.forEach((consequence) => {
@@ -871,11 +997,26 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         consequence.services.forEach((service) => {
                             serviceIds.push(service.id.toString());
                         });
-                    }
 
-                    if (consequence.consequenceType === "operatorWide") {
+                        consequence.stops?.map((stop) => {
+                            if (!atcoCodeSet.has(stop.atcoCode)) {
+                                atcoCodeSet.add(stop.atcoCode);
+                                stopsAffectedCount++;
+                            }
+                        });
+                    } else if (consequence.consequenceType === "operatorWide") {
+                        isOperatorWideCq = true;
                         consequence.consequenceOperators.forEach((op) => {
                             disruptionOperators.push(op);
+                        });
+                    } else if (consequence.consequenceType === "networkWide") {
+                        isNetworkWideCq = true;
+                    } else if (consequence.consequenceType === "stops") {
+                        consequence.stops?.map((stop) => {
+                            if (!atcoCodeSet.has(stop.atcoCode)) {
+                                atcoCodeSet.add(stop.atcoCode);
+                                stopsAffectedCount++;
+                            }
                         });
                     }
                 });
@@ -884,6 +1025,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             const status = getDisruptionStatus(disruption);
 
             return {
+                index,
                 modes,
                 consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status,
@@ -893,6 +1035,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 id: disruption.disruptionId,
                 summary: reduceStringWithEllipsis(disruption.summary, 95),
                 validityPeriods: mapValidityPeriods(disruption),
+                isOperatorWideCq: isOperatorWideCq,
+                isNetworkWideCq: isNetworkWideCq,
+                isLive: isLive,
+                stopsAffectedCount: stopsAffectedCount,
             };
         });
 

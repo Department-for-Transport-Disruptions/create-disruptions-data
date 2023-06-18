@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 import deleteOrg from "./delete-org.api";
-import { ERROR_PATH, SYSADMIN_MANAGE_ORGANISATIONS } from "../../../constants";
+import { ERROR_PATH, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import * as dynamo from "../../../data/dynamo";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
@@ -34,7 +34,7 @@ describe("delete-org", () => {
 
         await deleteOrg(req, res);
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH });
     });
 
     it("should redirect to /500 if delete users operation failed", async () => {

@@ -19,7 +19,7 @@ import {
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
-    SYSADMIN_MANAGE_ORGANISATIONS,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
 } from "./constants";
 
 const {
@@ -141,6 +141,8 @@ const unauthenticatedRoutes = [
     "/404",
 ];
 
+const allowedRoutesForSysadmin = ["/api/admin/resend-invite", "/api/admin/delete-user"];
+
 const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`), {
     timeoutDuration: 10000,
 });
@@ -195,8 +197,8 @@ export async function middleware(request: NextRequest) {
                 if (!groups.includes(UserGroups.orgAdmins)) {
                     if (!groups.includes(UserGroups.systemAdmins)) {
                         return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
-                    } else {
-                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS, request.url));
+                    } else if (allowedRoutesForSysadmin.every((route) => !request.nextUrl.pathname.startsWith(route))) {
+                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
                     }
                 }
             } else if (

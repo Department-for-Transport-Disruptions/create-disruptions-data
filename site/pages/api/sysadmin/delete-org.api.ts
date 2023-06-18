@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { SYSADMIN_MANAGE_ORGANISATIONS } from "../../../constants";
+import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../../constants";
 import { deleteUsersByAttribute } from "../../../data/cognito";
 import { removeOrganisation } from "../../../data/dynamo";
 import { redirectTo, redirectToError } from "../../../utils/apiUtils";
@@ -23,7 +23,7 @@ const deleteOrg = async (req: DeleteOrgApiRequest, res: NextApiResponse): Promis
         await deleteUsersByAttribute("custom:orgId", org);
         await removeOrganisation(org);
 
-        redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS);
+        redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH);
         return;
     } catch (error) {
         const message = "There was a problem deleting an organisation.";

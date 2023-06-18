@@ -92,18 +92,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               </div>
             </div>
           </div>
-          <button
-            className="mt-3 govuk-link"
-            data-module="govuk-button"
-            disabled={true}
-            onClick={[Function]}
-          >
-            <p
-              className="text-govBlue govuk-body-m"
-            >
-              Copy from disruption summary
-            </p>
-          </button>
           <br />
           <div
             className="govuk-form-group"
@@ -649,7 +637,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           <button
             className="mt-3 govuk-link"
             data-module="govuk-button"
-            disabled={false}
             onClick={[Function]}
           >
             <p

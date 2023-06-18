@@ -67,4 +67,11 @@ describe("date/time tests", () => {
     ])("should return expected end date", (repeats, endingOnDate, startDate, endDate, result) => {
         expect(getEndingOnDateText(repeats, endingOnDate, startDate, endDate)).toEqual(result);
     });
+
+    it.each([
+        ["07/03/2023", ""],
+        ["25/04/2023", "1000"],
+    ])("should return expected date time", (date, time) => {
+        expect(getDatetimeFromDateAndTime(date, time).toISOString()).toBeTruthy();
+    });
 });

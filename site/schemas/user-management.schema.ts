@@ -128,3 +128,7 @@ export const adminSchema = z.array(
 );
 
 export type AdminSchema = z.infer<typeof adminSchema>;
+
+export const orgIdSchema = z.object({
+    orgId: z.string(),
+});

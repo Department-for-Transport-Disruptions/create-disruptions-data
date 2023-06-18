@@ -123,6 +123,12 @@ export const DISRUPTION_REASONS: DisplayValuePair<
         value: MiscellaneousReason.unknown,
         display: "Unknown",
     },
+    { value: EquipmentReason.liftFailure, display: "Lift failure" },
+    { value: EquipmentReason.escalatorFailure, display: "Escalator failure" },
+    {
+        value: MiscellaneousReason.insufficientDemand,
+        display: "Insufficient demand",
+    },
 ];
 
 export const DISRUPTION_SEVERITIES: DisplayValuePair<Severity>[] = [
@@ -260,7 +266,8 @@ export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
-export const SYSADMIN_MANAGE_ORGANISATIONS = "/sysadmin/manage-organisations";
+export const SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH = "/sysadmin/manage-organisations";
+export const SYSADMIN_ADD_USERS_PAGE_PATH = "/sysadmin/users";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";

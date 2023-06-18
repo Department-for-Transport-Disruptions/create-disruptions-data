@@ -7,7 +7,7 @@ import {
     DASHBOARD_PAGE_PATH,
     ERROR_PATH,
     LOGIN_PAGE_PATH,
-    SYSADMIN_MANAGE_ORGANISATIONS,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
 } from "../../constants";
 import * as cognito from "../../data/cognito";
 import { ErrorInfo } from "../../interfaces";
@@ -130,7 +130,7 @@ describe("login", () => {
 
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
-        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH });
     });
 
     it("should redirect to error page when invalid auth response is received", async () => {

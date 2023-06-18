@@ -41,6 +41,13 @@ const collectDisruptionsData = (
             false,
     );
 
+    let socialMediaPosts = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
+            false,
+    );
+
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
     const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
 
@@ -60,6 +67,23 @@ const collectDisruptionsData = (
                 consequences[existingIndex] = pendingConsequence;
             } else {
                 consequences.push(pendingConsequence);
+            }
+        });
+
+        const pendingSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#PENDING")) ??
+                false,
+        );
+        pendingSocialMediaPosts.forEach((pendingSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === pendingSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = pendingSocialMediaPost;
+            } else {
+                socialMediaPosts.push(pendingSocialMediaPost);
             }
         });
     }
@@ -82,13 +106,33 @@ const collectDisruptionsData = (
                 consequences.push(editedConsequence);
             }
         });
+
+        const editedSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).endsWith("#EDIT")) ??
+                false,
+        );
+        editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === editedSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = editedSocialMediaPost;
+            } else {
+                socialMediaPosts.push(editedSocialMediaPost);
+            }
+        });
     }
 
     consequences = consequences.filter((consequence) => !consequence.isDeleted);
 
+    socialMediaPosts = socialMediaPosts.filter((socialMediaPost) => !socialMediaPost.isDeleted);
+
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
+        socialMediaPosts,
     });
 
     if (!parsedDisruption.success) {
@@ -491,7 +535,9 @@ export const upsertConsequence = async (
 };
 
 export const upsertSocialMediaPost = async (
-    socialMediaPost: SocialMediaPostTransformed,
+    socialMediaPost:
+        | SocialMediaPostTransformed
+        | Pick<SocialMediaPostTransformed, "disruptionId" | "socialMediaPostIndex">,
     id: string,
     isUserStaff?: boolean,
 ) => {
@@ -542,6 +588,20 @@ export const removeOrganisation = async (orgId: string) => {
             TableName: organisationsTableName,
             Key: {
                 PK: orgId,
+            },
+        }),
+    );
+};
+
+export const removeSocialMediaPostFromDisruption = async (index: number, disruptionId: string, id: string) => {
+    logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new DeleteCommand({
+            TableName: tableName,
+            Key: {
+                PK: id,
+                SK: `${disruptionId}#SOCIALMEDIAPOST#${index}`,
             },
         }),
     );

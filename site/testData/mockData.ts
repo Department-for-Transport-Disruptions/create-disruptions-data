@@ -19,7 +19,7 @@ import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
-import { Disruption } from "../schemas/disruption.schema";
+import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
@@ -625,3 +625,20 @@ export const mockSession: Session = {
     username: "test@example.com",
     name: "Test User",
 };
+
+export const exportDisruption: ExportDisruptions = [
+    {
+        id: 0,
+        title: "Test summary",
+        serviceModes: "Bus",
+        operatorWide: "yes",
+        networkWide: "no",
+        servicesAffectedCount: 0,
+        stopsAffectedCount: 5,
+        startDate: "Tue 24 May 2023",
+        endDate: "Tue 24 May 2023",
+        severity: "Unknown",
+        isLive: "yes",
+        status: "Pending Approval",
+    },
+];

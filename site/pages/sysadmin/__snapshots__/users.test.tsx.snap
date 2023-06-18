@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`manageOrganisations > should render correctly when there are no inputs 1`] = `
+exports[`addUser > should render correctly when there are no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -44,44 +44,157 @@ exports[`manageOrganisations > should render correctly when there are no inputs 
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <table
-        className="govuk-table"
+      <h1
+        className="govuk-heading-xl"
       >
-        <caption
-          className="govuk-table__caption govuk-table__caption--m"
-        >
-          Manage organisations
-        </caption>
-        <thead
-          className="govuk-table__head"
-        >
-          <tr
-            className="govuk-table__row"
-          >
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
-            >
-              Organisation
-            </th>
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
-            >
-              NaPTAN AdminArea
-            </th>
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
-            >
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          className="govuk-table__body"
+        Add new user
+      </h1>
+      <form
+        action="/api/sysadmin/users"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
         />
-      </table>
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group"
+            id="given-name"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="given-name-input"
+            >
+              First name
+            </label>
+            <div
+              className=""
+            >
+              <input
+                className="govuk-input w"
+                id="given-name-input"
+                maxLength={100}
+                name="givenName"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group"
+            id="family-name"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="family-name-input"
+            >
+              Last name
+            </label>
+            <div
+              className=""
+            >
+              <input
+                className="govuk-input w"
+                id="family-name-input"
+                maxLength={100}
+                name="familyName"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group"
+            id="email"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="email-input"
+            >
+              Email address
+            </label>
+            <div
+              className=""
+            >
+              <input
+                className="govuk-input w"
+                id="email-input"
+                maxLength={100}
+                name="email"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          name="orgId"
+          type="hidden"
+          value="58f230e6-3a2b-4496-84f0-62db0fdf5036"
+        />
+        <input
+          name="group"
+          type="hidden"
+          value="system-admins"
+        />
+        <button
+          className="govuk-button mt-8"
+          data-module="govuk-button"
+        >
+          Add and send invitation
+        </button>
+        <table
+          className="govuk-table"
+        >
+          <thead
+            className="govuk-table__head"
+          >
+            <tr
+              className="govuk-table__row"
+            >
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                First name
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Last name
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Email
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            className="govuk-table__body"
+          />
+        </table>
+      </form>
     </main>
     <div>
       <h2
@@ -274,7 +387,7 @@ exports[`manageOrganisations > should render correctly when there are no inputs 
 ]
 `;
 
-exports[`manageOrganisations > should render correctly with inputs 1`] = `
+exports[`addUser > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -318,137 +431,233 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <table
-        className="govuk-table"
+      <h1
+        className="govuk-heading-xl"
       >
-        <caption
-          className="govuk-table__caption govuk-table__caption--m"
+        Add new user
+      </h1>
+      <form
+        action="/api/sysadmin/users"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
         >
-          Manage organisations
-        </caption>
-        <thead
-          className="govuk-table__head"
-        >
-          <tr
-            className="govuk-table__row"
+          <div
+            className="govuk-form-group"
+            id="given-name"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="given-name-input"
             >
-              Organisation
-            </th>
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
+              First name
+            </label>
+            <div
+              className=""
             >
-              NaPTAN AdminArea
-            </th>
-            <th
-              className="govuk-table__header align-middle"
-              scope="col"
-            >
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          className="govuk-table__body"
+              <input
+                className="govuk-input w"
+                defaultValue="dummy"
+                id="given-name-input"
+                maxLength={100}
+                name="givenName"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-form-group"
         >
-          <tr
-            className="govuk-table__row"
+          <div
+            className="govuk-form-group"
+            id="family-name"
           >
-            <td
-              className="govuk-table__cell align-middle"
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="family-name-input"
             >
-              KPMG
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
+              Last name
+            </label>
+            <div
+              className=""
             >
-              001, 002
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
+              <input
+                className="govuk-input w"
+                defaultValue="user"
+                id="family-name-input"
+                maxLength={100}
+                name="familyName"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="govuk-form-group"
+        >
+          <div
+            className="govuk-form-group"
+            id="email"
+          >
+            <label
+              className="govuk-label govuk-label--s"
+              htmlFor="email-input"
             >
-              <div
-                className="flex"
+              Email address
+            </label>
+            <div
+              className=""
+            >
+              <input
+                className="govuk-input w"
+                defaultValue="dummy.user@gmail.com"
+                id="email-input"
+                maxLength={100}
+                name="email"
+                onBlur={[Function]}
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          name="orgId"
+          type="hidden"
+          value="58f230e6-3a2b-4496-84f0-62db0fdf5036"
+        />
+        <input
+          name="group"
+          type="hidden"
+          value="system-admins"
+        />
+        <button
+          className="govuk-button mt-8"
+          data-module="govuk-button"
+        >
+          Add and send invitation
+        </button>
+        <table
+          className="govuk-table"
+        >
+          <thead
+            className="govuk-table__head"
+          >
+            <tr
+              className="govuk-table__row"
+            >
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
               >
-                <a
-                  className="govuk-link mr-5"
-                  href="#"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Edit
-                </a>
-                <a
-                  className="govuk-link mr-5"
-                  href="/sysadmin/users?orgId=93963b94-16e3-491e-a052-61137e478e6b"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Users
-                </a>
+                First name
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Last name
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Email
+              </th>
+              <th
+                className="govuk-table__header align-middle"
+                scope="col"
+              >
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            className="govuk-table__body"
+          >
+            <tr
+              className="govuk-table__row"
+            >
+              <td
+                className="govuk-table__cell align-middle"
+              >
+                dummy
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
+                user1
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
+                dummy.user1@gmail.com
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
                 <button
-                  className="govuk-link text-govBlue"
+                  className="govuk-link"
+                  onClick={[Function]}
+                >
+                  Resend invite
+                </button>
+                <br />
+                <button
+                  className="govuk-link"
                   onClick={[Function]}
                 >
                   Remove
                 </button>
-              </div>
-            </td>
-          </tr>
-          <tr
-            className="govuk-table__row"
-          >
-            <td
-              className="govuk-table__cell align-middle"
+              </td>
+            </tr>
+            <tr
+              className="govuk-table__row"
             >
-              KPMG UK
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              003, 004
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <div
-                className="flex"
+              <td
+                className="govuk-table__cell align-middle"
               >
-                <a
-                  className="govuk-link mr-5"
-                  href="#"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Edit
-                </a>
-                <a
-                  className="govuk-link mr-5"
-                  href="/sysadmin/users?orgId=95d6a0e7-99d6-4e42-bd1a-b74fff5732d0"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Users
-                </a>
+                dummy
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
+                user2
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
+                dummy.user2@gmail.com
+              </td>
+              <td
+                className="govuk-table__cell align-middle"
+              >
                 <button
-                  className="govuk-link text-govBlue"
+                  className="govuk-link"
+                  onClick={[Function]}
+                >
+                  Resend invite
+                </button>
+                <br />
+                <button
+                  className="govuk-link"
                   onClick={[Function]}
                 >
                   Remove
                 </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </main>
     <div>
       <h2

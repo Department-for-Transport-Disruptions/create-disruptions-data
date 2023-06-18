@@ -7,7 +7,6 @@ import ErrorSummary from "../../../components/ErrorSummary";
 import DateSelector from "../../../components/form/DateSelector";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
 import Select from "../../../components/form/Select";
-import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import {
@@ -16,11 +15,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { PageState } from "../../../interfaces";
+import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
+import { getStateUpdater, handleBlur } from "../../../utils/formUtils";
 
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
@@ -33,6 +32,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
+    const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -52,31 +52,58 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Social media message</h1>
 
-                        <TextInput<SocialMediaPost>
-                            display="Message content"
-                            inputName="messageContent"
-                            widthClass="w-3/4"
-                            displaySize="l"
-                            textArea
-                            rows={3}
-                            hint={"You can enter up to 200 characters"}
-                            maxLength={500}
-                            stateUpdater={stateUpdater}
-                            value={pageState.inputs.messageContent}
-                            initialErrors={pageState.errors}
-                            schema={socialMediaPostSchema.shape.messageContent}
-                        />
+                        <FormGroupWrapper errorIds={["messageContent"]} errors={errorsMessageContent}>
+                            <div className="govuk-form-group" id={"message-content"}>
+                                <label className={`govuk-label govuk-label--l`} htmlFor={`message-content-input`}>
+                                    Message content
+                                </label>
 
-                        <button
-                            disabled={!!(pageState.inputs.messageContent && pageState.inputs.messageContent.length > 0)}
-                            className="mt-3 govuk-link"
-                            data-module="govuk-button"
-                            onClick={() => {
-                                stateUpdater(props.disruptionSummary, "messageContent");
-                            }}
-                        >
-                            <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
-                        </button>
+                                <div id={`message-content-hint`} className="govuk-hint">
+                                    You can enter up to 200 characters
+                                </div>
+
+                                <FormElementWrapper
+                                    errors={errorsMessageContent}
+                                    errorId={"messageContent"}
+                                    errorClass="govuk-input--error"
+                                >
+                                    <textarea
+                                        className={`govuk-textarea w-3/4`}
+                                        name={"messageContent"}
+                                        id={`message-content-input`}
+                                        rows={3}
+                                        maxLength={500}
+                                        defaultValue={pageState.inputs.messageContent}
+                                        onBlur={(e) =>
+                                            handleBlur(
+                                                e.target.value,
+                                                "messageContent",
+                                                stateUpdater,
+                                                setErrorsMessageContent,
+                                                socialMediaPostSchema.shape.messageContent,
+                                            )
+                                        }
+                                        aria-describedby={`message-content-hint`}
+                                    />
+                                </FormElementWrapper>
+                            </div>
+                        </FormGroupWrapper>
+
+                        {!pageState.inputs.messageContent ||
+                        (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
+                            <button
+                                className="mt-3 govuk-link"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    setErrorsMessageContent(
+                                        errorsMessageContent.filter((e) => e.id !== "messageContent"),
+                                    );
+                                    stateUpdater(props.disruptionSummary, "messageContent");
+                                }}
+                            >
+                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            </button>
+                        ) : null}
 
                         <br />
 

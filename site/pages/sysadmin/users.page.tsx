@@ -1,4 +1,6 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
@@ -38,7 +40,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     user.givenName,
                     user.familyName,
                     user.email,
-                    createLink("user-action", index, user.username, user.group),
+                    createLink("user-action", index, user.username, "system-admins"),
                 ],
             });
         });
@@ -51,7 +53,10 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 <button
                     key={`${key}${index ? `-${index}` : ""}`}
                     className="govuk-link"
-                    onClick={() => resendInvite(username, userGroup)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        resendInvite(username, userGroup);
+                    }}
                 >
                     Resend invite
                 </button>
@@ -59,7 +64,10 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 <button
                     key={`${key}${index ? `-remove-${index}` : "-remove"}`}
                     className="govuk-link"
-                    onClick={() => removeUser(username)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        removeUser(username);
+                    }}
                 >
                     Remove
                 </button>
@@ -82,82 +90,94 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
         setUserToDelete(null);
     };
 
+    const queryParams = useRouter().query;
+    const orgId = queryParams["orgId"];
+
     return (
         <BaseLayout title={title} description={description} errors={pageState.errors}>
-            <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={pageState.csrfToken}>
-                <>
-                    {userToDelete ? (
-                        <DeleteConfirmationPopup
-                            entityName="user"
-                            deleteUrl="/api/admin/delete-user"
-                            cancelActionHandler={cancelActionHandler}
-                            csrfToken={pageState.csrfToken || ""}
-                            hiddenInputs={[
-                                {
-                                    name: "username",
-                                    value: userToDelete,
-                                },
-                            ]}
-                        />
-                    ) : null}
-                    {userToResendInvite ? (
-                        <Popup
-                            action={"/api/admin/resend-invite"}
-                            cancelActionHandler={cancelResendActionHandler}
-                            csrfToken={pageState.csrfToken || ""}
-                            continueText="Yes, resend"
-                            cancelText="No, return"
-                            hiddenInputs={[
-                                {
-                                    name: "username",
-                                    value: userToResendInvite.username,
-                                },
-                                {
-                                    name: "group",
-                                    value: userToResendInvite.userGroup,
-                                },
-                            ]}
-                            questionText={`Are you sure you wish to resend the invite?`}
-                        />
-                    ) : null}
-                    <ErrorSummary errors={pageState.errors} />
-                    <h1 className="govuk-heading-xl">Add new user</h1>
-                    <TextInput<AddUserSchema>
-                        display="First name"
-                        inputName="givenName"
-                        widthClass="w"
-                        value={pageState.inputs.givenName}
-                        initialErrors={pageState.errors}
-                        schema={addUserSchema.shape.givenName}
-                        stateUpdater={stateUpdater}
-                        maxLength={100}
-                    />
-                    <TextInput<AddUserSchema>
-                        display="Last name"
-                        inputName="familyName"
-                        widthClass="w"
-                        value={pageState.inputs.familyName}
-                        initialErrors={pageState.errors}
-                        schema={addUserSchema.shape.familyName}
-                        stateUpdater={stateUpdater}
-                        maxLength={100}
-                    />
-                    <TextInput<AddUserSchema>
-                        display="Email address"
-                        inputName="email"
-                        widthClass="w"
-                        value={pageState.inputs.email}
-                        initialErrors={pageState.errors}
-                        schema={addUserSchema.shape.email}
-                        stateUpdater={stateUpdater}
-                        maxLength={100}
-                    />
+            {userToDelete ? (
+                <DeleteConfirmationPopup
+                    entityName="user"
+                    deleteUrl="/api/admin/delete-user"
+                    cancelActionHandler={cancelActionHandler}
+                    csrfToken={pageState.csrfToken || ""}
+                    hiddenInputs={[
+                        {
+                            name: "username",
+                            value: userToDelete,
+                        },
+                        {
+                            name: "orgId",
+                            value: orgId?.toString(),
+                        },
+                    ]}
+                />
+            ) : null}
+            {userToResendInvite ? (
+                <Popup
+                    action={"/api/admin/resend-invite"}
+                    cancelActionHandler={cancelResendActionHandler}
+                    csrfToken={pageState.csrfToken || ""}
+                    continueText="Yes, resend"
+                    cancelText="No, return"
+                    hiddenInputs={[
+                        {
+                            name: "username",
+                            value: userToResendInvite.username,
+                        },
+                        {
+                            name: "group",
+                            value: userToResendInvite.userGroup,
+                        },
+                        {
+                            name: "orgId",
+                            value: orgId?.toString(),
+                        },
+                    ]}
+                    questionText={`Are you sure you wish to resend the invite?`}
+                />
+            ) : null}
+            <ErrorSummary errors={pageState.errors} />
+            <h1 className="govuk-heading-xl">Add new user</h1>
+            <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
+                <TextInput<AddUserSchema>
+                    display="First name"
+                    inputName="givenName"
+                    widthClass="w"
+                    value={pageState.inputs.givenName}
+                    initialErrors={pageState.errors}
+                    schema={addUserSchema.shape.givenName}
+                    stateUpdater={stateUpdater}
+                    maxLength={100}
+                />
+                <TextInput<AddUserSchema>
+                    display="Last name"
+                    inputName="familyName"
+                    widthClass="w"
+                    value={pageState.inputs.familyName}
+                    initialErrors={pageState.errors}
+                    schema={addUserSchema.shape.familyName}
+                    stateUpdater={stateUpdater}
+                    maxLength={100}
+                />
+                <TextInput<AddUserSchema>
+                    display="Email address"
+                    inputName="email"
+                    widthClass="w"
+                    value={pageState.inputs.email}
+                    initialErrors={pageState.errors}
+                    schema={addUserSchema.shape.email}
+                    stateUpdater={stateUpdater}
+                    maxLength={100}
+                />
 
-                    <button className="govuk-button mt-8" data-module="govuk-button">
-                        Send invitation
-                    </button>
-                    <Table columns={["First name", "Last name", "Email", "Action"]} rows={getRows()}></Table>
-                </>
+                <input type="hidden" name="orgId" value={orgId} />
+                <input type="hidden" name="group" value={UserGroups.systemAdmins} />
+
+                <button className="govuk-button mt-8" data-module="govuk-button">
+                    Add and send invitation
+                </button>
+                <Table columns={["First name", "Last name", "Email", "Action"]} rows={getRows()}></Table>
             </CsrfForm>
         </BaseLayout>
     );
@@ -177,6 +197,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (!session) {
         throw new Error("No session found");
+    } else if (!session.isSystemAdmin) {
+        throw new Error("Invalid user accessing the page");
     }
 
     const orgId = ctx.query.orgId?.toString();
