@@ -1,7 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { randomUUID } from "crypto";
 import AdminUsers, { AdminUserProps } from "./users.page";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import * as session from "../../utils/apiUtils/auth";
@@ -11,7 +10,7 @@ const blankInputs: AdminUserProps = {
     errors: [],
 };
 
-const randomId = randomUUID();
+const randomId = "016f954c-0e14-11ee-be56-0242ac120002";
 const withInputs: AdminUserProps = {
     inputs: {
         givenName: "dummy",
@@ -23,7 +22,7 @@ const withInputs: AdminUserProps = {
     admins: [
         {
             userStatus: "CONFIRMED",
-            username: randomUUID(),
+            username: randomId,
             givenName: "dummy",
             familyName: "user1",
             email: "dummy.user1@gmail.com",
@@ -31,7 +30,7 @@ const withInputs: AdminUserProps = {
         },
         {
             userStatus: "CONFIRMED",
-            username: randomUUID(),
+            username: randomId,
             givenName: "dummy",
             familyName: "user2",
             email: "dummy.user2@gmail.com",

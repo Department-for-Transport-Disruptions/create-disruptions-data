@@ -1,6 +1,5 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import { randomUUID } from "crypto";
 import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import * as session from "../../utils/apiUtils/auth";
@@ -9,15 +8,17 @@ const blankInputs: ManageOrganisationsProps = {
     orgList: [],
 };
 
+const randomID = "016f954c-0e14-11ee-be56-0242ac120002";
+
 const withInputs: ManageOrganisationsProps = {
     orgList: [
         {
-            PK: randomUUID(),
+            PK: randomID,
             name: "KPMG",
             adminAreaCodes: ["001", "002"],
         },
         {
-            PK: randomUUID(),
+            PK: randomID,
             name: "KPMG UK",
             adminAreaCodes: ["003", "004"],
         },
@@ -30,7 +31,7 @@ const defaultSession: SessionWithOrgDetail = {
     isOrgPublisher: false,
     isOrgStaff: false,
     isSystemAdmin: true,
-    orgId: randomUUID(),
+    orgId: randomID,
     username: "test@example.com",
     name: "Test User",
     orgName: "Nexus",
