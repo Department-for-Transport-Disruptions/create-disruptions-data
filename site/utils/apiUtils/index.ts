@@ -244,7 +244,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                             }
                                         }
                                         if (!canUpload) {
-                                            await delay(3000);
+                                            await delay(4000);
                                             canUpload = true;
                                         }
                                     } else {
