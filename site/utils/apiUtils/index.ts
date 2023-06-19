@@ -231,11 +231,13 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                                     imageState = parsedImageState.data;
 
                                                     if (imageState?.data?.state === "READY") {
+                                                        rejectSocialMediaPost = false;
                                                         canUpload = true;
 
                                                         break;
                                                     } else {
                                                         await delay(1000);
+                                                        rejectSocialMediaPost = false;
                                                     }
                                                 }
                                             } else {
@@ -244,7 +246,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                             }
                                         }
                                         if (!canUpload) {
-                                            await delay(4000);
+                                            await delay(3000);
                                             canUpload = true;
                                         }
                                     } else {
