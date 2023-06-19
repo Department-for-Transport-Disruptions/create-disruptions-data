@@ -1,4 +1,5 @@
 import * as jose from "jose";
+import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ID_TOKEN,
@@ -9,7 +10,7 @@ import {
 import { getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
-import { getSession } from "../../utils/apiUtils/auth";
+import { sessionSchema } from "../../schemas/session.schema";
 import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
 
 const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -70,8 +71,9 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const tokenResult = hootsuiteTokenSchema.parse(await tokenResponse.json());
 
-        const session = getSession(req);
-        if (!session) {
+        const session = sessionSchema.parse(decodeJwt(idToken.Parameter.Value));
+
+        if (!session || !session.isOrgAdmin) {
             throw new Error("Session data not found");
         }
 
