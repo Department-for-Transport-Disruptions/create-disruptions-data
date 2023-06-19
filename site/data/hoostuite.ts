@@ -32,9 +32,10 @@ export const getHootsuiteData = async (
         const idToken = cookies[COOKIES_ID_TOKEN];
         const refreshToken = cookies[COOKIES_REFRESH_TOKEN];
 
-        const [clientId, clientSecret, keys] = await Promise.all([
+        const [clientId, clientSecret, keys, tokensByOrganisation] = await Promise.all([
             getParameter(`/social/hootsuite/client_id`),
             getParameter(`/social/hootsuite/client_secret`),
+            getParametersByPath(`/social/${orgId}/hootsuite`),
             getParametersByPath(`/social/${orgId}/hootsuite`),
         ]);
 
@@ -53,7 +54,6 @@ export const getHootsuiteData = async (
                 putParameter(`/${username}/refresh-token`, refreshToken, "SecureString", true),
             ]);
 
-        const tokensByOrganisation = await getParametersByPath(`/social/${orgId}/hootsuite`);
         const refreshTokens = tokensByOrganisation?.Parameters?.map((token) => {
             return {
                 value: token.Value,
