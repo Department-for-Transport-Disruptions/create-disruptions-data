@@ -17,7 +17,8 @@ import {
 } from "../../constants";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
-import { HootsuiteMedia, HootsuiteMediaStatus, HootsuiteToken, PageState } from "../../interfaces";
+import { PageState } from "../../interfaces";
+import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import logger from "../logger";
 
@@ -179,8 +180,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 });
 
                 if (responseToken.ok) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    const tokenResult: HootsuiteToken = await responseToken.json();
+                    const tokenResult = hootsuiteTokenSchema.parse(await responseToken.json());
                     const key = refreshToken?.Name || "";
                     await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
 
@@ -201,8 +201,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         });
 
                         if (responseImage.ok) {
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            const image: HootsuiteMedia = await responseImage.json();
+                            const image = hootsuiteMediaSchema.parse(await responseImage.json());
                             const imageContents = await readFile(socialMediaPost.image.filepath || "");
                             imageLink = { url: image.data.uploadUrl, id: image.data.id };
 
@@ -222,8 +221,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                         },
                                     });
                                     if (imageStatus.ok) {
-                                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                                        const imageState: HootsuiteMediaStatus = await imageStatus.json();
+                                        const imageState = hootsuiteMediaStatusSchema.parse(await imageStatus.json());
 
                                         if (imageState.data.state === "READY") {
                                             canUpload = true;

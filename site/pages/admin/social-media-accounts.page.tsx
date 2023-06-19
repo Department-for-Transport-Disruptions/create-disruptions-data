@@ -7,7 +7,7 @@ import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, HOOTSUITE_URL } from "../../constants";
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
-import { HootsuiteMe, HootsuiteSocialProfiles, HootsuiteToken } from "../../interfaces";
+import { hootsuiteMeSchema, hootsuiteTokenSchema, hootsuiteSocialProfilesSchema } from "../../schemas/hootsuite.schema";
 import { HootsuiteProfiles, SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
@@ -74,8 +74,7 @@ export const getHootsuiteData = async (
                         },
                     });
                     if (resp.ok) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        const tokenResult: HootsuiteToken = await resp.json();
+                        const tokenResult = hootsuiteTokenSchema.parse(await resp.json());
 
                         if (!keys || (refreshTokens && keys.Parameters?.length === 0)) {
                             throw new Error("Refresh token is required to fetch dropdown data");
@@ -94,8 +93,7 @@ export const getHootsuiteData = async (
                             },
                         });
                         if (userDetailsResponse.ok) {
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            const userDetails: HootsuiteMe = await userDetailsResponse.json();
+                            const userDetails = hootsuiteMeSchema.parse(await userDetailsResponse.json());
                             const userInfo = userDetails.data || {};
 
                             const extraInfo = {
@@ -112,14 +110,15 @@ export const getHootsuiteData = async (
                                 },
                             });
                             if (socialProfilesResponse.ok) {
-                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                                const socialProfiles: HootsuiteSocialProfiles = await socialProfilesResponse.json();
+                                const socialProfiles = hootsuiteSocialProfilesSchema.parse(
+                                    await socialProfilesResponse.json(),
+                                );
 
                                 userData = [
                                     ...userData,
                                     {
                                         ...extraInfo,
-                                        hootsuiteProfiles: (socialProfiles?.data?.map((sp: HootsuiteProfiles[0]) => ({
+                                        hootsuiteProfiles: (socialProfiles.data?.map((sp: HootsuiteProfiles[0]) => ({
                                             type: sp.type,
                                             socialNetworkId: sp.socialNetworkId,
                                             id: sp.id,
