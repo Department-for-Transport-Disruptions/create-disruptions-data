@@ -132,90 +132,6 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
         {},
     );
 
-    // console.log(socialMediaPostsById);
-    // console.log(JSON.stringify(Object.values(socialMediaPostsById)));
-    const resp = [
-        [
-            {
-                disruptionId: "7fa330c1-2b42-4108-af9c-923725bf2e42",
-                messageContent: "a test",
-                socialAccount: "25858639",
-                hootsuiteProfile: "138196022",
-                publishDate: "19/06/2023",
-                publishTime: "1615",
-                socialMediaPostIndex: 0,
-                image: {
-                    filepath: "/var/folders/85/5c4z0mfs49n56jgsyk737gf80000gp/T/9c16888a243958da64b95f901",
-                    mimetype: "image/png",
-                    size: 70872,
-                    key: "d9f6962b-1d67-4d0b-9cf2-f123315fd14c/7fa330c1-2b42-4108-af9c-923725bf2e42/0.png",
-                    originalFilename: "1200px-SNice.svg.png",
-                },
-                status: "Rejected",
-            },
-            {
-                disruptionId: "7fa330c1-2b42-4108-af9c-923725bf2e42",
-                messageContent: "a test 2",
-                socialAccount: "25858639",
-                hootsuiteProfile: "138196022",
-                publishDate: "19/06/2023",
-                publishTime: "1615",
-                socialMediaPostIndex: 1,
-                status: "Successful",
-            },
-            {
-                disruptionId: "7fa330c1-2b42-4108-af9c-923725bf2e42",
-                messageContent: "this is another test",
-                socialAccount: "25858639",
-                hootsuiteProfile: "138196022",
-                publishDate: "19/06/2023",
-                publishTime: "1700",
-                socialMediaPostIndex: 2,
-                image: {
-                    filepath: "/var/folders/85/5c4z0mfs49n56jgsyk737gf80000gp/T/9c16888a243958da64b95f903",
-                    mimetype: "image/png",
-                    size: 70872,
-                    key: "d9f6962b-1d67-4d0b-9cf2-f123315fd14c/7fa330c1-2b42-4108-af9c-923725bf2e42/2.png",
-                    originalFilename: "1200px-SNice.svg.png",
-                },
-                status: "Rejected",
-            },
-            {
-                disruptionId: "7fa330c1-2b42-4108-af9c-923725bf2e42",
-                messageContent: "another 234",
-                socialAccount: "25858639",
-                hootsuiteProfile: "138196022",
-                publishDate: "19/06/2023",
-                publishTime: "1700",
-                socialMediaPostIndex: 4,
-                image: {
-                    filepath: "/var/folders/85/5c4z0mfs49n56jgsyk737gf80000gp/T/9c16888a243958da64b95f908",
-                    mimetype: "image/png",
-                    size: 70872,
-                    key: "d9f6962b-1d67-4d0b-9cf2-f123315fd14c/7fa330c1-2b42-4108-af9c-923725bf2e42/4.png",
-                    originalFilename: "1200px-SNice.svg.png",
-                },
-                status: "Pending",
-            },
-            {
-                disruptionId: "7fa330c1-2b42-4108-af9c-923725bf2e42",
-                messageContent: "ummm",
-                socialAccount: "25858639",
-                hootsuiteProfile: "138196022",
-                publishDate: "19/06/2023",
-                publishTime: "1700",
-                socialMediaPostIndex: 5,
-                image: {
-                    filepath: "/var/folders/85/5c4z0mfs49n56jgsyk737gf80000gp/T/92c66c7839b44099a8e5b4e00",
-                    mimetype: "image/png",
-                    size: 70872,
-                    key: "d9f6962b-1d67-4d0b-9cf2-f123315fd14c/7fa330c1-2b42-4108-af9c-923725bf2e42/5.png",
-                    originalFilename: "1200px-SNice.svg.png",
-                },
-                status: "Pending",
-            },
-        ],
-    ];
     await Promise.all(
         Object.values(socialMediaPostsById).map(async (socialMediaPosts) => {
             const refreshTokens = await getParametersByPath(`/social/${orgId}/hootsuite`);
@@ -249,7 +165,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
 
                 if (!parsedTokenData.success) {
                     rejectSocialMediaPostGroup = true;
-                    console.log("Could not parse data from hootsuite token endpoint");
+                    logger.debug("Could not parse data from hootsuite token endpoint");
                 } else {
                     tokenResult = parsedTokenData.data;
                     const key = refreshToken?.Name || "";
@@ -257,7 +173,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 }
             } else {
                 rejectSocialMediaPostGroup = true;
-                console.log("Could not retrieve token from hootsuite");
+                logger.debug("Could not retrieve token from hootsuite");
             }
             if (!rejectSocialMediaPostGroup) {
                 socialMediaPosts
@@ -286,7 +202,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                 let image;
                                 if (!parsedImageData.success) {
                                     rejectSocialMediaPost = true;
-                                    console.log("Could not parse data from hootsuite media endpoint");
+                                    logger.debug("Could not parse data from hootsuite media endpoint");
                                 } else {
                                     image = parsedImageData.data;
 
@@ -318,7 +234,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                                 let imageState;
                                                 if (!parsedImageState.success) {
                                                     rejectSocialMediaPost = true;
-                                                    console.log(
+                                                    logger.debug(
                                                         "Could not parse data from hootsuite media by id endpoint",
                                                     );
                                                 } else {
@@ -335,7 +251,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                                 }
                                             } else {
                                                 rejectSocialMediaPost = true;
-                                                console.log("Cannot retrieve media details from hootsuite");
+                                                logger.debug("Cannot retrieve media details from hootsuite");
                                             }
                                         }
                                         if (!canUpload) {
@@ -344,12 +260,12 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                         }
                                     } else {
                                         rejectSocialMediaPost = true;
-                                        console.log("Cannot upload image to hootsuite");
+                                        logger.debug("Cannot upload image to hootsuite");
                                     }
                                 }
                             } else {
                                 rejectSocialMediaPost = true;
-                                console.log("Cannot retrieve upload url from hootsuite");
+                                logger.debug("Cannot retrieve upload url from hootsuite");
                             }
                         }
 
@@ -374,7 +290,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
 
                         if (!createSocialPostResponse.ok) {
                             rejectSocialMediaPost = true;
-                            console.log("Failed to create social media post");
+                            logger.debug("Failed to create social media post");
                         } else {
                             await upsertSocialMediaPost(
                                 {
@@ -383,6 +299,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                 },
                                 orgId,
                             );
+                            await delay(2000);
                         }
 
                         if (rejectSocialMediaPost) {
