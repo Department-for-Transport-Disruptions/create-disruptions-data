@@ -7,8 +7,8 @@ import {
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
 import { getParameter, putParameter } from "../../data/ssm";
-import { HootsuiteMe, HootsuiteToken } from "../../interfaces";
 import { initiateRefreshAuth } from "../../middleware.api";
+import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
 
@@ -66,8 +66,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error(message);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const tokenResult: HootsuiteToken = await tokenResponse.json();
+        const tokenResult = hootsuiteTokenSchema.parse(await tokenResponse.json());
 
         const session = getSession(req);
         if (!session) {
@@ -86,8 +85,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error(message);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const userDetails: HootsuiteMe = await userDetailsResponse.json();
+        const userDetails = hootsuiteMeSchema.parse(await userDetailsResponse.json());
 
         const userId: string = userDetails.data.id;
 
