@@ -124,6 +124,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
         socialMediaPosts
             .filter((s) => s.status === SocialMediaPostStatus.pending)
             .map(async (socialMediaPost) => {
+                let rejectSocialMediaPost = false;
                 const refreshTokens = await getParametersByPath(`/social/${orgId}/hootsuite`);
 
                 if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
@@ -140,13 +141,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                     rt.Name?.includes(`${socialMediaPost.socialAccount}`),
                 );
                 if (!refreshToken) {
-                    await upsertSocialMediaPost(
-                        {
-                            ...socialMediaPost,
-                            status: SocialMediaPostStatus.rejected,
-                        },
-                        orgId,
-                    );
+                    rejectSocialMediaPost = true;
                     logger.debug("Refresh token is required when creating a social media post");
                 }
                 const [clientId, clientSecret] = await Promise.all([
@@ -155,13 +150,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 ]);
 
                 if (!clientId || !clientSecret) {
-                    await upsertSocialMediaPost(
-                        {
-                            ...socialMediaPost,
-                            status: SocialMediaPostStatus.rejected,
-                        },
-                        orgId,
-                    );
+                    rejectSocialMediaPost = true;
                     logger.debug("clientId and clientSecret must be defined");
                 }
 
@@ -174,13 +163,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                     const parsedTokenData = hootsuiteTokenSchema.safeParse(await responseToken.json());
                     let tokenResult;
                     if (!parsedTokenData.success) {
-                        await upsertSocialMediaPost(
-                            {
-                                ...socialMediaPost,
-                                status: SocialMediaPostStatus.rejected,
-                            },
-                            orgId,
-                        );
+                        rejectSocialMediaPost = true;
                         logger.debug("Could not parse data from hootsuite token endpoint");
                     } else {
                         tokenResult = parsedTokenData.data;
@@ -208,13 +191,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                 const parsedImageData = hootsuiteMediaSchema.safeParse(await responseImage.json());
                                 let image;
                                 if (!parsedImageData.success) {
-                                    await upsertSocialMediaPost(
-                                        {
-                                            ...socialMediaPost,
-                                            status: SocialMediaPostStatus.rejected,
-                                        },
-                                        orgId,
-                                    );
+                                    rejectSocialMediaPost = true;
                                     logger.debug("Could not parse data from hootsuite media endpoint");
                                 } else {
                                     image = parsedImageData.data;
@@ -246,13 +223,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                                 );
                                                 let imageState;
                                                 if (!parsedImageState.success) {
-                                                    await upsertSocialMediaPost(
-                                                        {
-                                                            ...socialMediaPost,
-                                                            status: SocialMediaPostStatus.rejected,
-                                                        },
-                                                        orgId,
-                                                    );
+                                                    rejectSocialMediaPost = true;
                                                     logger.debug(
                                                         "Could not parse data from hootsuite media by id endpoint",
                                                     );
@@ -268,13 +239,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                                     }
                                                 }
                                             } else {
-                                                await upsertSocialMediaPost(
-                                                    {
-                                                        ...socialMediaPost,
-                                                        status: SocialMediaPostStatus.rejected,
-                                                    },
-                                                    orgId,
-                                                );
+                                                rejectSocialMediaPost = true;
                                                 logger.debug("Cannot retrieve media details from hootsuite");
                                             }
                                         }
@@ -283,24 +248,12 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                             canUpload = true;
                                         }
                                     } else {
-                                        await upsertSocialMediaPost(
-                                            {
-                                                ...socialMediaPost,
-                                                status: SocialMediaPostStatus.rejected,
-                                            },
-                                            orgId,
-                                        );
+                                        rejectSocialMediaPost = true;
                                         logger.debug("Cannot upload image to hootsuite");
                                     }
                                 }
                             } else {
-                                await upsertSocialMediaPost(
-                                    {
-                                        ...socialMediaPost,
-                                        status: SocialMediaPostStatus.rejected,
-                                    },
-                                    orgId,
-                                );
+                                rejectSocialMediaPost = true;
                                 logger.debug("Cannot retrieve upload url from hootsuite");
                             }
                         }
@@ -325,13 +278,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         });
 
                         if (!createSocialPostResponse.ok) {
-                            await upsertSocialMediaPost(
-                                {
-                                    ...socialMediaPost,
-                                    status: SocialMediaPostStatus.rejected,
-                                },
-                                orgId,
-                            );
+                            rejectSocialMediaPost = true;
                             logger.debug("Failed to create social media post");
                         } else {
                             await upsertSocialMediaPost(
@@ -344,6 +291,11 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         }
                     }
                 } else {
+                    rejectSocialMediaPost = true;
+                    logger.debug("Could not retrieve token from Hootsuite");
+                }
+
+                if (rejectSocialMediaPost) {
                     await upsertSocialMediaPost(
                         {
                             ...socialMediaPost,
@@ -351,7 +303,6 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         },
                         orgId,
                     );
-                    logger.debug("Could not retrieve token from Hootsuite");
                 }
             }),
     );
