@@ -19,8 +19,10 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         const idToken = state?.toString() ? await getParameter(`/${state.toString()}/token`) : undefined;
         const refreshToken = state?.toString() ? await getParameter(`/${state.toString()}/refresh-token`) : undefined;
 
-        const clientId = await getParameter(`/social/hootsuite/client_id`);
-        const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
+        const [clientId, clientSecret] = await Promise.all([
+            getParameter(`/social/hootsuite/client_id`),
+            getParameter(`/social/hootsuite/client_secret`),
+        ]);
 
         if (!clientId || !clientSecret) {
             throw new Error("clientId and clientSecret must be defined");
