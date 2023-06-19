@@ -128,13 +128,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 const refreshTokens = await getParametersByPath(`/social/${orgId}/hootsuite`);
 
                 if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
-                    await upsertSocialMediaPost(
-                        {
-                            ...socialMediaPost,
-                            status: SocialMediaPostStatus.rejected,
-                        },
-                        orgId,
-                    );
+                    rejectSocialMediaPost = true;
                     logger.debug("Refresh token is required when creating a social media post");
                 }
                 const refreshToken = refreshTokens.Parameters?.find((rt) =>
