@@ -27,8 +27,12 @@ export const getHootsuiteData = async (
         const idToken = cookies[COOKIES_ID_TOKEN];
         const refreshToken = cookies[COOKIES_REFRESH_TOKEN];
 
-        const clientId = await getParameter(`/social/hootsuite/client_id`);
-        const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
+        const [clientId, clientSecret, keys] = await Promise.all([
+            getParameter(`/social/hootsuite/client_id`),
+            getParameter(`/social/hootsuite/client_secret`),
+            getParametersByPath(`/social/${orgId}/hootsuite`),
+        ]);
+
         if (!clientId || !clientSecret) {
             throw new Error("clientId and clientSecret must be defined");
         }
@@ -72,7 +76,6 @@ export const getHootsuiteData = async (
                     if (resp.ok) {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         const tokenResult: HootsuiteToken = await resp.json();
-                        const keys = await getParametersByPath(`/social/${orgId}/hootsuite`);
 
                         if (!keys || (refreshTokens && keys.Parameters?.length === 0)) {
                             throw new Error("Refresh token is required to fetch dropdown data");

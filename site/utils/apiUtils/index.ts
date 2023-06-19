@@ -147,8 +147,11 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                     );
                     logger.debug("Refresh token is required when creating a social media post");
                 }
-                const clientId = await getParameter(`/social/hootsuite/client_id`);
-                const clientSecret = await getParameter(`/social/hootsuite/client_secret`);
+                const [clientId, clientSecret] = await Promise.all([
+                    getParameter(`/social/hootsuite/client_id`),
+                    getParameter(`/social/hootsuite/client_secret`),
+                ]);
+
                 if (!clientId || !clientSecret) {
                     await upsertSocialMediaPost(
                         {
