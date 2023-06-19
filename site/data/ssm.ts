@@ -5,6 +5,8 @@ import {
     GetParameterResult,
     GetParametersByPathResult,
     GetParametersByPathCommand,
+    DeleteParameterResult,
+    DeleteParameterCommand,
 } from "@aws-sdk/client-ssm";
 import logger from "../utils/logger";
 
@@ -55,6 +57,27 @@ export const getParameter = async (name: string, withDecryption?: boolean): Prom
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to get parameter from ssm: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const deleteParameter = async (name: string): Promise<DeleteParameterResult> => {
+    logger.info("", {
+        context: "data.ssm",
+        message: "delete item from ssm",
+    });
+
+    try {
+        const input = {
+            Name: name,
+        };
+        const command = new DeleteParameterCommand(input);
+        return ssm.send(command);
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to delete parameter from ssm: ${error.stack || ""}`);
         }
 
         throw error;
