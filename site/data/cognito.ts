@@ -293,7 +293,7 @@ export const createUser = async (userData: AddUserSchema) => {
 export const getUsersInGroupAndOrg = async (orgId: string, groupName: string) => {
     logger.info("", {
         context: "data.cognito",
-        message: "Listing cognito users in an organisation in a group",
+        message: "Listing cognito users in an organisation and in a group",
     });
 
     try {
