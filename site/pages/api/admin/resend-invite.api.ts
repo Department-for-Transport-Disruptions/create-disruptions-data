@@ -15,7 +15,6 @@ export interface ResendUserApiRequest extends NextApiRequest {
 
 const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        console.log("testing----");
         const { username, group, orgId } = req.body;
 
         const session = getSession(req);
