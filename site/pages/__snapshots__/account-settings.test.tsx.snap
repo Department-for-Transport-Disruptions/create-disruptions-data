@@ -152,7 +152,7 @@ exports[`accountSettings > should render correctly 1`] = `
                     className="govuk-table__header align-middle"
                     scope="row"
                   >
-                    Admin area
+                    NaPTAN Adminarea
                   </th>
                   <td
                     className="govuk-table__cell align-middle"
