@@ -17,7 +17,7 @@ import {
 } from "../../constants";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { getHootsuiteToken } from "../../data/hoostuite";
-import { deleteParameter, getParameter, getParametersByPath, putParameter } from "../../data/ssm";
+import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
@@ -158,10 +158,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
 
                 const authToken = `Basic ${Buffer.from(credentials).toString("base64")}`;
                 const responseToken = await getHootsuiteToken(refreshToken?.Value || "", authToken);
-                await Promise.all([
-                    deleteParameter(`/social/hootsuite/client_id`),
-                    deleteParameter(`/social/hootsuite/client_secret`),
-                ]);
+
                 if (responseToken.ok) {
                     const parsedTokenData = hootsuiteTokenSchema.safeParse(await responseToken.json());
                     let tokenResult;

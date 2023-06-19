@@ -7,7 +7,7 @@ import {
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
-import { deleteParameter, getParameter, putParameter } from "../../data/ssm";
+import { getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
@@ -30,10 +30,6 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const authKey = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
-        await Promise.all([
-            deleteParameter(`/social/hootsuite/client_id`),
-            deleteParameter(`/social/hootsuite/client_secret`),
-        ]);
 
         const authToken = `Basic ${Buffer.from(authKey).toString("base64")}`;
 

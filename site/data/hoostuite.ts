@@ -1,7 +1,7 @@
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
-import { deleteParameter, getParameter, getParametersByPath, putParameter } from "./ssm";
+import { getParameter, getParametersByPath, putParameter } from "./ssm";
 import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, HOOTSUITE_URL } from "../constants";
 import { hootsuiteMeSchema, hootsuiteTokenSchema, hootsuiteSocialProfilesSchema } from "../schemas/hootsuite.schema";
 import { HootsuiteProfiles, SocialMediaAccountsSchema } from "../schemas/social-media-accounts.schema";
@@ -46,10 +46,6 @@ export const getHootsuiteData = async (
         clientIdValue = clientId.Parameter?.Value || "";
         const key = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
-        await Promise.all([
-            deleteParameter(`/social/hootsuite/client_id`),
-            deleteParameter(`/social/hootsuite/client_secret`),
-        ]);
         const authToken = `Basic ${Buffer.from(key).toString("base64")}`;
 
         if (idToken && refreshToken)
