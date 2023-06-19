@@ -101,7 +101,7 @@ export const getHootsuiteData = async (
                                 accountType: token.accountType || "",
                                 addedBy: token.addedBy || "",
                                 expiresIn: "Never",
-                            } as SocialMediaAccountsSchema[0];
+                            };
 
                             const socialProfilesResponse = await fetch(`${HOOTSUITE_URL}v1/socialProfiles`, {
                                 method: "GET",
@@ -118,13 +118,14 @@ export const getHootsuiteData = async (
                                     ...userData,
                                     {
                                         ...extraInfo,
-                                        hootsuiteProfiles: (socialProfiles.data?.map((sp: HootsuiteProfiles[0]) => ({
-                                            type: sp.type,
-                                            socialNetworkId: sp.socialNetworkId,
-                                            id: sp.id,
-                                        })) ?? []) as HootsuiteProfiles,
+                                        hootsuiteProfiles:
+                                            socialProfiles.data?.map((sp: HootsuiteProfiles[0]) => ({
+                                                type: sp.type,
+                                                socialNetworkId: sp.socialNetworkId,
+                                                id: sp.id,
+                                            })) ?? [],
                                     },
-                                ] as SocialMediaAccountsSchema;
+                                ];
                             }
                         }
                     }
