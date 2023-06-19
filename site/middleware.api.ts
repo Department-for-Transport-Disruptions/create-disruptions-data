@@ -190,10 +190,20 @@ export async function middleware(request: NextRequest) {
                 issuer: process.env.COGNITO_ISSUER,
                 algorithms: ["RS256"],
             });
+            const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
+
+            if (
+                groups.includes(UserGroups.systemAdmins) &&
+                !(
+                    request.nextUrl.pathname.startsWith("/sysadmin/") ||
+                    request.nextUrl.pathname.startsWith("/api/sysadmin/") ||
+                    allowedRoutesForSysadmin.includes(request.nextUrl.pathname)
+                )
+            ) {
+                return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+            }
 
             if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
-                const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
-
                 if (!groups.includes(UserGroups.orgAdmins)) {
                     if (!groups.includes(UserGroups.systemAdmins)) {
                         return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
@@ -205,8 +215,6 @@ export async function middleware(request: NextRequest) {
                 request.nextUrl.pathname.startsWith("/sysadmin/") ||
                 request.nextUrl.pathname.startsWith("/api/sysadmin/")
             ) {
-                const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
-
                 if (!groups.includes(UserGroups.systemAdmins)) {
                     return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
                 }
