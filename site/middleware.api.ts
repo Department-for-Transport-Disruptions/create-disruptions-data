@@ -156,7 +156,6 @@ export async function middleware(request: NextRequest) {
     if (
         request.nextUrl.pathname &&
         unauthenticatedRoutes.every((route) => !request.nextUrl.pathname.startsWith(route)) &&
-        !request.nextUrl.pathname.startsWith("/api/hootsuite-callback") &&
         request.nextUrl.pathname !== "/"
     ) {
         const signOutUserAndRedirectToLogin = async (username?: string) => {
