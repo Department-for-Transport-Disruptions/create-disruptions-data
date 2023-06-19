@@ -7,7 +7,7 @@ import {
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
-import { getParameter, putParameter } from "../../data/ssm";
+import { deleteParameter, getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
@@ -17,12 +17,20 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const { code, state } = req.query;
 
-        const idToken = state?.toString() ? await getParameter(`/${state.toString()}/token`) : undefined;
-        const refreshToken = state?.toString() ? await getParameter(`/${state.toString()}/refresh-token`) : undefined;
+        if (!state || !code) {
+            throw new Error("State and code must be provided");
+        }
+
+        const [idToken, refreshToken] = await Promise.all([
+            getParameter(`/${state.toString()}/token`),
+            getParameter(`/${state.toString()}/refresh-token`),
+        ]);
 
         const [clientId, clientSecret] = await Promise.all([
             getParameter(`/social/hootsuite/client_id`),
             getParameter(`/social/hootsuite/client_secret`),
+            deleteParameter(`/${state.toString()}/token`),
+            deleteParameter(`/${state.toString()}/refresh-token`),
         ]);
 
         if (!clientId || !clientSecret) {
@@ -55,7 +63,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             method: "POST",
             body: new URLSearchParams({
                 grant_type: "authorization_code",
-                code: code?.toString() ?? "",
+                code: code.toString() ?? "",
                 redirect_uri: `http://localhost:3000/api/hootsuite-callback`,
             }),
             headers: {
