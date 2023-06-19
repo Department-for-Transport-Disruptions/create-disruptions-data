@@ -16,6 +16,7 @@ import {
     HOOTSUITE_URL,
 } from "../../constants";
 import { upsertSocialMediaPost } from "../../data/dynamo";
+import { getHootsuiteToken } from "../../data/hoostuite";
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
@@ -167,22 +168,25 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 const credentials = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
                 const authToken = `Basic ${Buffer.from(credentials).toString("base64")}`;
-                const responseToken = await fetch(`${HOOTSUITE_URL}oauth2/token`, {
-                    method: "POST",
-                    body: new URLSearchParams({
-                        grant_type: "refresh_token",
-                        refresh_token: refreshToken?.Value ?? "",
-                    }),
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        Authorization: authToken,
-                    },
-                });
+                const responseToken = await getHootsuiteToken(refreshToken?.Value || "", authToken);
 
                 if (responseToken.ok) {
-                    const tokenResult = hootsuiteTokenSchema.parse(await responseToken.json());
+                    const parsedTokenData = hootsuiteTokenSchema.safeParse(await responseToken.json());
+                    let tokenResult;
+                    if (!parsedTokenData.success) {
+                        await upsertSocialMediaPost(
+                            {
+                                ...socialMediaPost,
+                                status: SocialMediaPostStatus.rejected,
+                            },
+                            orgId,
+                        );
+                        logger.debug("Could not parse data from hootsuite token endpoint");
+                    } else {
+                        tokenResult = parsedTokenData.data;
+                    }
                     const key = refreshToken?.Name || "";
-                    await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
+                    await putParameter(key, tokenResult?.refresh_token ?? "", "SecureString", true);
 
                     let imageLink = { id: "", url: "" };
                     let canUpload = false;
@@ -196,14 +200,27 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                             }),
                             headers: {
                                 "Content-Type": "application/json",
-                                Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                                Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                             },
                         });
 
                         if (responseImage.ok) {
-                            const image = hootsuiteMediaSchema.parse(await responseImage.json());
+                            const parsedImageData = hootsuiteMediaSchema.safeParse(await responseImage.json());
+                            let image;
+                            if (!parsedImageData.success) {
+                                await upsertSocialMediaPost(
+                                    {
+                                        ...socialMediaPost,
+                                        status: SocialMediaPostStatus.rejected,
+                                    },
+                                    orgId,
+                                );
+                                logger.debug("Could not parse data from hootsuite media endpoint");
+                            } else {
+                                image = parsedImageData.data;
+                            }
                             const imageContents = await readFile(socialMediaPost.image.filepath || "");
-                            imageLink = { url: image.data.uploadUrl, id: image.data.id };
+                            imageLink = { url: image?.data?.uploadUrl ?? "", id: image?.data?.id ?? "" };
 
                             const uploadResponse = await fetch(imageLink.url, {
                                 method: "PUT",
@@ -217,13 +234,27 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                     const imageStatus = await fetch(`${HOOTSUITE_URL}v1/media/${imageLink.id}`, {
                                         method: "GET",
                                         headers: {
-                                            Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                                            Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                                         },
                                     });
                                     if (imageStatus.ok) {
-                                        const imageState = hootsuiteMediaStatusSchema.parse(await imageStatus.json());
-
-                                        if (imageState.data.state === "READY") {
+                                        const parsedImageState = hootsuiteMediaStatusSchema.safeParse(
+                                            await imageStatus.json(),
+                                        );
+                                        let imageState;
+                                        if (!parsedImageState.success) {
+                                            await upsertSocialMediaPost(
+                                                {
+                                                    ...socialMediaPost,
+                                                    status: SocialMediaPostStatus.rejected,
+                                                },
+                                                orgId,
+                                            );
+                                            logger.debug("Could not parse data from hootsuite media by id endpoint");
+                                        } else {
+                                            imageState = parsedImageState.data;
+                                        }
+                                        if (imageState?.data?.state === "READY") {
                                             canUpload = true;
 
                                             break;
@@ -242,7 +273,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                     }
                                 }
                                 if (!canUpload) {
-                                    await delay(5000);
+                                    await delay(3000);
                                     canUpload = true;
                                 }
                             } else {
@@ -282,7 +313,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         }),
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
+                            Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                         },
                     });
 

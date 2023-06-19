@@ -15,12 +15,13 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { getHootsuiteData } from "../../../data/hoostuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, handleBlur } from "../../../utils/formUtils";
-import { getHootsuiteData } from "../../admin/social-media-accounts.page";
+
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
