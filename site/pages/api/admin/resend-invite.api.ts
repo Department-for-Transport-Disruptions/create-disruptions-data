@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import { SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser, deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
 import { user } from "../../../schemas/user-management.schema";
 import { redirectTo, redirectToError } from "../../../utils/apiUtils";
@@ -9,12 +9,13 @@ export interface ResendUserApiRequest extends NextApiRequest {
     body: {
         username: string;
         group: string;
+        orgId?: string;
     };
 }
 
 const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { username, group } = req.body;
+        const { username, group, orgId } = req.body;
 
         const session = getSession(req);
         if ((session && !session.orgId) || !session || !username || !group) {
@@ -41,7 +42,7 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
 
         await createUser(validatedBody.data);
 
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+        redirectTo(res, orgId ? `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgId}` : USER_MANAGEMENT_PAGE_PATH);
         return;
     } catch (error) {
         const message = "There was a problem resending an invite.";

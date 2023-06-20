@@ -1,7 +1,8 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
+import { randomUUID } from "crypto";
 import resendInvite from "./resend-invite.api";
-import { ERROR_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import { ERROR_PATH, SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
 
@@ -71,6 +72,57 @@ describe("resend-invite", () => {
 
         expect(createUserSpy).toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
+    });
+
+    it("should redirect to /sysadmin/users if resend was a success and request received from add admin users page", async () => {
+        deleteAdminUserSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+            }),
+        );
+
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+                UserStatus: "FORCE_CHANGE_PASSWORD",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: DEFAULT_ORG_ID,
+                    },
+                    {
+                        Name: "given_name",
+                        Value: "dummy",
+                    },
+                    {
+                        Name: "family_name",
+                        Value: "user",
+                    },
+                    {
+                        Name: "email",
+                        Value: "dummy.user@gmail.com",
+                    },
+                ],
+            }),
+        );
+
+        const randomId = randomUUID();
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+                group: UserGroups.systemAdmins,
+                orgId: randomId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await resendInvite(req, res);
+
+        expect(createUserSpy).toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
     it("should redirect to /500 if organisation ids do not match", async () => {

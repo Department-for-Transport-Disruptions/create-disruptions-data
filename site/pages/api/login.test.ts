@@ -1,9 +1,17 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { describe, it, expect, afterEach, vi } from "vitest";
+import { randomUUID } from "crypto";
 import login from "./login.api";
-import { COOKIES_LOGIN_ERRORS, DASHBOARD_PAGE_PATH, ERROR_PATH, LOGIN_PAGE_PATH } from "../../constants";
+import {
+    COOKIES_LOGIN_ERRORS,
+    DASHBOARD_PAGE_PATH,
+    ERROR_PATH,
+    LOGIN_PAGE_PATH,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
+} from "../../constants";
 import * as cognito from "../../data/cognito";
 import { ErrorInfo } from "../../interfaces";
+import { sessionSchema } from "../../schemas/session.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 
@@ -16,9 +24,14 @@ describe("login", () => {
     }));
 
     const initiateAuthSpy = vi.spyOn(cognito, "initiateAuth");
+    const schemaSpy = vi.spyOn(sessionSchema, "parse");
 
     vi.mock("../../data/cognito", () => ({
         initiateAuth: vi.fn(),
+    }));
+
+    vi.mock("jose", () => ({
+        decodeJwt: vi.fn(),
     }));
 
     afterEach(() => {
@@ -57,6 +70,17 @@ describe("login", () => {
             }),
         );
 
+        schemaSpy.mockImplementation(() => ({
+            username: "dummy-user",
+            email: "dummuser@gmail.com",
+            orgId: randomUUID(),
+            name: "dummy",
+            isSystemAdmin: false,
+            isOrgAdmin: false,
+            isOrgPublisher: true,
+            isOrgStaff: false,
+        }));
+
         const { req, res } = getMockRequestAndResponse({
             body: {
                 email: "dummyUser@gmail.com",
@@ -70,6 +94,43 @@ describe("login", () => {
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
+    });
+
+    it("should redirect to /manage-organisations page for an admin user", async () => {
+        initiateAuthSpy.mockImplementation(() =>
+            Promise.resolve({
+                $metadata: {},
+                AuthenticationResult: {
+                    IdToken: "test",
+                    RefreshToken: "test",
+                },
+            }),
+        );
+
+        schemaSpy.mockImplementation(() => ({
+            username: "dummy-user",
+            email: "dummuser@gmail.com",
+            orgId: randomUUID(),
+            name: "dummy",
+            isSystemAdmin: true,
+            isOrgAdmin: false,
+            isOrgPublisher: false,
+            isOrgStaff: false,
+        }));
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                email: "dummyUser@gmail.com",
+                password: "dummyPassword",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await login(req, res);
+
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH });
     });
 
     it("should redirect to error page when invalid auth response is received", async () => {

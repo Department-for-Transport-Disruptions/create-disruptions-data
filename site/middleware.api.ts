@@ -15,7 +15,13 @@ import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Buffer } from "buffer";
 import crypto from "crypto";
-import { COOKIES_ID_TOKEN, COOKIES_REFRESH_TOKEN, DASHBOARD_PAGE_PATH, LOGIN_PAGE_PATH } from "./constants";
+import {
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+    DASHBOARD_PAGE_PATH,
+    LOGIN_PAGE_PATH,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
+} from "./constants";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -140,6 +146,8 @@ const unauthenticatedRoutes = [
     "/404",
 ];
 
+const allowedRoutesForSysadmin = ["/api/admin/resend-invite", "/api/admin/delete-user"];
+
 const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`), {
     timeoutDuration: 10000,
 });
@@ -186,11 +194,32 @@ export async function middleware(request: NextRequest) {
                 issuer: process.env.COGNITO_ISSUER,
                 algorithms: ["RS256"],
             });
+            const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
+
+            if (
+                groups.includes(UserGroups.systemAdmins) &&
+                !(
+                    request.nextUrl.pathname.startsWith("/sysadmin/") ||
+                    request.nextUrl.pathname.startsWith("/api/sysadmin/") ||
+                    allowedRoutesForSysadmin.includes(request.nextUrl.pathname)
+                )
+            ) {
+                return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+            }
 
             if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
-                const groups = z.array(z.nativeEnum(UserGroups)).parse(decodedToken.payload["cognito:groups"]);
-
-                if (!groups.includes(UserGroups.systemAdmins) && !groups.includes(UserGroups.orgAdmins)) {
+                if (!groups.includes(UserGroups.orgAdmins)) {
+                    if (!groups.includes(UserGroups.systemAdmins)) {
+                        return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                    } else if (allowedRoutesForSysadmin.every((route) => !request.nextUrl.pathname.startsWith(route))) {
+                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+                    }
+                }
+            } else if (
+                request.nextUrl.pathname.startsWith("/sysadmin/") ||
+                request.nextUrl.pathname.startsWith("/api/sysadmin/")
+            ) {
+                if (!groups.includes(UserGroups.systemAdmins)) {
                     return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
                 }
             }

@@ -11,3 +11,6 @@ export const addUserSchema = z.object({
 });
 
 export type AddUserSchema = z.infer<typeof addUserSchema>;
+
+export const addUsersSchema = z.array(addUserSchema);
+export type AddUsersSchema = z.infer<typeof addUsersSchema>;

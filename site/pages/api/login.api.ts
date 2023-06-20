@@ -1,4 +1,5 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
+import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ID_TOKEN,
@@ -6,9 +7,11 @@ import {
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
+    SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
 } from "../../constants";
 import { initiateAuth } from "../../data/cognito";
 import { loginSchema } from "../../schemas/login.schema";
+import { sessionSchema } from "../../schemas/session.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     redirectToError,
@@ -53,7 +56,13 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
             message: "login successful",
         });
 
+        const session = sessionSchema.parse(decodeJwt(idToken));
         destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, res);
+
+        if (session?.isSystemAdmin) {
+            redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH);
+            return;
+        }
         redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
