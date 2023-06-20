@@ -403,76 +403,14 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               className="govuk-table__cell align-middle"
             >
               <p>
-                ask@iverpoolcityregion-ca-gov.uk
+                testemail@gmail.com
               </p>
             </td>
             <td
               className="govuk-table__cell align-middle"
             >
               <p>
-                Chris Cavanagh
-              </p>
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <p>
-                Never
-              </p>
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <li
-                className="list-none"
-              >
-                <a
-                  className="govuk-link text-govBlue"
-                  href="https://twitter.com/intent/user?user_id=1234567/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Twitter/43308270
-                </a>
-              </li>
-              <li
-                className="list-none"
-              >
-                <a
-                  className="govuk-link text-govBlue"
-                  href="https://twitter.com/intent/user?user_id=1234567/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  Twitter/29669438
-                </a>
-              </li>
-            </td>
-          </tr>
-          <tr
-            className="govuk-table__row"
-          >
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <p>
-                Hootsuite
-              </p>
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <p>
-                2ask@iverpoolcityregion-ca-gov.uk
-              </p>
-            </td>
-            <td
-              className="govuk-table__cell align-middle"
-            >
-              <p>
-                Anna Simpson
+                Test Account
               </p>
             </td>
             <td
@@ -490,12 +428,25 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link text-govBlue"
-                  href="https://twitter.com/intent/user?user_id=1234567/"
+                  href="https://twitter.com/intent/user?user_id=1560718270506380122/"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Twitter/43308888
+                  Twitter/188295022
+                </a>
+              </li>
+              <li
+                className="list-none"
+              >
+                <a
+                  className="govuk-link text-govBlue"
+                  href="https://www.facebook.com/app_scoped_user_id/990838348810590/"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  Facebook/138296272
                 </a>
               </li>
             </td>

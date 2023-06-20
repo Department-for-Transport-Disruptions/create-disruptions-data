@@ -167,7 +167,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
-                      value="13/01/2022"
+                      value="19/06/2023"
                     />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                 >
                   <button
-                    aria-label="Choose date, selected date is Jan 13, 2022"
+                    aria-label="Choose date, selected date is Jun 19, 2023"
                     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                     disabled={false}
                     onBlur={[Function]}
@@ -235,7 +235,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 <input
                   aria-describedby="publish-time-hint"
                   className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="1300"
+                  defaultValue="1805"
                   disabled={false}
                   id="publish-time-input"
                   name="publishTime"
@@ -270,7 +270,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 >
                   <select
                     className="govuk-select w-3/4"
-                    defaultValue="Twitter"
+                    defaultValue="13958638"
                     id="social-account-input"
                     name="socialAccount"
                     onBlur={[Function]}
@@ -280,6 +280,11 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       value=""
                     >
                       Social account
+                    </option>
+                    <option
+                      value="25858639"
+                    >
+                      testemail@gmail.com
                     </option>
                   </select>
                 </div>
@@ -308,7 +313,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   <select
                     aria-describedby="hootsuiteProfile-hint"
                     className="govuk-select w-3/4"
-                    defaultValue="Twitter/1234"
+                    defaultValue="127196025"
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
                     onBlur={[Function]}
