@@ -2,7 +2,7 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError, zodDate, zodTime } from "../utils";
-import { getDatetimeFromDateAndTime } from "../utils/dates";
+import { getDatetimeFromDateAndTime, isAtLeast5MinutesAfter } from "../utils/dates";
 
 export const socialMediaPostSchema = z.object({
     disruptionId: z.string().uuid(),
@@ -43,10 +43,10 @@ export const refineImageSchema = socialMediaPostSchema
         (item) =>
             item.publishDate &&
             item.publishTime &&
-            getDatetimeFromDateAndTime(item.publishDate, item.publishTime).isSameOrAfter(new Date()),
+            isAtLeast5MinutesAfter(getDatetimeFromDateAndTime(item.publishDate, item.publishTime)),
         {
             path: ["publishDate"],
-            message: "Publish date/time must be in the future.",
+            message: "Publish date/time must be at least 5 minutes into the future.",
         },
     );
 

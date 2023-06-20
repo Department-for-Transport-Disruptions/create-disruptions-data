@@ -11,6 +11,7 @@ import {
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
     DEFAULT_ORG_ID,
+    disruptionWithConsequences,
 } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -47,7 +48,7 @@ describe("publish", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -60,7 +61,7 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
-            disruptionWithConsequencesAndSocialMediaPosts,
+            disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "test@example.com",

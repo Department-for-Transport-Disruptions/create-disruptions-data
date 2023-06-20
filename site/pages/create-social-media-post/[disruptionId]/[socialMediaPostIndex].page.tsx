@@ -15,6 +15,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { getHootsuiteData } from "../../../data/hoostuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -28,6 +29,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     disruptionSummary: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
+    socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -166,7 +168,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                             <Select<SocialMediaPost>
                                 inputName="socialAccount"
-                                selectValues={[{ value: "TWITTER", display: "Twitter" }]}
+                                selectValues={props.socialAccounts.map((account) => ({
+                                    value: account.value,
+                                    display: account.display,
+                                }))}
                                 defaultDisplay="Social account"
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.socialAccount}
@@ -180,7 +185,11 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 defaultDisplay="Social account"
                                 hint={"Select Hootsuite profile"}
                                 display={""}
-                                selectValues={[{ value: "hootsuite1", display: "Hootsuite 1" }]}
+                                selectValues={
+                                    props.socialAccounts?.find(
+                                        (account) => account.value === pageState.inputs.socialAccount,
+                                    )?.socialMediaProfiles || []
+                                }
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.hootsuiteProfile}
                                 initialErrors={pageState.errors}
@@ -232,11 +241,23 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
 
+    const { userData } = await getHootsuiteData(ctx, session.username, session.orgId);
+
+    const socialAccounts = userData?.map((info) => ({
+        value: info.id,
+        display: info.email,
+        socialMediaProfiles: info.hootsuiteProfiles.map((smp) => ({
+            value: smp.id,
+            display: `${smp.type}/${smp.id}`,
+        })),
+    }));
+
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
+            socialAccounts,
         },
     };
 };

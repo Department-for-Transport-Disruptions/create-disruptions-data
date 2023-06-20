@@ -1,51 +1,57 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, ReactNode } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import { HOOTSUITE_URL } from "../../constants";
+import { getHootsuiteData } from "../../data/hoostuite";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
+import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
 
 export interface SocialMediaAccountsPageProps {
     socialMediaData: SocialMediaAccountsSchema;
+    username: string;
+    clientId: string;
 }
 
-const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps): ReactElement => {
+const SocialMediaAccounts = ({ socialMediaData, username, clientId }: SocialMediaAccountsPageProps): ReactElement => {
     const getLink = (type: string, id: string) => {
-        switch (type) {
+        switch (type.toLocaleUpperCase()) {
             case "TWITTER":
-                return `https://twitter.com/${id}/`;
+                return `https://twitter.com/intent/user?user_id=${id}/`;
             case "FACEBOOK":
-                return `https://facebook.com/${id}/`;
+                return `https://www.facebook.com/app_scoped_user_id/${id}/`;
             default:
                 return "";
         }
     };
 
     const getRows = () => {
-        return socialMediaData.map((item) => ({
-            cells: [
-                ...Object.values(item)
-                    .splice(0, Object.values(item).length - 1)
-                    .map((value, i) => <p key={i}>{value as string}</p>),
-                item.hootsuiteProfiles.map((profile) => (
-                    <Fragment key={profile.id}>
-                        <li className="list-none">
-                            <Link
-                                className="govuk-link text-govBlue"
-                                key={`${toLowerStartCase(profile.type)}/${profile.id}`}
-                                href={getLink(profile.type, profile.id)}
-                            >
-                                {`${toLowerStartCase(profile.type)}/${profile.id}`}
-                            </Link>
-                        </li>
-                    </Fragment>
-                )),
-            ],
-        }));
+        const keys = ["accountType", "email", "addedBy", "expiresIn"];
+        return socialMediaData.length > 0
+            ? socialMediaData.map((item: SocialMediaAccountsSchema[0]) => ({
+                  cells: [
+                      ...keys.map((k) => <p key={k}>{item[k as keyof SocialMediaAccountsSchema[0]] as ReactNode}</p>),
+                      item.hootsuiteProfiles.map((profile) => (
+                          <Fragment key={profile.id}>
+                              <li className="list-none">
+                                  <Link
+                                      className="govuk-link text-govBlue"
+                                      key={`${toLowerStartCase(profile.type)}/${profile.id}`}
+                                      href={getLink(profile.type, profile.socialNetworkId)}
+                                  >
+                                      {`${toLowerStartCase(profile.type)}/${profile.id}`}
+                                  </Link>
+                              </li>
+                          </Fragment>
+                      )),
+                  ],
+              }))
+            : [];
     };
 
     return (
@@ -56,41 +62,32 @@ const SocialMediaAccounts = ({ socialMediaData }: SocialMediaAccountsPageProps):
                     columns={["Account type", "Username/page", "Added by", "Expires in", "Hootsuite Profiles"]}
                     rows={getRows()}
                 />
-                <button className="govuk-button mt-8" data-module="govuk-button">
+                <Link
+                    className="govuk-button mt-8"
+                    data-module="govuk-button"
+                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
+                >
                     Connect hootsuite
-                </button>
+                </Link>
             </>
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: SocialMediaAccountsPageProps } => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: SocialMediaAccountsPageProps }> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
 
-    const data = [
-        {
-            accountType: "Hootsuite",
-            usernamePage: "ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Chris Cavanagh",
-            expiresIn: "Never",
-            hootsuiteProfiles: [
-                { type: "TWITTER", id: "43308270" },
-                { type: "TWITTER", id: "29669438" },
-            ],
-        },
-        {
-            accountType: "Hootsuite",
-            usernamePage: "2ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Anna Simpson",
-            expiresIn: "Never",
-            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888" }],
-        },
-    ];
+    const session = await getSessionWithOrgDetail(ctx.req);
 
+    if (!session) {
+        throw new Error("Session data not found");
+    }
+
+    const { clientId, userData } = await getHootsuiteData(ctx, session.username, session.orgId);
     return {
-        props: { socialMediaData: data },
+        props: { socialMediaData: userData, username: session.username, clientId },
     };
 };
 

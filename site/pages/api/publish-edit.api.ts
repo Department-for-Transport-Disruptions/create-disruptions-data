@@ -13,7 +13,13 @@ import {
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
-import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
+import {
+    cleardownCookies,
+    publishToHootsuite,
+    redirectTo,
+    redirectToError,
+    setCookieOnResponseObject,
+} from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
@@ -84,6 +90,13 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                   session.name,
               );
 
+        if (
+            validatedDisruptionBody.data.socialMediaPosts &&
+            validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
+            canPublish(session)
+        ) {
+            await publishToHootsuite(validatedDisruptionBody.data.socialMediaPosts, session.orgId);
+        }
         cleardownCookies(req, res);
 
         redirectTo(res, "/dashboard");

@@ -20,6 +20,7 @@
         "@aws-sdk/client-cognito-identity-provider": "^3.338.0",
         "@aws-sdk/client-s3": "^3.338.0",
         "@aws-sdk/client-ses": "^3.338.0",
+        "@aws-sdk/client-ssm": "^3.350.0",
         "@aws-sdk/s3-request-presigner": "^3.338.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@emotion/react": "^11.10.6",
@@ -96,6 +97,6 @@
         "sass": "^1.57.1",
         "tailwindcss": "^3.2.4",
         "vitest": "^0.29.1",
-        "winston": "^3.8.2"
+        "winston": "^3.9.0"
     }
 }
