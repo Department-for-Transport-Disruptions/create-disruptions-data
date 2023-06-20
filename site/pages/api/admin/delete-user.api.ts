@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import { SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
 import { deleteUser as user } from "../../../schemas/user-management.schema";
 import { redirectTo, redirectToError } from "../../../utils/apiUtils";
@@ -8,12 +8,13 @@ import { getSession } from "../../../utils/apiUtils/auth";
 export interface DeleteUserApiRequest extends NextApiRequest {
     body: {
         username: string;
+        orgId?: string;
     };
 }
 
 const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { username } = req.body;
+        const { username, orgId } = req.body;
 
         const session = getSession(req);
         if ((session && !session.orgId) || !session || !username) {
@@ -30,7 +31,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
 
         await deleteCognitoUser(username);
 
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+        redirectTo(res, orgId ? `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgId}` : USER_MANAGEMENT_PAGE_PATH);
         return;
     } catch (error) {
         const message = "There was a problem deleting a user.";

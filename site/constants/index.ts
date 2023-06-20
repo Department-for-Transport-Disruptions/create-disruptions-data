@@ -266,6 +266,8 @@ export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
 export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
+export const SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH = "/sysadmin/manage-organisations";
+export const SYSADMIN_ADD_USERS_PAGE_PATH = "/sysadmin/users";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -277,6 +279,7 @@ export const COOKIES_CONSEQUENCE_SERVICES_ERRORS = "cdd-consequence-services-err
 export const COOKIES_LOGIN_ERRORS = "cdd-login-errors";
 export const COOKIES_CHANGE_PASSWORD_ERRORS = "cdd-change-password-errors";
 export const COOKIES_ADD_USER_ERRORS = "cdd-add-user-errors";
+export const COOKIES_ADD_ADMIN_USER_ERRORS = "cdd-add-admin-user-errors";
 export const COOKIES_REGISTER_ERRORS = "cdd-register-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
