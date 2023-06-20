@@ -255,8 +255,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                             }
                                         }
                                         if (!canUpload) {
-                                            await delay(4000);
-                                            canUpload = true;
+                                            await delay(3000);
                                         }
                                     } else {
                                         rejectSocialMediaPost = true;
@@ -299,7 +298,6 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                 },
                                 orgId,
                             );
-                            await delay(2000);
                         }
 
                         if (rejectSocialMediaPost) {
