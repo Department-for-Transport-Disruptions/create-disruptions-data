@@ -403,8 +403,7 @@ export const disruptionWithConsequences: Disruption = {
 };
 
 export const disruptionWithConsequencesAndSocialMediaPosts: Disruption = {
-    ...disruptionWithNoConsequences,
-    consequences: [consequenceInfoNetworkTest, consequenceInfoOperatorTest],
+    ...disruptionWithConsequences,
     socialMediaPosts: socialMediaPostsInformation,
 };
 
