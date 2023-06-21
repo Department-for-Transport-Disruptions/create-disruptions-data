@@ -13,7 +13,7 @@ import {
     DEFAULT_ORG_ID,
     disruptionWithConsequences,
 } from "../../testData/mockData";
-
+import * as apiUtils from "../../utils/apiUtils";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 describe("publish", () => {
@@ -23,6 +23,7 @@ describe("publish", () => {
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
         cleardownCookies: vi.fn(),
+        publishToHootsuite: vi.fn(),
     }));
 
     vi.mock("../../data/dynamo", () => ({
@@ -38,6 +39,7 @@ describe("publish", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const publishToHootsuiteSpy = vi.spyOn(apiUtils, "publishToHootsuite");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -62,6 +64,35 @@ describe("publish", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+            "test@example.com",
+            "Disruption created and published",
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect with social media", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        publishToHootsuiteSpy.mockResolvedValue();
+
+        await publish(req, res);
+
+        expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
+            DEFAULT_ORG_ID,
+        );
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "test@example.com",
