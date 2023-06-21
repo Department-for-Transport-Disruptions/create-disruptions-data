@@ -5,8 +5,6 @@ export const hootsuiteTokenSchema = z.object({
     access_token: z.string(),
 });
 
-export type HootsuiteToken = z.infer<typeof hootsuiteMeSchema>;
-
 export const hootsuiteMeSchema = z.object({
     data: z.object({
         id: z.string(),

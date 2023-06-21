@@ -1,4 +1,3 @@
-import * as jose from "jose";
 import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -44,7 +43,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!idToken?.Parameter?.Value) {
             throw new Error("idToken must be defined");
         }
-        const decodedToken = jose.decodeJwt(idToken?.Parameter?.Value);
+        const decodedToken = decodeJwt(idToken?.Parameter?.Value);
         const username = (decodedToken["cognito:username"] as string) ?? null;
         if (refreshToken?.Parameter?.Value) {
             setCookieOnResponseObject(COOKIES_REFRESH_TOKEN, refreshToken?.Parameter?.Value, res);
