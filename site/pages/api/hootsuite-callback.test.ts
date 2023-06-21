@@ -20,9 +20,6 @@ describe("hootsuite-callback", () => {
         vi.resetAllMocks();
     });
 
-    function createFetchResponse(data) {
-        return { json: () => new Promise((resolve) => resolve(data)) };
-    }
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
