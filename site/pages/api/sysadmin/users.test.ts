@@ -91,7 +91,7 @@ describe("createAdminUser", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
-    it("should redirect to /add-user page with appropriate errors when emmail id that is already registered is passed", async () => {
+    it("should redirect to /add-user page with appropriate errors when email id that is already registered is passed", async () => {
         createUserSpy.mockImplementation(() => {
             throw new UsernameExistsException({ message: "Username already exists", $metadata: {} });
         });
