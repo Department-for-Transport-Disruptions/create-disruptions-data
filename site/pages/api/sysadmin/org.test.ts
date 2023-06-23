@@ -31,7 +31,7 @@ describe("manageOrg", () => {
         adminAreaCodes: "001,002",
     };
 
-    it("should redirect to /sysadmin/org page when no inputs are passed", async () => {
+    it(`should redirect to ${SYSADMIN_ADD_ORG_PAGE_PATH} page when no inputs are passed`, async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {},
             mockWriteHeadFn: writeHeadMock,
@@ -52,7 +52,7 @@ describe("manageOrg", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_ADD_ORG_PAGE_PATH });
     });
 
-    it("should redirect to /sysadmin/users page without errors when valid inputs are passed", async () => {
+    it(`should redirect to ${SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH} page without errors when valid inputs are passed`, async () => {
         const { req, res } = getMockRequestAndResponse({
             body: defaultInput,
             mockWriteHeadFn: writeHeadMock,
@@ -65,7 +65,7 @@ describe("manageOrg", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH });
     });
 
-    it("should redirect to /sysadmin/users page without errors when valid inputs are passed along with orgId", async () => {
+    it(`should redirect to ${SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH} page without errors when valid inputs are passed along with orgId`, async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultInput, PK: randomUUID() },
             mockWriteHeadFn: writeHeadMock,
