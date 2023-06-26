@@ -2,6 +2,7 @@ import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
+import { defaultModes } from "../../schemas/organisation.schema";
 
 const blankInputs: CreateConsequenceStopsProps = {
     errors: [],
@@ -44,6 +45,7 @@ const withInputs: CreateConsequenceStopsProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
 };
 
@@ -83,6 +85,7 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
 };
 
