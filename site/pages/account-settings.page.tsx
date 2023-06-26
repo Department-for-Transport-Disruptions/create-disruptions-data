@@ -32,12 +32,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                       "X-CSRF-TOKEN": csrfToken,
                   }
                 : { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                PK: sessionWithOrg.orgId,
-                adminAreaCodes: sessionWithOrg.adminAreaCodes,
-                mode: { ...mode, [key]: value },
-                name: sessionWithOrg.name,
-            }),
+            body: JSON.stringify({ ...sessionWithOrg, PK: sessionWithOrg.orgId, mode: { ...mode, [key]: value } }),
         });
 
         !res.ok ? setMode({ ...mode, [key]: previousValue }) : null;

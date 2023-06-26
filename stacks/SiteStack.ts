@@ -79,6 +79,7 @@ export function SiteStack({ stack }: StackContext) {
                     "dynamodb:Query",
                     "dynamodb:BatchGetItem",
                     "dynamodb:BatchWriteItem",
+                    "dynamodb:Scan",
                 ],
             }),
             new PolicyStatement({

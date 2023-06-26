@@ -38,7 +38,11 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
     const createLink = (index: number, orgId: string) => {
         return (
             <div className="flex">
-                <Link key={`org${index ? `-edit-${index}` : "-edit"}`} className="govuk-link mr-5" href="#">
+                <Link
+                    key={`org${index ? `-edit-${index}` : "-edit"}`}
+                    className="govuk-link mr-5"
+                    href={`/sysadmin/org?orgId=${orgId}`}
+                >
                     Edit
                 </Link>
                 <Link
@@ -80,6 +84,17 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                 columns={["Organisation", "NaPTAN AdminArea", "Action"]}
                 rows={getRows()}
             ></Table>
+
+            <Link
+                href={`/sysadmin/org`}
+                role="button"
+                draggable="false"
+                className="govuk-button"
+                data-module="govuk-button"
+                id="create-new-button"
+            >
+                Add new organisation
+            </Link>
         </BaseLayout>
     );
 };

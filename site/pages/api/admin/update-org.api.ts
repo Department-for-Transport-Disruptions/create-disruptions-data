@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
 import { upsertOrganisation } from "../../../data/dynamo";
 import { organisationSchema } from "../../../schemas/organisation.schema";
 import { getSession } from "../../../utils/apiUtils/auth";
@@ -15,12 +14,10 @@ const updateOrg = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("Invalid user accessing the page");
         }
 
-        const orgData = organisationSchema.extend({
-            PK: z.string(),
-        });
+        const validatedBody = organisationSchema.safeParse(req.body);
 
-        const validatedBody = orgData.safeParse(req.body);
         if (validatedBody.success) {
+            if (!validatedBody.data.PK) throw new Error("Orgnaisation ID not passed");
             await upsertOrganisation(validatedBody.data.PK, validatedBody.data);
 
             res.status(200).json({ success: true });

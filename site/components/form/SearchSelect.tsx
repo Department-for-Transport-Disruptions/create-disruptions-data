@@ -27,6 +27,7 @@ interface SearchSelectProps<T> {
     inputValue: string;
     setSearchInput: Dispatch<SetStateAction<string>>;
     filterOptions?: (option: FilterOptionOption<object>, rawInput: string) => boolean;
+    width?: string;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -47,6 +48,7 @@ const SearchSelect = <T extends object>({
     inputValue = "",
     setSearchInput = (value) => value,
     filterOptions,
+    width,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action !== "input-blur" && action !== "menu-close") {
@@ -66,7 +68,7 @@ const SearchSelect = <T extends object>({
         color: state.isFocused ? "white" : "black",
         marginBottom: "20px",
         "&:hover": { borderColor: "black" },
-        width: "75%",
+        width: width ? width : "75%",
     });
 
     const optionStyles = (state: OptionProps<T, false, GroupBase<T>>) => ({
