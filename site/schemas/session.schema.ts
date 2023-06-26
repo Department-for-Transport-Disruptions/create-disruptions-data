@@ -36,6 +36,7 @@ export const sessionSchemaWithOrgDetail = sessionSchema.transform(async (item) =
         ...item,
         orgName: orgDetail?.name ?? "",
         adminAreaCodes: orgDetail?.adminAreaCodes ?? [],
+        mode: orgDetail?.mode,
     };
 });
 

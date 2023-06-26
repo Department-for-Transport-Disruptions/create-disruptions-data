@@ -580,6 +580,20 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
     );
 };
 
+export const upsertOrganisation = async (orgId: string, organisation: Organisation) => {
+    logger.info(`Updating organisation (${organisation.name}) in DynamoDB table...`);
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: organisationsTableName,
+            Item: {
+                PK: orgId,
+                ...organisation,
+            },
+        }),
+    );
+};
+
 export const removeOrganisation = async (orgId: string) => {
     logger.info(`Deleting organisation (${orgId}) in DynamoDB table...`);
 

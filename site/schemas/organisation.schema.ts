@@ -1,8 +1,21 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
+
+export const modeSchema = z.object({
+    bus: z.nativeEnum(Modes),
+    tram: z.nativeEnum(Modes),
+    ferry: z.nativeEnum(Modes),
+    rail: z.nativeEnum(Modes),
+});
+
+export type ModeType = z.infer<typeof modeSchema>;
+
+const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferry: Modes.bods, rail: Modes.bods };
 
 export const organisationSchema = z.object({
     name: z.string(),
     adminAreaCodes: z.array(z.string()),
+    mode: modeSchema.optional().default(defaultModes),
 });
 
 export type Organisation = z.infer<typeof organisationSchema>;
