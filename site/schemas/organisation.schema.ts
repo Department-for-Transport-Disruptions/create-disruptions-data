@@ -17,7 +17,7 @@ export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),
     adminAreaCodes: z.array(z.string()).min(1, { message: "Atleast 1 area code is required" }),
     PK: z.string().optional(),
-    mode: modeSchema.optional().default(defaultModes),
+    mode: modeSchema.default(defaultModes).optional(),
 });
 
 export type Organisation = z.infer<typeof organisationSchema>;
