@@ -11,7 +11,7 @@ export const modeSchema = z.object({
 
 export type ModeType = z.infer<typeof modeSchema>;
 
-const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferry: Modes.bods, rail: Modes.bods };
+export const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferry: Modes.bods, rail: Modes.bods };
 
 export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),
