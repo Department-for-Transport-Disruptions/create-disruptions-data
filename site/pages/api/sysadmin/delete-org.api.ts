@@ -28,6 +28,7 @@ const deleteOrg = async (req: DeleteOrgApiRequest, res: NextApiResponse): Promis
     } catch (error) {
         const message = "There was a problem deleting an organisation.";
         redirectToError(res, message, "api.delete-org", error as Error);
+        return;
     }
 };
 

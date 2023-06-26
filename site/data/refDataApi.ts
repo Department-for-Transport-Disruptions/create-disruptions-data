@@ -159,3 +159,19 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
 
     return parseResult.data;
 };
+
+export const fetchAdminAreaCodes = async () => {
+    const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/area-codes`;
+
+    const res = await fetch(searchApiUrl, {
+        method: "GET",
+    });
+
+    const parseResult = z.array(z.string()).safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return [];
+    }
+
+    return parseResult.data;
+};

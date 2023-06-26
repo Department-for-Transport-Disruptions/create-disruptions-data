@@ -82,6 +82,19 @@ exports[`manageOrganisations > should render correctly when there are no inputs 
           className="govuk-table__body"
         />
       </table>
+      <a
+        className="govuk-button"
+        data-module="govuk-button"
+        draggable="false"
+        href="/sysadmin/org"
+        id="create-new-button"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        Add new organisation
+      </a>
     </main>
     <div>
       <h2
@@ -376,7 +389,7 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link mr-5"
-                  href="#"
+                  href="/sysadmin/org?orgId=016f954c-0e14-11ee-be56-0242ac120002"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -422,7 +435,7 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
               >
                 <a
                   className="govuk-link mr-5"
-                  href="#"
+                  href="/sysadmin/org?orgId=016f954c-0e14-11ee-be56-0242ac120002"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
@@ -449,6 +462,19 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
           </tr>
         </tbody>
       </table>
+      <a
+        className="govuk-button"
+        data-module="govuk-button"
+        draggable="false"
+        href="/sysadmin/org"
+        id="create-new-button"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        Add new organisation
+      </a>
     </main>
     <div>
       <h2

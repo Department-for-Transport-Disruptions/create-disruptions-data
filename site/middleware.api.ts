@@ -54,7 +54,6 @@ const calculateSecretHash = async (username: string): Promise<string> => {
     );
 
     const sig = await crypto.subtle.sign("HMAC", key, enc.encode(username + cognitoClientId));
-
     return Buffer.from(String.fromCharCode(...new Uint8Array(sig)), "binary").toString("base64");
 };
 
@@ -146,7 +145,14 @@ const unauthenticatedRoutes = [
     "/404",
 ];
 
-const allowedRoutesForSysadmin = ["/api/admin/resend-invite", "/api/admin/delete-user"];
+const allowedRoutesForSysadmin = [
+    "/api/admin/resend-invite",
+    "/api/admin/delete-user",
+    "/api/sign-out",
+    "/account-settings",
+    "/change-password",
+    "/api/change-password",
+];
 
 const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""}/.well-known/jwks.json`), {
     timeoutDuration: 10000,
