@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment, ReactElement, ReactNode } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-import { HOOTSUITE_URL } from "../../constants";
+import { DOMAIN_NAME, HOOTSUITE_URL } from "../../constants";
 import { getHootsuiteData } from "../../data/hoostuite";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
@@ -65,7 +65,7 @@ const SocialMediaAccounts = ({ socialMediaData, username, clientId }: SocialMedi
                 <Link
                     className="govuk-button mt-8"
                     data-module="govuk-button"
-                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
+                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
                 >
                     Connect hootsuite
                 </Link>

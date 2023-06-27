@@ -29,6 +29,7 @@ const nextConfig = {
     env: {
         API_BASE_URL: process.env.API_BASE_URL,
         MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN,
+        DOMAIN_NAME: process.env.DOMAIN_NAME,
     },
     headers() {
         return [

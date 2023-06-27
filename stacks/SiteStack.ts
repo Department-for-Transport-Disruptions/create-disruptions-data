@@ -59,6 +59,7 @@ export function SiteStack({ stack }: StackContext) {
             MIDDLEWARE_AWS_ACCESS_KEY_ID: middlewareCognitoUserAccessKey.accessKeyId,
             MIDDLEWARE_AWS_SECRET_ACCESS_KEY: middlewareCognitoUserSecret.secretValue.toString(),
             IMAGE_BUCKET_NAME: siteImageBucket.bucketName,
+            DOMAIN_NAME: getDomain(stack.stage),
         },
         customDomain: {
             domainName: getDomain(stack.stage),
