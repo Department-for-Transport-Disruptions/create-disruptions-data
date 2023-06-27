@@ -268,34 +268,37 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                             }
                         }
 
-                        const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
-                        const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
-                            method: "POST",
-                            body: JSON.stringify({
-                                text: socialMediaPost.messageContent,
-                                scheduledSendTime: formattedDate,
-                                socialProfileIds: [socialMediaPost.hootsuiteProfile],
-                                ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
-                            }),
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
-                            },
-                        });
-
-                        if (!createSocialPostResponse.ok) {
-                            rejectSocialMediaPost = true;
-                            logger.debug("Failed to create social media post");
-                        } else {
-                            await upsertSocialMediaPost(
-                                {
-                                    ...socialMediaPost,
-                                    status: SocialMediaPostStatus.successful,
+                        if ((socialMediaPost.image && imageLink.id) || !socialMediaPost.image) {
+                            const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
+                            const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    text: socialMediaPost.messageContent,
+                                    scheduledSendTime: formattedDate,
+                                    socialProfileIds: [socialMediaPost.hootsuiteProfile],
+                                    ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
+                                }),
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                                 },
-                                orgId,
-                            );
-                        }
+                            });
 
+                            if (!createSocialPostResponse.ok) {
+                                rejectSocialMediaPost = true;
+                                logger.debug("Failed to create social media post");
+                            } else {
+                                await upsertSocialMediaPost(
+                                    {
+                                        ...socialMediaPost,
+                                        status: SocialMediaPostStatus.successful,
+                                    },
+                                    orgId,
+                                );
+                            }
+                        } else {
+                            rejectSocialMediaPost = true;
+                        }
                         if (rejectSocialMediaPost) {
                             await upsertSocialMediaPost(
                                 {
