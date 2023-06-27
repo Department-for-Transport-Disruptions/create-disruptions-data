@@ -22,6 +22,7 @@ import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import logger from "../logger";
+import { formatDate } from "../dates";
 
 export const setCookieOnResponseObject = (
     cookieName: string,
@@ -268,11 +269,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                             }
                         }
 
-                        const formattedDate = dayjs(
-                            `${socialMediaPost.publishDate} ${socialMediaPost.publishTime}`,
-                            "DD/MM/YYYY HHmm",
-                        ).toISOString();
-
+                        const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
                         const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
                             method: "POST",
                             body: JSON.stringify({

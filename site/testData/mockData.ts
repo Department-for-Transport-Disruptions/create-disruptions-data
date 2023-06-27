@@ -402,16 +402,6 @@ export const socialMediaPostsInformation = [
         socialMediaPostIndex: 1,
         status: SocialMediaPostStatus.pending,
     },
-    {
-        disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
-        hootsuiteProfile: "127196025",
-        messageContent: "Test post 12345678",
-        publishDate: "20/06/2023",
-        publishTime: "2005",
-        socialAccount: "13958638",
-        socialMediaPostIndex: 2,
-        status: SocialMediaPostStatus.pending,
-    },
 ];
 
 export const disruptionWithConsequences: Disruption = {
