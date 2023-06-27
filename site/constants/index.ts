@@ -294,6 +294,7 @@ export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
 export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
+export const DOMAIN_NAME = process.env.DOMAIN_NAME || "http://localhost:3000";
 export const MIN_PASSWORD_LENGTH = 8;
 
 export const MAX_FILE_SIZE = 5242880;

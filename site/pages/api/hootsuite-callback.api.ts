@@ -1,9 +1,9 @@
-import * as jose from "jose";
 import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ID_TOKEN,
     COOKIES_REFRESH_TOKEN,
+    DOMAIN_NAME,
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
@@ -44,7 +44,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!idToken?.Parameter?.Value) {
             throw new Error("idToken must be defined");
         }
-        const decodedToken = jose.decodeJwt(idToken?.Parameter?.Value);
+        const decodedToken = decodeJwt(idToken?.Parameter?.Value);
         const username = (decodedToken["cognito:username"] as string) ?? null;
         if (refreshToken?.Parameter?.Value) {
             setCookieOnResponseObject(COOKIES_REFRESH_TOKEN, refreshToken?.Parameter?.Value, res);
@@ -64,7 +64,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code: code.toString() ?? "",
-                redirect_uri: `http://localhost:3000/api/hootsuite-callback`,
+                redirect_uri: `${DOMAIN_NAME}/api/hootsuite-callback`,
             }),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",

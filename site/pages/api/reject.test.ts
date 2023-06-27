@@ -12,6 +12,7 @@ import {
     getMockRequestAndResponse,
     ptSituationElementWithMultipleConsequences,
     mockSession,
+    disruptionWithConsequencesAndSocialMediaPosts,
 } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
@@ -31,6 +32,7 @@ describe("reject", () => {
         getDisruptionById: vi.fn(),
         deleteDisruptionsInEdit: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
+        upsertSocialMediaPost: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -40,6 +42,7 @@ describe("reject", () => {
     MockDate.set("2023-03-03");
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
+    const upsertSocialMediaPostSpy = vi.spyOn(dynamo, "upsertSocialMediaPost");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
 
     afterEach(() => {
@@ -76,6 +79,31 @@ describe("reject", () => {
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
+            DEFAULT_ORG_ID,
+            PublishStatus.rejected,
+            "Test User",
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect with social media posts", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await reject(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
             "Test User",
@@ -142,20 +170,24 @@ describe("reject", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it.each([[disruptionWithConsequences], [disruptionWithNoConsequences]])(
-        "should write the correct disruptions data to dynamoDB",
-        async (disruption) => {
-            getDisruptionSpy.mockResolvedValue(disruption);
-            const { req, res } = getMockRequestAndResponse({
-                body: {
-                    disruptionId: disruption.disruptionId,
-                },
-                mockWriteHeadFn: writeHeadMock,
-            });
+    it.each([
+        [disruptionWithConsequences],
+        [disruptionWithNoConsequences],
+        [disruptionWithConsequencesAndSocialMediaPosts],
+    ])("should write the correct disruptions data to dynamoDB", async (disruption) => {
+        getDisruptionSpy.mockResolvedValue(disruption);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: disruption.disruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
-            await reject(req, res);
+        if (disruption.socialMediaPosts) {
+            upsertSocialMediaPostSpy.mockResolvedValue();
+        }
+        await reject(req, res);
 
-            expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
-        },
-    );
+        expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
+    });
 });

@@ -13,23 +13,16 @@ const withInputs: SocialMediaAccountsPageProps = {
     clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
     socialMediaData: [
         {
-            id: "12345",
+            id: "24858630",
+            email: "testemail@gmail.com",
+            fullName: "Test Person",
             accountType: "Hootsuite",
-            email: "ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Chris Cavanagh",
+            addedBy: "Test Account",
             expiresIn: "Never",
             hootsuiteProfiles: [
-                { type: "TWITTER", id: "43308270", socialNetworkId: "1234567" },
-                { type: "TWITTER", id: "29669438", socialNetworkId: "1234567" },
+                { type: "TWITTER", socialNetworkId: "1560718270506380122", id: "188295022" },
+                { type: "FACEBOOK", socialNetworkId: "990838348810590", id: "138296272" },
             ],
-        },
-        {
-            id: "12345",
-            accountType: "Hootsuite",
-            email: "2ask@iverpoolcityregion-ca-gov.uk",
-            addedBy: "Anna Simpson",
-            expiresIn: "Never",
-            hootsuiteProfiles: [{ type: "TWITTER", id: "43308888", socialNetworkId: "1234567" }],
         },
     ],
 };

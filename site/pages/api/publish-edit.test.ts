@@ -14,6 +14,7 @@ import {
     mockSession,
     disruptionWithConsequences,
 } from "../../testData/mockData";
+import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -25,6 +26,7 @@ describe("publishEdit", () => {
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
         cleardownCookies: vi.fn(),
+        publishToHootsuite: vi.fn(),
     }));
 
     vi.mock("../../data/dynamo", () => ({
@@ -46,6 +48,7 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const publishToHootsuiteSpy = vi.spyOn(apiUtils, "publishToHootsuite");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -89,6 +92,38 @@ describe("publishEdit", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
+    it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with social media", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        publishToHootsuiteSpy.mockResolvedValue();
+
+        await publishEdit(req, res);
+
+        expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
+            DEFAULT_ORG_ID,
+        );
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            ptSituationElementWithMultipleConsequences,
+            disruptionWithConsequencesAndSocialMediaPosts,
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+            "Test User",
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
     it("should retrieve valid data from cookies, write to dynamo and redirect for staff user", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         getSessionSpy.mockImplementation(() => {
@@ -103,6 +138,7 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
+        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);

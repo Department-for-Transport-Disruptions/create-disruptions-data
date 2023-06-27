@@ -5,14 +5,21 @@ import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
 import { SocialMediaPost } from "../../../schemas/social-media.schema";
 
 const previousCreateSocialMediaPostInformation: SocialMediaPost = {
-    disruptionId: "2",
-    publishDate: "13/01/2022",
-    publishTime: "1300",
+    disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
+    hootsuiteProfile: "127196025",
+    image: {
+        filepath: "/somefile/path",
+        key: "e9f6962b-1e77-4d0b-9cr2-f123315fd14c/r8e603b8-6e08-4fd7-b12b-deb1ca5b4g23/1.png",
+        mimetype: "image/png",
+        originalFilename: "test-image.png",
+        size: 70872,
+    },
     messageContent: "Test post 12345",
-    socialAccount: "Twitter",
-    hootsuiteProfile: "Twitter/1234",
+    publishDate: "19/06/2023",
+    publishTime: "1805",
+    socialAccount: "13958638",
     socialMediaPostIndex: 0,
-    status: SocialMediaPostStatus.pending,
+    status: SocialMediaPostStatus.successful,
 };
 
 describe("pages", () => {
@@ -33,7 +40,16 @@ describe("pages", () => {
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={previousCreateSocialMediaPostInformation}
-                        socialAccounts={[]}
+                        socialAccounts={[
+                            {
+                                display: "testemail@gmail.com",
+                                socialMediaProfiles: [
+                                    { display: "TWITTER/138196022", value: "138196022" },
+                                    { display: "FACEBOOK/138196178", value: "138196178" },
+                                ],
+                                value: "25858639",
+                            },
+                        ]}
                     />,
                 )
                 .toJSON();

@@ -1,5 +1,4 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
@@ -21,6 +20,7 @@ import { getParameter, getParametersByPath, putParameter } from "../../data/ssm"
 import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
+import { formatDate } from "../dates";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -268,38 +268,37 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                             }
                         }
 
-                        const formattedDate = dayjs(
-                            `${socialMediaPost.publishDate} ${socialMediaPost.publishTime}`,
-                            "DD/MM/YYYY HHmm",
-                        ).toISOString();
-
-                        const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
-                            method: "POST",
-                            body: JSON.stringify({
-                                text: socialMediaPost.messageContent,
-                                scheduledSendTime: formattedDate,
-                                socialProfileIds: [socialMediaPost.hootsuiteProfile],
-                                ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
-                            }),
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
-                            },
-                        });
-
-                        if (!createSocialPostResponse.ok) {
-                            rejectSocialMediaPost = true;
-                            logger.debug("Failed to create social media post");
-                        } else {
-                            await upsertSocialMediaPost(
-                                {
-                                    ...socialMediaPost,
-                                    status: SocialMediaPostStatus.successful,
+                        if ((socialMediaPost.image && imageLink.id) || !socialMediaPost.image) {
+                            const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
+                            const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    text: socialMediaPost.messageContent,
+                                    scheduledSendTime: formattedDate,
+                                    socialProfileIds: [socialMediaPost.hootsuiteProfile],
+                                    ...(imageLink.id ? { media: [{ id: imageLink.id }] } : {}),
+                                }),
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                                 },
-                                orgId,
-                            );
-                        }
+                            });
 
+                            if (!createSocialPostResponse.ok) {
+                                rejectSocialMediaPost = true;
+                                logger.debug("Failed to create social media post");
+                            } else {
+                                await upsertSocialMediaPost(
+                                    {
+                                        ...socialMediaPost,
+                                        status: SocialMediaPostStatus.successful,
+                                    },
+                                    orgId,
+                                );
+                            }
+                        } else {
+                            rejectSocialMediaPost = true;
+                        }
                         if (rejectSocialMediaPost) {
                             await upsertSocialMediaPost(
                                 {
