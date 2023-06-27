@@ -16,7 +16,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const formatDate = (date: string, time: string) =>
-    dayjs(`${date} ${time}`, "DD/MM/YYYY HHmm").tz("Europe/London").toISOString();
+    dayjs.tz(`${date} ${time}`, "DD/MM/YYYY HHmm", "Europe/London").utc().toISOString();
 
 export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = CD_DATE_FORMAT) => {
     return dayjs(dateOrTime).tz("Europe/London").format(format);
