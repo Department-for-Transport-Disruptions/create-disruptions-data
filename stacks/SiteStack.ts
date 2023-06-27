@@ -88,6 +88,10 @@ export function SiteStack({ stack }: StackContext) {
             }),
             new PolicyStatement({
                 resources: ["*"],
+                actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
+            }),
+            new PolicyStatement({
+                resources: ["*"],
                 actions: [
                     "cognito-idp:ForgotPassword",
                     "cognito-idp:ConfirmForgotPassword",
