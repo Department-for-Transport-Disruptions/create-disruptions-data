@@ -5,6 +5,7 @@ import { HOOTSUITE_URL } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import * as ssm from "../../data/ssm";
 import { DEFAULT_ORG_ID, socialMediaPostsInformation } from "../../testData/mockData";
+import * as dates from "../dates";
 import { delay, publishToHootsuite } from "./";
 
 describe("publishToHootsuite", () => {
@@ -12,12 +13,12 @@ describe("publishToHootsuite", () => {
         vi.resetAllMocks();
     });
 
-    vi.mock("dayjs", async () => ({
-        ...(await vi.importActual<object>("dayjs")),
-    }));
-
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
+    }));
+
+    vi.mock("../dates", () => ({
+        formatDate: vi.fn(),
     }));
 
     vi.mock("../../data/ssm", () => ({
@@ -40,6 +41,7 @@ describe("publishToHootsuite", () => {
     const getParameterSpy = vi.spyOn(ssm, "getParameter");
     const getParametersByPathSpy = vi.spyOn(ssm, "getParametersByPath");
     const putParameterSpy = vi.spyOn(ssm, "putParameter");
+    const formatDateSpy = vi.spyOn(dates, "formatDate");
 
     it("should return successfully after publishing pending social media post to hootsuite", async () => {
         getParametersByPathSpy.mockResolvedValue({
@@ -110,6 +112,7 @@ describe("publishToHootsuite", () => {
         putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
         readFileSpy.mockResolvedValue(buffer);
+        formatDateSpy.mockImplementation(() => "2023-06-20T19:05:00.000Z");
 
         global.fetch = vi
             .fn()
