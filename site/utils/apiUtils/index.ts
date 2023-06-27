@@ -1,5 +1,4 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
