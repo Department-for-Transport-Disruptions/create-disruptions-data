@@ -1,3 +1,4 @@
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
 import {
@@ -82,7 +83,13 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
 
-        await upsertSocialMediaPost(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertSocialMediaPost(
+            validatedBody.data.status === SocialMediaPostStatus.rejected
+                ? validatedBody.data
+                : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
+            session.orgId,
+            session.isOrgStaff,
+        );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 
