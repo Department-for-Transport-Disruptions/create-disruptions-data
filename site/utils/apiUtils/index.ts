@@ -20,8 +20,8 @@ import { getParameter, getParametersByPath, putParameter } from "../../data/ssm"
 import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
-import logger from "../logger";
 import { formatDate } from "../dates";
+import logger from "../logger";
 
 export const setCookieOnResponseObject = (
     cookieName: string,
