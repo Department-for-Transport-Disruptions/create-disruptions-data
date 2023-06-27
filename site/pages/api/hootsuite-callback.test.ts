@@ -4,6 +4,7 @@ import hootsuiteCallback from "./hootsuite-callback.api";
 import {
     COOKIES_ID_TOKEN,
     COOKIES_REFRESH_TOKEN,
+    DOMAIN_NAME,
     ERROR_PATH,
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
@@ -174,7 +175,7 @@ describe("hootsuite-callback", () => {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code: "123456",
-                redirect_uri: `http://localhost:3000/api/hootsuite-callback`,
+                redirect_uri: `${DOMAIN_NAME}/api/hootsuite-callback`,
             }),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -318,7 +319,7 @@ describe("hootsuite-callback", () => {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code: "123456",
-                redirect_uri: `http://localhost:3000/api/hootsuite-callback`,
+                redirect_uri: `${DOMAIN_NAME}/api/hootsuite-callback`,
             }),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",

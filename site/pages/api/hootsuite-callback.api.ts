@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ID_TOKEN,
     COOKIES_REFRESH_TOKEN,
+    DOMAIN_NAME,
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
@@ -63,7 +64,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code: code.toString() ?? "",
-                redirect_uri: `http://localhost:3000/api/hootsuite-callback`,
+                redirect_uri: `${DOMAIN_NAME}/api/hootsuite-callback`,
             }),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",

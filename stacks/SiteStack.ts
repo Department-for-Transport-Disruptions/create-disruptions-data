@@ -5,7 +5,7 @@ import { CognitoStack } from "./CognitoStack";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./services/Buckets";
-import { getDomain } from "./utils";
+import { getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { table, siriTable, organisationsTable } = use(DynamoDBStack);
@@ -59,7 +59,9 @@ export function SiteStack({ stack }: StackContext) {
             MIDDLEWARE_AWS_ACCESS_KEY_ID: middlewareCognitoUserAccessKey.accessKeyId,
             MIDDLEWARE_AWS_SECRET_ACCESS_KEY: middlewareCognitoUserSecret.secretValue.toString(),
             IMAGE_BUCKET_NAME: siteImageBucket.bucketName,
-            DOMAIN_NAME: getDomain(stack.stage),
+            DOMAIN_NAME: `${isSandbox(stack.stage) ? "http://" : "https://"}${
+                isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
+            }`,
         },
         customDomain: {
             domainName: getDomain(stack.stage),
