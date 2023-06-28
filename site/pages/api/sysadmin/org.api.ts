@@ -64,11 +64,11 @@ const manageOrg = async (req: NextApiRequest, res: NextApiResponse): Promise<voi
         }
 
         const randomId = randomUUID();
-        const PK = (validatedBody.data.PK ? validatedBody.data.PK : randomId) as string;
+        const PK = validatedBody.data.PK ? validatedBody.data.PK : randomId;
 
         await upsertOrganisation(PK, {
             ...validatedBody.data,
-            PK: (validatedBody.data.PK ? validatedBody.data.PK : PK) as string,
+            PK: validatedBody.data.PK ? validatedBody.data.PK : PK,
         });
 
         destroyCookieOnResponseObject(COOKIES_ADD_ORG_ERRORS, res);
