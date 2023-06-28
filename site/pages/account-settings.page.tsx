@@ -98,7 +98,10 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                             <FormElementWrapper errors={errors} errorId={"modes"} errorClass="govuk-radios--error">
                                 <Table
                                     rows={Object.keys(mode).map((key) => ({
-                                        header: `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
+                                        header:
+                                            key === "ferryService"
+                                                ? "Ferry"
+                                                : `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
                                         cells: [radioButtons(key, mode[key as keyof ModeType])],
                                     }))}
                                 />

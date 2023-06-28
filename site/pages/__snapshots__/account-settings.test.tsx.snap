@@ -310,7 +310,7 @@ exports[`accountSettings > should render correctly 1`] = `
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
-                        FerryService
+                        Ferry
                       </th>
                       <td
                         className="govuk-table__cell align-middle"
