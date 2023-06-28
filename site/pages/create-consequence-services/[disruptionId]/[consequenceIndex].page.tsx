@@ -357,7 +357,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={dataSource === Modes.bods ? props.initialBodsServices : props.initialTndsServices}
+                            options={
+                                dataSource === Modes.bods
+                                    ? props.initialBodsServices ?? []
+                                    : props.initialTndsServices ?? []
+                            }
                             handleChange={handleServiceChange}
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}

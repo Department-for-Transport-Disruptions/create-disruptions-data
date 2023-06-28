@@ -23,7 +23,7 @@ interface SearchSelectProps<T> {
     inputId: string;
     hint?: string;
     isClearable?: boolean;
-    options: T[] | undefined | null;
+    options: T[] | undefined;
     inputValue: string;
     setSearchInput: Dispatch<SetStateAction<string>>;
     filterOptions?: (option: FilterOptionOption<object>, rawInput: string) => boolean;
