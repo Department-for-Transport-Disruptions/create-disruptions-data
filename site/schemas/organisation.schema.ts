@@ -5,13 +5,13 @@ import { setZodDefaultError } from "../utils";
 export const modeSchema = z.object({
     bus: z.nativeEnum(Modes),
     tram: z.nativeEnum(Modes),
-    ferry: z.nativeEnum(Modes),
+    ferryService: z.nativeEnum(Modes),
     rail: z.nativeEnum(Modes),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
 
-export const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferry: Modes.bods, rail: Modes.bods };
+export const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferryService: Modes.bods, rail: Modes.bods };
 
 export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),

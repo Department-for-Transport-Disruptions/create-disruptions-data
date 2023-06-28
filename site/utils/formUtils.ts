@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { ErrorInfo, PageState } from "../interfaces";
-import { Stop } from "../schemas/consequence.schema";
+import { Service, Stop } from "../schemas/consequence.schema";
+import { sortServices } from ".";
 
 export const handleBlur = <T>(
     input: string,
@@ -83,4 +84,30 @@ export const getStopType = (stopType: string | undefined) => {
     } else {
         return "Stop";
     }
+};
+
+// eslint-disable-next-line @typescript-eslint/require-await
+export const filterServices = async (servicesData: Service[] | undefined): Promise<Service[] | null> => {
+    return new Promise((resolve) => {
+        let services: Service[] | null = null;
+        if (servicesData && servicesData.length > 0) {
+            services = sortServices(servicesData);
+
+            const setOfServices = new Set();
+
+            const filteredServices: Service[] = services.filter((item) => {
+                const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+                if (!setOfServices.has(serviceDisplay)) {
+                    setOfServices.add(serviceDisplay);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            services = filteredServices;
+        }
+
+        resolve(services);
+    });
 };

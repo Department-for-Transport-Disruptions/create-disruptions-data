@@ -21,11 +21,16 @@ import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
+import { type } from "os";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";
+
+type RecordType = {
+    [name: string]: string | string[] | undefined;
+};
 
 export interface GetMockContextInput {
     session?: Record<string, string> | null;
@@ -127,7 +132,7 @@ export const getMockContext = ({
 
 export interface GetMockRequestAndResponse {
     cookieValues?: Record<string, string>;
-    body?: Record<string, string | string[]> | null;
+    body?: Record<string, string | string[] | RecordType> | null;
     uuid?: string | null;
     mockWriteHeadFn?: Mock | null;
     mockEndFn?: Mock | null;

@@ -1,5 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
+import { defaultModes } from "./organisation.schema";
 import { getOrganisationInfoById } from "../data/dynamo";
 
 export const sessionSchema = z
@@ -36,7 +37,7 @@ export const sessionSchemaWithOrgDetail = sessionSchema.transform(async (item) =
         ...item,
         orgName: orgDetail?.name ?? "",
         adminAreaCodes: orgDetail?.adminAreaCodes ?? [],
-        mode: orgDetail?.mode,
+        mode: orgDetail?.mode ?? defaultModes,
     };
 });
 

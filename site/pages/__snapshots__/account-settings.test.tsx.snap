@@ -170,249 +170,257 @@ exports[`accountSettings > should render correctly 1`] = `
             >
               From which source shall we acquire your data
             </h2>
-            <table
-              className="govuk-table"
+            <div
+              className="govuk-form-group"
             >
-              <thead
-                className="govuk-table__head"
+              <div
+                className=""
               >
-                <tr
-                  className="govuk-table__row"
-                />
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              >
-                <tr
-                  className="govuk-table__row"
+                <table
+                  className="govuk-table"
                 >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
+                  <thead
+                    className="govuk-table__head"
                   >
-                    Bus
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle"
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
                   >
-                    <div
-                      className="govuk-radios govuk-radios--inline"
-                      data-module="govuk-radios"
+                    <tr
+                      className="govuk-table__row"
                     >
-                      <div
-                        className="govuk-radios__item"
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
                       >
-                        <input
-                          checked={false}
-                          className="govuk-radios__input"
-                          id="bus-tnds"
-                          name="bus-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="tnds"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="bus-tnds"
-                        >
-                          TNDS
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
+                        Bus
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
                       >
-                        <input
-                          checked={true}
-                          className="govuk-radios__input"
-                          id="bus-bods"
-                          name="bus-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="bods"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="bus-bods"
+                        <div
+                          className="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
                         >
-                          BODS
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Tram
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle"
-                  >
-                    <div
-                      className="govuk-radios govuk-radios--inline"
-                      data-module="govuk-radios"
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={false}
+                              className="govuk-radios__input"
+                              id="bus-tnds"
+                              name="bus-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="bus-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={true}
+                              className="govuk-radios__input"
+                              id="bus-bods"
+                              name="bus-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="bus-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
                     >
-                      <div
-                        className="govuk-radios__item"
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
                       >
-                        <input
-                          checked={false}
-                          className="govuk-radios__input"
-                          id="tram-tnds"
-                          name="tram-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="tnds"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="tram-tnds"
-                        >
-                          TNDS
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
+                        Tram
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
                       >
-                        <input
-                          checked={true}
-                          className="govuk-radios__input"
-                          id="tram-bods"
-                          name="tram-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="bods"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="tram-bods"
+                        <div
+                          className="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
                         >
-                          BODS
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Ferry
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle"
-                  >
-                    <div
-                      className="govuk-radios govuk-radios--inline"
-                      data-module="govuk-radios"
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={false}
+                              className="govuk-radios__input"
+                              id="tram-tnds"
+                              name="tram-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="tram-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={true}
+                              className="govuk-radios__input"
+                              id="tram-bods"
+                              name="tram-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="tram-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
                     >
-                      <div
-                        className="govuk-radios__item"
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
                       >
-                        <input
-                          checked={false}
-                          className="govuk-radios__input"
-                          id="ferry-tnds"
-                          name="ferry-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="tnds"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="ferry-tnds"
-                        >
-                          TNDS
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
+                        FerryService
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
                       >
-                        <input
-                          checked={true}
-                          className="govuk-radios__input"
-                          id="ferry-bods"
-                          name="ferry-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="bods"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="ferry-bods"
+                        <div
+                          className="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
                         >
-                          BODS
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Rail
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle"
-                  >
-                    <div
-                      className="govuk-radios govuk-radios--inline"
-                      data-module="govuk-radios"
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={false}
+                              className="govuk-radios__input"
+                              id="ferryService-tnds"
+                              name="ferryService-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="ferryService-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={true}
+                              className="govuk-radios__input"
+                              id="ferryService-bods"
+                              name="ferryService-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="ferryService-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
                     >
-                      <div
-                        className="govuk-radios__item"
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
                       >
-                        <input
-                          checked={false}
-                          className="govuk-radios__input"
-                          id="rail-tnds"
-                          name="rail-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="tnds"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="rail-tnds"
-                        >
-                          TNDS
-                        </label>
-                      </div>
-                      <div
-                        className="govuk-radios__item"
+                        Rail
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle"
                       >
-                        <input
-                          checked={true}
-                          className="govuk-radios__input"
-                          id="rail-bods"
-                          name="rail-group"
-                          onChange={[Function]}
-                          type="radio"
-                          value="bods"
-                        />
-                        <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="rail-bods"
+                        <div
+                          className="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
                         >
-                          BODS
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={false}
+                              className="govuk-radios__input"
+                              id="rail-tnds"
+                              name="rail-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="rail-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            className="govuk-radios__item"
+                          >
+                            <input
+                              checked={true}
+                              className="govuk-radios__input"
+                              id="rail-bods"
+                              name="rail-group"
+                              onChange={[Function]}
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              className="govuk-label govuk-radios__label"
+                              htmlFor="rail-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

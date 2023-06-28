@@ -29,7 +29,11 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 
+interface ServiceMapProps extends MapProps {
+    dataSource?: Modes;
+}
 interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
@@ -41,7 +45,7 @@ interface MapProps {
     stateUpdater: Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
     state: PageState<Partial<ServicesConsequence>>;
     searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
-    services?: Service[];
+    services?: Service[] | null;
 }
 
 const lineLayout: LineLayout = {
@@ -77,7 +81,8 @@ const Map = ({
     state,
     searchedRoutes,
     services,
-}: MapProps): ReactElement | null => {
+    dataSource,
+}: ServiceMapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
@@ -239,7 +244,9 @@ const Map = ({
                     if (showSelectAllText) {
                         const atcoCodes = markerData.map((marker) => marker.atcoCode);
 
-                        const servicesInPolygon = await fetchServicesByStops({ atcoCodes, includeRoutes: true });
+                        const servicesInPolygon = dataSource
+                            ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
+                            : await fetchServicesByStops({ atcoCodes, includeRoutes: true });
 
                         const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
                         const markerDataInAService = markerData

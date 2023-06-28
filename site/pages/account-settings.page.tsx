@@ -1,9 +1,12 @@
 import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import ErrorSummary from "../components/ErrorSummary";
+import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
+import { ErrorInfo } from "../interfaces";
 import { ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -18,6 +21,7 @@ interface AccountSettingsProps {
 
 const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): ReactElement => {
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode as ModeType);
+    const [errors, setErrors] = useState<ErrorInfo[]>([]);
 
     const updateOrg = async (key: string, value: Modes) => {
         const previousValue = mode[key as keyof ModeType];
@@ -32,10 +36,29 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                       "X-CSRF-TOKEN": csrfToken,
                   }
                 : { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...sessionWithOrg, PK: sessionWithOrg.orgId, mode: { ...mode, [key]: value } }),
+            body: JSON.stringify({
+                adminAreaCodes: sessionWithOrg.adminAreaCodes,
+                PK: sessionWithOrg.orgId,
+                mode: { ...mode, [key]: value },
+                name: sessionWithOrg.orgName,
+            }),
         });
 
-        !res.ok ? setMode({ ...mode, [key]: previousValue }) : null;
+        if (!res.ok) {
+            setMode({ ...mode, [key]: previousValue });
+            setErrors([
+                {
+                    id: "modes",
+                    errorMessage: "Retry selecting a different source later",
+                },
+                {
+                    id: "header",
+                    errorMessage: "Unable to update source selected",
+                },
+            ]);
+        } else {
+            setErrors([]);
+        }
     };
 
     return (
@@ -43,6 +66,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
             <div className="govuk-form-group">
                 <h1 className="govuk-heading-l">My account</h1>
                 <h2 className="govuk-heading-m">Account settings</h2>
+                <ErrorSummary errors={errors.filter((err) => err.id !== "modes")} />
                 <Table
                     rows={[
                         { header: "Email address", cells: [sessionWithOrg.email, ""] },
@@ -70,12 +94,16 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                 {sessionWithOrg.isOrgAdmin ? (
                     <>
                         <h2 className="govuk-heading-m">From which source shall we acquire your data</h2>
-                        <Table
-                            rows={Object.keys(mode).map((key) => ({
-                                header: `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
-                                cells: [radioButtons(key, mode[key as keyof ModeType])],
-                            }))}
-                        />
+                        <FormGroupWrapper errorIds={["modes"]} errors={errors}>
+                            <FormElementWrapper errors={errors} errorId={"modes"} errorClass="govuk-radios--error">
+                                <Table
+                                    rows={Object.keys(mode).map((key) => ({
+                                        header: `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
+                                        cells: [radioButtons(key, mode[key as keyof ModeType])],
+                                    }))}
+                                />
+                            </FormElementWrapper>
+                        </FormGroupWrapper>
                     </>
                 ) : null}
             </div>
