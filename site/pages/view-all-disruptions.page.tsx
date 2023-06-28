@@ -40,7 +40,6 @@ import {
     getServiceLabel,
     mapValidityPeriods,
     getDisplayByValue,
-    sortServices,
     SortedDisruption,
     getSortedDisruptionFinalEndDate,
 } from "../utils";

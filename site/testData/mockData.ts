@@ -21,7 +21,6 @@ import { Consequence, Operator, Service } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
-import { type } from "os";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";

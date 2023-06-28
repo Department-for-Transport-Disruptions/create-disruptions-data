@@ -1,7 +1,7 @@
 import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import ErrorSummary from "../components/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Table from "../components/form/Table";
@@ -20,7 +20,7 @@ interface AccountSettingsProps {
 }
 
 const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): ReactElement => {
-    const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode as ModeType);
+    const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
 
     const updateOrg = async (key: string, value: Modes) => {

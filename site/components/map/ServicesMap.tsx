@@ -1,3 +1,4 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
@@ -29,7 +30,6 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
 
 interface ServiceMapProps extends MapProps {
     dataSource?: Modes;

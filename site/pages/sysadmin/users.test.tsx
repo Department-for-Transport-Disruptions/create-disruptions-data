@@ -2,9 +2,9 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import AdminUsers, { AdminUserProps } from "./users.page";
+import { defaultModes } from "../../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import * as session from "../../utils/apiUtils/auth";
-import { defaultModes } from "../../schemas/organisation.schema";
 
 const blankInputs: AdminUserProps = {
     inputs: {},
