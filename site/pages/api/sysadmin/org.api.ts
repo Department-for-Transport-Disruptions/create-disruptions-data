@@ -63,7 +63,13 @@ const manageOrg = async (req: NextApiRequest, res: NextApiResponse): Promise<voi
             return;
         }
 
-        await upsertOrganisation(validatedBody.data.PK ? validatedBody.data.PK : randomUUID(), validatedBody.data);
+        const randomId = randomUUID();
+        const PK = (validatedBody.data.PK ? validatedBody.data.PK : randomId) as string;
+
+        await upsertOrganisation(PK, {
+            ...validatedBody.data,
+            PK: (validatedBody.data.PK ? validatedBody.data.PK : PK) as string,
+        });
 
         destroyCookieOnResponseObject(COOKIES_ADD_ORG_ERRORS, res);
         redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH);
