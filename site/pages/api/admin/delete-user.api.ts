@@ -1,8 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import {
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+    LOGIN_PAGE_PATH,
+    SYSADMIN_ADD_USERS_PAGE_PATH,
+    USER_MANAGEMENT_PAGE_PATH,
+} from "../../../constants";
 import { deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
 import { deleteUser as user } from "../../../schemas/user-management.schema";
-import { redirectTo, redirectToError } from "../../../utils/apiUtils";
+import { destroyCookieOnResponseObject, redirectTo, redirectToError } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
 export interface DeleteUserApiRequest extends NextApiRequest {
@@ -30,6 +36,14 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         }
 
         await deleteCognitoUser(username);
+
+        if (username === session.username) {
+            destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
+            destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
+
+            redirectTo(res, LOGIN_PAGE_PATH);
+            return;
+        }
 
         redirectTo(res, orgId ? `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgId}` : USER_MANAGEMENT_PAGE_PATH);
         return;
