@@ -45,7 +45,7 @@ interface MapProps {
     stateUpdater: Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
     state: PageState<Partial<ServicesConsequence>>;
     searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
-    services?: Service[] | null;
+    services?: Service[];
 }
 
 const lineLayout: LineLayout = {

@@ -413,7 +413,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             state={pageState}
                             searchedRoutes={searched}
                             showSelectAllButton
-                            services={dataSource === Modes.bods ? props.initialBodsServices : props.initialTndsServices}
+                            services={
+                                dataSource === Modes.bods
+                                    ? props.initialBodsServices ?? []
+                                    : props.initialTndsServices ?? []
+                            }
                         />
 
                         <TextInput<ServicesConsequence>
@@ -599,8 +603,8 @@ export const getServerSideProps = async (
     return {
         props: {
             ...pageState,
-            initialBodsServices: bodsServices,
-            initialTndsServices: tndsServices,
+            initialBodsServices: bodsServices ?? [],
+            initialTndsServices: tndsServices ?? [],
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,

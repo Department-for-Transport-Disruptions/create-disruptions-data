@@ -68,8 +68,8 @@ export interface PageState<T> {
 }
 
 export interface CreateConsequenceProps {
-    initialBodsServices?: Service[] | null;
-    initialTndsServices?: Service[] | null;
+    initialBodsServices?: Service[];
+    initialTndsServices?: Service[];
     initialStops?: Stop[];
 }
 

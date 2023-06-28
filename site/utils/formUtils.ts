@@ -87,27 +87,25 @@ export const getStopType = (stopType: string | undefined) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const filterServices = async (servicesData: Service[] | undefined): Promise<Service[] | null> => {
-    return new Promise((resolve) => {
-        let services: Service[] | null = null;
-        if (servicesData && servicesData.length > 0) {
-            services = sortServices(servicesData);
+export const filterServices = async (servicesData?: Service[]) => {
+    let services: Service[] = [];
+    if (servicesData && servicesData.length > 0) {
+        services = sortServices(servicesData);
 
-            const setOfServices = new Set();
+        const setOfServices = new Set();
 
-            const filteredServices: Service[] = services.filter((item) => {
-                const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
-                if (!setOfServices.has(serviceDisplay)) {
-                    setOfServices.add(serviceDisplay);
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+        const filteredServices: Service[] = services.filter((item) => {
+            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
+            if (!setOfServices.has(serviceDisplay)) {
+                setOfServices.add(serviceDisplay);
+                return true;
+            } else {
+                return false;
+            }
+        });
 
-            services = filteredServices;
-        }
+        services = filteredServices;
+    }
 
-        resolve(services);
-    });
+    return services;
 };
