@@ -73,19 +73,23 @@ const DisruptionDetail = ({
     ];
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
+        const isPendingOrRejected =
+            post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
         const socialMediaTableRows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
             {
                 header: "Message to appear",
                 cells: [
                     post.messageContent,
-                    createChangeLink(
-                        "message-to-appear",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "message-to-appear",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
@@ -98,75 +102,85 @@ const DisruptionDetail = ({
                     ) : (
                         "No image uploaded"
                     ),
-                    createChangeLink(
-                        "hootsuite-profile",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "hootsuite-profile",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
                 header: "Publish date",
                 cells: [
                     post.publishDate,
-                    createChangeLink(
-                        "publish-date",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "publish-date",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
                 header: "Publish time",
                 cells: [
                     post.publishTime,
-                    createChangeLink(
-                        "publish-time",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "publish-time",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
                 header: "Account name",
                 cells: [
                     post.socialAccount,
-                    createChangeLink(
-                        "account-to-publish",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "account-to-publish",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
                 header: "HootSuite profile",
                 cells: [
                     post.hootsuiteProfile,
-                    createChangeLink(
-                        "hootsuite-profile",
-                        CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                        disruption,
-                        post.socialMediaPostIndex,
-                        true,
-                        true,
-                    ),
+                    isPendingOrRejected
+                        ? createChangeLink(
+                              "hootsuite-profile",
+                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                              disruption,
+                              post.socialMediaPostIndex,
+                              true,
+                              true,
+                          )
+                        : "",
                 ],
             },
             {
                 header: "Status",
-                cells: [post.status],
+                cells: [post.status, ""],
             },
         ];
 

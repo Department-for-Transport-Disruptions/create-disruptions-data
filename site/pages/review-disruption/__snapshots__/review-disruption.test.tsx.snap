@@ -1293,6 +1293,9 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>
@@ -1530,6 +1533,9 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>

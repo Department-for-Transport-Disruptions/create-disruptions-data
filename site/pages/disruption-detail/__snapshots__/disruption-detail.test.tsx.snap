@@ -1307,6 +1307,9 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>
@@ -1544,6 +1547,9 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>
@@ -3104,6 +3110,9 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>
@@ -3341,6 +3350,9 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                       >
                         Pending
                       </td>
+                      <td
+                        className="govuk-table__cell align-middle"
+                      />
                     </tr>
                   </tbody>
                 </table>
