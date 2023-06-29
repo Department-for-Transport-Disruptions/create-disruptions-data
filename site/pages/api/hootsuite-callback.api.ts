@@ -7,7 +7,7 @@ import {
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
-import { deleteParameter, getParameter, putParameter } from "../../data/ssm";
+import { deleteParameter, getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
@@ -101,10 +101,21 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userId: string = userDetails.data.id;
 
+        let refreshTokens = null;
+        try {
+            refreshTokens = (await getParametersByPath(`/social/${session.orgId}/hootsuite`)) ?? null;
+        } catch (e) {}
+
+        const refreshTokenExists = refreshTokens?.Parameters?.find((rt) => rt.Name?.includes(userId));
+
+        if (refreshTokenExists) {
+            throw new Error("Refresh token already exists");
+        }
         const key = `/social/${session.orgId}/hootsuite/${userId}-${
             session.name?.replace(" ", "_") || session.username
         }`;
         await putParameter(key, tokenResult.refresh_token, "SecureString", true);
+
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
