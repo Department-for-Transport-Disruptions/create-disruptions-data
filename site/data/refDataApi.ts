@@ -1,3 +1,4 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
@@ -43,6 +44,7 @@ export const fetchStops = async (input: FetchStopsInput) => {
 
 interface FetchServicesInput {
     adminAreaCodes?: string[];
+    dataSource?: Modes;
 }
 
 export const fetchServices = async (input: FetchServicesInput) => {
@@ -52,6 +54,10 @@ export const fetchServices = async (input: FetchServicesInput) => {
 
     if (input.adminAreaCodes && input.adminAreaCodes.length > 0) {
         queryStringItems.push(`adminAreaCodes=${input.adminAreaCodes.join(",")}`);
+    }
+
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -70,6 +76,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
 interface FetchServicesByStopsInput {
     atcoCodes?: string[];
     includeRoutes?: boolean;
+    dataSource?: Modes;
 }
 
 export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => {
@@ -83,6 +90,10 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
     if (input.includeRoutes) {
         queryStringItems.push("includeRoutes=true");
+    }
+
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {

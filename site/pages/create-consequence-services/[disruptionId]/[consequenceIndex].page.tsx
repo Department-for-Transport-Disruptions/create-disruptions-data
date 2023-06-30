@@ -1,3 +1,4 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -36,10 +37,11 @@ import {
     servicesConsequenceSchema,
     Routes,
 } from "../../../schemas/consequence.schema";
+import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
+import { filterServices, getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -80,6 +82,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
+    const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -241,6 +244,22 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     }, [pageState?.inputs?.services]);
 
+    useEffect(() => {
+        const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
+        if (source && dataSource !== source) {
+            setDataSource(source);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    services: [],
+                    stops: [],
+                },
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageState?.inputs?.vehicleMode]);
+
     const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
         const selectedServiceIds = services.map((s) => s.id);
 
@@ -338,7 +357,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={props.initialServices}
+                            options={
+                                dataSource === Modes.bods
+                                    ? props.initialBodsServices ?? []
+                                    : props.initialTndsServices ?? []
+                            }
                             handleChange={handleServiceChange}
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
@@ -390,7 +413,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             state={pageState}
                             searchedRoutes={searched}
                             showSelectAllButton
-                            services={props.initialServices}
+                            services={
+                                dataSource === Modes.bods
+                                    ? props.initialBodsServices ?? []
+                                    : props.initialTndsServices ?? []
+                            }
                         />
 
                         <TextInput<ServicesConsequence>
@@ -542,27 +569,27 @@ export const getServerSideProps = async (
         consequence && isServicesConsequence(consequence) ? consequence : undefined,
     );
 
-    let services: Service[] = [];
+    const isTndsRequired = Object.values(session.mode).find((value) => value === Modes.tnds.toString());
+    const isBodsRequired = Object.values(session.mode).find((value) => value === Modes.bods.toString());
 
-    const servicesData = await fetchServices({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const [bodsServicesData, tndsServicesData] = await Promise.all([
+        isBodsRequired
+            ? fetchServices({
+                  adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+              })
+            : undefined,
+        isTndsRequired
+            ? fetchServices({
+                  adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+                  dataSource: Modes.tnds,
+              })
+            : undefined,
+    ]);
 
-    if (servicesData.length > 0) {
-        services = sortServices(servicesData);
-
-        const setOfServices = new Set();
-
-        const filteredServices: Service[] = services.filter((item) => {
-            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
-            if (!setOfServices.has(serviceDisplay)) {
-                setOfServices.add(serviceDisplay);
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        services = filteredServices;
-    }
+    const [bodsServices, tndsServices] = await Promise.all([
+        filterServices(bodsServicesData),
+        filterServices(tndsServicesData),
+    ]);
 
     let stops: Stop[] = [];
 
@@ -576,7 +603,8 @@ export const getServerSideProps = async (
     return {
         props: {
             ...pageState,
-            initialServices: services,
+            initialBodsServices: bodsServices ?? [],
+            initialTndsServices: tndsServices ?? [],
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,

@@ -176,3 +176,8 @@ export enum SocialMediaPostStatus {
     successful = "Successful",
     rejected = "Rejected",
 }
+
+export enum Modes {
+    tnds = "tnds",
+    bods = "bods",
+}

@@ -1,6 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
+import { defaultModes } from "../../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import * as session from "../../utils/apiUtils/auth";
 
@@ -36,6 +37,7 @@ const defaultSession: SessionWithOrgDetail = {
     name: "Test User",
     orgName: "Nexus",
     adminAreaCodes: ["A", "B", "C"],
+    mode: defaultModes,
 };
 
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");

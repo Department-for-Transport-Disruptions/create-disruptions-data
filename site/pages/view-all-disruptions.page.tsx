@@ -1,4 +1,4 @@
-import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { pdf } from "@react-pdf/renderer";
 import { Dayjs } from "dayjs";
@@ -40,7 +40,6 @@ import {
     getServiceLabel,
     mapValidityPeriods,
     getDisplayByValue,
-    sortServices,
     SortedDisruption,
     getSortedDisruptionFinalEndDate,
 } from "../utils";
@@ -54,6 +53,7 @@ import {
     isLiveDisruption,
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
+import { filterServices } from "../utils/formUtils";
 
 const title = "View All Disruptions";
 const description = "View All Disruptions page for the Create Transport Disruptions Service";
@@ -580,30 +580,16 @@ const ViewAllDisruptions = ({
     }, [downloadCsv]);
 
     const setServicesAndOperators = async (adminAreaCodes: string[]) => {
-        const [operators, servicesData] = await Promise.all([
+        const [operators, servicesBodsData, servicesTndsData] = await Promise.all([
             fetchOperators({ adminAreaCodes: adminAreaCodes }),
             fetchServices({ adminAreaCodes: adminAreaCodes }),
+            fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Modes.tnds }),
         ]);
 
         let services: Service[] = [];
 
-        if (servicesData.length > 0) {
-            services = sortServices(servicesData);
-
-            const setOfServices = new Set();
-
-            const filteredServices: Service[] = services.filter((item) => {
-                const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
-                if (!setOfServices.has(serviceDisplay)) {
-                    setOfServices.add(serviceDisplay);
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-
-            services = filteredServices;
-        }
+        const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
+        services = (await filterServices(combinedServices)) ?? [];
 
         setOperatorsList(operators);
         setServicesList(services);

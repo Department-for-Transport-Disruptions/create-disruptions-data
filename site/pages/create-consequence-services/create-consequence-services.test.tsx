@@ -2,6 +2,7 @@ import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
+import { defaultModes } from "../../schemas/organisation.schema";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
@@ -17,6 +18,7 @@ const blankInputs: CreateConsequenceServicesProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
 };
 
@@ -34,6 +36,7 @@ const withInputs: CreateConsequenceServicesProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
     inputs: {
         stops: [
@@ -91,6 +94,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },

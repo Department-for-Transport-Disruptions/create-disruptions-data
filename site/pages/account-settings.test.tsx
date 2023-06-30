@@ -1,6 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import AccountSettings from "./account-settings.page";
+import { defaultModes } from "../schemas/organisation.schema";
 
 describe("accountSettings", () => {
     it("should render correctly", () => {
@@ -18,6 +19,7 @@ describe("accountSettings", () => {
                         isOrgStaff: true,
                         isSystemAdmin: true,
                         name: "Test User",
+                        mode: defaultModes,
                     }}
                 />,
             )

@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import { CD_DATE_FORMAT } from "../constants";
 import * as dynamo from "../data/dynamo";
+import { defaultModes } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
@@ -38,6 +39,7 @@ const defaultSession: SessionWithOrgDetail = {
     name: "Test User",
     orgName: "Nexus",
     adminAreaCodes: ["A", "B", "C"],
+    mode: defaultModes,
 };
 
 const disruptions: DashboardDisruption[] = [

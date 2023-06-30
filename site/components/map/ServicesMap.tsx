@@ -1,3 +1,4 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
@@ -30,6 +31,9 @@ import {
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
 
+interface ServiceMapProps extends MapProps {
+    dataSource?: Modes;
+}
 interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
@@ -77,7 +81,8 @@ const Map = ({
     state,
     searchedRoutes,
     services,
-}: MapProps): ReactElement | null => {
+    dataSource,
+}: ServiceMapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
@@ -239,7 +244,9 @@ const Map = ({
                     if (showSelectAllText) {
                         const atcoCodes = markerData.map((marker) => marker.atcoCode);
 
-                        const servicesInPolygon = await fetchServicesByStops({ atcoCodes, includeRoutes: true });
+                        const servicesInPolygon = dataSource
+                            ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
+                            : await fetchServicesByStops({ atcoCodes, includeRoutes: true });
 
                         const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
                         const markerDataInAService = markerData

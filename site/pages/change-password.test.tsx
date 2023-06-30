@@ -1,6 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
+import { defaultModes } from "../schemas/organisation.schema";
 
 const blankInputs: ChangePasswordPageProps = {
     errors: [],
@@ -25,6 +26,7 @@ const withInputsAndNoErrors: ChangePasswordPageProps = {
         isOrgStaff: true,
         isSystemAdmin: true,
         name: "Test User",
+        mode: defaultModes,
     },
 };
 

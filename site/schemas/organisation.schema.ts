@@ -1,10 +1,23 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { setZodDefaultError } from "../utils";
+
+export const modeSchema = z.object({
+    bus: z.nativeEnum(Modes),
+    tram: z.nativeEnum(Modes),
+    ferryService: z.nativeEnum(Modes),
+    rail: z.nativeEnum(Modes),
+});
+
+export type ModeType = z.infer<typeof modeSchema>;
+
+export const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferryService: Modes.bods, rail: Modes.bods };
 
 export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),
     adminAreaCodes: z.array(z.string()).min(1, { message: "Atleast 1 area code is required" }),
     PK: z.string().optional(),
+    mode: modeSchema.default(defaultModes).optional(),
 });
 
 export type Organisation = z.infer<typeof organisationSchema>;

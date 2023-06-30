@@ -27,6 +27,10 @@ export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";
 
+type RecordType = {
+    [name: string]: string | string[] | undefined;
+};
+
 export interface GetMockContextInput {
     session?: Record<string, string> | null;
     cookies?: Record<string, string>;
@@ -127,7 +131,7 @@ export const getMockContext = ({
 
 export interface GetMockRequestAndResponse {
     cookieValues?: Record<string, string>;
-    body?: Record<string, string | string[]> | null;
+    body?: Record<string, string | string[] | RecordType> | null;
     uuid?: string | null;
     mockWriteHeadFn?: Mock | null;
     mockEndFn?: Mock | null;
