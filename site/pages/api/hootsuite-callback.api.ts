@@ -29,8 +29,6 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         const [clientId, clientSecret] = await Promise.all([
             getParameter(`/social/hootsuite/client_id`),
             getParameter(`/social/hootsuite/client_secret`),
-            deleteParameter(`/${state.toString()}/token`),
-            deleteParameter(`/${state.toString()}/refresh-token`),
         ]);
 
         if (!clientId || !clientSecret) {
@@ -106,10 +104,14 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             refreshTokens = (await getParametersByPath(`/social/${session.orgId}/hootsuite`)) ?? null;
         } catch (e) {}
 
-        const refreshTokenExists = refreshTokens?.Parameters?.find((rt) => rt.Name?.includes(userId));
+        const refreshTokenExists = refreshTokens?.Parameters?.filter((rt) => rt.Name?.includes(userId));
 
-        if (refreshTokenExists) {
-            throw new Error("Refresh token already exists");
+        if (refreshTokenExists && refreshTokenExists.length > 0) {
+            await Promise.all(
+                refreshTokenExists.map(async (refreshToken) =>
+                    refreshToken.Name ? await deleteParameter(refreshToken.Name) : "",
+                ),
+            );
         }
         const key = `/social/${session.orgId}/hootsuite/${userId}-${
             session.name?.replace(" ", "_") || session.username
