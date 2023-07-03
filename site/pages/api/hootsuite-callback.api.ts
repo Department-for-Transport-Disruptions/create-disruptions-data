@@ -11,7 +11,7 @@ import { deleteParameter, getParameter, getParametersByPath, putParameter } from
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
-import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
+import { redirectToError, redirectTo, setCookieOnResponseObject, delay } from "../../utils/apiUtils/index";
 
 const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -113,6 +113,8 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                 ),
             );
         }
+        await delay(3000);
+
         const key = `/social/${session.orgId}/hootsuite/${userId}-${
             session.name?.replace(" ", "_") || session.username
         }`;
