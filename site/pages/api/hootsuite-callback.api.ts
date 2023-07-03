@@ -113,6 +113,8 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                 ),
             );
         }
+
+        // delay added to make sure delete actions complete before redirection
         await delay(3000);
 
         const key = `/social/${session.orgId}/hootsuite/${userId}-${
