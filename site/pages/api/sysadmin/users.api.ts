@@ -60,6 +60,7 @@ const createAdminUser = async (req: NextApiRequest, res: NextApiResponse): Promi
             );
 
             redirectToAdminUsersPage(req, res);
+            return;
         }
 
         if (e instanceof Error) {
