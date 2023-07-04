@@ -194,7 +194,7 @@ describe("hootsuite-callback", () => {
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser-Test_User",
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser",
             "Test_User",
             "SecureString",
             true,
@@ -479,7 +479,7 @@ describe("hootsuite-callback", () => {
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser-Test_User",
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser",
             "Test_User",
             "SecureString",
             true,

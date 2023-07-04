@@ -101,9 +101,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const key = `/social/${session.orgId}/hootsuite/${userId}-token`;
 
-        const addedByKey = `/social/${session.orgId}/hootsuite/${userId}-addedUser-${
-            session.name?.replace(" ", "_") || session.username
-        }`;
+        const addedByKey = `/social/${session.orgId}/hootsuite/${userId}-addedUser`;
         await putParameter(key, tokenResult.refresh_token, "SecureString", true);
         await putParameter(addedByKey, session.name?.replace(" ", "_") || session.username, "SecureString", true);
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
