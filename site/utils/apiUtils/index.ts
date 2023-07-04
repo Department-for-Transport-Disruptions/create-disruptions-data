@@ -144,11 +144,11 @@ export const publishToHootsuite = async (
                 if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
                     throw new Error("Refresh token is required when creating a social media post");
                 }
-                console.log(refreshTokens);
+
                 const refreshToken = refreshTokens.Parameters?.find((rt) =>
                     rt.Name?.includes(`${socialMediaPosts[0].socialAccount}-token`),
                 );
-                console.log(refreshToken);
+
                 if (!refreshToken) {
                     throw new Error(
                         "Refresh token is required when creating a social media post and cannot be found in the list of tokens",

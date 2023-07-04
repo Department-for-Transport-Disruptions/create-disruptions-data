@@ -11,7 +11,7 @@ import { getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
-import { redirectToError, redirectTo, setCookieOnResponseObject, delay } from "../../utils/apiUtils/index";
+import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
 
 const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
