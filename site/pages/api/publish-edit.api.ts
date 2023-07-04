@@ -33,6 +33,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, ERROR_PATH);
             return;
         }
+        logger.info("Retrieved session");
 
         const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
@@ -43,6 +44,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        logger.info("Retrieved draft disruption");
         const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
@@ -56,6 +58,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        logger.info("Validated zod body");
         const isEditPendingDsp =
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
@@ -90,6 +93,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                   session.name,
               );
 
+        logger.info("Disruption related actions completed");
         if (
             validatedDisruptionBody.data.socialMediaPosts &&
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
@@ -97,8 +101,10 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         ) {
             await publishToHootsuite(validatedDisruptionBody.data.socialMediaPosts, session.orgId);
         }
-        cleardownCookies(req, res);
 
+        logger.info("Published social media");
+        cleardownCookies(req, res);
+        logger.info("Cleared cookies");
         redirectTo(res, "/dashboard");
         return;
     } catch (e) {

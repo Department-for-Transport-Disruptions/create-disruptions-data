@@ -2,7 +2,6 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
-import { readFile } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
 import {
     COOKIES_POLICY_COOKIE,
@@ -16,6 +15,7 @@ import {
 } from "../../constants";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { getHootsuiteToken } from "../../data/hootsuite";
+import { getObject } from "../../data/s3";
 import { getParameter, getParametersByPath, putParameter } from "../../data/ssm";
 import { PageState } from "../../interfaces";
 import { hootsuiteMediaSchema, hootsuiteTokenSchema, hootsuiteMediaStatusSchema } from "../../schemas/hootsuite.schema";
@@ -136,7 +136,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
         await Promise.all(
             Object.values(socialMediaPostsById).map(async (socialMediaPosts) => {
                 const refreshTokens = await getParametersByPath(`/social/${orgId}/hootsuite`);
-
+                logger.info("got Token");
                 if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
                     throw new Error("Refresh token is required when creating a social media post");
                 }
@@ -148,6 +148,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                         "Refresh token is required when creating a social media post and cannot be found in the list of tokens",
                     );
                 }
+                logger.info("got Token 2");
                 const [clientId, clientSecret] = await Promise.all([
                     getParameter(`/social/hootsuite/client_id`),
                     getParameter(`/social/hootsuite/client_secret`),
@@ -156,7 +157,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                 if (!clientId || !clientSecret) {
                     throw new Error("clientId and clientSecret must be defined");
                 }
-
+                logger.info("got id and secret");
                 const credentials = `${clientId.Parameter?.Value || ""}:${clientSecret.Parameter?.Value || ""}`;
 
                 const authToken = `Basic ${Buffer.from(credentials).toString("base64")}`;
@@ -168,17 +169,22 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
 
                     if (!parsedTokenData.success) {
                         rejectSocialMediaPostGroup = true;
-                        logger.debug("Could not parse data from hootsuite token endpoint");
+                        logger.info("Could not parse data from hootsuite token endpoint");
                     } else {
                         tokenResult = parsedTokenData.data;
                         const key = refreshToken?.Name || "";
                         await putParameter(key, tokenResult?.refresh_token ?? "", "SecureString", true);
+                        logger.info("adding new refresh token");
                     }
                 } else {
                     rejectSocialMediaPostGroup = true;
-                    logger.debug("Could not retrieve token from hootsuite");
+                    logger.info("Could not retrieve token from hootsuite");
                 }
                 if (!rejectSocialMediaPostGroup) {
+                    logger.info(socialMediaPosts.filter((s) => s.status === SocialMediaPostStatus.pending).length);
+                    logger.info(
+                        JSON.stringify(socialMediaPosts.filter((s) => s.status === SocialMediaPostStatus.pending)),
+                    );
                     socialMediaPosts
                         .filter((s) => s.status === SocialMediaPostStatus.pending)
                         .map(async (socialMediaPost) => {
@@ -199,75 +205,107 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                         Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
                                     },
                                 });
+                                logger.info("uploading media");
 
                                 if (responseImage.ok) {
+                                    logger.info("upload is ok");
                                     const parsedImageData = hootsuiteMediaSchema.safeParse(await responseImage.json());
                                     let image;
                                     if (!parsedImageData.success) {
                                         rejectSocialMediaPost = true;
-                                        logger.debug("Could not parse data from hootsuite media endpoint");
+                                        logger.info("Could not parse data from hootsuite media endpoint");
                                     } else {
                                         image = parsedImageData.data;
 
-                                        const imageContents = await readFile(socialMediaPost.image.filepath || "");
-                                        imageLink = { url: image?.data?.uploadUrl ?? "", id: image?.data?.id ?? "" };
+                                        try {
+                                            logger.info(`attempting to read file ${socialMediaPost?.image?.filepath}`);
+                                            const imageContents = await getObject(
+                                                process.env.IMAGE_BUCKET_NAME || "",
+                                                socialMediaPost.image.key,
+                                                socialMediaPost.image.originalFilename,
+                                            );
 
-                                        const uploadResponse = await fetch(imageLink.url, {
-                                            method: "PUT",
-                                            headers: {
-                                                "Content-Type": socialMediaPost.image.mimetype,
-                                            },
-                                            body: imageContents,
-                                        });
-                                        if (uploadResponse.ok) {
-                                            for (let i = 0; i < 3; i++) {
-                                                const imageStatus = await fetch(
-                                                    `${HOOTSUITE_URL}v1/media/${imageLink.id}`,
-                                                    {
-                                                        method: "GET",
-                                                        headers: {
-                                                            Authorization: `Bearer ${tokenResult?.access_token ?? ""}`,
-                                                        },
+                                            logger.info(JSON.stringify(imageContents));
+                                            if (!imageContents) {
+                                                rejectSocialMediaPost = true;
+                                                logger.info("Could not read file");
+                                            } else {
+                                                imageLink = {
+                                                    url: image?.data?.uploadUrl ?? "",
+                                                    id: image?.data?.id ?? "",
+                                                };
+
+                                                const uploadResponse = await fetch(imageLink.url, {
+                                                    method: "PUT",
+                                                    headers: {
+                                                        "Content-Type": socialMediaPost.image.mimetype,
                                                     },
-                                                );
-                                                if (imageStatus.ok) {
-                                                    const parsedImageState = hootsuiteMediaStatusSchema.safeParse(
-                                                        await imageStatus.json(),
-                                                    );
-                                                    let imageState;
-                                                    if (!parsedImageState.success) {
-                                                        rejectSocialMediaPost = true;
-                                                        logger.debug(
-                                                            "Could not parse data from hootsuite media by id endpoint",
+                                                    body: Buffer.from(imageContents),
+                                                });
+                                                logger.info("put to s3");
+                                                if (uploadResponse.ok) {
+                                                    logger.info("s3 upload is ok");
+                                                    for (let i = 0; i < 3; i++) {
+                                                        const imageStatus = await fetch(
+                                                            `${HOOTSUITE_URL}v1/media/${imageLink.id}`,
+                                                            {
+                                                                method: "GET",
+                                                                headers: {
+                                                                    Authorization: `Bearer ${
+                                                                        tokenResult?.access_token ?? ""
+                                                                    }`,
+                                                                },
+                                                            },
                                                         );
-                                                    } else {
-                                                        imageState = parsedImageState.data;
-                                                    }
-                                                    if (imageState?.data?.state === "READY") {
-                                                        rejectSocialMediaPost = false;
-                                                        canUpload = true;
+                                                        logger.info("uploading media 2");
+                                                        if (imageStatus.ok) {
+                                                            const parsedImageState =
+                                                                hootsuiteMediaStatusSchema.safeParse(
+                                                                    await imageStatus.json(),
+                                                                );
+                                                            let imageState;
+                                                            if (!parsedImageState.success) {
+                                                                rejectSocialMediaPost = true;
+                                                                logger.info(
+                                                                    "Could not parse data from hootsuite media by id endpoint",
+                                                                );
+                                                            } else {
+                                                                imageState = parsedImageState.data;
+                                                            }
+                                                            if (imageState?.data?.state === "READY") {
+                                                                rejectSocialMediaPost = false;
+                                                                canUpload = true;
 
-                                                        break;
-                                                    } else {
-                                                        await delay(1000);
-                                                        rejectSocialMediaPost = false;
+                                                                break;
+                                                            } else {
+                                                                await delay(1000);
+                                                                rejectSocialMediaPost = false;
+                                                            }
+                                                        } else {
+                                                            rejectSocialMediaPost = true;
+                                                            logger.info("Cannot retrieve media details from hootsuite");
+                                                        }
+                                                    }
+                                                    if (!canUpload) {
+                                                        await delay(3000);
                                                     }
                                                 } else {
                                                     rejectSocialMediaPost = true;
-                                                    logger.debug("Cannot retrieve media details from hootsuite");
+                                                    logger.info("Cannot upload image to hootsuite");
                                                 }
                                             }
-                                            if (!canUpload) {
-                                                await delay(3000);
+                                        } catch (e) {
+                                            if (e instanceof Error) {
+                                                logger.error(
+                                                    `An error occured with image upload to hootsuite ${e.message}`,
+                                                );
                                             }
-                                        } else {
-                                            rejectSocialMediaPost = true;
-                                            logger.debug("Cannot upload image to hootsuite");
+                                            throw e;
                                         }
                                     }
                                 } else {
                                     rejectSocialMediaPost = true;
-                                    logger.debug("Cannot retrieve upload url from hootsuite");
+                                    logger.info("Cannot retrieve upload url from hootsuite");
                                 }
                             }
 
@@ -276,6 +314,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                     socialMediaPost.publishDate,
                                     socialMediaPost.publishTime,
                                 );
+                                logger.info("create message");
                                 const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
                                     method: "POST",
                                     body: JSON.stringify({
@@ -292,8 +331,9 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
 
                                 if (!createSocialPostResponse.ok) {
                                     rejectSocialMediaPost = true;
-                                    logger.debug("Failed to create social media post");
+                                    logger.info("Failed to create social media post");
                                 } else {
+                                    logger.info("success!!!");
                                     await upsertSocialMediaPost(
                                         {
                                             ...socialMediaPost,
@@ -315,6 +355,7 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                 );
                             }
                         });
+                    logger.info("exiting function");
                 } else {
                     await Promise.all([
                         socialMediaPosts.map(async (socialMediaPost) =>
@@ -331,6 +372,9 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
             }),
         );
     } catch (e) {
+        if (e instanceof Error) {
+            logger.error(`An error occured when publish to hootsuite ${e.message}`);
+        }
         throw e;
     }
 };
