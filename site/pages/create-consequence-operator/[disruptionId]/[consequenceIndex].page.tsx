@@ -200,7 +200,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         />
                         <input type="hidden" name="consequenceType" value="operatorWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
-                       <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
+                        <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
