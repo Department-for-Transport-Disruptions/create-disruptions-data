@@ -11,7 +11,7 @@ import {
 } from "../../constants";
 import * as ssm from "../../data/ssm";
 import * as middleware from "../../middleware.api";
-import {  getMockRequestAndResponse } from "../../testData/mockData";
+import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 describe("hootsuite-callback", () => {
