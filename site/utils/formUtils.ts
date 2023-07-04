@@ -44,7 +44,7 @@ export const getStateUpdater =
 
 export const operatorStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
-    (change: string | string[] | ConsequenceOperators[], field: keyof T) => {
+    (change: ConsequenceOperators[], field: keyof T) => {
         setter({
             ...state,
             inputs: {

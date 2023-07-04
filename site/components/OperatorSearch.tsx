@@ -40,7 +40,6 @@ const OperatorSearch = <T extends object>({
 }: OperatorSearchProps<T>): ReactElement => {
     const [searchText, setSearchText] = useState("");
 
-    console.log("data------", selectedOperators);
     useEffect(() => {
         if (reset) {
             handleChange<T>([], inputName, stateUpdater);
@@ -95,7 +94,7 @@ const OperatorSearch = <T extends object>({
                                     operatorNoc: operator.nocCode,
                                     operatorPublicName: operator.operatorPublicName,
                                 });
-                                handleChange([selectedOperators], inputName, stateUpdater);
+                                handleChange(selectedOperators, inputName, stateUpdater);
                             }
                         }}
                         id="operator-search"

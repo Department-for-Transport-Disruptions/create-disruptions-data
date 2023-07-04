@@ -131,7 +131,7 @@ export const getMockContext = ({
 
 export interface GetMockRequestAndResponse {
     cookieValues?: Record<string, string>;
-    body?: Record<string, string | string[] | RecordType> | null;
+    body?: Record<string, string | string[] | RecordType | RecordType[]> | null;
     uuid?: string | null;
     mockWriteHeadFn?: Mock | null;
     mockEndFn?: Mock | null;
@@ -353,7 +353,7 @@ export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "operatorWide",
-    consequenceOperators: ["FSYO"],
+    consequenceOperators: [{ operatorNoc: "FSYO", operatorPublicName: "Operator Name" }],
     description: "Some consequence description",
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,

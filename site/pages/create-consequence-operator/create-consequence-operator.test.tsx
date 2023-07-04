@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/[consequenceIndex].page";
 import { mockOperators } from "../../testData/mockData";
+import { ConsequenceOperators } from "../../schemas/consequence.schema";
 
 const blankInputs: CreateConsequenceOperatorProps = {
     errors: [],
@@ -10,10 +11,17 @@ const blankInputs: CreateConsequenceOperatorProps = {
     operators: mockOperators,
 };
 
+const defaultConsequenceOperators: ConsequenceOperators[] = [
+    {
+        operatorNoc: "FMAN",
+        operatorPublicName: "Another operator",
+    },
+];
+
 const withInputs: CreateConsequenceOperatorProps = {
     errors: [],
     inputs: {
-        consequenceOperators: ["1CTL"],
+        consequenceOperators: defaultConsequenceOperators,
         description: "A truck broke down on a bridge",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "yes",

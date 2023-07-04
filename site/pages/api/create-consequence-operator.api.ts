@@ -7,7 +7,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { OperatorConsequence, operatorConsequenceSchema } from "../../schemas/consequence.schema";
+import { ConsequenceOperators, OperatorConsequence, operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -24,40 +24,50 @@ interface OperatorConsequenceRequest extends NextApiRequest {
     };
 }
 
+export const formatCreateConsequenceBody = (body: object) => {
+    const consequenceOperators = Object.entries(body)
+        .filter((item) => item.toString().startsWith("consequenceOperators"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as ConsequenceOperators[];
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter(
+            (item) => !item.toString().startsWith("stop") && !item.toString().startsWith("service"),
+        ),
+    );
+
+    return {
+        ...cleansedBody,
+        consequenceOperators: consequenceOperators.flat(),
+    };
+};
+
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
-        // const consequenceOperatorsData = req.body.consequenceOperators;
         const session = getSession(req);
 
         const { draft } = req.query;
+
+        const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 
         if (!session) {
             throw new Error("No session found");
         }
 
-        // const consequenceOperators: string[] =
-        //     !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
-        //         ? consequenceOperatorsData.split(",")
-        //         : !!consequenceOperatorsData
-        //         ? [consequenceOperatorsData]
-        //         : [];
-
-        const consequence: OperatorConsequence = req.body as OperatorConsequence;
-
-        // const validatedBody = operatorConsequenceSchema.safeParse(consequence);
-        const validatedBody = operatorConsequenceSchema.safeParse(req.body);
+        const validatedBody = operatorConsequenceSchema.safeParse(formattedBody);
 
         if (!validatedBody.success) {
-            if (!consequence.disruptionId || !consequence.consequenceIndex) {
+            if (!formattedBody.disruptionId || !formattedBody.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
 
-            console.log("errors------", flattenZodErrors(validatedBody.error));
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({
-                    inputs: consequence,
+                    inputs: formattedBody,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
@@ -65,7 +75,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
 
             redirectTo(
                 res,
-                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${consequence.disruptionId}/${consequence.consequenceIndex}${
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}${
                     queryParam ? `?${queryParam}` : ""
                 }`,
             );

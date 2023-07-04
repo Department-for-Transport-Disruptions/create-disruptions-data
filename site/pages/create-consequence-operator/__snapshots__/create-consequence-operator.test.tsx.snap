@@ -293,13 +293,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               >
                 <td
                   className="govuk-table__cell align-middle"
-                >
-                  1st Choice Transport Ltd
-                </td>
+                />
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  1CTL
+                  FMAN
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -317,11 +315,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <input
             name="consequenceOperators"
             type="hidden"
-            value={
-              [
-                "1CTL",
-              ]
-            }
+            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
           />
           <div
             className="govuk-form-group"
@@ -1728,13 +1722,11 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
               >
                 <td
                   className="govuk-table__cell align-middle"
-                >
-                  1st Choice Transport Ltd
-                </td>
+                />
                 <td
                   className="govuk-table__cell align-middle"
                 >
-                  1CTL
+                  FMAN
                 </td>
                 <td
                   className="govuk-table__cell align-middle"
@@ -1752,11 +1744,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           <input
             name="consequenceOperators"
             type="hidden"
-            value={
-              [
-                "1CTL",
-              ]
-            }
+            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
           />
           <div
             className="govuk-form-group"
