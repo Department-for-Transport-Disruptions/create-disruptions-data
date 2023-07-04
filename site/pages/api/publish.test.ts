@@ -88,6 +88,8 @@ describe("publish", () => {
         expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
             DEFAULT_ORG_ID,
+            false,
+            true,
         );
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
