@@ -587,6 +587,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group govuk-form-group--error"
           >
@@ -2560,6 +2571,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group"
           >

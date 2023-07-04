@@ -1,5 +1,5 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -11,6 +11,7 @@ interface TextInputProps<T> extends FormBase<T> {
     rows?: number;
     hint?: string;
     isPassword?: boolean;
+    resetError?: boolean;
 }
 
 const TextInput = <T extends object>({
@@ -27,9 +28,16 @@ const TextInput = <T extends object>({
     stateUpdater,
     schema,
     isPassword,
+    resetError = false,
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
+
+    useEffect(() => {
+        if (resetError) {
+            setErrors([]);
+        }
+    }, [resetError, setErrors]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
