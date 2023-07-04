@@ -998,7 +998,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     } else if (consequence.consequenceType === "operatorWide") {
                         isOperatorWideCq = true;
                         consequence.consequenceOperators.forEach((op) => {
-                            disruptionOperators.push(op);
+                            disruptionOperators.push(op.operatorNoc);
                         });
                     } else if (consequence.consequenceType === "networkWide") {
                         isNetworkWideCq = true;
