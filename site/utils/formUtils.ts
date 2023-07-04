@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { ErrorInfo, PageState } from "../interfaces";
-import { Service, Stop } from "../schemas/consequence.schema";
+import { ConsequenceOperators, Service, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const handleBlur = <T>(
@@ -33,6 +33,18 @@ export const handleBlur = <T>(
 export const getStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
     (change: string | string[], field: keyof T) => {
+        setter({
+            ...state,
+            inputs: {
+                ...state.inputs,
+                [field]: change,
+            },
+        });
+    };
+
+export const operatorStateUpdater =
+    <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
+    (change: ConsequenceOperators[], field: keyof T) => {
         setter({
             ...state,
             inputs: {

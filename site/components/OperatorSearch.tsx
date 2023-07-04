@@ -7,7 +7,7 @@ import { ConsequenceOperators, Operator } from "../schemas/consequence.schema";
 
 interface OperatorSearchProps<T> {
     operators: Operator[];
-    stateUpdater: (change: ConsequenceOperators[], field: keyof T) => void;
+    stateUpdater: (change: string[] | ConsequenceOperators[], field: keyof T) => void;
     selectedOperators: ConsequenceOperators[];
     reset?: boolean;
     display: string;

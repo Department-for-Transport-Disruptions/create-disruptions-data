@@ -30,7 +30,7 @@ import {
 } from "../constants";
 import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { Operator, Service } from "../schemas/consequence.schema";
+import { ConsequenceOperators, Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
 import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
 import {
@@ -368,8 +368,8 @@ const ViewAllDisruptions = ({
     const [selectedOperatorsNocs, setSelectedOperatorsNocs] = useState<string[]>([]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const stateUpdater = (change: string[], _field: string): void => {
-        setSelectedOperatorsNocs(change);
+    const stateUpdater = (change: string[] | ConsequenceOperators[], _field: string): void => {
+        setSelectedOperatorsNocs(change as string[]);
     };
     const [filter, setFilter] = useState<Filter>({
         services: [],
