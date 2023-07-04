@@ -26,7 +26,7 @@ const TimeSelector = <T extends object>({
     reset = false,
     placeholderValue = "hhmm",
     resetError = false,
-    showNowButton = false,
+    showNowButton,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
