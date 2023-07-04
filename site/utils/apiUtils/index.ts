@@ -144,9 +144,11 @@ export const publishToHootsuite = async (
                 if (!refreshTokens || (refreshTokens && refreshTokens.Parameters?.length === 0)) {
                     throw new Error("Refresh token is required when creating a social media post");
                 }
+                console.log(refreshTokens);
                 const refreshToken = refreshTokens.Parameters?.find((rt) =>
-                    rt.Name?.includes(`${socialMediaPosts[0].socialAccount}`),
+                    rt.Name?.includes(`${socialMediaPosts[0].socialAccount}-token`),
                 );
+                console.log(refreshToken);
                 if (!refreshToken) {
                     throw new Error(
                         "Refresh token is required when creating a social media post and cannot be found in the list of tokens",
@@ -212,87 +214,75 @@ export const publishToHootsuite = async (
                                     } else {
                                         image = parsedImageData.data;
 
-                                        try {
-                                            const imageContents = await getObject(
-                                                process.env.IMAGE_BUCKET_NAME || "",
-                                                socialMediaPost.image.key,
-                                                socialMediaPost.image.originalFilename,
-                                            );
+                                        const imageContents = await getObject(
+                                            process.env.IMAGE_BUCKET_NAME || "",
+                                            socialMediaPost.image.key,
+                                            socialMediaPost.image.originalFilename,
+                                        );
 
-                                            if (!imageContents) {
-                                                rejectSocialMediaPost = true;
-                                                logger.debug("Could not read file");
-                                            } else {
-                                                imageLink = {
-                                                    url: image?.data?.uploadUrl ?? "",
-                                                    id: image?.data?.id ?? "",
-                                                };
+                                        if (!imageContents) {
+                                            rejectSocialMediaPost = true;
+                                            logger.debug("Could not read file");
+                                        } else {
+                                            imageLink = {
+                                                url: image?.data?.uploadUrl ?? "",
+                                                id: image?.data?.id ?? "",
+                                            };
 
-                                                const uploadResponse = await fetch(imageLink.url, {
-                                                    method: "PUT",
-                                                    headers: {
-                                                        "Content-Type": socialMediaPost.image.mimetype,
-                                                    },
-                                                    body: Buffer.from(imageContents),
-                                                });
-                                                if (uploadResponse.ok) {
-                                                    for (let i = 0; i < 3; i++) {
-                                                        const imageStatus = await fetch(
-                                                            `${HOOTSUITE_URL}v1/media/${imageLink.id}`,
-                                                            {
-                                                                method: "GET",
-                                                                headers: {
-                                                                    Authorization: `Bearer ${
-                                                                        tokenResult?.access_token ?? ""
-                                                                    }`,
-                                                                },
+                                            const uploadResponse = await fetch(imageLink.url, {
+                                                method: "PUT",
+                                                headers: {
+                                                    "Content-Type": socialMediaPost.image.mimetype,
+                                                },
+                                                body: Buffer.from(imageContents),
+                                            });
+                                            if (uploadResponse.ok) {
+                                                for (let i = 0; i < 3; i++) {
+                                                    const imageStatus = await fetch(
+                                                        `${HOOTSUITE_URL}v1/media/${imageLink.id}`,
+                                                        {
+                                                            method: "GET",
+                                                            headers: {
+                                                                Authorization: `Bearer ${
+                                                                    tokenResult?.access_token ?? ""
+                                                                }`,
                                                             },
+                                                        },
+                                                    );
+                                                    if (imageStatus.ok) {
+                                                        const parsedImageState = hootsuiteMediaStatusSchema.safeParse(
+                                                            await imageStatus.json(),
                                                         );
-                                                        if (imageStatus.ok) {
-                                                            const parsedImageState =
-                                                                hootsuiteMediaStatusSchema.safeParse(
-                                                                    await imageStatus.json(),
-                                                                );
-                                                            let imageState;
-                                                            if (!parsedImageState.success) {
-                                                                rejectSocialMediaPost = true;
-                                                                logger.debug(
-                                                                    "Could not parse data from hootsuite media by id endpoint",
-                                                                );
-                                                            } else {
-                                                                imageState = parsedImageState.data;
-                                                            }
-                                                            if (imageState?.data?.state === "READY") {
-                                                                rejectSocialMediaPost = false;
-                                                                canUpload = true;
-
-                                                                break;
-                                                            } else {
-                                                                await delay(1000);
-                                                                rejectSocialMediaPost = false;
-                                                            }
-                                                        } else {
+                                                        let imageState;
+                                                        if (!parsedImageState.success) {
                                                             rejectSocialMediaPost = true;
                                                             logger.debug(
-                                                                "Cannot retrieve media details from hootsuite",
+                                                                "Could not parse data from hootsuite media by id endpoint",
                                                             );
+                                                        } else {
+                                                            imageState = parsedImageState.data;
                                                         }
+                                                        if (imageState?.data?.state === "READY") {
+                                                            rejectSocialMediaPost = false;
+                                                            canUpload = true;
+
+                                                            break;
+                                                        } else {
+                                                            await delay(1000);
+                                                            rejectSocialMediaPost = false;
+                                                        }
+                                                    } else {
+                                                        rejectSocialMediaPost = true;
+                                                        logger.debug("Cannot retrieve media details from hootsuite");
                                                     }
-                                                    if (!canUpload) {
-                                                        await delay(3000);
-                                                    }
-                                                } else {
-                                                    rejectSocialMediaPost = true;
-                                                    logger.debug("Cannot upload image to hootsuite");
                                                 }
+                                                if (!canUpload) {
+                                                    await delay(3000);
+                                                }
+                                            } else {
+                                                rejectSocialMediaPost = true;
+                                                logger.debug("Cannot upload image to hootsuite");
                                             }
-                                        } catch (e) {
-                                            if (e instanceof Error) {
-                                                logger.error(
-                                                    `An error occured with image upload to hootsuite ${e.message}`,
-                                                );
-                                            }
-                                            throw e;
                                         }
                                     }
                                 } else {

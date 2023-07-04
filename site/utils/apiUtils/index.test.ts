@@ -48,17 +48,17 @@ describe("publishToHootsuite", () => {
         getParametersByPathSpy.mockResolvedValue({
             Parameters: [
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     Type: "SecureString",
                     Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     Version: 4,
                 },
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     Type: "SecureString",
                     Value: "lzJhbGciOiUIUzI1MiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gSG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQrrw6d",
                     Version: 4,
@@ -167,14 +167,14 @@ describe("publishToHootsuite", () => {
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             1,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
             "1234567562",
             "SecureString",
             true,
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
             "1234567563",
             "SecureString",
             true,
@@ -267,17 +267,17 @@ describe("publishToHootsuite", () => {
         getParametersByPathSpy.mockResolvedValue({
             Parameters: [
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     Type: "SecureString",
                     Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     Version: 4,
                 },
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     Type: "SecureString",
                     Value: "lzJhbGciOiUIUzI1MiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gSG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQrrw6d",
                     Version: 4,
@@ -364,14 +364,14 @@ describe("publishToHootsuite", () => {
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             1,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
             "1234567562",
             "SecureString",
             true,
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
             "1234567563",
             "SecureString",
             true,

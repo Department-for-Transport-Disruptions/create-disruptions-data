@@ -31,9 +31,7 @@ describe("hootsuite-callback", () => {
 
     vi.mock("../../data/ssm", () => ({
         getParameter: vi.fn(),
-        deleteParameter: vi.fn(),
         putParameter: vi.fn(),
-        getParametersByPath: vi.fn(),
     }));
 
     vi.mock("jose", () => ({
@@ -44,12 +42,10 @@ describe("hootsuite-callback", () => {
         initiateRefreshAuth: vi.fn(),
     }));
 
-    const deleteParameterSpy = vi.spyOn(ssm, "deleteParameter");
     const getParameterSpy = vi.spyOn(ssm, "getParameter");
     const putParameterSpy = vi.spyOn(ssm, "putParameter");
     const decodeJwtSpy = vi.spyOn(jose, "decodeJwt");
     const initiateRefreshAuthSpy = vi.spyOn(middleware, "initiateRefreshAuth");
-    const getParametersByPathSpy = vi.spyOn(ssm, "getParametersByPath");
 
     it("should redirect to the social media accounts page upon successful hootsuite connection", async () => {
         const { req, res } = getMockRequestAndResponse({
@@ -142,21 +138,7 @@ describe("hootsuite-callback", () => {
                 },
             });
 
-        getParametersByPathSpy.mockResolvedValueOnce({
-            Parameters: [
-                {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/Test_User-123`,
-                    DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/Test_User-123`,
-                    Type: "SecureString",
-                    Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-                    Version: 4,
-                },
-            ],
-        });
-
-        deleteParameterSpy.mockResolvedValueOnce({});
-
+        putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
 
         await hootsuiteCallback(req, res);
@@ -203,9 +185,17 @@ describe("hootsuite-callback", () => {
             },
         });
 
-        expect(ssm.putParameter).toBeCalledWith(
-            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-Test_User",
+        expect(ssm.putParameter).toHaveBeenNthCalledWith(
+            1,
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-token",
             "1234567562",
+            "SecureString",
+            true,
+        );
+        expect(ssm.putParameter).toHaveBeenNthCalledWith(
+            2,
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser-Test_User",
+            "Test_User",
             "SecureString",
             true,
         );
@@ -297,6 +287,7 @@ describe("hootsuite-callback", () => {
             },
         });
 
+        putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
 
         await hootsuiteCallback(req, res);
@@ -432,12 +423,7 @@ describe("hootsuite-callback", () => {
                 },
             });
 
-        getParametersByPathSpy.mockResolvedValueOnce({
-            Parameters: [],
-        });
-
-        deleteParameterSpy.mockResolvedValueOnce({});
-
+        putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
 
         await hootsuiteCallback(req, res);
@@ -484,9 +470,17 @@ describe("hootsuite-callback", () => {
             },
         });
 
-        expect(ssm.putParameter).toBeCalledWith(
-            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-Test_User",
+        expect(ssm.putParameter).toHaveBeenNthCalledWith(
+            1,
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-token",
             "1234567562",
+            "SecureString",
+            true,
+        );
+        expect(ssm.putParameter).toHaveBeenNthCalledWith(
+            2,
+            "/social/0404b47d-0238-4f98-b417-4d671ef05022/hootsuite/123-addedUser-Test_User",
+            "Test_User",
             "SecureString",
             true,
         );

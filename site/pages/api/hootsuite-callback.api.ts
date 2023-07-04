@@ -7,7 +7,7 @@ import {
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
-import { deleteParameter, getParameter, getParametersByPath, putParameter } from "../../data/ssm";
+import { getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
@@ -99,29 +99,13 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userId: string = userDetails.data.id;
 
-        let refreshTokens = null;
-        try {
-            refreshTokens = (await getParametersByPath(`/social/${session.orgId}/hootsuite`)) ?? null;
-        } catch (e) {}
+        const key = `/social/${session.orgId}/hootsuite/${userId}-token`;
 
-        const refreshTokenExists = refreshTokens?.Parameters?.filter((rt) => rt.Name?.includes(userId));
-
-        if (refreshTokenExists && refreshTokenExists.length > 0) {
-            await Promise.all(
-                refreshTokenExists.map(async (refreshToken) =>
-                    refreshToken.Name ? await deleteParameter(refreshToken.Name) : "",
-                ),
-            );
-        }
-
-        // delay added to make sure delete actions complete before redirection
-        await delay(3000);
-
-        const key = `/social/${session.orgId}/hootsuite/${userId}-${
+        const addedByKey = `/social/${session.orgId}/hootsuite/${userId}-addedUser-${
             session.name?.replace(" ", "_") || session.username
         }`;
         await putParameter(key, tokenResult.refresh_token, "SecureString", true);
-
+        await putParameter(addedByKey, session.name?.replace(" ", "_") || session.username, "SecureString", true);
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
