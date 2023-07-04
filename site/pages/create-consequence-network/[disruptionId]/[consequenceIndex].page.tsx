@@ -95,6 +95,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={networkConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||

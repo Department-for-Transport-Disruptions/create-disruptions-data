@@ -148,9 +148,10 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
-{!pageState.inputs.description ||
+                        {!pageState.inputs.description ||
                         (pageState.inputs && pageState.inputs.description.length === 0) ? (
                             <button
                                 className="mt-3 govuk-link"
@@ -162,7 +163,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
                             </button>
                         ) : null}
-
 
                         <Radios<OperatorConsequence>
                             display="Remove from journey planners"

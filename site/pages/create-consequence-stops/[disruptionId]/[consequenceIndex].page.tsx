@@ -244,6 +244,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={stopsConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||

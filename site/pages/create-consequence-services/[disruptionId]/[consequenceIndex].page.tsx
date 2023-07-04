@@ -433,6 +433,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={servicesConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||
