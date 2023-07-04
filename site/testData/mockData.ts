@@ -458,7 +458,7 @@ export const ptSituationElementWithMultipleConsequences = {
                 Severity: "severe",
                 Affects: {
                     Networks: { AffectedNetwork: { VehicleMode: "bus", AllLines: "" } },
-                    Operators: { AffectedOperator: [{ OperatorRef: "FSYO" }] },
+                    Operators: { AffectedOperator: [{ OperatorRef: "FSYO", OperatorName: "Operator Name" }] },
                 },
                 Advice: { Details: "Some consequence description" },
                 Blocking: { JourneyPlanner: true },

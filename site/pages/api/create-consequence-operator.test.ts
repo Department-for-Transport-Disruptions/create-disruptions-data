@@ -26,7 +26,7 @@ const defaultConsequenceOperators: ConsequenceOperators[] = [
 ];
 
 const bodyData = {
-    consequenceOperators: defaultConsequenceOperators,
+    consequenceOperators: JSON.stringify(defaultConsequenceOperators),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
