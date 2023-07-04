@@ -42,7 +42,7 @@ export interface CreateConsequenceOperatorProps
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
 
-    const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+    //const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
@@ -83,7 +83,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
                             selectValues={VEHICLE_MODES}
-                            stateUpdater={stateUpdater}
+                            stateUpdater={operatorStateUpdate}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.vehicleMode}
@@ -95,11 +95,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             displaySize="l"
                             operators={props.operators.filter(
                                 (op) =>
-                                    !(pageState.inputs.consequenceOperators || []).find(
+                                    !pageState.inputs.consequenceOperators?.find(
                                         (selOp) => selOp.operatorNoc === op.nocCode,
                                     ),
                             )}
-                            selectedOperators={pageState.inputs.consequenceOperators || []}
+                            selectedOperators={pageState.inputs?.consequenceOperators ?? []}
                             stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
                             inputName="consequenceOperators"
@@ -154,7 +154,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             textArea
                             rows={3}
                             maxLength={500}
-                            stateUpdater={stateUpdater}
+                            stateUpdater={operatorStateUpdate}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.description}
@@ -174,7 +174,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 },
                             ]}
                             inputName="removeFromJourneyPlanners"
-                            stateUpdater={stateUpdater}
+                            stateUpdater={operatorStateUpdate}
                             value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.removeFromJourneyPlanners}
@@ -186,7 +186,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}
                             inputName="disruptionDelay"
-                            stateUpdater={stateUpdater}
+                            stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
@@ -198,7 +198,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             displaySize="l"
                             defaultDisplay="Select severity"
                             selectValues={DISRUPTION_SEVERITIES}
-                            stateUpdater={stateUpdater}
+                            stateUpdater={operatorStateUpdate}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.disruptionSeverity}
@@ -268,6 +268,7 @@ export const getServerSideProps = async (
         consequence && isOperatorConsequence(consequence) ? consequence : undefined,
     );
 
+    console.log("pageState-----", pageState.inputs.consequenceOperators);
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });

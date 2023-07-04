@@ -7,7 +7,7 @@ import { ConsequenceOperators, Operator } from "../schemas/consequence.schema";
 
 interface OperatorSearchProps<T> {
     operators: Operator[];
-    stateUpdater: (change: string[] | ConsequenceOperators[], field: keyof T) => void;
+    stateUpdater: (change: ConsequenceOperators[], field: keyof T) => void;
     selectedOperators: ConsequenceOperators[];
     reset?: boolean;
     display: string;
@@ -40,6 +40,7 @@ const OperatorSearch = <T extends object>({
 }: OperatorSearchProps<T>): ReactElement => {
     const [searchText, setSearchText] = useState("");
 
+    console.log("data------", selectedOperators);
     useEffect(() => {
         if (reset) {
             handleChange<T>([], inputName, stateUpdater);
@@ -94,7 +95,7 @@ const OperatorSearch = <T extends object>({
                                     operatorNoc: operator.nocCode,
                                     operatorPublicName: operator.operatorPublicName,
                                 });
-                                handleChange(selectedOperators, inputName, stateUpdater);
+                                handleChange([selectedOperators], inputName, stateUpdater);
                             }
                         }}
                         id="operator-search"

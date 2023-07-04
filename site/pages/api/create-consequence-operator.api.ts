@@ -27,7 +27,7 @@ interface OperatorConsequenceRequest extends NextApiRequest {
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
-        const consequenceOperatorsData = req.body.consequenceOperators;
+        // const consequenceOperatorsData = req.body.consequenceOperators;
         const session = getSession(req);
 
         const { draft } = req.query;
@@ -36,25 +36,24 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             throw new Error("No session found");
         }
 
-        const consequenceOperators: string[] =
-            !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
-                ? consequenceOperatorsData.split(",")
-                : !!consequenceOperatorsData
-                ? [consequenceOperatorsData]
-                : [];
+        // const consequenceOperators: string[] =
+        //     !!consequenceOperatorsData && consequenceOperatorsData.includes(",")
+        //         ? consequenceOperatorsData.split(",")
+        //         : !!consequenceOperatorsData
+        //         ? [consequenceOperatorsData]
+        //         : [];
 
-        const consequence: OperatorConsequence = {
-            ...req.body,
-            consequenceOperators,
-        };
+        const consequence: OperatorConsequence = req.body as OperatorConsequence;
 
-        const validatedBody = operatorConsequenceSchema.safeParse(consequence);
+        // const validatedBody = operatorConsequenceSchema.safeParse(consequence);
+        const validatedBody = operatorConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
             if (!consequence.disruptionId || !consequence.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
 
+            console.log("errors------", flattenZodErrors(validatedBody.error));
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                 JSON.stringify({

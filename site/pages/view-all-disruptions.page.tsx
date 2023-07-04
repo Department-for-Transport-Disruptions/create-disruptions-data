@@ -365,11 +365,11 @@ const ViewAllDisruptions = ({
     );
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
-    const [selectedOperatorsNocs, setSelectedOperatorsNocs] = useState<string[]>([]);
+    const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const stateUpdater = (change: string[] | ConsequenceOperators[], _field: string): void => {
-        setSelectedOperatorsNocs(change as string[]);
+    const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
+        setSelectedOperators([...change]);
     };
     const [filter, setFilter] = useState<Filter>({
         services: [],
@@ -458,7 +458,7 @@ const ViewAllDisruptions = ({
             setStartDateFilterError(false);
             setEndDateFilter("");
             setEndDateFilterError(false);
-            setSelectedOperatorsNocs([]);
+            setSelectedOperators([]);
             setSelectedServices([]);
             setClearButtonClicked(false);
             setSearchText("");
@@ -508,8 +508,8 @@ const ViewAllDisruptions = ({
 
     useEffect(() => {
         const disruptionOperatorsToSet: DisruptionOperator[] = [];
-        selectedOperatorsNocs.forEach((selOpNoc) => {
-            const operator = operatorsList.find((op) => op.nocCode === selOpNoc);
+        selectedOperators.forEach((selOpNoc) => {
+            const operator = operatorsList.find((op) => op.nocCode === selOpNoc.operatorNoc);
             if (operator) {
                 disruptionOperatorsToSet.push({
                     operatorName: operator.operatorPublicName,
@@ -529,7 +529,7 @@ const ViewAllDisruptions = ({
             { ...filter, operators: disruptionOperatorsToSet },
             setNumberOfDisruptionsPages,
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedOperatorsNocs]);
+    }, [selectedOperators]);
 
     useEffect(() => {
         if (filterIsEmpty(filter)) {
@@ -749,37 +749,42 @@ const ViewAllDisruptions = ({
                             />
                         </div>
                     </div>
-                    <OperatorSearch
+                    <OperatorSearch<DisruptionOperator>
                         display="Operators"
                         displaySize="s"
                         operators={operatorsList}
-                        selectedOperatorNocs={selectedOperatorsNocs}
+                        selectedOperators={selectedOperators}
                         stateUpdater={stateUpdater}
                         initialErrors={[]}
-                        inputName="operatorsFilter"
+                        inputName="operatorName"
                         reset={clearButtonClicked}
                     />
-                    {selectedOperatorsNocs.length > 0 ? (
+                    {selectedOperators.length > 0 ? (
                         <Table
-                            rows={selectedOperatorsNocs.map((selOpNoc) => {
-                                return {
-                                    cells: [
-                                        operatorsList.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
-                                        selOpNoc,
-                                        <button
-                                            key={selOpNoc}
-                                            className="govuk-link"
-                                            onClick={() => {
-                                                const selectedOperatorsWithRemoved =
-                                                    selectedOperatorsNocs.filter((opNoc) => opNoc !== selOpNoc) || [];
-                                                stateUpdater(selectedOperatorsWithRemoved, "");
-                                            }}
-                                        >
-                                            Remove
-                                        </button>,
-                                    ],
-                                };
-                            })}
+                            rows={selectedOperators
+                                .sort((a, b) => {
+                                    return a.operatorPublicName.localeCompare(b.operatorPublicName);
+                                })
+                                .map((selOpNoc) => {
+                                    return {
+                                        cells: [
+                                            operatorsList.find((op) => op.nocCode === selOpNoc.operatorNoc)
+                                                ?.operatorPublicName,
+                                            selOpNoc.operatorNoc,
+                                            <button
+                                                key={selOpNoc.operatorNoc}
+                                                className="govuk-link"
+                                                onClick={() => {
+                                                    const selectedOperatorsWithRemoved =
+                                                        selectedOperators.filter((opNoc) => opNoc !== selOpNoc) || [];
+                                                    stateUpdater(selectedOperatorsWithRemoved, "");
+                                                }}
+                                            >
+                                                Remove
+                                            </button>,
+                                        ],
+                                    };
+                                })}
                         />
                     ) : null}
                     <ServiceSearch
