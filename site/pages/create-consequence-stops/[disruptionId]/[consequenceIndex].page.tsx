@@ -246,6 +246,19 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             schema={stopsConsequenceSchema.shape.description}
                         />
 
+                        {!pageState.inputs.description ||
+                        (pageState.inputs && pageState.inputs.description.length === 0) ? (
+                            <button
+                                className="mt-3 govuk-link"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    stateUpdater(props.disruptionSummary, "description");
+                                }}
+                            >
+                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            </button>
+                        ) : null}
+
                         <Radios<StopsConsequence>
                             display="Remove from journey planners"
                             displaySize="l"
@@ -354,7 +367,14 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, ctx.res);
 
-    return { props: { ...pageState, consequenceIndex: index, sessionWithOrg: session } };
+    return {
+        props: {
+            ...pageState,
+            consequenceIndex: index,
+            sessionWithOrg: session,
+            disruptionSummary: disruption.description || "",
+        },
+    };
 };
 
 export default CreateConsequenceStops;
