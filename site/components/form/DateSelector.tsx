@@ -22,6 +22,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     reset?: boolean;
     errorOnBlur?: boolean;
     suffixId?: string;
+    resetError?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -90,6 +91,7 @@ const DateSelector = <T extends object>({
     reset = false,
     errorOnBlur = true,
     suffixId,
+    resetError = false,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -103,6 +105,18 @@ const DateSelector = <T extends object>({
             setDateValue(null);
         }
     }, [disabled, reset]);
+
+    useEffect(() => {
+        if (resetError) {
+            setErrors([]);
+        }
+    }, [resetError]);
+
+    useEffect(() => {
+        if (value) {
+            setDateValue(getFormattedDate(value).toDate());
+        }
+    }, [value]);
 
     useEffect(() => {
         setErrors(initialErrors);

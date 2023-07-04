@@ -1,5 +1,5 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { handleBlur } from "../../utils/formUtils";
@@ -9,6 +9,8 @@ interface TimeSelectorProps<T> extends FormBase<T> {
     hint?: string;
     reset?: boolean;
     placeholderValue?: string;
+    resetError?: boolean;
+    showNowButton?: (e: SyntheticEvent) => void;
 }
 
 const TimeSelector = <T extends object>({
@@ -23,6 +25,8 @@ const TimeSelector = <T extends object>({
     stateUpdater,
     reset = false,
     placeholderValue = "hhmm",
+    resetError = false,
+    showNowButton = false,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -39,6 +43,20 @@ const TimeSelector = <T extends object>({
     }, [disabled, reset]);
 
     useEffect(() => {
+        if (resetError) {
+            setErrors([]);
+        }
+    }, [resetError]);
+
+    useEffect(() => {
+        if (value) {
+            if (ref.current) {
+                ref.current.value = value;
+            }
+        }
+    }, [value]);
+
+    useEffect(() => {
         setErrors(initialErrors);
     }, [initialErrors]);
 
@@ -53,20 +71,29 @@ const TimeSelector = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
-                    <input
-                        ref={ref}
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        name={inputName}
-                        id={`${inputId}-input`}
-                        type="text"
-                        defaultValue={value}
-                        disabled={disabled}
-                        placeholder={disabled ? "N/A" : placeholderValue}
-                        aria-describedby={hint ? `${inputId}-hint` : ""}
-                        onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)}
-                    />
-                </FormElementWrapper>
+                <div className={!!showNowButton ? "flex gap-4" : ""}>
+                    <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                        <input
+                            ref={ref}
+                            className="govuk-input govuk-date-input__input govuk-input--width-4"
+                            name={inputName}
+                            id={`${inputId}-input`}
+                            type="text"
+                            defaultValue={value}
+                            disabled={disabled}
+                            placeholder={disabled ? "N/A" : placeholderValue}
+                            aria-describedby={hint ? `${inputId}-hint` : ""}
+                            onBlur={(e) =>
+                                handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
+                            }
+                        />
+                    </FormElementWrapper>
+                    {showNowButton ? (
+                        <button className="mt-3 govuk-link" data-module="govuk-button" onClick={showNowButton}>
+                            <p className="text-govBlue govuk-body-m">Now</p>
+                        </button>
+                    ) : null}
+                </div>
             </div>
         </FormGroupWrapper>
     );

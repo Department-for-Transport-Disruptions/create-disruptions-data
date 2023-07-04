@@ -443,17 +443,21 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
               <div
                 className=""
               >
-                <input
-                  aria-describedby=""
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="yes"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby=""
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="yes"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1139,16 +1143,20 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
               <div
                 className=""
               >
-                <input
-                  aria-describedby=""
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby=""
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1878,17 +1886,21 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
               <div
                 className=""
               >
-                <input
-                  aria-describedby=""
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="yes"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby=""
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="yes"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
