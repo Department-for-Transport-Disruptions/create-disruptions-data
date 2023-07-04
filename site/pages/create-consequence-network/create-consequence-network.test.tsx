@@ -17,6 +17,7 @@ const withInputs: CreateConsequenceNetworkProps = {
         disruptionSeverity: Severity.severe,
     },
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    disruptionSummary: "A truck broke down on a bridge",
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

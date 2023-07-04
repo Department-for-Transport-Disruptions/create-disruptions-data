@@ -71,7 +71,7 @@ export interface CreateConsequenceProps {
     initialBodsServices?: Service[];
     initialTndsServices?: Service[];
     initialStops?: Stop[];
-    disruptionSummary: string;
+    disruptionSummary?: string;
 }
 
 export interface DisruptionDetailCookie {
