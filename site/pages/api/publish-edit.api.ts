@@ -99,7 +99,12 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
             canPublish(session)
         ) {
-            await publishToHootsuite(validatedDisruptionBody.data.socialMediaPosts, session.orgId);
+            await publishToHootsuite(
+                validatedDisruptionBody.data.socialMediaPosts,
+                session.orgId,
+                session.isOrgStaff,
+                canPublish(session),
+            );
         }
 
         logger.info("Published social media");

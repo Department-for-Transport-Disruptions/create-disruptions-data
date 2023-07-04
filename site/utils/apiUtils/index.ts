@@ -119,7 +119,12 @@ export const getReturnPage = (req: NextApiRequest) => {
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], orgId: string) => {
+export const publishToHootsuite = async (
+    socialMediaPosts: SocialMediaPost[],
+    orgId: string,
+    isUserStaff: boolean,
+    canPublish: boolean,
+) => {
     try {
         const socialMediaPostsById = socialMediaPosts.reduce(
             (acc: Record<string, SocialMediaPost[]>, obj: SocialMediaPost) => {
@@ -340,7 +345,10 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                             status: SocialMediaPostStatus.successful,
                                         },
                                         orgId,
+                                        isUserStaff,
+                                        canPublish,
                                     );
+                                    await delay(2000);
                                 }
                             } else {
                                 rejectSocialMediaPost = true;
@@ -352,7 +360,10 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                         status: SocialMediaPostStatus.rejected,
                                     },
                                     orgId,
+                                    isUserStaff,
+                                    canPublish,
                                 );
+                                await delay(2000);
                             }
                         });
                     logger.info("exiting function");
@@ -365,9 +376,12 @@ export const publishToHootsuite = async (socialMediaPosts: SocialMediaPost[], or
                                     status: SocialMediaPostStatus.rejected,
                                 },
                                 orgId,
+                                isUserStaff,
+                                canPublish,
                             ),
                         ),
                     ]);
+                    await delay(2000);
                 }
             }),
         );
