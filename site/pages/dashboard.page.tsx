@@ -13,7 +13,6 @@ import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, isLiveDisruption } from "../utils/dates";
-import logger from "../utils/logger";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -287,7 +286,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
-    logger.info("here on the dashboard");
     const data = await Promise.all([
         getPublishedDisruptionsDataFromDynamo(sessionWithOrg.orgId),
         getPendingDisruptionsIdsFromDynamo(sessionWithOrg.orgId),
