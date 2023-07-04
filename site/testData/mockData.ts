@@ -449,7 +449,10 @@ export const ptSituationElementWithMultipleConsequences = {
             {
                 Condition: "unknown",
                 Severity: "slight",
-                Affects: { Networks: { AffectedNetwork: { VehicleMode: "tram", AllLines: "" } } },
+                Affects: {
+                    Networks: { AffectedNetwork: { VehicleMode: "tram", AllLines: "" } },
+                    Operators: { AllOperators: "" },
+                },
                 Advice: { Details: "Some consequence description" },
                 Blocking: { JourneyPlanner: false },
             },

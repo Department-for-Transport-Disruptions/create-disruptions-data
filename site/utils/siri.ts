@@ -127,7 +127,16 @@ export const getPtSituationElementFromDraft = (disruption: Disruption) => {
                           Severity: consequence.disruptionSeverity,
                           Affects: {
                               ...(consequence.consequenceType === "networkWide" ||
-                              consequence.consequenceType === "operatorWide"
+                              consequence.consequenceType === "stops"
+                                  ? {
+                                        Operators: {
+                                            AllOperators: "",
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "networkWide" ||
+                              consequence.consequenceType === "operatorWide" ||
+                              consequence.consequenceType === "stops"
                                   ? {
                                         Networks: {
                                             AffectedNetwork: {
