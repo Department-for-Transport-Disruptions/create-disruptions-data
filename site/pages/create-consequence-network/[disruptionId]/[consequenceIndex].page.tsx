@@ -104,7 +104,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : ""
+                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
                                 }}
                             >
                                 <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
