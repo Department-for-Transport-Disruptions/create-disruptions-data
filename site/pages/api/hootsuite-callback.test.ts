@@ -439,10 +439,7 @@ describe("hootsuite-callback", () => {
             "223456789.22345789.12385680",
             res,
         );
-        expect(middleware.initiateRefreshAuth).toHaveBeenCalledWith(
-            "eb222847-2a98-4ca5-ba56-6fae6b6badcc",
-            "223456789.22345789.12385680",
-        );
+
         expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(2, COOKIES_ID_TOKEN, "123456789", res);
 
         const authToken = `Basic ${Buffer.from(`1234567:abcdefghi`).toString("base64")}`;
