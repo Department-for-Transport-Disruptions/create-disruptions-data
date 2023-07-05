@@ -500,6 +500,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     </div>
 
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                    <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
