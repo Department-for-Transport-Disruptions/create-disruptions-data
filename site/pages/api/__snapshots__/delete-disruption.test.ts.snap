@@ -15,7 +15,10 @@ exports[`deleteDisruption > should write the correct disruptions data to dynamoD
     {
       "consequenceIndex": 0,
       "consequenceOperators": [
-        "FSYO",
+        {
+          "operatorNoc": "FSYO",
+          "operatorPublicName": "Operator Name",
+        },
       ],
       "consequenceType": "operatorWide",
       "description": "Some consequence description",

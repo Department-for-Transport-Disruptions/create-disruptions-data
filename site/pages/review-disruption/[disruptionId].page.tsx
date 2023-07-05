@@ -420,9 +420,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                         ? "Stops"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
-                                                        ? `Operator wide - ${consequence.consequenceOperators.join(
-                                                              ", ",
-                                                          )}`
+                                                        ? `Operator wide - ${consequence.consequenceOperators
+                                                              .map((operator) => operator.operatorNoc)
+                                                              .join(", ")}`
                                                         : `${"Network wide"}`
                                                 }`}
                                             </span>

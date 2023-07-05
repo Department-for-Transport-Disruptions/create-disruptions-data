@@ -9,10 +9,17 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
-import { Consequence } from "../../schemas/consequence.schema";
+import { Consequence, ConsequenceOperators } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
+const defaultConsequenceOperators: ConsequenceOperators[] = [
+    {
+        operatorNoc: "FMAN",
+        operatorPublicName: "Another operator",
+    },
+];
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -30,7 +37,7 @@ const previousConsequencesInformation: Consequence[] = [
         consequenceType: "operatorWide",
         consequenceIndex: 1,
         disruptionId: defaultDisruptionId,
-        consequenceOperators: ["FSYO"],
+        consequenceOperators: defaultConsequenceOperators,
         description: "The road is closed for the following reasons: Example, example, example, example",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "50",

@@ -28,7 +28,7 @@ import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
+import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -43,6 +43,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
 
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
+
+    const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -86,49 +88,58 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             schema={operatorConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
                         />
-                        <OperatorSearch
+
+                        <OperatorSearch<OperatorConsequence>
                             display="Operators impacted"
                             displaySize="l"
                             operators={props.operators.filter(
                                 (op) =>
-                                    !(pageState.inputs.consequenceOperators || []).find(
-                                        (selOp) => selOp === op.nocCode,
+                                    !pageState.inputs.consequenceOperators?.find(
+                                        (selOp) => selOp.operatorNoc === op.nocCode,
                                     ),
                             )}
-                            selectedOperatorNocs={pageState.inputs.consequenceOperators || []}
-                            stateUpdater={stateUpdater}
+                            selectedOperators={pageState.inputs?.consequenceOperators ?? []}
+                            stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
                             inputName="consequenceOperators"
                         />
                         {pageState.inputs.consequenceOperators && pageState.inputs.consequenceOperators.length > 0 ? (
                             <Table
-                                rows={pageState.inputs.consequenceOperators.map((selOpNoc) => {
-                                    return {
-                                        cells: [
-                                            props.operators.find((op) => op.nocCode === selOpNoc)?.operatorPublicName,
-                                            selOpNoc,
-                                            <button
-                                                key={selOpNoc}
-                                                className="govuk-link"
-                                                onClick={() => {
-                                                    const selectedOperatorsWithRemoved =
-                                                        pageState.inputs.consequenceOperators?.filter(
-                                                            (opNoc) => opNoc !== selOpNoc,
-                                                        ) || [];
-                                                    stateUpdater(selectedOperatorsWithRemoved, "consequenceOperators");
-                                                }}
-                                            >
-                                                Remove
-                                            </button>,
-                                        ],
-                                    };
-                                })}
+                                rows={pageState.inputs.consequenceOperators
+                                    .sort((a, b) => {
+                                        return a.operatorPublicName.localeCompare(b.operatorPublicName);
+                                    })
+                                    .map((selOpNoc) => {
+                                        return {
+                                            cells: [
+                                                props.operators.find((op) => op.nocCode === selOpNoc.operatorNoc)
+                                                    ?.operatorPublicName,
+                                                selOpNoc.operatorNoc,
+                                                <button
+                                                    key={selOpNoc.operatorNoc}
+                                                    className="govuk-link"
+                                                    onClick={() => {
+                                                        const selectedOperatorsWithRemoved =
+                                                            pageState.inputs.consequenceOperators?.filter(
+                                                                (opNoc) => opNoc.operatorNoc !== selOpNoc.operatorNoc,
+                                                            ) || [];
+                                                        operatorStateUpdate(
+                                                            selectedOperatorsWithRemoved,
+                                                            "consequenceOperators",
+                                                        );
+                                                    }}
+                                                >
+                                                    Remove
+                                                </button>,
+                                            ],
+                                        };
+                                    })}
                             />
                         ) : null}
                         <input
                             type="hidden"
                             name="consequenceOperators"
-                            value={pageState.inputs.consequenceOperators}
+                            value={JSON.stringify(pageState.inputs.consequenceOperators)}
                         />
                         <TextInput<OperatorConsequence>
                             display="Consequence description"
