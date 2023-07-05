@@ -766,6 +766,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group"
           >

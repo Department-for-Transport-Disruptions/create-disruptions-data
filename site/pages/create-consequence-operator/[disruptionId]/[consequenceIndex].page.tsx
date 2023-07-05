@@ -77,7 +77,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 },
                             ]}
                         />
-
                         <Select<OperatorConsequence>
                             inputName="vehicleMode"
                             display="Mode of transport"
@@ -104,7 +103,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
                             inputName="consequenceOperators"
                         />
-
                         {pageState.inputs.consequenceOperators && pageState.inputs.consequenceOperators.length > 0 ? (
                             <Table
                                 rows={pageState.inputs.consequenceOperators
@@ -138,13 +136,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                     })}
                             />
                         ) : null}
-
                         <input
                             type="hidden"
                             name="consequenceOperators"
                             value={JSON.stringify(pageState.inputs.consequenceOperators)}
                         />
-
                         <TextInput<OperatorConsequence>
                             display="Consequence description"
                             displaySize="l"
@@ -158,8 +154,20 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
-
+                        {!pageState.inputs.description ||
+                        (pageState.inputs && pageState.inputs.description.length === 0) ? (
+                            <button
+                                className="mt-3 govuk-link"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                }}
+                            >
+                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            </button>
+                        ) : null}
                         <Radios<OperatorConsequence>
                             display="Remove from journey planners"
                             displaySize="l"
@@ -179,7 +187,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
-
                         <TimeSelector<OperatorConsequence>
                             display="Delay (minutes)"
                             displaySize="l"
@@ -191,7 +198,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             schema={operatorConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
-
                         <Select<OperatorConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
@@ -203,15 +209,12 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.disruptionSeverity}
                         />
-
                         <input type="hidden" name="consequenceType" value="operatorWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
-
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
-
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
@@ -272,7 +275,9 @@ export const getServerSideProps = async (
 
     const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
-    return { props: { ...pageState, consequenceIndex: index, operators } };
+    return {
+        props: { ...pageState, consequenceIndex: index, operators, disruptionSummary: disruption.description || "" },
+    };
 };
 
 export default CreateConsequenceOperator;

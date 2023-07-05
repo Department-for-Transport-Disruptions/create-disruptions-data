@@ -1,8 +1,9 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import * as fs from "fs/promises";
 import { HOOTSUITE_URL } from "../../constants";
 import * as dynamo from "../../data/dynamo";
+import * as s3 from "../../data/s3";
+import { getObject } from "../../data/s3";
 import * as ssm from "../../data/ssm";
 import { DEFAULT_ORG_ID, socialMediaPostsInformation } from "../../testData/mockData";
 import { delay, publishToHootsuite } from "./";
@@ -26,36 +27,38 @@ describe("publishToHootsuite", () => {
         putParameter: vi.fn(),
     }));
 
+    vi.mock("../../data/s3", () => ({
+        getObject: vi.fn(),
+    }));
+
     vi.mock("../../data/dynamo", () => ({
         upsertSocialMediaPost: vi.fn(),
     }));
 
-    const readFileSpy = vi.spyOn(fs, "readFile");
-    vi.mock("fs/promises", () => ({
-        readFile: vi.fn(),
-    }));
-
-    const buffer = Buffer.from("test-image.png", "base64");
+    const encoder = new TextEncoder();
+    const byteArray = encoder.encode("test-image.png");
+    const buffer = Buffer.from(byteArray);
 
     const getParameterSpy = vi.spyOn(ssm, "getParameter");
     const getParametersByPathSpy = vi.spyOn(ssm, "getParametersByPath");
     const putParameterSpy = vi.spyOn(ssm, "putParameter");
+    const getObjectSpy = vi.spyOn(s3, "getObject");
 
     it("should return successfully after publishing pending social media post to hootsuite", async () => {
         getParametersByPathSpy.mockResolvedValue({
             Parameters: [
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     Type: "SecureString",
                     Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     Version: 4,
                 },
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     Type: "SecureString",
                     Value: "lzJhbGciOiUIUzI1MiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gSG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQrrw6d",
                     Version: 4,
@@ -109,7 +112,7 @@ describe("publishToHootsuite", () => {
 
         putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
-        readFileSpy.mockResolvedValue(buffer);
+        getObjectSpy.mockResolvedValue(byteArray);
 
         global.fetch = vi
             .fn()
@@ -157,21 +160,21 @@ describe("publishToHootsuite", () => {
                 ok: true,
             });
 
-        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID);
+        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID, false, true);
         await delay(500);
         expect(ssm.getParametersByPath).toBeCalledWith(`/social/${DEFAULT_ORG_ID}/hootsuite`);
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_id");
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             1,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
             "1234567562",
             "SecureString",
             true,
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
             "1234567563",
             "SecureString",
             true,
@@ -216,7 +219,11 @@ describe("publishToHootsuite", () => {
             },
         });
 
-        expect(readFileSpy).toHaveBeenCalledWith("/somefile/path");
+        expect(getObject).toHaveBeenCalledWith(
+            process.env.IMAGE_BUCKET_NAME || "",
+            "e9f6962b-1e77-4d0b-9cr2-f123315fd14c/r8e603b8-6e08-4fd7-b12b-deb1ca5b4g23/1.png",
+            "test-image.png",
+        );
         expect(fetch).toHaveBeenNthCalledWith(4, "https://upload.url.com", {
             method: "PUT",
             headers: {
@@ -251,6 +258,8 @@ describe("publishToHootsuite", () => {
                 status: SocialMediaPostStatus.successful,
             },
             DEFAULT_ORG_ID,
+            false,
+            true,
         );
     });
 
@@ -258,17 +267,17 @@ describe("publishToHootsuite", () => {
         getParametersByPathSpy.mockResolvedValue({
             Parameters: [
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
                     Type: "SecureString",
                     Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     Version: 4,
                 },
                 {
-                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    ARN: `arn:aws:ssm:eu-west-2:12345:parameter/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     DataType: "text",
-                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+                    Name: `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
                     Type: "SecureString",
                     Value: "lzJhbGciOiUIUzI1MiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gSG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQrrw6d",
                     Version: 4,
@@ -322,7 +331,7 @@ describe("publishToHootsuite", () => {
 
         putParameterSpy.mockResolvedValueOnce();
         putParameterSpy.mockResolvedValueOnce();
-        readFileSpy.mockResolvedValue(buffer);
+        getObjectSpy.mockResolvedValue(byteArray);
 
         global.fetch = vi
             .fn()
@@ -348,21 +357,21 @@ describe("publishToHootsuite", () => {
                 ok: false,
             });
 
-        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID);
+        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID, false, true);
         await delay(500);
         expect(ssm.getParametersByPath).toBeCalledWith(`/social/${DEFAULT_ORG_ID}/hootsuite`);
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_id");
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             1,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/13958638-token`,
             "1234567562",
             "SecureString",
             true,
         );
         expect(ssm.putParameter).toHaveBeenNthCalledWith(
             2,
-            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-f65df29e-b77b-4067-8140-a3d763aa8f60`,
+            `/social/${DEFAULT_ORG_ID}/hootsuite/137196026-token`,
             "1234567563",
             "SecureString",
             true,
@@ -412,6 +421,8 @@ describe("publishToHootsuite", () => {
                 status: SocialMediaPostStatus.rejected,
             },
             DEFAULT_ORG_ID,
+            false,
+            true,
         );
     });
 });

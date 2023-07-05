@@ -7,7 +7,7 @@ import {
     HOOTSUITE_URL,
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
-import { deleteParameter, getParameter, putParameter } from "../../data/ssm";
+import { getParameter, putParameter } from "../../data/ssm";
 import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
@@ -29,8 +29,6 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         const [clientId, clientSecret] = await Promise.all([
             getParameter(`/social/hootsuite/client_id`),
             getParameter(`/social/hootsuite/client_secret`),
-            deleteParameter(`/${state.toString()}/token`),
-            deleteParameter(`/${state.toString()}/refresh-token`),
         ]);
 
         if (!clientId || !clientSecret) {
@@ -101,10 +99,11 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userId: string = userDetails.data.id;
 
-        const key = `/social/${session.orgId}/hootsuite/${userId}-${
-            session.name?.replace(" ", "_") || session.username
-        }`;
+        const key = `/social/${session.orgId}/hootsuite/${userId}-token`;
+
+        const addedByKey = `/social/${session.orgId}/hootsuite/${userId}-addedUser`;
         await putParameter(key, tokenResult.refresh_token, "SecureString", true);
+        await putParameter(addedByKey, session.name?.replace(" ", "_") || session.username, "SecureString", true);
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
