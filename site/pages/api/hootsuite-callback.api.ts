@@ -44,19 +44,12 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!idToken?.Parameter?.Value) {
             throw new Error("idToken must be defined");
         }
-        const decodedToken = decodeJwt(idToken?.Parameter?.Value);
-        const username = (decodedToken["cognito:username"] as string) ?? null;
+
         if (refreshToken?.Parameter?.Value) {
             setCookieOnResponseObject(COOKIES_REFRESH_TOKEN, refreshToken?.Parameter?.Value, res);
 
-            const refreshResult = await initiateRefreshAuth(username, refreshToken?.Parameter?.Value);
-            if (refreshResult.AuthenticationResult?.IdToken) {
-                setCookieOnResponseObject(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken, res);
-                res.setHeader(
-                    "Set-Cookie",
-                    `${COOKIES_ID_TOKEN}=${refreshResult.AuthenticationResult.IdToken}; Path=/; HttpOnly`,
-                );
-            }
+            setCookieOnResponseObject(COOKIES_ID_TOKEN, idToken.Parameter.Value, res);
+            res.setHeader("Set-Cookie", `${COOKIES_ID_TOKEN}=${idToken.Parameter.Value}; Path=/; HttpOnly`);
         }
 
         const tokenResponse = await fetch(`${HOOTSUITE_URL}oauth2/token`, {

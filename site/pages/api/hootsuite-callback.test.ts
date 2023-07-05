@@ -153,9 +153,6 @@ describe("hootsuite-callback", () => {
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.deleteParameter).toBeCalledWith("/6ab8fd00-4b2d-42a7-beef-8558da21c82d/token");
         expect(ssm.deleteParameter).toBeCalledWith("/6ab8fd00-4b2d-42a7-beef-8558da21c82d/refresh-token");
-        expect(decodeJwtSpy).toBeCalledWith(
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-        );
 
         expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
             1,
@@ -163,11 +160,13 @@ describe("hootsuite-callback", () => {
             "223456789.22345789.12385680",
             res,
         );
-        expect(middleware.initiateRefreshAuth).toHaveBeenCalledWith(
-            "eb222847-2a98-4ca5-ba56-6fae6b6badcc",
-            "223456789.22345789.12385680",
+
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
+            2,
+            COOKIES_ID_TOKEN,
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            res,
         );
-        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(2, COOKIES_ID_TOKEN, "123456789", res);
 
         const authToken = `Basic ${Buffer.from(`1234567:abcdefghi`).toString("base64")}`;
         expect(fetch).toHaveBeenNthCalledWith(1, `${HOOTSUITE_URL}oauth2/token`, {
@@ -297,9 +296,6 @@ describe("hootsuite-callback", () => {
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
         expect(ssm.deleteParameter).toBeCalledWith("/6ab8fd00-4b2d-42a7-beef-8558da21c82d/token");
         expect(ssm.deleteParameter).toBeCalledWith("/6ab8fd00-4b2d-42a7-beef-8558da21c82d/refresh-token");
-        expect(decodeJwtSpy).toBeCalledWith(
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-        );
 
         expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
             1,
@@ -307,11 +303,13 @@ describe("hootsuite-callback", () => {
             "223456789.22345789.12385680",
             res,
         );
-        expect(middleware.initiateRefreshAuth).toHaveBeenCalledWith(
-            "eb222847-2a98-4ca5-ba56-6fae6b6badcc",
-            "223456789.22345789.12385680",
+
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
+            2,
+            COOKIES_ID_TOKEN,
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            res,
         );
-        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(2, COOKIES_ID_TOKEN, "123456789", res);
 
         const authToken = `Basic ${Buffer.from(`1234567:abcdefghi`).toString("base64")}`;
         expect(fetch).toHaveBeenNthCalledWith(1, `${HOOTSUITE_URL}oauth2/token`, {
