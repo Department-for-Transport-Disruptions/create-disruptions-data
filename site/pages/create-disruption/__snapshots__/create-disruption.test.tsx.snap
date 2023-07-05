@@ -908,7 +908,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       />
                     </div>
                     <button
-                      className="mt-3 govuk-link h-5"
+                      className="mt-3 govuk-link h-6"
                       data-module="govuk-button"
                       onClick={[Function]}
                     >
@@ -2374,7 +2374,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       />
                     </div>
                     <button
-                      className="mt-3 govuk-link h-5"
+                      className="mt-3 govuk-link h-6"
                       data-module="govuk-button"
                       onClick={[Function]}
                     >
@@ -3891,7 +3891,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       />
                     </div>
                     <button
-                      className="mt-3 govuk-link h-5"
+                      className="mt-3 govuk-link h-6"
                       data-module="govuk-button"
                       onClick={[Function]}
                     >

@@ -89,7 +89,7 @@ const TimeSelector = <T extends object>({
                         />
                     </FormElementWrapper>
                     {showNowButton ? (
-                        <button className="mt-3 govuk-link h-5" data-module="govuk-button" onClick={showNowButton}>
+                        <button className="mt-3 govuk-link h-6" data-module="govuk-button" onClick={showNowButton}>
                             <p className="text-govBlue govuk-body-m">Now</p>
                         </button>
                     ) : null}
