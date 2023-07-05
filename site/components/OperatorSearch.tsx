@@ -3,12 +3,12 @@ import { ReactElement, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
 import FormElementWrapper, { FormGroupWrapper } from "./form/FormElementWrapper";
 import { ErrorInfo } from "../interfaces";
-import { Operator } from "../schemas/consequence.schema";
+import { ConsequenceOperators, Operator } from "../schemas/consequence.schema";
 
 interface OperatorSearchProps<T> {
     operators: Operator[];
-    stateUpdater: (change: string[], field: keyof T) => void;
-    selectedOperatorNocs: string[];
+    stateUpdater: (change: ConsequenceOperators[], field: keyof T) => void;
+    selectedOperators: ConsequenceOperators[];
     reset?: boolean;
     display: string;
     displaySize?: "s" | "m" | "l" | "xl";
@@ -21,9 +21,9 @@ export const sortOperatorByName = (operators: Operator[]): Operator[] => {
 };
 
 const handleChange = <T,>(
-    input: string[],
+    input: ConsequenceOperators[],
     inputName: keyof T,
-    stateUpdater: (change: string[], field: keyof T) => void,
+    stateUpdater: (change: ConsequenceOperators[], field: keyof T) => void,
 ) => {
     stateUpdater(input, inputName);
 };
@@ -33,7 +33,7 @@ const OperatorSearch = <T extends object>({
     displaySize = "m",
     operators,
     stateUpdater,
-    selectedOperatorNocs,
+    selectedOperators,
     reset = false,
     initialErrors = [],
     inputName,
@@ -89,8 +89,12 @@ const OperatorSearch = <T extends object>({
                         }}
                         inputValue={searchText}
                         onChange={(operator) => {
-                            if (!!operator && !selectedOperatorNocs.find((noc) => noc === operator.nocCode)) {
-                                handleChange([...selectedOperatorNocs, operator.nocCode], inputName, stateUpdater);
+                            if (!!operator && !selectedOperators.find((noc) => noc.operatorNoc === operator.nocCode)) {
+                                selectedOperators.push({
+                                    operatorNoc: operator.nocCode,
+                                    operatorPublicName: operator.operatorPublicName,
+                                });
+                                handleChange(selectedOperators, inputName, stateUpdater);
                             }
                         }}
                         id="operator-search"

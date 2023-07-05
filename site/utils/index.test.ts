@@ -61,7 +61,7 @@ describe("page state test", () => {
         const operatorData: OperatorConsequence = {
             disruptionId: randomUUID(),
             consequenceIndex: 0,
-            consequenceOperators: ["FMAN"],
+            consequenceOperators: [{ operatorNoc: "FSYO", operatorPublicName: "Operator Name" }],
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             removeFromJourneyPlanners: "no",

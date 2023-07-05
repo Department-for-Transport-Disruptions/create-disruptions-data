@@ -420,6 +420,17 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group govuk-form-group--error"
           >
@@ -523,17 +534,21 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <div
                 className=""
               >
-                <input
-                  aria-describedby="disruption-delay-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="45"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="disruption-delay-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="45"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1285,17 +1300,21 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <div
                 className=""
               >
-                <input
-                  aria-describedby="disruption-delay-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="45"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="disruption-delay-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="45"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1905,6 +1924,17 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group"
           >
@@ -1996,16 +2026,20 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               <div
                 className=""
               >
-                <input
-                  aria-describedby="disruption-delay-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="disruption-delay-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -2757,17 +2791,21 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               <div
                 className=""
               >
-                <input
-                  aria-describedby="disruption-delay-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="45"
-                  disabled={false}
-                  id="disruption-delay-input"
-                  name="disruptionDelay"
-                  onBlur={[Function]}
-                  placeholder=""
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="disruption-delay-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="45"
+                    disabled={false}
+                    id="disruption-delay-input"
+                    name="disruptionDelay"
+                    onBlur={[Function]}
+                    placeholder=""
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>

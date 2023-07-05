@@ -232,17 +232,21 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               <div
                 className=""
               >
-                <input
-                  aria-describedby="publish-time-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  defaultValue="1805"
-                  disabled={false}
-                  id="publish-time-input"
-                  name="publishTime"
-                  onBlur={[Function]}
-                  placeholder="hhmm"
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="publish-time-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    defaultValue="1805"
+                    disabled={false}
+                    id="publish-time-input"
+                    name="publishTime"
+                    onBlur={[Function]}
+                    placeholder="hhmm"
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -783,16 +787,20 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
               <div
                 className=""
               >
-                <input
-                  aria-describedby="publish-time-hint"
-                  className="govuk-input govuk-date-input__input govuk-input--width-4"
-                  disabled={false}
-                  id="publish-time-input"
-                  name="publishTime"
-                  onBlur={[Function]}
-                  placeholder="hhmm"
-                  type="text"
-                />
+                <div
+                  className=""
+                >
+                  <input
+                    aria-describedby="publish-time-hint"
+                    className="govuk-input govuk-date-input__input govuk-input--width-4"
+                    disabled={false}
+                    id="publish-time-input"
+                    name="publishTime"
+                    onBlur={[Function]}
+                    placeholder="hhmm"
+                    type="text"
+                  />
+                </div>
               </div>
             </div>
           </div>

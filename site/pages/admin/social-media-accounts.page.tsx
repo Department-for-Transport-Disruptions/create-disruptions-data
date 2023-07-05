@@ -4,7 +4,7 @@ import { Fragment, ReactElement, ReactNode } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { DOMAIN_NAME, HOOTSUITE_URL } from "../../constants";
-import { getHootsuiteData } from "../../data/hoostuite";
+import { getHootsuiteData } from "../../data/hootsuite";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";

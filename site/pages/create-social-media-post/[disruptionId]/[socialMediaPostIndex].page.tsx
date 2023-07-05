@@ -15,7 +15,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { getHootsuiteData } from "../../../data/hoostuite";
+import { getHootsuiteData } from "../../../data/hootsuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";

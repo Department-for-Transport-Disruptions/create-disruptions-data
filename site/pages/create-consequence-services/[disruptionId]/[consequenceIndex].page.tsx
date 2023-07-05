@@ -433,7 +433,21 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
                             schema={servicesConsequenceSchema.shape.description}
+                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
+
+                        {!pageState.inputs.description ||
+                        (pageState.inputs && pageState.inputs.description.length === 0) ? (
+                            <button
+                                className="mt-3 govuk-link"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                }}
+                            >
+                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                            </button>
+                        ) : null}
 
                         <Radios<ServicesConsequence>
                             display="Remove from journey planners"
@@ -608,6 +622,7 @@ export const getServerSideProps = async (
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,
+            disruptionSummary: disruption.description || "",
         },
     };
 };

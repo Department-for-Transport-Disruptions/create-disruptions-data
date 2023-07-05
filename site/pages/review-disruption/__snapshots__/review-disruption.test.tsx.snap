@@ -611,7 +611,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                     className="govuk-accordion__section-button"
                     id="accordion-default-heading-2"
                   >
-                    Consequence 2 - Tram - Operator wide - FSYO
+                    Consequence 2 - Tram - Operator wide - FMAN
                   </span>
                 </h2>
               </div>
@@ -701,7 +701,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle"
                       >
-                        FSYO
+                        FMAN
                       </td>
                       <td
                         className="govuk-table__cell align-middle"
