@@ -43,7 +43,15 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         }
 
         await upsertConsequence(
-            { ...consequenceToDuplicate, consequenceIndex: disruption.consequences.length },
+            {
+                ...consequenceToDuplicate,
+                consequenceIndex: disruption.consequences
+                    ? disruption.consequences.reduce(
+                          (max, c) => (c.consequenceIndex > max ? c.consequenceIndex : max),
+                          disruption.consequences[0].consequenceIndex,
+                      ) + 1
+                    : 0,
+            },
             session.orgId,
             session.isOrgStaff,
         );
