@@ -429,10 +429,6 @@ describe("hootsuite-callback", () => {
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_id");
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_secret");
 
-        expect(decodeJwtSpy).toBeCalledWith(
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-        );
-
         expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
             1,
             COOKIES_REFRESH_TOKEN,
@@ -440,7 +436,12 @@ describe("hootsuite-callback", () => {
             res,
         );
 
-        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(2, COOKIES_ID_TOKEN, "123456789", res);
+        expect(setCookieOnResponseObject).toHaveBeenNthCalledWith(
+            2,
+            COOKIES_ID_TOKEN,
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            res,
+        );
 
         const authToken = `Basic ${Buffer.from(`1234567:abcdefghi`).toString("base64")}`;
         expect(fetch).toHaveBeenNthCalledWith(1, `${HOOTSUITE_URL}oauth2/token`, {
