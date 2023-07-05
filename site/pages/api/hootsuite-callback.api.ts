@@ -8,7 +8,6 @@ import {
     SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
 } from "../../constants";
 import { deleteParameter, getParameter, putParameter } from "../../data/ssm";
-import { initiateRefreshAuth } from "../../middleware.api";
 import { hootsuiteMeSchema, hootsuiteTokenSchema } from "../../schemas/hootsuite.schema";
 import { sessionSchema } from "../../schemas/session.schema";
 import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
