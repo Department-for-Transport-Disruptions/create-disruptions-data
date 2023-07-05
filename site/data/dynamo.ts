@@ -540,6 +540,7 @@ export const upsertSocialMediaPost = async (
         | Pick<SocialMediaPostTransformed, "disruptionId" | "socialMediaPostIndex">,
     id: string,
     isUserStaff?: boolean,
+    forcePublish?: boolean,
 ) => {
     logger.info(
         `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
@@ -558,7 +559,7 @@ export const upsertSocialMediaPost = async (
             Item: {
                 PK: id,
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
-                    isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
+                    forcePublish ? "" : isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
                 ...socialMediaPost,
             },

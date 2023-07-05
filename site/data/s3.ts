@@ -54,3 +54,27 @@ export const getItem = async (bucket: string, key: string, originalFilename: str
         throw error;
     }
 };
+
+export const getObject = async (bucket: string, key: string, originalFilename: string): Promise<Uint8Array | null> => {
+    logger.info("", {
+        context: "data.s3",
+        message: "getting item from s3",
+    });
+
+    try {
+        const input = {
+            Bucket: bucket,
+            Key: key,
+            ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"',
+        };
+        const command = new GetObjectCommand(input);
+        const response = await s3.send(command);
+        return response.Body?.transformToByteArray() ?? null;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};

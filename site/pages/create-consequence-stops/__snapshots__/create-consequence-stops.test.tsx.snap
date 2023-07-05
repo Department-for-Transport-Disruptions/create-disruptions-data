@@ -420,6 +420,17 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group govuk-form-group--error"
           >
@@ -1905,6 +1916,17 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
+          <button
+            className="mt-3 govuk-link"
+            data-module="govuk-button"
+            onClick={[Function]}
+          >
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption summary
+            </p>
+          </button>
           <div
             className="govuk-form-group"
           >
