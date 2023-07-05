@@ -5,7 +5,7 @@ export const getExportSchema = (): Schema<ExportDisruptionData> => {
     return [
         {
             column: "id",
-            type: Number,
+            type: String,
             value: (objectData: ExportDisruptionData) => objectData.id,
         },
         {

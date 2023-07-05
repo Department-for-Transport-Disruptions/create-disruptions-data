@@ -1,3 +1,4 @@
+import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_ERRORS,
@@ -46,6 +47,10 @@ export const formatCreateDisruptionBody = (body: object) => {
             return endDate;
         });
 
+    const displayId = Object.entries(body)
+        .filter((item) => item.includes("displayId"))
+        .flat();
+
     const cleansedBody = Object.fromEntries(
         Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
     );
@@ -54,6 +59,10 @@ export const formatCreateDisruptionBody = (body: object) => {
         ...cleansedBody,
         validity,
         disruptionRepeatsEndDate: disruptionRepeatsEndDate ? disruptionRepeatsEndDate[0] : disruptionRepeatsEndDate,
+        displayId:
+            displayId && displayId.length > 1 && displayId[1]
+                ? (displayId[1] as string)
+                : cryptoRandomString({ length: 6 }),
     };
 };
 

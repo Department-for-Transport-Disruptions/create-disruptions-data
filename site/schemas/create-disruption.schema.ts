@@ -4,7 +4,6 @@ import {
     miscellaneousReasonSchema,
     personnelReasonSchema,
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
-import cryptoRandomString from "crypto-random-string";
 import dayjs from "dayjs";
 import { z } from "zod";
 import { setZodDefaultError, zodDate, zodTime } from "../utils";
@@ -247,10 +246,7 @@ export const createDisruptionSchema = z.object({
             message: "A validity period with no end time must be the last validity",
         })
         .optional(),
-    displayId: z
-        .string()
-        .optional()
-        .default(cryptoRandomString({ length: 6 })),
+    displayId: z.string(),
 });
 
 export const createDisruptionsSchemaRefined = createDisruptionSchema

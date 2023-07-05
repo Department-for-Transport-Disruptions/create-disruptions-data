@@ -24,6 +24,7 @@ export interface DashboardDisruption {
         startTime: string;
         endTime: string | null;
     }[];
+    displayId: string;
 }
 
 export interface DashboardProps {
@@ -50,12 +51,13 @@ const mapDisruptions = (disruptions: Disruption[]) => {
                 ).toISOString(),
                 endTime: maxEndDate ? maxEndDate.toISOString() : null,
             })),
+            displayId: disruption.displayId,
         };
     });
 };
 
-const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: number) => {
-    return disruptions.map((disruption, index) => {
+const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
+    return disruptions.map((disruption) => {
         const earliestPeriod = disruption.validityPeriods[0];
         const latestPeriod = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
 
@@ -76,7 +78,7 @@ const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[], offset: n
                     }}
                     key={disruption.id}
                 >
-                    {index + 1 + offset}
+                    {disruption.displayId ? disruption.displayId : ""}
                 </Link>
             ),
             cells: [reduceStringWithEllipsis(disruption.summary, 150), dateStrings],
@@ -193,10 +195,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(
-                                        liveDisruptionsToDisplay,
-                                        (currentLivePage - 1) * 10,
-                                    )}
+                                    rows={formatDisruptionsIntoRows(liveDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfLiveDisruptionsPages}
@@ -213,10 +212,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(
-                                        upcomingDisruptionsToDisplay,
-                                        (currentUpcomingPage - 1) * 10,
-                                    )}
+                                    rows={formatDisruptionsIntoRows(upcomingDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfUpcomingDisruptionsPages}
@@ -233,10 +229,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(
-                                        recentlyClosedDisruptionsToDisplay,
-                                        (currentRecentlyClosedPage - 1) * 10,
-                                    )}
+                                    rows={formatDisruptionsIntoRows(recentlyClosedDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfRecentlyClosedDisruptionsPages}

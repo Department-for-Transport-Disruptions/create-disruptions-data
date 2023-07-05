@@ -49,6 +49,7 @@ describe("page state test", () => {
             disruptionStartTime: "1000",
             disruptionEndTime: "1100",
             disruptionNoEndDateTime: "",
+            displayId: "8fg3ha",
         };
 
         const parsedInput = getPageState("", createDisruptionSchema, disruptionData.disruptionId, disruptionData);
@@ -145,6 +146,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionStartDate: "25/03/2026",
                 disruptionStartTime: "1123",
                 disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
                 validity: [
                     {
                         disruptionStartDate: "25/03/2021",
@@ -188,6 +190,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionStartDate: "24/04/2022",
                 disruptionStartTime: "1123",
                 disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
                 validity: [
                     {
                         disruptionStartDate: "22/04/2022",
@@ -219,6 +222,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionStartDate: "21/03/2025",
                 disruptionStartTime: "1123",
                 disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
                 validity: [
                     {
                         disruptionStartDate: "21/03/2025",
@@ -247,6 +251,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
             disruptionReason: MiscellaneousReason.accident,
             publishStartDate: "10/03/2023",
             publishStartTime: "1200",
+            displayId: "8fg3ha",
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",
@@ -285,6 +290,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
             disruptionReason: MiscellaneousReason.accident,
             publishStartDate: "10/03/2023",
             publishStartTime: "1200",
+            displayId: "8fg3ha",
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",

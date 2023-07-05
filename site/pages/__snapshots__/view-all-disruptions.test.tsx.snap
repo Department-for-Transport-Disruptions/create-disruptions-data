@@ -166,9 +166,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                1
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -214,9 +212,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                2
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -262,9 +258,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                3
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -310,9 +304,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                4
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -358,9 +350,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                5
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -406,9 +396,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                6
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -454,9 +442,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                7
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -502,9 +488,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                8
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -550,9 +534,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                9
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -598,9 +580,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                10
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1075,9 +1055,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                1
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1123,9 +1101,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                2
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1171,9 +1147,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                3
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1566,9 +1540,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                1
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1614,9 +1586,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                2
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1662,9 +1632,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                3
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1710,9 +1678,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                4
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1758,9 +1724,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                5
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1806,9 +1770,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                6
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1854,9 +1816,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                7
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1902,9 +1862,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                8
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1950,9 +1908,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                9
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
@@ -1998,9 +1954,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-              >
-                10
-              </a>
+              />
             </th>
             <td
               className="govuk-table__cell align-middle"
