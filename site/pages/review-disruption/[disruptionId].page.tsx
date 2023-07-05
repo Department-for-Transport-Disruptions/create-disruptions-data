@@ -9,6 +9,7 @@ import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import Popup from "../../components/Popup";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -43,6 +44,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
+        hiddenInputs: { name: string; value: string }[];
+    }>();
+    const [duplicateDisruptionPopUpState, setDuplicateDisruptionPopUpState] = useState<{
         hiddenInputs: { name: string; value: string }[];
     }>();
 
@@ -185,6 +189,10 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
         setSocialMediaPostPopUpState(undefined);
     };
 
+    const cancelActionHandlerDuplicateDisruption = (): void => {
+        setDuplicateDisruptionPopUpState(undefined);
+    };
+
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
             window.GOVUKFrontend.initAll();
@@ -274,6 +282,17 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
+                />
+            ) : null}
+            {duplicateDisruptionPopUpState && csrfToken ? (
+                <Popup
+                    action={"/api/duplicate-disruption"}
+                    cancelActionHandler={cancelActionHandlerDuplicateDisruption}
+                    csrfToken={csrfToken}
+                    hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
+                    continueText="Yes, duplicate"
+                    cancelText="No, return"
+                    questionText={"Are you sure you wish to duplicate the disruption?"}
                 />
             ) : null}
             <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
@@ -531,6 +550,23 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                             }}
                         >
                             Delete disruption
+                        </button>
+                        <button
+                            className="govuk-button govuk-button--secondary ml-5 mt-8"
+                            data-module="govuk-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setDuplicateDisruptionPopUpState({
+                                    hiddenInputs: [
+                                        {
+                                            name: "disruptionId",
+                                            value: disruption.disruptionId,
+                                        },
+                                    ],
+                                });
+                            }}
+                        >
+                            Duplicate disruption
                         </button>
                         <Link
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"
