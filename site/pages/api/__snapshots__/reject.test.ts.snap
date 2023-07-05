@@ -40,6 +40,7 @@ exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
             "Operators": {
               "AffectedOperator": [
                 {
+                  "OperatorName": "Operator Name",
                   "OperatorRef": "FSYO",
                 },
               ],
@@ -96,7 +97,10 @@ exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
       {
         "consequenceIndex": 0,
         "consequenceOperators": [
-          "FSYO",
+          {
+            "operatorNoc": "FSYO",
+            "operatorPublicName": "Operator Name",
+          },
         ],
         "consequenceType": "operatorWide",
         "description": "Some consequence description",
@@ -175,6 +179,7 @@ exports[`reject > should write the correct disruptions data to dynamoDB 3`] = `
             "Operators": {
               "AffectedOperator": [
                 {
+                  "OperatorName": "Operator Name",
                   "OperatorRef": "FSYO",
                 },
               ],
@@ -231,7 +236,10 @@ exports[`reject > should write the correct disruptions data to dynamoDB 3`] = `
       {
         "consequenceIndex": 0,
         "consequenceOperators": [
-          "FSYO",
+          {
+            "operatorNoc": "FSYO",
+            "operatorPublicName": "Operator Name",
+          },
         ],
         "consequenceType": "operatorWide",
         "description": "Some consequence description",

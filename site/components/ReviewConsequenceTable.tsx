@@ -136,7 +136,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
         rows.push({
             header: "Operators affected",
             cells: [
-                consequence.consequenceOperators ? consequence.consequenceOperators.join(", ") : "N/A",
+                consequence.consequenceOperators
+                    ? consequence.consequenceOperators.map((op) => op.operatorNoc).join(", ")
+                    : "N/A",
                 createChangeLink(
                     "operators-affected",
                     getConsequenceUrl(consequence.consequenceType),

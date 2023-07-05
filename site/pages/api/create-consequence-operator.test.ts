@@ -10,6 +10,7 @@ import {
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
+import { ConsequenceOperators } from "../../schemas/consequence.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
@@ -17,8 +18,15 @@ import * as session from "../../utils/apiUtils/auth";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
 
+const defaultConsequenceOperators: ConsequenceOperators[] = [
+    {
+        operatorNoc: "FMAN",
+        operatorPublicName: "Another operator",
+    },
+];
+
 const bodyData = {
-    consequenceOperators: "FMAN",
+    consequenceOperators: JSON.stringify(defaultConsequenceOperators),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
@@ -71,7 +79,7 @@ describe("create-consequence-operator API", () => {
                 disruptionSeverity: "slight",
                 vehicleMode: "bus",
                 consequenceIndex: 0,
-                consequenceOperators: ["FMAN"],
+                consequenceOperators: defaultConsequenceOperators,
                 consequenceType: "operatorWide",
             },
             DEFAULT_ORG_ID,
@@ -136,7 +144,7 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({
                 inputs: {
                     ...bodyData,
-                    consequenceOperators: ["FMAN"],
+                    consequenceOperators: defaultConsequenceOperators,
                     description:
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 },
@@ -167,7 +175,7 @@ describe("create-consequence-operator API", () => {
             JSON.stringify({
                 inputs: {
                     ...bodyData,
-                    consequenceOperators: ["FMAN"],
+                    consequenceOperators: defaultConsequenceOperators,
                     disruptionDelay: "7280",
                 },
                 errors,
@@ -199,7 +207,7 @@ describe("create-consequence-operator API", () => {
                 disruptionSeverity: "slight",
                 vehicleMode: "bus",
                 consequenceIndex: 0,
-                consequenceOperators: ["FMAN"],
+                consequenceOperators: defaultConsequenceOperators,
                 consequenceType: "operatorWide",
             },
             DEFAULT_ORG_ID,
