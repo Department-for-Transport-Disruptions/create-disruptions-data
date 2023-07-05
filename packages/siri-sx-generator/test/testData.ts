@@ -74,6 +74,7 @@ export const baseSiteDisruptionInfo: DisruptionInfo = {
     disruptionType: "planned",
     summary: "Disruption Summary",
     description: "Disruption Description",
+    displayId: "8fg3ha",
 };
 
 export const baseConsequences: Consequence[] = [
