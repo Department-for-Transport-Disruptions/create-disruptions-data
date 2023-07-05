@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
@@ -9,7 +10,6 @@ import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../te
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
-import * as cryptoRandomString from "crypto-random-string";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
@@ -77,7 +77,7 @@ describe("create-disruption API", () => {
             publishStartTime: "0900",
             disruptionStartDate: getFutureDateAsString(40),
             disruptionStartTime: "1200",
-            displayId: undefined,
+            displayId: "",
             validity1: [
                 defaultDisruptionStartDate,
                 "1000",
