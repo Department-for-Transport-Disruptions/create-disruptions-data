@@ -587,17 +587,21 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby="disruption-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0100"
-                      disabled={false}
-                      id="disruption-start-time-input"
-                      name="disruptionStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="disruption-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0100"
+                        disabled={false}
+                        id="disruption-start-time-input"
+                        name="disruptionStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -709,17 +713,21 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0200"
-                      disabled={false}
-                      id="disruption-end-time-input"
-                      name="disruptionEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0200"
+                        disabled={false}
+                        id="disruption-end-time-input"
+                        name="disruptionEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -882,19 +890,34 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
-                    <input
-                      aria-describedby="publish-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0200"
-                      disabled={false}
-                      id="publish-start-time-input"
-                      name="publishStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="publish-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0200"
+                        disabled={false}
+                        id="publish-start-time-input"
+                        name="publishStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1006,17 +1029,21 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="2300"
-                      disabled={false}
-                      id="publish-end-time-input"
-                      name="publishEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="2300"
+                        disabled={false}
+                        id="publish-end-time-input"
+                        name="publishEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1131,7 +1158,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
-                                  value=""
+                                  value="30/03/2023"
                                 />
                               </div>
                             </div>
@@ -1139,7 +1166,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                aria-label="Choose date"
+                                aria-label="Choose date, selected date is Mar 30, 2023"
                                 className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                                 disabled={false}
                                 onBlur={[Function]}
@@ -2033,17 +2060,21 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby="disruption-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue=""
-                      disabled={false}
-                      id="disruption-start-time-input"
-                      name="disruptionStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="disruption-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
+                        disabled={false}
+                        id="disruption-start-time-input"
+                        name="disruptionStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2152,17 +2183,21 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue=""
-                      disabled={false}
-                      id="disruption-end-time-input"
-                      name="disruptionEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
+                        disabled={false}
+                        id="disruption-end-time-input"
+                        name="disruptionEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2322,18 +2357,33 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
-                    <input
-                      aria-describedby="publish-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      disabled={false}
-                      id="publish-start-time-input"
-                      name="publishStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="publish-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        disabled={false}
+                        id="publish-start-time-input"
+                        name="publishStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2442,16 +2492,20 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      disabled={false}
-                      id="publish-end-time-input"
-                      name="publishEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        disabled={false}
+                        id="publish-end-time-input"
+                        name="publishEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3522,17 +3576,21 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby="disruption-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0100"
-                      disabled={false}
-                      id="disruption-start-time-input"
-                      name="disruptionStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="disruption-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0100"
+                        disabled={false}
+                        id="disruption-start-time-input"
+                        name="disruptionStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3641,17 +3699,21 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0200"
-                      disabled={false}
-                      id="disruption-end-time-input"
-                      name="disruptionEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0200"
+                        disabled={false}
+                        id="disruption-end-time-input"
+                        name="disruptionEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3811,19 +3873,34 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
-                    <input
-                      aria-describedby="publish-start-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="0200"
-                      disabled={false}
-                      id="publish-start-time-input"
-                      name="publishStartTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby="publish-start-time-hint"
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="0200"
+                        disabled={false}
+                        id="publish-start-time-input"
+                        name="publishStartTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -3932,17 +4009,21 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <input
-                      aria-describedby=""
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="2300"
-                      disabled={false}
-                      id="publish-end-time-input"
-                      name="publishEndTime"
-                      onBlur={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
+                    <div
+                      className=""
+                    >
+                      <input
+                        aria-describedby=""
+                        className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue="2300"
+                        disabled={false}
+                        id="publish-end-time-input"
+                        name="publishEndTime"
+                        onBlur={[Function]}
+                        placeholder="hhmm"
+                        type="text"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

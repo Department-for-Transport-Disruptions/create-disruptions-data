@@ -31,7 +31,7 @@ import {
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
-import { getEndingOnDateText } from "../../utils/dates";
+import { convertDateTimeToFormat, getEndingOnDateText } from "../../utils/dates";
 import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
@@ -191,6 +191,20 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             [field]: change,
             disruptionNoEndDateTime: change === "daily" || change === "weekly" ? "" : validity.disruptionNoEndDateTime,
             disruptionRepeatsEndDate: "",
+        });
+    };
+
+    const handleNow = (e: SyntheticEvent) => {
+        e.preventDefault();
+        const dateTime = new Date();
+
+        setDisruptionPageState({
+            ...pageState,
+            inputs: {
+                ...pageState.inputs,
+                publishStartDate: convertDateTimeToFormat(dateTime, "DD/MM/YYYY"),
+                publishStartTime: convertDateTimeToFormat(dateTime, "HHmm"),
+            },
         });
     };
 
@@ -385,6 +399,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
                                     schema={createDisruptionSchema.shape.publishStartDate}
+                                    resetError={
+                                        pageState.inputs.publishStartDate ===
+                                        convertDateTimeToFormat(new Date(), "DD/MM/YYYY")
+                                    }
                                 />
                             </div>
                             <div className="pl-4">
@@ -397,6 +415,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
                                     schema={createDisruptionSchema.shape.publishStartTime}
+                                    resetError={
+                                        pageState.inputs.publishStartTime ===
+                                        convertDateTimeToFormat(new Date(), "HHmm")
+                                    }
+                                    showNowButton={handleNow}
                                 />
                             </div>
                         </div>
