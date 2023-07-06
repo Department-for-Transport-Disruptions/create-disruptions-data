@@ -45,6 +45,7 @@ const disruption: Disruption = {
     validity: [],
     publishStatus: PublishStatus.editing,
     consequences: [defaultNetworkData],
+    displayId: "8fg3ha",
 };
 
 describe("duplicate-consequence API", () => {
