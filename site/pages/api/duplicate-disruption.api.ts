@@ -10,6 +10,7 @@ import {
     upsertSocialMediaPost,
 } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
+import { Disruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { getPtSituationElementFromDraft } from "../../utils/siri";
@@ -31,15 +32,22 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
 
         if (!disruptionToDuplicate) {
-            throw new Error("No disruptionToDuplicate");
+            throw new Error("No disruption to duplicate");
+        }
+
+        const validatedDisruptionBody = createDisruptionsSchemaRefined.safeParse(disruptionToDuplicate);
+
+        if (!validatedDisruptionBody.success) {
+            throw new Error("Invalid disruption information");
         }
 
         const newDisruptionId = randomUUID();
 
         console.log(disruptionId, "----");
         console.log(newDisruptionId);
-        const draftDisruption = {
-            ...disruptionToDuplicate,
+        const draftDisruption: Disruption = {
+            ...validatedDisruptionBody.data,
+            publishStatus: PublishStatus.draft,
             disruptionId: newDisruptionId,
             ...(disruptionToDuplicate.consequences
                 ? {
