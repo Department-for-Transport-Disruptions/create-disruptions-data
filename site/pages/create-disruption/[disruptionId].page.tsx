@@ -392,7 +392,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <DateSelector<DisruptionInfo>
                                     display="Publication start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
-                                    value={pageState.inputs.publishStartDate}
+                                    value={
+                                        pageState.inputs.publishStartDate ||
+                                        (pageState.inputs?.validity?.length && pageState.inputs?.validity?.length > 0)
+                                            ? pageState.inputs.publishStartDate
+                                            : validity.disruptionStartDate
+                                    }
                                     disabled={false}
                                     disablePast={false}
                                     inputName="publishStartDate"
@@ -409,7 +414,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
-                                    value={pageState.inputs.publishStartTime}
+                                    value={
+                                        pageState.inputs.publishStartTime ||
+                                        (pageState.inputs?.validity?.length && pageState.inputs?.validity?.length > 0)
+                                            ? pageState.inputs.publishStartTime
+                                            : validity.disruptionStartTime
+                                    }
                                     disabled={false}
                                     inputName="publishStartTime"
                                     stateUpdater={stateUpdater}
@@ -429,7 +439,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <DateSelector<DisruptionInfo>
                                     display="Publication end date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
-                                    value={pageState.inputs.publishEndDate}
+                                    value={
+                                        pageState.inputs.publishEndDate ||
+                                        (pageState.inputs?.validity?.length && pageState.inputs?.validity?.length > 0)
+                                            ? pageState.inputs.publishEndDate
+                                            : validity.disruptionEndDate
+                                    }
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     disablePast={false}
                                     inputName="publishEndDate"
@@ -441,7 +456,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             <div className="pl-5">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication end time"
-                                    value={pageState.inputs.publishEndTime}
+                                    value={
+                                        pageState.inputs.publishEndTime ||
+                                        (pageState.inputs?.validity?.length && pageState.inputs?.validity?.length > 0)
+                                            ? pageState.inputs.publishEndTime
+                                            : validity.disruptionEndTime
+                                    }
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     inputName="publishEndTime"
                                     stateUpdater={stateUpdater}
