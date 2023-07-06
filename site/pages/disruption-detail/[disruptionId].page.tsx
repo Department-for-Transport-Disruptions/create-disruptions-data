@@ -656,23 +656,27 @@ const DisruptionDetail = ({
                                 Delete disruption
                             </button>
                         )}
-                        <button
-                            className="govuk-button govuk-button--secondary ml-5 mt-8"
-                            data-module="govuk-button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setDuplicateDisruptionPopUpState({
-                                    hiddenInputs: [
-                                        {
-                                            name: "disruptionId",
-                                            value: disruption.disruptionId,
-                                        },
-                                    ],
-                                });
-                            }}
-                        >
-                            Duplicate disruption
-                        </button>
+                        {disruption.publishStatus !== PublishStatus.editing &&
+                        disruption.publishStatus !== PublishStatus.pendingAndEditing &&
+                        disruption.publishStatus !== PublishStatus.editPendingApproval ? (
+                            <button
+                                className="govuk-button govuk-button--secondary ml-5 mt-8"
+                                data-module="govuk-button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setDuplicateDisruptionPopUpState({
+                                        hiddenInputs: [
+                                            {
+                                                name: "disruptionId",
+                                                value: disruption.disruptionId,
+                                            },
+                                        ],
+                                    });
+                                }}
+                            >
+                                Duplicate disruption
+                            </button>
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

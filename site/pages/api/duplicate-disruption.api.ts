@@ -2,18 +2,11 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import {
-    getDisruptionById,
-    insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    upsertConsequence,
-    upsertDisruptionInfo,
-    upsertSocialMediaPost,
-} from "../../data/dynamo";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
-import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -43,8 +36,6 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
 
         const newDisruptionId = randomUUID();
 
-        console.log(disruptionId, "----");
-        console.log(newDisruptionId);
         const draftDisruption: Disruption = {
             ...validatedDisruptionBody.data,
             publishStatus: PublishStatus.draft,
@@ -71,37 +62,19 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             draftDisruption.disruptionNoEndDateTime = "";
         }
 
-        // const validatedBody = createDisruptionsSchemaRefined.safeParse(draftDisruption);
-
-        // if (!validatedBody.success) {
-        //     throw new Error("Invalid disruption");
-        // }
-
-        // await upsertDisruptionInfo(validatedBody.data, newDisruptionId);
-
-        // if (draftDisruption.consequences) {
-        //     await Promise.all(
-        //         draftDisruption.consequences.map(async (consequence) => {
-        //             await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
-        //         }),
-        //     );
-        // }
-
-        // if (draftDisruption.socialMediaPosts) {
-        //     await Promise.all(
-        //         draftDisruption.socialMediaPosts.map(async (socialMediaPost) => {
-        //             await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff);
-        //         }),
-        //     );
-        // }
-
-        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-            getPtSituationElementFromDraft(draftDisruption),
-            draftDisruption,
+        await upsertDisruptionInfo(
+            { ...validatedDisruptionBody.data, disruptionId: newDisruptionId },
             session.orgId,
-            PublishStatus.draft,
-            session.name,
+            session.isOrgStaff,
         );
+
+        if (draftDisruption.consequences) {
+            await Promise.all(
+                draftDisruption.consequences.map(async (consequence) => {
+                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                }),
+            );
+        }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`);
 
