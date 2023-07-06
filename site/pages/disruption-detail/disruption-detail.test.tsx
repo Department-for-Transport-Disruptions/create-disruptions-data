@@ -135,6 +135,7 @@ describe("pages", () => {
                         redirect={"/dashboard"}
                         errors={[]}
                         canPublish
+                        isTestOrDev={true}
                     />,
                 )
                 .toJSON();
@@ -152,6 +153,7 @@ describe("pages", () => {
                         redirect={"/view-all-disruptions"}
                         errors={[]}
                         canPublish
+                        isTestOrDev={true}
                     />,
                 )
                 .toJSON();
@@ -168,6 +170,7 @@ describe("pages", () => {
                     redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish={false}
+                    isTestOrDev={true}
                 />,
             );
 
@@ -187,6 +190,7 @@ describe("pages", () => {
                     redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish
+                    isTestOrDev={true}
                 />,
             );
 
@@ -206,6 +210,7 @@ describe("pages", () => {
                     redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish={false}
+                    isTestOrDev={true}
                 />,
             );
 
