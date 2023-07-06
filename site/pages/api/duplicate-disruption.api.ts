@@ -2,7 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
 import { Disruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
