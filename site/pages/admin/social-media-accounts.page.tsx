@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment, ReactElement, ReactNode } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DOMAIN_NAME, HOOTSUITE_URL } from "../../constants";
+import { DOMAIN_NAME, HOOTSUITE_URL, STAGE } from "../../constants";
 import { getHootsuiteData } from "../../data/hootsuite";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
@@ -16,9 +16,15 @@ export interface SocialMediaAccountsPageProps {
     socialMediaData: SocialMediaAccountsSchema;
     username: string;
     clientId: string;
+    isTestOrDev: boolean;
 }
 
-const SocialMediaAccounts = ({ socialMediaData, username, clientId }: SocialMediaAccountsPageProps): ReactElement => {
+const SocialMediaAccounts = ({
+    socialMediaData,
+    username,
+    clientId,
+    isTestOrDev,
+}: SocialMediaAccountsPageProps): ReactElement => {
     const getLink = (type: string, id: string) => {
         switch (type.toLocaleUpperCase()) {
             case "TWITTER":
@@ -62,13 +68,15 @@ const SocialMediaAccounts = ({ socialMediaData, username, clientId }: SocialMedi
                     columns={["Account type", "Username/page", "Added by", "Expires in", "Hootsuite Profiles"]}
                     rows={getRows()}
                 />
-                <Link
-                    className="govuk-button mt-8"
-                    data-module="govuk-button"
-                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
-                >
-                    Connect hootsuite
-                </Link>
+                {isTestOrDev ? (
+                    <Link
+                        className="govuk-button mt-8"
+                        data-module="govuk-button"
+                        href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
+                    >
+                        Connect hootsuite
+                    </Link>
+                ) : null}
             </>
         </BaseLayout>
     );
@@ -78,6 +86,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!ctx.req) {
         throw new Error("No context request");
     }
+    const isTestOrDev = STAGE !== "prod" && STAGE !== "preprod";
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
@@ -85,9 +94,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
-    const { clientId, userData } = await getHootsuiteData(ctx, session.username, session.orgId);
+    const { clientId, userData } = isTestOrDev
+        ? await getHootsuiteData(ctx, session.username, session.orgId)
+        : { clientId: "", userData: [] };
     return {
-        props: { socialMediaData: userData, username: session.username, clientId },
+        props: { socialMediaData: userData, username: session.username, clientId, isTestOrDev },
     };
 };
 

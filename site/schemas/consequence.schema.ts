@@ -19,6 +19,10 @@ export const networkConsequenceSchema = z.object({
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
 });
 
+export const duplicateConsequenceSchema = z.object({
+    disruptionId: z.string().uuid(),
+});
+
 export const consequenceOperatorsSchema = z.object({
     operatorNoc: z.string(),
     operatorPublicName: z.string(),

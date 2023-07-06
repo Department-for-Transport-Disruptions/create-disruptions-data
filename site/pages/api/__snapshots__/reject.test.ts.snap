@@ -16,6 +16,9 @@ exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
                 "VehicleMode": "tram",
               },
             },
+            "Operators": {
+              "AllOperators": "",
+            },
           },
           "Blocking": {
             "JourneyPlanner": false,
@@ -151,6 +154,9 @@ exports[`reject > should write the correct disruptions data to dynamoDB 3`] = `
                 "AllLines": "",
                 "VehicleMode": "tram",
               },
+            },
+            "Operators": {
+              "AllOperators": "",
             },
           },
           "Blocking": {
