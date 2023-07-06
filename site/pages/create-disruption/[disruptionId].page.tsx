@@ -429,8 +429,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     schema={createDisruptionSchema.shape.publishStartTime}
                                     resetError={
+                                        (!pageState.inputs.publishStartTime &&
+                                            !!validity.disruptionStartTime &&
+                                            validity.disruptionRepeats === "doesntRepeat") ||
                                         pageState.inputs.publishStartTime ===
-                                        convertDateTimeToFormat(new Date(), "HHmm")
+                                            convertDateTimeToFormat(new Date(), "HHmm")
                                     }
                                     showNowButton={handleNow}
                                 />
