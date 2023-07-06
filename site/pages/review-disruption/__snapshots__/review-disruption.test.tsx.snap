@@ -596,6 +596,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 >
                   Delete consequence
                 </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=0&return=/review-disruption"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
             <div
@@ -809,6 +816,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   onClick={[Function]}
                 >
                   Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=1&return=/review-disruption"
+                >
+                  Duplicate consequence
                 </button>
               </div>
             </div>
@@ -1051,6 +1065,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   onClick={[Function]}
                 >
                   Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/review-disruption"
+                >
+                  Duplicate consequence
                 </button>
               </div>
             </div>

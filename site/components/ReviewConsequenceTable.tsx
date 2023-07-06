@@ -248,6 +248,16 @@ const ReviewConsequenceTable = ({
             >
                 Delete consequence
             </button>
+            <button
+                key={consequence.consequenceIndex}
+                className="govuk-button govuk-button--secondary mt-4 ml-4"
+                data-module="govuk-button"
+                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${
+                    isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH
+                }`}
+            >
+                Duplicate consequence
+            </button>
         </>
     );
 };
