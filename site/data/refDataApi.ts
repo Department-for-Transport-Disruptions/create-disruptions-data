@@ -172,7 +172,7 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
 };
 
 export const fetchAdminAreaCodes = async () => {
-    const searchApiUrl = `https://api.test.ref-data.dft-create-data.com/v1/area-codes`;
+    const searchApiUrl = `${API_BASE_URL}/area-codes`;
 
     const res = await fetch(searchApiUrl, {
         method: "GET",
