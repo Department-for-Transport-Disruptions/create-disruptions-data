@@ -6,7 +6,11 @@ import {
     ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/dynamo";
+import {
+    getDisruptionById,
+    getOrganisationInfoById,
+    insertPublishedDisruptionIntoDynamoAndUpdateDraft,
+} from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -30,7 +34,16 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
+        const [draftDisruption, orgInfo] = await Promise.all([
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
+            getOrganisationInfoById(session.orgId),
+        ]);
+
+        if (!orgInfo) {
+            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            redirectTo(res, ERROR_PATH);
+            return;
+        }
 
         if (!draftDisruption || (draftDisruption && Object.keys(draftDisruption).length === 0)) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
@@ -53,7 +66,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-            getPtSituationElementFromDraft(draftDisruption),
+            getPtSituationElementFromDraft(draftDisruption, orgInfo.name),
             draftDisruption,
             session.orgId,
             canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,

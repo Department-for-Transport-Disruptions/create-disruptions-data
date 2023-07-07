@@ -65,7 +65,7 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-export const getPtSituationElementFromDraft = (disruption: Disruption) => {
+export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: string) => {
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
@@ -84,7 +84,7 @@ export const getPtSituationElementFromDraft = (disruption: Disruption) => {
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
         Description: disruption.description,
-        ParticipantRef: "DepartmentForTransport",
+        ParticipantRef: orgName,
         SituationNumber: disruption.disruptionId,
         PublicationWindow: {
             StartTime: getDatetimeFromDateAndTime(
