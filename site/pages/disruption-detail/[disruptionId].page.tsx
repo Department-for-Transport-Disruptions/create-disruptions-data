@@ -554,7 +554,7 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        {(disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5) || isTestOrDev ? (
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 && isTestOrDev ? (
                             <Link
                                 role="button"
                                 href={{
