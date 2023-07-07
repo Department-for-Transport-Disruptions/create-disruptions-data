@@ -2369,6 +2369,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       <input
                         aria-describedby="publish-start-time-hint"
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
                         disabled={false}
                         id="publish-start-time-input"
                         name="publishStartTime"
@@ -2502,6 +2503,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       <input
                         aria-describedby=""
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
                         disabled={false}
                         id="publish-end-time-input"
                         name="publishEndTime"
