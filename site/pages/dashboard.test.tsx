@@ -52,6 +52,7 @@ const disruptions: DashboardDisruption[] = [
                 endTime: null,
             },
         ],
+        displayId: "8fg3ha",
     },
     {
         id: "33",
@@ -62,6 +63,7 @@ const disruptions: DashboardDisruption[] = [
                 endTime: "2023-03-22T11:23:24.529Z",
             },
         ],
+        displayId: "8fg3ha",
     },
     {
         id: "44",
@@ -76,6 +78,7 @@ const disruptions: DashboardDisruption[] = [
                 endTime: null,
             },
         ],
+        displayId: "8fg3ha",
     },
     {
         id: "55",
@@ -90,6 +93,7 @@ const disruptions: DashboardDisruption[] = [
                 endTime: null,
             },
         ],
+        displayId: "8fg3ha",
     },
 ];
 
@@ -218,6 +222,7 @@ describe("pages", () => {
                                 },
                                 { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
+                            displayId: "8fg3ha",
                         },
                     ],
                     upcomingDisruptions: [],
@@ -250,6 +255,7 @@ describe("pages", () => {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
                             validityPeriods: [{ startTime: "2999-02-12T13:00:00.000Z", endTime: null }],
+                            displayId: "8fg3ha",
                         },
                     ],
                     recentlyClosedDisruptions: [],
@@ -289,6 +295,7 @@ describe("pages", () => {
                                     endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
                                 },
                             ],
+                            displayId: "8fg3ha",
                         },
                     ],
                     upcomingDisruptions: [],
@@ -320,6 +327,7 @@ describe("pages", () => {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
                             validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
+                            displayId: "8fg3ha",
                         },
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -331,6 +339,7 @@ describe("pages", () => {
                                 },
                                 { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
+                            displayId: "8fg3ha",
                         },
                         {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -342,6 +351,7 @@ describe("pages", () => {
                                 },
                                 { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
                             ],
+                            displayId: "8fg3ha",
                         },
                     ],
                     upcomingDisruptions: [
@@ -349,6 +359,7 @@ describe("pages", () => {
                             id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
                             summary: "Some summary",
                             validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
+                            displayId: "8fg3ha",
                         },
                     ],
                     recentlyClosedDisruptions: [],

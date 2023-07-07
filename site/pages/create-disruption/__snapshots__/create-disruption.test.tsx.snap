@@ -1340,6 +1340,10 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
         />
+        <input
+          name="displayId"
+          type="hidden"
+        />
         <button
           className="govuk-button"
           data-module="govuk-button"
@@ -2791,6 +2795,10 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         </div>
         <input
           name="disruptionId"
+          type="hidden"
+        />
+        <input
+          name="displayId"
           type="hidden"
         />
         <button
@@ -4313,6 +4321,10 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           name="disruptionId"
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        />
+        <input
+          name="displayId"
+          type="hidden"
         />
         <button
           className="govuk-button"

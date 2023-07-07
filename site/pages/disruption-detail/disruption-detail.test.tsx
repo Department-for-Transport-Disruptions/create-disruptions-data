@@ -123,6 +123,7 @@ const previousDisruptionInformation: Disruption = {
     disruptionNoEndDateTime: "",
     consequences: previousConsequencesInformation,
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
+    displayId: "8fg3ha",
 };
 
 describe("pages", () => {

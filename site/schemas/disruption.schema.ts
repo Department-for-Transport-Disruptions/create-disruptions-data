@@ -45,7 +45,7 @@ const displayValidityPeriod = z.object({
 export const exportDisruptionsSchema = z.array(
     z
         .object({
-            index: z.number(),
+            displayId: z.string(),
             summary: z.string(),
             modes: z.array(z.string()),
             isOperatorWideCq: z.boolean(),
@@ -59,7 +59,7 @@ export const exportDisruptionsSchema = z.array(
         })
         .transform((item) => {
             return {
-                id: item.index,
+                id: item.displayId,
                 title: item.summary,
                 serviceModes: item.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
                 operatorWide: item.isOperatorWideCq ? "yes" : "no",

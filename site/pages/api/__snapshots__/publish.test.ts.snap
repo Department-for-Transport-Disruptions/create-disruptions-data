@@ -112,6 +112,7 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
       },
     ],
     "description": "Test description",
+    "displayId": "8fg3ha",
     "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
     "disruptionNoEndDateTime": "true",
     "disruptionReason": "staffInWrongPlace",

@@ -324,6 +324,7 @@ export const disruptionInfoTest: DisruptionInfo = {
     disruptionStartDate: "10/03/2023",
     disruptionStartTime: "1200",
     disruptionNoEndDateTime: "true",
+    displayId: "8fg3ha",
 };
 
 export const disruptionWithNoConsequences: Disruption = {
@@ -347,6 +348,7 @@ export const disruptionWithNoConsequences: Disruption = {
     disruptionStartTime: "1200",
     disruptionNoEndDateTime: "true",
     consequences: [],
+    displayId: "8fg3ha",
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -641,7 +643,7 @@ export const mockSession: Session = {
 
 export const exportDisruption: ExportDisruptions = [
     {
-        id: 0,
+        id: "8fg3ha",
         title: "Test summary",
         serviceModes: "Bus",
         operatorWide: "yes",

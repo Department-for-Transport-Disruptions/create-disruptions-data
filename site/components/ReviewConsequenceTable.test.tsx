@@ -44,6 +44,7 @@ const previousDisruptionInformation: Disruption = {
     disruptionNoEndDateTime: "",
     consequences: [previousConsequencesInformation],
     publishStatus: PublishStatus.draft,
+    displayId: "8fg3ha",
 };
 
 describe("ReviewConsequenceTable", () => {
