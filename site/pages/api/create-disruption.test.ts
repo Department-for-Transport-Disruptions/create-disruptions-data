@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
@@ -34,6 +35,7 @@ const defaultDisruptionData = {
     disruptionEndTime: "",
     disruptionNoEndDateTime: "true",
     validity1: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
+    displayId: "8fg3ha",
 };
 
 describe("create-disruption API", () => {
@@ -49,16 +51,101 @@ describe("create-disruption API", () => {
         upsertDisruptionInfo: vi.fn(),
     }));
 
+    vi.mock("crypto-random-string", () => ({
+        default: vi.fn(),
+    }));
+
     afterEach(() => {
         vi.resetAllMocks();
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
+    const cryptoRandomStringSpy = vi.spyOn(cryptoRandomString, "default");
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
+        cryptoRandomStringSpy.mockImplementation(() => {
+            return "8fg3ha";
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed expect displayId for new disruptions", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            displayId: "",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: defaultDisruptionId,
+                disruptionType: "unplanned",
+                summary: "Lorem ipsum dolor sit amet",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                associatedLink: "",
+                disruptionReason: MiscellaneousReason.roadworks,
+                publishStartDate: defaultPublishStartDate,
+                publishStartTime: "0900",
+                publishEndDate: "",
+                publishEndTime: "",
+                disruptionStartDate: getFutureDateAsString(40),
+                disruptionStartTime: "1200",
+                disruptionEndDate: "",
+                disruptionEndTime: "",
+                disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
+                validity: [
+                    {
+                        disruptionStartDate: defaultDisruptionStartDate,
+                        disruptionStartTime: "1000",
+                        disruptionEndDate: defaultDisruptionStartDate,
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "daily",
+                        disruptionRepeatsEndDate: getFutureDateAsString(11),
+                    },
+                    {
+                        disruptionStartDate: getFutureDateAsString(11),
+                        disruptionStartTime: "0900",
+                        disruptionEndDate: getFutureDateAsString(13),
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "weekly",
+                        disruptionRepeatsEndDate: getFutureDateAsString(40),
+                    },
+                ],
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
@@ -109,6 +196,7 @@ describe("create-disruption API", () => {
                 disruptionEndDate: "",
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
                 validity: [
                     {
                         disruptionStartDate: defaultDisruptionStartDate,
@@ -705,6 +793,7 @@ describe("create-disruption API", () => {
                 disruptionEndDate: "",
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
                 validity: [
                     {
                         disruptionStartDate: defaultDisruptionStartDate,

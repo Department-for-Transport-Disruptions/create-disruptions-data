@@ -64,7 +64,7 @@ interface DisruptionOperator {
 }
 
 export interface TableDisruption {
-    index: number;
+    displayId: string;
     id: string;
     summary: string;
     modes: string[];
@@ -148,9 +148,8 @@ export const disruptionIsClosingOrClosed = (disruptionEndDate: Dayjs, today: Day
 };
 
 const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: number) => {
-    const offset = (currentPage - 1) * 10;
     const pageOfDisruptions = getPageOfDisruptions(currentPage, disruptions);
-    return pageOfDisruptions.map((disruption, index) => {
+    return pageOfDisruptions.map((disruption) => {
         const earliestPeriod: {
             startTime: string;
             endTime: string | null;
@@ -179,7 +178,7 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: 
                     }
                     key={disruption.id}
                 >
-                    {index + 1 + offset}
+                    {disruption.displayId}
                 </Link>
             ),
             cells: [
@@ -963,7 +962,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
 
-        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption, index) => {
+        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
             const modes: string[] = [];
             const severitys: Severity[] = [];
             const serviceIds: string[] = [];
@@ -1016,7 +1015,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             const status = getDisruptionStatus(disruption);
 
             return {
-                index,
+                displayId: disruption.displayId,
                 modes,
                 consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
                 status,

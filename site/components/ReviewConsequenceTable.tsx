@@ -249,7 +249,7 @@ const ReviewConsequenceTable = ({
                 Delete consequence
             </button>
             <button
-                key={consequence.consequenceIndex}
+                key={`duplicate-${consequence.consequenceIndex}`}
                 className="govuk-button govuk-button--secondary mt-4 ml-4"
                 data-module="govuk-button"
                 formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${

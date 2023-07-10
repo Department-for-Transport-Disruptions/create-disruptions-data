@@ -1340,6 +1340,10 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
         />
+        <input
+          name="displayId"
+          type="hidden"
+        />
         <button
           className="govuk-button"
           data-module="govuk-button"
@@ -2365,6 +2369,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       <input
                         aria-describedby="publish-start-time-hint"
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
                         disabled={false}
                         id="publish-start-time-input"
                         name="publishStartTime"
@@ -2498,6 +2503,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       <input
                         aria-describedby=""
                         className="govuk-input govuk-date-input__input govuk-input--width-4"
+                        defaultValue=""
                         disabled={false}
                         id="publish-end-time-input"
                         name="publishEndTime"
@@ -2791,6 +2797,10 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         </div>
         <input
           name="disruptionId"
+          type="hidden"
+        />
+        <input
+          name="displayId"
           type="hidden"
         />
         <button
@@ -4313,6 +4323,10 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           name="disruptionId"
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        />
+        <input
+          name="displayId"
+          type="hidden"
         />
         <button
           className="govuk-button"
