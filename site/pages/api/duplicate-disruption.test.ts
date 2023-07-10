@@ -96,7 +96,7 @@ describe("duplicate-disruption API", () => {
             return newDefaultDisruptionId;
         });
         cryptoRandomStringSpy.mockImplementation(() => {
-            return "8fg3ha";
+            return "9fg4gc";
         });
     });
 
@@ -114,7 +114,7 @@ describe("duplicate-disruption API", () => {
             {
                 ...createDisruptionsSchemaRefined.parse(disruption),
                 disruptionId: newDefaultDisruptionId,
-                displayId: "8fg3ha",
+                displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
