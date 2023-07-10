@@ -7,6 +7,7 @@ import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.
 import { Disruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
+import { flattenZodErrors } from "../../utils";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -31,6 +32,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const validatedDisruptionBody = createDisruptionsSchemaRefined.safeParse(disruptionToDuplicate);
 
         if (!validatedDisruptionBody.success) {
+            console.log("Error----", flattenZodErrors(validatedDisruptionBody.error));
             throw new Error("Invalid disruption information");
         }
 
