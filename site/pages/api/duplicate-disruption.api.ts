@@ -1,4 +1,5 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
@@ -36,10 +37,12 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
 
         const newDisruptionId = randomUUID();
 
+        const displayId = cryptoRandomString({ length: 6 });
         const draftDisruption: Disruption = {
             ...validatedDisruptionBody.data,
             publishStatus: PublishStatus.draft,
             disruptionId: newDisruptionId,
+            displayId,
             ...(disruptionToDuplicate.consequences
                 ? {
                       consequences: disruptionToDuplicate.consequences.map((c) => ({
@@ -63,7 +66,11 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         }
 
         await upsertDisruptionInfo(
-            { ...validatedDisruptionBody.data, disruptionId: newDisruptionId },
+            {
+                ...validatedDisruptionBody.data,
+                disruptionId: newDisruptionId,
+                displayId,
+            },
             session.orgId,
             session.isOrgStaff,
         );
