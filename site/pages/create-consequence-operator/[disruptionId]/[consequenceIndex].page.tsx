@@ -273,10 +273,28 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
-    const operators = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const uniqueOperators: Operator[] = [];
+    const uniqueOperatorNames: Set<string> = new Set();
+
+    operatorsData.forEach((operator) => {
+        if (operator.mode === "bus" || operator.mode === "") {
+            if (!uniqueOperatorNames.has(operator.nocCode)) {
+                uniqueOperatorNames.add(operator.nocCode);
+                uniqueOperators.push(operator);
+            }
+        } else {
+            uniqueOperators.push(operator);
+        }
+    });
 
     return {
-        props: { ...pageState, consequenceIndex: index, operators, disruptionSummary: disruption.description || "" },
+        props: {
+            ...pageState,
+            consequenceIndex: index,
+            operators: uniqueOperators,
+            disruptionSummary: disruption.description || "",
+        },
     };
 };
 
