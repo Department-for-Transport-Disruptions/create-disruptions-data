@@ -272,8 +272,14 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -281,7 +287,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     defaultValue="yes"
                     disabled={false}
@@ -861,8 +867,14 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -870,7 +882,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     disabled={false}
                     id="disruption-delay-input"
@@ -1438,8 +1450,14 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -1447,7 +1465,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     defaultValue="yes"
                     disabled={false}

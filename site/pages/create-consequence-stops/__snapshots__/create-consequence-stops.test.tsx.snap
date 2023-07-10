@@ -523,13 +523,13 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in minutes
+                Enter time in minutes
               </div>
               <div
                 className=""
@@ -1289,13 +1289,13 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in minutes
+                Enter time in minutes
               </div>
               <div
                 className=""
@@ -2015,13 +2015,13 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in minutes
+                Enter time in minutes
               </div>
               <div
                 className=""
@@ -2780,13 +2780,13 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
               >
-                Enter the time in minutes
+                Enter time in minutes
               </div>
               <div
                 className=""

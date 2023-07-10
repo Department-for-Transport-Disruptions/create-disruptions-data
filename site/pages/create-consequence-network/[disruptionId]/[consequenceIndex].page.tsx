@@ -132,7 +132,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         />
 
                         <TimeSelector<NetworkConsequence>
-                            display="Delay (minutes)"
+                            display="Delay (optional)"
+                            hint="Enter time in minutes"
                             displaySize="l"
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}

@@ -432,8 +432,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -441,7 +447,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     defaultValue="yes"
                     disabled={false}
@@ -1143,8 +1149,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -1152,7 +1164,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     disabled={false}
                     id="disruption-delay-input"
@@ -1880,8 +1892,14 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                 className="govuk-label govuk-label--l"
                 htmlFor="disruption-delay-input"
               >
-                Delay (minutes)
+                Delay (optional)
               </label>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
               <div
                 className=""
               >
@@ -1889,7 +1907,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   className=""
                 >
                   <input
-                    aria-describedby=""
+                    aria-describedby="disruption-delay-hint"
                     className="govuk-input govuk-date-input__input govuk-input--width-4"
                     defaultValue="yes"
                     disabled={false}

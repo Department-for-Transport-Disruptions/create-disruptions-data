@@ -470,9 +470,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <TimeSelector<ServicesConsequence>
-                            display="Delay (minutes)"
+                            display="Delay (optional)"
                             displaySize="l"
-                            hint="Enter the time in minutes"
+                            hint="Enter time in minutes"
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}
                             inputName="disruptionDelay"
