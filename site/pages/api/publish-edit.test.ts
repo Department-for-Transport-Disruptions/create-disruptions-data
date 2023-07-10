@@ -5,6 +5,7 @@ import publishEdit from "./publish-edit.api";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
+import { Organisation } from "../../schemas/organisation.schema";
 import {
     DEFAULT_ORG_ID,
     disruptionWithConsequencesAndSocialMediaPosts,
@@ -18,6 +19,10 @@ import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+const orgInfo: Organisation = {
+    name: "DepartmentForTransport",
+    adminAreaCodes: ["001", "002"],
+};
 
 describe("publishEdit", () => {
     const writeHeadMock = vi.fn();
@@ -38,6 +43,7 @@ describe("publishEdit", () => {
         publishPendingConsequencesAndSocialMediaPosts: vi.fn(),
         deleteDisruptionsInPending: vi.fn(),
         updatePendingDisruptionStatus: vi.fn(),
+        getOrganisationInfoById: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -49,6 +55,7 @@ describe("publishEdit", () => {
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
     const publishToHootsuiteSpy = vi.spyOn(apiUtils, "publishToHootsuite");
+    const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -64,6 +71,7 @@ describe("publishEdit", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
+        getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {

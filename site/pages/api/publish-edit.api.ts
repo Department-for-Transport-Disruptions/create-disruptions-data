@@ -10,6 +10,7 @@ import {
     publishPendingConsequencesAndSocialMediaPosts,
     deleteDisruptionsInPending,
     updatePendingDisruptionStatus,
+    getOrganisationInfoById,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -34,8 +35,16 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
+        const [draftDisruption, orgInfo] = await Promise.all([
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
+            getOrganisationInfoById(session.orgId),
+        ]);
 
+        if (!orgInfo) {
+            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            redirectTo(res, ERROR_PATH);
+            return;
+        }
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
@@ -83,7 +92,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                   session.orgId,
               )
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  getPtSituationElementFromDraft(draftDisruption),
+                  getPtSituationElementFromDraft(draftDisruption, orgInfo?.name),
                   draftDisruption,
                   session.orgId,
                   canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,

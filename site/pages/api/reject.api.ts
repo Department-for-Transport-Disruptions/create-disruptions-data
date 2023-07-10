@@ -5,6 +5,7 @@ import {
     deleteDisruptionsInEdit,
     deleteDisruptionsInPending,
     getDisruptionById,
+    getOrganisationInfoById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     upsertSocialMediaPost,
 } from "../../data/dynamo";
@@ -24,7 +25,16 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const draftDisruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
+        const [draftDisruption, orgInfo] = await Promise.all([
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
+            getOrganisationInfoById(session.orgId),
+        ]);
+
+        if (!orgInfo) {
+            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            redirectTo(res, ERROR_PATH);
+            return;
+        }
 
         if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
             logger.error(`Disruption ${validatedBody.data.disruptionId} not found to reject`);
@@ -73,7 +83,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
                 );
             }
             await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                getPtSituationElementFromDraft(draftDisruption),
+                getPtSituationElementFromDraft(draftDisruption, orgInfo.name),
                 draftDisruption,
                 session.orgId,
                 PublishStatus.rejected,
