@@ -32,6 +32,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const validatedDisruptionBody = createDisruptionsSchemaRefined.safeParse(disruptionToDuplicate);
 
         if (!validatedDisruptionBody.success) {
+            // eslint-disable-next-line no-console
             console.log("Error----", flattenZodErrors(validatedDisruptionBody.error));
             throw new Error("Invalid disruption information");
         }
