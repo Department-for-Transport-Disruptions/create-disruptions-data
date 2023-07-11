@@ -9,7 +9,6 @@ import {
     serviceSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
-import { flattenZodErrors } from "../utils";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];

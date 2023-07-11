@@ -75,6 +75,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             (operator.mode === "tram" || operator.mode === "metro")
         ) {
             return display;
+        } else if (pageState.inputs?.vehicleMode === "ferryService" && operator.mode === "ferry") {
+            return display;
         } else if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;
         } else {
