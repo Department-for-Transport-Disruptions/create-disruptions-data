@@ -54,10 +54,9 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number, vehicleMode: VehicleMode): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number, vehicleMode?: VehicleMode): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({ serviceId });
-
         if (stopsData) {
             const filteredStopsData = stopsData.filter((stop) => {
                 if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === "bus") {
@@ -214,7 +213,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id)
+            fetchStops(selectedService.id, pageState.inputs.vehicleMode)
                 .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -624,7 +623,9 @@ export const getServerSideProps = async (
     let stops: Stop[] = [];
 
     if (pageState?.inputs?.services) {
-        const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
+        const stopPromises = pageState.inputs.services.map((service) =>
+            fetchStops(service.id, pageState.inputs.vehicleMode),
+        );
         stops = (await Promise.all(stopPromises)).flat();
     }
 

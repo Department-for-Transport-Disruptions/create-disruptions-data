@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
@@ -16,7 +16,7 @@ interface FetchStopsInput {
     searchString?: string;
 }
 
-export const fetchStops = async (input: FetchStopsInput) => {
+export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMode) => {
     const searchApiUrl = `${API_BASE_URL}/stops`;
 
     const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
@@ -39,7 +39,17 @@ export const fetchStops = async (input: FetchStopsInput) => {
         return [];
     }
 
-    return parseResult.data;
+    const filteredStopsData = parseResult.data.filter((stop) => {
+        if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === "bus") {
+            return stop;
+        } else if (stop.stopType && ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) && vehicleMode !== "bus") {
+            return stop;
+        } else {
+            return false;
+        }
+    });
+
+    return filteredStopsData;
 };
 
 interface FetchServicesInput {

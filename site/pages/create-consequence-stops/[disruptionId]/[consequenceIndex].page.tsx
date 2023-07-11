@@ -62,7 +62,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                 const stopsData = await fetchStops({
                     adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                     searchString: searchInput,
-                });
+                }, pageState.inputs.vehicleMode);
 
                 if (stopsData) {
                     setStopOptions(stopsData);

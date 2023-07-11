@@ -161,10 +161,13 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const stopsData = await fetchStops({
-                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    polygon,
-                });
+                const stopsData = await fetchStops(
+                    {
+                        adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        polygon,
+                    },
+                    state.inputs.vehicleMode,
+                );
 
                 if (stopsData) {
                     setMarkerData(stopsData);
