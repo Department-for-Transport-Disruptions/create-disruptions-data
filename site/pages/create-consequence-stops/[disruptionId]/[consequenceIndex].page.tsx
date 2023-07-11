@@ -280,9 +280,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             schema={stopsConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
                         <TimeSelector<StopsConsequence>
-                            display="Delay (minutes)"
+                            display="Delay (optional)"
                             displaySize="l"
-                            hint="Enter the time in minutes"
+                            hint="Enter time in minutes"
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}
                             inputName="disruptionDelay"

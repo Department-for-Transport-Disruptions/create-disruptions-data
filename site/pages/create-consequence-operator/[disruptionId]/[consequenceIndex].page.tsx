@@ -216,7 +216,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             schema={operatorConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
                         <TimeSelector<OperatorConsequence>
-                            display="Delay (minutes)"
+                            display="Delay (optional)"
+                            hint="Enter time in minutes"
                             displaySize="l"
                             value={pageState.inputs.disruptionDelay}
                             disabled={false}
