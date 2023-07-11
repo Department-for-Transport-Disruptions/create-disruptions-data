@@ -45,6 +45,7 @@ export const fetchStops = async (input: FetchStopsInput) => {
 interface FetchServicesInput {
     adminAreaCodes?: string[];
     dataSource?: Modes;
+    modes?: string[];
 }
 
 export const fetchServices = async (input: FetchServicesInput) => {
@@ -58,6 +59,10 @@ export const fetchServices = async (input: FetchServicesInput) => {
 
     if (input.dataSource) {
         queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    if (input.modes && input.modes.length > 0) {
+        queryStringItems.push(`modes=${input.modes.join(",")}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
