@@ -1,8 +1,9 @@
+import { Modes } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import ErrorSummary from "../../../components/ErrorSummary";
 import CsrfForm from "../../../components/form/CsrfForm";
 import Radios from "../../../components/form/Radios";
@@ -25,6 +26,7 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
+import { ModeType } from "../../../schemas/organisation.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -50,6 +52,35 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const displayCancelButton =
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+
+    const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
+
+    useEffect(() => {
+        const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
+        if (source && dataSource !== source) {
+            setDataSource(source);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageState?.inputs?.vehicleMode]);
+
+    const filterOperators = (operator: Operator) => {
+        const display =
+            !pageState.inputs.consequenceOperators?.find((selOp) => selOp.operatorNoc === operator.nocCode) &&
+            operator.dataSource === dataSource.toString();
+
+        if (pageState.inputs?.vehicleMode === "bus" && (operator.mode === "bus" || operator.mode === "")) {
+            return display;
+        } else if (
+            pageState.inputs?.vehicleMode === "tram" &&
+            (operator.mode === "tram" || operator.mode === "metro")
+        ) {
+            return display;
+        } else if (pageState.inputs?.vehicleMode === operator.mode) {
+            return display;
+        } else {
+            return false;
+        }
+    };
 
     return (
         <BaseLayout title={title} description={description}>
@@ -92,12 +123,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <OperatorSearch<OperatorConsequence>
                             display="Operators impacted"
                             displaySize="l"
-                            operators={props.operators.filter(
-                                (op) =>
-                                    !pageState.inputs.consequenceOperators?.find(
-                                        (selOp) => selOp.operatorNoc === op.nocCode,
-                                    ),
-                            )}
+                            operators={props.operators.filter((op) => filterOperators(op))}
                             selectedOperators={pageState.inputs?.consequenceOperators ?? []}
                             stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
@@ -294,6 +320,7 @@ export const getServerSideProps = async (
             consequenceIndex: index,
             operators: uniqueOperators,
             disruptionSummary: disruption.description || "",
+            sessionWithOrg: session,
         },
     };
 };

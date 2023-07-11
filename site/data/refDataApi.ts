@@ -9,6 +9,7 @@ import {
     serviceSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
+import { flattenZodErrors } from "../utils";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];
@@ -151,12 +152,17 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 
 interface FetchOperatorsInput {
     adminAreaCodes: string[];
+    dataSource?: Modes;
 }
 
 export const fetchOperators = async (input: FetchOperatorsInput) => {
     const searchApiUrl = `${API_BASE_URL}/operators`;
 
     const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
+
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
