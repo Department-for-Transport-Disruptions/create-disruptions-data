@@ -59,10 +59,13 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     useEffect(() => {
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
-                const stopsData = await fetchStops({
-                    adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    searchString: searchInput,
-                }, pageState.inputs.vehicleMode);
+                const stopsData = await fetchStops(
+                    {
+                        adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        searchString: searchInput,
+                    },
+                    pageState.inputs.vehicleMode,
+                );
 
                 if (stopsData) {
                     setStopOptions(stopsData);
