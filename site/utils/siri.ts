@@ -7,10 +7,10 @@ import {
     Reason,
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { camelCase, upperCase } from "lodash";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
-import { camelCase, upperCase } from "lodash";
 
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
