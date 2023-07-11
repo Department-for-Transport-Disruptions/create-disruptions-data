@@ -65,7 +65,24 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                 });
 
                 if (stopsData) {
-                    setStopOptions(stopsData);
+                    const filteredStopsData = stopsData.filter((stop) => {
+                        if (
+                            stop.stopType === "BCT" &&
+                            stop.busStopType === "MKD" &&
+                            pageState.inputs.vehicleMode === "bus"
+                        ) {
+                            return stop;
+                        } else if (
+                            stop.stopType &&
+                            ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) &&
+                            pageState.inputs.vehicleMode !== "bus"
+                        ) {
+                            return stop;
+                        } else {
+                            return false;
+                        }
+                    });
+                    setStopOptions(filteredStopsData);
                 }
             } else {
                 setStopOptions([]);

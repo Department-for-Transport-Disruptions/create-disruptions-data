@@ -51,6 +51,7 @@ export const stopSchema = z.object({
     sequenceNumber: z.string().optional(),
     direction: z.string().optional(),
     stopType: z.string().optional(),
+    busStopType: z.string().optional(),
 });
 
 export const routesSchema = z.object({
