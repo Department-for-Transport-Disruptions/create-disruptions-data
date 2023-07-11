@@ -42,7 +42,9 @@ export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMo
     const filteredStopsData = parseResult.data.filter((stop) => {
         if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === "bus") {
             return stop;
-        } else if (stop.stopType && ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) && vehicleMode !== "bus") {
+        } else if (stop.stopType && ["MET", "PLT"].includes(stop.stopType) && vehicleMode === "tram") {
+            return stop;
+        } else if (stop.stopType && ["FER", "FBT"].includes(stop.stopType) && vehicleMode === "ferryService") {
             return stop;
         } else {
             return false;
