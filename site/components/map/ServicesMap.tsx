@@ -167,24 +167,7 @@ const Map = ({
                 });
 
                 if (stopsData) {
-                    const filteredStopsData = stopsData.filter((stop) => {
-                        if (
-                            stop.stopType === "BCT" &&
-                            stop.busStopType === "MKD" &&
-                            state.inputs.vehicleMode === "bus"
-                        ) {
-                            return stop;
-                        } else if (
-                            stop.stopType &&
-                            ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) &&
-                            state.inputs.vehicleMode !== "bus"
-                        ) {
-                            return stop;
-                        } else {
-                            return false;
-                        }
-                    });
-                    setMarkerData(filteredStopsData);
+                    setMarkerData(stopsData);
                 } else {
                     setMarkerData([]);
                 }

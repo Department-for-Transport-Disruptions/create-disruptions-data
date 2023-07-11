@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -54,15 +54,31 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number, vehicleMode: VehicleMode): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({ serviceId });
 
         if (stopsData) {
-            return stopsData.map((stop) => ({
-                ...stop,
-                ...(serviceId && { serviceIds: [serviceId] }),
-            }));
+            const filteredStopsData = stopsData.filter((stop) => {
+                if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === "bus") {
+                    return {
+                        ...stop,
+                        ...(serviceId && { serviceIds: [serviceId] }),
+                    };
+                } else if (
+                    stop.stopType &&
+                    ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) &&
+                    vehicleMode !== "bus"
+                ) {
+                    return {
+                        ...stop,
+                        ...(serviceId && { serviceIds: [serviceId] }),
+                    };
+                } else {
+                    return false;
+                }
+            });
+            return filteredStopsData;
         }
     }
 
