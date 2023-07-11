@@ -1630,13 +1630,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Delete disruption
           </button>
-          <button
-            className="govuk-button govuk-button--secondary ml-5 mt-8"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            Duplicate disruption
-          </button>
         </div>
       </form>
     </main>
