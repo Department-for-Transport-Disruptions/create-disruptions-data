@@ -64,11 +64,12 @@ export const fetchStops = async (serviceId: number, vehicleMode?: VehicleMode): 
                         ...stop,
                         ...(serviceId && { serviceIds: [serviceId] }),
                     };
-                } else if (
-                    stop.stopType &&
-                    ["MET", "PLT", "FER", "FBT"].includes(stop.stopType) &&
-                    vehicleMode !== "bus"
-                ) {
+                } else if (stop.stopType && ["MET", "PLT"].includes(stop.stopType) && vehicleMode === "tram") {
+                    return {
+                        ...stop,
+                        ...(serviceId && { serviceIds: [serviceId] }),
+                    };
+                } else if (stop.stopType && ["FER", "FBT"].includes(stop.stopType) && vehicleMode === "ferryService") {
                     return {
                         ...stop,
                         ...(serviceId && { serviceIds: [serviceId] }),
