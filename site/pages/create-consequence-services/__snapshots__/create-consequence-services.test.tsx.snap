@@ -1382,34 +1382,8 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 </thead>
                 <tbody
                   className="govuk-table__body"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-service-23127"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
+                />
               </table>
-              <input
-                name="service1"
-                type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\"}"
-              />
             </div>
           </div>
           <div
@@ -1543,59 +1517,8 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 </thead>
                 <tbody
                   className="govuk-table__body"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      Temple Meads Stn T3 0100BRP90310
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-stop-0100BRP90310"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      Temple Meads Stn T7 0100BRP90311
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-stop-0100BRP90311"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
+                />
               </table>
-              <input
-                name="stop1"
-                type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
-              />
-              <input
-                name="stop2"
-                type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
-              />
             </div>
           </div>
           <div
@@ -3361,34 +3284,8 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 </thead>
                 <tbody
                   className="govuk-table__body"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-service-23127"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
+                />
               </table>
-              <input
-                name="service1"
-                type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\"}"
-              />
             </div>
           </div>
           <div
@@ -3522,59 +3419,8 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 </thead>
                 <tbody
                   className="govuk-table__body"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      Temple Meads Stn T3 0100BRP90310
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-stop-0100BRP90310"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                  <tr
-                    className="govuk-table__row"
-                  >
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      Temple Meads Stn T7 0100BRP90311
-                    </td>
-                    <td
-                      className="govuk-table__cell align-middle"
-                    >
-                      <button
-                        className="govuk-link"
-                        id="remove-stop-0100BRP90311"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
+                />
               </table>
-              <input
-                name="stop1"
-                type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
-              />
-              <input
-                name="stop2"
-                type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
-              />
             </div>
           </div>
           <div
