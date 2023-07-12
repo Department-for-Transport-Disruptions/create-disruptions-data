@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
-import { Service, Stop } from "../schemas/consequence.schema";
+import { Stop } from "../schemas/consequence.schema";
 import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 
 export interface ErrorInfo {
@@ -68,8 +68,6 @@ export interface PageState<T> {
 }
 
 export interface CreateConsequenceProps {
-    initialBodsServices?: Service[];
-    initialTndsServices?: Service[];
     initialStops?: Stop[];
     disruptionSummary?: string;
 }

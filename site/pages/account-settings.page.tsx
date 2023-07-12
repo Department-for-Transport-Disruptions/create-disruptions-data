@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
@@ -23,7 +23,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
 
-    const updateOrg = async (key: string, value: Modes) => {
+    const updateOrg = async (key: string, value: Datasource) => {
         const previousValue = mode[key as keyof ModeType];
         setMode({ ...mode, [key]: value });
         const url = new URL("/api/admin/update-org", window.location.origin);
@@ -125,7 +125,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                         value="tnds"
                         checked={inputValue === "tnds"}
                         onChange={async () => {
-                            await updateOrg(name, Modes.tnds);
+                            await updateOrg(name, Datasource.tnds);
                         }}
                     />
                     <label key={`${name}-tnds`} htmlFor={`${name}-tnds`} className="govuk-label govuk-radios__label">
@@ -141,7 +141,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                         value="bods"
                         checked={inputValue === "bods"}
                         onChange={async () => {
-                            await updateOrg(name, Modes.bods);
+                            await updateOrg(name, Datasource.bods);
                         }}
                     />
                     <label key={`${name}-bods`} htmlFor={`${name}-bods`} className="govuk-label govuk-radios__label">

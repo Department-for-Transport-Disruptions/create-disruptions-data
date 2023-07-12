@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
@@ -44,7 +44,8 @@ export const fetchStops = async (input: FetchStopsInput) => {
 
 interface FetchServicesInput {
     adminAreaCodes?: string[];
-    dataSource?: Modes;
+    dataSource?: Datasource;
+    modes?: Modes[];
 }
 
 export const fetchServices = async (input: FetchServicesInput) => {
@@ -58,6 +59,10 @@ export const fetchServices = async (input: FetchServicesInput) => {
 
     if (input.dataSource) {
         queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    if (input.modes && input.modes.length > 0) {
+        queryStringItems.push(`modes=${input.modes.join(",")}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -76,7 +81,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
 interface FetchServicesByStopsInput {
     atcoCodes?: string[];
     includeRoutes?: boolean;
-    dataSource?: Modes;
+    dataSource?: Datasource;
 }
 
 export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => {
@@ -151,7 +156,7 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 
 interface FetchOperatorsInput {
     adminAreaCodes: string[];
-    dataSource?: Modes;
+    dataSource?: Datasource;
 }
 
 export const fetchOperators = async (input: FetchOperatorsInput) => {

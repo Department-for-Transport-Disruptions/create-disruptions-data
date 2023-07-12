@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -82,7 +82,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
-    const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
+    const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
+    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -244,18 +245,46 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     }, [pageState?.inputs?.services]);
 
+    const fetchData = async (source: Datasource, vehicleMode: string) => {
+        let mode: Modes[] = [];
+        if (vehicleMode === VehicleMode.ferryService.toString()) {
+            mode = [Modes.ferry];
+        } else if (vehicleMode === VehicleMode.tram.toString()) {
+            mode = [Modes.tram, Modes.metro];
+        } else {
+            mode = [vehicleMode as Modes];
+        }
+
+        const serviceData = await fetchServices({
+            adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+            dataSource: source,
+            modes: mode,
+        });
+
+        const filteredData = await filterServices(serviceData);
+
+        setServicesRecords(filteredData);
+    };
+
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
-        if (source && dataSource !== source) {
-            setDataSource(source);
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    services: [],
-                    stops: [],
-                },
-            });
+
+        if (source && pageState?.inputs?.vehicleMode) {
+            fetchData(source, pageState.inputs.vehicleMode)
+                .then(() => {
+                    if (dataSource !== source) {
+                        setDataSource(source);
+                        setPageState({
+                            ...pageState,
+                            inputs: {
+                                ...pageState.inputs,
+                                services: [],
+                                stops: [],
+                            },
+                        });
+                    }
+                })
+                .catch(() => setServicesRecords([]));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.vehicleMode]);
@@ -357,11 +386,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={
-                                dataSource === Modes.bods
-                                    ? props.initialBodsServices ?? []
-                                    : props.initialTndsServices ?? []
-                            }
+                            options={servicesRecords}
                             handleChange={handleServiceChange}
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
@@ -413,11 +438,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             state={pageState}
                             searchedRoutes={searched}
                             showSelectAllButton
-                            services={
-                                dataSource === Modes.bods
-                                    ? props.initialBodsServices ?? []
-                                    : props.initialTndsServices ?? []
-                            }
+                            services={servicesRecords}
                         />
 
                         <TextInput<ServicesConsequence>
@@ -583,28 +604,6 @@ export const getServerSideProps = async (
         consequence && isServicesConsequence(consequence) ? consequence : undefined,
     );
 
-    const isTndsRequired = Object.values(session.mode).find((value) => value === Modes.tnds.toString());
-    const isBodsRequired = Object.values(session.mode).find((value) => value === Modes.bods.toString());
-
-    const [bodsServicesData, tndsServicesData] = await Promise.all([
-        isBodsRequired
-            ? fetchServices({
-                  adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-              })
-            : undefined,
-        isTndsRequired
-            ? fetchServices({
-                  adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-                  dataSource: Modes.tnds,
-              })
-            : undefined,
-    ]);
-
-    const [bodsServices, tndsServices] = await Promise.all([
-        filterServices(bodsServicesData),
-        filterServices(tndsServicesData),
-    ]);
-
     let stops: Stop[] = [];
 
     if (pageState?.inputs?.services) {
@@ -617,8 +616,6 @@ export const getServerSideProps = async (
     return {
         props: {
             ...pageState,
-            initialBodsServices: bodsServices ?? [],
-            initialTndsServices: tndsServices ?? [],
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,

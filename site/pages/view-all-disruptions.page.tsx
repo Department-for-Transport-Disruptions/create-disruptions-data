@@ -1,4 +1,4 @@
-import { Modes, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { pdf } from "@react-pdf/renderer";
 import { Dayjs } from "dayjs";
@@ -582,7 +582,7 @@ const ViewAllDisruptions = ({
         const [operators, servicesBodsData, servicesTndsData] = await Promise.all([
             fetchOperators({ adminAreaCodes: adminAreaCodes }),
             fetchServices({ adminAreaCodes: adminAreaCodes }),
-            fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Modes.tnds }),
+            fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Datasource.tnds }),
         ]);
 
         let services: Service[] = [];

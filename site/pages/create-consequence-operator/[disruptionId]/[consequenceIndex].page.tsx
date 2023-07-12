@@ -1,4 +1,4 @@
-import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -53,7 +53,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
-    const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
+    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];

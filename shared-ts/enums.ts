@@ -177,7 +177,17 @@ export enum SocialMediaPostStatus {
     rejected = "Rejected",
 }
 
-export enum Modes {
+export enum Datasource {
     tnds = "tnds",
     bods = "bods",
+}
+
+export enum Modes {
+    bus = "bus",
+    coach = "coach",
+    tram = "tram",
+    ferry = "ferry",
+    rail = "rail",
+    underground = "underground",
+    metro = "metro",
 }
