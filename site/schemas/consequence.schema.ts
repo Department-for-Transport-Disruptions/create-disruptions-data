@@ -146,6 +146,8 @@ export const operatorSchema = z.object({
     changeComment: z.string().optional(),
     dateCeased: z.string().optional(),
     dataOwner: z.string().optional(),
+    mode: z.string().optional(),
+    dataSource: z.string().optional(),
 });
 
 export type Operator = z.infer<typeof operatorSchema>;
