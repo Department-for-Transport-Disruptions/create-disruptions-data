@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -244,14 +244,14 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     }, [pageState?.inputs?.services]);
 
-    const fetchData = async (source: Modes, vehicleMode: string) => {
-        let mode: string[] = [];
-        if (vehicleMode === "ferryService") {
-            mode = ["ferry"];
-        } else if (vehicleMode === "tram") {
-            mode = ["tram", "metro"];
+    const fetchData = async (source: Datasource, vehicleMode: string) => {
+        let mode: Modes[] = [];
+        if (vehicleMode === VehicleMode.ferryService.toString()) {
+            mode = [Modes.ferry];
+        } else if (vehicleMode === VehicleMode.tram.toString()) {
+            mode = [Modes.tram, Modes.metro];
         } else {
-            mode = [vehicleMode];
+            mode = [vehicleMode as Modes];
         }
 
         const serviceData = await fetchServices({
