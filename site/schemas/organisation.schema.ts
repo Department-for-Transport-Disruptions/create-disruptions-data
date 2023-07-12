@@ -1,17 +1,22 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { setZodDefaultError } from "../utils";
 
 export const modeSchema = z.object({
-    bus: z.nativeEnum(Modes),
-    tram: z.nativeEnum(Modes),
-    ferryService: z.nativeEnum(Modes),
-    rail: z.nativeEnum(Modes),
+    bus: z.nativeEnum(Datasource),
+    tram: z.nativeEnum(Datasource),
+    ferryService: z.nativeEnum(Datasource),
+    rail: z.nativeEnum(Datasource),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
 
-export const defaultModes: ModeType = { bus: Modes.bods, tram: Modes.bods, ferryService: Modes.bods, rail: Modes.bods };
+export const defaultModes: ModeType = {
+    bus: Datasource.bods,
+    tram: Datasource.bods,
+    ferryService: Datasource.bods,
+    rail: Datasource.bods,
+};
 
 export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),
