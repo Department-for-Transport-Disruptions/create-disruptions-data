@@ -659,8 +659,7 @@ const DisruptionDetail = ({
                                 Delete disruption
                             </button>
                         )}
-                        {disruption.publishStatus !== PublishStatus.editing &&
-                        disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
+                        {disruption.publishStatus === PublishStatus.published ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"

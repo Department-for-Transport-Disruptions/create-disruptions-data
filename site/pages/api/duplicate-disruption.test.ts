@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
 import duplicateDisruption from "./duplicate-disruption.api";
@@ -64,6 +65,10 @@ describe("duplicate-disruption API", () => {
         randomUUID: vi.fn(),
     }));
 
+    vi.mock("crypto-random-string", () => ({
+        default: vi.fn(),
+    }));
+
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
     const upsertDisruptionInfoSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
     vi.mock("../../data/dynamo", () => ({
@@ -76,6 +81,7 @@ describe("duplicate-disruption API", () => {
         vi.resetAllMocks();
     });
 
+    const cryptoRandomStringSpy = vi.spyOn(cryptoRandomString, "default");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
     const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
@@ -88,6 +94,9 @@ describe("duplicate-disruption API", () => {
         });
         randomUUIDSpy.mockImplementation(() => {
             return newDefaultDisruptionId;
+        });
+        cryptoRandomStringSpy.mockImplementation(() => {
+            return "9fg4gc";
         });
     });
 
@@ -105,6 +114,7 @@ describe("duplicate-disruption API", () => {
             {
                 ...createDisruptionsSchemaRefined.parse(disruption),
                 disruptionId: newDefaultDisruptionId,
+                displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
