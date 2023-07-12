@@ -83,6 +83,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
     const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
+    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -270,7 +271,19 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
         if (source && pageState?.inputs?.vehicleMode) {
             fetchData(source, pageState.inputs.vehicleMode)
-                .then(() => ({}))
+                .then(() => {
+                    if (dataSource !== source) {
+                        setDataSource(source);
+                        setPageState({
+                            ...pageState,
+                            inputs: {
+                                ...pageState.inputs,
+                                services: [],
+                                stops: [],
+                            },
+                        });
+                    }
+                })
                 .catch(() => setServicesRecords([]));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
