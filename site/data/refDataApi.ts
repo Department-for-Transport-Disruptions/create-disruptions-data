@@ -16,7 +16,7 @@ interface FetchStopsInput {
     searchString?: string;
 }
 
-export const fetchStops = async (input: FetchStopsInput, vehicleMode?: string) => {
+export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMode | Modes) => {
     const searchApiUrl = `${API_BASE_URL}/stops`;
 
     const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
@@ -43,19 +43,19 @@ export const fetchStops = async (input: FetchStopsInput, vehicleMode?: string) =
         if (
             stop.stopType === "BCT" &&
             stop.busStopType === "MKD" &&
-            (vehicleMode === VehicleMode.bus.toString() || vehicleMode === "")
+            (vehicleMode === VehicleMode.bus || vehicleMode === ("" as VehicleMode))
         ) {
             return stop;
         } else if (
             stop.stopType &&
             ["MET", "PLT"].includes(stop.stopType) &&
-            (vehicleMode === VehicleMode.tram.toString() || vehicleMode === "metro")
+            (vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro)
         ) {
             return stop;
         } else if (
             stop.stopType &&
             ["FER", "FBT"].includes(stop.stopType) &&
-            (vehicleMode === VehicleMode.ferryService.toString() || vehicleMode === "ferry")
+            (vehicleMode === VehicleMode.ferryService || vehicleMode === Modes.ferry)
         ) {
             return stop;
         } else {

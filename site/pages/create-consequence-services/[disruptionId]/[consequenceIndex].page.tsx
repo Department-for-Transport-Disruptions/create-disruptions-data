@@ -54,7 +54,7 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number, vehicleMode?: string): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number, vehicleMode?: VehicleMode | Modes): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({ serviceId });
         if (stopsData) {
@@ -62,7 +62,7 @@ export const fetchStops = async (serviceId: number, vehicleMode?: string): Promi
                 if (
                     stop.stopType === "BCT" &&
                     stop.busStopType === "MKD" &&
-                    (vehicleMode === VehicleMode.bus.toString() || vehicleMode === "")
+                    (vehicleMode === VehicleMode.bus || vehicleMode === ("" as VehicleMode))
                 ) {
                     return {
                         ...stop,
@@ -71,7 +71,7 @@ export const fetchStops = async (serviceId: number, vehicleMode?: string): Promi
                 } else if (
                     stop.stopType &&
                     ["MET", "PLT"].includes(stop.stopType) &&
-                    (vehicleMode === VehicleMode.tram.toString() || vehicleMode === "metro")
+                    (vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro)
                 ) {
                     return {
                         ...stop,
@@ -80,7 +80,7 @@ export const fetchStops = async (serviceId: number, vehicleMode?: string): Promi
                 } else if (
                     stop.stopType &&
                     ["FER", "FBT"].includes(stop.stopType) &&
-                    (vehicleMode === VehicleMode.ferryService.toString() || vehicleMode === "ferry")
+                    (vehicleMode === VehicleMode.ferryService || vehicleMode === Modes.ferry)
                 ) {
                     return {
                         ...stop,
