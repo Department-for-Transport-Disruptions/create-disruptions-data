@@ -158,6 +158,17 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         }
     };
 
+    useEffect(() => {
+        setPageState({
+            ...pageState,
+            inputs: {
+                ...pageState.inputs,
+                stops: [],
+            },
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageState?.inputs?.vehicleMode]);
+
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm action="/api/create-consequence-stops" method="post" csrfToken={props.csrfToken}>

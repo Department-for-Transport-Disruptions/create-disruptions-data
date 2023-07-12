@@ -101,6 +101,18 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
 
     useEffect(() => {
+        setPageState({
+            ...pageState,
+            inputs: {
+                ...pageState.inputs,
+                stops: [],
+                services:[]
+            },
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageState?.inputs?.vehicleMode]);
+
+    useEffect(() => {
         const loadOptions = async () => {
             if (selectedService) {
                 const serviceRoutesData = await fetchServiceRoutes({ serviceId: selectedService.id });
