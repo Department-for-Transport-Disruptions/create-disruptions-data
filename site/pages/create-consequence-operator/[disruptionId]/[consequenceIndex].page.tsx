@@ -1,4 +1,4 @@
-import { Modes } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -68,14 +68,17 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             !pageState.inputs.consequenceOperators?.find((selOp) => selOp.operatorNoc === operator.nocCode) &&
             operator.dataSource === dataSource.toString();
 
-        if (pageState.inputs?.vehicleMode === "bus" && (operator.mode === "bus" || operator.mode === "")) {
-            return display;
-        } else if (
-            pageState.inputs?.vehicleMode === "tram" &&
-            (operator.mode === "tram" || operator.mode === "metro")
+        if (
+            pageState.inputs?.vehicleMode === VehicleMode.bus.toString() &&
+            (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
         ) {
             return display;
-        } else if (pageState.inputs?.vehicleMode === "ferryService" && operator.mode === "ferry") {
+        } else if (
+            pageState.inputs?.vehicleMode === VehicleMode.tram.toString() &&
+            (operator.mode === VehicleMode.tram.toString() || operator.mode === "metro")
+        ) {
+            return display;
+        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService.toString() && operator.mode === "ferry") {
             return display;
         } else if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;
@@ -307,7 +310,7 @@ export const getServerSideProps = async (
     const uniqueOperatorNames: Set<string> = new Set();
 
     operatorsData.forEach((operator) => {
-        if (operator.mode === "bus" || operator.mode === "") {
+        if (operator.mode === VehicleMode.bus.toString() || operator.mode === "") {
             if (!uniqueOperatorNames.has(operator.nocCode)) {
                 uniqueOperatorNames.add(operator.nocCode);
                 uniqueOperators.push(operator);
