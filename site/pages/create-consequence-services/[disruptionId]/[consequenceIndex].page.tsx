@@ -62,7 +62,7 @@ export const fetchStops = async (serviceId: number, vehicleMode?: string): Promi
                 if (
                     stop.stopType === "BCT" &&
                     stop.busStopType === "MKD" &&
-                    vehicleMode === VehicleMode.bus.toString()
+                    (vehicleMode === VehicleMode.bus.toString() || vehicleMode === "")
                 ) {
                     return {
                         ...stop,

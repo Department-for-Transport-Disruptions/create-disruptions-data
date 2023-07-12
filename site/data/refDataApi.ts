@@ -40,7 +40,11 @@ export const fetchStops = async (input: FetchStopsInput, vehicleMode?: string) =
     }
 
     const filteredStopsData = parseResult.data.filter((stop) => {
-        if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === VehicleMode.bus.toString()) {
+        if (
+            stop.stopType === "BCT" &&
+            stop.busStopType === "MKD" &&
+            (vehicleMode === VehicleMode.bus.toString() || vehicleMode === "")
+        ) {
             return stop;
         } else if (
             stop.stopType &&
