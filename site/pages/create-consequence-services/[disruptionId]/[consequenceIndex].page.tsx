@@ -54,22 +54,34 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number, vehicleMode?: VehicleMode): Promise<Stop[]> => {
+export const fetchStops = async (serviceId: number, vehicleMode?: string): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({ serviceId });
         if (stopsData) {
             const filteredStopsData = stopsData.filter((stop) => {
-                if (stop.stopType === "BCT" && stop.busStopType === "MKD" && vehicleMode === "bus") {
+                if (
+                    stop.stopType === "BCT" &&
+                    stop.busStopType === "MKD" &&
+                    vehicleMode === VehicleMode.bus.toString()
+                ) {
                     return {
                         ...stop,
                         ...(serviceId && { serviceIds: [serviceId] }),
                     };
-                } else if (stop.stopType && ["MET", "PLT"].includes(stop.stopType) && vehicleMode === "tram") {
+                } else if (
+                    stop.stopType &&
+                    ["MET", "PLT"].includes(stop.stopType) &&
+                    (vehicleMode === VehicleMode.tram.toString() || vehicleMode === "metro")
+                ) {
                     return {
                         ...stop,
                         ...(serviceId && { serviceIds: [serviceId] }),
                     };
-                } else if (stop.stopType && ["FER", "FBT"].includes(stop.stopType) && vehicleMode === "ferryService") {
+                } else if (
+                    stop.stopType &&
+                    ["FER", "FBT"].includes(stop.stopType) &&
+                    (vehicleMode === VehicleMode.ferryService.toString() || vehicleMode === "ferry")
+                ) {
                     return {
                         ...stop,
                         ...(serviceId && { serviceIds: [serviceId] }),
@@ -99,18 +111,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
     const [dataSource, setDataSource] = useState<Modes>(Modes.bods);
-
-    useEffect(() => {
-        setPageState({
-            ...pageState,
-            inputs: {
-                ...pageState.inputs,
-                stops: [],
-                services: [],
-            },
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageState?.inputs?.vehicleMode]);
 
     useEffect(() => {
         const loadOptions = async () => {
