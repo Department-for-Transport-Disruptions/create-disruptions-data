@@ -106,7 +106,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             inputs: {
                 ...pageState.inputs,
                 stops: [],
-                services:[]
+                services: [],
             },
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
