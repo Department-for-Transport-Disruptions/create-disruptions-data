@@ -5,7 +5,7 @@ import publish from "./publish.api";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Organisation } from "../../schemas/organisation.schema";
+import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
     disruptionWithConsequencesAndSocialMediaPosts,
     ptSituationElementWithMultipleConsequences,
@@ -20,6 +20,7 @@ const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const orgInfo: Organisation = {
     name: "DepartmentForTransport",
     adminAreaCodes: ["001", "002"],
+    mode: defaultModes,
 };
 describe("publish", () => {
     const writeHeadMock = vi.fn();

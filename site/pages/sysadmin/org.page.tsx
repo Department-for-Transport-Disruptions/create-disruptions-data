@@ -13,7 +13,7 @@ import { getOrganisationInfoById } from "../../data/dynamo";
 import { fetchAdminAreaCodes } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { Organisation, organisationSchema, areaCodeSchema, AreaCodeValuePair } from "../../schemas/organisation.schema";
-import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
 
