@@ -117,6 +117,7 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
 
                 <input type="hidden" name="PK" value={pageState.inputs.PK} />
                 <input type="hidden" name="adminAreaCodes" value={pageState.inputs.adminAreaCodes ?? []} />
+                <input type="hidden" name="mode" value={JSON.stringify(pageState.inputs.mode)} />
                 <button className="govuk-button mt-2" data-module="govuk-button">
                     {pageState.inputs.PK ? "Update" : "Add"}
                 </button>
@@ -160,12 +161,16 @@ export const getServerSideProps = async (
         fetchAdminAreaCodes(),
     ]);
 
-    const pageState = getPageState<Organisation>(
-        errorCookie,
-        organisationSchema,
-        "ID",
-        !errorCookie && orgId && orgInfo ? orgInfo : undefined,
-    );
+    let pageState: PageState<Partial<Organisation>> = {
+        errors: [],
+        inputs: {},
+    };
+
+    if (errorCookie) {
+        pageState = JSON.parse(errorCookie) as PageState<Partial<Organisation>>;
+    } else if (orgInfo) {
+        pageState.inputs = orgInfo;
+    }
 
     const parsedCodes = z.array(areaCodeSchema).safeParse(areaCodes);
     return {

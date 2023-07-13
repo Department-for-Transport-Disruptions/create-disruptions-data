@@ -231,6 +231,10 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
               type="hidden"
               value={[]}
             />
+            <input
+              name="mode"
+              type="hidden"
+            />
             <button
               className="govuk-button mt-2"
               data-module="govuk-button"
@@ -739,6 +743,10 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                   "002",
                 ]
               }
+            />
+            <input
+              name="mode"
+              type="hidden"
             />
             <button
               className="govuk-button mt-2"
