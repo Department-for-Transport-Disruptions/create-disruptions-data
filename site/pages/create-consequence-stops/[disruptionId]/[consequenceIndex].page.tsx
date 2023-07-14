@@ -1,3 +1,4 @@
+import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -59,13 +60,19 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     useEffect(() => {
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
-                const stopsData = await fetchStops(
-                    {
-                        adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                        searchString: searchInput,
-                    },
-                    pageState.inputs.vehicleMode,
-                );
+                const vehicleMode = pageState.inputs.vehicleMode as Modes | VehicleMode;
+                const stopsData = await fetchStops({
+                    adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                    searchString: searchInput,
+                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                    ...(vehicleMode === VehicleMode.bus
+                        ? { stopTypes: ["BCT"] }
+                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                        ? { stopTypes: ["MET", "PLT"] }
+                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                        ? { stopTypes: ["FER", "FBT"] }
+                        : { stopTypes: ["undefined"] }),
+                });
 
                 if (stopsData) {
                     setStopOptions(stopsData);

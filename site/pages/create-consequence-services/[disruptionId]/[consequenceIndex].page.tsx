@@ -54,43 +54,31 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number, vehicleMode?: VehicleMode | Modes): Promise<Stop[]> => {
+export const fetchStops = async (
+    serviceId: number,
+    vehicleMode?: VehicleMode | Modes,
+    dataSource?: Datasource,
+): Promise<Stop[]> => {
     if (serviceId) {
-        const stopsData = await fetchServiceStops({ serviceId });
+        const stopsData = await fetchServiceStops({
+            serviceId,
+            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+            ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+            ...(vehicleMode === VehicleMode.bus
+                ? { stopTypes: "BCT" }
+                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                ? { stopTypes: "MET, PLT" }
+                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                ? { stopTypes: "FER, FBT" }
+                : { stopTypes: "undefined" }),
+            dataSource: dataSource || Datasource.bods,
+        });
+
         if (stopsData) {
-            const filteredStopsData = stopsData.filter((stop) => {
-                if (
-                    stop.stopType === "BCT" &&
-                    stop.busStopType === "MKD" &&
-                    (vehicleMode === VehicleMode.bus || vehicleMode === ("" as VehicleMode))
-                ) {
-                    return {
-                        ...stop,
-                        ...(serviceId && { serviceIds: [serviceId] }),
-                    };
-                } else if (
-                    stop.stopType &&
-                    ["MET", "PLT"].includes(stop.stopType) &&
-                    (vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro)
-                ) {
-                    return {
-                        ...stop,
-                        ...(serviceId && { serviceIds: [serviceId] }),
-                    };
-                } else if (
-                    stop.stopType &&
-                    ["FER", "FBT"].includes(stop.stopType) &&
-                    (vehicleMode === VehicleMode.ferryService || vehicleMode === Modes.ferry)
-                ) {
-                    return {
-                        ...stop,
-                        ...(serviceId && { serviceIds: [serviceId] }),
-                    };
-                } else {
-                    return false;
-                }
-            });
-            return filteredStopsData;
+            return stopsData.map((stop) => ({
+                ...stop,
+                ...(serviceId && { serviceIds: [serviceId] }),
+            }));
         }
     }
 
@@ -227,7 +215,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id, pageState.inputs.vehicleMode)
+            fetchStops(selectedService.id, pageState.inputs.vehicleMode, dataSource)
                 .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);

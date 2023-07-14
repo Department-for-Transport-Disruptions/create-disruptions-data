@@ -1,4 +1,4 @@
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
@@ -161,13 +161,19 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
-                const stopsData = await fetchStops(
-                    {
-                        adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                        polygon,
-                    },
-                    state.inputs.vehicleMode,
-                );
+                const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
+                const stopsData = await fetchStops({
+                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                    polygon,
+                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                    ...(vehicleMode === VehicleMode.bus
+                        ? { stopTypes: ["BCT"] }
+                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                        ? { stopTypes: ["MET", "PLT"] }
+                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                        ? { stopTypes: ["FER", "FBT"] }
+                        : { stopTypes: ["undefined"] }),
+                });
 
                 if (stopsData) {
                     setMarkerData(stopsData);

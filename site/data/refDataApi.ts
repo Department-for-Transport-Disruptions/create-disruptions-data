@@ -1,4 +1,4 @@
-import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
@@ -14,9 +14,11 @@ interface FetchStopsInput {
     adminAreaCodes: string[];
     polygon?: Position[];
     searchString?: string;
+    stopTypes?: string[];
+    busStopType?: string;
 }
 
-export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMode | Modes) => {
+export const fetchStops = async (input: FetchStopsInput) => {
     const searchApiUrl = `${API_BASE_URL}/stops`;
 
     const queryStringItems = [`adminAreaCodes=${input.adminAreaCodes.join(",")}`];
@@ -29,6 +31,13 @@ export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMo
         queryStringItems.push(`search=${input.searchString}`);
     }
 
+    if (input.stopTypes) {
+        queryStringItems.push(`stopTypes=${input.stopTypes.join(",")}`);
+    }
+    if (input.busStopType) {
+        queryStringItems.push(`busStopType=${input.busStopType}`);
+    }
+
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
@@ -38,32 +47,7 @@ export const fetchStops = async (input: FetchStopsInput, vehicleMode?: VehicleMo
     if (!parseResult.success) {
         return [];
     }
-
-    const filteredStopsData = parseResult.data.filter((stop) => {
-        if (
-            stop.stopType === "BCT" &&
-            stop.busStopType === "MKD" &&
-            (vehicleMode === VehicleMode.bus || vehicleMode === ("" as VehicleMode))
-        ) {
-            return stop;
-        } else if (
-            stop.stopType &&
-            ["MET", "PLT"].includes(stop.stopType) &&
-            (vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro)
-        ) {
-            return stop;
-        } else if (
-            stop.stopType &&
-            ["FER", "FBT"].includes(stop.stopType) &&
-            (vehicleMode === VehicleMode.ferryService || vehicleMode === Modes.ferry)
-        ) {
-            return stop;
-        } else {
-            return false;
-        }
-    });
-
-    return filteredStopsData;
+    return parseResult.data;
 };
 
 interface FetchServicesInput {
@@ -160,6 +144,10 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
 interface FetchServiceStops {
     serviceId: number;
+    busStopType?: string;
+    modes?: string;
+    stopTypes?: string;
+    dataSource?: Datasource;
 }
 
 export const fetchServiceStops = async (input: FetchServiceStops) => {
