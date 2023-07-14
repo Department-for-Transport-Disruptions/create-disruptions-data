@@ -1,4 +1,4 @@
-import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
