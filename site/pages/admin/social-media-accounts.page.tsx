@@ -1,6 +1,7 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { Fragment, ReactElement, ReactNode } from "react";
+import { Fragment, ReactElement, ReactNode, useState } from "react";
+import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { DOMAIN_NAME, HOOTSUITE_URL, STAGE } from "../../constants";
@@ -17,6 +18,7 @@ export interface SocialMediaAccountsPageProps {
     username: string;
     clientId: string;
     isTestOrDev: boolean;
+    csrfToken?: string;
 }
 
 const SocialMediaAccounts = ({
@@ -24,7 +26,9 @@ const SocialMediaAccounts = ({
     username,
     clientId,
     isTestOrDev,
+    csrfToken,
 }: SocialMediaAccountsPageProps): ReactElement => {
+    const [socialAccountToDelete, setSocialAccountToDelete] = useState<string>("");
     const getLink = (type: string, id: string) => {
         switch (type.toLocaleUpperCase()) {
             case "TWITTER":
@@ -55,17 +59,51 @@ const SocialMediaAccounts = ({
                               </li>
                           </Fragment>
                       )),
+                      <button
+                          className="govuk-link text-govBlue"
+                          key={`remove-${item.id}`}
+                          onClick={() => {
+                              setSocialAccountToDelete(item.id);
+                          }}
+                      >
+                          Remove
+                      </button>,
                   ],
               }))
             : [];
+    };
+
+    const cancelActionHandler = () => {
+        setSocialAccountToDelete("");
     };
 
     return (
         <BaseLayout title={title} description={description}>
             <>
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
+                {socialAccountToDelete ? (
+                    <DeleteConfirmationPopup
+                        entityName="the hootsuite connection"
+                        deleteUrl="/api/remove-hootsuite-connection"
+                        cancelActionHandler={cancelActionHandler}
+                        csrfToken={csrfToken || ""}
+                        hiddenInputs={[
+                            {
+                                name: "profileId",
+                                value: socialAccountToDelete,
+                            },
+                        ]}
+                    />
+                ) : null}
                 <Table
-                    columns={["Account type", "Username/page", "Added by", "Expires in", "Hootsuite Profiles"]}
+                    columns={[
+                        "Account type",
+                        "Username/page",
+                        "Added by",
+                        "Expires in",
+                        "Hootsuite Profiles",
+                        "Actions",
+                    ]}
                     rows={getRows()}
                 />
                 {isTestOrDev ? (
