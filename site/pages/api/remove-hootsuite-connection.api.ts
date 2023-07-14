@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { deleteParameter } from "../../data/ssm";
 import { getSession } from "../../utils/apiUtils/auth";
-import { redirectToError, redirectTo, delay } from "../../utils/apiUtils/index";
+import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 
 interface RemoveHootsuiteConnectionApiRequest extends NextApiRequest {
     body: {
