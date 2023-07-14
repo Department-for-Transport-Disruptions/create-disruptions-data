@@ -5,7 +5,7 @@ import publishEdit from "./publish-edit.api";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
-import { Organisation } from "../../schemas/organisation.schema";
+import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
     DEFAULT_ORG_ID,
     disruptionWithConsequencesAndSocialMediaPosts,
@@ -22,6 +22,7 @@ const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const orgInfo: Organisation = {
     name: "DepartmentForTransport",
     adminAreaCodes: ["001", "002"],
+    mode: defaultModes,
 };
 
 describe("publishEdit", () => {
