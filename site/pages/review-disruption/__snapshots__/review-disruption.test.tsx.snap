@@ -81,6 +81,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   className="govuk-table__header align-middle"
                   scope="row"
                 >
+                  ID
+                </th>
+                <td
+                  className="govuk-table__cell align-middle"
+                >
+                  8fg3ha
+                </td>
+                <td
+                  className="govuk-table__cell align-middle"
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
                   Type of disruption
                 </th>
                 <td
