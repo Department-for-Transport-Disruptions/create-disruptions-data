@@ -87,7 +87,7 @@ export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
     adminAreaCodes: string[];
     newDisruptionId: string;
-    showPending?: boolean;
+    filterStatus?: Progress;
 }
 
 export interface Filter {
@@ -357,7 +357,7 @@ const ViewAllDisruptions = ({
     disruptions,
     newDisruptionId,
     adminAreaCodes,
-    showPending = false,
+    filterStatus,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
@@ -373,7 +373,7 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: showPending ? Progress.pendingApproval : undefined,
+        status: filterStatus,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
@@ -1033,13 +1033,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         });
 
         const showPending = ctx.query.pending?.toString() === "true";
+        const showDraft = ctx.query.draft?.toString() === "true";
 
         return {
             props: {
                 disruptions: shortenedData,
                 adminAreaCodes: session.adminAreaCodes,
                 newDisruptionId: randomUUID(),
-                showPending,
+                filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : undefined,
             },
         };
     }

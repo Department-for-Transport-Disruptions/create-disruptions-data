@@ -133,6 +133,23 @@ describe("pages", () => {
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
+
+        it("should render correctly when filter is set to draft status", () => {
+            useRouter.mockImplementation(() => ({
+                query: { draft: true },
+            }));
+
+            const tree = renderer
+                .create(
+                    <ViewAllDisruptions
+                        disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
     });
 });
 
