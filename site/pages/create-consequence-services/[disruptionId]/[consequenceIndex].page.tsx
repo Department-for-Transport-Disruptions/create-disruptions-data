@@ -54,9 +54,25 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (serviceId: number): Promise<Stop[]> => {
+export const fetchStops = async (
+    serviceId: number,
+    vehicleMode?: VehicleMode | Modes,
+    dataSource?: Datasource,
+): Promise<Stop[]> => {
     if (serviceId) {
-        const stopsData = await fetchServiceStops({ serviceId });
+        const stopsData = await fetchServiceStops({
+            serviceId,
+            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+            ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+            ...(vehicleMode === VehicleMode.bus
+                ? { stopTypes: "BCT" }
+                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                ? { stopTypes: "MET, PLT" }
+                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                ? { stopTypes: "FER, FBT" }
+                : { stopTypes: "undefined" }),
+            dataSource: dataSource || Datasource.bods,
+        });
 
         if (stopsData) {
             return stopsData.map((stop) => ({
@@ -199,7 +215,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id)
+            fetchStops(selectedService.id, pageState.inputs.vehicleMode, dataSource)
                 .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -607,7 +623,9 @@ export const getServerSideProps = async (
     let stops: Stop[] = [];
 
     if (pageState?.inputs?.services) {
-        const stopPromises = pageState.inputs.services.map((service) => fetchStops(service.id));
+        const stopPromises = pageState.inputs.services.map((service) =>
+            fetchStops(service.id, pageState.inputs.vehicleMode),
+        );
         stops = (await Promise.all(stopPromises)).flat();
     }
 

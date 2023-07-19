@@ -14,6 +14,8 @@ interface FetchStopsInput {
     adminAreaCodes: string[];
     polygon?: Position[];
     searchString?: string;
+    stopTypes?: string[];
+    busStopType?: string;
 }
 
 export const fetchStops = async (input: FetchStopsInput) => {
@@ -29,6 +31,13 @@ export const fetchStops = async (input: FetchStopsInput) => {
         queryStringItems.push(`search=${input.searchString}`);
     }
 
+    if (input.stopTypes) {
+        queryStringItems.push(`stopTypes=${input.stopTypes.join(",")}`);
+    }
+    if (input.busStopType) {
+        queryStringItems.push(`busStopType=${input.busStopType}`);
+    }
+
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
@@ -38,7 +47,6 @@ export const fetchStops = async (input: FetchStopsInput) => {
     if (!parseResult.success) {
         return [];
     }
-
     return parseResult.data;
 };
 
@@ -136,6 +144,10 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
 interface FetchServiceStops {
     serviceId: number;
+    busStopType?: string;
+    modes?: string;
+    stopTypes?: string;
+    dataSource?: Datasource;
 }
 
 export const fetchServiceStops = async (input: FetchServiceStops) => {
