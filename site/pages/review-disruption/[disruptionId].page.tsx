@@ -286,6 +286,10 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <Table
                             rows={[
                                 {
+                                    header: "ID",
+                                    cells: [disruption.displayId, ""],
+                                },
+                                {
                                     header: "Type of disruption",
                                     cells: [
                                         startCase(disruption.disruptionType),

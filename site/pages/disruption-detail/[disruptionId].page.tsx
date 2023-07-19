@@ -344,6 +344,10 @@ const DisruptionDetail = ({
                         <Table
                             rows={[
                                 {
+                                    header: "ID",
+                                    cells: [disruption.displayId, ""],
+                                },
+                                {
                                     header: "Type of disruption",
                                     cells: [
                                         startCase(disruption.disruptionType),
