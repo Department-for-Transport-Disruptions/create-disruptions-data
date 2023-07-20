@@ -14,6 +14,16 @@ export function SiteStack({ stack }: StackContext) {
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
+    let prodDomain = "";
+
+    if (stack.stage === "prod") {
+        prodDomain = process.env.PROD_DOMAIN?.toString() ?? "";
+
+        if (!prodDomain) {
+            throw new Error("PROD_DOMAIN must be set in production");
+        }
+    }
+
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
         : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
@@ -64,7 +74,7 @@ export function SiteStack({ stack }: StackContext) {
             }`,
         },
         customDomain: {
-            domainName: getDomain(stack.stage),
+            domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
             hostedZone: hostedZone.zoneName,
         },
         permissions: [
