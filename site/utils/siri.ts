@@ -72,8 +72,6 @@ export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: 
 
     const participantRef = orgName.replace(/\s+/g, "");
 
-    console.log("participantRef-------", participantRef);
-
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,
         disruptionStartTime: disruption.disruptionStartTime,
