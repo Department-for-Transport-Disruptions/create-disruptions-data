@@ -17,7 +17,6 @@ export interface SocialMediaAccountsPageProps {
     socialMediaData: SocialMediaAccountsSchema;
     username: string;
     clientId: string;
-    isTestOrDev: boolean;
     csrfToken?: string;
 }
 
@@ -25,7 +24,6 @@ const SocialMediaAccounts = ({
     socialMediaData,
     username,
     clientId,
-    isTestOrDev,
     csrfToken,
 }: SocialMediaAccountsPageProps): ReactElement => {
     const [socialAccountToDelete, setSocialAccountToDelete] = useState<string>("");
@@ -106,15 +104,14 @@ const SocialMediaAccounts = ({
                     ]}
                     rows={getRows()}
                 />
-                {isTestOrDev ? (
-                    <Link
-                        className="govuk-button mt-8"
-                        data-module="govuk-button"
-                        href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
-                    >
-                        Connect hootsuite
-                    </Link>
-                ) : null}
+
+                <Link
+                    className="govuk-button mt-8"
+                    data-module="govuk-button"
+                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
+                >
+                    Connect hootsuite
+                </Link>
             </>
         </BaseLayout>
     );
@@ -124,7 +121,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!ctx.req) {
         throw new Error("No context request");
     }
-    const isTestOrDev = STAGE !== "prod" && STAGE !== "preprod";
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
@@ -132,11 +128,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
-    const { clientId, userData } = isTestOrDev
-        ? await getHootsuiteData(ctx, session.username, session.orgId)
-        : { clientId: "", userData: [] };
+    const { clientId, userData } = await getHootsuiteData(ctx, session.username, session.orgId);
+
     return {
-        props: { socialMediaData: userData, username: session.username, clientId, isTestOrDev },
+        props: { socialMediaData: userData, username: session.username, clientId },
     };
 };
 

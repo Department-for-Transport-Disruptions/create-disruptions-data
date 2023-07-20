@@ -6,7 +6,6 @@ const blankInputs: SocialMediaAccountsPageProps = {
     socialMediaData: [],
     username: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
     clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
-    isTestOrDev: true,
 };
 
 const withInputs: SocialMediaAccountsPageProps = {
@@ -26,7 +25,6 @@ const withInputs: SocialMediaAccountsPageProps = {
             ],
         },
     ],
-    isTestOrDev: true,
 };
 
 describe("socialMediaAccounts", () => {

@@ -39,7 +39,6 @@ interface DisruptionDetailProps {
     errors: ErrorInfo[];
     canPublish: boolean;
     csrfToken?: string;
-    isTestOrDev: boolean;
 }
 
 const DisruptionDetail = ({
@@ -48,7 +47,6 @@ const DisruptionDetail = ({
     csrfToken,
     errors,
     canPublish,
-    isTestOrDev,
 }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
@@ -577,7 +575,7 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 && isTestOrDev ? (
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5  ? (
                             <Link
                                 role="button"
                                 href={{
@@ -694,7 +692,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No context request");
     }
 
-    const isTestOrDev = STAGE !== "prod" && STAGE !== "preprod";
     const session = getSession(ctx.req);
 
     if (!session) {
@@ -755,7 +752,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             redirect: referer,
             errors: errors,
             canPublish: canPublish(session),
-            isTestOrDev,
         },
     };
 };
