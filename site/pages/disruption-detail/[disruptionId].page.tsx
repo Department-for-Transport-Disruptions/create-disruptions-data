@@ -17,7 +17,6 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
-    STAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -575,7 +574,7 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5  ? (
+                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 ? (
                             <Link
                                 role="button"
                                 href={{
