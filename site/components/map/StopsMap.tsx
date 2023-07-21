@@ -48,7 +48,6 @@ const Map = ({
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
 
-
     const handleMouseEnter = useCallback(
         (id: string) => {
             const searchedAtcoCodes = searched.map((searchItem) => searchItem.atcoCode);

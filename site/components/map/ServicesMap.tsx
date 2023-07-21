@@ -439,10 +439,6 @@ const Map = ({
         [selectedServices],
     );
 
-    useEffect(() => {
-        console.log(markerData, searched, selected);
-    }, [markerData, searched, selected]);
-
     const getServiceInfo = (id: number) => {
         const service = services ? services.find((service) => service.id === id) : null;
         return service
