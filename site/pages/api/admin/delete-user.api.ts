@@ -6,8 +6,7 @@ import {
     SYSADMIN_ADD_USERS_PAGE_PATH,
     USER_MANAGEMENT_PAGE_PATH,
 } from "../../../constants";
-import { deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
-import { deleteUser as user } from "../../../schemas/user-management.schema";
+import { deleteUser as deleteCognitoUser } from "../../../data/cognito";
 import { destroyCookieOnResponseObject, redirectTo, redirectToError } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
