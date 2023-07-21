@@ -184,7 +184,7 @@ export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorM
 const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 const timeRegex = /^([0-1][0-9]|2[0-3])[0-5][0-9]$/;
 const minutesRegex = /^[0-9]{0,3}$/;
-const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/i
+const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/i;
 
 /**
  * Verify if the input value is of date format DD/MM/YYYY.
@@ -225,7 +225,7 @@ export const zodTimeInMinutes = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(minutesRegex);
 
 /**
- * Verify if the input value matches uuid regex expression. 
+ * Verify if the input value matches uuid regex expression
  * This is because the current version of Zod (3.21.4) does not support uuid version 7
  * @param {defaultError} defaultError Error message when the validation fails.
  *
@@ -246,6 +246,3 @@ export const sortServices = (services: Service[]) => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
-
-
-
