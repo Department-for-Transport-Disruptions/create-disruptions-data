@@ -2,10 +2,11 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { defaultModes } from "./organisation.schema";
 import { getOrganisationInfoById } from "../data/dynamo";
+import { zodUuid } from "../utils";
 
 export const sessionSchema = z
     .object({
-        sub: z.string().uuid(),
+        sub: zodUuid("Invalid uuid provided for sub"),
         email: z.string().email(),
         given_name: z.string().optional(),
         family_name: z.string().optional(),
