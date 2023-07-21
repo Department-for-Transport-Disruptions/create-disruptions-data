@@ -48,13 +48,22 @@ const Map = ({
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
 
+
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const stopsOnMap = [...selected, ...searched];
+            const searchedAtcoCodes = searched.map((searchItem) => searchItem.atcoCode);
+            const selectedAtcoCodes = selected.map((selectedItem) => selectedItem.atcoCode);
+            const stopsOnMap = [
+                ...selected,
+                ...searched,
+                ...markerData.filter(
+                    (item) => !searchedAtcoCodes.includes(item.atcoCode) && !selectedAtcoCodes.includes(item.atcoCode),
+                ),
+            ];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searched, selected],
+        [searched, selected, markerData],
     );
 
     const unselectMarker = useCallback(
