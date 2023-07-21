@@ -27,14 +27,6 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
             throw Error("Insufficient values provided to delete a user");
         }
 
-        const userDetails = await getUserDetails(username);
-
-        const formattedUserDetails = user.parse(userDetails);
-
-        if (formattedUserDetails.organisation !== session.orgId) {
-            throw Error("Users can only delete users within the same organisation");
-        }
-
         await deleteCognitoUser(username);
 
         if (username === session.username) {
