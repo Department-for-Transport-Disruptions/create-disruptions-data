@@ -110,15 +110,12 @@ const Map = ({
 
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const stopsOnMap = [
-                ...selected,
-                ...searched.filter((stop) => !markerData.map((marker) => marker.atcoCode).includes(stop.atcoCode)),
-            ];
+            const stopsOnMap = [...selected, ...searched];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
 
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searched, selected, markerData],
+        [searched, selected],
     );
 
     const unselectMarker = useCallback(
