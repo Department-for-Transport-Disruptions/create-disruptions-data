@@ -69,16 +69,6 @@ const Login = (props: LoginPageProps): ReactElement => {
                         </a>
                     </div>
                     <br />
-                    <div>
-                        <h2 className="govuk-heading-m">Don&apos;t have an account?</h2>
-                        <a
-                            href="/requestAccess"
-                            className="govuk-link govuk-!-font-size-19"
-                            aria-label="Don't have an account? - Request access"
-                        >
-                            Request access
-                        </a>
-                    </div>
                 </div>
             </div>
         </BaseLayout>
