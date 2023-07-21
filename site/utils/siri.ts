@@ -7,7 +7,6 @@ import {
     Reason,
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-import { camelCase, upperCase } from "lodash";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
@@ -71,7 +70,7 @@ export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: 
 
     const reason = disruption.disruptionReason;
 
-    const participantRef = camelCase(orgName);
+    const participantRef = orgName.replace(/\s+/g, "");
 
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,
@@ -87,7 +86,7 @@ export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: 
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
         Description: disruption.description,
-        ParticipantRef: `${upperCase(participantRef.charAt(0))}${participantRef.slice(1, participantRef.length)}`,
+        ParticipantRef: participantRef,
         SituationNumber: disruption.disruptionId,
         PublicationWindow: {
             StartTime: getDatetimeFromDateAndTime(
