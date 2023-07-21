@@ -146,21 +146,6 @@ exports[`login > should render correctly when there are no inputs 1`] = `
               Reset your password
             </a>
           </div>
-          <br />
-          <div>
-            <h2
-              className="govuk-heading-m"
-            >
-              Don't have an account?
-            </h2>
-            <a
-              aria-label="Don't have an account? - Request access"
-              className="govuk-link govuk-!-font-size-19"
-              href="/requestAccess"
-            >
-              Request access
-            </a>
-          </div>
         </div>
       </div>
     </main>
@@ -501,21 +486,6 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
               href="/forgotPassword"
             >
               Reset your password
-            </a>
-          </div>
-          <br />
-          <div>
-            <h2
-              className="govuk-heading-m"
-            >
-              Don't have an account?
-            </h2>
-            <a
-              aria-label="Don't have an account? - Request access"
-              className="govuk-link govuk-!-font-size-19"
-              href="/requestAccess"
-            >
-              Request access
             </a>
           </div>
         </div>
@@ -899,21 +869,6 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
               href="/forgotPassword"
             >
               Reset your password
-            </a>
-          </div>
-          <br />
-          <div>
-            <h2
-              className="govuk-heading-m"
-            >
-              Don't have an account?
-            </h2>
-            <a
-              aria-label="Don't have an account? - Request access"
-              className="govuk-link govuk-!-font-size-19"
-              href="/requestAccess"
-            >
-              Request access
             </a>
           </div>
         </div>

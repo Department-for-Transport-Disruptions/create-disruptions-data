@@ -68,7 +68,6 @@ const Login = (props: LoginPageProps): ReactElement => {
                             Reset your password
                         </a>
                     </div>
-                    <br />
                 </div>
             </div>
         </BaseLayout>
