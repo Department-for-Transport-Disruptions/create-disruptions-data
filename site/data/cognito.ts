@@ -19,6 +19,8 @@ import {
     AdminDeleteUserCommandInput,
     AdminCreateUserCommand,
     ListUsersCommand,
+    AdminResetUserPasswordCommand,
+    AdminResetUserPasswordCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -305,6 +307,27 @@ export const getUsersInGroupAndOrg = async (orgId: string, groupName: string) =>
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to list cognito users in organisation ${orgId}: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const initiateResetPassword = async (email: string) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Resetting cognito user's password",
+    });
+
+    try {
+        const params: AdminResetUserPasswordCommandInput = {
+            Username: email,
+            UserPoolId: userPoolId,
+        };
+        return cognito.send(new AdminResetUserPasswordCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to reset password: ${error.stack || ""}`);
         }
 
         throw error;

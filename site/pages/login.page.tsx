@@ -64,7 +64,7 @@ const Login = (props: LoginPageProps): ReactElement => {
                 <div className="govuk-grid-column-one-third">
                     <div>
                         <h2 className="govuk-heading-m">Forgot your Password?</h2>
-                        <a href="/forgotPassword" className="govuk-link govuk-!-font-size-19">
+                        <a href="/forgot-password" className="govuk-link govuk-!-font-size-19">
                             Reset your password
                         </a>
                     </div>

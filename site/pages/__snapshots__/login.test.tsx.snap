@@ -141,7 +141,7 @@ exports[`login > should render correctly when there are no inputs 1`] = `
             </h2>
             <a
               className="govuk-link govuk-!-font-size-19"
-              href="/forgotPassword"
+              href="/forgot-password"
             >
               Reset your password
             </a>
@@ -483,7 +483,7 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
             </h2>
             <a
               className="govuk-link govuk-!-font-size-19"
-              href="/forgotPassword"
+              href="/forgot-password"
             >
               Reset your password
             </a>
@@ -866,7 +866,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
             </h2>
             <a
               className="govuk-link govuk-!-font-size-19"
-              href="/forgotPassword"
+              href="/forgot-password"
             >
               Reset your password
             </a>
