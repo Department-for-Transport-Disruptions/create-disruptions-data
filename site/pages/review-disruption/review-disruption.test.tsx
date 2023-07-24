@@ -7,7 +7,7 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
 import { Consequence, ConsequenceOperators } from "../../schemas/consequence.schema";
 import { Disruption } from "../../schemas/disruption.schema";
@@ -130,6 +130,13 @@ const previousDisruptionInformation: Disruption = {
 
 describe("pages", () => {
     describe("ReviewDisruption", () => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const useRouter = vi.spyOn(require("next/router"), "useRouter");
+        beforeEach(() => {
+            useRouter.mockImplementation(() => ({
+                query: "",
+            }));
+        });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
@@ -153,6 +160,16 @@ describe("pages", () => {
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
             expect(publishButton).toBeTruthy();
+        });
+
+        it("should render correctly with banner when disruption is a duplicate", () => {
+            useRouter.mockImplementation(() => ({
+                query: { duplicate: true },
+            }));
+            const tree = renderer
+                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
+                .toJSON();
+            expect(tree).toMatchSnapshot();
         });
     });
 });

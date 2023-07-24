@@ -128,7 +128,7 @@ describe("duplicate-disruption API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?duplicate=true`,
         });
     });
 

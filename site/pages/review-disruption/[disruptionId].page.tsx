@@ -2,6 +2,7 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
@@ -10,6 +11,7 @@ import CsrfForm from "../../components/form/CsrfForm";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 
+import NotificationBanner from "../../components/layout/NotificationBanner";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -46,6 +48,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
         name: string;
         hiddenInputs: { name: string; value: string }[];
     }>();
+
+    const queryParams = useRouter().query;
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
@@ -257,6 +261,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
 
     return (
         <BaseLayout title={title} description={description}>
+            {queryParams["duplicate"] ? (
+                <NotificationBanner content="You have successfully duplicated the disruption. The new disruption has been created below." />
+            ) : null}
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
