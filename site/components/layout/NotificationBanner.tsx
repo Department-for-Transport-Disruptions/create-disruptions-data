@@ -5,9 +5,16 @@ interface NotificationBannerProps {
     content: string;
     linkText?: string;
     afterLinkText?: string;
+    linkHref?: string;
 }
 
-const NotificationBanner = ({ title = "Important", content, linkText, afterLinkText }: NotificationBannerProps) => (
+const NotificationBanner = ({
+    title = "Important",
+    content,
+    linkText,
+    afterLinkText,
+    linkHref,
+}: NotificationBannerProps) => (
     <div
         className="govuk-notification-banner"
         role="region"
@@ -22,8 +29,8 @@ const NotificationBanner = ({ title = "Important", content, linkText, afterLinkT
         <div className="govuk-notification-banner__content">
             <p className="govuk-notification-banner__heading">
                 {content}
-                {linkText && (
-                    <Link className="govuk-notification-banner__link" href="#">
+                {linkText && linkHref && (
+                    <Link className="govuk-notification-banner__link" href={linkHref}>
                         {linkText}
                     </Link>
                 )}

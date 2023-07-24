@@ -13,8 +13,9 @@ describe("NotificationBanner", () => {
                 <NotificationBanner
                     title={"Very Important"}
                     content={"Banner Text"}
-                    linkText="www.google.com"
+                    linkText="look here"
                     afterLinkText="."
+                    linkHref="www.google.com"
                 />,
             )
             .toJSON();

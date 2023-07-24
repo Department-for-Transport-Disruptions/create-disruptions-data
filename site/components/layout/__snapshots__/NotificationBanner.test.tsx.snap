@@ -55,12 +55,12 @@ exports[`NotificationBanner > should render correctly with link 1`] = `
       Banner Text
       <a
         className="govuk-notification-banner__link"
-        href="#"
+        href="www.google.com"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
       >
-        www.google.com
+        look here
       </a>
       .
     </p>
