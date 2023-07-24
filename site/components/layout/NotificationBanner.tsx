@@ -3,18 +3,10 @@ import Link from "next/link";
 interface NotificationBannerProps {
     title?: string;
     content: string;
-    linkText?: string;
-    afterLinkText?: string;
-    linkHref?: string;
+    link?: { text: string; afterLinkText?: string; href: string };
 }
 
-const NotificationBanner = ({
-    title = "Important",
-    content,
-    linkText,
-    afterLinkText,
-    linkHref,
-}: NotificationBannerProps) => (
+const NotificationBanner = ({ title = "Important", content, link }: NotificationBannerProps) => (
     <div
         className="govuk-notification-banner"
         role="region"
@@ -29,12 +21,14 @@ const NotificationBanner = ({
         <div className="govuk-notification-banner__content">
             <p className="govuk-notification-banner__heading">
                 {content}
-                {linkText && linkHref && (
-                    <Link className="govuk-notification-banner__link" href={linkHref}>
-                        {linkText}
-                    </Link>
+                {link && (
+                    <>
+                        <Link className="govuk-notification-banner__link" href={link.href}>
+                            {link.text}
+                        </Link>
+                        {link.afterLinkText || ""}
+                    </>
                 )}
-                {afterLinkText ? afterLinkText : ""}
             </p>
         </div>
     </div>
