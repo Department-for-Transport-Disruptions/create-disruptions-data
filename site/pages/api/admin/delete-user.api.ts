@@ -6,7 +6,8 @@ import {
     SYSADMIN_ADD_USERS_PAGE_PATH,
     USER_MANAGEMENT_PAGE_PATH,
 } from "../../../constants";
-import { deleteUser as deleteCognitoUser } from "../../../data/cognito";
+import { deleteUser as deleteCognitoUser, getUserDetails } from "../../../data/cognito";
+import { deleteUser as user } from "../../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, redirectTo, redirectToError } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -24,6 +25,13 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         const session = getSession(req);
         if ((session && !session.orgId) || !session || !username) {
             throw Error("Insufficient values provided to delete a user");
+        }
+
+        const userDetails = await getUserDetails(username);
+        const formattedUserDetails = user.parse(userDetails);
+
+        if (!session.isSystemAdmin && formattedUserDetails.organisation !== session.orgId) {
+            throw Error("Users can only delete users within the same organisation");
         }
 
         await deleteCognitoUser(username);

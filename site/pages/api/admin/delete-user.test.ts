@@ -18,10 +18,13 @@ describe("delete-user", () => {
 
     const deleteAdminUserSpy = vi.spyOn(cognito, "deleteUser");
 
+    const getUserDetailsSpy = vi.spyOn(cognito, "getUserDetails");
+
     const getSession = vi.spyOn(session, "getSession");
 
     vi.mock("../../../data/cognito", () => ({
         deleteUser: vi.fn(),
+        getUserDetails: vi.fn(),
     }));
 
     vi.mock("../../../utils/apiUtils", async () => ({
@@ -62,6 +65,20 @@ describe("delete-user", () => {
             }),
         );
 
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: DEFAULT_ORG_ID,
+                    },
+                ],
+            }),
+        );
+
         const { req, res } = getMockRequestAndResponse({
             body: {
                 username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
@@ -82,6 +99,20 @@ describe("delete-user", () => {
             }),
         );
 
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: DEFAULT_ORG_ID,
+                    },
+                ],
+            }),
+        );
+
         const randomId = randomUUID();
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -96,12 +127,50 @@ describe("delete-user", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
+    it("should redirect to /500 if organisation ids do not match and role is not sysadmin", async () => {
+        getSession.mockImplementation(() => ({ ...defaultSession, isOrgAdmin: true, isSystemAdmin: false }));
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: "1234",
+                    },
+                ],
+            }),
+        );
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await deleteUser(req, res);
+
+        expect(deleteAdminUserSpy).not.toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
+    });
+
     it("should redirect to /500 if delete operation failed", async () => {
         deleteAdminUserSpy.mockImplementation(() => {
             throw new Error("invalid", {
                 cause: "Invalid",
             });
         });
+
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 400 },
+                Username: "",
+                UserAttributes: [],
+            }),
+        );
 
         const { req, res } = getMockRequestAndResponse({
             body: {},
@@ -119,6 +188,20 @@ describe("delete-user", () => {
             Promise.resolve({
                 body: {},
                 $metadata: { httpStatusCode: 302 },
+            }),
+        );
+
+        getUserDetailsSpy.mockImplementation(() =>
+            Promise.resolve({
+                body: {},
+                $metadata: { httpStatusCode: 302 },
+                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
+                UserAttributes: [
+                    {
+                        Name: "custom:orgId",
+                        Value: DEFAULT_ORG_ID,
+                    },
+                ],
             }),
         );
 
