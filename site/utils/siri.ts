@@ -190,7 +190,7 @@ export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: 
                                                         OperatorRef: service.nocCode,
                                                         OperatorName: service.operatorShortName,
                                                     },
-                                                    LineRef: service.lineName,
+                                                    LineRef: service.lineName.replace(/\s+/g, "_"),
                                                     ...(consequence.disruptionDirection === "inbound" ||
                                                     consequence.disruptionDirection === "outbound"
                                                         ? {
