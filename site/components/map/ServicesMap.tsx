@@ -181,6 +181,8 @@ const Map = ({
 
                 if (stopsData) {
                     setMarkerData(stopsData);
+                    setSelectedServices([]);
+                    clearServicesAndStops();
                 } else {
                     setMarkerData([]);
                 }
@@ -222,120 +224,129 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const selectAllStops = async (evt: SyntheticEvent) => {
-        evt.preventDefault();
+    const addSelectedStopsAndServices = async (includeMarkerData?: boolean) => {
+        const parsed = z.array(stopSchema).safeParse(searched);
+        if (!parsed.success) {
+            stateUpdater({
+                ...state,
+                errors: [
+                    ...state.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
+                    ...flattenZodErrors(parsed.error),
+                ],
+            });
+        } else {
+            if (showSelectAllText) {
+                const atcoCodes = includeMarkerData ? markerData.map((marker) => marker.atcoCode) : [];
 
-        if (selectedServices) {
-            if (!showSelectAllText) {
+                const servicesInPolygon = includeMarkerData
+                    ? dataSource
+                        ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
+                        : await fetchServicesByStops({ atcoCodes, includeRoutes: true })
+                    : [];
+
+                const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
+                const markerDataInAService = includeMarkerData
+                    ? markerData
+                          .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+                          .map((marker) => {
+                              const services = servicesInPolygon.filter((service) =>
+                                  service.stops.includes(marker.atcoCode),
+                              );
+                              return {
+                                  ...marker,
+                                  serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+                              };
+                          })
+                    : [];
+
+                const servicesToAdd = servicesInPolygon
+                    .filter((service) =>
+                        service.stops.filter((stop) => {
+                            if (markerData.map((marker) => marker.atcoCode).includes(stop)) {
+                                return true;
+                            }
+                            return false;
+                        }),
+                    )
+                    .map((service) => serviceSchema.parse(service));
+
+                setSelectedServices(
+                    [
+                        ...(selectedServices ?? []),
+                        ...(includeMarkerData
+                            ? servicesInPolygon.map((service) => ({
+                                  serviceId: service.id,
+                                  inbound: service.routes.inbound,
+                                  outbound: service.routes.outbound,
+                              }))
+                            : []),
+                    ].filter(
+                        (value, index, self) => index === self.findIndex((s) => s?.serviceId === value?.serviceId),
+                    ),
+                );
+
                 stateUpdater({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: [],
+                        stops: sortStops(
+                            [
+                                ...(state.inputs.stops ?? []),
+                                ...(includeMarkerData ? markerDataInAService : []),
+                                ...(searched.length > 0 ? searched : []),
+                            ]
+                                .filter(
+                                    (value, index, self) =>
+                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                                )
+                                .splice(0, 100),
+                        ),
                         ...(state.inputs?.services
                             ? {
-                                  services: [],
+                                  services: [...state.inputs?.services, ...servicesToAdd].filter(
+                                      (value, index, self) => index === self.findIndex((s) => s.id === value.id),
+                                  ),
                               }
-                            : {}),
+                            : { services: [...servicesToAdd] }),
                     },
-                    errors: state.errors,
+                    errors: [
+                        ...state.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
+                    ],
                 });
+            }
+        }
+    };
+
+    const clearServicesAndStops = () => {
+        stateUpdater({
+            ...state,
+            inputs: {
+                ...state.inputs,
+                stops: [],
+                ...(state.inputs?.services
+                    ? {
+                          services: [],
+                      }
+                    : {}),
+            },
+            errors: state.errors,
+        });
+    };
+
+    const selectAllStops = async (evt: SyntheticEvent) => {
+        evt.preventDefault();
+        clearServicesAndStops();
+        if (selectedServices && selectedServices.length > 0) {
+            if (!showSelectAllText) {
                 setSelectedServices(searchedRoutes);
             } else {
-                const parsed = z.array(stopSchema).safeParse(searched);
-                if (!parsed.success) {
-                    stateUpdater({
-                        ...state,
-                        errors: [
-                            ...state.errors.filter(
-                                (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
-                            ),
-                            ...flattenZodErrors(parsed.error),
-                        ],
-                    });
-                } else {
-                    if (showSelectAllText) {
-                        const atcoCodes = markerData.map((marker) => marker.atcoCode);
-
-                        const servicesInPolygon = dataSource
-                            ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
-                            : await fetchServicesByStops({ atcoCodes, includeRoutes: true });
-
-                        const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
-                        const markerDataInAService = markerData
-                            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
-                            .map((marker) => {
-                                const services = servicesInPolygon.filter((service) =>
-                                    service.stops.includes(marker.atcoCode),
-                                );
-                                return {
-                                    ...marker,
-                                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
-                                };
-                            });
-
-                        const servicesToAdd = servicesInPolygon
-                            .filter((service) =>
-                                service.stops.filter((stop) => {
-                                    if (markerData.map((marker) => marker.atcoCode).includes(stop)) {
-                                        return true;
-                                    }
-                                    return false;
-                                }),
-                            )
-                            .map((service) => serviceSchema.parse(service));
-
-                        setSelectedServices(
-                            [
-                                ...(selectedServices ?? []),
-                                ...servicesInPolygon.map((service) => ({
-                                    serviceId: service.id,
-                                    inbound: service.routes.inbound,
-                                    outbound: service.routes.outbound,
-                                })),
-                            ].filter(
-                                (value, index, self) =>
-                                    index === self.findIndex((s) => s?.serviceId === value?.serviceId),
-                            ),
-                        );
-
-                        stateUpdater({
-                            ...state,
-                            inputs: {
-                                ...state.inputs,
-                                stops: sortStops(
-                                    [
-                                        ...(state.inputs.stops ?? []),
-                                        ...markerDataInAService,
-                                        ...(searched.length > 0 ? searched : []),
-                                    ]
-                                        .filter(
-                                            (value, index, self) =>
-                                                index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                        )
-                                        .splice(0, 100),
-                                ),
-                                ...(state.inputs?.services
-                                    ? {
-                                          services: [...state.inputs?.services, ...servicesToAdd].filter(
-                                              (value, index, self) =>
-                                                  index === self.findIndex((s) => s.id === value.id),
-                                          ),
-                                      }
-                                    : { services: [...servicesToAdd] }),
-                            },
-                            errors: [
-                                ...state.errors.filter(
-                                    (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
-                                ),
-                            ],
-                        });
-                    }
-                }
+                await addSelectedStopsAndServices();
             }
-            setShowSelectAllText(!showSelectAllText);
-            return;
+        } else {
+            await addSelectedStopsAndServices(true);
         }
+        setShowSelectAllText(!showSelectAllText);
+        return;
     };
 
     useEffect(() => {
