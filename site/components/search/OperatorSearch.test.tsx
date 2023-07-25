@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import OperatorSearch from "./OperatorSearch";
-import { OperatorConsequence } from "../schemas/consequence.schema";
-import { mockOperators } from "../testData/mockData";
+import { OperatorConsequence } from "../../schemas/consequence.schema";
+import { mockOperators } from "../../testData/mockData";
 
 describe("OperatorSearch", () => {
     it("should render correctly with no errors", () => {

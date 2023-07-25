@@ -1,9 +1,9 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
-import FormElementWrapper, { FormGroupWrapper } from "./form/FormElementWrapper";
-import { ErrorInfo } from "../interfaces";
-import { ConsequenceOperators, Operator } from "../schemas/consequence.schema";
+import { ErrorInfo } from "../../interfaces";
+import { ConsequenceOperators, Operator } from "../../schemas/consequence.schema";
+import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper";
 
 interface OperatorSearchProps<T> {
     operators: Operator[];

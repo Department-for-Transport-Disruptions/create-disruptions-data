@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import CsrfForm from "./form/CsrfForm";
+import CsrfForm from "../form/CsrfForm";
 
 interface PopUpProps {
     action: string;
@@ -10,6 +10,7 @@ interface PopUpProps {
     continueText: string;
     cancelText: string;
     questionText: string;
+    isWarning?: boolean;
 }
 
 const Popup = ({
@@ -21,8 +22,9 @@ const Popup = ({
     continueText,
     cancelText,
     questionText,
+    isWarning,
 }: PopUpProps): ReactElement | null => (
-    <div className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 ">
+    <div className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50">
         <div className="relative bg-white w-full max-w-xl p-10">
             <CsrfForm action={action} method="post" csrfToken={csrfToken}>
                 <h1 className="govuk-heading-l">{questionText}</h1>
@@ -47,7 +49,7 @@ const Popup = ({
                 ))}
 
                 <button
-                    className="govuk-button mr-6 mt-4 mb-0 mt-11"
+                    className={`govuk-button mr-6 mt-4 mb-0 ${isWarning ? "govuk-button--warning" : ""}`}
                     data-module="govuk-button"
                     id="popup-continue-button"
                 >
@@ -55,7 +57,7 @@ const Popup = ({
                 </button>
 
                 <button
-                    className="govuk-button govuk-button--secondary mr-6 mt-4 mb-0 mt-11"
+                    className="govuk-button govuk-button--secondary mr-6 mt-4 mb-0"
                     onClick={cancelActionHandler}
                     id="popup-cancel-button"
                 >

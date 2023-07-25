@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
-import ErrorSummary from "../../../components/ErrorSummary";
+import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
+import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import SearchSelect from "../../../components/form/SearchSelect";
 import Select from "../../../components/form/Select";
@@ -336,6 +337,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         >
                             Save as draft
                         </button>
+                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                     </div>
                 </>
             </CsrfForm>
