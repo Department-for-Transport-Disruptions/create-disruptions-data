@@ -457,6 +457,21 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                     dummyUser@gmail.com
                   </td>
                 </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Organisation
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle"
+                  >
+                    Test Org
+                  </td>
+                </tr>
               </tbody>
             </table>
             <div
@@ -855,6 +870,21 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                     className="govuk-table__cell align-middle"
                   >
                     dummyUser@gmail.com
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Organisation
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle"
+                  >
+                    Test Org
                   </td>
                 </tr>
               </tbody>
