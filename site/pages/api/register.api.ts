@@ -46,7 +46,7 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
                 res,
             );
 
-            redirectTo(res, `${REGISTER_PAGE_PATH}?email=${body.email}&key=${body.key}`);
+            redirectTo(res, `${REGISTER_PAGE_PATH}?email=${body.email}&key=${body.key}&orgId=${body.orgId}`);
             return;
         }
 

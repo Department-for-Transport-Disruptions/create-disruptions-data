@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_RESET_PASSWORD_ERRORS, LOGIN_PAGE_PATH, RESET_PASSWORD_PAGE_PATH } from "../../constants";
+import { COOKIES_RESET_PASSWORD_ERRORS, RESET_PASSWORD_PAGE_PATH } from "../../constants";
 import { resetUserPassword } from "../../data/cognito";
 import { resetPasswordSchemaRefined } from "../../schemas/reset-password.schema";
 import { flattenZodErrors } from "../../utils";
@@ -37,7 +37,7 @@ const resetPassword = async (req: NextApiRequest, res: NextApiResponse) => {
 
         destroyCookieOnResponseObject(COOKIES_RESET_PASSWORD_ERRORS, res);
 
-        redirectTo(res, LOGIN_PAGE_PATH);
+        redirectTo(res, `${RESET_PASSWORD_PAGE_PATH}${validatedBody.success ? "?success=true" : ""}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

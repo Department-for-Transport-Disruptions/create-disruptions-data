@@ -24,7 +24,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const getRows = (email: string, organisation?: string) => {
+    const getRows = (email: string, organisationName?: string) => {
         const rows = [
             {
                 header: "Email address",
@@ -32,10 +32,10 @@ const Register = (props: RegisterPageProps): ReactElement => {
             },
         ];
 
-        if (organisation) {
+        if (organisationName) {
             rows.push({
                 header: "Organisation",
-                cells: [organisation],
+                cells: [organisationName],
             });
         }
 
@@ -51,7 +51,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
                         <>
                             <ErrorSummary errors={pageState.errors} />
 
-                            <Table rows={getRows(pageState.inputs.email || "", pageState.inputs.organisation)} />
+                            <Table rows={getRows(pageState.inputs.email || "", pageState.inputs.organisationName)} />
 
                             <TextInput<RegisterSchema>
                                 display="Password"
@@ -80,6 +80,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
 
                             <input type="hidden" name="email" value={pageState.inputs.email} />
                             <input type="hidden" name="key" value={pageState.inputs.key} />
+                            <input type="hidden" name="orgId" value={pageState.inputs.orgId} />
 
                             <button className="govuk-button mt-8">Save password</button>
                         </>
@@ -110,7 +111,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     pageState.inputs.key = key.toString();
     pageState.inputs.email = email.toString();
-    pageState.inputs.organisation = orgDetail?.name;
+    pageState.inputs.organisationName = orgDetail?.name;
+    pageState.inputs.orgId = orgId.toString();
 
     return {
         props: {
