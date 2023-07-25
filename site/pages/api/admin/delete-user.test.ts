@@ -127,7 +127,8 @@ describe("delete-user", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
-    it("should redirect to /500 if organisation ids do not match", async () => {
+    it("should redirect to /500 if organisation ids do not match and role is not sysadmin", async () => {
+        getSession.mockImplementation(() => ({ ...defaultSession, isOrgAdmin: true, isSystemAdmin: false }));
         getUserDetailsSpy.mockImplementation(() =>
             Promise.resolve({
                 body: {},
