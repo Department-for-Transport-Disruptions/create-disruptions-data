@@ -5,7 +5,7 @@ import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
 import TextInput from "../components/form/TextInput";
 import { BaseLayout } from "../components/layout/Layout";
-import { COOKIES_RESET_PASSWORD_ERRORS } from "../constants";
+import { COOKIES_FORGOT_PASSWORD_ERRORS } from "../constants";
 import { PageState } from "../interfaces";
 import { ForgotPasswordSchema, forgotPasswordSchema } from "../schemas/forgot-password.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../utils/apiUtils";
@@ -24,7 +24,7 @@ const ForgotPassword = (props: ForgotPasswordProps): ReactElement => {
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     <>
-                        <CsrfForm action="/api/reset-password" method="post" csrfToken={pageState.csrfToken}>
+                        <CsrfForm action="/api/forgot-password" method="post" csrfToken={pageState.csrfToken}>
                             <ErrorSummary errors={pageState.errors} />
                             <p className="govuk-body-m">Enter your email address to reset your password.</p>
                             <TextInput<ForgotPasswordSchema>
@@ -48,9 +48,9 @@ const ForgotPassword = (props: ForgotPasswordProps): ReactElement => {
 
 export const getServerSideProps = (ctx: NextPageContext): { props: ForgotPasswordProps } => {
     const cookies = parseCookies(ctx);
-    const errorCookie = cookies[COOKIES_RESET_PASSWORD_ERRORS];
+    const errorCookie = cookies[COOKIES_FORGOT_PASSWORD_ERRORS];
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_RESET_PASSWORD_ERRORS, ctx.res);
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_FORGOT_PASSWORD_ERRORS, ctx.res);
 
     return {
         props: {

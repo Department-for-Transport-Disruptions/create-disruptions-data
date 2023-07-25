@@ -95,7 +95,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const errorCookie = cookies[COOKIES_REGISTER_ERRORS];
 
     const { key, email, orgId } = ctx.query;
-
+    //TODO DEANNA request-access has been deleted from site, what do we replace this with?
     if (!key || !email || !orgId) {
         if (ctx.res) {
             redirectTo(ctx.res, "/request-access");

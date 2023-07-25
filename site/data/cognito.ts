@@ -21,6 +21,8 @@ import {
     ListUsersCommand,
     AdminResetUserPasswordCommand,
     AdminResetUserPasswordCommandInput,
+    ConfirmForgotPasswordCommand,
+    ConfirmForgotPasswordCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -316,7 +318,7 @@ export const getUsersInGroupAndOrg = async (orgId: string, groupName: string) =>
 export const initiateResetPassword = async (email: string) => {
     logger.info("", {
         context: "data.cognito",
-        message: "Resetting cognito user's password",
+        message: "Initiating reset password flow for cognito user",
     });
 
     try {
@@ -327,7 +329,31 @@ export const initiateResetPassword = async (email: string) => {
         return cognito.send(new AdminResetUserPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to reset password: ${error.stack || ""}`);
+            throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const resetUserPassword = async (key: string, newPassword: string, email: string) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Resetting password for cognito user",
+    });
+
+    try {
+        const params: ConfirmForgotPasswordCommandInput = {
+            ClientId: cognitoClientId,
+            ConfirmationCode: key,
+            Password: newPassword,
+            Username: email,
+            SecretHash: calculateSecretHash(email),
+        };
+        return cognito.send(new ConfirmForgotPasswordCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
         }
 
         throw error;
