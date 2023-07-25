@@ -14,8 +14,8 @@ import { getStateUpdater } from "../utils/formUtils";
 const title = "Reset password - Create Transport Disruptions Service";
 const description = "Password reset page for the Create Transport Disruptions Service";
 
-export interface ForgotPasswordProps extends PageState<Partial<ForgotPasswordSchema>> {}
-const ForgotPassword = (props: ForgotPasswordProps): ReactElement => {
+export interface ForgotPasswordPageProps extends PageState<Partial<ForgotPasswordSchema>> {}
+const ForgotPassword = (props: ForgotPasswordPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
@@ -46,7 +46,7 @@ const ForgotPassword = (props: ForgotPasswordProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ForgotPasswordProps } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: ForgotPasswordPageProps } => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_FORGOT_PASSWORD_ERRORS];
 

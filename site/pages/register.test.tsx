@@ -14,7 +14,7 @@ const withInputsAndNoErrors: RegisterPageProps = {
         key: "key123",
         password: "dummyPassword",
         confirmPassword: "dummyPassword",
-        organisation: "Test Org",
+        organisationName: "Test Org",
     },
 };
 

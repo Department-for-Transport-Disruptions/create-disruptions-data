@@ -7,8 +7,17 @@ const description = "Password reset confirmation page for the Create Transport D
 export interface ResetPasswordConfirmationProps {
     email: string;
 }
+
+function checkIfEmailInUrl(email: string | null) {
+    if (!email) {
+        return ".";
+    }
+    return `to ${email}.`;
+}
 const ResetPasswordConfirmation = ({ email }: ResetPasswordConfirmationProps) => {
-    const text = `If this email address exists in our system we will have sent a password reset email to ${email}. Check your email and follow the link within 24 hours to reset your password`;
+    const text = `If this email address exists in our system we will have sent a password reset email ${checkIfEmailInUrl(
+        email,
+    )} Check your email and follow the link within 24 hours to reset your password`;
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Reset password link has been sent</h1>
