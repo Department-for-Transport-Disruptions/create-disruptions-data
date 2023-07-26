@@ -10,8 +10,7 @@ import { COOKIES_REGISTER_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
 import { getOrganisationInfoById } from "../data/dynamo";
 import { PageState } from "../interfaces";
 import { RegisterSchema, registerSchema } from "../schemas/register.schema";
-import { redirectTo } from "../utils";
-import { getPageState } from "../utils/apiUtils";
+import { getPageState, redirectToError } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Register - Create Transport Disruptions Service";
@@ -96,10 +95,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const errorCookie = cookies[COOKIES_REGISTER_ERRORS];
 
     const { key, email, orgId } = ctx.query;
-    //TODO DEANNA request-access has been deleted from site, what do we replace this with?
     if (!key || !email || !orgId) {
         if (ctx.res) {
-            redirectTo(ctx.res, "/request-access");
+            redirectToError(ctx.res);
         }
 
         return;

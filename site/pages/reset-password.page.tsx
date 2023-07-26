@@ -1,6 +1,5 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../components/ErrorSummary";
@@ -18,15 +17,14 @@ import { getStateUpdater } from "../utils/formUtils";
 const title = "Reset Password - Create Transport Disruptions Service";
 const description = "Reset Password page for the Create Transport Disruptions Service";
 
-export interface ResetPasswordPageProps extends PageState<Partial<ResetPasswordSchema>> {}
-//TODO DEANNA Change email to dynamically render from query params in TABLE
+export interface ResetPasswordPageProps extends PageState<Partial<ResetPasswordSchema>> {
+    successMessage?: string;
+}
 const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const queryParams = useRouter().query;
-    const displaySuccessMessage = queryParams["success"];
     const email = props.inputs.email || "";
     return (
         <TwoThirdsLayout title={title} description={description} errors={pageState.errors}>
@@ -34,7 +32,7 @@ const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
                 <>
                     <ErrorSummary errors={pageState.errors} />
                     <h1 className="govuk-heading-xl">Reset password</h1>
-                    {displaySuccessMessage ? (
+                    {props.successMessage === "true" ? (
                         <>
                             <h2 className="govuk-heading-m">Your password has been successfully updated.</h2>
                             <Link role="button" href={LOGIN_PAGE_PATH} className="govuk-button mt-8">
@@ -91,12 +89,13 @@ const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
 export const getServerSideProps = (ctx: NextPageContext): { props: ResetPasswordPageProps } | void => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_RESET_PASSWORD_ERRORS];
+    const successMessage = ctx.query.success;
 
     const { user_name, key } = ctx.query;
 
     if (!key || !user_name) {
         if (ctx.res) {
-            redirectTo(ctx.res, "/forgot-password");
+            redirectTo(ctx.res, "/500");
         }
         return;
     }
@@ -109,6 +108,7 @@ export const getServerSideProps = (ctx: NextPageContext): { props: ResetPassword
     return {
         props: {
             ...pageState,
+            ...(successMessage && { successMessage: successMessage.toString() }),
         },
     };
 };

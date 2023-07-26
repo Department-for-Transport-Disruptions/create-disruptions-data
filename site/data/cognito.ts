@@ -19,10 +19,10 @@ import {
     AdminDeleteUserCommandInput,
     AdminCreateUserCommand,
     ListUsersCommand,
-    AdminResetUserPasswordCommand,
-    AdminResetUserPasswordCommandInput,
     ConfirmForgotPasswordCommand,
     ConfirmForgotPasswordCommandInput,
+    ForgotPasswordCommandInput,
+    ForgotPasswordCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -281,6 +281,14 @@ export const createUser = async (userData: AddUserSchema) => {
                     Name: "family_name",
                     Value: userData.familyName,
                 },
+                {
+                    Name: "email_verified",
+                    Value: "true",
+                },
+                {
+                    Name: "email",
+                    Value: userData.email,
+                },
             ],
         }),
     );
@@ -322,11 +330,12 @@ export const initiateResetPassword = async (email: string) => {
     });
 
     try {
-        const params: AdminResetUserPasswordCommandInput = {
+        const params: ForgotPasswordCommandInput = {
             Username: email,
-            UserPoolId: userPoolId,
+            ClientId: cognitoClientId,
+            SecretHash: calculateSecretHash(email),
         };
-        return cognito.send(new AdminResetUserPasswordCommand(params));
+        return cognito.send(new ForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
@@ -353,7 +362,7 @@ export const resetUserPassword = async (key: string, newPassword: string, email:
         return cognito.send(new ConfirmForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
+            throw new Error(`Failed to reset password: ${error.stack || ""}`);
         }
 
         throw error;

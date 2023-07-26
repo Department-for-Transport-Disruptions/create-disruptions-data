@@ -23,7 +23,8 @@ const resetPassword = async (req: NextApiRequest, res: NextApiResponse) => {
                 }),
                 res,
             );
-            redirectTo(res, RESET_PASSWORD_PAGE_PATH);
+            const { email, key } = req.body as Record<string, string>;
+            redirectTo(res, `${RESET_PASSWORD_PAGE_PATH}?key=${key}&user_name=${email}`);
             return;
         }
         const { email, key, newPassword } = validatedBody.data;
@@ -37,7 +38,10 @@ const resetPassword = async (req: NextApiRequest, res: NextApiResponse) => {
 
         destroyCookieOnResponseObject(COOKIES_RESET_PASSWORD_ERRORS, res);
 
-        redirectTo(res, `${RESET_PASSWORD_PAGE_PATH}${validatedBody.success ? "?success=true" : ""}`);
+        redirectTo(
+            res,
+            `${RESET_PASSWORD_PAGE_PATH}?key=${key}&user_name=${email}&${validatedBody.success ? "success=true" : ""}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

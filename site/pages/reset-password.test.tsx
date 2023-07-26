@@ -45,4 +45,11 @@ describe("reset-password", () => {
         const tree = renderer.create(<ResetPassword {...withInputsAndErrors} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
+    it("should render correctly when password is changed successfully", () => {
+        useRouter.mockImplementation(() => ({
+            query: { success: "true" },
+        }));
+        const tree = renderer.create(<ResetPassword {...withInputsAndErrors} />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
 });
