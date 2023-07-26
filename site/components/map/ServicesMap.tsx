@@ -224,6 +224,22 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
+    const getMarkerDataInAService = (
+        markerData: Stop[],
+        servicesStopsInPolygon: string[],
+        servicesInPolygon: (Service & { stops: string[]; routes: Routes })[],
+    ) => {
+        return markerData
+            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+            .map((marker) => {
+                const services = servicesInPolygon.filter((service) => service.stops.includes(marker.atcoCode));
+                return {
+                    ...marker,
+                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+                };
+            });
+    };
+
     const addSelectedStopsAndServices = async (includeMarkerData?: boolean) => {
         const parsed = z.array(stopSchema).safeParse(searched);
         if (!parsed.success) {
@@ -246,17 +262,7 @@ const Map = ({
 
                 const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
                 const markerDataInAService = includeMarkerData
-                    ? markerData
-                          .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
-                          .map((marker) => {
-                              const services = servicesInPolygon.filter((service) =>
-                                  service.stops.includes(marker.atcoCode),
-                              );
-                              return {
-                                  ...marker,
-                                  serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
-                              };
-                          })
+                    ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                     : [];
 
                 const servicesToAdd = servicesInPolygon
