@@ -1,0 +1,69 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NotificationBanner > should render correctly 1`] = `
+<div
+  aria-labelledby="govuk-notification-banner-title"
+  className="govuk-notification-banner"
+  data-module="govuk-notification-banner"
+  role="region"
+>
+  <div
+    className="govuk-notification-banner__header"
+  >
+    <h2
+      className="govuk-notification-banner__title"
+      id="govuk-notification-banner-title"
+    >
+      Important
+    </h2>
+  </div>
+  <div
+    className="govuk-notification-banner__content"
+  >
+    <p
+      className="govuk-notification-banner__heading"
+    >
+      Banner Text
+    </p>
+  </div>
+</div>
+`;
+
+exports[`NotificationBanner > should render correctly with link 1`] = `
+<div
+  aria-labelledby="govuk-notification-banner-title"
+  className="govuk-notification-banner"
+  data-module="govuk-notification-banner"
+  role="region"
+>
+  <div
+    className="govuk-notification-banner__header"
+  >
+    <h2
+      className="govuk-notification-banner__title"
+      id="govuk-notification-banner-title"
+    >
+      Very Important
+    </h2>
+  </div>
+  <div
+    className="govuk-notification-banner__content"
+  >
+    <p
+      className="govuk-notification-banner__heading"
+    >
+      Banner Text
+      <a
+        className="govuk-notification-banner__link"
+        href="www.google.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        look here
+      </a>
+      .
+    </p>
+  </div>
+</div>
+`;

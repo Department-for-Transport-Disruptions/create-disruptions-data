@@ -83,7 +83,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`);
+        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);
 
         return;
     } catch (e) {
