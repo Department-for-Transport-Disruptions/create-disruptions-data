@@ -110,19 +110,12 @@ const Map = ({
 
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const searchedAtcoCodes = searched.map((searchItem) => searchItem.atcoCode);
-            const selectedAtcoCodes = selected.map((selectedItem) => selectedItem.atcoCode);
-            const stopsOnMap = [
-                ...selected,
-                ...searched,
-                ...markerData.filter(
-                    (item) => !searchedAtcoCodes.includes(item.atcoCode) && !selectedAtcoCodes.includes(item.atcoCode),
-                ),
-            ];
+            const stopsOnMap = [...selected, ...searched];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
+
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searched, selected, markerData],
+        [searched, selected],
     );
 
     const unselectMarker = useCallback(
@@ -176,6 +169,8 @@ const Map = ({
                         ? { stopTypes: ["MET", "PLT"] }
                         : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                         ? { stopTypes: ["FER", "FBT"] }
+                        : vehicleMode === Modes.rail
+                        ? { stopTypes: ["RLY"] }
                         : { stopTypes: ["undefined"] }),
                 });
 
