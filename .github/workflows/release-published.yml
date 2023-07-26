@@ -42,6 +42,7 @@ jobs:
         env:
           ROOT_DOMAIN: ${{ vars.ROOT_DOMAIN }}
           PROD_DOMAIN: ${{ vars.PROD_DOMAIN }}
+          PROD_CERT_ARN: ${{ secrets.PROD_CERT_ARN }}
           AWS_SES_IDENTITY_ARN: ${{ secrets.AWS_SES_TEST_IDENTITY }}
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |

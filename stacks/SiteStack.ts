@@ -1,23 +1,24 @@
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { NextjsSite, StackContext, use } from "sst/constructs";
 import { CognitoStack } from "./CognitoStack";
-import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./services/Buckets";
 import { getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { table, siriTable, organisationsTable } = use(DynamoDBStack);
-    const { hostedZone } = use(DnsStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
     let prodDomain = "";
+    let prodCertArn = "";
 
     if (stack.stage === "prod") {
         prodDomain = process.env.PROD_DOMAIN?.toString() ?? "";
+        prodCertArn = process.env.PROD_CERT_ARN?.toString() ?? "";
 
         if (!prodDomain) {
             throw new Error("PROD_DOMAIN must be set in production");
@@ -75,7 +76,13 @@ export function SiteStack({ stack }: StackContext) {
         },
         customDomain: {
             domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
-            hostedZone: hostedZone.zoneName,
+            isExternalDomain: stack.stage === "prod",
+            cdk:
+                stack.stage === "prod"
+                    ? {
+                          certificate: Certificate.fromCertificateArn(stack, "cdd-prod-certificate", prodCertArn),
+                      }
+                    : undefined,
         },
         permissions: [
             new PolicyStatement({
