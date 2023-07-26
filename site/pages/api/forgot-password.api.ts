@@ -36,7 +36,7 @@ const forgotPassword = async (req: NextApiRequest, res: NextApiResponse) => {
         await initiateResetPassword(email);
         logger.info("", {
             context: "api.forgot-password",
-            message: "reset password flow successfully initiated",
+            message: "Reset password flow successfully initiated",
         });
         destroyCookieOnResponseObject(COOKIES_FORGOT_PASSWORD_ERRORS, res);
         redirectTo(res, `${RESET_PASSWORD_CONFIRMATION_PAGE_PATH}?email=${email}`);

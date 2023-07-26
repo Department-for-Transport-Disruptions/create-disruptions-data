@@ -33,7 +33,7 @@ const resetPassword = async (req: NextApiRequest, res: NextApiResponse) => {
 
         logger.info("", {
             context: "api.reset-password",
-            message: "reset password successful",
+            message: "Reset password successful",
         });
 
         destroyCookieOnResponseObject(COOKIES_RESET_PASSWORD_ERRORS, res);
