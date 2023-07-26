@@ -71,6 +71,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         ? { stopTypes: ["MET", "PLT"] }
                         : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                         ? { stopTypes: ["FER", "FBT"] }
+                        : vehicleMode === Modes.rail
+                        ? { stopTypes: ["RLY"] }
                         : { stopTypes: ["undefined"] }),
                 });
 
