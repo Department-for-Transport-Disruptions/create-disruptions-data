@@ -29,11 +29,13 @@ describe("register", () => {
     it("should redirect to register page when incorrect inputs are passed", async () => {
         const testEmail = "test@example.com";
         const testKey = "";
+        const testOrgId = "";
 
         const { req, res } = getMockRequestAndResponse({
             body: {
                 email: testEmail,
                 key: testKey,
+                orgId: testOrgId,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -44,6 +46,7 @@ describe("register", () => {
             { errorMessage: "Enter a password", id: "password" },
             { errorMessage: "Required", id: "confirmPassword" },
             { errorMessage: "Invalid register link", id: "key" },
+            { errorMessage: "Invalid organisation ID", id: "orgId" },
         ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -53,7 +56,7 @@ describe("register", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REGISTER_PAGE_PATH}?email=${testEmail}&key=${testKey}`,
+            Location: `${REGISTER_PAGE_PATH}?email=${testEmail}&key=${testKey}&orgId=${testOrgId}`,
         });
     });
 
@@ -75,6 +78,7 @@ describe("register", () => {
                 password: "dummyPassword",
                 confirmPassword: "dummyPassword",
                 key: "key123",
+                orgId: "Org123",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -105,6 +109,7 @@ describe("register", () => {
                 password: "dummyPassword",
                 confirmPassword: "dummyPassword",
                 key: "key123",
+                orgId: "Org123",
             },
             mockWriteHeadFn: writeHeadMock,
         });

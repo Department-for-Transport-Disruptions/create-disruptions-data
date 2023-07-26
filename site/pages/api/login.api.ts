@@ -1,4 +1,4 @@
-import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
+import { NotAuthorizedException, PasswordResetRequiredException } from "@aws-sdk/client-cognito-identity-provider";
 import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -74,6 +74,24 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
                     errors: [
                         {
                             errorMessage: "Incorrect username or password",
+                            id: "",
+                        },
+                    ],
+                }),
+                res,
+            );
+
+            redirectTo(res, LOGIN_PAGE_PATH);
+            return;
+        }
+        if (e instanceof PasswordResetRequiredException) {
+            setCookieOnResponseObject(
+                COOKIES_LOGIN_ERRORS,
+                JSON.stringify({
+                    inputs: req.body as object,
+                    errors: [
+                        {
+                            errorMessage: "Password reset required",
                             id: "",
                         },
                     ],

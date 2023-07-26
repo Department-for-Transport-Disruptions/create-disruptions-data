@@ -10,8 +10,7 @@ import { COOKIES_REGISTER_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
 import { getOrganisationInfoById } from "../data/dynamo";
 import { PageState } from "../interfaces";
 import { RegisterSchema, registerSchema } from "../schemas/register.schema";
-import { redirectTo } from "../utils";
-import { getPageState } from "../utils/apiUtils";
+import { getPageState, redirectToError } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Register - Create Transport Disruptions Service";
@@ -24,7 +23,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const getRows = (email: string, organisation?: string) => {
+    const getRows = (email: string, organisationName?: string) => {
         const rows = [
             {
                 header: "Email address",
@@ -32,10 +31,10 @@ const Register = (props: RegisterPageProps): ReactElement => {
             },
         ];
 
-        if (organisation) {
+        if (organisationName) {
             rows.push({
                 header: "Organisation",
-                cells: [organisation],
+                cells: [organisationName],
             });
         }
 
@@ -51,7 +50,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
                         <>
                             <ErrorSummary errors={pageState.errors} />
 
-                            <Table rows={getRows(pageState.inputs.email || "", pageState.inputs.organisation)} />
+                            <Table rows={getRows(pageState.inputs.email || "", pageState.inputs.organisationName)} />
 
                             <TextInput<RegisterSchema>
                                 display="Password"
@@ -80,6 +79,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
 
                             <input type="hidden" name="email" value={pageState.inputs.email} />
                             <input type="hidden" name="key" value={pageState.inputs.key} />
+                            <input type="hidden" name="orgId" value={pageState.inputs.orgId} />
 
                             <button className="govuk-button mt-8">Save password</button>
                         </>
@@ -95,10 +95,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const errorCookie = cookies[COOKIES_REGISTER_ERRORS];
 
     const { key, email, orgId } = ctx.query;
-
     if (!key || !email || !orgId) {
         if (ctx.res) {
-            redirectTo(ctx.res, "/request-access");
+            redirectToError(ctx.res);
         }
 
         return;
@@ -110,7 +109,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     pageState.inputs.key = key.toString();
     pageState.inputs.email = email.toString();
-    pageState.inputs.organisation = orgDetail?.name;
+    pageState.inputs.organisationName = orgDetail?.name;
+    pageState.inputs.orgId = orgId.toString();
 
     return {
         props: {

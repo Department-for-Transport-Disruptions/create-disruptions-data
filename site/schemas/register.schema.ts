@@ -9,7 +9,8 @@ export const registerSchema = z.object({
         .min(MIN_PASSWORD_LENGTH, { message: `Enter a minimum of ${MIN_PASSWORD_LENGTH} characters` }),
     confirmPassword: z.string(),
     key: z.string(setZodDefaultError("Invalid register link")).min(1, { message: "Invalid register link" }),
-    organisation: z.string().optional(),
+    organisationName: z.string().optional(),
+    orgId: z.string(setZodDefaultError("Invalid organisation ID")).min(1, { message: "Invalid organisation ID" }),
 });
 
 export const registerSchemaRefined = registerSchema.refine((val) => val.password === val.confirmPassword, {

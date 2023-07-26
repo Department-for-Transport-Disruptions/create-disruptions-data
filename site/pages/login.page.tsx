@@ -63,20 +63,9 @@ const Login = (props: LoginPageProps): ReactElement => {
                 </div>
                 <div className="govuk-grid-column-one-third">
                     <div>
-                        <h2 className="govuk-heading-m">Forgot your Password?</h2>
-                        <a href="/forgotPassword" className="govuk-link govuk-!-font-size-19">
+                        <h2 className="govuk-heading-m">Forgot your password?</h2>
+                        <a href="/forgot-password" className="govuk-link govuk-!-font-size-19">
                             Reset your password
-                        </a>
-                    </div>
-                    <br />
-                    <div>
-                        <h2 className="govuk-heading-m">Don&apos;t have an account?</h2>
-                        <a
-                            href="/requestAccess"
-                            className="govuk-link govuk-!-font-size-19"
-                            aria-label="Don't have an account? - Request access"
-                        >
-                            Request access
                         </a>
                     </div>
                 </div>

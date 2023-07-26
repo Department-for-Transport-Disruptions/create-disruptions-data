@@ -145,6 +145,14 @@ export default class CreateUser extends Command {
                         Name: "family_name",
                         Value: lastName,
                     },
+                    {
+                        Name: "email_verified",
+                        Value: "true",
+                    },
+                    {
+                       Name: "email",
+                       Value: email,
+                    },
                 ],
             }),
         );

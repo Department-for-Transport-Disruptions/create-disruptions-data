@@ -133,7 +133,6 @@ const unauthenticatedRoutes = [
     "/scripts",
     "/error",
     "/contact",
-    "/request-access",
     "/cookies",
     "/cookie-details",
     "/accessibility",

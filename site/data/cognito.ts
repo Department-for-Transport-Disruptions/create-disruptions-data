@@ -19,6 +19,10 @@ import {
     AdminDeleteUserCommandInput,
     AdminCreateUserCommand,
     ListUsersCommand,
+    ConfirmForgotPasswordCommand,
+    ConfirmForgotPasswordCommandInput,
+    ForgotPasswordCommandInput,
+    ForgotPasswordCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -277,6 +281,14 @@ export const createUser = async (userData: AddUserSchema) => {
                     Name: "family_name",
                     Value: userData.familyName,
                 },
+                {
+                    Name: "email_verified",
+                    Value: "true",
+                },
+                {
+                    Name: "email",
+                    Value: userData.email,
+                },
             ],
         }),
     );
@@ -305,6 +317,52 @@ export const getUsersInGroupAndOrg = async (orgId: string, groupName: string) =>
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to list cognito users in organisation ${orgId}: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const initiateResetPassword = async (email: string) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Initiating reset password flow for cognito user",
+    });
+
+    try {
+        const params: ForgotPasswordCommandInput = {
+            Username: email,
+            ClientId: cognitoClientId,
+            SecretHash: calculateSecretHash(email),
+        };
+        return cognito.send(new ForgotPasswordCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const resetUserPassword = async (key: string, newPassword: string, email: string) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Resetting password for cognito user",
+    });
+
+    try {
+        const params: ConfirmForgotPasswordCommandInput = {
+            ClientId: cognitoClientId,
+            ConfirmationCode: key,
+            Password: newPassword,
+            Username: email,
+            SecretHash: calculateSecretHash(email),
+        };
+        return cognito.send(new ConfirmForgotPasswordCommand(params));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to reset password: ${error.stack || ""}`);
         }
 
         throw error;
