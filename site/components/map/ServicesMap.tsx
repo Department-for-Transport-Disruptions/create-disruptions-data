@@ -70,6 +70,33 @@ const initialHoverState = {
     serviceId: -1,
 };
 
+export const getMarkerDataInAService = (
+    markerData: Stop[],
+    servicesStopsInPolygon: string[],
+    servicesInPolygon: (Service & { stops: string[]; routes: Routes })[],
+) => {
+    console.log(
+        markerData
+            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+            .map((marker) => {
+                const services = servicesInPolygon.filter((service) => service.stops.includes(marker.atcoCode));
+                return {
+                    ...marker,
+                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+                };
+            }),
+    );
+    return markerData
+        .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
+        .map((marker) => {
+            const services = servicesInPolygon.filter((service) => service.stops.includes(marker.atcoCode));
+            return {
+                ...marker,
+                serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
+            };
+        });
+};
+
 const Map = ({
     initialViewState,
     style,
@@ -224,22 +251,6 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const getMarkerDataInAService = (
-        markerData: Stop[],
-        servicesStopsInPolygon: string[],
-        servicesInPolygon: (Service & { stops: string[]; routes: Routes })[],
-    ) => {
-        return markerData
-            .filter((marker) => servicesStopsInPolygon.includes(marker.atcoCode))
-            .map((marker) => {
-                const services = servicesInPolygon.filter((service) => service.stops.includes(marker.atcoCode));
-                return {
-                    ...marker,
-                    serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
-                };
-            });
-    };
-
     const addSelectedStopsAndServices = async (includeMarkerData?: boolean) => {
         const parsed = z.array(stopSchema).safeParse(searched);
         if (!parsed.success) {
@@ -261,10 +272,12 @@ const Map = ({
                     : [];
 
                 const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
+                console.log(markerData, servicesStopsInPolygon, servicesInPolygon);
                 const markerDataInAService = includeMarkerData
                     ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                     : [];
 
+                console.log(markerDataInAService);
                 const servicesToAdd = servicesInPolygon
                     .filter((service) =>
                         service.stops.filter((stop) => markerData.map((marker) => marker.atcoCode).includes(stop)),
