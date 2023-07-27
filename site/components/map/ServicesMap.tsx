@@ -266,7 +266,6 @@ const Map = ({
                     ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                     : [];
 
-              
                 const servicesToAdd = servicesInPolygon
                     .filter((service) =>
                         service.stops.filter((stop) => markerData.map((marker) => marker.atcoCode).includes(stop)),
