@@ -4,7 +4,7 @@ import { getDomain } from "./utils";
 
 export const DnsStack = ({ stack }: StackContext) => {
     const hostedZone = HostedZone.fromLookup(stack, "cdd-hosted-zone", {
-        domainName: getDomain(stack.stage),
+        domainName: getDomain(stack.stage, true),
     });
 
     return {

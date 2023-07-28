@@ -1,5 +1,9 @@
-export const getDomain = (stage: string) => {
-    const { ROOT_DOMAIN: rootDomain } = process.env;
+export const getDomain = (stage: string, internalOnly = false) => {
+    const { ROOT_DOMAIN: rootDomain, PROD_DOMAIN: prodDomain } = process.env;
+
+    if (prodDomain && !internalOnly) {
+        return prodDomain;
+    }
 
     if (!rootDomain) {
         throw new Error("ROOT_DOMAIN must be set");
