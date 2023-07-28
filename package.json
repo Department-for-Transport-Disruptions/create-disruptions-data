@@ -9,6 +9,7 @@
         "deploy": "sst deploy",
         "remove": "sst remove",
         "console": "sst console",
+        "diff": "sst diff",
         "cdk": "cdk",
         "typecheck": "tsc --noEmit",
         "lint": "eslint .",
