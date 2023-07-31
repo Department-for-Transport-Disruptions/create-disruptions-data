@@ -9,9 +9,9 @@ import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import NotificationBanner from "../../components/layout/NotificationBanner";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 
-import NotificationBanner from "../../components/layout/NotificationBanner";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
