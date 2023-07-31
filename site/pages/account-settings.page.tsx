@@ -2,7 +2,7 @@ import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
+import ErrorSummary from "../components/form/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";

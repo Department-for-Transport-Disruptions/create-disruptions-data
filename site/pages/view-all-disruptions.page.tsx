@@ -10,15 +10,15 @@ import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "rea
 import writeXlsxFile, { Schema } from "write-excel-file";
 import { z } from "zod";
 import { randomUUID } from "crypto";
-import ExportPopUp from "../components/ExportPopup";
 import DateSelector from "../components/form/DateSelector";
 import Select from "../components/form/Select";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
-import OperatorSearch from "../components/OperatorSearch";
-import PageNumbers from "../components/PageNumbers";
+import PageNumbers from "../components/layout/PageNumbers";
 import PDFDoc from "../components/pdf/DownloadPDF";
-import ServiceSearch from "../components/ServiceSearch";
+import ExportPopUp from "../components/popup/ExportPopup";
+import OperatorSearch from "../components/search/OperatorSearch";
+import ServiceSearch from "../components/search/ServiceSearch";
 import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,

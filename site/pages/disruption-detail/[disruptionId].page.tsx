@@ -4,12 +4,12 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
-import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
-import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
+import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-import Popup from "../../components/Popup";
+import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
+import Popup from "../../components/popup/Popup";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
