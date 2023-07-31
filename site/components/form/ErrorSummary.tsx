@@ -1,6 +1,6 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, PropsWithChildren } from "react";
-import { ErrorInfo } from "../interfaces";
+import { ErrorInfo } from "../../interfaces";
 
 interface ErrorSummary {
     errors: ErrorInfo[];

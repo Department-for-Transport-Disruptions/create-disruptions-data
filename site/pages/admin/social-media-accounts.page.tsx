@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Fragment, ReactElement, ReactNode, useState } from "react";
-import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import { DOMAIN_NAME, HOOTSUITE_URL } from "../../constants";
 import { getHootsuiteData } from "../../data/hootsuite";
 import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";

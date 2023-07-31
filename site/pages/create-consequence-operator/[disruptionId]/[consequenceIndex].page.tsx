@@ -4,15 +4,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useState } from "react";
-import ErrorSummary from "../../../components/ErrorSummary";
+import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
+import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import Select from "../../../components/form/Select";
 import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import OperatorSearch from "../../../components/OperatorSearch";
+import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
@@ -263,6 +264,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         >
                             Save as draft
                         </button>
+                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                     </div>
                 </>
             </CsrfForm>

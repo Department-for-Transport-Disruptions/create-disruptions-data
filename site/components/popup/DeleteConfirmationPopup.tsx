@@ -8,6 +8,7 @@ interface PopUpProps {
     hintText?: string;
     csrfToken: string;
     hiddenInputs: { name: string; value: string | undefined }[];
+    isWarning?: boolean;
 }
 
 const DeleteConfirmationPopup = ({
@@ -17,6 +18,7 @@ const DeleteConfirmationPopup = ({
     hintText,
     csrfToken,
     hiddenInputs,
+    isWarning,
 }: PopUpProps): ReactElement | null => (
     <Popup
         action={deleteUrl}
@@ -27,6 +29,7 @@ const DeleteConfirmationPopup = ({
         continueText="Yes, delete"
         cancelText="No, return"
         questionText={`Are you sure you wish to delete ${entityName.trim()}?`}
+        isWarning={isWarning}
     />
 );
 

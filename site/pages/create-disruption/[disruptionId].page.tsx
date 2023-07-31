@@ -3,10 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
-import ErrorSummary from "../../components/ErrorSummary";
+import DeleteDisruptionButton from "../../components/buttons/DeleteDisruptionButton";
 import Checkbox from "../../components/form/Checkbox";
 import CsrfForm from "../../components/form/CsrfForm";
 import DateSelector from "../../components/form/DateSelector";
+import ErrorSummary from "../../components/form/ErrorSummary";
 import Radios from "../../components/form/Radios";
 import Select from "../../components/form/Select";
 import Table from "../../components/form/Table";
@@ -37,7 +38,9 @@ import { getStateUpdater } from "../../utils/formUtils";
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
 
-export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {}
+export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {
+    disruptionExists?: boolean;
+}
 
 const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const initialValidity: Validity = {
@@ -562,6 +565,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             Cancel Changes
                         </Link>
                     ) : null}
+
+                    {props.disruptionExists && (
+                        <DeleteDisruptionButton
+                            disruptionId={props.disruptionId}
+                            csrfToken={props.csrfToken}
+                            buttonClasses="mt-0"
+                        />
+                    )}
                 </>
             </CsrfForm>
         </BaseLayout>
@@ -598,6 +609,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, createDisruptionSchema, disruption.disruptionId, disruption),
+            disruptionExists: true,
         },
     };
 };

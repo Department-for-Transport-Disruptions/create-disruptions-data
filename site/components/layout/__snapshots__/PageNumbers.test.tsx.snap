@@ -1,0 +1,482 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageNumbers > should not render anything when there are no pages 1`] = `null`;
+
+exports[`PageNumbers > should not render anything when there is one pages 1`] = `null`;
+
+exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 1 1`] = `
+<nav
+  className="govuk-pagination"
+  role="navigation"
+>
+  <ul
+    className="govuk-pagination__list"
+  >
+     
+    <li
+      className="govuk-pagination__item govuk-pagination__item--current"
+    >
+      <a
+        aria-label="Page 1"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        1
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 2"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        2
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item govuk-pagination__item--ellipses"
+    >
+      ...
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 10"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        10
+      </a>
+    </li>
+  </ul>
+  <div
+    className="govuk-pagination__next"
+  >
+    <a
+      aria-label="Page 10"
+      className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
+      href=""
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="next"
+      role="button"
+    >
+      <span
+        className="govuk-pagination__link-title"
+      >
+        Next
+      </span>
+       
+      <svg
+        aria-hidden="true"
+        className="govuk-pagination__icon govuk-pagination__icon--next"
+        focusable="false"
+        height="13"
+        viewBox="0 0 15 13"
+        width="15"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+        />
+      </svg>
+    </a>
+  </div>
+</nav>
+`;
+
+exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 5 1`] = `
+<nav
+  className="govuk-pagination"
+  role="navigation"
+>
+  <div
+    className="govuk-pagination__prev"
+  >
+    <a
+      aria-label="Page 10"
+      className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
+      href=""
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="prev"
+      role="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="govuk-pagination__icon govuk-pagination__icon--prev"
+        focusable="false"
+        height="13"
+        viewBox="0 0 15 13"
+        width="15"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"
+        />
+      </svg>
+      <span
+        className="govuk-pagination__link-title"
+      >
+        Previous
+      </span>
+    </a>
+  </div>
+  <ul
+    className="govuk-pagination__list"
+  >
+     
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 1"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        1
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item govuk-pagination__item--ellipses"
+    >
+      ...
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 4"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        4
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item govuk-pagination__item--current"
+    >
+      <a
+        aria-label="Page 5"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        5
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 6"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        6
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item govuk-pagination__item--ellipses"
+    >
+      ...
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 10"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        10
+      </a>
+    </li>
+  </ul>
+  <div
+    className="govuk-pagination__next"
+  >
+    <a
+      aria-label="Page 10"
+      className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
+      href=""
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="next"
+      role="button"
+    >
+      <span
+        className="govuk-pagination__link-title"
+      >
+        Next
+      </span>
+       
+      <svg
+        aria-hidden="true"
+        className="govuk-pagination__icon govuk-pagination__icon--next"
+        focusable="false"
+        height="13"
+        viewBox="0 0 15 13"
+        width="15"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+        />
+      </svg>
+    </a>
+  </div>
+</nav>
+`;
+
+exports[`PageNumbers > should render correctly when there are less than 10 pages 1`] = `
+<nav
+  className="govuk-pagination"
+  role="navigation"
+>
+  <ul
+    className="govuk-pagination__list"
+  >
+     
+    <li
+      className="govuk-pagination__item govuk-pagination__item--current"
+    >
+      <a
+        aria-label="Page 1"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        1
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 2"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        2
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 3"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        3
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 4"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        4
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 5"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        5
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 6"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        6
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 7"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        7
+         
+      </a>
+    </li>
+    <li
+      className="govuk-pagination__item"
+    >
+      <a
+        aria-label="Page 8"
+        className="govuk-link govuk-pagination__link"
+        data-module="govuk-button"
+        draggable="false"
+        href="#"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        8
+         
+      </a>
+    </li>
+  </ul>
+  <div
+    className="govuk-pagination__next"
+  >
+    <a
+      aria-label="Page 8"
+      className="govuk-link govuk-pagination__link"
+      data-module="govuk-button"
+      draggable="false"
+      href=""
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="next"
+      role="button"
+    >
+      <span
+        className="govuk-pagination__link-title"
+      >
+        Next
+      </span>
+       
+      <svg
+        aria-hidden="true"
+        className="govuk-pagination__icon govuk-pagination__icon--next"
+        focusable="false"
+        height="13"
+        viewBox="0 0 15 13"
+        width="15"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+        />
+      </svg>
+    </a>
+  </div>
+</nav>
+`;

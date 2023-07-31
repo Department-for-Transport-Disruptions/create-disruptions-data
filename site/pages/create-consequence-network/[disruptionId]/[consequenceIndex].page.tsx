@@ -3,8 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../../../components/ErrorSummary";
+import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
+import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import Select from "../../../components/form/Select";
 import Table from "../../../components/form/Table";
@@ -180,6 +181,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         >
                             Save as draft
                         </button>
+                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                     </div>
                 </>
             </CsrfForm>

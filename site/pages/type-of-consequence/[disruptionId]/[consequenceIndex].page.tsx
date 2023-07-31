@@ -3,8 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../../../components/ErrorSummary";
+import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
+import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
 import {
@@ -72,6 +73,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             ) : (
                                 <></>
                             )}
+
+                            <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                         </div>
                     </div>
                 </>
