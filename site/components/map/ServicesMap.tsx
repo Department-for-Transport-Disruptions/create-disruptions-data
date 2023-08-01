@@ -1,5 +1,5 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import LoadingBox from "@govuk-react/loading-box";
+import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
