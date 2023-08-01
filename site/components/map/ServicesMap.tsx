@@ -1,4 +1,5 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import LoadingBox from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
@@ -107,6 +108,7 @@ const Map = ({
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
     );
+    const [loading, setLoading] = useState(false);
 
     const [selectedServices, setSelectedServices] =
         useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
@@ -181,6 +183,7 @@ const Map = ({
         if (features && Object.values(features).length > 0) {
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
+                setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
                 const stopsData = await fetchStops({
                     adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
@@ -207,6 +210,7 @@ const Map = ({
             loadOptions()
                 // eslint-disable-next-line no-console
                 .catch(console.error);
+            setLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -252,6 +256,7 @@ const Map = ({
             });
         } else {
             if (showSelectAllText) {
+                setLoading(true);
                 const atcoCodes = includeMarkerData ? markerData.map((marker) => marker.atcoCode) : [];
 
                 const servicesInPolygon = includeMarkerData
@@ -315,6 +320,7 @@ const Map = ({
                         ...state.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
                     ],
                 });
+                setLoading(false);
             }
         }
     };
@@ -480,6 +486,7 @@ const Map = ({
                     data-module="govuk-button"
                     onClick={selectAllStops}
                     disabled={
+                        loading ||
                         !(
                             (features && Object.values(features).length > 0) ||
                             markerData.length > 0 ||
@@ -490,59 +497,61 @@ const Map = ({
                     {showSelectAllText ? "Select all" : "Unselect all"}
                 </button>
             ) : null}
-            <MapBox
-                initialViewState={initialViewState}
-                style={style}
-                mapStyle={mapStyle}
-                mapboxAccessToken={mapboxAccessToken}
-                onMouseMove={onHover}
-                interactiveLayerIds={getInteractiveLayerIds()}
-                onRender={(event) => event.target.resize()}
-            >
-                <MapControls onUpdate={onUpdate} onDelete={onDelete} />
-                <Markers
-                    selected={selected}
-                    searched={searched}
-                    handleMouseEnter={handleMouseEnter}
-                    markerData={markerData}
-                    selectMarker={selectMarker}
-                    unselectMarker={unselectMarker}
-                    setPopupInfo={setPopupInfo}
-                />
-                {selectedServices ? getSourcesInbound(selectedServices) : null}
-                {selectedServices ? getSourcesOutbound(selectedServices) : null}
-                {popupInfo.atcoCode && (
-                    <Popup
-                        anchor="top"
-                        longitude={Number(popupInfo.longitude)}
-                        latitude={Number(popupInfo.latitude)}
-                        onClose={() => setPopupInfo({})}
-                        closeButton={false}
-                        closeOnMove
-                    >
-                        <div>
-                            <p className="govuk-body-s mb-1">{`${getStopType(popupInfo.stopType)}: ${
-                                popupInfo.commonName || "N/A"
-                            } (${popupInfo.indicator || ""})`}</p>
-                            <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
-                            <p className="govuk-body-s mb-1">ATCO code: {popupInfo.atcoCode}</p>
-                        </div>
-                    </Popup>
-                )}
-                {selectedService && hoverInfo.latitude ? (
-                    <Popup
-                        longitude={hoverInfo.longitude}
-                        latitude={hoverInfo.latitude}
-                        offset={[0, -10]}
-                        onClose={() => setHoverInfo(initialHoverState)}
-                        closeButton={false}
-                        className="service-info"
-                        closeOnMove
-                    >
-                        {getServiceInfo(selectedService)}
-                    </Popup>
-                ) : null}
-            </MapBox>
+            <LoadingBox loading={loading}>
+                <MapBox
+                    initialViewState={initialViewState}
+                    style={style}
+                    mapStyle={mapStyle}
+                    mapboxAccessToken={mapboxAccessToken}
+                    onMouseMove={onHover}
+                    interactiveLayerIds={getInteractiveLayerIds()}
+                    onRender={(event) => event.target.resize()}
+                >
+                    <MapControls onUpdate={onUpdate} onDelete={onDelete} />
+                    <Markers
+                        selected={selected}
+                        searched={searched}
+                        handleMouseEnter={handleMouseEnter}
+                        markerData={markerData}
+                        selectMarker={selectMarker}
+                        unselectMarker={unselectMarker}
+                        setPopupInfo={setPopupInfo}
+                    />
+                    {selectedServices ? getSourcesInbound(selectedServices) : null}
+                    {selectedServices ? getSourcesOutbound(selectedServices) : null}
+                    {popupInfo.atcoCode && (
+                        <Popup
+                            anchor="top"
+                            longitude={Number(popupInfo.longitude)}
+                            latitude={Number(popupInfo.latitude)}
+                            onClose={() => setPopupInfo({})}
+                            closeButton={false}
+                            closeOnMove
+                        >
+                            <div>
+                                <p className="govuk-body-s mb-1">{`${getStopType(popupInfo.stopType)}: ${
+                                    popupInfo.commonName || "N/A"
+                                } (${popupInfo.indicator || ""})`}</p>
+                                <p className="govuk-body-s mb-1">Bearing: {popupInfo.bearing || "N/A"}</p>
+                                <p className="govuk-body-s mb-1">ATCO code: {popupInfo.atcoCode}</p>
+                            </div>
+                        </Popup>
+                    )}
+                    {selectedService && hoverInfo.latitude ? (
+                        <Popup
+                            longitude={hoverInfo.longitude}
+                            latitude={hoverInfo.latitude}
+                            offset={[0, -10]}
+                            onClose={() => setHoverInfo(initialHoverState)}
+                            closeButton={false}
+                            className="service-info"
+                            closeOnMove
+                        >
+                            {getServiceInfo(selectedService)}
+                        </Popup>
+                    ) : null}
+                </MapBox>
+            </LoadingBox>
         </>
     ) : null;
 };
