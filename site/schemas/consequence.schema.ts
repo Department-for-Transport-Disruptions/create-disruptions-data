@@ -103,12 +103,7 @@ export type ServiceByStop = z.infer<typeof serviceByStopSchema>;
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
-    stops: z
-        .array(stopSchema)
-        .max(100, {
-            message: "Maximum of 100 stops permitted per consequence",
-        })
-        .optional(),
+    stops: z.array(stopSchema).optional(),
     services: z
         .array(serviceSchema)
         .min(1, {

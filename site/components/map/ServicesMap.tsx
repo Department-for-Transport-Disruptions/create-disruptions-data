@@ -103,6 +103,8 @@ const Map = ({
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
+    const [showMessage, setShowMessage] = useState<boolean>(false);
+    const [selectAllClicked, setSelectAllClicked] = useState<boolean>(false);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
@@ -176,6 +178,16 @@ const Map = ({
         },
         [searched, selected, state, stateUpdater, markerData],
     );
+
+    useEffect(() => {
+        if (selectAllClicked && selected.length === 100) {
+            setShowMessage(true);
+        } else {
+            setShowMessage(false);
+            setSelectAllClicked(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selected, selectAllClicked]);
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
@@ -287,22 +299,27 @@ const Map = ({
                     ),
                 );
 
+                const stops = includeMarkerData
+                    ? [...(state.inputs.stops ?? []), ...markerDataInAService, ...(searched.length > 0 ? searched : [])]
+                          .filter(
+                              (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                          )
+                          .splice(0, 100)
+                    : [
+                          ...(state.inputs.stops ?? []),
+                          ...markerDataInAService,
+                          ...(searched.length > 0 ? searched : []),
+                      ].filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode));
+
+                if (includeMarkerData && stops.length === 100) {
+                    setSelectAllClicked(true);
+                }
+
                 stateUpdater({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops(
-                            [
-                                ...(state.inputs.stops ?? []),
-                                ...(includeMarkerData ? markerDataInAService : []),
-                                ...(searched.length > 0 ? searched : []),
-                            ]
-                                .filter(
-                                    (value, index, self) =>
-                                        index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                )
-                                .splice(0, 100),
-                        ),
+                        stops: sortStops(stops),
                         ...(state.inputs?.services
                             ? {
                                   services: [...state.inputs?.services, ...servicesToAdd].filter(
@@ -463,7 +480,7 @@ const Map = ({
     };
     return mapboxAccessToken ? (
         <>
-            {selected.length === 100 ? (
+            {showMessage ? (
                 <div className="govuk-warning-text">
                     <span className="govuk-warning-text__icon" aria-hidden="true">
                         !
