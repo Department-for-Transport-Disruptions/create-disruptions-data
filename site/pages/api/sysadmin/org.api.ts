@@ -29,11 +29,10 @@ export const formatBody = (body: object) => {
     const mode = Object.entries(body)
         .filter((item) => item.includes("mode"))
         .flat();
-
     return {
         PK: PK && PK.length > 1 ? (PK[1] as string) : undefined,
         name: name && name.length > 1 ? (name[1] as string) : undefined,
-        mode: mode && mode.length > 1 ? (JSON.parse(mode[1] as string) as object) : undefined,
+        mode: mode?.[1] ? (JSON.parse(mode[1] as string) as object) : undefined,
         adminAreaCodes:
             adminAreaCodes && adminAreaCodes.length > 1
                 ? (adminAreaCodes[1] as string).split(",").filter((data) => data)

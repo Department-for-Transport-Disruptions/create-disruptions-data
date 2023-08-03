@@ -102,7 +102,7 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
                     placeholder="Select code"
                     getOptionLabel={undefined}
                     handleChange={handleChange}
-                    tableData={pageState.inputs.areaCodesDisplay}
+                    tableData={[]}
                     getRows={getRows}
                     getOptionValue={undefined}
                     display="NaPTAN AdminArea"

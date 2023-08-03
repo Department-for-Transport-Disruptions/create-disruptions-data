@@ -708,26 +708,6 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                     </tr>
                   </tbody>
                 </table>
-                <input
-                  name="adminAreaCodes1"
-                  type="hidden"
-                  value="{\\"value\\":\\"001\\",\\"label\\":\\"001\\"}"
-                />
-                <input
-                  name="adminAreaCodes2"
-                  type="hidden"
-                  value="{\\"value\\":\\"002\\",\\"label\\":\\"002\\"}"
-                />
-                <input
-                  name="adminAreaCodes3"
-                  type="hidden"
-                  value="{\\"value\\":\\"003\\",\\"label\\":\\"003\\"}"
-                />
-                <input
-                  name="adminAreaCodes4"
-                  type="hidden"
-                  value="{\\"value\\":\\"004\\",\\"label\\":\\"004\\"}"
-                />
               </div>
             </div>
             <input
