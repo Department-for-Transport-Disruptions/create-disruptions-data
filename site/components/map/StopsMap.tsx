@@ -1,5 +1,5 @@
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import LoadingBox from "@govuk-react/loading-box";
+import { LoadingBox } from "@govuk-react/loading-box";
 import {
     CSSProperties,
     Dispatch,
