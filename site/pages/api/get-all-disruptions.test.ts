@@ -1,10 +1,10 @@
-import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
-import * as dynamo from "../../data/dynamo";
-import { Disruption } from "../../schemas/disruption.schema";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions from "./get-all-disruptions.api";
+import * as dynamo from "../../data/dynamo";
+import { Disruption } from "../../schemas/disruption.schema";
+import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as utils from "../../utils";
 
 describe("getAllDisruptions", () => {

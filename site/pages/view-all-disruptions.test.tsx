@@ -11,6 +11,7 @@ import ViewAllDisruptions, {
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
 import { getDatetimeFromDateAndTime } from "../utils/dates";
+import { randomUUID } from "crypto";
 
 const disruptions: TableDisruption[] = [
     {
@@ -85,6 +86,7 @@ describe("pages", () => {
                         disruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
                     />,
                 )
                 .toJSON();
@@ -98,6 +100,7 @@ describe("pages", () => {
                         disruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
                     />,
                 )
                 .toJSON();
@@ -111,6 +114,7 @@ describe("pages", () => {
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
                     />,
                 )
                 .toJSON();
@@ -128,6 +132,7 @@ describe("pages", () => {
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
                     />,
                 )
                 .toJSON();
@@ -145,6 +150,7 @@ describe("pages", () => {
                         disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
                     />,
                 )
                 .toJSON();
