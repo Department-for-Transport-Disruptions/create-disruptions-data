@@ -2,6 +2,7 @@ import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared
 import { Dayjs } from "dayjs";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { randomUUID } from "crypto";
 import ViewAllDisruptions, {
     disruptionIsClosingOrClosed,
     Filter,
@@ -11,7 +12,6 @@ import ViewAllDisruptions, {
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
 import { getDatetimeFromDateAndTime } from "../utils/dates";
-import { randomUUID } from "crypto";
 
 const disruptions: TableDisruption[] = [
     {
