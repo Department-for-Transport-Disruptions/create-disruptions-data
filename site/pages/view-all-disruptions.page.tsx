@@ -28,17 +28,13 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { ConsequenceOperators, Operator, Service } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
 import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
 import {
-    sortDisruptionsByStartDate,
     splitCamelCaseToString,
-    reduceStringWithEllipsis,
     getServiceLabel,
-    mapValidityPeriods,
     getDisplayByValue,
     SortedDisruption,
     getSortedDisruptionFinalEndDate,
@@ -50,7 +46,6 @@ import {
     getDate,
     getFormattedDate,
     dateIsSameOrBeforeSecondDate,
-    isLiveDisruption,
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
@@ -87,7 +82,9 @@ export interface ViewAllDisruptionsProps {
     disruptions: TableDisruption[];
     adminAreaCodes: string[];
     newDisruptionId: string;
-    filterStatus?: Progress;
+    orgId: string;
+    csrfToken?: string;
+    filterStatus?: Progress | null;
 }
 
 export interface Filter {
@@ -103,7 +100,7 @@ export interface Filter {
     searchText?: string;
 }
 
-const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
     }
@@ -357,7 +354,9 @@ const ViewAllDisruptions = ({
     disruptions,
     newDisruptionId,
     adminAreaCodes,
+    orgId,
     filterStatus,
+    csrfToken,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
         Math.ceil(disruptions.length / 10),
@@ -373,7 +372,7 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: filterStatus,
+        status: filterStatus ? filterStatus : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
@@ -391,6 +390,7 @@ const ViewAllDisruptions = ({
     const [downloadPdf, setDownloadPdf] = useState(false);
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
+    const [loadPage, setLoadPage] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -450,6 +450,37 @@ const ViewAllDisruptions = ({
             }
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoadPage(true);
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ orgId: orgId }),
+            };
+
+            const url = new URL(
+                `/api/get-all-disruptions${csrfToken ? `?_csrf=${csrfToken}` : ""}`,
+                window.location.origin,
+            );
+            csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
+            const res = await fetch(url.toString(), options);
+
+            const disruptions = (await res.json()) as TableDisruption[];
+            setDisruptionsToDisplay(disruptions);
+            setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
+            setLoadPage(false);
+        };
+        fetchData().catch(() => {
+            setDisruptionsToDisplay([]);
+            setNumberOfDisruptionsPages(0);
+            setLoadPage(false);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (clearButtonClicked) {
@@ -648,285 +679,288 @@ const ViewAllDisruptions = ({
     };
 
     return (
-        <BaseLayout title={title} description={description}>
-            {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
-            <h1 className="govuk-heading-xl">View all disruptions</h1>
-            <div>
-                <Link
-                    href={`/create-disruption/${newDisruptionId}`}
-                    role="button"
-                    draggable="false"
-                    className="govuk-button govuk-button--start"
-                    data-module="govuk-button"
-                    id="create-new-button"
-                >
-                    Create new disruption
-                    <svg
-                        className="govuk-button__start-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="17.5"
-                        height="19"
-                        viewBox="0 0 33 40"
-                        role="presentation"
-                        focusable="false"
-                    >
-                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-                    </svg>
-                </Link>
-                <div className="flex">
-                    <button
-                        className="govuk-button govuk-button--secondary block"
+        <LoadingBox loading={loadPage}>
+            <BaseLayout title={title} description={description}>
+                {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
+                <h1 className="govuk-heading-xl">View all disruptions</h1>
+                <div>
+                    <Link
+                        href={`/create-disruption/${newDisruptionId}`}
+                        role="button"
+                        draggable="false"
+                        className="govuk-button govuk-button--start"
                         data-module="govuk-button"
-                        onClick={async () => {
-                            if (showFilters) {
-                                setFilter({ services: [], operators: [] });
-                                setDisruptionsToDisplay(disruptions);
-                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
-                                setClearButtonClicked(true);
-                                setShowFilters(false);
-                            } else {
-                                setShowFilters(true);
-
-                                if (servicesList.length === 0 && operatorsList.length === 0) {
-                                    setFiltersLoading(true);
-                                    await setServicesAndOperators(adminAreaCodes);
-                                    setFiltersLoading(false);
-                                }
-                            }
-                        }}
+                        id="create-new-button"
                     >
-                        {showFilters ? "Hide and clear " : "Show "}filters
-                    </button>
-                    {showFilters && (
+                        Create new disruption
+                        <svg
+                            className="govuk-button__start-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="17.5"
+                            height="19"
+                            viewBox="0 0 33 40"
+                            role="presentation"
+                            focusable="false"
+                        >
+                            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                        </svg>
+                    </Link>
+                    <div className="flex">
+                        <button
+                            className="govuk-button govuk-button--secondary block"
+                            data-module="govuk-button"
+                            onClick={async () => {
+                                if (showFilters) {
+                                    setFilter({ services: [], operators: [] });
+                                    setDisruptionsToDisplay(disruptions);
+                                    setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
+                                    setClearButtonClicked(true);
+                                    setShowFilters(false);
+                                } else {
+                                    setShowFilters(true);
+
+                                    if (servicesList.length === 0 && operatorsList.length === 0) {
+                                        setFiltersLoading(true);
+                                        await setServicesAndOperators(adminAreaCodes);
+                                        setFiltersLoading(false);
+                                    }
+                                }
+                            }}
+                        >
+                            {showFilters ? "Hide and clear " : "Show "}filters
+                        </button>
+                        {showFilters && (
+                            <button
+                                className="govuk-button govuk-button--secondary ml-2"
+                                data-module="govuk-button"
+                                onClick={() => {
+                                    setFilter({ services: [], operators: [] });
+                                    setDisruptionsToDisplay(disruptions);
+                                    setClearButtonClicked(true);
+                                    setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
+                                    setCurrentPage(1);
+                                }}
+                            >
+                                Clear filters
+                            </button>
+                        )}
                         <button
                             className="govuk-button govuk-button--secondary ml-2"
                             data-module="govuk-button"
                             onClick={() => {
-                                setFilter({ services: [], operators: [] });
-                                setDisruptionsToDisplay(disruptions);
-                                setClearButtonClicked(true);
-                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
-                                setCurrentPage(1);
+                                setPopUpState(true);
                             }}
                         >
-                            Clear filters
+                            Export
                         </button>
-                    )}
-                    <button
-                        className="govuk-button govuk-button--secondary ml-2"
-                        data-module="govuk-button"
-                        onClick={() => {
-                            setPopUpState(true);
-                        }}
-                    >
-                        Export
-                    </button>
-                </div>
-            </div>
-
-            {showFilters ? (
-                <LoadingBox loading={filtersLoading}>
-                    <div className="flex">
-                        <div>
-                            <label className="govuk-label govuk-label--s" htmlFor="summary-search">
-                                Summary
-                            </label>
-                            <div id="summary-search-hint" className="govuk-hint">
-                                3 characters minimum
-                            </div>
-                            <input
-                                className="govuk-input govuk-input--width-20 mb-4"
-                                id="summary-search"
-                                name="summarySearch"
-                                type="text"
-                                maxLength={20}
-                                onChange={(e) => {
-                                    setSearchText(e.target.value);
-                                }}
-                                value={searchText}
-                                aria-describedby="summary-search-hint"
-                            />
-                        </div>
                     </div>
-                    <OperatorSearch<DisruptionOperator>
-                        display="Operators"
-                        displaySize="s"
-                        operators={operatorsList}
-                        selectedOperators={selectedOperators}
-                        stateUpdater={stateUpdater}
-                        initialErrors={[]}
-                        inputName="operatorName"
-                        reset={clearButtonClicked}
-                    />
-                    {selectedOperators.length > 0 ? (
-                        <Table
-                            rows={selectedOperators
-                                .sort((a, b) => {
-                                    return a.operatorPublicName.localeCompare(b.operatorPublicName);
-                                })
-                                .map((selOpNoc) => {
-                                    return {
-                                        cells: [
-                                            operatorsList.find((op) => op.nocCode === selOpNoc.operatorNoc)
-                                                ?.operatorPublicName,
-                                            selOpNoc.operatorNoc,
-                                            <button
-                                                key={selOpNoc.operatorNoc}
-                                                className="govuk-link"
-                                                onClick={() => {
-                                                    const selectedOperatorsWithRemoved =
-                                                        selectedOperators.filter((opNoc) => opNoc !== selOpNoc) || [];
-                                                    stateUpdater(selectedOperatorsWithRemoved, "");
-                                                }}
-                                            >
-                                                Remove
-                                            </button>,
-                                        ],
-                                    };
-                                })}
-                        />
-                    ) : null}
-                    <ServiceSearch
-                        services={servicesList}
-                        setSelectedServices={setSelectedServices}
-                        selectedServices={selectedServices}
-                        reset={clearButtonClicked}
-                    />
+                </div>
 
-                    {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}
-
-                    {(startDateFilterError || endDateFilterError) && (
-                        <div>
-                            <span className="govuk-error-message">
-                                <span className="govuk-visually-hidden">Error: </span>
-                                Both start date and end date must be provided to filter by date.
-                            </span>
+                {showFilters ? (
+                    <LoadingBox loading={filtersLoading}>
+                        <div className="flex">
+                            <div>
+                                <label className="govuk-label govuk-label--s" htmlFor="summary-search">
+                                    Summary
+                                </label>
+                                <div id="summary-search-hint" className="govuk-hint">
+                                    3 characters minimum
+                                </div>
+                                <input
+                                    className="govuk-input govuk-input--width-20 mb-4"
+                                    id="summary-search"
+                                    name="summarySearch"
+                                    type="text"
+                                    maxLength={20}
+                                    onChange={(e) => {
+                                        setSearchText(e.target.value);
+                                    }}
+                                    value={searchText}
+                                    aria-describedby="summary-search-hint"
+                                />
+                            </div>
                         </div>
-                    )}
-
-                    {incompatibleDatesError && (
-                        <div>
-                            <span className="govuk-error-message">
-                                <span className="govuk-visually-hidden">Error: </span>
-                                The end date must be the same day or after the start date.
-                            </span>
-                        </div>
-                    )}
-
-                    <div className="flex">
-                        <DateSelector
-                            display="Start date"
-                            hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
-                            value=""
-                            disabled={false}
-                            disablePast={false}
-                            inputName="disruptionStartDate"
-                            stateUpdater={(value) => {
-                                handleDateFilterUpdate(
-                                    filter,
-                                    setFilter,
-                                    "start",
-                                    value,
-                                    setStartDateFilter,
-                                    setEndDateFilter,
-                                    validitySchema.shape.disruptionStartDate,
-                                );
-                                setClearButtonClicked(false);
-                            }}
+                        <OperatorSearch<DisruptionOperator>
+                            display="Operators"
+                            displaySize="s"
+                            operators={operatorsList}
+                            selectedOperators={selectedOperators}
+                            stateUpdater={stateUpdater}
+                            initialErrors={[]}
+                            inputName="operatorName"
                             reset={clearButtonClicked}
-                            schema={validitySchema.shape.disruptionStartDate}
-                            errorOnBlur={startDateFilterError || endDateFilterError}
                         />
-                        <div className="ml-5">
+                        {selectedOperators.length > 0 ? (
+                            <Table
+                                rows={selectedOperators
+                                    .sort((a, b) => {
+                                        return a.operatorPublicName.localeCompare(b.operatorPublicName);
+                                    })
+                                    .map((selOpNoc) => {
+                                        return {
+                                            cells: [
+                                                operatorsList.find((op) => op.nocCode === selOpNoc.operatorNoc)
+                                                    ?.operatorPublicName,
+                                                selOpNoc.operatorNoc,
+                                                <button
+                                                    key={selOpNoc.operatorNoc}
+                                                    className="govuk-link"
+                                                    onClick={() => {
+                                                        const selectedOperatorsWithRemoved =
+                                                            selectedOperators.filter((opNoc) => opNoc !== selOpNoc) ||
+                                                            [];
+                                                        stateUpdater(selectedOperatorsWithRemoved, "");
+                                                    }}
+                                                >
+                                                    Remove
+                                                </button>,
+                                            ],
+                                        };
+                                    })}
+                            />
+                        ) : null}
+                        <ServiceSearch
+                            services={servicesList}
+                            setSelectedServices={setSelectedServices}
+                            selectedServices={selectedServices}
+                            reset={clearButtonClicked}
+                        />
+
+                        {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}
+
+                        {(startDateFilterError || endDateFilterError) && (
+                            <div>
+                                <span className="govuk-error-message">
+                                    <span className="govuk-visually-hidden">Error: </span>
+                                    Both start date and end date must be provided to filter by date.
+                                </span>
+                            </div>
+                        )}
+
+                        {incompatibleDatesError && (
+                            <div>
+                                <span className="govuk-error-message">
+                                    <span className="govuk-visually-hidden">Error: </span>
+                                    The end date must be the same day or after the start date.
+                                </span>
+                            </div>
+                        )}
+
+                        <div className="flex">
                             <DateSelector
-                                display="End date"
+                                display="Start date"
                                 hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
                                 disabled={false}
                                 disablePast={false}
-                                inputName="disruptionEndDate"
+                                inputName="disruptionStartDate"
                                 stateUpdater={(value) => {
                                     handleDateFilterUpdate(
                                         filter,
                                         setFilter,
-                                        "end",
+                                        "start",
                                         value,
                                         setStartDateFilter,
                                         setEndDateFilter,
-                                        validitySchema.shape.disruptionEndDate,
+                                        validitySchema.shape.disruptionStartDate,
                                     );
                                     setClearButtonClicked(false);
                                 }}
                                 reset={clearButtonClicked}
-                                schema={validitySchema.shape.disruptionEndDate}
+                                schema={validitySchema.shape.disruptionStartDate}
                                 errorOnBlur={startDateFilterError || endDateFilterError}
                             />
+                            <div className="ml-5">
+                                <DateSelector
+                                    display="End date"
+                                    hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
+                                    value=""
+                                    disabled={false}
+                                    disablePast={false}
+                                    inputName="disruptionEndDate"
+                                    stateUpdater={(value) => {
+                                        handleDateFilterUpdate(
+                                            filter,
+                                            setFilter,
+                                            "end",
+                                            value,
+                                            setStartDateFilter,
+                                            setEndDateFilter,
+                                            validitySchema.shape.disruptionEndDate,
+                                        );
+                                        setClearButtonClicked(false);
+                                    }}
+                                    reset={clearButtonClicked}
+                                    schema={validitySchema.shape.disruptionEndDate}
+                                    errorOnBlur={startDateFilterError || endDateFilterError}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex">
-                        <Select
-                            inputName="severityFilter"
-                            display="Severity"
-                            value={filter.severity}
-                            defaultDisplay="Select a severity"
-                            selectValues={[
-                                { display: "Any", value: "any" },
-                                ...DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display)),
-                            ]}
-                            stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
-                            width="1/4"
-                            updateOnChange
-                            useDefaultValue={false}
-                        />
-                        <div className="ml-10">
+                        <div className="flex">
                             <Select
-                                inputName="statusFilter"
-                                display="Status"
-                                value={filter.status}
-                                defaultDisplay="Select a status"
+                                inputName="severityFilter"
+                                display="Severity"
+                                value={filter.severity}
+                                defaultDisplay="Select a severity"
                                 selectValues={[
                                     { display: "Any", value: "any" },
-                                    ...DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display)),
+                                    ...DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display)),
                                 ]}
-                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
+                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
                                 width="1/4"
                                 updateOnChange
                                 useDefaultValue={false}
                             />
+                            <div className="ml-10">
+                                <Select
+                                    inputName="statusFilter"
+                                    display="Status"
+                                    value={filter.status}
+                                    defaultDisplay="Select a status"
+                                    selectValues={[
+                                        { display: "Any", value: "any" },
+                                        ...DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display)),
+                                    ]}
+                                    stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
+                                    width="1/4"
+                                    updateOnChange
+                                    useDefaultValue={false}
+                                />
+                            </div>
+                            <div className="ml-10">
+                                <Select
+                                    inputName="modeFilter"
+                                    display="Mode"
+                                    value={filter.mode}
+                                    defaultDisplay="Select a mode"
+                                    selectValues={[
+                                        { display: "Any", value: "any" },
+                                        ...VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display)),
+                                    ]}
+                                    stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
+                                    width="1/4"
+                                    updateOnChange
+                                    useDefaultValue={false}
+                                />
+                            </div>
                         </div>
-                        <div className="ml-10">
-                            <Select
-                                inputName="modeFilter"
-                                display="Mode"
-                                value={filter.mode}
-                                defaultDisplay="Select a mode"
-                                selectValues={[
-                                    { display: "Any", value: "any" },
-                                    ...VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display)),
-                                ]}
-                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
-                                width="1/4"
-                                updateOnChange
-                                useDefaultValue={false}
-                            />
-                        </div>
-                    </div>
-                </LoadingBox>
-            ) : null}
+                    </LoadingBox>
+                ) : null}
 
-            <>
-                <Table
-                    columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                    rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
-                />
-                <PageNumbers
-                    numberOfPages={numberOfDisruptionsPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-            </>
-        </BaseLayout>
+                <>
+                    <Table
+                        columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
+                        rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
+                    />
+                    <PageNumbers
+                        numberOfPages={numberOfDisruptionsPages}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
+                </>
+            </BaseLayout>
+        </LoadingBox>
     );
 };
 
@@ -936,6 +970,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptions: [],
             newDisruptionId: randomUUID(),
             adminAreaCodes: [],
+            orgId: "",
         },
     };
 
@@ -949,107 +984,16 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(session.orgId);
-
-    if (disruptionsData) {
-        disruptionsData = disruptionsData.filter(
-            (item) =>
-                item.publishStatus === PublishStatus.published ||
-                item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected,
-        );
-        const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
-
-        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
-            const modes: string[] = [];
-            const severitys: Severity[] = [];
-            const serviceIds: string[] = [];
-            const disruptionOperators: string[] = [];
-            let isOperatorWideCq = false;
-            let isNetworkWideCq = false;
-            let stopsAffectedCount = 0;
-            const atcoCodeSet = new Set<string>();
-
-            const isLive = disruption.validity ? isLiveDisruption(disruption.validity) : false;
-
-            if (disruption.consequences) {
-                disruption.consequences.forEach((consequence) => {
-                    const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode);
-                    if (!!modeToAdd && !modes.includes(modeToAdd)) {
-                        modes.push(modeToAdd);
-                    }
-
-                    severitys.push(consequence.disruptionSeverity);
-
-                    if (consequence.consequenceType === "services") {
-                        consequence.services.forEach((service) => {
-                            serviceIds.push(service.id.toString());
-                        });
-
-                        consequence.stops?.map((stop) => {
-                            if (!atcoCodeSet.has(stop.atcoCode)) {
-                                atcoCodeSet.add(stop.atcoCode);
-                                stopsAffectedCount++;
-                            }
-                        });
-                    } else if (consequence.consequenceType === "operatorWide") {
-                        isOperatorWideCq = true;
-                        consequence.consequenceOperators.forEach((op) => {
-                            disruptionOperators.push(op.operatorNoc);
-                        });
-                    } else if (consequence.consequenceType === "networkWide") {
-                        isNetworkWideCq = true;
-                    } else if (consequence.consequenceType === "stops") {
-                        consequence.stops?.map((stop) => {
-                            if (!atcoCodeSet.has(stop.atcoCode)) {
-                                atcoCodeSet.add(stop.atcoCode);
-                                stopsAffectedCount++;
-                            }
-                        });
-                    }
-                });
-            }
-
-            const status = getDisruptionStatus(disruption);
-
-            return {
-                displayId: disruption.displayId,
-                modes,
-                consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
-                status,
-                severity: getWorstSeverity(severitys),
-                serviceIds,
-                operators: disruptionOperators,
-                id: disruption.disruptionId,
-                summary: reduceStringWithEllipsis(disruption.summary, 95),
-                validityPeriods: mapValidityPeriods(disruption),
-                isOperatorWideCq: isOperatorWideCq,
-                isNetworkWideCq: isNetworkWideCq,
-                isLive: isLive,
-                stopsAffectedCount: stopsAffectedCount,
-            };
-        });
-
-        const showPending = ctx.query.pending?.toString() === "true";
-        const showDraft = ctx.query.draft?.toString() === "true";
-
-        return {
-            props: {
-                disruptions: shortenedData,
-                adminAreaCodes: session.adminAreaCodes,
-                newDisruptionId: randomUUID(),
-                filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : undefined,
-            },
-        };
-    }
+    const showPending = ctx.query.pending?.toString() === "true";
+    const showDraft = ctx.query.draft?.toString() === "true";
 
     return {
         props: {
             disruptions: [],
             adminAreaCodes: session.adminAreaCodes,
+            orgId: session.orgId,
             newDisruptionId: randomUUID(),
+            filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : null,
         },
     };
 };
