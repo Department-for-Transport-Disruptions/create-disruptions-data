@@ -79,7 +79,6 @@ export interface TableDisruption {
 }
 
 export interface ViewAllDisruptionsProps {
-    disruptions: TableDisruption[];
     adminAreaCodes: string[];
     newDisruptionId: string;
     orgId: string;
@@ -350,17 +349,32 @@ const applyFiltersToDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
+export const getDisruptionData = async (orgId: string, csrfToken?: string) => {
+    console.log("getDisruptionData-------");
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ orgId: orgId }),
+    };
+
+    const url = new URL(`/api/get-all-disruptions${csrfToken ? `?_csrf=${csrfToken}` : ""}`, window.location.origin);
+    csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
+    const res = await fetch(url.toString(), options);
+    const disruptions = (await res.json()) as TableDisruption[];
+
+    return disruptions;
+};
+
 const ViewAllDisruptions = ({
-    disruptions,
     newDisruptionId,
     adminAreaCodes,
     orgId,
     filterStatus,
     csrfToken,
 }: ViewAllDisruptionsProps): ReactElement => {
-    const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
-        Math.ceil(disruptions.length / 10),
-    );
+    const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -377,7 +391,8 @@ const ViewAllDisruptions = ({
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(disruptions);
+    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState<TableDisruption[]>([]);
+    const [disruptions, setDisruptions] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -454,26 +469,16 @@ const ViewAllDisruptions = ({
     useEffect(() => {
         const fetchData = async () => {
             setLoadPage(true);
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ orgId: orgId }),
-            };
 
-            const url = new URL(
-                `/api/get-all-disruptions${csrfToken ? `?_csrf=${csrfToken}` : ""}`,
-                window.location.origin,
-            );
-            csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
-            const res = await fetch(url.toString(), options);
-
-            const disruptions = (await res.json()) as TableDisruption[];
+            console.log("before------");
+            const disruptions = await getDisruptionData(orgId, csrfToken);
+            console.log("disruptions------", disruptions);
             setDisruptionsToDisplay(disruptions);
+            setDisruptions(disruptions);
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
             setLoadPage(false);
         };
+
         fetchData().catch(() => {
             setDisruptionsToDisplay([]);
             setNumberOfDisruptionsPages(0);
