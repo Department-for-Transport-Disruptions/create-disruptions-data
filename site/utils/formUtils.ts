@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { ErrorInfo, PageState } from "../interfaces";
@@ -98,26 +99,44 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export const filterServices = async (servicesData?: Service[]) => {
+export const filterServices = (servicesData?: Service[]) => {
     let services: Service[] = [];
+
     if (servicesData && servicesData.length > 0) {
         services = sortServices(servicesData);
 
-        const setOfServices = new Set();
-
-        const filteredServices: Service[] = services.filter((item) => {
-            const serviceDisplay = item.lineName + item.origin + item.destination + item.operatorShortName;
-            if (!setOfServices.has(serviceDisplay)) {
-                setOfServices.add(serviceDisplay);
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        services = filteredServices;
+        if (services[0].dataSource === "tnds") {
+            return filterTndsServices(services);
+        } else {
+            //TODO add filterBodsServices function here
+            return [];
+        }
     }
-
     return services;
+};
+
+export const filterTndsServices = (services: Service[]) => {
+    const now = dayjs();
+    const setOfServices = new Set();
+    const validDuplicates: Service[] = [];
+    const filteredServices: Service[] = [];
+
+    services.forEach((currentService) => {
+        if (!setOfServices.has(currentService.serviceCode)) {
+            setOfServices.add(currentService.serviceCode);
+            filteredServices.push(currentService);
+            return;
+        } else {
+            if (dayjs(now).isBetween(dayjs(currentService.startDate), dayjs(currentService.endDate), "day", "[]")) {
+                validDuplicates.push(currentService);
+                const serviceToReplace = filteredServices.findIndex(
+                    (serviceToReplace) => serviceToReplace.serviceCode === currentService.serviceCode,
+                );
+                filteredServices[serviceToReplace] = currentService;
+            }
+            return false;
+        }
+    });
+
+    return filteredServices;
 };

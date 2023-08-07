@@ -86,6 +86,10 @@ export const serviceSchema = z.object({
     origin: z.string(),
     nocCode: z.string(),
     dataSource: z.string().optional(),
+    startDate: z.string(),
+    endDate: z.string().nullable(),
+    serviceCode: z.string().optional(),
+    lineId: z.string().optional(),
 });
 
 export const serviceByStopSchema = serviceSchema.and(
