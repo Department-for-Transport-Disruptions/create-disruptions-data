@@ -21,6 +21,7 @@ import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import Warning from "../form/Warning";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -245,27 +246,9 @@ const Map = ({
     return mapboxAccessToken ? (
         <>
             {selected.length === 100 ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
-                    </strong>
-                </div>
+                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
-            {largePolygon ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        Drawn area too big, draw a smaller area
-                    </strong>
-                </div>
-            ) : null}
+            {largePolygon ? <Warning text="Drawn area too big, draw a smaller area" /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"

@@ -1,6 +1,7 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
+import getAreaOfPolygon from "geolib/es/getAreaOfPolygon";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
@@ -31,6 +32,7 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import Warning from "../form/Warning";
 
 interface ServiceMapProps extends MapProps {
     dataSource?: Datasource;
@@ -114,6 +116,8 @@ const Map = ({
 
     const [selectedServices, setSelectedServices] =
         useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
+
+    const [largePolygon, setLargePolygon] = useState(false);
 
     useEffect(() => {
         setSelectedServices(searchedRoutes);
@@ -484,19 +488,32 @@ const Map = ({
               )} (${service.operatorShortName})`
             : "Line: N/A";
     };
+    useEffect(() => {
+        if (features && Object.values(features).length > 0) {
+            const polygon = JSON.stringify(Object.values(features)[0].geometry.coordinates[0]);
+            const parsedPolygon: [number, number][] = z
+                .array(z.tuple([z.number(), z.number()]))
+                .parse(JSON.parse(polygon))
+                .map((point) => [point[0], point[1]]);
+            if (parsedPolygon && parsedPolygon.length >= 4) {
+                const polygonArea = getAreaOfPolygon(parsedPolygon);
+
+                if (polygonArea / 1000 > 36) {
+                    setLargePolygon(true);
+                } else {
+                    setLargePolygon(false);
+                }
+            }
+        } else {
+            setLargePolygon(false);
+        }
+    }, [features]);
     return mapboxAccessToken ? (
         <>
             {showMessage ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
-                    </strong>
-                </div>
+                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
+            {largePolygon ? <Warning text="Drawn area too big, draw a smaller area" /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
