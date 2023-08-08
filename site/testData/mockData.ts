@@ -18,7 +18,7 @@ import React from "react";
 import { Mock, vi } from "vitest";
 import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
-import { Consequence, Operator, Service } from "../schemas/consequence.schema";
+import { Consequence, Operator, Service, ServiceData } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
@@ -484,11 +484,6 @@ export const mockServices: Service[] = [
         destination: "Town",
         origin: "Station",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 323,
@@ -497,11 +492,6 @@ export const mockServices: Service[] = [
         destination: "Pub",
         origin: "Station",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 6758,
@@ -510,11 +500,6 @@ export const mockServices: Service[] = [
         destination: "Stadium",
         origin: "Station",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 42545,
@@ -523,11 +508,6 @@ export const mockServices: Service[] = [
         destination: "Parliament Grove",
         origin: "King Street",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 63634,
@@ -536,11 +516,6 @@ export const mockServices: Service[] = [
         destination: "Tree Lane",
         origin: "Swinnow",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 23523,
@@ -549,11 +524,6 @@ export const mockServices: Service[] = [
         destination: "Blacksmiths",
         origin: "Nursery",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 141245,
@@ -562,11 +532,6 @@ export const mockServices: Service[] = [
         destination: "High school lane",
         origin: "Bingo",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 235235,
@@ -575,11 +540,6 @@ export const mockServices: Service[] = [
         destination: "Holiday Inn",
         origin: "Park",
         nocCode: "BB",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 23523,
@@ -588,11 +548,6 @@ export const mockServices: Service[] = [
         destination: "School",
         origin: "Shops",
         nocCode: "DBS",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
     {
         id: 235235,
@@ -601,11 +556,6 @@ export const mockServices: Service[] = [
         destination: "Hill",
         origin: "Tree",
         nocCode: "DBS",
-        dataSource: Datasource.bods,
-        startDate: "2023-01-01",
-        endDate: "2023-02-02",
-        serviceCode: "testServiceCode",
-        lineId: "testLineId",
     },
 ];
 export const mockOperators: Operator[] = [
@@ -709,7 +659,7 @@ export const exportDisruption: ExportDisruptions = [
     },
 ];
 
-export const mockTndsServicesNoDuplicates: Service[] = [
+export const mockTndsServicesNoDuplicates: ServiceData[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -751,7 +701,7 @@ export const mockTndsServicesNoDuplicates: Service[] = [
     },
 ];
 
-export const mockTndsServicesWithDuplicates: Service[] = [
+export const mockTndsServicesWithDuplicates: ServiceData[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -819,7 +769,7 @@ export const mockTndsServicesWithDuplicates: Service[] = [
     },
 ];
 
-export const mockBodsServicesNoDuplicates: Service[] = [
+export const mockBodsServicesNoDuplicates: ServiceData[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -861,7 +811,7 @@ export const mockBodsServicesNoDuplicates: Service[] = [
     },
 ];
 
-export const mockBodsServicesWithDuplicates: Service[] = [
+export const mockBodsServicesWithDuplicates: ServiceData[] = [
     {
         id: 4514,
         nocCode: "SCMN",
