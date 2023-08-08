@@ -56,9 +56,9 @@ export const CognitoStack = ({ stack }: StackContext) => {
         email:
             stack.stage === "prod"
                 ? UserPoolEmail.withSES({
-                      fromEmail: `noreply@${getDomain(stack.stage, true)}`,
+                      fromEmail: `noreply@${getDomain(stack.stage)}`,
                       fromName: "Create Transport Disruption Data Service",
-                      sesVerifiedDomain: getDomain(stack.stage, true),
+                      sesVerifiedDomain: getDomain(stack.stage),
                   })
                 : UserPoolEmail.withCognito(),
         selfSignUpEnabled: false,
