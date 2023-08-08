@@ -14,7 +14,6 @@ import {
     OperatorConsequence,
     StopsConsequence,
     ServicesConsequence,
-    ServiceData,
 } from "../schemas/consequence.schema";
 import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
@@ -235,7 +234,7 @@ export const zodTimeInMinutes = (defaultError?: string) =>
 export const zodUuid = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(uuidRegex);
 
-export const sortServices = (services: ServiceData[]) => {
+export const sortServices = <T extends Service>(services: T[]): T[] => {
     return services.sort((a, b) => {
         return (
             a.lineName.localeCompare(b.lineName, "en", { numeric: true }) ||

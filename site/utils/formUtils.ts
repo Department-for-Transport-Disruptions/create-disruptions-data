@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
-import { ConsequenceOperators, ServiceData, Stop } from "../schemas/consequence.schema";
+import { ConsequenceOperators, Service, ServiceData, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const handleBlur = <T>(
