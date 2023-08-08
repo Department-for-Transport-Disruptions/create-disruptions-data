@@ -80,24 +80,40 @@ const DrawControl = ({
                 setTimeout(() => {
                     draw.deleteAll();
                     onDelete();
+                    console.log("here 6");
                 }, 0);
             });
             map.on("draw.modechange", (e: { mode: DrawMode }) => {
                 const features = draw.getAll().features;
+                console.log(e.mode, features);
 
+                console.log("here 3");
                 if (features.length > 1 && features[0].id) {
                     if (e.mode === "draw_polygon") {
                         draw.deleteAll();
+                        onDelete();
+                        selectFeature(features[0].id.toString());
+
+                        console.log("draw mode");
                     }
+                    console.log("here 5");
                 } else if (features.length === 1 && features[0].id) {
                     if (e.mode === "direct_select") {
                         selectFeature(features[0].id.toString());
+                        console.log("direct select");
                     }
+                    console.log("here 4");
                 }
             });
 
-            map.on("draw.selectionchange", (e: { mode: DrawMode; features: PolygonFeature[] }) => {
-                deleteFeatures(e, onDelete);
+            map.on("draw.selectionchange", () => {
+                const features = draw.getAll().features;
+                console.log("here 2");
+                if (features.length > 0 && features[0].id) {
+                    selectFeature(features[0].id.toString());
+
+                    console.log("here");
+                }
             });
         },
         ({ map }) => {
