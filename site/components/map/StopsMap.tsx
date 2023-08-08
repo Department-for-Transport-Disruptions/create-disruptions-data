@@ -1,5 +1,6 @@
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
+import getAreaOfPolygon from "geolib/es/getAreaOfPolygon";
 import {
     CSSProperties,
     Dispatch,
@@ -49,6 +50,7 @@ const Map = ({
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [loading, setLoading] = useState(false);
+    const [largePolygon, setLargePolygon] = useState(false);
 
     const handleMouseEnter = useCallback(
         (id: string) => {
@@ -219,6 +221,27 @@ const Map = ({
         setShowSelectAllText(!showSelectAllText);
     };
 
+    useEffect(() => {
+        if (features && Object.values(features).length > 0) {
+            const polygon = JSON.stringify(Object.values(features)[0].geometry.coordinates[0]);
+            const parsedPolygon: [number, number][] = z
+                .array(z.tuple([z.number(), z.number()]))
+                .parse(JSON.parse(polygon))
+                .map((point) => [point[0], point[1]]);
+            if (parsedPolygon && parsedPolygon.length >= 4) {
+                const polygonArea = getAreaOfPolygon(parsedPolygon);
+
+                if (polygonArea / 1000 > 36) {
+                    setLargePolygon(true);
+                } else {
+                    setLargePolygon(false);
+                }
+            }
+        } else {
+            setLargePolygon(false);
+        }
+    }, [features]);
+
     return mapboxAccessToken ? (
         <>
             {selected.length === 100 ? (
@@ -229,6 +252,17 @@ const Map = ({
                     <strong className="govuk-warning-text__text">
                         <span className="govuk-warning-text__assistive">Warning</span>
                         {`Stop selection capped at 100, ${selected.length} stops currently selected`}
+                    </strong>
+                </div>
+            ) : null}
+            {largePolygon ? (
+                <div className="govuk-warning-text">
+                    <span className="govuk-warning-text__icon" aria-hidden="true">
+                        !
+                    </span>
+                    <strong className="govuk-warning-text__text">
+                        <span className="govuk-warning-text__assistive">Warning</span>
+                        Drawn area too big, draw a smaller area
                     </strong>
                 </div>
             ) : null}
