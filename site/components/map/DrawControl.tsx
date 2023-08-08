@@ -87,16 +87,7 @@ const DrawControl = ({
 
                 if (features.length > 1 && features[0].id) {
                     if (e.mode === "draw_polygon") {
-                        const data = draw.getAll();
-
-                        const pids: string[] = [];
-                        const lid = data.features[data.features.length - 1].id;
-                        data.features.forEach((f) => {
-                            if (f.geometry.type === "Polygon" && f.id !== lid) {
-                                pids.push(f.id as string);
-                            }
-                        });
-                        draw.delete(pids);
+                        draw.deleteAll();
                     }
                 } else if (features.length === 1 && features[0].id) {
                     if (e.mode === "direct_select") {
