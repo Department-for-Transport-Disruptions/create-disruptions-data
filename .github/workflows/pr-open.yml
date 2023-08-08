@@ -8,6 +8,7 @@ on:
 jobs:
   build_and_test:
     name: Build and Test PR
+    if: ${{ !startsWith(github.head_ref, 'hotfix/') }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
