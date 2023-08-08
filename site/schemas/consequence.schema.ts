@@ -125,7 +125,7 @@ export const servicesConsequenceSchema = z.object({
 
 export type Service = z.infer<typeof serviceSchema>;
 
-export type ServiceData = z.infer<typeof serviceApiResponseSchema>;
+export type ServiceApiResponse = z.infer<typeof serviceApiResponseSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 

@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
-import { ConsequenceOperators, Service, ServiceData, Stop } from "../schemas/consequence.schema";
+import { ConsequenceOperators, ServiceApiResponse, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const handleBlur = <T>(
@@ -100,8 +100,8 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (servicesData?: ServiceData[]) => {
-    let services: ServiceData[] = [];
+export const filterServices = (servicesData?: ServiceApiResponse[]) => {
+    let services: ServiceApiResponse[] = [];
 
     if (servicesData && servicesData.length > 0) {
         services = sortServices(servicesData);
@@ -114,12 +114,12 @@ export const filterServices = (servicesData?: ServiceData[]) => {
 const currentDate = getDate();
 
 export const removeDuplicateServicesByKey = (
-    services: ServiceData[],
+    services: ServiceApiResponse[],
     filterKey: "serviceCode" | "lineId",
     currentDate: Dayjs,
 ) => {
     const setOfServiceIds = new Set();
-    const filteredServices: ServiceData[] = [];
+    const filteredServices: ServiceApiResponse[] = [];
 
     services.forEach((currentService) => {
         const endDate = currentService.endDate === null ? dayjs().add(1, "day") : currentService.endDate;

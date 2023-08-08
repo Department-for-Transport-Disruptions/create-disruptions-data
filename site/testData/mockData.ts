@@ -18,7 +18,7 @@ import React from "react";
 import { Mock, vi } from "vitest";
 import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
-import { Consequence, Operator, Service, ServiceData } from "../schemas/consequence.schema";
+import { Consequence, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
 import { DisruptionInfo } from "../schemas/create-disruption.schema";
 import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
@@ -659,7 +659,7 @@ export const exportDisruption: ExportDisruptions = [
     },
 ];
 
-export const mockTndsServicesNoDuplicates: ServiceData[] = [
+export const mockTndsServicesNoDuplicates: ServiceApiResponse[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -701,7 +701,7 @@ export const mockTndsServicesNoDuplicates: ServiceData[] = [
     },
 ];
 
-export const mockTndsServicesWithDuplicates: ServiceData[] = [
+export const mockTndsServicesWithDuplicates: ServiceApiResponse[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -769,7 +769,7 @@ export const mockTndsServicesWithDuplicates: ServiceData[] = [
     },
 ];
 
-export const mockBodsServicesNoDuplicates: ServiceData[] = [
+export const mockBodsServicesNoDuplicates: ServiceApiResponse[] = [
     {
         id: 4513,
         nocCode: "SCMN",
@@ -811,7 +811,7 @@ export const mockBodsServicesNoDuplicates: ServiceData[] = [
     },
 ];
 
-export const mockBodsServicesWithDuplicates: ServiceData[] = [
+export const mockBodsServicesWithDuplicates: ServiceApiResponse[] = [
     {
         id: 4514,
         nocCode: "SCMN",
