@@ -1,7 +1,8 @@
-import MapboxDraw, { MapboxDrawControls } from "@mapbox/mapbox-gl-draw";
+import MapboxDraw, { DrawMode, MapboxDrawControls } from "@mapbox/mapbox-gl-draw";
 import { Feature, GeoJsonProperties, Polygon } from "geojson";
+import extend from "lodash/extend";
 import { useControl } from "react-map-gl";
-import type { MapRef, ControlPosition } from "react-map-gl";
+import type { ControlPosition } from "react-map-gl";
 
 export type PolygonFeature = Feature<Polygon, GeoJsonProperties>;
 
@@ -14,6 +15,18 @@ type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
     onDelete: (evt: { features: PolygonFeature[] }) => void;
 };
 
+const NewSimpleSelect = extend(MapboxDraw.modes.simple_select, {
+    dragMove() {
+        return;
+    },
+});
+
+const NewDirectSelect = extend(MapboxDraw.modes.direct_select, {
+    dragFeature() {
+        return;
+    },
+});
+
 const DrawControl = ({
     onCreate,
     onUpdate,
@@ -22,14 +35,53 @@ const DrawControl = ({
     controls,
     displayControlsDefault,
 }: DrawControlProps): null => {
+    const draw = new MapboxDraw({
+        controls,
+        displayControlsDefault,
+        modes: {
+            ...MapboxDraw.modes,
+            simple_select: NewSimpleSelect,
+            direct_select: NewDirectSelect,
+        },
+    });
+
+    const selectFeature = (featureId: string) => {
+        draw.changeMode("simple_select", {
+            featureIds: [featureId],
+        });
+    };
+
     useControl<MapboxDraw>(
-        () => new MapboxDraw({ controls, displayControlsDefault }),
-        ({ map }: { map: MapRef }) => {
+        () => {
+            return draw;
+        },
+
+        ({ map }) => {
             map.on("draw.create", onCreate);
             map.on("draw.update", onUpdate);
             map.on("draw.delete", onDelete);
+            map.on("draw.modechange", (e: { mode: DrawMode }) => {
+                const features = draw.getAll().features;
+
+                if (features.length > 1 && features[0].id) {
+                    if (e.mode === "draw_polygon") {
+                        selectFeature(features[0].id.toString());
+                    }
+                } else if (features.length === 1 && features[0].id) {
+                    if (e.mode === "direct_select") {
+                        selectFeature(features[0].id.toString());
+                    }
+                }
+            });
+            map.on("draw.selectionchange", () => {
+                const features = draw.getAll().features;
+
+                if (features.length > 0 && features[0].id) {
+                    selectFeature(features[0].id.toString());
+                }
+            });
         },
-        ({ map }: { map: MapRef }) => {
+        ({ map }) => {
             map.off("draw.create", onCreate);
             map.off("draw.update", onUpdate);
             map.off("draw.delete", onDelete);
