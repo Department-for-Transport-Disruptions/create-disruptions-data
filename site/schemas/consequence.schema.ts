@@ -1,4 +1,4 @@
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode, Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { setZodDefaultError, zodTimeInMinutes } from "../utils";
 
@@ -85,11 +85,14 @@ export const serviceSchema = z.object({
     destination: z.string(),
     origin: z.string(),
     nocCode: z.string(),
-    dataSource: z.string().optional(),
+});
+
+export const serviceApiResponseSchema = serviceSchema.extend({
+    dataSource: z.nativeEnum(Datasource),
     startDate: z.string(),
     endDate: z.string().nullable(),
-    serviceCode: z.string().optional(),
-    lineId: z.string().optional(),
+    serviceCode: z.string(),
+    lineId: z.string(),
 });
 
 export const serviceByStopSchema = serviceSchema.and(
@@ -121,6 +124,8 @@ export const servicesConsequenceSchema = z.object({
 });
 
 export type Service = z.infer<typeof serviceSchema>;
+
+export type ServiceData = z.infer<typeof serviceApiResponseSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 

@@ -6,7 +6,7 @@ import {
     operatorSchema,
     routesSchema,
     serviceByStopSchema,
-    serviceSchema,
+    serviceApiResponseSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
 
@@ -77,7 +77,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
         method: "GET",
     });
 
-    const parseResult = z.array(serviceSchema).safeParse(await res.json());
+    const parseResult = z.array(serviceApiResponseSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];

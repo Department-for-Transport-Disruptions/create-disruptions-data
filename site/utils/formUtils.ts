@@ -1,8 +1,9 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
-import { ConsequenceOperators, Service, Stop } from "../schemas/consequence.schema";
+import { ConsequenceOperators, ServiceData, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const handleBlur = <T>(
@@ -99,44 +100,40 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (servicesData?: Service[]) => {
-    let services: Service[] = [];
+export const filterServices = (servicesData?: ServiceData[]) => {
+    let services: ServiceData[] = [];
 
     if (servicesData && servicesData.length > 0) {
         services = sortServices(servicesData);
-
-        if (services[0].dataSource === "tnds") {
-            return filterTndsServices(services);
-        } else {
-            //TODO add filterBodsServices function here
-            return [];
-        }
+        const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
+        return removeDuplicateServicesByKey(services, filterKey, currentDate);
     }
     return services;
 };
 
-export const filterTndsServices = (services: Service[]) => {
-    const now = dayjs();
-    const setOfServices = new Set();
-    const validDuplicates: Service[] = [];
-    const filteredServices: Service[] = [];
+const currentDate = getDate();
+
+export const removeDuplicateServicesByKey = (
+    services: ServiceData[],
+    filterKey: "serviceCode" | "lineId",
+    currentDate: Dayjs,
+) => {
+    const setOfServiceIds = new Set();
+    const filteredServices: ServiceData[] = [];
 
     services.forEach((currentService) => {
-        if (!setOfServices.has(currentService.serviceCode)) {
-            setOfServices.add(currentService.serviceCode);
+        const endDate = currentService.endDate === null ? dayjs().add(1, "day") : currentService.endDate;
+        if (!setOfServiceIds.has(currentService[filterKey])) {
+            setOfServiceIds.add(currentService[filterKey]);
             filteredServices.push(currentService);
-            return;
         } else {
-            if (dayjs(now).isBetween(dayjs(currentService.startDate), dayjs(currentService.endDate), "day", "[]")) {
-                validDuplicates.push(currentService);
+            if (dayjs(currentDate).isBetween(dayjs(currentService.startDate), endDate, "day", "[]")) {
                 const serviceToReplace = filteredServices.findIndex(
-                    (serviceToReplace) => serviceToReplace.serviceCode === currentService.serviceCode,
+                    (serviceToReplace) => serviceToReplace[filterKey] === currentService[filterKey],
                 );
                 filteredServices[serviceToReplace] = currentService;
             }
-            return false;
         }
     });
-
     return filteredServices;
 };
