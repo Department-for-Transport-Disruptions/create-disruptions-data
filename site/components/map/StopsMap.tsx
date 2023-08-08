@@ -232,7 +232,7 @@ const Map = ({
             if (parsedPolygon && parsedPolygon.length >= 4) {
                 const polygonArea = getAreaOfPolygon(parsedPolygon);
 
-                if (polygonArea / 1000 > 36) {
+                if (polygonArea / 1000000 > 36) {
                     setLargePolygon(true);
                 } else {
                     setLargePolygon(false);
