@@ -1,19 +1,23 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
+import MapboxDraw, { DrawMode } from "@mapbox/mapbox-gl-draw";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
+import _ from "lodash";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
+    MutableRefObject,
     ReactElement,
     SetStateAction,
     SyntheticEvent,
     useCallback,
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from "react";
-import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, MapRef, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
@@ -241,20 +245,91 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const onDelete = useCallback((evt: { features: PolygonFeature[] }) => {
-        setFeatures((currFeatures) => {
-            const newFeatures = { ...currFeatures };
-            for (const f of evt.features) {
-                if (f.id) {
-                    delete newFeatures[f.id];
-                }
-            }
-            return newFeatures;
-        });
+    const onDelete = useCallback(() => {
+        setFeatures({});
         setShowSelectAllText(true);
         setMarkerData([]);
         setPopupInfo({});
     }, []);
+
+    const mapRef = useRef<MutableRefObject<MapRef | undefined>>();
+
+    const onMapLoad = useCallback(() => {
+        const NewSimpleSelect = _.extend(MapboxDraw.modes.simple_select, {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            dragMove() {},
+        });
+
+        const NewDirectSelect = _.extend(MapboxDraw.modes.direct_select, {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            dragFeature() {},
+        });
+
+        const draw = new MapboxDraw({
+            displayControlsDefault: false,
+            controls: {
+                polygon: true,
+                trash: true,
+            },
+            modes: {
+                ...MapboxDraw.modes,
+                simple_select: NewSimpleSelect,
+                direct_select: NewDirectSelect,
+            },
+        });
+
+        const deleteFeatures = (event: { features: PolygonFeature[]; mode: DrawMode }) => {
+            if (event?.features?.length < 1) {
+                if (event.mode === "direct_select") {
+                    draw.changeMode("simple_select");
+                }
+                draw.deleteAll();
+                onDelete();
+                draw.changeMode("draw_polygon");
+            }
+        };
+
+        if (mapRef.current) {
+            mapRef.current.on("draw.create", onUpdate);
+            mapRef.current.on(
+                "draw.update",
+                (event: { features: PolygonFeature[]; mode: DrawMode; action: string }) => {
+                    onUpdate(event);
+                    if (event.action === "move") {
+                        draw.deleteAll();
+                        onDelete();
+                    }
+                },
+            );
+
+            mapRef.current.addControl(draw, "top-left");
+            mapRef.current.on("draw.selectionchange", deleteFeatures);
+            mapRef.current.on("draw.modechange", (event: { features: PolygonFeature[]; mode: DrawMode }) => {
+                if (event.mode === "direct_select") {
+                    draw.changeMode("draw_polygon");
+                }
+                if (event.mode === "draw_polygon") {
+                    const data = draw.getAll();
+
+                    const pids: string[] = [];
+                    const lid = data.features[data.features.length - 1].id;
+                    data.features.forEach((f) => {
+                        if (f.geometry.type === "Polygon" && f.id !== lid) {
+                            pids.push(f.id as string);
+                        }
+                    });
+                    draw.delete(pids);
+                }
+            });
+
+            mapRef.current.on("draw.delete", () => {
+                setTimeout(() => {
+                    draw.deleteAll();
+                    onDelete();
+                }, 0);
+            });
+        }
+    }, [onUpdate, onDelete]);
 
     const addSelectedStopsAndServices = async (includeMarkerData?: boolean) => {
         const parsed = z.array(stopSchema).safeParse(searched);
@@ -523,8 +598,10 @@ const Map = ({
                     onMouseMove={onHover}
                     interactiveLayerIds={getInteractiveLayerIds()}
                     onRender={(event) => event.target.resize()}
+                    ref={mapRef}
+                    onLoad={onMapLoad}
                 >
-                    <MapControls onUpdate={onUpdate} onDelete={onDelete} />
+                    <MapControls />
                     <Markers
                         selected={selected}
                         searched={searched}
