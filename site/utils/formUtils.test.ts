@@ -1,6 +1,5 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterAll } from "vitest";
-import { getDate } from "./dates";
 import { filterServices, removeDuplicateServicesByKey } from "./formUtils";
 import {
     mockBodsServicesNoDuplicates,
@@ -10,7 +9,7 @@ import {
 } from "../testData/mockData";
 
 describe("filterServices", () => {
-    MockDate.set("2023-08-07");
+    MockDate.set("2023-08-08");
 
     afterAll(() => {
         MockDate.reset();
@@ -33,7 +32,7 @@ describe("filterServices", () => {
 });
 
 describe("removeDuplicateServices", () => {
-    MockDate.set("2023-08-07");
+    MockDate.set("2023-08-08");
 
     afterAll(() => {
         MockDate.reset();
@@ -41,13 +40,13 @@ describe("removeDuplicateServices", () => {
     it.each([[mockBodsServicesNoDuplicates], [mockBodsServicesWithDuplicates]])(
         "should return an array of unique services filtered by lineId if the data source is bods",
         (services) => {
-            expect(removeDuplicateServicesByKey(services, "lineId", getDate())).toMatchSnapshot();
+            expect(removeDuplicateServicesByKey(services, "lineId")).toMatchSnapshot();
         },
     );
     it.each([[mockTndsServicesNoDuplicates], [mockTndsServicesWithDuplicates]])(
         "should return an array of unique services filtered by ServiceCode if the data source is tnds",
         (services) => {
-            expect(removeDuplicateServicesByKey(services, "serviceCode", getDate())).toMatchSnapshot();
+            expect(removeDuplicateServicesByKey(services, "serviceCode")).toMatchSnapshot();
         },
     );
 });

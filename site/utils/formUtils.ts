@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { getDate } from "./dates";
@@ -108,16 +108,13 @@ export const filterServices = (servicesData?: ServiceApiResponse[]) => {
     const services = sortServices(servicesData);
     const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
 
-    return removeDuplicateServicesByKey(services, filterKey, getDate());
+    return removeDuplicateServicesByKey(services, filterKey);
 };
 
-export const removeDuplicateServicesByKey = (
-    services: ServiceApiResponse[],
-    filterKey: "serviceCode" | "lineId",
-    currentDate: Dayjs,
-) => {
+export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], filterKey: "serviceCode" | "lineId") => {
     const setOfServiceIds = new Set();
     const filteredServices: ServiceApiResponse[] = [];
+    const currentDate = getDate();
 
     services.forEach((currentService) => {
         const endDate = currentService.endDate === null ? currentDate.add(1, "day") : dayjs(currentService.endDate);
