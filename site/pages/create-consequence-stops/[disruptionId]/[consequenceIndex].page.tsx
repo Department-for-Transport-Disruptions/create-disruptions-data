@@ -78,7 +78,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                 });
 
                 if (stopsData) {
-                    setStopOptions(stopsData);
+                    if ("error" in stopsData && stopsData.error) {
+                        setStopOptions([]);
+                    } else {
+                        setStopOptions(stopsData as Stop[]);
+                    }
                 }
             } else {
                 setStopOptions([]);
