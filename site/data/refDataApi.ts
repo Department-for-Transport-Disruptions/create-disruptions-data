@@ -42,6 +42,10 @@ export const fetchStops = async (input: FetchStopsInput) => {
         method: "GET",
     });
 
+    if (!res.ok) {
+        return (await res.json()) as { error: string };
+    }
+
     const parseResult = z.array(stopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {

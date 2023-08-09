@@ -1,7 +1,6 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import getAreaOfPolygon from "geolib/es/getAreaOfPolygon";
 import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
 import {
     CSSProperties,
@@ -197,6 +196,7 @@ const Map = ({
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
+            setLargePolygon(false);
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 setLoading(true);
@@ -215,9 +215,16 @@ const Map = ({
                 });
 
                 if (stopsData) {
-                    setMarkerData(stopsData);
-                    setSelectedServices([]);
-                    clearServicesAndStops();
+                    if ("error" in stopsData && stopsData.error) {
+                        if (stopsData.error === "Area of polygon must be below 36km2") {
+                            setLargePolygon(true);
+                        }
+                        setMarkerData([]);
+                    } else {
+                        setMarkerData(stopsData as Stop[]);
+                        setSelectedServices([]);
+                        clearServicesAndStops();
+                    }
                 } else {
                     setMarkerData([]);
                 }
@@ -227,6 +234,8 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
             setLoading(false);
+        } else {
+            setLargePolygon(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -488,26 +497,7 @@ const Map = ({
               )} (${service.operatorShortName})`
             : "Line: N/A";
     };
-    useEffect(() => {
-        if (features && Object.values(features).length > 0) {
-            const polygon = JSON.stringify(Object.values(features)[0].geometry.coordinates[0]);
-            const parsedPolygon: [number, number][] = z
-                .array(z.tuple([z.number(), z.number()]))
-                .parse(JSON.parse(polygon))
-                .map((point) => [point[0], point[1]]);
-            if (parsedPolygon && parsedPolygon.length >= 4) {
-                const polygonArea = getAreaOfPolygon(parsedPolygon);
 
-                if (polygonArea / 1000000 > 36) {
-                    setLargePolygon(true);
-                } else {
-                    setLargePolygon(false);
-                }
-            }
-        } else {
-            setLargePolygon(false);
-        }
-    }, [features]);
     return mapboxAccessToken ? (
         <>
             {showMessage ? (
