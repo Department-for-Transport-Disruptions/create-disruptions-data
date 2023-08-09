@@ -279,7 +279,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             modes: mode,
         });
 
-        const filteredData = filterServices(getDate(), serviceData);
+        const filteredData = filterServices(serviceData);
 
         setServicesRecords(filteredData);
     };

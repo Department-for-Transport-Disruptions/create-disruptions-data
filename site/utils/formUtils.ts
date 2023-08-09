@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
 import { ConsequenceOperators, ServiceApiResponse, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
@@ -99,7 +100,7 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (currentDate: Dayjs, servicesData?: ServiceApiResponse[]) => {
+export const filterServices = (servicesData?: ServiceApiResponse[]) => {
     if (!servicesData?.length) {
         return [];
     }
@@ -107,7 +108,7 @@ export const filterServices = (currentDate: Dayjs, servicesData?: ServiceApiResp
     const services = sortServices(servicesData);
     const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
 
-    return removeDuplicateServicesByKey(services, filterKey, currentDate);
+    return removeDuplicateServicesByKey(services, filterKey, getDate());
 };
 
 export const removeDuplicateServicesByKey = (
