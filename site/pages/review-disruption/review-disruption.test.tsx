@@ -145,21 +145,25 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
-            const { getAllByRole } = render(
+            const { getAllByRole, unmount } = render(
                 <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
             expect(sendToReviewButton).toBeTruthy();
+
+            unmount();
         });
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
-            const { getAllByRole } = render(
+            const { getAllByRole, unmount } = render(
                 <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
             expect(publishButton).toBeTruthy();
+
+            unmount();
         });
 
         it("should render correctly with banner when disruption is a duplicate", () => {

@@ -1,0 +1,87 @@
+name: Hotfix opened
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  build:
+    name: Build
+    if: ${{ github.event.label.name == 'hotfix' }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js and cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.x'
+          cache: 'npm'
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test TypeScript compiles
+        run: npm run tsc:build
+
+      - name: Test Site
+        run: npm run test:site
+
+      - name: Test SIRI-SX Generator
+        run: npm run test:siri
+
+      - name: Zip artifact
+        run: zip build.zip ./* -rq
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: ./build.zip
+
+  create_hotfix_release:
+    needs: ['build']
+    name: Create hotfix release
+    if: ${{ github.event.label.name == 'hotfix' }}
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: .
+
+      - name: Get Latest Release
+        id: latest_release
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: hotfix/*
+          custom_tag: ${{ steps.latest_release.outputs.tag_name }}-hotfix
+          tag_prefix: ''
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          name: Hotfix ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          draft: true
+          files: build.zip

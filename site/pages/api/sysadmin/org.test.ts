@@ -1,3 +1,4 @@
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import manageOrg from "./org.api";
@@ -29,6 +30,12 @@ describe("manageOrg", () => {
     const defaultInput = {
         name: "test-org",
         adminAreaCodes: "001,002",
+        mode: JSON.stringify({
+            bus: Datasource.bods,
+            tram: Datasource.bods,
+            ferryService: Datasource.tnds,
+            rail: Datasource.tnds,
+        }),
     };
 
     it(`should redirect to ${SYSADMIN_ADD_ORG_PAGE_PATH} page when no inputs are passed`, async () => {
@@ -68,6 +75,24 @@ describe("manageOrg", () => {
     it(`should redirect to ${SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH} page without errors when valid inputs are passed along with orgId`, async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultInput, PK: randomUUID() },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await manageOrg(req, res);
+
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH });
+    });
+
+    it(`should redirect to ${SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH} page without errors when mode is an empty string`, async () => {
+        const bodyWithEmptyMode = {
+            name: "test-org",
+            adminAreaCodes: "001,002",
+            mode: "",
+        };
+        const { req, res } = getMockRequestAndResponse({
+            body: bodyWithEmptyMode,
             mockWriteHeadFn: writeHeadMock,
         });
 

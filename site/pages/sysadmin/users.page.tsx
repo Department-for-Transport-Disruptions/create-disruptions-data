@@ -3,13 +3,13 @@ import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useState } from "react";
-import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
-import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
+import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import { BaseLayout } from "../../components/layout/Layout";
-import Popup from "../../components/Popup";
+import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
+import Popup from "../../components/popup/Popup";
 import { COOKIES_ADD_ADMIN_USER_ERRORS } from "../../constants";
 import { getUsersInGroupAndOrg } from "../../data/cognito";
 import { PageState } from "../../interfaces";
@@ -40,7 +40,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     user.givenName,
                     user.familyName,
                     user.email,
-                    createLink("user-action", index, user.username, "system-admins"),
+                    createLink("user-action", index, user.username, "org-admins"),
                 ],
             });
         });
@@ -172,7 +172,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 />
 
                 <input type="hidden" name="orgId" value={orgId} />
-                <input type="hidden" name="group" value={UserGroups.systemAdmins} />
+                <input type="hidden" name="group" value={UserGroups.orgAdmins} />
 
                 <button className="govuk-button mt-8" data-module="govuk-button">
                     Add and send invitation
@@ -203,9 +203,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgId = ctx.query.orgId?.toString();
 
-    const adminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "system-admins") : undefined;
+    const orgAdminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "org-admins") : undefined;
 
-    const parsedList = adminSchema.safeParse(adminUsers);
+    const parsedList = adminSchema.safeParse(orgAdminUsers);
 
     if (parsedList.success) {
         return {

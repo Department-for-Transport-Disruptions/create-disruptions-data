@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import ExportPopup from "./ExportPopup";
 
@@ -7,7 +7,7 @@ const closePopUp = vi.fn();
 
 describe("ExportPopup", () => {
     it("should render correctly", () => {
-        const { container } = render(<ExportPopup confirmHandler={confirmHandler} closePopUp={closePopUp} />);
-        expect(container).toMatchSnapshot();
+        const tree = renderer.create(<ExportPopup confirmHandler={confirmHandler} closePopUp={closePopUp} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

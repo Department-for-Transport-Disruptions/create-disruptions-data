@@ -1,8 +1,8 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import ErrorSummary from "../components/ErrorSummary";
 import CsrfForm from "../components/form/CsrfForm";
+import ErrorSummary from "../components/form/ErrorSummary";
 import TextInput from "../components/form/TextInput";
 import { BaseLayout } from "../components/layout/Layout";
 import { COOKIES_FORGOT_PASSWORD_ERRORS } from "../constants";
@@ -33,7 +33,6 @@ const ForgotPassword = (props: ForgotPasswordPageProps): ReactElement => {
                                 widthClass="w-3/4"
                                 maxLength={100}
                                 stateUpdater={stateUpdater}
-                                schema={forgotPasswordSchema.shape.email}
                                 initialErrors={pageState.errors}
                                 value={pageState.inputs.email}
                             />

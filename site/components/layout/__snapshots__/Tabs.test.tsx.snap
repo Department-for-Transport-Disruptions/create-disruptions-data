@@ -1,0 +1,291 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tabs > should render correctly when given a table as the content 1`] = `
+<div
+  className="govuk-tabs"
+  data-module="govuk-tabs"
+>
+  <h2
+    className="govuk-tabs__title"
+  >
+    Disruptions
+  </h2>
+  <ul
+    className="govuk-tabs__list"
+  >
+    <li
+      className="govuk-tabs__list-item govuk-tabs__list-item--selected"
+    >
+      <a
+        className="govuk-tabs__tab"
+        href="#live"
+      >
+        Live
+      </a>
+    </li>
+    <li
+      className="govuk-tabs__list-item"
+    >
+      <a
+        className="govuk-tabs__tab"
+        href="#upcoming"
+      >
+        Upcoming
+      </a>
+    </li>
+  </ul>
+  <div
+    className="govuk-tabs__panel"
+    id="live"
+  >
+    <table
+      className="govuk-table"
+    >
+      <caption
+        className="govuk-table__caption govuk-table__caption--l"
+      >
+        Live disruptions
+      </caption>
+      <thead
+        className="govuk-table__head"
+      >
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            ID
+          </th>
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            Summary
+          </th>
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            Affected dates
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="govuk-table__body"
+      >
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="row"
+          >
+            <a
+              className="govuk-link"
+              href="/dashboard"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              1234
+            </a>
+          </th>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            Test summary
+          </td>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            01/01/2023 onwards
+          </td>
+        </tr>
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="row"
+          >
+            <a
+              className="govuk-link"
+              href="/dashboard"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              3211
+            </a>
+          </th>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            Test summary
+          </td>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            02/01/2023 - 02/02-2024
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    className="govuk-tabs__panel govuk-tabs__panel--hidden"
+    id="upcoming"
+  >
+    <table
+      className="govuk-table"
+    >
+      <caption
+        className="govuk-table__caption govuk-table__caption--l"
+      >
+        Live disruptions
+      </caption>
+      <thead
+        className="govuk-table__head"
+      >
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            ID
+          </th>
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            Summary
+          </th>
+          <th
+            className="govuk-table__header align-middle"
+            scope="col"
+          >
+            Affected dates
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="govuk-table__body"
+      >
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="row"
+          >
+            <a
+              className="govuk-link"
+              href="/dashboard"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              1234
+            </a>
+          </th>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            Test summary
+          </td>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            01/01/2023 onwards
+          </td>
+        </tr>
+        <tr
+          className="govuk-table__row"
+        >
+          <th
+            className="govuk-table__header align-middle"
+            scope="row"
+          >
+            <a
+              className="govuk-link"
+              href="/dashboard"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              3211
+            </a>
+          </th>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            Test summary
+          </td>
+          <td
+            className="govuk-table__cell align-middle"
+          >
+            02/01/2023 - 02/02-2024
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Tabs > should render correctly when given simple text as the content 1`] = `
+<div
+  className="govuk-tabs"
+  data-module="govuk-tabs"
+>
+  <h2
+    className="govuk-tabs__title"
+  >
+    Disruptions
+  </h2>
+  <ul
+    className="govuk-tabs__list"
+  >
+    <li
+      className="govuk-tabs__list-item govuk-tabs__list-item--selected"
+    >
+      <a
+        className="govuk-tabs__tab"
+        href="#live"
+      >
+        Live
+      </a>
+    </li>
+    <li
+      className="govuk-tabs__list-item"
+    >
+      <a
+        className="govuk-tabs__tab"
+        href="#upcoming"
+      >
+        Upcoming
+      </a>
+    </li>
+  </ul>
+  <div
+    className="govuk-tabs__panel"
+    id="live"
+  >
+    <h1>
+      Hello
+    </h1>
+  </div>
+  <div
+    className="govuk-tabs__panel govuk-tabs__panel--hidden"
+    id="upcoming"
+  >
+    <h1>
+      Test
+    </h1>
+  </div>
+</div>
+`;

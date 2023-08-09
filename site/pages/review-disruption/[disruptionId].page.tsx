@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
-import DeleteConfirmationPopup from "../../components/DeleteConfirmationPopup";
-import ErrorSummary from "../../components/ErrorSummary";
 import CsrfForm from "../../components/form/CsrfForm";
+import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-
 import NotificationBanner from "../../components/layout/NotificationBanner";
+import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
+
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
