@@ -5,7 +5,7 @@ import GeocoderControl from "./GeocoderControl";
 
 interface MapControlsProps {
     onUpdate: (evt: { features: PolygonFeature[] }) => void;
-    onDelete: (evt: { features: PolygonFeature[] }) => void;
+    onDelete: () => void;
 }
 
 const MapControls = ({ onUpdate, onDelete }: MapControlsProps): ReactElement | null => {
@@ -30,8 +30,8 @@ const MapControls = ({ onUpdate, onDelete }: MapControlsProps): ReactElement | n
                 onUpdate={(evt) => {
                     onUpdate(evt);
                 }}
-                onDelete={(evt) => {
-                    onDelete(evt);
+                onDelete={() => {
+                    onDelete();
                 }}
             />
         </>
