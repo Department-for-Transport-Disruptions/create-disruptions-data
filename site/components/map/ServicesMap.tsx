@@ -117,6 +117,7 @@ const Map = ({
         useState<Partial<(Routes & { serviceId: number })[] | undefined>>(searchedRoutes);
 
     const [largePolygon, setLargePolygon] = useState(false);
+    const [noStops, setNoStops] = useState(false);
 
     useEffect(() => {
         setSelectedServices(searchedRoutes);
@@ -197,6 +198,7 @@ const Map = ({
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
             setLargePolygon(false);
+            setNoStops(false);
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 setLoading(true);
@@ -221,6 +223,9 @@ const Map = ({
                         }
                         setMarkerData([]);
                     } else {
+                        if ((stopsData as Stop[]).length === 0) {
+                            setNoStops(true);
+                        }
                         setMarkerData(stopsData as Stop[]);
                         setSelectedServices([]);
                         clearServicesAndStops();
@@ -236,6 +241,7 @@ const Map = ({
             setLoading(false);
         } else {
             setLargePolygon(false);
+            setNoStops(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -504,6 +510,7 @@ const Map = ({
                 <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
             {largePolygon ? <Warning text="Drawn area too big, draw a smaller area" /> : null}
+            {noStops ? <Warning text="No stops found in selected area" /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
