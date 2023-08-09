@@ -59,12 +59,7 @@ const DrawControl = ({
         ({ map }) => {
             map.on("draw.create", onCreate);
             map.on("draw.update", onUpdate);
-            map.on("draw.delete", () => {
-                setTimeout(() => {
-                    draw.deleteAll();
-                    onDelete();
-                }, 0);
-            });
+            map.on("draw.delete", onDelete);
             map.on("draw.modechange", (e: { mode: DrawMode }) => {
                 const features = draw.getAll().features;
 
@@ -86,8 +81,7 @@ const DrawControl = ({
                 const features = draw.getAll().features;
                 if (features.length === 0) {
                     draw.changeMode("draw_polygon");
-                }
-                if (features.length > 0 && features[0].id) {
+                } else if (features.length > 0 && features[0].id) {
                     selectFeature(features[0].id.toString());
                 }
             });
