@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
-import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
 import { ConsequenceOperators, ServiceApiResponse, Stop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
@@ -100,18 +99,16 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (servicesData?: ServiceApiResponse[]) => {
-    let services: ServiceApiResponse[] = [];
-
-    if (servicesData && servicesData.length > 0) {
-        services = sortServices(servicesData);
-        const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
-        return removeDuplicateServicesByKey(services, filterKey, currentDate);
+export const filterServices = (currentDate: Dayjs, servicesData?: ServiceApiResponse[]) => {
+    if (!servicesData?.length) {
+        return [];
     }
-    return services;
-};
 
-const currentDate = getDate();
+    const services = sortServices(servicesData);
+    const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
+
+    return removeDuplicateServicesByKey(services, filterKey, currentDate);
+};
 
 export const removeDuplicateServicesByKey = (
     services: ServiceApiResponse[],
@@ -122,12 +119,12 @@ export const removeDuplicateServicesByKey = (
     const filteredServices: ServiceApiResponse[] = [];
 
     services.forEach((currentService) => {
-        const endDate = currentService.endDate === null ? dayjs().add(1, "day") : currentService.endDate;
+        const endDate = currentService.endDate === null ? currentDate.add(1, "day") : dayjs(currentService.endDate);
         if (!setOfServiceIds.has(currentService[filterKey])) {
             setOfServiceIds.add(currentService[filterKey]);
             filteredServices.push(currentService);
         } else {
-            if (dayjs(currentDate).isBetween(dayjs(currentService.startDate), endDate, "day", "[]")) {
+            if (currentDate.isBetween(dayjs(currentService.startDate), endDate, "day", "[]")) {
                 const serviceToReplace = filteredServices.findIndex(
                     (serviceToReplace) => serviceToReplace[filterKey] === currentService[filterKey],
                 );

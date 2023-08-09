@@ -588,7 +588,7 @@ const ViewAllDisruptions = ({
         let services: ServiceApiResponse[] = [];
 
         const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
-        services = filterServices(combinedServices) ?? [];
+        services = filterServices(getDate(), combinedServices) ?? [];
 
         setOperatorsList(operators);
         setServicesList(services);

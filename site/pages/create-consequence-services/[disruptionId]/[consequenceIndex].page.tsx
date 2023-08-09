@@ -42,6 +42,7 @@ import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
+import { getDate } from "../../../utils/dates";
 import { filterServices, getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
@@ -278,7 +279,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             modes: mode,
         });
 
-        const filteredData = filterServices(serviceData);
+        const filteredData = filterServices(getDate(), serviceData);
 
         setServicesRecords(filteredData);
     };
