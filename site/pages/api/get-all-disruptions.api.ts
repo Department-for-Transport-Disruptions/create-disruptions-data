@@ -9,6 +9,7 @@ import {
     reduceStringWithEllipsis,
     sortDisruptionsByStartDate,
 } from "../../utils";
+import { getSession } from "../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../utils/dates";
 import { getDisruptionStatus, getWorstSeverity } from "../view-all-disruptions.page";
 
@@ -91,12 +92,16 @@ export const formatSortedDisruption = (disruption: SortedDisruption) => {
 };
 
 const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
-    const { orgId } = req.query;
+    const session = getSession(req);
 
-    if (!orgId) {
-        throw new Error("No Org Id passed");
+    if (!session) {
+        res.status(403);
+        return;
     }
-    let disruptionsData = await getDisruptionsDataFromDynamo(orgId.toString());
+
+    const { orgId } = session;
+
+    let disruptionsData = await getDisruptionsDataFromDynamo(orgId);
 
     if (disruptionsData) {
         disruptionsData = disruptionsData.filter(

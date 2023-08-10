@@ -1,11 +1,12 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
-import { getMockRequestAndResponse, sortedDisruption } from "../../testData/mockData";
+import { getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
 import * as utils from "../../utils";
+import * as session from "../../utils/apiUtils/auth";
 
 describe("getAllDisruptions", () => {
     const writeHeadMock = vi.fn();
@@ -16,6 +17,13 @@ describe("getAllDisruptions", () => {
 
     const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
     const sortDisruptionsByStartDateSpy = vi.spyOn(utils, "sortDisruptionsByStartDate");
+    const getSessionSpy = vi.spyOn(session, "getSession");
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+    });
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -86,7 +94,7 @@ describe("getAllDisruptions", () => {
         },
     ];
 
-    it("should be successful when org id is passed", async () => {
+    it("should be successful when session is set", async () => {
         getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
 
         const { req, res } = getMockRequestAndResponse({
@@ -96,29 +104,36 @@ describe("getAllDisruptions", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
+        res.status = vi.fn().mockImplementation(() => ({
+            json: vi.fn(),
+        }));
+
         await getAllDisruptions(req, res);
 
         expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();
         expect(sortDisruptionsByStartDateSpy).toHaveBeenCalledOnce();
+
+        expect(res.status).toHaveBeenCalledWith(200);
     });
 
-    it("should throw an error when org id is not passed", async () => {
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
+    it("should redirect to error page when no session set", async () => {
+        getSessionSpy.mockReturnValue(null);
 
         const { req, res } = getMockRequestAndResponse({
             body: {},
             mockWriteHeadFn: writeHeadMock,
         });
 
-        try {
-            await getAllDisruptions(req, res);
-        } catch (error) {
-            if (error instanceof Error) {
-                expect(error.message).toBe("No Org Id passed");
-            }
-        }
+        res.status = vi.fn().mockImplementation(() => ({
+            json: vi.fn(),
+        }));
+
+        await getAllDisruptions(req, res);
+
         expect(getDisruptionsDataFromDynamoSpy).not.toHaveBeenCalledOnce();
         expect(sortDisruptionsByStartDateSpy).not.toHaveBeenCalledOnce();
+
+        expect(res.status).toHaveBeenCalledWith(403);
     });
 
     describe("formatSortedDisruptions", () => {

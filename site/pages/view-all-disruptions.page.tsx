@@ -81,7 +81,6 @@ export interface TableDisruption {
 export interface ViewAllDisruptionsProps {
     adminAreaCodes: string[];
     newDisruptionId: string;
-    orgId: string;
     csrfToken?: string;
     filterStatus?: Progress | null;
 }
@@ -349,7 +348,7 @@ const applyFiltersToDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
-export const getDisruptionData = async (orgId: string) => {
+export const getDisruptionData = async () => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -357,7 +356,7 @@ export const getDisruptionData = async (orgId: string) => {
         },
     };
 
-    const res = await fetch(`/api/get-all-disruptions?orgId=${orgId}`, options);
+    const res = await fetch("/api/get-all-disruptions", options);
     const disruptions = (await res.json()) as TableDisruption[];
 
     return disruptions;
@@ -366,7 +365,6 @@ export const getDisruptionData = async (orgId: string) => {
 const ViewAllDisruptions = ({
     newDisruptionId,
     adminAreaCodes,
-    orgId,
     filterStatus,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
@@ -465,7 +463,7 @@ const ViewAllDisruptions = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const disruptions = await getDisruptionData(orgId);
+            const disruptions = await getDisruptionData();
             setDisruptionsToDisplay(disruptions);
             setDisruptions(disruptions);
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
@@ -986,7 +984,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             adminAreaCodes: session.adminAreaCodes,
-            orgId: session.orgId,
             newDisruptionId: randomUUID(),
             filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : null,
         },

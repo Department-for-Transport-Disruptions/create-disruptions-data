@@ -2,7 +2,6 @@ import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared
 import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { randomUUID } from "crypto";
 import ViewAllDisruptions, {
     disruptionIsClosingOrClosed,
     Filter,
@@ -110,11 +109,7 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        orgId={randomUUID()}
-                    />,
+                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
                 );
             });
 
@@ -130,11 +125,7 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        orgId={randomUUID()}
-                    />,
+                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
                 );
             });
 
@@ -150,11 +141,7 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        orgId={randomUUID()}
-                    />,
+                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
                 );
             });
 
@@ -173,7 +160,6 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
-                        orgId={randomUUID()}
                         filterStatus={Progress.pendingApproval}
                     />,
                 );
@@ -194,7 +180,6 @@ describe("pages", () => {
                     <ViewAllDisruptions
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
-                        orgId={randomUUID()}
                         filterStatus={Progress.draft}
                     />,
                 );
