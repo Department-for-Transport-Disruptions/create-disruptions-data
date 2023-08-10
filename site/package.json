@@ -29,7 +29,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/react-fontawesome": "^0.2.0",
         "@govuk-react/loading-box": "^0.10.5",
-        "@mapbox/mapbox-gl-draw": "^1.4.1",
+        "@mapbox/mapbox-gl-draw": "^1.4.2",
         "@mapbox/mapbox-gl-geocoder": "^5.0.1",
         "@mui/material": "^5.11.11",
         "@mui/x-date-pickers": "^5.0.20",

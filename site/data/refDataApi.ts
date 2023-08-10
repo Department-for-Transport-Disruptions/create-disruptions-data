@@ -7,9 +7,10 @@ import {
     operatorSchema,
     routesSchema,
     serviceByStopSchema,
-    serviceSchema,
+    serviceApiResponseSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
+import { makeFilteredArraySchema } from "../utils";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];
@@ -52,7 +53,7 @@ export const fetchStops = async (input: FetchStopsInput) => {
         throw new Error(`fetchStops call failed: ${body.error}`);
     }
 
-    const parseResult = z.array(stopSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(stopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
@@ -90,7 +91,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
         method: "GET",
     });
 
-    const parseResult = z.array(serviceSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceApiResponseSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
@@ -126,7 +127,7 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
         method: "GET",
     });
 
-    const parseResult = z.array(serviceByStopSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceByStopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
@@ -170,7 +171,7 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
         method: "GET",
     });
 
-    const parseResult = z.array(stopSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(stopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
@@ -197,7 +198,7 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
         method: "GET",
     });
 
-    const parseResult = z.array(operatorSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(operatorSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
