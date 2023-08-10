@@ -3,7 +3,7 @@ import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
-import { z, ZodError, ZodErrorMap } from "zod";
+import { z, ZodError, ZodErrorMap, ZodSchema } from "zod";
 import { ServerResponse } from "http";
 import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
@@ -233,6 +233,11 @@ export const zodTimeInMinutes = (defaultError?: string) =>
  */
 export const zodUuid = (defaultError?: string) =>
     z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(uuidRegex);
+
+export const makeFilteredArraySchema = <T extends ZodSchema>(schema: T) =>
+    z
+        .array(z.unknown())
+        .transform((items) => items?.filter((item): item is z.infer<T> => schema.safeParse(item).success));
 
 export const sortServices = <T extends Service>(services: T[]): T[] => {
     return services.sort((a, b) => {
