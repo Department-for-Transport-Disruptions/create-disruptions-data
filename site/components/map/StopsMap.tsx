@@ -168,16 +168,8 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const onDelete = useCallback((evt: { features: PolygonFeature[] }) => {
-        setFeatures((currFeatures) => {
-            const newFeatures = { ...currFeatures };
-            for (const f of evt.features) {
-                if (f.id) {
-                    delete newFeatures[f.id];
-                }
-            }
-            return newFeatures;
-        });
+    const onDelete = useCallback(() => {
+        setFeatures({});
         setShowSelectAllText(true);
         setMarkerData([]);
         setPopupInfo({});

@@ -40,7 +40,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     user.givenName,
                     user.familyName,
                     user.email,
-                    createLink("user-action", index, user.username, "system-admins"),
+                    createLink("user-action", index, user.username, "org-admins"),
                 ],
             });
         });
@@ -172,7 +172,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 />
 
                 <input type="hidden" name="orgId" value={orgId} />
-                <input type="hidden" name="group" value={UserGroups.systemAdmins} />
+                <input type="hidden" name="group" value={UserGroups.orgAdmins} />
 
                 <button className="govuk-button mt-8" data-module="govuk-button">
                     Add and send invitation
@@ -203,9 +203,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgId = ctx.query.orgId?.toString();
 
-    const adminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "system-admins") : undefined;
+    const orgAdminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "org-admins") : undefined;
 
-    const parsedList = adminSchema.safeParse(adminUsers);
+    const parsedList = adminSchema.safeParse(orgAdminUsers);
 
     if (parsedList.success) {
         return {
