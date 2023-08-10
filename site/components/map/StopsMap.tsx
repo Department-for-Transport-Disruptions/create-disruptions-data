@@ -16,6 +16,7 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
+import { LargePolygonError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -50,7 +51,7 @@ const Map = ({
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [loading, setLoading] = useState(false);
-    const [largePolygon, setLargePolygon] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
 
     const handleMouseEnter = useCallback(
         (id: string) => {
@@ -107,37 +108,39 @@ const Map = ({
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
-            setLargePolygon(false);
+            setWarningMessage("");
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
-                const stopsData = await fetchStops({
-                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    polygon,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: ["BCT"] }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: ["MET", "PLT"] }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: ["FER", "FBT"] }
-                        : vehicleMode === Modes.rail
-                        ? { stopTypes: ["RLY"] }
-                        : { stopTypes: ["undefined"] }),
-                });
+                try {
+                    const stopsData = await fetchStops({
+                        adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        polygon,
+                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus
+                            ? { stopTypes: ["BCT"] }
+                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            ? { stopTypes: ["MET", "PLT"] }
+                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                            ? { stopTypes: ["FER", "FBT"] }
+                            : vehicleMode === Modes.rail
+                            ? { stopTypes: ["RLY"] }
+                            : { stopTypes: ["undefined"] }),
+                    });
 
-                if (stopsData) {
-                    if ("error" in stopsData && stopsData.error) {
-                        if (stopsData.error === "Area of polygon must be below 36km2") {
-                            setLargePolygon(true);
-                        }
-                        setMarkerData([]);
+                    if (stopsData) {
+                        setMarkerData(stopsData);
                     } else {
-                        setMarkerData(stopsData as Stop[]);
+                        setMarkerData([]);
                     }
-                } else {
+                } catch (e) {
                     setMarkerData([]);
+                    if (e instanceof LargePolygonError) {
+                        setWarningMessage("Drawn area too big, draw a smaller area");
+                    } else {
+                        setWarningMessage("There was a problem retrieving the stops");
+                    }
                 }
             };
 
@@ -146,7 +149,7 @@ const Map = ({
                 .catch(console.error);
             setLoading(false);
         } else {
-            setLargePolygon(false);
+            setWarningMessage("");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -237,7 +240,7 @@ const Map = ({
             {selected.length === 100 ? (
                 <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
-            {largePolygon ? <Warning text="Drawn area too big, draw a smaller area" /> : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
