@@ -352,7 +352,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\"}"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
               />
             </div>
           </div>
@@ -1408,7 +1408,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\"}"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
               />
             </div>
           </div>
@@ -3387,7 +3387,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\"}"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
               />
             </div>
           </div>

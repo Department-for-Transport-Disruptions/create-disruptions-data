@@ -1,3 +1,5 @@
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+
 export const mockMarkerData = [
     {
         atcoCode: "1800SB12581",
@@ -41,8 +43,12 @@ export const mockServicesInPolygon = [
         destination: "Piccadilly Rail Station",
         origin: "Piccadilly Rail Station",
         nocCode: "GONW",
-        dataSource: "bods",
         stops: ["1800SB05801"],
+        startDate: "2023-07-23",
+        serviceCode: "NW_04_SCMN_149_1",
+        dataSource: Datasource.bods,
+        lineId: "SL1",
+        endDate: "2023-08-10",
         routes: {
             inbound: [],
             outbound: [
@@ -108,8 +114,12 @@ export const mockServicesInPolygon = [
         destination: "Hazel Grove",
         origin: "Manchester(Albert Sq)",
         nocCode: "SCMN",
-        dataSource: "bods",
         stops: ["1800SB05751"],
+        startDate: "2023-07-23",
+        serviceCode: "NW_04_SCMN_149_1",
+        dataSource: Datasource.bods,
+        lineId: "SL1",
+        endDate: "2023-08-10",
         routes: {
             inbound: [
                 {
@@ -343,8 +353,12 @@ export const mockServicesInPolygon = [
         destination: "Little Hulton Precinct",
         origin: "MANCHESTER Picadilly",
         nocCode: "GTRI",
-        dataSource: "bods",
         stops: ["1800SB05801"],
+        startDate: "2023-07-23",
+        serviceCode: "NW_04_SCMN_149_1",
+        dataSource: Datasource.bods,
+        lineId: "SL1",
+        endDate: "2023-08-10",
         routes: {
             inbound: [
                 {

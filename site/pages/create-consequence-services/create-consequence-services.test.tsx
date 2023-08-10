@@ -1,4 +1,4 @@
-import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
@@ -64,6 +64,11 @@ const withInputs: CreateConsequenceServicesProps = {
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
                 nocCode: "TEST",
+                startDate: "2023-07-23",
+                serviceCode: "NW_04_SCMN_149_1",
+                dataSource: Datasource.bods,
+                lineId: "SL1",
+                endDate: "2023-08-10",
             },
         ],
 
@@ -127,6 +132,11 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
                 nocCode: "TEST",
+                startDate: "2023-07-23",
+                serviceCode: "NW_04_SCMN_149_1",
+                dataSource: Datasource.bods,
+                lineId: "SL1",
+                endDate: "2023-08-10",
             },
         ],
         disruptionDelay: "45",
