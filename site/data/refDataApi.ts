@@ -100,6 +100,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
 interface FetchServicesByStopsInput {
     atcoCodes?: string[];
     includeRoutes?: boolean;
+    dataSource?: Datasource;
 }
 
 export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => {
@@ -115,6 +116,10 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
         queryStringItems.push("includeRoutes=true");
     }
 
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+    
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
