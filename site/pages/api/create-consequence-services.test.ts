@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
 import {
@@ -25,6 +25,11 @@ const defaultServicesData = {
         origin: "Jordanthorpe",
         destination: "HigH Green",
         nocCode: "TEST",
+        startDate: "2023-07-23",
+        serviceCode: "NW_04_SCMN_149_1",
+        dataSource: Datasource.tnds,
+        lineId: "SL1",
+        endDate: "2023-08-10",
     }),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -89,6 +94,11 @@ describe("create-consequence-services API", () => {
                         nocCode: "TEST",
                         operatorShortName: "First South Yorkshire",
                         origin: "Jordanthorpe",
+                        startDate: "2023-07-23",
+                        serviceCode: "NW_04_SCMN_149_1",
+                        dataSource: Datasource.tnds,
+                        lineId: "SL1",
+                        endDate: "2023-08-10",
                     },
                 ],
                 stops: [],
@@ -149,6 +159,11 @@ describe("create-consequence-services API", () => {
                         nocCode: "TEST",
                         operatorShortName: "First South Yorkshire",
                         origin: "Jordanthorpe",
+                        startDate: "2023-07-23",
+                        serviceCode: "NW_04_SCMN_149_1",
+                        dataSource: Datasource.tnds,
+                        lineId: "SL1",
+                        endDate: "2023-08-10",
                     },
                 ],
                 stops: [
@@ -281,6 +296,11 @@ describe("create-consequence-services API", () => {
                         nocCode: "TEST",
                         operatorShortName: "First South Yorkshire",
                         origin: "Jordanthorpe",
+                        startDate: "2023-07-23",
+                        serviceCode: "NW_04_SCMN_149_1",
+                        dataSource: Datasource.tnds,
+                        lineId: "SL1",
+                        endDate: "2023-08-10",
                     },
                 ],
                 stops: [],

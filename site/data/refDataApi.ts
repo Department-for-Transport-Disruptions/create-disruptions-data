@@ -6,7 +6,7 @@ import {
     operatorSchema,
     routesSchema,
     serviceByStopSchema,
-    serviceApiResponseSchema,
+    serviceSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
 import { makeFilteredArraySchema } from "../utils";
@@ -78,7 +78,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(serviceApiResponseSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];

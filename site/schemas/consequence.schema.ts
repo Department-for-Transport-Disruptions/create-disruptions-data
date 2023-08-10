@@ -85,9 +85,6 @@ export const serviceSchema = z.object({
     destination: z.string(),
     origin: z.string(),
     nocCode: z.string(),
-});
-
-export const serviceApiResponseSchema = serviceSchema.extend({
     dataSource: z.nativeEnum(Datasource),
     startDate: z.string(),
     endDate: z.string().nullable(),
@@ -95,7 +92,7 @@ export const serviceApiResponseSchema = serviceSchema.extend({
     lineId: z.string(),
 });
 
-export const serviceByStopSchema = serviceApiResponseSchema.and(
+export const serviceByStopSchema = serviceSchema.and(
     z.object({
         stops: z.array(z.string()),
         routes: z.object({
@@ -112,7 +109,7 @@ export const servicesConsequenceSchema = z.object({
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
     stops: z.array(stopSchema).optional(),
     services: z
-        .array(serviceApiResponseSchema)
+        .array(serviceSchema)
         .min(1, {
             message: "At least one service must be added",
         })
@@ -125,7 +122,7 @@ export const servicesConsequenceSchema = z.object({
 
 export type Service = z.infer<typeof serviceSchema>;
 
-export type ServiceApiResponse = z.infer<typeof serviceApiResponseSchema>;
+export type ServiceApiResponse = z.infer<typeof serviceSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 
