@@ -2,7 +2,7 @@ import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
-import { LargePolygonError } from "../errors";
+import { LargePolygonError, NoStopsError } from "../errors";
 import {
     operatorSchema,
     routesSchema,
@@ -56,6 +56,9 @@ export const fetchStops = async (input: FetchStopsInput) => {
 
     if (!parseResult.success) {
         return [];
+    }
+    if (parseResult.data.length === 0) {
+        throw new NoStopsError();
     }
     return parseResult.data;
 };
