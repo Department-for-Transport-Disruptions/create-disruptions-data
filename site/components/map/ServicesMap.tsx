@@ -286,7 +286,7 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
-    const addSelectedStopsAndServices = async (includeMarkerData?: boolean) => {
+    const addSelectedStopsAndServices = async () => {
         const parsed = z.array(stopSchema).safeParse(searched);
         if (!parsed.success) {
             stateUpdater({
@@ -299,24 +299,21 @@ const Map = ({
         } else {
             if (showSelectAllText) {
                 setLoading(true);
-                //TODO Change below to use stops not marker data
                 const atcoCodes = getAtcoCodesFromSelectedStops(markerData);
-                const servicesInPolygon = includeMarkerData
-                    ? dataSource
-                        ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
-                        : await fetchServicesByStops({ atcoCodes, includeRoutes: true })
+                const servicesInPolygon = !!markerData
+                    ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
                     : [];
 
                 const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
 
-                const markerDataInAService = includeMarkerData
+                const markerDataInAService = !!markerData
                     ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                     : [];
 
                 setSelectedServices(
                     [
                         ...(selectedServices ?? []),
-                        ...(includeMarkerData
+                        ...(!!markerData
                             ? servicesInPolygon.map((service) => ({
                                   serviceId: service.id,
                                   inbound: service.routes.inbound,
@@ -328,7 +325,7 @@ const Map = ({
                     ),
                 );
 
-                const stops = includeMarkerData
+                const stops = !!markerData
                     ? [...(state.inputs.stops ?? []), ...markerDataInAService, ...(searched.length > 0 ? searched : [])]
                           .filter(
                               (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
@@ -340,7 +337,7 @@ const Map = ({
                           ...(searched.length > 0 ? searched : []),
                       ].filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode));
 
-                if (includeMarkerData && stops.length === 100) {
+                if (!!markerData && stops.length === 100) {
                     setSelectAllClicked(true);
                 }
 
@@ -390,7 +387,7 @@ const Map = ({
                 await addSelectedStopsAndServices();
             }
         } else {
-            await addSelectedStopsAndServices(true);
+            await addSelectedStopsAndServices();
         }
         setShowSelectAllText(!showSelectAllText);
         return;
