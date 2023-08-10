@@ -151,7 +151,6 @@ const Map = ({
         (id: string) => {
             if (state) {
                 const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
-                //TODO DEANNA Put logic in here that when stop is unselected it's service is removed if no other stop has it's service
 
                 stateUpdater({
                     ...state,
@@ -169,7 +168,6 @@ const Map = ({
     const selectMarker = useCallback(
         async (id: string) => {
             if (state) {
-                const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
                 const atcoCodes = markerData.map((marker) => marker.atcoCode).splice(0, 100);
 
                 const servicesInPolygon = await fetchServicesByStops({
@@ -178,21 +176,26 @@ const Map = ({
                     dataSource: dataSource,
                 });
 
-                stateUpdater({
-                    ...state,
-                    inputs: {
-                        ...state.inputs,
-                        ...(state.inputs?.services
-                            ? {
-                                  services: [...state.inputs?.services, ...servicesInPolygon].filter(
-                                      (value, index, self) => index === self.findIndex((s) => s.id === value.id),
-                                  ),
-                              }
-                            : { services: [...servicesInPolygon] }),
-                        stops: sortStops([...selected, ...stop]),
-                    },
-                    errors: state.errors,
-                });
+                if (!servicesInPolygon) {
+                    return;
+                } else {
+                    const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
+                    stateUpdater({
+                        ...state,
+                        inputs: {
+                            ...state.inputs,
+                            ...(state.inputs?.services
+                                ? {
+                                      services: [...state.inputs?.services, ...servicesInPolygon].filter(
+                                          (value, index, self) => index === self.findIndex((s) => s.id === value.id),
+                                      ),
+                                  }
+                                : { services: [...servicesInPolygon] }),
+                            stops: sortStops([...selected, ...stop]),
+                        },
+                        errors: state.errors,
+                    });
+                }
             }
         },
         [searched, selected, state, stateUpdater, markerData, dataSource],
