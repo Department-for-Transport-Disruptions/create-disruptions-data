@@ -10,12 +10,12 @@ import {
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { Consequence } from "../schemas/consequence.schema";
-import { DisruptionInfo } from "../schemas/create-disruption.schema";
+import { DisruptionInfo, Validity } from "../schemas/create-disruption.schema";
 import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
-import { SocialMediaPostTransformed } from "../schemas/social-media.schema";
+import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
-import { getDate } from "../utils/dates";
+import { getDate, getDatetimeFromDateAndTime, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -212,6 +212,45 @@ export const getDisruptionsDataFromDynamo = async (id: string): Promise<Disrupti
     );
 
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+};
+
+export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
+    logger.info("Getting published social media data from DynamoDB table...");
+
+    const disruptions = await getDisruptionsDataFromDynamo(orgId);
+
+    return disruptions
+        .filter((disruption) => {
+            const validityPeriods: Validity[] = [
+                ...(disruption.validity ?? []),
+                {
+                    disruptionStartDate: disruption.disruptionStartDate,
+                    disruptionStartTime: disruption.disruptionStartTime,
+                    disruptionEndDate: disruption.disruptionEndDate,
+                    disruptionEndTime: disruption.disruptionEndTime,
+                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                    disruptionRepeats: disruption.disruptionRepeats,
+                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
+                },
+            ];
+            const today = getDate();
+            const shouldNotDisplayDisruption = validityPeriods.every(
+                (period) =>
+                    !!period.disruptionEndDate &&
+                    !!period.disruptionEndTime &&
+                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
+            );
+
+            if (
+                !shouldNotDisplayDisruption &&
+                (isLiveDisruption(validityPeriods) || isUpcomingDisruption(validityPeriods, today))
+            ) {
+                return true;
+            }
+            return false;
+        })
+        .flatMap((item) => item.socialMediaPosts)
+        .filter(notEmpty);
 };
 
 export const getOrganisationInfoById = async (orgId: string): Promise<Organisation | null> => {
