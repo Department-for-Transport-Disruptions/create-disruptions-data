@@ -239,7 +239,7 @@ export const makeFilteredArraySchema = <T extends ZodSchema>(schema: T) =>
         .array(z.unknown())
         .transform((items) => items?.filter((item): item is z.infer<T> => schema.safeParse(item).success));
 
-export const sortServices = (services: Service[]) => {
+export const sortServices = <T extends Service>(services: T[]): T[] => {
     return services.sort((a, b) => {
         return (
             a.lineName.localeCompare(b.lineName, "en", { numeric: true }) ||
