@@ -105,8 +105,7 @@ const Map = ({
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
-    const [showMessage, setShowMessage] = useState<boolean>(false);
-    const [noServicesForSelectedStop, setNoServicesForSelectedStop] = useState<boolean>(false);
+    const [warningMessage, setWarningMessage] = useState<string>("");
     const [selectAllClicked, setSelectAllClicked] = useState<boolean>(false);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
@@ -165,6 +164,11 @@ const Map = ({
         [selected, state, stateUpdater],
     );
 
+    const warningMessageText = {
+        noServiceAssociatedWithStop: "Cannot select stop, stop does not have any associated services",
+        maxStopLimitReached: `Stop selection capped at 100, ${selected.length} stops currently selected`,
+    };
+
     const selectMarker = useCallback(
         async (id: string) => {
             if (state) {
@@ -176,7 +180,10 @@ const Map = ({
                     dataSource: dataSource,
                 });
 
-                if (!servicesInPolygon) {
+                console.log(servicesInPolygon);
+
+                if (servicesInPolygon.length === 0) {
+                    setWarningMessage(warningMessageText.noServiceAssociatedWithStop);
                     return;
                 } else {
                     const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
@@ -203,9 +210,9 @@ const Map = ({
 
     useEffect(() => {
         if (selectAllClicked && selected.length === 100) {
-            setShowMessage(true);
+            setWarningMessage(warningMessageText.maxStopLimitReached);
         } else {
-            setShowMessage(false);
+            setWarningMessage("");
             setSelectAllClicked(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -506,12 +513,7 @@ const Map = ({
     };
     return mapboxAccessToken ? (
         <>
-            {showMessage ? (
-                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
-            ) : null}
-            {noServicesForSelectedStop ? (
-                <Warning text={`Cannot select stop, stop does not have any associated services.`} />
-            ) : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
