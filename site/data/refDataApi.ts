@@ -119,7 +119,7 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
     if (input.dataSource) {
         queryStringItems.push(`dataSource=${input.dataSource}`);
     }
-    
+
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
