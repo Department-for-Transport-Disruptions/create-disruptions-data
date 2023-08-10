@@ -95,7 +95,7 @@ export const serviceApiResponseSchema = serviceSchema.extend({
     lineId: z.string(),
 });
 
-export const serviceByStopSchema = serviceSchema.and(
+export const serviceByStopSchema = serviceApiResponseSchema.and(
     z.object({
         stops: z.array(z.string()),
         routes: z.object({
@@ -112,7 +112,7 @@ export const servicesConsequenceSchema = z.object({
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
     stops: z.array(stopSchema).optional(),
     services: z
-        .array(serviceSchema)
+        .array(serviceApiResponseSchema)
         .min(1, {
             message: "At least one service must be added",
         })

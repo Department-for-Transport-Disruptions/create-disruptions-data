@@ -24,13 +24,12 @@ import {
     Routes,
     Service,
     ServicesConsequence,
-    Stop,
-    serviceSchema,
     servicesConsequenceSchema,
+    Stop,
     stopSchema,
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { getStopType, sortStops } from "../../utils/formUtils";
+import { filterServices, getStopType, sortStops } from "../../utils/formUtils";
 import Warning from "../form/Warning";
 
 interface ServiceMapProps extends MapProps {
@@ -86,6 +85,13 @@ export const getMarkerDataInAService = (
                 serviceIds: services.length > 0 ? services.map((s) => s.id) : undefined,
             };
         });
+};
+
+export const getSelectedStopsFromMapMarkers = (markerData: Stop[], id: string) => {
+    return [...markerData].filter((stop: Stop) => stop.atcoCode === id);
+};
+export const getAtcoCodesFromSelectedStops = (stops: Stop[]) => {
+    return !!stops ? stops.map((stop) => stop.atcoCode).splice(0, 100) : [];
 };
 
 const Map = ({
@@ -169,10 +175,11 @@ const Map = ({
         maxStopLimitReached: `Stop selection capped at 100, ${selected.length} stops currently selected`,
     };
 
-    const selectMarker = useCallback(
-        async (id: string) => {
-            if (state) {
-                const atcoCodes = markerData.map((marker) => marker.atcoCode).splice(0, 100);
+    const addServiceFromSingleStop = async (id: string) => {
+        if (state) {
+            {
+                const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
+                const atcoCodes = getAtcoCodesFromSelectedStops(stop);
 
                 const servicesInPolygon = await fetchServicesByStops({
                     atcoCodes,
@@ -180,32 +187,35 @@ const Map = ({
                     dataSource: dataSource,
                 });
 
-                console.log(servicesInPolygon);
-
                 if (servicesInPolygon.length === 0) {
                     setWarningMessage(warningMessageText.noServiceAssociatedWithStop);
                     return;
-                } else {
-                    const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
-                    stateUpdater({
-                        ...state,
-                        inputs: {
-                            ...state.inputs,
-                            ...(state.inputs?.services
-                                ? {
-                                      services: [...state.inputs?.services, ...servicesInPolygon].filter(
-                                          (value, index, self) => index === self.findIndex((s) => s.id === value.id),
-                                      ),
-                                  }
-                                : { services: [...servicesInPolygon] }),
-                            stops: sortStops([...selected, ...stop]),
-                        },
-                        errors: state.errors,
-                    });
                 }
+
+                stateUpdater({
+                    ...state,
+                    inputs: {
+                        ...state.inputs,
+                        ...(state.inputs?.services
+                            ? {
+                                  services: filterServices([...state.inputs?.services, ...servicesInPolygon]),
+                              }
+                            : { services: [...filterServices(servicesInPolygon)] }),
+                        stops: sortStops([...selected, ...stop]),
+                    },
+                    errors: state.errors,
+                });
             }
+        }
+    };
+
+    const selectMarker = useCallback(
+        async (id: string) => {
+            setLoading(true);
+            await addServiceFromSingleStop(id);
+            setLoading(false);
         },
-        [searched, selected, state, stateUpdater, markerData, dataSource],
+        [addServiceFromSingleStop],
     );
 
     useEffect(() => {
@@ -288,8 +298,8 @@ const Map = ({
         } else {
             if (showSelectAllText) {
                 setLoading(true);
-                const atcoCodes = includeMarkerData ? markerData.map((marker) => marker.atcoCode).splice(0, 100) : [];
-
+                //TODO Change below to use stops not marker data
+                const atcoCodes = getAtcoCodesFromSelectedStops(markerData);
                 const servicesInPolygon = includeMarkerData
                     ? dataSource
                         ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
@@ -301,12 +311,6 @@ const Map = ({
                 const markerDataInAService = includeMarkerData
                     ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                     : [];
-
-                const servicesToAdd = servicesInPolygon
-                    .filter((service) =>
-                        service.stops.filter((stop) => markerData.map((marker) => marker.atcoCode).includes(stop)),
-                    )
-                    .map((service) => serviceSchema.parse(service));
 
                 setSelectedServices(
                     [
@@ -346,11 +350,9 @@ const Map = ({
                         stops: sortStops(stops),
                         ...(state.inputs?.services
                             ? {
-                                  services: [...state.inputs?.services, ...servicesToAdd].filter(
-                                      (value, index, self) => index === self.findIndex((s) => s.id === value.id),
-                                  ),
+                                  services: filterServices([...state.inputs?.services, ...servicesInPolygon]),
                               }
-                            : { services: [...servicesToAdd] }),
+                            : { services: [...filterServices(servicesInPolygon)] }),
                     },
                     errors: [
                         ...state.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
