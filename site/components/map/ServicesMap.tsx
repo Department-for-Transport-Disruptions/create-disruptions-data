@@ -269,7 +269,7 @@ const Map = ({
         } else {
             if (showSelectAllText) {
                 setLoading(true);
-                const atcoCodes = includeMarkerData ? markerData.map((marker) => marker.atcoCode) : [];
+                const atcoCodes = includeMarkerData ? markerData.map((marker) => marker.atcoCode).splice(0, 100) : [];
 
                 const servicesInPolygon = includeMarkerData
                     ? dataSource
