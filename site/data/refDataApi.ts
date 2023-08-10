@@ -100,7 +100,6 @@ export const fetchServices = async (input: FetchServicesInput) => {
 interface FetchServicesByStopsInput {
     atcoCodes?: string[];
     includeRoutes?: boolean;
-    dataSource?: Datasource;
 }
 
 export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => {
@@ -114,10 +113,6 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
     if (input.includeRoutes) {
         queryStringItems.push("includeRoutes=true");
-    }
-
-    if (input.dataSource) {
-        queryStringItems.push(`dataSource=${input.dataSource}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -138,7 +133,6 @@ interface FetchServiceRoutes {
     busStopType?: string;
     modes?: string;
     stopTypes?: string;
-    dataSource?: string;
 }
 
 export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
@@ -156,10 +150,6 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
     if (input.stopTypes) {
         queryStringItems.push(`stopTypes=${input.stopTypes}`);
-    }
-
-    if (input.dataSource) {
-        queryStringItems.push(`dataSource=${input.dataSource}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {

@@ -25,9 +25,7 @@ export function SiteStack({ stack }: StackContext) {
         }
     }
 
-    const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+    const apiUrl = "https://ruij3gt6v7.execute-api.eu-west-2.amazonaws.com";
 
     const middlewareCognitoUser = new User(stack, "cdd-site-middleware-user", {
         userName: `cdd-site-middleware-user-${stack.stage}-${stack.region}`,
