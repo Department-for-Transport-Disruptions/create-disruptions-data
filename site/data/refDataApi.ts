@@ -53,7 +53,7 @@ export const fetchStops = async (input: FetchStopsInput) => {
         throw new Error(`fetchStops call failed: ${body.error}`);
     }
 
-    const parseResult = z.array(stopSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(stopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
