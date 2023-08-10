@@ -1,10 +1,10 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
-import getAllDisruptions from "./get-all-disruptions.api";
+import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
 import { Disruption } from "../../schemas/disruption.schema";
-import { getMockRequestAndResponse } from "../../testData/mockData";
+import { getMockRequestAndResponse, sortedDisruption } from "../../testData/mockData";
 import * as utils from "../../utils";
 
 describe("getAllDisruptions", () => {
@@ -21,11 +21,6 @@ describe("getAllDisruptions", () => {
         vi.resetAllMocks();
     });
 
-    // beforeEach(() => {
-    //     getDisruptionsDataFromDynamoSpy.mockImplementation(() => {
-    //         return disruptions;
-    //     });
-    // });
     const disruptions: Disruption[] = [
         {
             associatedLink: "",
@@ -95,7 +90,7 @@ describe("getAllDisruptions", () => {
         getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
 
         const { req, res } = getMockRequestAndResponse({
-            body: {
+            query: {
                 orgId: randomUUID(),
             },
             mockWriteHeadFn: writeHeadMock,
@@ -124,5 +119,13 @@ describe("getAllDisruptions", () => {
         }
         expect(getDisruptionsDataFromDynamoSpy).not.toHaveBeenCalledOnce();
         expect(sortDisruptionsByStartDateSpy).not.toHaveBeenCalledOnce();
+    });
+
+    describe("formatSortedDisruptions", () => {
+        it("correctly formats disruptions", () => {
+            const formatted = formatSortedDisruption(sortedDisruption);
+
+            expect(formatted).toMatchSnapshot();
+        });
     });
 });

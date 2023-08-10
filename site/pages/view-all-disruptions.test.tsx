@@ -1,6 +1,6 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { Dayjs } from "dayjs";
-import renderer from "react-test-renderer";
+import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { randomUUID } from "crypto";
 import ViewAllDisruptions, {
@@ -10,10 +10,18 @@ import ViewAllDisruptions, {
     getWorstSeverity,
     TableDisruption,
 } from "./view-all-disruptions.page";
-import * as viewAllDisruptions from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
 import { getDatetimeFromDateAndTime } from "../utils/dates";
-import { render } from "@testing-library/react";
+
+type Renderer = {
+    toJSON: () => void;
+};
+
+const defaultRenderer: Renderer = {
+    toJSON: () => {
+        return;
+    },
+};
 
 const disruptions: TableDisruption[] = [
     {
@@ -71,150 +79,129 @@ const disruptions: TableDisruption[] = [
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
+const fetchSpy = vi.spyOn(global, "fetch");
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
     useRouter.mockImplementation(() => ({
         query: "",
     }));
+
+    vi.spyOn(global, "fetch");
 });
 
 afterEach(() => {
     vi.resetAllMocks();
 });
 
-const fetchResponse = {
-    ok: true,
-    json: () => {
-        return Promise.resolve(disruptions);
-    },
-};
-
 describe("pages", () => {
     vi.mock("./view-all-disruptions.page", async () => ({
         ...(await vi.importActual<object>("./view-all-disruptions.page")),
-        getDisruptionData: vi.fn(),
     }));
 
-    const getDisruptionDataSpy = vi.spyOn(viewAllDisruptions, "getDisruptionData");
-
     describe("viewAllDisruptions", () => {
-        // it("should render correctly when there are no disruptions", () => {
-        //     global.fetch = vi.fn().mockResolvedValueOnce({
-        //         ok: true,
-        //         json: () => {
-        //             return Promise.resolve([]);
-        //         },
-        //     });
+        it("should render correctly when there are no disruptions", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([]),
+            } as unknown as Response);
 
-        //     const tree = renderer
-        //         .create(
-        //             <ViewAllDisruptions
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 adminAreaCodes={["099"]}
-        //                 orgId={randomUUID()}
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+            let component: Renderer = defaultRenderer;
 
-        it("should render correctly when there are enough disruptions for no pagination", () => {
-            // global.fetch = vi.fn().mockImplementation(() => {
-            //     return Promise.resolve(fetchResponse);
-            // });
-
-            getDisruptionDataSpy.mockImplementation(() => {
-                return Promise.resolve(disruptions);
+            await act(() => {
+                component = renderer.create(
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
+                    />,
+                );
             });
 
-            const { container } = render(
-                <ViewAllDisruptions
-                    newDisruptionId={defaultNewDisruptionId}
-                    adminAreaCodes={["099"]}
-                    orgId={randomUUID()}
-                />,
-            );
-
-            expect(container).toMatchSnapshot();
-
-            // const tree = renderer
-            //     .create(
-            //         <ViewAllDisruptions
-            //             newDisruptionId={defaultNewDisruptionId}
-            //             adminAreaCodes={["099"]}
-            //             orgId={randomUUID()}
-            //         />,
-            //     )
-            //     .toJSON();
-            // expect(tree).toMatchSnapshot();
+            expect(component.toJSON()).toMatchSnapshot();
         });
 
-        // it("should render correctly when there are enough disruptions for pagination", () => {
-        //     global.fetch = vi.fn().mockResolvedValueOnce({
-        //         ok: true,
-        //         json: () => {
-        //             return Promise.resolve([...disruptions, ...disruptions, ...disruptions, ...disruptions]);
-        //         },
-        //     });
-        //     const tree = renderer
-        //         .create(
-        //             <ViewAllDisruptions
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 adminAreaCodes={["099"]}
-        //                 orgId={randomUUID()}
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+        it("should render correctly when there are enough disruptions for no pagination", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue(disruptions),
+            } as unknown as Response);
 
-        // it("should render correctly when filter is set to pending approval status", () => {
-        //     useRouter.mockImplementation(() => ({
-        //         query: { pending: true },
-        //     }));
+            let component: Renderer = defaultRenderer;
 
-        //     global.fetch = vi.fn().mockResolvedValueOnce({
-        //         ok: true,
-        //         json: () => {
-        //             return Promise.resolve([...disruptions, ...disruptions, ...disruptions, ...disruptions]);
-        //         },
-        //     });
-        //     const tree = renderer
-        //         .create(
-        //             <ViewAllDisruptions
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 adminAreaCodes={["099"]}
-        //                 orgId={randomUUID()}
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+            await act(() => {
+                component = renderer.create(
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
+                    />,
+                );
+            });
 
-        // it("should render correctly when filter is set to draft status", () => {
-        //     useRouter.mockImplementation(() => ({
-        //         query: { draft: true },
-        //     }));
+            expect(component.toJSON()).toMatchSnapshot();
+        });
 
-        //     global.fetch = vi.fn().mockResolvedValueOnce({
-        //         ok: true,
-        //         json: () => {
-        //             return Promise.resolve([...disruptions, ...disruptions, ...disruptions, ...disruptions]);
-        //         },
-        //     });
+        it("should render correctly when there are enough disruptions for pagination", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
 
-        //     const tree = renderer
-        //         .create(
-        //             <ViewAllDisruptions
-        //                 newDisruptionId={defaultNewDisruptionId}
-        //                 adminAreaCodes={["099"]}
-        //                 orgId={randomUUID()}
-        //             />,
-        //         )
-        //         .toJSON();
-        //     expect(tree).toMatchSnapshot();
-        // });
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
+                    />,
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
+        });
+
+        it("should render correctly when filter is set to pending approval status", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
+
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
+                        filterStatus={Progress.pendingApproval}
+                    />,
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
+        });
+
+        it("should render correctly when filter is set to draft status", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
+
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        orgId={randomUUID()}
+                        filterStatus={Progress.draft}
+                    />,
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
+        });
     });
 });
 

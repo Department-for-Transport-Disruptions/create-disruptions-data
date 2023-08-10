@@ -349,19 +349,15 @@ const applyFiltersToDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
-export const getDisruptionData = async (orgId: string, csrfToken?: string) => {
-    console.log("getDisruptionData-------");
-    const options = {
-        method: "POST",
+export const getDisruptionData = async (orgId: string) => {
+    const options: RequestInit = {
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ orgId: orgId }),
     };
 
-    const url = new URL(`/api/get-all-disruptions${csrfToken ? `?_csrf=${csrfToken}` : ""}`, window.location.origin);
-    csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
-    const res = await fetch(url.toString(), options);
+    const res = await fetch(`/api/get-all-disruptions?orgId=${orgId}`, options);
     const disruptions = (await res.json()) as TableDisruption[];
 
     return disruptions;
@@ -372,7 +368,6 @@ const ViewAllDisruptions = ({
     adminAreaCodes,
     orgId,
     filterStatus,
-    csrfToken,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -470,9 +465,7 @@ const ViewAllDisruptions = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            console.log("before------");
-            const disruptions = await getDisruptionData(orgId, csrfToken);
-            console.log("disruptions------", disruptions);
+            const disruptions = await getDisruptionData(orgId);
             setDisruptionsToDisplay(disruptions);
             setDisruptions(disruptions);
             setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
@@ -971,7 +964,6 @@ const ViewAllDisruptions = ({
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllDisruptionsProps }> => {
     const baseProps = {
         props: {
-            disruptions: [],
             newDisruptionId: randomUUID(),
             adminAreaCodes: [],
             orgId: "",
@@ -993,7 +985,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            disruptions: [],
             adminAreaCodes: session.adminAreaCodes,
             orgId: session.orgId,
             newDisruptionId: randomUUID(),
