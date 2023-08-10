@@ -72,6 +72,7 @@ export const fetchStops = async (
                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                 ? { stopTypes: "FER, FBT" }
                 : { stopTypes: "undefined" }),
+            dataSource: dataSource || Datasource.bods,
         });
 
         if (stopsData) {
