@@ -2,6 +2,7 @@ import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
+import { LargePolygonError } from "../errors";
 import {
     operatorSchema,
     routesSchema,
@@ -42,6 +43,15 @@ export const fetchStops = async (input: FetchStopsInput) => {
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
+
+    if (!res.ok) {
+        const body = (await res.json()) as { error: string };
+        if (body.error.includes("Area of polygon must be below")) {
+            throw new LargePolygonError();
+        }
+
+        throw new Error(`fetchStops call failed: ${body.error}`);
+    }
 
     const parseResult = makeFilteredArraySchema(stopSchema).safeParse(await res.json());
 
