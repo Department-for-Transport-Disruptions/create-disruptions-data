@@ -30,7 +30,7 @@ import {
 } from "../constants";
 import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { ConsequenceOperators, Operator, Service } from "../schemas/consequence.schema";
+import { ConsequenceOperators, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
 import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
 import {
@@ -585,10 +585,10 @@ const ViewAllDisruptions = ({
             fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Datasource.tnds }),
         ]);
 
-        let services: Service[] = [];
+        let services: ServiceApiResponse[] = [];
 
         const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
-        services = (await filterServices(combinedServices)) ?? [];
+        services = filterServices(combinedServices) ?? [];
 
         setOperatorsList(operators);
         setServicesList(services);

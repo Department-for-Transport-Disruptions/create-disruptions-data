@@ -278,7 +278,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             modes: mode,
         });
 
-        const filteredData = await filterServices(serviceData);
+        const filteredData = filterServices(serviceData);
 
         setServicesRecords(filteredData);
     };
