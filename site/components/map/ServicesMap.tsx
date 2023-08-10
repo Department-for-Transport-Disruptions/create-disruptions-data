@@ -31,6 +31,7 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import Warning from "../form/Warning";
 
 interface ServiceMapProps extends MapProps {
     dataSource?: Datasource;
@@ -105,6 +106,7 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [showMessage, setShowMessage] = useState<boolean>(false);
+    const [noServicesForSelectedStop, setNoServicesForSelectedStop] = useState<boolean>(false);
     const [selectAllClicked, setSelectAllClicked] = useState<boolean>(false);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
@@ -149,6 +151,7 @@ const Map = ({
         (id: string) => {
             if (state) {
                 const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
+                //TODO DEANNA Put logic in here that when stop is unselected it's service is removed if no other stop has it's service
 
                 stateUpdater({
                     ...state,
@@ -164,21 +167,35 @@ const Map = ({
     );
 
     const selectMarker = useCallback(
-        (id: string) => {
+        async (id: string) => {
             if (state) {
                 const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
+                const atcoCodes = markerData.map((marker) => marker.atcoCode).splice(0, 100);
+
+                const servicesInPolygon = await fetchServicesByStops({
+                    atcoCodes,
+                    includeRoutes: true,
+                    dataSource: dataSource,
+                });
 
                 stateUpdater({
                     ...state,
                     inputs: {
                         ...state.inputs,
+                        ...(state.inputs?.services
+                            ? {
+                                  services: [...state.inputs?.services, ...servicesInPolygon].filter(
+                                      (value, index, self) => index === self.findIndex((s) => s.id === value.id),
+                                  ),
+                              }
+                            : { services: [...servicesInPolygon] }),
                         stops: sortStops([...selected, ...stop]),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [searched, selected, state, stateUpdater, markerData],
+        [searched, selected, state, stateUpdater, markerData, dataSource],
     );
 
     useEffect(() => {
@@ -487,15 +504,10 @@ const Map = ({
     return mapboxAccessToken ? (
         <>
             {showMessage ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
-                    </strong>
-                </div>
+                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
+            ) : null}
+            {noServicesForSelectedStop ? (
+                <Warning text={`Cannot select stop, stop does not have any associated services.`} />
             ) : null}
             {showSelectAllButton ? (
                 <button
