@@ -16,7 +16,7 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
-import { LargePolygonError } from "../../errors";
+import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
@@ -138,6 +138,8 @@ const Map = ({
                     setMarkerData([]);
                     if (e instanceof LargePolygonError) {
                         setWarningMessage("Drawn area too big, draw a smaller area");
+                    } else if (e instanceof NoStopsError) {
+                        setWarningMessage("No stops found in selected area");
                     } else {
                         setWarningMessage("There was a problem retrieving the stops");
                     }

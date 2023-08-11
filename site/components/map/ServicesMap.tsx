@@ -19,7 +19,7 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
-import { LargePolygonError } from "../../errors";
+import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import {
     Routes,
@@ -176,6 +176,7 @@ const Map = ({
         maxStopLimitReached: `Stop selection capped at 100, ${selected.length} stops currently selected`,
         drawnAreaTooBig: "Drawn area too big, draw a smaller area",
         problemRetrievingStops: "There was a problem retrieving the stops",
+        noStopsFound: "No stops found in selected area",
     };
 
     const addServiceFromSingleStop = async (id: string) => {
@@ -234,6 +235,7 @@ const Map = ({
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
+            setWarningMessage("");
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 setLoading(true);
@@ -266,6 +268,8 @@ const Map = ({
                     setSelectedServices([]);
                     if (e instanceof LargePolygonError) {
                         setWarningMessage(warningMessageText.drawnAreaTooBig);
+                    } else if (e instanceof NoStopsError) {
+                        setWarningMessage(warningMessageText.noStopsFound);
                     } else {
                         setWarningMessage(warningMessageText.problemRetrievingStops);
                     }
