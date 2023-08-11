@@ -19,7 +19,7 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
-import { LargePolygonError } from "../../errors";
+import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import {
     Routes,
@@ -230,6 +230,8 @@ const Map = ({
                     setSelectedServices([]);
                     if (e instanceof LargePolygonError) {
                         setWarningMessage("Drawn area too big, draw a smaller area");
+                    } else if (e instanceof NoStopsError) {
+                        setWarningMessage("No stops found in selected area");
                     } else {
                         setWarningMessage("There was a problem retrieving the stops");
                     }
