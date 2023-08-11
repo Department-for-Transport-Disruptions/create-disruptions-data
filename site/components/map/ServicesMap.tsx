@@ -178,7 +178,6 @@ const Map = ({
     const addServiceFromSingleStop = async (id: string) => {
         if (state) {
             {
-                console.log(state.inputs.stops);
                 const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
                 const atcoCodes = getAtcoCodesFromSelectedStops(stop);
 
