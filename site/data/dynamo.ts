@@ -241,13 +241,10 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
                     getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
             );
 
-            if (
+            return (
                 !shouldNotDisplayDisruption &&
                 (isLiveDisruption(validityPeriods) || isUpcomingDisruption(validityPeriods, today))
-            ) {
-                return true;
-            }
-            return false;
+            );
         })
         .flatMap((item) => item.socialMediaPosts)
         .filter(notEmpty);
