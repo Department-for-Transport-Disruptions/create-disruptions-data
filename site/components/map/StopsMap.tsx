@@ -21,6 +21,7 @@ import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
 interface MapProps {
@@ -137,11 +138,11 @@ const Map = ({
                 } catch (e) {
                     setMarkerData([]);
                     if (e instanceof LargePolygonError) {
-                        setWarningMessage("Drawn area too big, draw a smaller area");
+                        setWarningMessage(warningMessageText(selected.length).drawnAreaTooBig);
                     } else if (e instanceof NoStopsError) {
-                        setWarningMessage("No stops found in selected area");
+                        setWarningMessage(warningMessageText(selected.length).noStopsFound);
                     } else {
-                        setWarningMessage("There was a problem retrieving the stops");
+                        setWarningMessage(warningMessageText(selected.length).problemRetrievingStops);
                     }
                 }
             };
@@ -229,6 +230,14 @@ const Map = ({
         setShowSelectAllText(!showSelectAllText);
     };
 
+    useEffect(() => {
+        if (selected.length === 100) {
+            setWarningMessage(warningMessageText(selected.length).maxStopLimitReached);
+        } else {
+            setWarningMessage("");
+        }
+    }, [selected]);
+
     return mapboxAccessToken ? (
         <>
             {showSelectAllButton ? (
@@ -240,9 +249,6 @@ const Map = ({
                 >
                     {showSelectAllText ? "Select all stops" : "Unselect all stops"}
                 </button>
-            ) : null}
-            {selected.length === 100 ? (
-                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
             {warningMessage ? <Warning text={warningMessage} /> : null}
             <LoadingBox loading={loading}>
