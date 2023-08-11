@@ -244,7 +244,7 @@ const Map = ({
                     {showSelectAllText ? "Select all stops" : "Unselect all stops"}
                 </button>
             ) : null}
-             {warningMessage ? <Warning text={warningMessage} /> : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             <LoadingBox loading={loading}>
                 <MapBox
                     initialViewState={initialViewState}
