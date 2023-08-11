@@ -42,31 +42,39 @@ export const formatSortedDisruption = (disruption: SortedDisruption) => {
 
             severitys.push(consequence.disruptionSeverity);
 
-            if (consequence.consequenceType === "services") {
-                consequence.services.forEach((service) => {
-                    serviceIds.push(service.id.toString());
-                });
+            switch (consequence.consequenceType) {
+                case "services":
+                    consequence.services.forEach((service) => {
+                        serviceIds.push(service.id.toString());
+                    });
 
-                consequence.stops?.map((stop) => {
-                    if (!atcoCodeSet.has(stop.atcoCode)) {
-                        atcoCodeSet.add(stop.atcoCode);
-                        stopsAffectedCount++;
-                    }
-                });
-            } else if (consequence.consequenceType === "operatorWide") {
-                isOperatorWideCq = true;
-                consequence.consequenceOperators.forEach((op) => {
-                    disruptionOperators.push(op.operatorNoc);
-                });
-            } else if (consequence.consequenceType === "networkWide") {
-                isNetworkWideCq = true;
-            } else if (consequence.consequenceType === "stops") {
-                consequence.stops?.map((stop) => {
-                    if (!atcoCodeSet.has(stop.atcoCode)) {
-                        atcoCodeSet.add(stop.atcoCode);
-                        stopsAffectedCount++;
-                    }
-                });
+                    consequence.stops?.map((stop) => {
+                        if (!atcoCodeSet.has(stop.atcoCode)) {
+                            atcoCodeSet.add(stop.atcoCode);
+                            stopsAffectedCount++;
+                        }
+                    });
+                    break;
+
+                case "operatorWide":
+                    isOperatorWideCq = true;
+                    consequence.consequenceOperators.forEach((op) => {
+                        disruptionOperators.push(op.operatorNoc);
+                    });
+                    break;
+
+                case "networkWide":
+                    isNetworkWideCq = true;
+                    break;
+
+                case "stops":
+                    consequence.stops?.map((stop) => {
+                        if (!atcoCodeSet.has(stop.atcoCode)) {
+                            atcoCodeSet.add(stop.atcoCode);
+                            stopsAffectedCount++;
+                        }
+                    });
+                    break;
             }
         });
     }
