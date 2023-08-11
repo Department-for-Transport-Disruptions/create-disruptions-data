@@ -16,10 +16,12 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
+import { LargePolygonError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
+import Warning from "../form/Warning";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -49,6 +51,7 @@ const Map = ({
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [loading, setLoading] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
 
     const handleMouseEnter = useCallback(
         (id: string) => {
@@ -105,28 +108,39 @@ const Map = ({
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
+            setWarningMessage("");
             const polygon = Object.values(features)[0].geometry.coordinates[0];
             const loadOptions = async () => {
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
-                const stopsData = await fetchStops({
-                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    polygon,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: ["BCT"] }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: ["MET", "PLT"] }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: ["FER", "FBT"] }
-                        : vehicleMode === Modes.rail
-                        ? { stopTypes: ["RLY"] }
-                        : { stopTypes: ["undefined"] }),
-                });
-                if (stopsData) {
-                    setMarkerData(stopsData);
-                } else {
+                try {
+                    const stopsData = await fetchStops({
+                        adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        polygon,
+                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus
+                            ? { stopTypes: ["BCT"] }
+                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            ? { stopTypes: ["MET", "PLT"] }
+                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                            ? { stopTypes: ["FER", "FBT"] }
+                            : vehicleMode === Modes.rail
+                            ? { stopTypes: ["RLY"] }
+                            : { stopTypes: ["undefined"] }),
+                    });
+
+                    if (stopsData) {
+                        setMarkerData(stopsData);
+                    } else {
+                        setMarkerData([]);
+                    }
+                } catch (e) {
                     setMarkerData([]);
+                    if (e instanceof LargePolygonError) {
+                        setWarningMessage("Drawn area too big, draw a smaller area");
+                    } else {
+                        setWarningMessage("There was a problem retrieving the stops");
+                    }
                 }
             };
 
@@ -134,6 +148,8 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
             setLoading(false);
+        } else {
+            setWarningMessage("");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -214,16 +230,9 @@ const Map = ({
     return mapboxAccessToken ? (
         <>
             {selected.length === 100 ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        {`Stop selection capped at 100, ${selected.length} stops currently selected`}
-                    </strong>
-                </div>
+                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"

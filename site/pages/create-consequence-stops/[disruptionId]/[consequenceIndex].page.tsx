@@ -62,23 +62,27 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
                 const vehicleMode = pageState.inputs.vehicleMode as Modes | VehicleMode;
-                const stopsData = await fetchStops({
-                    adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    searchString: searchInput,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: ["BCT"] }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: ["MET", "PLT"] }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: ["FER", "FBT"] }
-                        : vehicleMode === Modes.rail
-                        ? { stopTypes: ["RLY"] }
-                        : { stopTypes: ["undefined"] }),
-                });
+                try {
+                    const stopsData = await fetchStops({
+                        adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        searchString: searchInput,
+                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus
+                            ? { stopTypes: ["BCT"] }
+                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            ? { stopTypes: ["MET", "PLT"] }
+                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                            ? { stopTypes: ["FER", "FBT"] }
+                            : vehicleMode === Modes.rail
+                            ? { stopTypes: ["RLY"] }
+                            : { stopTypes: ["undefined"] }),
+                    });
 
-                if (stopsData) {
-                    setStopOptions(stopsData);
+                    if (stopsData) {
+                        setStopOptions(stopsData);
+                    }
+                } catch (e) {
+                    setStopOptions([]);
                 }
             } else {
                 setStopOptions([]);

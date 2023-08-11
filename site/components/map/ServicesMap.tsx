@@ -19,14 +19,15 @@ import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
+import { LargePolygonError } from "../../errors";
 import { PageState } from "../../interfaces";
 import {
     Routes,
     Service,
     ServicesConsequence,
-    servicesConsequenceSchema,
     Stop,
     stopSchema,
+    servicesConsequenceSchema,
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { filterServices, getStopType, sortStops } from "../../utils/formUtils";
@@ -173,6 +174,8 @@ const Map = ({
     const warningMessageText = {
         noServiceAssociatedWithStop: "Cannot select stop, stop does not have any associated services",
         maxStopLimitReached: `Stop selection capped at 100, ${selected.length} stops currently selected`,
+        drawnAreaTooBig: "Drawn area too big, draw a smaller area",
+        problemRetrievingStops: "There was a problem retrieving the stops",
     };
 
     const addServiceFromSingleStop = async (id: string) => {
@@ -235,25 +238,37 @@ const Map = ({
             const loadOptions = async () => {
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
-                const stopsData = await fetchStops({
-                    adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-                    polygon,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: ["BCT"] }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: ["MET", "PLT"] }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: ["FER", "FBT"] }
-                        : { stopTypes: ["undefined"] }),
-                });
+                try {
+                    const stopsData = await fetchStops({
+                        adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
+                        polygon,
+                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus
+                            ? { stopTypes: ["BCT"] }
+                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            ? { stopTypes: ["MET", "PLT"] }
+                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                            ? { stopTypes: ["FER", "FBT"] }
+                            : vehicleMode === Modes.rail
+                            ? { stopTypes: ["RLY"] }
+                            : { stopTypes: ["undefined"] }),
+                    });
 
-                if (stopsData) {
-                    setMarkerData(stopsData);
+                    if (stopsData) {
+                        setMarkerData(stopsData);
+                        clearServicesAndStops();
+                    } else {
+                        setMarkerData([]);
+                    }
                     setSelectedServices([]);
-                    clearServicesAndStops();
-                } else {
+                } catch (e) {
                     setMarkerData([]);
+                    setSelectedServices([]);
+                    if (e instanceof LargePolygonError) {
+                        setWarningMessage(warningMessageText.drawnAreaTooBig);
+                    } else {
+                        setWarningMessage(warningMessageText.problemRetrievingStops);
+                    }
                 }
             };
 
@@ -261,6 +276,8 @@ const Map = ({
                 // eslint-disable-next-line no-console
                 .catch(console.error);
             setLoading(false);
+        } else {
+            setWarningMessage("");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
@@ -503,6 +520,7 @@ const Map = ({
               )} (${service.operatorShortName})`
             : "Line: N/A";
     };
+
     return mapboxAccessToken ? (
         <>
             {warningMessage ? <Warning text={warningMessage} /> : null}
