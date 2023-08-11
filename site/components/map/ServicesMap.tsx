@@ -178,6 +178,7 @@ const Map = ({
     const addServiceFromSingleStop = async (id: string) => {
         if (state) {
             {
+                console.log(state.inputs.stops);
                 const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
                 const atcoCodes = getAtcoCodesFromSelectedStops(stop);
 
@@ -216,7 +217,7 @@ const Map = ({
             setLoading(false);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [markerData],
+        [markerData, state.inputs.stops, state.inputs.services],
     );
 
     useEffect(() => {
