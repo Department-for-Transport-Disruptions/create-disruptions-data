@@ -537,7 +537,6 @@ const Map = ({
 
     return mapboxAccessToken ? (
         <>
-            {warningMessage ? <Warning text={warningMessage} /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
@@ -555,6 +554,7 @@ const Map = ({
                     {showSelectAllText ? "Select all" : "Unselect all"}
                 </button>
             ) : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             <LoadingBox loading={loading}>
                 <MapBox
                     initialViewState={initialViewState}
