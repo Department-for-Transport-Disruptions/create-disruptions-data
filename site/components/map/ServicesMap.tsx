@@ -321,20 +321,22 @@ const Map = ({
             if (showSelectAllText) {
                 setLoading(true);
                 const atcoCodes = getAtcoCodesFromSelectedStops(markerData);
-                const servicesInPolygon = !!markerData
-                    ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
-                    : [];
+                const servicesInPolygon =
+                    !!markerData && markerData.length > 0
+                        ? await fetchServicesByStops({ atcoCodes, includeRoutes: true, dataSource: dataSource })
+                        : [];
 
                 const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
 
-                const markerDataInAService = !!markerData
-                    ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
-                    : [];
+                const markerDataInAService =
+                    !!markerData && markerData.length > 0
+                        ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
+                        : [];
 
                 setSelectedServices(
                     [
                         ...(selectedServices ?? []),
-                        ...(!!markerData
+                        ...(!!markerData && markerData.length > 0
                             ? servicesInPolygon.map((service) => ({
                                   serviceId: service.id,
                                   inbound: service.routes.inbound,
@@ -346,19 +348,27 @@ const Map = ({
                     ),
                 );
 
-                const stops = !!markerData
-                    ? [...(state.inputs.stops ?? []), ...markerDataInAService, ...(searched.length > 0 ? searched : [])]
-                          .filter(
+                const stops =
+                    !!markerData && markerData.length > 0
+                        ? [
+                              ...(state.inputs.stops ?? []),
+                              ...markerDataInAService,
+                              ...(searched.length > 0 ? searched : []),
+                          ]
+                              .filter(
+                                  (value, index, self) =>
+                                      index === self.findIndex((s) => s.atcoCode === value.atcoCode),
+                              )
+                              .splice(0, 100)
+                        : [
+                              ...(state.inputs.stops ?? []),
+                              ...markerDataInAService,
+                              ...(searched.length > 0 ? searched : []),
+                          ].filter(
                               (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                          )
-                          .splice(0, 100)
-                    : [
-                          ...(state.inputs.stops ?? []),
-                          ...markerDataInAService,
-                          ...(searched.length > 0 ? searched : []),
-                      ].filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode));
+                          );
 
-                if (!!markerData && stops.length === 100) {
+                if (!!markerData && markerData.length && stops.length === 100) {
                     setSelectAllClicked(true);
                 }
 
