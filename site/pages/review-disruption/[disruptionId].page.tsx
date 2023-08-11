@@ -471,7 +471,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
 
                         <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
                             {disruption?.socialMediaPosts?.map((post, i) => (
-                                <div key={`consequence-${i + 1}`} className="govuk-accordion__section">
+                                <div key={`social-media-post-${i + 1}`} className="govuk-accordion__section">
                                     <div className="govuk-accordion__section-header">
                                         <h2 className="govuk-accordion__section-heading">
                                             <span

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { describe, it, expect } from "vitest";
 import {
     checkOverlap,
@@ -5,7 +6,9 @@ import {
     formatTime,
     getDatetimeFromDateAndTime,
     getEndingOnDateText,
+    isUpcomingDisruption,
 } from "./dates";
+import { Validity } from "../schemas/create-disruption.schema";
 
 describe("date/time tests", () => {
     it.each([
@@ -73,5 +76,82 @@ describe("date/time tests", () => {
         ["25/04/2023", "1000"],
     ])("should return expected date time", (date, time) => {
         expect(getDatetimeFromDateAndTime(date, time).toISOString()).toBeTruthy();
+    });
+
+    it.each([
+        [
+            [
+                {
+                    disruptionStartDate: "13/01/2022",
+                    disruptionStartTime: "1200",
+                    disruptionEndDate: "14/01/2022",
+                    disruptionEndTime: "1400",
+                    disruptionNoEndDateTime: "",
+                },
+                {
+                    disruptionStartDate: "13/01/2022",
+                    disruptionStartTime: "1200",
+                    disruptionEndDate: "14/01/2022",
+                    disruptionEndTime: "1400",
+                    disruptionNoEndDateTime: "",
+                },
+            ] as Validity[],
+            dayjs.tz("11/08/2023", "Europe/London"),
+            false,
+        ],
+        [
+            [
+                {
+                    disruptionStartDate: "13/01/2024",
+                    disruptionStartTime: "1300",
+                    disruptionEndDate: "14/01/2024",
+                    disruptionEndTime: "1400",
+                    disruptionNoEndDateTime: "",
+                },
+                {
+                    disruptionStartDate: "13/01/2024",
+                    disruptionStartTime: "1300",
+                    disruptionEndDate: "14/01/2024",
+                    disruptionEndTime: "1400",
+                    disruptionNoEndDateTime: "",
+                },
+            ] as Validity[],
+            dayjs.tz("11/08/2023", "Europe/London"),
+            true,
+        ],
+        [
+            [
+                {
+                    disruptionStartDate: "13/01/2024",
+                    disruptionStartTime: "1300",
+                    disruptionNoEndDateTime: "true",
+                },
+                {
+                    disruptionStartDate: "13/01/2024",
+                    disruptionStartTime: "1300",
+                    disruptionNoEndDateTime: "true",
+                },
+            ] as Validity[],
+            dayjs.tz("11/08/2023", "Europe/London"),
+            true,
+        ],
+        [
+            [
+                {
+                    disruptionStartDate: "11/08/2023",
+                    disruptionStartTime: "1300",
+                    disruptionNoEndDateTime: "true",
+                },
+                {
+                    disruptionStartDate: "11/08/2023",
+                    disruptionStartTime: "1400",
+                    disruptionNoEndDateTime: "true",
+                },
+            ] as Validity[],
+            dayjs.tz("11/08/2023", "Europe/London"),
+            false,
+        ],
+    ])("should return whether a disruption is upcoming or not ", (validity, today, result) => {
+        expect(isUpcomingDisruption(validity, today)).toEqual(result);
     });
 });

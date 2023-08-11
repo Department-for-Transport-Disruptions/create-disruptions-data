@@ -12,7 +12,13 @@ import { Validity } from "../schemas/create-disruption.schema";
 import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import { convertDateTimeToFormat, getDate, getDatetimeFromDateAndTime, isLiveDisruption } from "../utils/dates";
+import {
+    convertDateTimeToFormat,
+    getDate,
+    getDatetimeFromDateAndTime,
+    isLiveDisruption,
+    isUpcomingDisruption,
+} from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -247,7 +253,7 @@ const Dashboard = ({
                 <h2 className="govuk-heading-s text-govBlue">View all disruptions</h2>
             </Link>
 
-            <Link className="govuk-link" href="/dashboard">
+            <Link className="govuk-link" href="/view-all-social-media">
                 <h2 className="govuk-heading-s text-govBlue">View all social media</h2>
             </Link>
 
@@ -327,11 +333,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                     }
 
                     // start time after today --> upcoming
-                    const isUpcoming = validityPeriods.every((period) =>
-                        getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(
-                            today,
-                        ),
-                    );
+                    const isUpcoming = isUpcomingDisruption(validityPeriods, today);
 
                     if (isUpcoming) {
                         upcomingDisruptions.push(disruption);

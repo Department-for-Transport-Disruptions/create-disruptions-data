@@ -129,3 +129,9 @@ export const isLiveDisruption = (validityPeriods: Validity[]) => {
         );
     });
 };
+
+export const isUpcomingDisruption = (validityPeriods: Validity[], today: Dayjs) => {
+    return validityPeriods.every((period) =>
+        getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(today),
+    );
+};
