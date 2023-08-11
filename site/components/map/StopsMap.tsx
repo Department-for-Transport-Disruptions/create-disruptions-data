@@ -231,9 +231,6 @@ const Map = ({
 
     return mapboxAccessToken ? (
         <>
-            {selected.length === 100 ? (
-                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
-            ) : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
@@ -243,6 +240,9 @@ const Map = ({
                 >
                     {showSelectAllText ? "Select all stops" : "Unselect all stops"}
                 </button>
+            ) : null}
+            {selected.length === 100 ? (
+                <Warning text={`Stop selection capped at 100, ${selected.length} stops currently selected`} />
             ) : null}
             {warningMessage ? <Warning text={warningMessage} /> : null}
             <LoadingBox loading={loading}>
