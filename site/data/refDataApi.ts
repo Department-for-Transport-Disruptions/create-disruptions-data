@@ -2,11 +2,12 @@ import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
+import { LargePolygonError, NoStopsError } from "../errors";
 import {
     operatorSchema,
     routesSchema,
     serviceByStopSchema,
-    serviceSchema,
+    serviceApiResponseSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
 import { makeFilteredArraySchema } from "../utils";
@@ -43,10 +44,22 @@ export const fetchStops = async (input: FetchStopsInput) => {
         method: "GET",
     });
 
+    if (!res.ok) {
+        const body = (await res.json()) as { error: string };
+        if (body.error.includes("Area of polygon must be below")) {
+            throw new LargePolygonError();
+        }
+
+        throw new Error(`fetchStops call failed: ${body.error}`);
+    }
+
     const parseResult = makeFilteredArraySchema(stopSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
+    }
+    if (parseResult.data.length === 0) {
+        throw new NoStopsError();
     }
     return parseResult.data;
 };
@@ -78,7 +91,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(serviceSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceApiResponseSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
