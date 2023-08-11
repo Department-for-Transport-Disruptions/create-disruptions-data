@@ -85,9 +85,6 @@ export const serviceSchema = z.object({
     destination: z.string(),
     origin: z.string(),
     nocCode: z.string(),
-});
-
-export const serviceApiResponseSchema = serviceSchema.extend({
     dataSource: z.nativeEnum(Datasource),
     startDate: z.string(),
     endDate: z.string().nullable(),
@@ -125,7 +122,7 @@ export const servicesConsequenceSchema = z.object({
 
 export type Service = z.infer<typeof serviceSchema>;
 
-export type ServiceApiResponse = z.infer<typeof serviceApiResponseSchema>;
+export type ServiceApiResponse = z.infer<typeof serviceSchema>;
 
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 

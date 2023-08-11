@@ -456,6 +456,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             searchedRoutes={searched}
                             showSelectAllButton
                             services={servicesRecords}
+                            dataSource={dataSource}
                         />
 
                         <TextInput<ServicesConsequence>
