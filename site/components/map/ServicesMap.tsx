@@ -31,6 +31,7 @@ import {
 } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { filterServices, getStopType, sortStops } from "../../utils/formUtils";
+import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
 interface ServiceMapProps extends MapProps {
@@ -171,14 +172,6 @@ const Map = ({
         [selected, state, stateUpdater],
     );
 
-    const warningMessageText = {
-        noServiceAssociatedWithStop: "Cannot select stop, stop does not have any associated services",
-        maxStopLimitReached: `Stop selection capped at 100, ${selected.length} stops currently selected`,
-        drawnAreaTooBig: "Drawn area too big, draw a smaller area",
-        problemRetrievingStops: "There was a problem retrieving the stops",
-        noStopsFound: "No stops found in selected area",
-    };
-
     const addServiceFromSingleStop = async (id: string) => {
         if (state) {
             {
@@ -192,7 +185,7 @@ const Map = ({
                 });
 
                 if (servicesInPolygon.length === 0) {
-                    setWarningMessage(warningMessageText.noServiceAssociatedWithStop);
+                    setWarningMessage(warningMessageText(selected.length).noServiceAssociatedWithStop);
                     return;
                 }
 
@@ -225,7 +218,7 @@ const Map = ({
 
     useEffect(() => {
         if (selectAllClicked && selected.length === 100) {
-            setWarningMessage(warningMessageText.maxStopLimitReached);
+            setWarningMessage(warningMessageText(selected.length).maxStopLimitReached);
         } else {
             setWarningMessage("");
             setSelectAllClicked(false);
@@ -267,11 +260,11 @@ const Map = ({
                     setMarkerData([]);
                     setSelectedServices([]);
                     if (e instanceof LargePolygonError) {
-                        setWarningMessage(warningMessageText.drawnAreaTooBig);
+                        setWarningMessage(warningMessageText(selected.length).drawnAreaTooBig);
                     } else if (e instanceof NoStopsError) {
-                        setWarningMessage(warningMessageText.noStopsFound);
+                        setWarningMessage(warningMessageText(selected.length).noStopsFound);
                     } else {
-                        setWarningMessage(warningMessageText.problemRetrievingStops);
+                        setWarningMessage(warningMessageText(selected.length).problemRetrievingStops);
                     }
                 }
             };
@@ -537,7 +530,6 @@ const Map = ({
 
     return mapboxAccessToken ? (
         <>
-            {warningMessage ? <Warning text={warningMessage} /> : null}
             {showSelectAllButton ? (
                 <button
                     className="govuk-button govuk-button--secondary mt-2"
@@ -555,6 +547,7 @@ const Map = ({
                     {showSelectAllText ? "Select all" : "Unselect all"}
                 </button>
             ) : null}
+            {warningMessage ? <Warning text={warningMessage} /> : null}
             <LoadingBox loading={loading}>
                 <MapBox
                     initialViewState={initialViewState}
