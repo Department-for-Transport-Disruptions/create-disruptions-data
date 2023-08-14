@@ -118,7 +118,7 @@ const Map = ({
                     const stopsData = await fetchStops({
                         adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         polygon,
-                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
                             : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
