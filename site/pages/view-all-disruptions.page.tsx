@@ -31,21 +31,21 @@ import {
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { ConsequenceOperators, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
-import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
+import { ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
 import {
+    getDisplayByValue,
     splitCamelCaseToString,
     getServiceLabel,
-    getDisplayByValue,
-    SortedDisruption,
     getSortedDisruptionFinalEndDate,
+    SortedDisruption,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
     convertDateTimeToFormat,
+    dateIsSameOrBeforeSecondDate,
     filterDatePeriodMatchesDisruptionDatePeriod,
     getDate,
     getFormattedDate,
-    dateIsSameOrBeforeSecondDate,
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
@@ -985,7 +985,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             adminAreaCodes: session.adminAreaCodes,
             newDisruptionId: randomUUID(),
-            filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : null,
+            ...(showPending
+                ? { filterStatus: Progress.pendingApproval }
+                : showDraft
+                ? { filterStatus: Progress.draft }
+                : {}),
         },
     };
 };

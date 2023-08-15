@@ -1,4 +1,5 @@
 import {
+    Datasource,
     EnvironmentReason,
     PublishStatus,
     Severity,
@@ -54,6 +55,11 @@ const previousConsequencesInformation: Consequence[] = [
                 origin: "Jordanthorpe",
                 destination: "HigH Green",
                 nocCode: "TEST",
+                startDate: "2023-07-23",
+                serviceCode: "NW_04_SCMN_149_1",
+                dataSource: Datasource.bods,
+                lineId: "SL1",
+                endDate: "2023-08-10",
             },
         ],
         description: "The road is closed for the following reasons: Example, example, example, example",

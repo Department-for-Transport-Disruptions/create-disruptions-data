@@ -64,7 +64,7 @@ export const fetchStops = async (
         const stopsData = await fetchServiceStops({
             serviceId,
             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
             ...(vehicleMode === VehicleMode.bus
                 ? { stopTypes: "BCT" }
                 : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
@@ -105,7 +105,19 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         const loadOptions = async () => {
             if (selectedService) {
-                const serviceRoutesData = await fetchServiceRoutes({ serviceId: selectedService.id });
+                const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
+                const serviceRoutesData = await fetchServiceRoutes({
+                    serviceId: selectedService.id,
+                    modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+                    ...(vehicleMode === VehicleMode.bus
+                        ? { stopTypes: "BCT" }
+                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                        ? { stopTypes: "MET, PLT" }
+                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                        ? { stopTypes: "FER, FBT" }
+                        : { stopTypes: "undefined" }),
+                });
 
                 if (serviceRoutesData) {
                     const notSelected =
@@ -456,6 +468,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             searchedRoutes={searched}
                             showSelectAllButton
                             services={servicesRecords}
+                            dataSource={dataSource}
                         />
 
                         <TextInput<ServicesConsequence>

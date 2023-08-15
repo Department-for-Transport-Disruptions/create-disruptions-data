@@ -7,7 +7,7 @@ import {
     operatorSchema,
     routesSchema,
     serviceByStopSchema,
-    serviceApiResponseSchema,
+    serviceSchema,
     stopSchema,
 } from "../schemas/consequence.schema";
 import { makeFilteredArraySchema } from "../utils";
@@ -17,7 +17,7 @@ interface FetchStopsInput {
     polygon?: Position[];
     searchString?: string;
     stopTypes?: string[];
-    busStopType?: string;
+    busStopTypes?: string;
 }
 
 export const fetchStops = async (input: FetchStopsInput) => {
@@ -36,8 +36,8 @@ export const fetchStops = async (input: FetchStopsInput) => {
     if (input.stopTypes) {
         queryStringItems.push(`stopTypes=${input.stopTypes.join(",")}`);
     }
-    if (input.busStopType) {
-        queryStringItems.push(`busStopType=${input.busStopType}`);
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -91,7 +91,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(serviceApiResponseSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
@@ -138,12 +138,29 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
 interface FetchServiceRoutes {
     serviceId: number;
+    busStopTypes?: string;
+    modes?: string;
+    stopTypes?: string;
 }
 
 export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
     const searchApiUrl = `${API_BASE_URL}/services/${input.serviceId}/routes`;
 
-    const res = await fetch(searchApiUrl, {
+    const queryStringItems = [];
+
+    if (input.modes) {
+        queryStringItems.push(`modes=${input.modes}`);
+    }
+
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
+    }
+
+    if (input.stopTypes) {
+        queryStringItems.push(`stopTypes=${input.stopTypes}`);
+    }
+
+    const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
 
@@ -158,7 +175,7 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
 interface FetchServiceStops {
     serviceId: number;
-    busStopType?: string;
+    busStopTypes?: string;
     modes?: string;
     stopTypes?: string;
     dataSource?: Datasource;
@@ -167,7 +184,25 @@ interface FetchServiceStops {
 export const fetchServiceStops = async (input: FetchServiceStops) => {
     const searchApiUrl = `${API_BASE_URL}/services/${input.serviceId}/stops`;
 
-    const res = await fetch(searchApiUrl, {
+    const queryStringItems = [];
+
+    if (input.modes) {
+        queryStringItems.push(`modes=${input.modes}`);
+    }
+
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
+    }
+
+    if (input.stopTypes) {
+        queryStringItems.push(`stopTypes=${input.stopTypes}`);
+    }
+
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
         method: "GET",
     });
 
