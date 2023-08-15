@@ -31,13 +31,14 @@ import {
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { ConsequenceOperators, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
 import { validitySchema } from "../schemas/create-disruption.schema";
-import { ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
+import { disruptionsTableSchema, ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
 import {
     getDisplayByValue,
     splitCamelCaseToString,
     getServiceLabel,
     getSortedDisruptionFinalEndDate,
     SortedDisruption,
+    makeFilteredArraySchema,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
@@ -357,9 +358,12 @@ export const getDisruptionData = async () => {
     };
 
     const res = await fetch("/api/get-all-disruptions", options);
-    const disruptions = (await res.json()) as TableDisruption[];
 
-    return disruptions;
+    const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
+    if (!parseResult.success) {
+        return [];
+    }
+    return parseResult.data;
 };
 
 const ViewAllDisruptions = ({

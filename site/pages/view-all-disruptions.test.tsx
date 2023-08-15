@@ -86,8 +86,6 @@ beforeEach(() => {
     useRouter.mockImplementation(() => ({
         query: "",
     }));
-
-    vi.spyOn(global, "fetch");
 });
 
 afterEach(() => {
