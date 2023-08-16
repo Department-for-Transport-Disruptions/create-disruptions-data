@@ -19,9 +19,9 @@
         "/oclif.manifest.json"
     ],
     "devDependencies": {
-        "@aws-sdk/client-cognito-identity-provider": "^3.329.0",
-        "@aws-sdk/client-dynamodb": "^3.329.0",
-        "@aws-sdk/lib-dynamodb": "^3.329.0",
+        "@aws-sdk/client-cognito-identity-provider": "^3.388.0",
+        "@aws-sdk/client-dynamodb": "^3.388.0",
+        "@aws-sdk/lib-dynamodb": "^3.388.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@oclif/core": "^2",
         "@oclif/plugin-help": "^5",
