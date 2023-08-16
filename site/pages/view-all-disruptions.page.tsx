@@ -84,6 +84,7 @@ export interface ViewAllDisruptionsProps {
     newDisruptionId: string;
     csrfToken?: string;
     filterStatus?: Progress | null;
+    enableLoadingSpinnerOnPageLoad?: boolean;
 }
 
 export interface Filter {
@@ -370,6 +371,7 @@ const ViewAllDisruptions = ({
     newDisruptionId,
     adminAreaCodes,
     filterStatus,
+    enableLoadingSpinnerOnPageLoad = true,
 }: ViewAllDisruptionsProps): ReactElement => {
     const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -946,7 +948,21 @@ const ViewAllDisruptions = ({
                 </LoadingBox>
             ) : null}
 
-            <LoadingBox loading={loadPage}>
+            {enableLoadingSpinnerOnPageLoad ? (
+                <LoadingBox loading={loadPage}>
+                    <>
+                        <Table
+                            columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
+                            rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
+                        />
+                        <PageNumbers
+                            numberOfPages={numberOfDisruptionsPages}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </>
+                </LoadingBox>
+            ) : (
                 <>
                     <Table
                         columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
@@ -958,7 +974,7 @@ const ViewAllDisruptions = ({
                         setCurrentPage={setCurrentPage}
                     />
                 </>
-            </LoadingBox>
+            )}
         </BaseLayout>
     );
 };

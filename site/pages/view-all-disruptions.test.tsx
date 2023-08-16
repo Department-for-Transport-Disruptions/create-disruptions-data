@@ -107,7 +107,11 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
+                    />,
                 );
             });
 
@@ -123,7 +127,11 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
+                    />,
                 );
             });
 
@@ -139,7 +147,11 @@ describe("pages", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions newDisruptionId={defaultNewDisruptionId} adminAreaCodes={["099"]} />,
+                    <ViewAllDisruptions
+                        newDisruptionId={defaultNewDisruptionId}
+                        adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
+                    />,
                 );
             });
 
@@ -159,6 +171,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.pendingApproval}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
                 );
             });
@@ -179,6 +192,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.draft}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
                 );
             });
