@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`filterServices > should return a sorted array of unique services if the data source is bods 1`] = `
+exports[`formUtils > filterServices > should return a sorted array of unique services if the data source is bods 1`] = `
 [
   {
     "dataSource": "bods",
@@ -44,7 +44,7 @@ exports[`filterServices > should return a sorted array of unique services if the
 ]
 `;
 
-exports[`filterServices > should return a sorted array of unique services if the data source is bods 2`] = `
+exports[`formUtils > filterServices > should return a sorted array of unique services if the data source is bods 2`] = `
 [
   {
     "dataSource": "bods",
@@ -88,7 +88,7 @@ exports[`filterServices > should return a sorted array of unique services if the
 ]
 `;
 
-exports[`filterServices > should return a sorted array of unique services if the data source is tnds 1`] = `
+exports[`formUtils > filterServices > should return a sorted array of unique services if the data source is tnds 1`] = `
 [
   {
     "dataSource": "tnds",
@@ -132,7 +132,7 @@ exports[`filterServices > should return a sorted array of unique services if the
 ]
 `;
 
-exports[`filterServices > should return a sorted array of unique services if the data source is tnds 2`] = `
+exports[`formUtils > filterServices > should return a sorted array of unique services if the data source is tnds 2`] = `
 [
   {
     "dataSource": "tnds",
@@ -176,7 +176,7 @@ exports[`filterServices > should return a sorted array of unique services if the
 ]
 `;
 
-exports[`removeDuplicateServices > should return an array of unique services filtered by ServiceCode if the data source is tnds 1`] = `
+exports[`formUtils > removeDuplicateServices > should return an array of unique services filtered by ServiceCode if the data source is tnds 1`] = `
 [
   {
     "dataSource": "tnds",
@@ -220,33 +220,33 @@ exports[`removeDuplicateServices > should return an array of unique services fil
 ]
 `;
 
-exports[`removeDuplicateServices > should return an array of unique services filtered by ServiceCode if the data source is tnds 2`] = `
+exports[`formUtils > removeDuplicateServices > should return an array of unique services filtered by ServiceCode if the data source is tnds 2`] = `
 [
   {
     "dataSource": "tnds",
     "destination": "Warrington",
-    "endDate": null,
-    "id": 4525,
+    "endDate": "2023-08-10",
+    "id": 4524,
     "lineId": "SL1",
     "lineName": "100",
     "nocCode": "GONW",
     "operatorShortName": "Go North West",
     "origin": "Manchester",
     "serviceCode": "NW_04_GONW_100_1",
-    "startDate": "2023-08-11",
+    "startDate": "2023-07-23",
   },
   {
     "dataSource": "tnds",
     "destination": "Oldham circular",
-    "endDate": null,
-    "id": 4514,
+    "endDate": "2023-08-10",
+    "id": 4513,
     "lineId": "SL1",
     "lineName": "149",
     "nocCode": "SCMN",
     "operatorShortName": "Stagecoach",
     "origin": "NMGH",
     "serviceCode": "NW_04_SCMN_149_1",
-    "startDate": "2023-08-11",
+    "startDate": "2023-07-23",
   },
   {
     "dataSource": "tnds",
@@ -264,7 +264,7 @@ exports[`removeDuplicateServices > should return an array of unique services fil
 ]
 `;
 
-exports[`removeDuplicateServices > should return an array of unique services filtered by lineId if the data source is bods 1`] = `
+exports[`formUtils > removeDuplicateServices > should return an array of unique services filtered by lineId if the data source is bods 1`] = `
 [
   {
     "dataSource": "bods",
@@ -308,33 +308,33 @@ exports[`removeDuplicateServices > should return an array of unique services fil
 ]
 `;
 
-exports[`removeDuplicateServices > should return an array of unique services filtered by lineId if the data source is bods 2`] = `
+exports[`formUtils > removeDuplicateServices > should return an array of unique services filtered by lineId if the data source is bods 2`] = `
 [
   {
     "dataSource": "bods",
     "destination": "Warrington",
-    "endDate": null,
-    "id": 4525,
+    "endDate": "2023-08-10",
+    "id": 4524,
     "lineId": "LineId2",
     "lineName": "100",
     "nocCode": "GONW",
     "operatorShortName": "Go North West",
     "origin": "Manchester",
     "serviceCode": "NW_04_GONW_100_1",
-    "startDate": "2023-08-11",
+    "startDate": "2023-07-23",
   },
   {
     "dataSource": "bods",
     "destination": "Oldham circular",
-    "endDate": null,
-    "id": 4514,
+    "endDate": "2023-08-08",
+    "id": 4513,
     "lineId": "LineId1",
     "lineName": "149",
     "nocCode": "SCMN",
     "operatorShortName": "Stagecoach",
     "origin": "NMGH",
     "serviceCode": "NW_04_SCMN_149_1",
-    "startDate": "2023-08-09",
+    "startDate": "2023-07-23",
   },
   {
     "dataSource": "bods",

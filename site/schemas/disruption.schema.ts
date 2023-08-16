@@ -78,3 +78,25 @@ export const exportDisruptionsSchema = z.array(
 export type ExportDisruptions = z.infer<typeof exportDisruptionsSchema>;
 
 export type ExportDisruptionData = ExportDisruptions[0];
+
+export const disruptionsTableSchema = z.object({
+    displayId: z.string(),
+    id: z.string(),
+    summary: z.string(),
+    modes: z.array(z.string()),
+    validityPeriods: z.array(
+        z.object({
+            startTime: z.string(),
+            endTime: z.string().nullable(),
+        }),
+    ),
+    severity: z.string(),
+    status: z.string(),
+    serviceIds: z.array(z.string()),
+    operators: z.array(z.string()),
+    isOperatorWideCq: z.boolean(),
+    isNetworkWideCq: z.boolean(),
+    isLive: z.boolean(),
+    stopsAffectedCount: z.number(),
+    consequenceLength: z.number().optional(),
+});
