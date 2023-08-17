@@ -67,7 +67,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                     const stopsData = await fetchStops({
                         adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         searchString: searchInput,
-                        ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                        ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
                             : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro

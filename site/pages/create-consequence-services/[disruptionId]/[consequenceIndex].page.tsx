@@ -62,7 +62,7 @@ export const fetchStops = async (
         const stopsData = await fetchServiceStops({
             serviceId,
             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
             ...(vehicleMode === VehicleMode.bus
                 ? { stopTypes: "BCT" }
                 : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
@@ -107,7 +107,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 const serviceRoutesData = await fetchServiceRoutes({
                     serviceId: selectedService.id,
                     modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopType: "MKD" } : {}),
+                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                     ...(vehicleMode === VehicleMode.bus
                         ? { stopTypes: "BCT" }
                         : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro

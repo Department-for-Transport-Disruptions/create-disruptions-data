@@ -1,8 +1,8 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
-import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import renderer, { act } from "react-test-renderer";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllDisruptions, {
     disruptionIsClosingOrClosed,
     Filter,
@@ -11,6 +11,16 @@ import ViewAllDisruptions, {
     TableDisruption,
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
+
+type Renderer = {
+    toJSON: () => void;
+};
+
+const defaultRenderer: Renderer = {
+    toJSON: () => {
+        return;
+    },
+};
 
 const disruptions: TableDisruption[] = [
     {
@@ -68,6 +78,8 @@ const disruptions: TableDisruption[] = [
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
+const fetchSpy = vi.spyOn(global, "fetch");
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
@@ -76,79 +88,116 @@ beforeEach(() => {
     }));
 });
 
+afterEach(() => {
+    vi.resetAllMocks();
+});
+
 describe("pages", () => {
+    vi.mock("./view-all-disruptions.page", async () => ({
+        ...(await vi.importActual<object>("./view-all-disruptions.page")),
+    }));
+
     describe("viewAllDisruptions", () => {
-        it("should render correctly when there are no disruptions", () => {
-            const tree = renderer
-                .create(
+        it("should render correctly when there are no disruptions", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([]),
+            } as unknown as Response);
+
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
                     <ViewAllDisruptions
-                        disruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
         });
 
-        it("should render correctly when there are enough disruptions for no pagination", () => {
-            const tree = renderer
-                .create(
+        it("should render correctly when there are enough disruptions for no pagination", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue(disruptions),
+            } as unknown as Response);
+
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
                     <ViewAllDisruptions
-                        disruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
         });
 
-        it("should render correctly when there are enough disruptions for pagination", () => {
-            const tree = renderer
-                .create(
+        it("should render correctly when there are enough disruptions for pagination", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
+
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
                     <ViewAllDisruptions
-                        disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
         });
 
-        it("should render correctly when filter is set to pending approval status", () => {
-            useRouter.mockImplementation(() => ({
-                query: { pending: true },
-            }));
+        it("should render correctly when filter is set to pending approval status", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
 
-            const tree = renderer
-                .create(
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
                     <ViewAllDisruptions
-                        disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        filterStatus={Progress.pendingApproval}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
         });
 
-        it("should render correctly when filter is set to draft status", () => {
-            useRouter.mockImplementation(() => ({
-                query: { draft: true },
-            }));
+        it("should render correctly when filter is set to draft status", async () => {
+            fetchSpy.mockResolvedValue({
+                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+            } as unknown as Response);
 
-            const tree = renderer
-                .create(
+            let component: Renderer = defaultRenderer;
+
+            await act(() => {
+                component = renderer.create(
                     <ViewAllDisruptions
-                        disruptions={[...disruptions, ...disruptions, ...disruptions, ...disruptions]}
                         newDisruptionId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
+                        filterStatus={Progress.draft}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+                );
+            });
+
+            expect(component.toJSON()).toMatchSnapshot();
         });
     });
 });

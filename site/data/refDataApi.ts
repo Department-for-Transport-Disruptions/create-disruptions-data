@@ -12,7 +12,7 @@ interface FetchStopsInput {
     polygon?: Position[];
     searchString?: string;
     stopTypes?: string[];
-    busStopType?: string;
+    busStopTypes?: string;
 }
 
 export const fetchStops = async (input: FetchStopsInput) => {
@@ -31,8 +31,8 @@ export const fetchStops = async (input: FetchStopsInput) => {
     if (input.stopTypes) {
         queryStringItems.push(`stopTypes=${input.stopTypes.join(",")}`);
     }
-    if (input.busStopType) {
-        queryStringItems.push(`busStopType=${input.busStopType}`);
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -133,7 +133,7 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
 interface FetchServiceRoutes {
     serviceId: number;
-    busStopType?: string;
+    busStopTypes?: string;
     modes?: string;
     stopTypes?: string;
 }
@@ -147,8 +147,8 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
         queryStringItems.push(`modes=${input.modes}`);
     }
 
-    if (input.busStopType) {
-        queryStringItems.push(`busStopType=${input.busStopType}`);
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
     }
 
     if (input.stopTypes) {
@@ -170,7 +170,7 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
 interface FetchServiceStops {
     serviceId: number;
-    busStopType?: string;
+    busStopTypes?: string;
     modes?: string;
     stopTypes?: string;
     dataSource?: Datasource;
@@ -185,8 +185,8 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
         queryStringItems.push(`modes=${input.modes}`);
     }
 
-    if (input.busStopType) {
-        queryStringItems.push(`busStopType=${input.busStopType}`);
+    if (input.busStopTypes) {
+        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
     }
 
     if (input.stopTypes) {

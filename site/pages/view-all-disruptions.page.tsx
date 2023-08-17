@@ -2,6 +2,7 @@ import { ConsequenceOperators, Service } from "@create-disruptions-data/shared-t
 import { validitySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { pdf } from "@react-pdf/renderer";
 import { Dayjs } from "dayjs";
@@ -31,26 +32,21 @@ import {
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
-import { getDisruptionsDataFromDynamo } from "../data/dynamo";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { exportDisruptionsSchema, ExportDisruptionData } from "../schemas/disruption.schema";
+import { disruptionsTableSchema, ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
 import {
-    sortDisruptionsByStartDate,
-    splitCamelCaseToString,
-    reduceStringWithEllipsis,
-    getServiceLabel,
-    mapValidityPeriods,
     getDisplayByValue,
-    SortedDisruption,
+    splitCamelCaseToString,
+    getServiceLabel,
     getSortedDisruptionFinalEndDate,
+    SortedDisruption,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
     convertDateTimeToFormat,
-    filterDatePeriodMatchesDisruptionDatePeriod,
     dateIsSameOrBeforeSecondDate,
-    isLiveDisruption,
+    filterDatePeriodMatchesDisruptionDatePeriod,
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
@@ -84,10 +80,11 @@ export interface TableDisruption {
 }
 
 export interface ViewAllDisruptionsProps {
-    disruptions: TableDisruption[];
     adminAreaCodes: string[];
     newDisruptionId: string;
-    filterStatus?: Progress;
+    csrfToken?: string;
+    filterStatus?: Progress | null;
+    enableLoadingSpinnerOnPageLoad?: boolean;
 }
 
 export interface Filter {
@@ -103,7 +100,7 @@ export interface Filter {
     searchText?: string;
 }
 
-const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
     }
@@ -353,15 +350,30 @@ const applyFiltersToDisruptions = (
 const filterIsEmpty = (filter: Filter): boolean =>
     Object.keys(filter).length === 2 && filter.services.length === 0 && filter.operators.length === 0;
 
+export const getDisruptionData = async () => {
+    const options: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    const res = await fetch("/api/get-all-disruptions", options);
+
+    const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
+    if (!parseResult.success) {
+        return [];
+    }
+    return parseResult.data;
+};
+
 const ViewAllDisruptions = ({
-    disruptions,
     newDisruptionId,
     adminAreaCodes,
     filterStatus,
+    enableLoadingSpinnerOnPageLoad = true,
 }: ViewAllDisruptionsProps): ReactElement => {
-    const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(
-        Math.ceil(disruptions.length / 10),
-    );
+    const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -373,12 +385,13 @@ const ViewAllDisruptions = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: filterStatus,
+        status: filterStatus ? filterStatus : undefined,
     });
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState(disruptions);
+    const [disruptionsToDisplay, setDisruptionsToDisplay] = useState<TableDisruption[]>([]);
+    const [disruptions, setDisruptions] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -391,6 +404,7 @@ const ViewAllDisruptions = ({
     const [downloadPdf, setDownloadPdf] = useState(false);
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
+    const [loadPage, setLoadPage] = useState(false);
 
     const handleFilterUpdate = (
         filter: Filter,
@@ -450,6 +464,25 @@ const ViewAllDisruptions = ({
             }
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoadPage(true);
+
+            const disruptions = await getDisruptionData();
+            setDisruptionsToDisplay(disruptions);
+            setDisruptions(disruptions);
+            setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
+            setLoadPage(false);
+        };
+
+        fetchData().catch(() => {
+            setDisruptionsToDisplay([]);
+            setNumberOfDisruptionsPages(0);
+            setLoadPage(false);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (clearButtonClicked) {
@@ -915,17 +948,33 @@ const ViewAllDisruptions = ({
                 </LoadingBox>
             ) : null}
 
-            <>
-                <Table
-                    columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                    rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
-                />
-                <PageNumbers
-                    numberOfPages={numberOfDisruptionsPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-            </>
+            {enableLoadingSpinnerOnPageLoad ? (
+                <LoadingBox loading={loadPage}>
+                    <>
+                        <Table
+                            columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
+                            rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
+                        />
+                        <PageNumbers
+                            numberOfPages={numberOfDisruptionsPages}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </>
+                </LoadingBox>
+            ) : (
+                <>
+                    <Table
+                        columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
+                        rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
+                    />
+                    <PageNumbers
+                        numberOfPages={numberOfDisruptionsPages}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
+                </>
+            )}
         </BaseLayout>
     );
 };
@@ -933,9 +982,9 @@ const ViewAllDisruptions = ({
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllDisruptionsProps }> => {
     const baseProps = {
         props: {
-            disruptions: [],
             newDisruptionId: randomUUID(),
             adminAreaCodes: [],
+            orgId: "",
         },
     };
 
@@ -949,107 +998,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(session.orgId);
-
-    if (disruptionsData) {
-        disruptionsData = disruptionsData.filter(
-            (item) =>
-                item.publishStatus === PublishStatus.published ||
-                item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected,
-        );
-        const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
-
-        const shortenedData: TableDisruption[] = sortedDisruptions.map((disruption) => {
-            const modes: string[] = [];
-            const severitys: Severity[] = [];
-            const serviceIds: string[] = [];
-            const disruptionOperators: string[] = [];
-            let isOperatorWideCq = false;
-            let isNetworkWideCq = false;
-            let stopsAffectedCount = 0;
-            const atcoCodeSet = new Set<string>();
-
-            const isLive = disruption.validity ? isLiveDisruption(disruption.validity) : false;
-
-            if (disruption.consequences) {
-                disruption.consequences.forEach((consequence) => {
-                    const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode);
-                    if (!!modeToAdd && !modes.includes(modeToAdd)) {
-                        modes.push(modeToAdd);
-                    }
-
-                    severitys.push(consequence.disruptionSeverity);
-
-                    if (consequence.consequenceType === "services") {
-                        consequence.services.forEach((service) => {
-                            serviceIds.push(service.id.toString());
-                        });
-
-                        consequence.stops?.map((stop) => {
-                            if (!atcoCodeSet.has(stop.atcoCode)) {
-                                atcoCodeSet.add(stop.atcoCode);
-                                stopsAffectedCount++;
-                            }
-                        });
-                    } else if (consequence.consequenceType === "operatorWide") {
-                        isOperatorWideCq = true;
-                        consequence.consequenceOperators.forEach((op) => {
-                            disruptionOperators.push(op.operatorNoc);
-                        });
-                    } else if (consequence.consequenceType === "networkWide") {
-                        isNetworkWideCq = true;
-                    } else if (consequence.consequenceType === "stops") {
-                        consequence.stops?.map((stop) => {
-                            if (!atcoCodeSet.has(stop.atcoCode)) {
-                                atcoCodeSet.add(stop.atcoCode);
-                                stopsAffectedCount++;
-                            }
-                        });
-                    }
-                });
-            }
-
-            const status = getDisruptionStatus(disruption);
-
-            return {
-                displayId: disruption.displayId,
-                modes,
-                consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
-                status,
-                severity: getWorstSeverity(severitys),
-                serviceIds,
-                operators: disruptionOperators,
-                id: disruption.disruptionId,
-                summary: reduceStringWithEllipsis(disruption.summary, 95),
-                validityPeriods: mapValidityPeriods(disruption),
-                isOperatorWideCq: isOperatorWideCq,
-                isNetworkWideCq: isNetworkWideCq,
-                isLive: isLive,
-                stopsAffectedCount: stopsAffectedCount,
-            };
-        });
-
-        const showPending = ctx.query.pending?.toString() === "true";
-        const showDraft = ctx.query.draft?.toString() === "true";
-
-        return {
-            props: {
-                disruptions: shortenedData,
-                adminAreaCodes: session.adminAreaCodes,
-                newDisruptionId: randomUUID(),
-                filterStatus: showPending ? Progress.pendingApproval : showDraft ? Progress.draft : undefined,
-            },
-        };
-    }
+    const showPending = ctx.query.pending?.toString() === "true";
+    const showDraft = ctx.query.draft?.toString() === "true";
 
     return {
         props: {
-            disruptions: [],
             adminAreaCodes: session.adminAreaCodes,
             newDisruptionId: randomUUID(),
+            ...(showPending
+                ? { filterStatus: Progress.pendingApproval }
+                : showDraft
+                ? { filterStatus: Progress.draft }
+                : {}),
         },
     };
 };

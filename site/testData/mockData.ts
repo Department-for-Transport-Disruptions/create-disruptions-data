@@ -22,6 +22,7 @@ import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
+import { SortedDisruption } from "../utils";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
@@ -710,6 +711,90 @@ export const exportDisruption: ExportDisruptions = [
         status: "Pending Approval",
     },
 ];
+
+export const sortedDisruption: SortedDisruption = {
+    publishStatus: PublishStatus.draft,
+    disruptionId: "test",
+    description: "Test description",
+    disruptionType: "planned",
+    summary: "Some summary",
+    associatedLink: "https://example.com",
+    disruptionReason: MiscellaneousReason.accident,
+    publishStartDate: "10/03/2023",
+    publishStartTime: "1200",
+    displayId: "8fg3ha",
+    consequences: [
+        {
+            consequenceIndex: 0,
+            consequenceOperators: [
+                {
+                    operatorNoc: "TEST",
+                    operatorPublicName: "Test Op",
+                },
+            ],
+            consequenceType: "operatorWide",
+            description: "Test",
+            disruptionId: DEFAULT_DISRUPTION_ID,
+            disruptionSeverity: Severity.normal,
+            removeFromJourneyPlanners: "yes",
+            vehicleMode: VehicleMode.bus,
+        },
+        {
+            consequenceIndex: 1,
+            consequenceType: "networkWide",
+            description: "Network test",
+            disruptionId: DEFAULT_DISRUPTION_ID,
+            disruptionSeverity: Severity.severe,
+            removeFromJourneyPlanners: "yes",
+            vehicleMode: VehicleMode.tram,
+        },
+        {
+            consequenceIndex: 2,
+            consequenceType: "services",
+            disruptionDirection: "allDirections",
+            services: [
+                {
+                    destination: "Dest",
+                    origin: "Origin",
+                    id: 123,
+                    lineName: "Line",
+                    nocCode: "NOC",
+                    operatorShortName: "Test",
+                    dataSource: Datasource.tnds,
+                    lineId: "SL1",
+                    startDate: "2023-08-10",
+                    endDate: null,
+                    serviceCode: "1234",
+                },
+            ],
+            description: "Service test",
+            disruptionId: DEFAULT_DISRUPTION_ID,
+            disruptionSeverity: Severity.severe,
+            removeFromJourneyPlanners: "yes",
+            vehicleMode: VehicleMode.rail,
+        },
+    ],
+    validity: [
+        {
+            disruptionStartDate: "25/03/2021",
+            disruptionStartTime: "1123",
+            disruptionEndDate: "30/03/2021",
+            disruptionEndTime: "1123",
+        },
+        {
+            disruptionStartDate: "25/12/2022",
+            disruptionStartTime: "1123",
+            disruptionEndDate: "30/12/2022",
+            disruptionEndTime: "1123",
+        },
+        {
+            disruptionStartDate: "25/03/2024",
+            disruptionStartTime: "1123",
+            disruptionEndDate: "30/03/2024",
+            disruptionEndTime: "1123",
+        },
+    ],
+};
 
 export const mockTndsServicesNoDuplicates: ServiceApiResponse[] = [
     {
