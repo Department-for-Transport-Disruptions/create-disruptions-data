@@ -1,3 +1,4 @@
+import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import Table from "./form/Table";
@@ -12,8 +13,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
-import { Consequence } from "../schemas/consequence.schema";
-import { Disruption } from "../schemas/disruption.schema";
+import { FullDisruption } from "../schemas/disruption.schema";
 import { getDisplayByValue, splitCamelCaseToString } from "../utils";
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
@@ -32,7 +32,7 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
 export const createChangeLink = (
     key: string,
     href: string,
-    disruption: Disruption,
+    disruption: FullDisruption,
     index?: number,
     includePreviousPage?: boolean,
     isDisruptionDetail?: boolean,

@@ -1,3 +1,4 @@
+import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
@@ -23,8 +24,7 @@ import {
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
-import { Validity } from "../../schemas/create-disruption.schema";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
@@ -35,7 +35,7 @@ const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
 
 interface ReviewDisruptionProps {
-    disruption: Disruption;
+    disruption: FullDisruption;
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
@@ -613,7 +613,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            disruption: disruptionWithURLS as Disruption,
+            disruption: disruptionWithURLS as FullDisruption,
             errors,
             canPublish: canPublish(session),
         },

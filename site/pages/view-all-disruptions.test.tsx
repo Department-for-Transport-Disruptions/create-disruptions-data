@@ -1,4 +1,5 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -10,7 +11,6 @@ import ViewAllDisruptions, {
     TableDisruption,
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
-import { getDatetimeFromDateAndTime } from "../utils/dates";
 
 const disruptions: TableDisruption[] = [
     {

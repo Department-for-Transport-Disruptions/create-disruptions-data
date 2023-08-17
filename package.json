@@ -4,7 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "aws s3 cp s3://cdd-sandbox-dev-data/.env ./.env.local && sst dev",
+        "dev": "aws s3 cp s3://cdd-sandbox-dev-data/.env ./.env.local && aws s3 cp s3://cdd-sandbox-dev-data/.env site/.env.local && sst dev",
         "build": "sst build",
         "deploy": "sst deploy",
         "remove": "sst remove",
@@ -28,6 +28,7 @@
         "aws-cdk": "2.91.0",
         "aws-cdk-lib": "2.91.0",
         "constructs": "10.2.69",
+        "dotenv": "^16.3.1",
         "eslint": "^8.34.0",
         "eslint-config-prettier": "^8.6.0",
         "eslint-import-resolver-typescript": "^3.5.3",

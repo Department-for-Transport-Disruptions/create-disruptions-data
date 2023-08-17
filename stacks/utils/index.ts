@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export const getDomain = (stage: string, internalOnly = false) => {
     const { ROOT_DOMAIN: rootDomain, PROD_DOMAIN: prodDomain } = process.env;
 

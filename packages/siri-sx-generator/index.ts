@@ -1,12 +1,15 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { DynamoDBStreamEvent } from "aws-lambda";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
 import { randomUUID } from "crypto";
+import { getOrganisationInfoById, getPublishedDisruptionsDataFromDynamo } from "./dynamo";
 import { getDdbDocumentClient, getS3Client, uploadToS3 } from "./util/awsClient";
+import { getPtSituationElementFromSiteDisruption } from "./util/siri";
 
 const s3Client = getS3Client();
 const ddbDocClient = getDdbDocumentClient();
@@ -18,7 +21,8 @@ const notEmpty = <T>(value: T | null | undefined): value is T => {
 export const generateSiriSxAndUploadToS3 = async (
     s3Client: S3Client,
     ddbDocClient: DynamoDBDocumentClient,
-    tableName: string,
+    disruptionsTableName: string,
+    orgTableName: string,
     bucketName: string,
     responseMessageIdentifier: string,
     currentTime: string,
@@ -26,25 +30,37 @@ export const generateSiriSxAndUploadToS3 = async (
     logger.info(`Scanning DynamoDB table...`);
 
     try {
-        const dbScanData = await ddbDocClient.send(
-            new ScanCommand({
-                TableName: tableName,
-            }),
-        );
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+
+        const ptSituationElementsPromises = disruptions.map(async (disruption) => {
+            const orgInfo = await getOrganisationInfoById(orgTableName, disruption.orgId);
+
+            if (!orgInfo || disruption.publishStatus !== PublishStatus.published) {
+                return null;
+            }
+
+            const orgName = orgInfo.name.replace(/[^-._:A-Za-z0-9]/g, "");
+
+            return getPtSituationElementFromSiteDisruption(disruption, orgName);
+        });
+
+        const ptSituationElements = (await Promise.all(ptSituationElementsPromises)).filter(notEmpty);
 
         const cleanData =
-            dbScanData.Items?.map((item) => {
-                const parseResult = ptSituationElementSchema.safeParse(item);
+            ptSituationElements
+                .map((item) => {
+                    const parseResult = ptSituationElementSchema.safeParse(item);
 
-                if (!parseResult.success) {
-                    const disruptionId = item?.SituationNumber as string;
-                    logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
-                    logger.error(parseResult.error.stack || "");
-                    return null;
-                }
+                    if (!parseResult.success) {
+                        const disruptionId = item?.SituationNumber;
+                        logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
+                        logger.error(parseResult.error.stack || "");
+                        return null;
+                    }
 
-                return parseResult.data;
-            }).filter(notEmpty) ?? [];
+                    return parseResult.data;
+                })
+                .filter(notEmpty) ?? [];
 
         const jsonToXmlObject = {
             ServiceDelivery: {
@@ -105,10 +121,14 @@ export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
             id: randomUUID(),
         };
 
-        const { TABLE_NAME: tableName, SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName } = process.env;
+        const {
+            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
+            ORGANISATIONS_TABLE_NAME: orgTableName,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName,
+        } = process.env;
 
-        if (!tableName) {
-            throw new Error("TABLE_NAME not set");
+        if (!disruptionsTableName || !orgTableName) {
+            throw new Error("Dynamo table names not set");
         }
 
         if (!unvalidatedBucketName) {
@@ -122,7 +142,8 @@ export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
         await generateSiriSxAndUploadToS3(
             s3Client,
             ddbDocClient,
-            tableName,
+            disruptionsTableName,
+            orgTableName,
             unvalidatedBucketName,
             responseMessageIdentifier,
             currentTime.toISOString(),

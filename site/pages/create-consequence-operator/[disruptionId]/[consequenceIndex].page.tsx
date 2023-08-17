@@ -1,3 +1,5 @@
+import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -26,7 +28,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { Operator, OperatorConsequence, operatorConsequenceSchema } from "../../../schemas/consequence.schema";
+import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";

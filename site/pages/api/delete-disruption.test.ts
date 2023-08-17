@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import deleteDisruption from "./delete-disruption.api";
 import { ERROR_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import {
     disruptionWithConsequencesAndSocialMediaPosts,
     getMockRequestAndResponse,
@@ -77,7 +77,7 @@ describe("deleteDisruption", () => {
     });
 
     it("should redirect to error page if disruption is invalid", async () => {
-        getDisruptionSpy.mockResolvedValue({} as Disruption);
+        getDisruptionSpy.mockResolvedValue({} as FullDisruption);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 id: "",

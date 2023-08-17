@@ -1,25 +1,25 @@
+import {
+    Consequence,
+    NetworkConsequence,
+    OperatorConsequence,
+    Service,
+    ServicesConsequence,
+    StopsConsequence,
+    Validity,
+} from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
-import { z, ZodError, ZodErrorMap, ZodSchema } from "zod";
+import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
-import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
-import {
-    Service,
-    Consequence,
-    NetworkConsequence,
-    OperatorConsequence,
-    StopsConsequence,
-    ServicesConsequence,
-} from "../schemas/consequence.schema";
-import { Validity } from "../schemas/create-disruption.schema";
-import { Disruption } from "../schemas/disruption.schema";
+import { FullDisruption } from "../schemas/disruption.schema";
 
 export type SortedDisruption = Omit<
-    Disruption,
+    FullDisruption,
     | "disruptionStartDate"
     | "disruptionStartTime"
     | "disruptionEndDate"
@@ -27,7 +27,7 @@ export type SortedDisruption = Omit<
     | "disruptionNoEndDateTime"
 >;
 
-export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | Disruption): Dayjs | null => {
+export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | FullDisruption): Dayjs | null => {
     let disruptionEndDate: Dayjs | null = null;
 
     if (!disruption.validity) {
@@ -58,7 +58,7 @@ export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | D
     return disruptionEndDate;
 };
 
-export const sortDisruptionsByStartDate = (disruptions: Disruption[]): SortedDisruption[] => {
+export const sortDisruptionsByStartDate = (disruptions: FullDisruption[]): SortedDisruption[] => {
     const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
 
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
@@ -155,7 +155,7 @@ export const isStopsConsequence = (consequence: unknown): consequence is StopsCo
 export const isServicesConsequence = (consequence: unknown): consequence is ServicesConsequence =>
     isFullConsequence(consequence) && consequence.consequenceType === "services";
 
-export const getLargestConsequenceIndex = (disruption: Disruption) => {
+export const getLargestConsequenceIndex = (disruption: FullDisruption) => {
     const largestConsequenceIndex =
         disruption.consequences && disruption.consequences.length > 0
             ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
@@ -181,31 +181,6 @@ export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorM
     },
 });
 
-const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
-const timeRegex = /^([0-1][0-9]|2[0-3])[0-5][0-9]$/;
-const minutesRegex = /^[0-9]{0,3}$/;
-const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/i;
-
-/**
- * Verify if the input value is of date format DD/MM/YYYY.
- * @param {defaultError} defaultError Error message when the validation fails.
- *
- * @returns {z.ZodString} Indicates an error if the input format is not DD/MM/YYYY.
- */
-
-export const zodDate = (defaultError?: string) =>
-    z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(dateRegex);
-
-/**
- * Verify if the input value is of format hhmm where hh is 0-23 and mm is 0-59.
- * @param {defaultError} defaultError Error message when the validation fails.
- *
- * @returns {z.ZodString} Indicates an error if the regex match fails and the value
- *  is not of format hhmm.
- */
-export const zodTime = (defaultError?: string) =>
-    z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(timeRegex);
-
 export const flattenZodErrors = (errors: ZodError) =>
     Object.values(
         errors.flatten<ErrorInfo>((val) => ({
@@ -215,29 +190,6 @@ export const flattenZodErrors = (errors: ZodError) =>
     )
         .map((item) => item?.[0] ?? null)
         .filter(notEmpty);
-/**
- * Verify if the input value is a number between 0-999 minutes.
- * @param {defaultError} defaultError Error message when the validation fails.
- *
- * @returns {z.ZodString} Indicates an error if the regex match fails.
- */
-export const zodTimeInMinutes = (defaultError?: string) =>
-    z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(minutesRegex);
-
-/**
- * Verify if the input value matches uuid regex expression
- * This is because the current version of Zod (3.21.4) does not support uuid version 7
- * @param {defaultError} defaultError Error message when the validation fails.
- *
- * @returns {z.ZodString} Indicates an error if the input format is the regex match fails.
- */
-export const zodUuid = (defaultError?: string) =>
-    z.string(defaultError ? setZodDefaultError(defaultError) : {}).regex(uuidRegex);
-
-export const makeFilteredArraySchema = <T extends ZodSchema>(schema: T) =>
-    z
-        .array(z.unknown())
-        .transform((items) => items?.filter((item): item is z.infer<T> => schema.safeParse(item).success));
 
 export const sortServices = <T extends Service>(services: T[]): T[] => {
     return services.sort((a, b) => {

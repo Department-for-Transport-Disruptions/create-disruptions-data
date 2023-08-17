@@ -1,8 +1,9 @@
+import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
 import { ErrorInfo } from "../../interfaces";
-import { ConsequenceOperators, Operator } from "../../schemas/consequence.schema";
+import { Operator } from "../../schemas/consequence.schema";
 import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper";
 
 interface OperatorSearchProps<T> {

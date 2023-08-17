@@ -1,9 +1,10 @@
+import { ConsequenceOperators, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
-import { getDate } from "./dates";
 import { ErrorInfo, PageState } from "../interfaces";
-import { ConsequenceOperators, ServiceApiResponse, Stop } from "../schemas/consequence.schema";
+import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const handleBlur = <T>(

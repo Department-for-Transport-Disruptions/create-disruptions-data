@@ -1,3 +1,4 @@
+import { Consequence, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
     DayType,
@@ -18,9 +19,8 @@ import React from "react";
 import { Mock, vi } from "vitest";
 import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
-import { Consequence, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
-import { DisruptionInfo } from "../schemas/create-disruption.schema";
-import { Disruption, ExportDisruptions } from "../schemas/disruption.schema";
+import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
+import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
@@ -326,9 +326,10 @@ export const disruptionInfoTest: DisruptionInfo = {
     disruptionStartTime: "1200",
     disruptionNoEndDateTime: "true",
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
 };
 
-export const disruptionWithNoConsequences: Disruption = {
+export const disruptionWithNoConsequences: FullDisruption = {
     publishStatus: PublishStatus.draft,
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
@@ -350,6 +351,7 @@ export const disruptionWithNoConsequences: Disruption = {
     disruptionNoEndDateTime: "true",
     consequences: [],
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -411,17 +413,17 @@ export const socialMediaPostsInformation = [
     },
 ];
 
-export const disruptionWithConsequences: Disruption = {
+export const disruptionWithConsequences: FullDisruption = {
     ...disruptionWithNoConsequences,
     consequences: [consequenceInfoNetworkTest, consequenceInfoOperatorTest],
 };
 
-export const disruptionWithConsequencesAndSocialMediaPosts: Disruption = {
+export const disruptionWithConsequencesAndSocialMediaPosts: FullDisruption = {
     ...disruptionWithConsequences,
     socialMediaPosts: socialMediaPostsInformation,
 };
 
-export const disruptionArray: Disruption[] = [
+export const disruptionArray: FullDisruption[] = [
     disruptionWithConsequencesAndSocialMediaPosts,
     {
         ...disruptionWithConsequencesAndSocialMediaPosts,

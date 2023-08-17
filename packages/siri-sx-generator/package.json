@@ -18,6 +18,7 @@
         "@types/node": "^18.13.0",
         "aws-sdk-client-mock": "^3.0.0",
         "dayjs": "^1.11.7",
+        "mockdate": "^3.0.5",
         "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },

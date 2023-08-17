@@ -23,7 +23,6 @@ import {
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
-import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -92,7 +91,6 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                   session.orgId,
               )
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  getPtSituationElementFromDraft(draftDisruption, orgInfo?.name),
                   draftDisruption,
                   session.orgId,
                   canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
