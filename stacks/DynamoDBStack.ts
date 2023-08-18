@@ -11,10 +11,28 @@ export function DynamoDBStack({ stack }: StackContext) {
             partitionKey: "PK",
             sortKey: "SK",
         },
-        stream: "new_image",
         cdk: {
             table: {
                 tableName: `cdd-disruptions-table-${stack.stage}`,
+                billingMode: BillingMode.PAY_PER_REQUEST,
+                pointInTimeRecovery: stack.stage === "prod",
+            },
+        },
+    });
+
+    const siriTable = new Table(stack, "cdd-dynamodb-siri-table", {
+        fields: {
+            PK: "string",
+            SK: "string",
+        },
+        primaryIndex: {
+            partitionKey: "PK",
+            sortKey: "SK",
+        },
+        stream: "new_image",
+        cdk: {
+            table: {
+                tableName: `cdd-siri-table-${stack.stage}`,
                 billingMode: BillingMode.PAY_PER_REQUEST,
                 pointInTimeRecovery: stack.stage === "prod",
             },
@@ -39,6 +57,7 @@ export function DynamoDBStack({ stack }: StackContext) {
 
     return {
         disruptionsTable,
+        siriTable,
         organisationsTable,
     };
 }

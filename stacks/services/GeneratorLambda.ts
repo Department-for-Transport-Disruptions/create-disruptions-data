@@ -27,15 +27,6 @@ export const createGeneratorLambda = (
                 resources: [organisationsTable.tableArn],
                 actions: ["dynamodb:GetItem"],
             }),
-            new PolicyStatement({
-                resources: [`${disruptionsTable.tableArn}/stream/*`],
-                actions: [
-                    "dynamodb:GetRecords",
-                    "dynamodb:DescribeStream",
-                    "dynamodb:GetShardIterator",
-                    "dynamodb:ListStreams",
-                ],
-            }),
         ],
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,

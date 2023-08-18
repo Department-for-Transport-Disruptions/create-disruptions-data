@@ -64,15 +64,19 @@ export const getPublishedDisruptionsDataFromDynamo = async (tableName: string): 
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const organisationSchema = z.object({
-    name: z.string(),
-});
+export const organisationSchema = z
+    .object({
+        PK: z.string().uuid(),
+        name: z.string(),
+    })
+    .transform((item) => ({
+        id: item.PK,
+        name: item.name,
+    }));
 
 export type Organisation = z.infer<typeof organisationSchema>;
 
 export const getOrganisationInfoById = async (tableName: string, orgId: string): Promise<Organisation | null> => {
-    logger.info(`Getting organisation (${orgId}) from DynamoDB table...`);
-
     const dbData = await ddbDocClient.send(
         new GetCommand({
             TableName: tableName,

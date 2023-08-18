@@ -723,6 +723,7 @@ export const sortedDisruption: SortedDisruption = {
     publishStartDate: "10/03/2023",
     publishStartTime: "1200",
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
     consequences: [
         {
             consequenceIndex: 0,

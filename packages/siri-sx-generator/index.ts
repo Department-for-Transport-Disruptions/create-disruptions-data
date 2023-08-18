@@ -1,8 +1,10 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
-import { DynamoDBStreamEvent } from "aws-lambda";
+import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { Dayjs } from "dayjs";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
@@ -16,6 +18,22 @@ const ddbDocClient = getDdbDocumentClient();
 
 const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
+};
+
+export const includeDisruption = (disruption: Disruption, currentDatetime: Dayjs) => {
+    if (disruption.publishStatus !== PublishStatus.published) {
+        return false;
+    }
+
+    if (disruption.publishEndDate && disruption.publishEndTime) {
+        const endDatetime = getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime);
+
+        if (currentDatetime.isAfter(endDatetime)) {
+            return false;
+        }
+    }
+
+    return true;
 };
 
 export const generateSiriSxAndUploadToS3 = async (
@@ -32,19 +50,34 @@ export const generateSiriSxAndUploadToS3 = async (
     try {
         const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
 
-        const ptSituationElementsPromises = disruptions.map(async (disruption) => {
-            const orgInfo = await getOrganisationInfoById(orgTableName, disruption.orgId);
+        const orgIds = disruptions
+            .map((disruption) => disruption.orgId)
+            .filter(notEmpty)
+            .filter((value, index, array) => array.indexOf(value) === index);
 
-            if (!orgInfo || disruption.publishStatus !== PublishStatus.published) {
-                return null;
-            }
+        const orgInfo = (await Promise.all(orgIds.map(async (id) => getOrganisationInfoById(orgTableName, id)))).filter(
+            notEmpty,
+        );
 
-            const orgName = orgInfo.name.replace(/[^-._:A-Za-z0-9]/g, "");
+        const date = getDate();
 
-            return getPtSituationElementFromSiteDisruption(disruption, orgName);
-        });
+        const ptSituationElements = disruptions
+            .map((disruption) => {
+                if (!disruption.orgId) {
+                    return null;
+                }
 
-        const ptSituationElements = (await Promise.all(ptSituationElementsPromises)).filter(notEmpty);
+                const orgName = orgInfo
+                    .find((org) => org.id === disruption.orgId)
+                    ?.name.replace(/[^-._:A-Za-z0-9]/g, "");
+
+                if (!orgName || !includeDisruption(disruption, date)) {
+                    return null;
+                }
+
+                return getPtSituationElementFromSiteDisruption(disruption, orgName);
+            })
+            .filter(notEmpty);
 
         const cleanData =
             ptSituationElements
@@ -112,7 +145,7 @@ export const generateSiriSxAndUploadToS3 = async (
     }
 };
 
-export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
+export const main = async (): Promise<void> => {
     try {
         logger.options.dev = process.env.NODE_ENV !== "production";
         logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
@@ -120,6 +153,8 @@ export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
         logger.options.meta = {
             id: randomUUID(),
         };
+
+        logger.info("Starting SIRI-SX generator...");
 
         const {
             DISRUPTIONS_TABLE_NAME: disruptionsTableName,
@@ -134,7 +169,6 @@ export const main = async (event: DynamoDBStreamEvent): Promise<void> => {
         if (!unvalidatedBucketName) {
             throw new Error("SIRI_SX_UNVALIDATED_BUCKET_NAME not set");
         }
-        logger.info(`SIRI-SX generation triggered by event ID: ${event.Records[0].eventID || ""}`);
 
         const responseMessageIdentifier = randomUUID();
         const currentTime = new Date();

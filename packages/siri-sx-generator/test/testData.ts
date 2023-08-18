@@ -343,7 +343,7 @@ export const invalidDisruption1 = {
     publishStartTime: "1200",
     disruptionStartDate: "18/03/2023",
     disruptionStartTime: "1200",
-    disruptionNoEndDateTime: "false",
+    disruptionNoEndDateTime: "",
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
@@ -403,6 +403,29 @@ export const draftDisruption = {
     orgId: orgId,
 };
 
+export const expiredDisruption = {
+    PK: orgId,
+    SK: "e6ea3e32-8fe5-4e18-869a-435752084ecd#INFO",
+    publishStatus: PublishStatus.published,
+    disruptionId: "e6ea3e32-8fe5-4e18-869a-435752084ecd",
+    description: "Test description",
+    disruptionType: "planned",
+    summary: "Some summary",
+    disruptionReason: PersonnelReason.staffInWrongPlace,
+    publishStartDate: "10/03/2023",
+    publishStartTime: "1200",
+    publishEndDate: "28/03/2023",
+    publishEndTime: "1200",
+    disruptionStartDate: "18/03/2023",
+    disruptionStartTime: "1200",
+    disruptionEndDate: "24/03/2023",
+    disruptionEndTime: "1200",
+    disruptionNoEndDateTime: "",
+    consequences: [],
+    displayId: "8fg3ha",
+    orgId: orgId,
+};
+
 export const dbResponse = [
     disruption,
     consequenceInfoOperatorTest,
@@ -410,4 +433,5 @@ export const dbResponse = [
     invalidDisruption1,
     invalidDisruption2,
     draftDisruption,
+    expiredDisruption,
 ];

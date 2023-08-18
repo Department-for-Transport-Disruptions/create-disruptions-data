@@ -23,7 +23,7 @@ export const createValidatorLambda = (stack: Stack, siriSXUnvalidatedBucket: Buc
         timeout: 600,
         memorySize: 256,
         runtime: "python3.9",
-        enableLiveDev: true,
+        enableLiveDev: false,
     });
 
     return siriValidator;
