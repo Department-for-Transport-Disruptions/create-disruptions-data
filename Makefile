@@ -6,6 +6,9 @@ start-sst:
 start-site:
 	npm run dev -w site
 
+install-deps:
+	npm install
+
 kill-site:
 	lsof -t -i:3000 | xargs -r kill
 

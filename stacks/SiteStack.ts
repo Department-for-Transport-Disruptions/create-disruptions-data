@@ -54,6 +54,9 @@ export function SiteStack({ stack }: StackContext) {
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
+        dev: {
+            deploy: false,
+        },
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
