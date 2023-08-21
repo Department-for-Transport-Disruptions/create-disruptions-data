@@ -229,7 +229,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         if (selectedService) {
             fetchStops(selectedService.id, pageState.inputs.vehicleMode, dataSource)
-                .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
+                .then((stops) =>
+                    setStopOptions(
+                        sortStops([
+                            ...stopOptions.filter(
+                                (stopOption) => !stops.map((stop) => stop.atcoCode).includes(stopOption.atcoCode),
+                            ),
+                            ...stops,
+                        ]),
+                    ),
+                )
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
