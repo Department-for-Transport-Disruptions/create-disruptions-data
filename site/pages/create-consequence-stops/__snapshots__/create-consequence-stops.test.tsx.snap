@@ -235,7 +235,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                         className=" css-1jqq78o-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
-                        Select stops
+                        Search stops
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -1034,7 +1034,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                         className=" css-1jqq78o-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
-                        Select stops
+                        Search stops
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -1801,7 +1801,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                         className=" css-1jqq78o-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
-                        Select stops
+                        Search stops
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -2525,7 +2525,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                         className=" css-1jqq78o-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
-                        Select stops
+                        Search stops
                       </div>
                       <div
                         className=" css-qbdosj-Input"
