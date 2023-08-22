@@ -25,7 +25,7 @@ import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Routes } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { filterServices, getStopType, sortAndFilterStops } from "../../utils/formUtils";
+import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 

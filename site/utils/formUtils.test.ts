@@ -1,7 +1,7 @@
+import { Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach } from "vitest";
 import { filterServices, removeDuplicateServicesByKey, sortAndFilterStops } from "./formUtils";
-import { Stop } from "../schemas/consequence.schema";
 import {
     mockBodsServicesNoDuplicates,
     mockBodsServicesWithDuplicates,
