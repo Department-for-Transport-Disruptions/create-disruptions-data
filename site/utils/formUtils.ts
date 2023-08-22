@@ -68,7 +68,7 @@ export const getStopLabel = (stop: Stop) => {
 
 export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
 
-const sortStops = (stops: Stop[]) => {
+const sortStops = (stops: Stop[]): Stop[] => {
     return stops.sort((a, b) => {
         if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
             return (
@@ -82,7 +82,7 @@ const sortStops = (stops: Stop[]) => {
     });
 };
 
-export const sortAndFilterStops = (stops: Stop[]) =>
+export const sortAndFilterStops = (stops: Stop[]): Stop[] =>
     sortStops(stops).filter(
         (value, index, self) => index === self.findIndex((stop) => stop.atcoCode === value.atcoCode),
     );

@@ -172,7 +172,7 @@ const Map = ({
         [selected, state, stateUpdater],
     );
 
-    const addServiceFromSingleStop = async (id: string) => {
+    const addServiceFromSingleStop = async (id: string): Promise<void> => {
         if (state) {
             {
                 const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
