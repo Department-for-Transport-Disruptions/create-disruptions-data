@@ -125,13 +125,13 @@ describe("formUtils", () => {
                 direction: "outbound",
                 sequenceNumber: "3",
             },
-        ] as Stop[];
+        ];
 
         it("should return a list of sorted stops", () => {
             expect(sortAndFilterStops(unsortedDuplicatedStops)).toMatchSnapshot();
         });
         it("should an empty array when there are no stops passed in", () => {
-            expect(sortAndFilterStops([] as Stop[])).toEqual([]);
+            expect(sortAndFilterStops([])).toEqual([]);
         });
     });
 });
