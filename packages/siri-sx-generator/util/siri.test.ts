@@ -1,8 +1,8 @@
+import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Period } from "@create-disruptions-data/shared-ts/siriTypes";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { describe, it, expect } from "vitest";
-import { getDatetimeFromDateAndTime } from "./dates";
 import { getValidityPeriod } from "./siri";
-import { Validity } from "../schemas/create-disruption.schema";
 
 const validityDisruptionEndTime = "1000";
 const valditityDisruptionEndDate = "07/05/2023";

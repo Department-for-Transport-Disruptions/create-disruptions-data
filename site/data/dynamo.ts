@@ -7,27 +7,26 @@ import {
     PutCommand,
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
-import { Consequence } from "../schemas/consequence.schema";
-import { DisruptionInfo, Validity } from "../schemas/create-disruption.schema";
-import { Disruption, disruptionSchema } from "../schemas/disruption.schema";
+import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
-import { getDate, getDatetimeFromDateAndTime, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
+import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
-const tableName = process.env.TABLE_NAME as string;
-const siriTableName = process.env.SIRI_TABLE_NAME as string;
+const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
-): Disruption | null => {
+): FullDisruption | null => {
     let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
 
     if (!info) {
@@ -129,7 +128,7 @@ const collectDisruptionsData = (
 
     socialMediaPosts = socialMediaPosts.filter((socialMediaPost) => !socialMediaPost.isDeleted);
 
-    const parsedDisruption = disruptionSchema.safeParse({
+    const parsedDisruption = fullDisruptionSchema.safeParse({
         ...info,
         consequences,
         socialMediaPosts,
@@ -150,7 +149,7 @@ export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Se
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             FilterExpression: "publishStatus = :2 or publishStatus = :3",
             ExpressionAttributeValues: {
@@ -177,7 +176,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             FilterExpression: "publishStatus = :2",
             ExpressionAttributeValues: {
@@ -194,12 +193,12 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+export const getDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -289,7 +288,7 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
     return parsedOrg.data;
 };
 
-export const deletePublishedDisruption = async (disruption: Disruption, disruptionId: string, id: string) => {
+export const deletePublishedDisruption = async (disruption: FullDisruption, disruptionId: string, id: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
 
     const consequenceDeleteCommands: {
@@ -300,7 +299,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
     }[] =
         disruption?.consequences?.map((_, index) => ({
             Delete: {
-                TableName: tableName,
+                TableName: disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#CONSEQUENCE#${index}`,
@@ -316,7 +315,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
     }[] =
         disruption?.socialMediaPosts?.map((socialMediaPost) => ({
             Delete: {
-                TableName: tableName,
+                TableName: disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
@@ -332,7 +331,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
     }[] =
         disruption?.consequences?.map((_, index) => ({
             Delete: {
-                TableName: tableName,
+                TableName: disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#CONSEQUENCE#${index}#EDIT`,
@@ -345,16 +344,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
             TransactItems: [
                 {
                     Delete: {
-                        TableName: siriTableName,
-                        Key: {
-                            PK: id,
-                            SK: disruptionId,
-                        },
-                    },
-                },
-                {
-                    Delete: {
-                        TableName: tableName,
+                        TableName: disruptionsTableName,
                         Key: {
                             PK: id,
                             SK: `${disruptionId}#INFO`,
@@ -363,7 +353,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
                 },
                 {
                     Delete: {
-                        TableName: tableName,
+                        TableName: disruptionsTableName,
                         Key: {
                             PK: id,
                             SK: `${disruptionId}#INFO#EDIT`,
@@ -379,8 +369,7 @@ export const deletePublishedDisruption = async (disruption: Disruption, disrupti
 };
 
 export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
-    ptSituationElement: PtSituationElement,
-    disruption: Disruption,
+    disruption: FullDisruption,
     id: string,
     status: PublishStatus,
     user: string,
@@ -400,7 +389,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     }[] =
         disruption.consequences?.map((consequence) => ({
             Update: {
-                TableName: tableName,
+                TableName: disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruption.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
@@ -422,7 +411,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     }[] =
         disruption.socialMediaPosts?.map((socialMediaPost) => ({
             Update: {
-                TableName: tableName,
+                TableName: disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruption.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
@@ -434,22 +423,6 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
             },
         })) ?? [];
 
-    const putSiriTable =
-        status === PublishStatus.published
-            ? [
-                  {
-                      Put: {
-                          TableName: siriTableName,
-                          Item: {
-                              PK: id,
-                              SK: disruption.disruptionId,
-                              ...ptSituationElement,
-                          },
-                      },
-                  },
-              ]
-            : [];
-
     const historyItems = disruption.newHistory ?? [];
 
     if (history) {
@@ -460,7 +433,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         ? [
               {
                   Put: {
-                      TableName: tableName,
+                      TableName: disruptionsTableName,
                       Item: {
                           PK: id,
                           SK: `${disruption.disruptionId}#HISTORY#${currentTime.unix()}`,
@@ -477,10 +450,9 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
-                ...putSiriTable,
                 {
                     Update: {
-                        TableName: tableName,
+                        TableName: disruptionsTableName,
                         Key: {
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
@@ -507,7 +479,7 @@ export const updatePendingDisruptionStatus = async (disruption: Disruption, id: 
             TransactItems: [
                 {
                     Put: {
-                        TableName: tableName,
+                        TableName: disruptionsTableName,
                         Item: {
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO#PENDING`,
@@ -529,7 +501,7 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
 
     await ddbDocClient.send(
         new PutCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             Item: {
                 PK: id,
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
@@ -558,7 +530,7 @@ export const upsertConsequence = async (
 
     await ddbDocClient.send(
         new PutCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             Item: {
                 PK: id,
                 SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}${
@@ -591,7 +563,7 @@ export const upsertSocialMediaPost = async (
 
     await ddbDocClient.send(
         new PutCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             Item: {
                 PK: id,
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
@@ -608,7 +580,7 @@ export const removeConsequenceFromDisruption = async (index: number, disruptionI
 
     await ddbDocClient.send(
         new DeleteCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             Key: {
                 PK: id,
                 SK: `${disruptionId}#CONSEQUENCE#${index}`,
@@ -649,7 +621,7 @@ export const removeSocialMediaPostFromDisruption = async (index: number, disrupt
 
     await ddbDocClient.send(
         new DeleteCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             Key: {
                 PK: id,
                 SK: `${disruptionId}#SOCIALMEDIAPOST#${index}`,
@@ -658,11 +630,11 @@ export const removeSocialMediaPostFromDisruption = async (index: number, disrupt
     );
 };
 
-export const getDisruptionById = async (disruptionId: string, id: string): Promise<Disruption | null> => {
+export const getDisruptionById = async (disruptionId: string, id: string): Promise<FullDisruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -856,7 +828,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
     logger.info(`Publishing edited disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -912,7 +884,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
                     TransactItems: [
                         ...editedDisruption.map((disruption) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...disruption,
                                     PK: id,
@@ -922,7 +894,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
                         })),
                         ...editedConsequences.map((consequence) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...consequence,
                                     PK: id,
@@ -932,7 +904,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
                         })),
                         ...deleteConsequences.map((consequence) => ({
                             Delete: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
@@ -941,7 +913,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
                         })),
                         ...editedSocialMediaPosts.map((socialMediaPost) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...socialMediaPost,
                                     PK: id,
@@ -953,7 +925,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
                         })),
                         ...deleteSocialMediaPosts.map((socialMediaPost) => ({
                             Delete: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#SOCIALMEDIAPOST#${
@@ -972,7 +944,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
     logger.info(`Publishing edited disruption(${disruptionId}) to pending status in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -1028,7 +1000,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
                     TransactItems: [
                         ...editedDisruption.map((disruption) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...disruption,
                                     PK: id,
@@ -1038,7 +1010,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
                         })),
                         ...editedConsequences.map((consequence) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...consequence,
                                     PK: id,
@@ -1048,7 +1020,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
                         })),
                         ...deleteConsequences.map((consequence) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...consequence,
                                     PK: id,
@@ -1058,7 +1030,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
                         })),
                         ...editedSocialMediaPosts.map((socialMediaPost) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...socialMediaPost,
                                     PK: id,
@@ -1070,7 +1042,7 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
                         })),
                         ...deleteSocialMediaPosts.map((socialMediaPost) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...socialMediaPost,
                                     PK: id,
@@ -1090,7 +1062,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
     logger.info(`Publishing pending disruption (${disruptionId}) in DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -1146,7 +1118,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
                     TransactItems: [
                         ...pendingDisruption.map((disruption) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...disruption,
                                     PK: id,
@@ -1156,7 +1128,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
                         })),
                         ...pendingConsequences.map((consequence) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...consequence,
                                     PK: id,
@@ -1166,7 +1138,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
                         })),
                         ...deleteConsequences.map((consequence) => ({
                             Delete: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
@@ -1175,7 +1147,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
                         })),
                         ...pendingSocialMediaPosts.map((socialMediaPost) => ({
                             Put: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Item: {
                                     ...socialMediaPost,
                                     PK: id,
@@ -1187,7 +1159,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (disruptionId
                         })),
                         ...deleteSocialMediaPosts.map((socialMediaPost) => ({
                             Delete: {
-                                TableName: tableName,
+                                TableName: disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#SOCIALMEDIAPOST#${
@@ -1206,7 +1178,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
     logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -1238,7 +1210,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
         }[] =
             editedConsequences?.map((consequence) => ({
                 Delete: {
-                    TableName: tableName,
+                    TableName: disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#EDIT`,
@@ -1254,7 +1226,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
         }[] =
             editedSocialMediaPosts?.map((socialMediaPost) => ({
                 Delete: {
-                    TableName: tableName,
+                    TableName: disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#EDIT`,
@@ -1267,7 +1239,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string) 
                 TransactItems: [
                     {
                         Delete: {
-                            TableName: tableName,
+                            TableName: disruptionsTableName,
                             Key: {
                                 PK: id,
                                 SK: `${disruptionId}#INFO#EDIT`,
@@ -1286,7 +1258,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
     logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -1318,7 +1290,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
         }[] =
             pendingConsequences?.map((consequence) => ({
                 Delete: {
-                    TableName: tableName,
+                    TableName: disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
@@ -1334,7 +1306,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
         }[] =
             pendingSocialMediaPosts?.map((socialMediaPost) => ({
                 Delete: {
-                    TableName: tableName,
+                    TableName: disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#PENDING`,
@@ -1347,7 +1319,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
                 TransactItems: [
                     {
                         Delete: {
-                            TableName: tableName,
+                            TableName: disruptionsTableName,
                             Key: {
                                 PK: id,
                                 SK: `${disruptionId}#INFO#PENDING`,
@@ -1366,7 +1338,7 @@ export const isDisruptionInEdit = async (disruptionId: string, id: string) => {
     logger.info(`Check if there are any edit records for disruption (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: tableName,
+            TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,

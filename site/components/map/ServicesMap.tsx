@@ -1,3 +1,5 @@
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { servicesConsequenceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
@@ -21,16 +23,9 @@ import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
-import {
-    Routes,
-    Service,
-    ServicesConsequence,
-    Stop,
-    stopSchema,
-    servicesConsequenceSchema,
-} from "../../schemas/consequence.schema";
+import { Routes } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { filterServices, getStopType, sortAndFilterStops } from "../../utils/formUtils";
+import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
@@ -206,10 +201,28 @@ const Map = ({
         }
     };
 
+    const selectStop = (id: string) => {
+        if (state) {
+            const stop: Stop[] = getSelectedStopsFromMapMarkers(searched, id);
+            stateUpdater({
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    stops: sortStops([...selected, ...stop]),
+                },
+                errors: state.errors,
+            });
+        }
+    };
+
     const selectMarker = useCallback(
         async (id: string) => {
             setLoading(true);
-            await addServiceFromSingleStop(id);
+            if (features && Object.values(features).length > 0) {
+                await addServiceFromSingleStop(id);
+            } else {
+                selectStop(id);
+            }
             setLoading(false);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps

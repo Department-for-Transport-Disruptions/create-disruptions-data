@@ -3,87 +3,6 @@
 exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
 [
   {
-    "Consequences": {
-      "Consequence": [
-        {
-          "Advice": {
-            "Details": "Some consequence description",
-          },
-          "Affects": {
-            "Networks": {
-              "AffectedNetwork": {
-                "AllLines": "",
-                "VehicleMode": "tram",
-              },
-            },
-            "Operators": {
-              "AllOperators": "",
-            },
-          },
-          "Blocking": {
-            "JourneyPlanner": false,
-          },
-          "Condition": "unknown",
-          "Severity": "slight",
-        },
-        {
-          "Advice": {
-            "Details": "Some consequence description",
-          },
-          "Affects": {
-            "Networks": {
-              "AffectedNetwork": {
-                "AllLines": "",
-                "VehicleMode": "bus",
-              },
-            },
-            "Operators": {
-              "AffectedOperator": [
-                {
-                  "OperatorName": "Operator Name",
-                  "OperatorRef": "FSYO",
-                },
-              ],
-            },
-          },
-          "Blocking": {
-            "JourneyPlanner": true,
-          },
-          "Condition": "unknown",
-          "Delays": {
-            "Delay": "PT40M",
-          },
-          "Severity": "severe",
-        },
-      ],
-    },
-    "CreationTime": "2023-03-03T00:00:00.000Z",
-    "Description": "Test description",
-    "ParticipantRef": "DepartmentForTransport",
-    "PersonnelReason": "staffInWrongPlace",
-    "Planned": true,
-    "Progress": "open",
-    "PublicationWindow": {
-      "StartTime": "2023-03-10T12:00:00.000Z",
-    },
-    "ReasonType": "PersonnelReason",
-    "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
-    "Source": {
-      "SourceType": "feed",
-      "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-    },
-    "Summary": "Some summary",
-    "ValidityPeriod": [
-      {
-        "EndTime": "2023-03-17T17:00:00.000Z",
-        "StartTime": "2023-03-10T12:00:00.000Z",
-      },
-      {
-        "StartTime": "2023-03-18T12:00:00.000Z",
-      },
-    ],
-  },
-  {
     "consequences": [
       {
         "consequenceIndex": 1,
@@ -119,6 +38,7 @@ exports[`reject > should write the correct disruptions data to dynamoDB 1`] = `
     "disruptionStartDate": "18/03/2023",
     "disruptionStartTime": "1200",
     "disruptionType": "planned",
+    "orgId": "35bae327-4af0-4bbf-8bfa-2c085f214483",
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
     "publishStatus": "DRAFT",
@@ -143,87 +63,6 @@ exports[`reject > should write the correct disruptions data to dynamoDB 2`] = `u
 exports[`reject > should write the correct disruptions data to dynamoDB 3`] = `
 [
   {
-    "Consequences": {
-      "Consequence": [
-        {
-          "Advice": {
-            "Details": "Some consequence description",
-          },
-          "Affects": {
-            "Networks": {
-              "AffectedNetwork": {
-                "AllLines": "",
-                "VehicleMode": "tram",
-              },
-            },
-            "Operators": {
-              "AllOperators": "",
-            },
-          },
-          "Blocking": {
-            "JourneyPlanner": false,
-          },
-          "Condition": "unknown",
-          "Severity": "slight",
-        },
-        {
-          "Advice": {
-            "Details": "Some consequence description",
-          },
-          "Affects": {
-            "Networks": {
-              "AffectedNetwork": {
-                "AllLines": "",
-                "VehicleMode": "bus",
-              },
-            },
-            "Operators": {
-              "AffectedOperator": [
-                {
-                  "OperatorName": "Operator Name",
-                  "OperatorRef": "FSYO",
-                },
-              ],
-            },
-          },
-          "Blocking": {
-            "JourneyPlanner": true,
-          },
-          "Condition": "unknown",
-          "Delays": {
-            "Delay": "PT40M",
-          },
-          "Severity": "severe",
-        },
-      ],
-    },
-    "CreationTime": "2023-03-03T00:00:00.000Z",
-    "Description": "Test description",
-    "ParticipantRef": "DepartmentForTransport",
-    "PersonnelReason": "staffInWrongPlace",
-    "Planned": true,
-    "Progress": "open",
-    "PublicationWindow": {
-      "StartTime": "2023-03-10T12:00:00.000Z",
-    },
-    "ReasonType": "PersonnelReason",
-    "SituationNumber": "acde070d-8c4c-4f0d-9d8a-162843c10333",
-    "Source": {
-      "SourceType": "feed",
-      "TimeOfCommunication": "2023-03-03T00:00:00.000Z",
-    },
-    "Summary": "Some summary",
-    "ValidityPeriod": [
-      {
-        "EndTime": "2023-03-17T17:00:00.000Z",
-        "StartTime": "2023-03-10T12:00:00.000Z",
-      },
-      {
-        "StartTime": "2023-03-18T12:00:00.000Z",
-      },
-    ],
-  },
-  {
     "consequences": [
       {
         "consequenceIndex": 1,
@@ -259,6 +98,7 @@ exports[`reject > should write the correct disruptions data to dynamoDB 3`] = `
     "disruptionStartDate": "18/03/2023",
     "disruptionStartTime": "1200",
     "disruptionType": "planned",
+    "orgId": "35bae327-4af0-4bbf-8bfa-2c085f214483",
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
     "publishStatus": "DRAFT",

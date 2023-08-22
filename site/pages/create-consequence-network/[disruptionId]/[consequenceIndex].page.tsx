@@ -1,3 +1,5 @@
+import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,7 +25,6 @@ import {
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { NetworkConsequence, networkConsequenceSchema } from "../../../schemas/consequence.schema";
 import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";

@@ -1,11 +1,11 @@
+import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
-import { createDisruptionsSchemaRefined } from "../../schemas/create-disruption.schema";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
@@ -29,7 +29,10 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No disruption to duplicate");
         }
 
-        const validatedDisruptionBody = createDisruptionsSchemaRefined.safeParse(disruptionToDuplicate);
+        const validatedDisruptionBody = disruptionInfoSchemaRefined.safeParse({
+            ...disruptionToDuplicate,
+            orgId: session.orgId,
+        });
 
         if (!validatedDisruptionBody.success) {
             throw new Error("Invalid disruption information");
@@ -38,7 +41,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const newDisruptionId = randomUUID();
 
         const displayId = cryptoRandomString({ length: 6 });
-        const draftDisruption: Disruption = {
+        const draftDisruption: FullDisruption = {
             ...validatedDisruptionBody.data,
             publishStatus: PublishStatus.draft,
             disruptionId: newDisruptionId,

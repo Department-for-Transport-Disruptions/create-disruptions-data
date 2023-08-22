@@ -1,3 +1,5 @@
+import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
@@ -7,7 +9,6 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { NetworkConsequence, networkConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,

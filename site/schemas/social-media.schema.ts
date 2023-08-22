@@ -1,8 +1,10 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { zodDate, zodTime } from "@create-disruptions-data/shared-ts/utils/zod";
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
-import { setZodDefaultError, zodDate, zodTime } from "../utils";
-import { getDatetimeFromDateAndTime, isAtLeast5MinutesAfter } from "../utils/dates";
+import { setZodDefaultError } from "../utils";
+import { isAtLeast5MinutesAfter } from "../utils/dates";
 
 export const socialMediaPostSchema = z.object({
     disruptionId: z.string().uuid(),

@@ -1,14 +1,8 @@
+import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { checkOverlap, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { describe, it, expect } from "vitest";
-import {
-    checkOverlap,
-    convertDateTimeToFormat,
-    formatTime,
-    getDatetimeFromDateAndTime,
-    getEndingOnDateText,
-    isUpcomingDisruption,
-} from "./dates";
-import { Validity } from "../schemas/create-disruption.schema";
+import { convertDateTimeToFormat, formatTime, getEndingOnDateText, isUpcomingDisruption } from "./dates";
 
 describe("date/time tests", () => {
     it.each([

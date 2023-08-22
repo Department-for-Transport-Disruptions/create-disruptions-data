@@ -25,6 +25,7 @@ describe("publishToHootsuite", () => {
         getParametersByPath: vi.fn(),
         getParameter: vi.fn(),
         putParameter: vi.fn(),
+        deleteParameter: vi.fn(),
     }));
 
     vi.mock("../../data/s3", () => ({

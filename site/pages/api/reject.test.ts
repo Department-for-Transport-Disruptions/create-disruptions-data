@@ -4,14 +4,13 @@ import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vites
 import reject from "./reject.api";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
     DEFAULT_ORG_ID,
     disruptionWithConsequences,
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
-    ptSituationElementWithMultipleConsequences,
     mockSession,
     disruptionWithConsequencesAndSocialMediaPosts,
 } from "../../testData/mockData";
@@ -86,7 +85,6 @@ describe("reject", () => {
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -111,7 +109,6 @@ describe("reject", () => {
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -136,7 +133,6 @@ describe("reject", () => {
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -162,7 +158,7 @@ describe("reject", () => {
     });
 
     it("should redirect to error page if disruption is invalid", async () => {
-        getDisruptionSpy.mockResolvedValue({} as Disruption);
+        getDisruptionSpy.mockResolvedValue({} as FullDisruption);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
