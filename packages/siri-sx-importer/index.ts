@@ -33,6 +33,8 @@ const parsedXml = () => {
 const parsedSiri: PtSituationElement[] =
     parsedXml().parsedXml.Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement;
 
+console.log(util.inspect(parsedSiri, false, 7));
+
 const myNewObject = parsedSiri.map((element) => {
     if (Array.isArray(element.ValidityPeriod)) {
         return element;
