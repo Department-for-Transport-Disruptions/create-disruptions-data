@@ -1,9 +1,8 @@
-import { BasePtSituationElement, PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
-import { siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { parseString } from "xml2js";
 import { parseBooleans } from "xml2js/lib/processors";
 import { promises as fs } from "fs";
 import * as util from "util";
+import { siriSchema } from "./reverseSiriTypes.zod";
 
 async function loadXml() {
     const data = await fs.readFile("smaller-sirisx.xml", "utf8");
@@ -27,33 +26,6 @@ const parsedXml = () => {
     };
 };
 
-//Console log below to inspect the SIRI data when converted to XML
-// console.log(util.inspect(parsedXml().parsedXml.Siri, false, 7));
+const parsedJson = siriSchema.parse(parsedXml().parsedXml.Siri);
 
-const parsedSiri: PtSituationElement[] =
-    parsedXml().parsedXml.Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement;
-
-console.log(util.inspect(parsedSiri, false, 7));
-
-const myNewObject = parsedSiri.map((element) => {
-    if (Array.isArray(element.ValidityPeriod)) {
-        return element;
-    }
-    if (!!element.Consequences && Array.isArray(element.Consequences.Consequence)) {
-        return element;
-    }
-
-    if (!!element.Consequences) {
-        return {
-            ...element,
-            ValidityPeriod: [element.ValidityPeriod],
-            Consequences: {
-                Consequence: [element.Consequences.Consequence],
-            },
-        };
-    }
-});
-
-console.log(util.inspect(myNewObject, false, null));
-
-// const parsedJson = siriSchema.parse(parseXml().parsedXml.Siri);
+console.log(util.inspect(parsedJson, false, null));

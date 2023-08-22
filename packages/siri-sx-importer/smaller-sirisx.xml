@@ -22,6 +22,7 @@
                         <StartTime>2023-07-19T09:00:00.000Z</StartTime>
                     </PublicationWindow>
                     <MiscellaneousReason>accident</MiscellaneousReason>
+                    <ReasonType>MiscellaneousReason</ReasonType>
                     <Planned>true</Planned>
                     <Summary>test1Symca</Summary>
                     <Description>test1Symca</Description>
@@ -70,6 +71,7 @@
                         <EndTime>2023-07-04T16:00:00.000Z</EndTime>
                     </PublicationWindow>
                     <EnvironmentReason>highTemperatures</EnvironmentReason>
+                    <ReasonType>EnvironmentReason</ReasonType>
                     <Planned>true</Planned>
                     <Summary>Test</Summary>
                     <Description>Another test</Description>
@@ -160,9 +162,15 @@
                         <EndTime>2023-07-31T16:00:00.000Z</EndTime>
                     </PublicationWindow>
                     <EnvironmentReason>heavySnowFall</EnvironmentReason>
+                    <ReasonType>EnvironmentReason</ReasonType>
                     <Planned>true</Planned>
                     <Summary>A test12</Summary>
                     <Description>A test12</Description>
+                    <InfoLinks>
+                        <InfoLink>
+                            <Uri>https://www.google.com/search?q=enter+a+large+set+of+characters+more.+than+250+in+google+url+so+that+we+can+search+in+ui&amp;rlz=1C5GCEM_enGB1049GB1049&amp;oq=enter+a+large+set+of+characters+more.+than+250+in+google+url+so+that+we+can+search+in+ui&amp;aqs=chrome</Uri>
+                        </InfoLink>
+                    </InfoLinks>
                     <Consequences>
                         <Consequence>
                             <Condition>unknown</Condition>
