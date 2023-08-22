@@ -209,14 +209,7 @@ const Map = ({
                         ...state,
                         inputs: {
                             ...state.inputs,
-                            stops: sortAndFilterStops(
-                                [...selected, ...markerData]
-                                    .filter(
-                                        (value, index, self) =>
-                                            index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                                    )
-                                    .splice(0, 100),
-                            ),
+                            stops: sortAndFilterStops([...selected, ...markerData].splice(0, 100)),
                         },
                         errors: [
                             ...state.errors.filter(
