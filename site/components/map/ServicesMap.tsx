@@ -3,7 +3,7 @@ import { servicesConsequenceSchema, stopSchema } from "@create-disruptions-data/
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
+import { LineLayout, LinePaint, MapLayerMouseEvent, Point } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
@@ -25,7 +25,7 @@ import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Routes } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { filterServices, getStopType, sortStops } from "../../utils/formUtils";
+import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
@@ -152,7 +152,7 @@ const Map = ({
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
+                const stops = sortAndFilterStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     ...state,
@@ -167,7 +167,7 @@ const Map = ({
         [selected, state, stateUpdater],
     );
 
-    const addServiceFromSingleStop = async (id: string) => {
+    const addServiceFromSingleStop = async (id: string): Promise<void> => {
         if (state) {
             {
                 const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
@@ -193,7 +193,7 @@ const Map = ({
                                   services: filterServices([...state.inputs?.services, ...servicesInPolygon]),
                               }
                             : { services: [...filterServices(servicesInPolygon)] }),
-                        stops: sortStops([...selected, ...stop]),
+                        stops: sortAndFilterStops([...selected, ...stop]),
                     },
                     errors: state.errors,
                 });
@@ -382,7 +382,7 @@ const Map = ({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops(stops),
+                        stops: sortAndFilterStops(stops),
                         ...(state.inputs?.services
                             ? {
                                   services: filterServices([...state.inputs?.services, ...servicesInPolygon]),
@@ -605,7 +605,7 @@ const Map = ({
                         <Popup
                             longitude={hoverInfo.longitude}
                             latitude={hoverInfo.latitude}
-                            offset={[0, -10]}
+                            offset={new Point(0, -10)}
                             onClose={() => setHoverInfo(initialHoverState)}
                             closeButton={false}
                             className="service-info"
