@@ -1,8 +1,8 @@
+import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/[consequenceIndex].page";
-import { ConsequenceOperators } from "../../schemas/consequence.schema";
 import { mockOperators } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceOperatorProps = {

@@ -1,3 +1,5 @@
+import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
@@ -8,17 +10,9 @@ import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
 import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { Validity } from "../schemas/create-disruption.schema";
-import { Disruption } from "../schemas/disruption.schema";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import {
-    convertDateTimeToFormat,
-    getDate,
-    getDatetimeFromDateAndTime,
-    isLiveDisruption,
-    isUpcomingDisruption,
-} from "../utils/dates";
+import { convertDateTimeToFormat, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";

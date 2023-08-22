@@ -36,6 +36,7 @@ const defaultDisruptionData = {
     disruptionNoEndDateTime: "true",
     validity1: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
 };
 
 describe("create-disruption API", () => {
@@ -106,6 +107,7 @@ describe("create-disruption API", () => {
             {
                 disruptionId: defaultDisruptionId,
                 disruptionType: "unplanned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -182,6 +184,7 @@ describe("create-disruption API", () => {
             {
                 disruptionId: defaultDisruptionId,
                 disruptionType: "unplanned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -779,6 +782,7 @@ describe("create-disruption API", () => {
             {
                 disruptionId: defaultDisruptionId,
                 disruptionType: "unplanned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

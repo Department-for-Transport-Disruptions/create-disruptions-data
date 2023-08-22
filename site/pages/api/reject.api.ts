@@ -14,7 +14,6 @@ import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
-import { getPtSituationElementFromDraft } from "../../utils/siri";
 
 const reject = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -83,7 +82,6 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
                 );
             }
             await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                getPtSituationElementFromDraft(draftDisruption, orgInfo.name),
                 draftDisruption,
                 session.orgId,
                 PublishStatus.rejected,

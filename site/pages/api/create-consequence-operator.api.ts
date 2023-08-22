@@ -1,3 +1,5 @@
+import { ConsequenceOperators, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
@@ -7,7 +9,6 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { ConsequenceOperators, OperatorConsequence, operatorConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,

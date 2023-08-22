@@ -1,3 +1,4 @@
+import { getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { FilledInputProps } from "@mui/material/FilledInput";
 import { InputBaseComponentProps } from "@mui/material/InputBase";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
@@ -9,7 +10,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { convertDateTimeToFormat, getFormattedDate } from "../../utils/dates";
+import { convertDateTimeToFormat } from "../../utils/dates";
 import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {

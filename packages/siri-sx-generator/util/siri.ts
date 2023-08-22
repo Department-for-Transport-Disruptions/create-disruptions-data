@@ -1,3 +1,4 @@
+import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
     isEnvironmentReason,
@@ -7,9 +8,7 @@ import {
     Reason,
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
-import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
-import { Validity } from "../schemas/create-disruption.schema";
-import { Disruption } from "../schemas/disruption.schema";
+import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
@@ -65,7 +64,7 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-export const getPtSituationElementFromDraft = (disruption: Disruption, orgName: string) => {
+export const getPtSituationElementFromSiteDisruption = (disruption: Disruption, orgName: string) => {
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;

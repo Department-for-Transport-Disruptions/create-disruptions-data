@@ -1,3 +1,9 @@
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    serviceSchema,
+    servicesConsequenceSchema,
+    stopSchema,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -29,15 +35,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import {
-    Stop,
-    stopSchema,
-    ServicesConsequence,
-    Service,
-    serviceSchema,
-    servicesConsequenceSchema,
-    Routes,
-} from "../../../schemas/consequence.schema";
+import { Routes } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";

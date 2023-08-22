@@ -1,7 +1,7 @@
+import { Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { uniqueId } from "lodash";
 import { Dispatch, ReactElement, SetStateAction, memo } from "react";
 import { Marker } from "react-map-gl";
-import { Stop } from "../../schemas/consequence.schema";
 
 interface MarkersProps {
     selected: Stop[];

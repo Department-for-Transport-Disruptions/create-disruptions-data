@@ -1,7 +1,7 @@
+import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
 import OperatorSearch from "./OperatorSearch";
-import { OperatorConsequence } from "../../schemas/consequence.schema";
 import { mockOperators } from "../../testData/mockData";
 
 describe("OperatorSearch", () => {
