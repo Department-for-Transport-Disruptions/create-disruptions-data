@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Install packages
@@ -64,7 +64,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Rebuild npm
@@ -105,7 +105,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Rebuild npm
