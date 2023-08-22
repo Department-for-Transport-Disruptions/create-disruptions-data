@@ -1,7 +1,7 @@
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { LineLayout, LinePaint, MapLayerMouseEvent } from "mapbox-gl";
+import { LineLayout, LinePaint, MapLayerMouseEvent, Point } from "mapbox-gl";
 import {
     CSSProperties,
     Dispatch,
@@ -592,7 +592,7 @@ const Map = ({
                         <Popup
                             longitude={hoverInfo.longitude}
                             latitude={hoverInfo.latitude}
-                            offset={[0, -10]}
+                            offset={new Point(0, -10)}
                             onClose={() => setHoverInfo(initialHoverState)}
                             closeButton={false}
                             className="service-info"

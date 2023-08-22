@@ -68,7 +68,7 @@ export const getStopLabel = (stop: Stop) => {
 
 export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
 
-export const sortStops = (stops: Stop[]) => {
+export const sortStops = (stops: Stop[]): Stop[] => {
     return stops.sort((a, b) => {
         if (a.commonName && a.indicator && a.atcoCode && b.indicator) {
             return (
