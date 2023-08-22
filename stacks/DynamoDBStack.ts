@@ -2,7 +2,7 @@ import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
 import { StackContext, Table } from "sst/constructs";
 
 export function DynamoDBStack({ stack }: StackContext) {
-    const table = new Table(stack, "cdd-dynamodb-disruptions-table", {
+    const disruptionsTable = new Table(stack, "cdd-dynamodb-disruptions-table", {
         fields: {
             PK: "string",
             SK: "string",
@@ -56,7 +56,7 @@ export function DynamoDBStack({ stack }: StackContext) {
     });
 
     return {
-        table,
+        disruptionsTable,
         siriTable,
         organisationsTable,
     };

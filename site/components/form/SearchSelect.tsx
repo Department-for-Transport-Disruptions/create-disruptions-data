@@ -28,6 +28,8 @@ interface SearchSelectProps<T> {
     setSearchInput: Dispatch<SetStateAction<string>>;
     filterOptions?: (option: FilterOptionOption<object>, rawInput: string) => boolean;
     width?: string;
+    onFocus?: () => void;
+    onBlur?: () => void;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -49,6 +51,8 @@ const SearchSelect = <T extends object>({
     setSearchInput = (value) => value,
     filterOptions,
     width,
+    onFocus,
+    onBlur,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action !== "input-blur" && action !== "menu-close") {
@@ -114,6 +118,8 @@ const SearchSelect = <T extends object>({
                         menuPosition="fixed"
                         isClearable={isClearable}
                         filterOption={filterOptions}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
                     />
                 </FormElementWrapper>
 

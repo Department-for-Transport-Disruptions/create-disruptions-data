@@ -4,11 +4,10 @@ import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vites
 import publish from "./publish.api";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
     disruptionWithConsequencesAndSocialMediaPosts,
-    ptSituationElementWithMultipleConsequences,
     getMockRequestAndResponse,
     disruptionWithNoConsequences,
     DEFAULT_ORG_ID,
@@ -74,7 +73,6 @@ describe("publish", () => {
 
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -105,7 +103,6 @@ describe("publish", () => {
         );
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
-            ptSituationElementWithMultipleConsequences,
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -128,7 +125,7 @@ describe("publish", () => {
     });
 
     it("should redirect to error page if disruption is invalid", async () => {
-        getDisruptionSpy.mockResolvedValue({} as Disruption);
+        getDisruptionSpy.mockResolvedValue({} as FullDisruption);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,

@@ -1,3 +1,5 @@
+import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { getDate, getFormattedDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
@@ -6,7 +8,6 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { CD_DATE_FORMAT } from "../constants";
-import { Validity } from "../schemas/create-disruption.schema";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
@@ -22,16 +23,9 @@ export const convertDateTimeToFormat = (dateOrTime: string | Date, format: strin
     return dayjs(dateOrTime).tz("Europe/London").format(format);
 };
 
-export const getDate = (input?: string) => (input ? dayjs.tz(input, "Europe/London") : dayjs().tz("Europe/London"));
-
-export const getFormattedDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
-
 export const getDateForExporter = (date: string) => dayjs(date).format("ddd DD MMM YY");
 
 export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
-
-export const getDatetimeFromDateAndTime = (date: string, time: string) =>
-    dayjs.tz(`${date} ${time}`, `DD/MM/YYYY ${time ? "HHmm" : ""}`, "Europe/London");
 
 export const isAtLeast5MinutesAfter = (date: dayjs.Dayjs) => {
     const currentDateTime = dayjs();
@@ -41,18 +35,6 @@ export const isAtLeast5MinutesAfter = (date: dayjs.Dayjs) => {
 
 export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORMAT) => {
     return dayjs().add(addDays, "day").format(dateFormat).toString();
-};
-export const checkOverlap = (
-    firstStartDate: dayjs.Dayjs,
-    firstEndDate: dayjs.Dayjs,
-    secondStartDate: dayjs.Dayjs,
-    secondEndDate: dayjs.Dayjs,
-) => {
-    return (
-        firstStartDate.isBetween(secondStartDate, secondEndDate) ||
-        secondStartDate.isBetween(firstStartDate, firstEndDate) ||
-        firstStartDate.isSame(secondStartDate)
-    );
 };
 
 export const getEndingOnDateText = (
