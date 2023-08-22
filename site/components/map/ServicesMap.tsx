@@ -206,10 +206,28 @@ const Map = ({
         }
     };
 
+    const selectStop = (id: string) => {
+        if (state) {
+            const stop: Stop[] = getSelectedStopsFromMapMarkers(searched, id);
+            stateUpdater({
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    stops: sortStops([...selected, ...stop]),
+                },
+                errors: state.errors,
+            });
+        }
+    };
+
     const selectMarker = useCallback(
         async (id: string) => {
             setLoading(true);
-            await addServiceFromSingleStop(id);
+            if (features && Object.values(features).length > 0) {
+                await addServiceFromSingleStop(id);
+            } else {
+                selectStop(id);
+            }
             setLoading(false);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
