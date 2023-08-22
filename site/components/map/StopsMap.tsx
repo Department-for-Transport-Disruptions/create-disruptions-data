@@ -20,7 +20,7 @@ import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
-import { getStopType, sortStops } from "../../utils/formUtils";
+import { getStopType, sortAndFilterStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
@@ -74,7 +74,7 @@ const Map = ({
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
+                const stops = sortAndFilterStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     ...state,
@@ -98,7 +98,7 @@ const Map = ({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: sortStops([...selected, ...stop]),
+                        stops: sortAndFilterStops([...selected, ...stop]),
                     },
                     errors: state.errors,
                 });
@@ -209,7 +209,7 @@ const Map = ({
                         ...state,
                         inputs: {
                             ...state.inputs,
-                            stops: sortStops(
+                            stops: sortAndFilterStops(
                                 [...selected, ...markerData]
                                     .filter(
                                         (value, index, self) =>
