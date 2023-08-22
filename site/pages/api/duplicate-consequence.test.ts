@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment  */
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import duplicateConsequence from "./duplicate-consequence.api";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import { Consequence } from "../../schemas/consequence.schema";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
@@ -28,7 +27,7 @@ const defaultNetworkData: Consequence = {
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
-const disruption: Disruption = {
+const disruption: FullDisruption = {
     disruptionId: defaultDisruptionId,
     disruptionType: "planned",
     summary: "A test disruption",
@@ -46,6 +45,7 @@ const disruption: Disruption = {
     publishStatus: PublishStatus.editing,
     consequences: [defaultNetworkData],
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
 };
 
 describe("duplicate-consequence API", () => {

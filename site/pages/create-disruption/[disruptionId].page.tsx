@@ -1,3 +1,9 @@
+import { DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    disruptionInfoSchema,
+    validitySchema,
+    validitySchemaRefined,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -22,13 +28,6 @@ import {
 } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
-import {
-    createDisruptionSchema,
-    validitySchemaRefined,
-    Validity,
-    validitySchema,
-    DisruptionInfo,
-} from "../../schemas/create-disruption.schema";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -256,7 +255,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.summary}
                             initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.summary}
+                            schema={disruptionInfoSchema.shape.summary}
                         />
 
                         <TextInput<DisruptionInfo>
@@ -269,7 +268,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.description}
+                            schema={disruptionInfoSchema.shape.description}
                         />
 
                         <TextInput<DisruptionInfo>
@@ -279,7 +278,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             maxLength={250}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.associatedLink}
-                            schema={createDisruptionSchema.shape.associatedLink}
+                            schema={disruptionInfoSchema.shape.associatedLink}
                         />
 
                         <Select<DisruptionInfo>
@@ -290,7 +289,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionReason}
                             initialErrors={pageState.errors}
-                            schema={createDisruptionSchema.shape.disruptionReason}
+                            schema={disruptionInfoSchema.shape.disruptionReason}
                         />
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
@@ -406,7 +405,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={createDisruptionSchema.shape.publishStartDate}
+                                    schema={disruptionInfoSchema.shape.publishStartDate}
                                     resetError={
                                         (!pageState.inputs.publishStartDate &&
                                             !!validity.disruptionStartDate &&
@@ -430,7 +429,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={createDisruptionSchema.shape.publishStartTime}
+                                    schema={disruptionInfoSchema.shape.publishStartTime}
                                     resetError={
                                         (!pageState.inputs.publishStartTime &&
                                             !!validity.disruptionStartTime &&
@@ -458,7 +457,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={createDisruptionSchema.shape.publishEndDate}
+                                    schema={disruptionInfoSchema.shape.publishEndDate}
                                 />
                             </div>
                             <div className="pl-5">
@@ -473,7 +472,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={createDisruptionSchema.shape.publishEndTime}
+                                    schema={disruptionInfoSchema.shape.publishEndTime}
                                 />
                             </div>
                         </div>
@@ -601,14 +600,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!disruption) {
         return {
             props: {
-                ...getPageState(errorCookie, createDisruptionSchema, disruptionId),
+                ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
             },
         };
     }
 
     return {
         props: {
-            ...getPageState(errorCookie, createDisruptionSchema, disruption.disruptionId, disruption),
+            ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
         },
     };

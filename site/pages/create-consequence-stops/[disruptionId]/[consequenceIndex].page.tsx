@@ -1,3 +1,5 @@
+import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -28,7 +30,6 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";

@@ -1,4 +1,5 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Fragment, ReactElement } from "react";
@@ -10,7 +11,7 @@ import { DisplayValuePair } from "../../interfaces";
 import { History } from "../../schemas/disruption.schema";
 import { getDisplayByValue, getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
-import { convertDateTimeToFormat, getDate, getDaysInPast } from "../../utils/dates";
+import { convertDateTimeToFormat, getDaysInPast } from "../../utils/dates";
 
 const title = "Disruption history";
 const description = "Disruption history page for the Create Transport Disruptions Service";

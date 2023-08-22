@@ -1,4 +1,8 @@
+import { ConsequenceOperators, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { validitySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { pdf } from "@react-pdf/renderer";
 import { Dayjs } from "dayjs";
@@ -29,8 +33,7 @@ import {
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { ConsequenceOperators, Operator, Service, ServiceApiResponse } from "../schemas/consequence.schema";
-import { validitySchema } from "../schemas/create-disruption.schema";
+import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { disruptionsTableSchema, ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
 import {
     getDisplayByValue,
@@ -38,15 +41,12 @@ import {
     getServiceLabel,
     getSortedDisruptionFinalEndDate,
     SortedDisruption,
-    makeFilteredArraySchema,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
     filterDatePeriodMatchesDisruptionDatePeriod,
-    getDate,
-    getFormattedDate,
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";

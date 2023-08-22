@@ -1,3 +1,4 @@
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
@@ -8,7 +9,6 @@ import { defaultModes } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
-import { getDate } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");

@@ -1,3 +1,5 @@
+import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
 import {
@@ -18,7 +20,6 @@ import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
-import { Stop, StopsConsequence, stopSchema, stopsConsequenceSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStopType, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
