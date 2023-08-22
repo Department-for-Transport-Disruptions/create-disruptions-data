@@ -42,7 +42,13 @@ import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { filterServices, getStateUpdater, getStopLabel, getStopValue, sortAndFilterStops } from "../../../utils/formUtils";
+import {
+    filterServices,
+    getStateUpdater,
+    getStopLabel,
+    getStopValue,
+    sortAndFilterStops,
+} from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
