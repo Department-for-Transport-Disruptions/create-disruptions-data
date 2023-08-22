@@ -1,0 +1,32 @@
+{
+    "name": "@create-disruptions-data/siri-sx-importer",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "test": "sst bind 'vitest'",
+        "test:unit": "vitest",
+        "test:updateSnapshots": "vitest -u",
+        "typecheck": "tsc -noEmit",
+        "parse-xml": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  index.ts"
+    },
+    "devDependencies": {
+        "@tsconfig/node18": "^1.0.1",
+        "@types/aws-lambda": "^8.10.110",
+        "@types/jstoxml": "^2.0.2",
+        "@types/lambda-log": "^2.2.1",
+        "@types/xml2js": "^0.4.11",
+        "@types/node": "^18.13.0",
+        "aws-sdk-client-mock": "^2.1.0",
+        "dayjs": "^1.11.7",
+        "sst": "^2.0.18",
+        "ts-node": "^10.9.1"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.272.0",
+        "@create-disruptions-data/shared-ts": "file:../../shared-ts",
+        "js2xmlparser": "^5.0.0",
+        "lambda-log": "^3.1.0",
+        "sst": "^2.0.18",
+        "xml-formatter": "^3.3.0"
+    }
+}
