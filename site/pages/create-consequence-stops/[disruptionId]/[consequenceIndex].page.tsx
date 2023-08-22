@@ -45,6 +45,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [searchInput, setSearchInput] = useState("");
+    const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -215,7 +216,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}
-                            placeholder="Select stops"
+                            placeholder={changePlaceholder ? "Type to begin search" : "Select stops"}
                             getOptionLabel={getStopLabel}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
@@ -228,6 +229,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             setSearchInput={setSearchInput}
                             isClearable
                             options={stopOptions}
+                            onBlur={() => {
+                                setChangePlaceHolder(false);
+                            }}
+                            onFocus={() => {
+                                setChangePlaceHolder(true);
+                            }}
                         />
 
                         <Map
