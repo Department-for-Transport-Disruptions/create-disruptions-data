@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
 import * as utils from "../../utils";
 import * as session from "../../utils/apiUtils/auth";
@@ -29,7 +29,7 @@ describe("getAllDisruptions", () => {
         vi.resetAllMocks();
     });
 
-    const disruptions: Disruption[] = [
+    const disruptions: FullDisruption[] = [
         {
             associatedLink: "",
             consequences: [

@@ -1,3 +1,9 @@
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    serviceSchema,
+    servicesConsequenceSchema,
+    stopSchema,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -29,20 +35,18 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import {
-    Stop,
-    stopSchema,
-    ServicesConsequence,
-    Service,
-    serviceSchema,
-    servicesConsequenceSchema,
-    Routes,
-} from "../../../schemas/consequence.schema";
+import { Routes } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { filterServices, getStateUpdater, getStopLabel, getStopValue, sortStops } from "../../../utils/formUtils";
+import {
+    filterServices,
+    getStateUpdater,
+    getStopLabel,
+    getStopValue,
+    sortAndFilterStops,
+} from "../../../utils/formUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -55,7 +59,7 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export const fetchStops = async (
+const fetchStops = async (
     serviceId: number,
     vehicleMode?: VehicleMode | Modes,
     dataSource?: Datasource,
@@ -76,10 +80,12 @@ export const fetchStops = async (
         });
 
         if (stopsData) {
-            return stopsData.map((stop) => ({
-                ...stop,
-                ...(serviceId && { serviceIds: [serviceId] }),
-            }));
+            return sortAndFilterStops(
+                stopsData.map((stop) => ({
+                    ...stop,
+                    ...(serviceId && { serviceIds: [serviceId] }),
+                })),
+            );
         }
     }
 
@@ -207,7 +213,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     ...pageState,
                     inputs: {
                         ...pageState.inputs,
-                        stops: sortStops([...(pageState.inputs.stops ?? []), stopToAdd]),
+                        stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -229,7 +235,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         if (selectedService) {
             fetchStops(selectedService.id, pageState.inputs.vehicleMode, dataSource)
-                .then((stops) => setStopOptions(sortStops([...stopOptions, ...stops])))
+                .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }

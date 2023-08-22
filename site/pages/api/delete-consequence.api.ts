@@ -1,7 +1,7 @@
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { removeConsequenceFromDisruption, upsertConsequence } from "../../data/dynamo";
-import { Consequence } from "../../schemas/consequence.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 

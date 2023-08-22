@@ -1,3 +1,5 @@
+import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -28,7 +30,6 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { StopsConsequence, Stop, stopsConsequenceSchema, stopSchema } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -45,6 +46,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>([]);
     const [searchInput, setSearchInput] = useState("");
+    const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
     const queryParams = useRouter().query;
     const displayCancelButton =
@@ -215,7 +217,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}
-                            placeholder="Select stops"
+                            placeholder={changePlaceholder ? "Type to begin search" : "Select stops"}
                             getOptionLabel={getStopLabel}
                             handleChange={handleChange}
                             tableData={pageState.inputs.stops}
@@ -228,6 +230,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             setSearchInput={setSearchInput}
                             isClearable
                             options={stopOptions}
+                            onBlur={() => {
+                                setChangePlaceHolder(false);
+                            }}
+                            onFocus={() => {
+                                setChangePlaceHolder(true);
+                            }}
                         />
 
                         <Map

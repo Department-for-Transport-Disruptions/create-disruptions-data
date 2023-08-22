@@ -1,3 +1,4 @@
+import { Consequence, ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
     EnvironmentReason,
@@ -10,8 +11,8 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
-import { Consequence, ConsequenceOperators } from "../../schemas/consequence.schema";
-import { Disruption } from "../../schemas/disruption.schema";
+import { FullDisruption } from "../../schemas/disruption.schema";
+import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
     {
@@ -100,7 +101,7 @@ const previousCreateSocialMediaPostsInformation = [
     },
 ];
 
-const previousDisruptionInformation: Disruption = {
+const previousDisruptionInformation: FullDisruption = {
     publishStatus: PublishStatus.draft,
     disruptionType: "planned",
     disruptionId: "2",
@@ -130,6 +131,7 @@ const previousDisruptionInformation: Disruption = {
     consequences: previousConsequencesInformation,
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
     displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
 };
 
 describe("pages", () => {

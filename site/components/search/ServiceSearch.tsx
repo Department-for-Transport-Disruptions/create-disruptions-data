@@ -1,6 +1,6 @@
+import { Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
-import { Service } from "../../schemas/consequence.schema";
 import { getServiceLabel } from "../../utils";
 
 interface ServiceSearchProps {

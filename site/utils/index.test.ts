@@ -1,13 +1,15 @@
+import { Disruption, DisruptionInfo, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    disruptionInfoSchema,
+    operatorConsequenceSchema,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect } from "vitest";
 import { randomUUID } from "crypto";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
-import { OperatorConsequence, operatorConsequenceSchema } from "../schemas/consequence.schema";
-import { createDisruptionSchema, DisruptionInfo } from "../schemas/create-disruption.schema";
-import { Disruption } from "../schemas/disruption.schema";
-import { disruptionInfoTest } from "../testData/mockData";
+import { DEFAULT_ORG_ID, disruptionInfoTest } from "../testData/mockData";
 import {
     getSortedDisruptionFinalEndDate,
     sortDisruptionsByStartDate,
@@ -50,9 +52,10 @@ describe("page state test", () => {
             disruptionEndTime: "1100",
             disruptionNoEndDateTime: "",
             displayId: "8fg3ha",
+            orgId: DEFAULT_ORG_ID,
         };
 
-        const parsedInput = getPageState("", createDisruptionSchema, disruptionData.disruptionId, disruptionData);
+        const parsedInput = getPageState("", disruptionInfoSchema, disruptionData.disruptionId, disruptionData);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(disruptionData);
@@ -138,6 +141,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Some summary",
                 associatedLink: "https://example.com",
                 disruptionReason: "grassFire",
@@ -182,6 +186,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Some summary",
                 associatedLink: "https://example.com",
                 disruptionReason: "grassFire",
@@ -214,6 +219,7 @@ describe("sortDisruptionsByStartDate", () => {
                 disruptionId: "test",
                 description: "Test description",
                 disruptionType: "planned",
+                orgId: DEFAULT_ORG_ID,
                 summary: "Some summary",
                 associatedLink: "https://example.com",
                 disruptionReason: "grassFire",
@@ -252,6 +258,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
             publishStartDate: "10/03/2023",
             publishStartTime: "1200",
             displayId: "8fg3ha",
+            orgId: DEFAULT_ORG_ID,
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",
@@ -291,6 +298,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
             publishStartDate: "10/03/2023",
             publishStartTime: "1200",
             displayId: "8fg3ha",
+            orgId: DEFAULT_ORG_ID,
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",

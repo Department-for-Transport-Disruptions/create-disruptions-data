@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Install packages
@@ -64,7 +64,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Rebuild npm
@@ -105,7 +105,7 @@ jobs:
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '18.17.x'
           cache: 'npm'
 
       - name: Rebuild npm
@@ -126,7 +126,7 @@ jobs:
           npm run deploy -- --stage preprod
 
   create_draft_release:
-    needs: ['deploy_to_test']
+    needs: ['deploy_to_preprod']
     name: Create draft release
     runs-on: ubuntu-22.04
     permissions:
