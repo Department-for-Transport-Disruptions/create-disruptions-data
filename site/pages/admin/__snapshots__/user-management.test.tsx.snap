@@ -399,22 +399,22 @@ exports[`userManagement > should render correctly with inputs 1`] = `
             className="govuk-table__row"
           >
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Admin
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               dummy.user@gmail.com
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Active
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <button
                 className="govuk-link"

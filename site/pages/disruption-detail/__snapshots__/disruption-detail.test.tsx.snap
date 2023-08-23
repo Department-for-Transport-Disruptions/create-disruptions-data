@@ -98,12 +98,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   ID
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   8fg3ha
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 />
               </tr>
               <tr
@@ -116,12 +116,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Type of disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Planned
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                 >
                   <a
                     className="govuk-link"
@@ -144,12 +144,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Summary
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -172,12 +172,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Description
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -200,12 +200,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Associated link
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   https://www.flooding.com
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -228,12 +228,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Reason for disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Flooding
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -256,7 +256,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Validity period 1
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <span>
                     13/01/2022
@@ -270,7 +270,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   </span>
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -293,7 +293,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Validity period 2
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <span>
                     15/01/2022
@@ -307,7 +307,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   </span>
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -330,12 +330,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Publish start date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -358,12 +358,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Publish start time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -386,12 +386,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Publish end date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -414,12 +414,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                   Publish end time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   14:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -489,12 +489,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Network wide
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -517,12 +517,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -545,12 +545,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -573,12 +573,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -601,12 +601,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         33 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -682,12 +682,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Operator wide
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -710,12 +710,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Tram
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -738,12 +738,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Operators affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         FMAN
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -766,12 +766,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -794,12 +794,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -822,12 +822,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         50 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -903,12 +903,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Services
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -931,12 +931,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -959,12 +959,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -987,12 +987,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1015,12 +1015,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1043,12 +1043,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1071,12 +1071,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         12 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1174,12 +1174,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Test post 12345
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -1202,12 +1202,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         No image uploaded
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1230,12 +1230,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         14/01/2027
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1258,12 +1258,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1286,12 +1286,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1314,12 +1314,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1342,12 +1342,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       />
                     </tr>
                   </tbody>
@@ -1406,12 +1406,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Test post 12345
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -1434,7 +1434,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link text-govBlue"
@@ -1447,7 +1447,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         </a>
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1470,12 +1470,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         14/01/2028
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1498,12 +1498,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1526,12 +1526,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1554,12 +1554,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -1582,12 +1582,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       />
                     </tr>
                   </tbody>
@@ -1940,12 +1940,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   ID
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   8fg3ha
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 />
               </tr>
               <tr
@@ -1958,12 +1958,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Type of disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Planned
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                 >
                   <a
                     className="govuk-link"
@@ -1986,12 +1986,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Summary
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2014,12 +2014,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Description
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2042,12 +2042,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Associated link
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   https://www.flooding.com
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2070,12 +2070,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Reason for disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   Flooding
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2098,7 +2098,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Validity period 1
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <span>
                     13/01/2022
@@ -2112,7 +2112,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   </span>
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2135,7 +2135,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Validity period 2
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <span>
                     15/01/2022
@@ -2149,7 +2149,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   </span>
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2172,12 +2172,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Publish start date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2200,12 +2200,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Publish start time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2228,12 +2228,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Publish end date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2256,12 +2256,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                   Publish end time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   14:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                 >
                   <a
                     className="govuk-link"
@@ -2331,12 +2331,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Network wide
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -2359,12 +2359,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2387,12 +2387,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2415,12 +2415,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2443,12 +2443,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         33 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2524,12 +2524,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Operator wide
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -2552,12 +2552,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Tram
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2580,12 +2580,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Operators affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         FMAN
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2608,12 +2608,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2636,12 +2636,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2664,12 +2664,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         50 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2745,12 +2745,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Consequence type
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
                       >
                         Services
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -2773,12 +2773,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2801,12 +2801,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2829,12 +2829,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2857,12 +2857,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2885,12 +2885,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -2913,12 +2913,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         12 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3016,12 +3016,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Test post 12345
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -3044,12 +3044,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         No image uploaded
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3072,12 +3072,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         14/01/2027
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3100,12 +3100,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3128,12 +3128,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3156,12 +3156,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3184,12 +3184,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       />
                     </tr>
                   </tbody>
@@ -3248,12 +3248,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Test post 12345
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
                       >
                         <a
                           className="govuk-link"
@@ -3276,7 +3276,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link text-govBlue"
@@ -3289,7 +3289,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         </a>
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3312,12 +3312,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         14/01/2028
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3340,12 +3340,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3368,12 +3368,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3396,12 +3396,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         <a
                           className="govuk-link"
@@ -3424,12 +3424,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
                       />
                     </tr>
                   </tbody>

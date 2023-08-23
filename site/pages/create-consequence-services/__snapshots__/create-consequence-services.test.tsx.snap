@@ -120,12 +120,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Services
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -331,12 +331,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       1 - Jordanthorpe - HigH Green (First South Yorkshire)
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -492,12 +492,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T3 0100BRP90310
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -512,12 +512,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T7 0100BRP90311
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -1176,12 +1176,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Services
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -1387,12 +1387,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       1 - Jordanthorpe - HigH Green (First South Yorkshire)
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -1548,12 +1548,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T3 0100BRP90310
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -1568,12 +1568,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T7 0100BRP90311
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -2200,12 +2200,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Services
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -3155,12 +3155,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Services
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -3366,12 +3366,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       1 - Jordanthorpe - HigH Green (First South Yorkshire)
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -3527,12 +3527,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T3 0100BRP90310
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"
@@ -3547,12 +3547,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     className="govuk-table__row"
                   >
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       Temple Meads Stn T7 0100BRP90311
                     </td>
                     <td
-                      className="govuk-table__cell align-middle"
+                      className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                     >
                       <button
                         className="govuk-link"

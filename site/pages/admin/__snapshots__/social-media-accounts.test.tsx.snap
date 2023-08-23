@@ -405,35 +405,35 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
             className="govuk-table__row"
           >
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p>
                 Hootsuite
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p>
                 testemail@gmail.com
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p>
                 Test Account
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p>
                 Never
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <li
                 className="list-none"
@@ -463,7 +463,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
               </li>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <button
                 className="govuk-link text-govBlue"

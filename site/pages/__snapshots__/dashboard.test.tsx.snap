@@ -179,12 +179,12 @@ exports[`pages > dashboard > should render correctly when there are all three li
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -257,12 +257,12 @@ exports[`pages > dashboard > should render correctly when there are all three li
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -291,12 +291,12 @@ exports[`pages > dashboard > should render correctly when there are all three li
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -369,12 +369,12 @@ exports[`pages > dashboard > should render correctly when there are all three li
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -1280,12 +1280,12 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -1314,12 +1314,12 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -1348,12 +1348,12 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -1382,12 +1382,12 @@ exports[`pages > dashboard > should render correctly when there are only live di
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -1984,12 +1984,12 @@ exports[`pages > dashboard > should render correctly when there are only recentl
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2018,12 +2018,12 @@ exports[`pages > dashboard > should render correctly when there are only recentl
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2052,12 +2052,12 @@ exports[`pages > dashboard > should render correctly when there are only recentl
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2086,12 +2086,12 @@ exports[`pages > dashboard > should render correctly when there are only recentl
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2559,12 +2559,12 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A bad disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2593,12 +2593,12 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   A more ok disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2627,12 +2627,12 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"
@@ -2661,12 +2661,12 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
                   </a>
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Another disruption
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <div
                     className="pb-2 last:pb-0"

@@ -84,12 +84,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Operator wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -292,15 +292,15 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                 className="govuk-table__row"
               >
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 />
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   FMAN
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <button
                     className="govuk-link"
@@ -829,12 +829,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Operator wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -1544,12 +1544,12 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Operator wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -1752,15 +1752,15 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                 className="govuk-table__row"
               >
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 />
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   FMAN
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <button
                     className="govuk-link"

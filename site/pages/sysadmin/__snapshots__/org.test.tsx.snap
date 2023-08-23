@@ -670,12 +670,12 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                       className="govuk-table__row"
                     >
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         001
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <button
                           className="govuk-link"
@@ -690,12 +690,12 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                       className="govuk-table__row"
                     >
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         002
                       </td>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <button
                           className="govuk-link"
