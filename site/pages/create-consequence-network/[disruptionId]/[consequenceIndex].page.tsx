@@ -80,7 +80,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
-                            schema={networkConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
                         />
 
@@ -96,8 +95,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={networkConsequenceSchema.shape.description}
-                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||
@@ -130,7 +127,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
-                            schema={networkConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
                         <TimeSelector<NetworkConsequence>
@@ -142,7 +138,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={networkConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
@@ -155,7 +150,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={networkConsequenceSchema.shape.disruptionSeverity}
                         />
 
                         <input type="hidden" name="consequenceType" value="networkWide" />

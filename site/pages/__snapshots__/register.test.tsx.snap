@@ -120,7 +120,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -147,7 +147,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -503,7 +503,7 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -531,7 +531,7 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -918,7 +918,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -946,7 +946,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>

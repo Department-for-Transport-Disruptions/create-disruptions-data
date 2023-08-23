@@ -20,7 +20,7 @@ import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, handleBlur } from "../../../utils/formUtils";
+import { getStateUpdater, handleChange } from "../../../utils/formUtils";
 
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
@@ -76,15 +76,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         rows={3}
                                         maxLength={500}
                                         defaultValue={pageState.inputs.messageContent}
-                                        onBlur={(e) =>
-                                            handleBlur(
-                                                e.target.value,
-                                                "messageContent",
-                                                stateUpdater,
-                                                setErrorsMessageContent,
-                                                socialMediaPostSchema.shape.messageContent,
-                                            )
-                                        }
+                                        onChange={(e) => handleChange(e.target.value, "messageContent", stateUpdater)}
                                         aria-describedby={`message-content-hint`}
                                     />
                                 </FormElementWrapper>
@@ -149,7 +141,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             inputName="publishDate"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={socialMediaPostSchema.shape.publishDate}
                         />
 
                         <TimeSelector<SocialMediaPost>
@@ -160,7 +151,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             inputName="publishTime"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={socialMediaPostSchema.shape.publishTime}
                         />
 
                         <div className="govuk-form-group govuk-!-padding-top-3">
@@ -176,7 +166,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.socialAccount}
                                 initialErrors={pageState.errors}
-                                schema={socialMediaPostSchema.shape.socialAccount}
                                 displaySize="l"
                                 display={""}
                             />
@@ -193,7 +182,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 stateUpdater={stateUpdater}
                                 value={pageState.inputs.hootsuiteProfile}
                                 initialErrors={pageState.errors}
-                                schema={socialMediaPostSchema.shape.hootsuiteProfile}
                                 displaySize="l"
                             />
                         </div>

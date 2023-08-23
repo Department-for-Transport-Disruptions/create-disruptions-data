@@ -40,7 +40,6 @@ const Login = (props: LoginPageProps): ReactElement => {
                                 widthClass="w-3/4"
                                 value={pageState.inputs.email}
                                 initialErrors={pageState.errors}
-                                schema={loginSchema.shape.email}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                             />
@@ -51,7 +50,6 @@ const Login = (props: LoginPageProps): ReactElement => {
                                 widthClass="w-3/4"
                                 value={pageState.inputs.password}
                                 initialErrors={pageState.errors}
-                                schema={loginSchema.shape.password}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword

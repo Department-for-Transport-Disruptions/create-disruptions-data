@@ -65,7 +65,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.currentPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.currentPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword
@@ -77,7 +76,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.newPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.newPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
@@ -90,7 +88,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.confirmPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.confirmPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword

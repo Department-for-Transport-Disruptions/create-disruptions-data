@@ -209,7 +209,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
                         />
 
@@ -268,8 +267,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.description}
-                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||
@@ -302,7 +299,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["removeFromJourneyPlanners"]}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
                         <TimeSelector<StopsConsequence>
                             display="Delay (optional)"
@@ -313,7 +309,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
                         <Select<StopsConsequence>
@@ -325,7 +320,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={stopsConsequenceSchema.shape.disruptionSeverity}
                         />
                         <input type="hidden" name="consequenceType" value="stops" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />

@@ -187,8 +187,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.description}
-                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
                         {!pageState.inputs.description ||
                         (pageState.inputs && pageState.inputs.description.length === 0) ? (
@@ -219,7 +217,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
                         <TimeSelector<OperatorConsequence>
                             display="Delay (optional)"
@@ -230,7 +227,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
                         <Select<OperatorConsequence>
@@ -242,7 +238,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={operatorConsequenceSchema.shape.disruptionSeverity}
                         />
                         <input type="hidden" name="consequenceType" value="operatorWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />

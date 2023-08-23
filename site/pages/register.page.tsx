@@ -59,7 +59,6 @@ const Register = (props: RegisterPageProps): ReactElement => {
                                 widthClass="w-3/4"
                                 value={pageState.inputs.password}
                                 initialErrors={pageState.errors}
-                                schema={registerSchema.shape.password}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword
@@ -71,7 +70,6 @@ const Register = (props: RegisterPageProps): ReactElement => {
                                 widthClass="w-3/4"
                                 value={pageState.inputs.confirmPassword}
                                 initialErrors={pageState.errors}
-                                schema={registerSchema.shape.confirmPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword

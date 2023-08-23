@@ -2,7 +2,7 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
-import { handleBlur } from "../../utils/formUtils";
+import { handleChange } from "../../utils/formUtils";
 
 interface SelectProps<T> extends FormBase<T> {
     defaultDisplay: string;
@@ -22,13 +22,12 @@ const Select = <T extends object>({
     defaultDisplay,
     selectValues,
     stateUpdater,
-    schema,
     width = "3/4",
     updateOnChange = false,
     useDefaultValue = true,
     hint,
 }: SelectProps<T>): ReactElement => {
-    const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
+    const [errors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
 
     const getSelectOptions = (): JSX.Element[] => {
@@ -67,15 +66,8 @@ const Select = <T extends object>({
                         id={`${inputId}-input`}
                         defaultValue={useDefaultValue ? value ?? "" : undefined}
                         value={!useDefaultValue ? value ?? "" : undefined}
-                        onBlur={
-                            !updateOnChange
-                                ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
-                                : undefined
-                        }
                         onChange={
-                            updateOnChange
-                                ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
-                                : undefined
+                            updateOnChange ? (e) => handleChange(e.target.value, inputName, stateUpdater) : undefined
                         }
                         aria-describedby={hint ? `${inputName}-hint` : undefined}
                     >

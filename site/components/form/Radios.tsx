@@ -2,7 +2,7 @@ import kebabCase from "lodash/kebabCase";
 import { Fragment, ReactElement, RefObject, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
-import { handleBlur } from "../../utils/formUtils";
+import { handleChange } from "../../utils/formUtils";
 
 interface RadiosProps<T> extends FormBase<T> {
     radioDetail: RadioValuePair[];
@@ -24,7 +24,6 @@ const Radios = <T extends object>({
     initialErrors = [],
     stateUpdater,
     paddingTop,
-    schema,
 }: RadiosProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -61,9 +60,6 @@ const Radios = <T extends object>({
                                         name={inputName}
                                         type="radio"
                                         value={input.value}
-                                        onBlur={(e) =>
-                                            handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)
-                                        }
                                         onChange={(e) => stateUpdater(e.currentTarget.value, inputName)}
                                         defaultChecked={input.value === value || !!input.default}
                                         data-aria-controls={`${inputId}-${input.value}-conditional`}

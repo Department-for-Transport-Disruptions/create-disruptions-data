@@ -2,7 +2,7 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { handleBlur } from "../../utils/formUtils";
+import { handleChange } from "../../utils/formUtils";
 
 interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
@@ -21,7 +21,6 @@ const TimeSelector = <T extends object>({
     initialErrors = [],
     disabled,
     hint,
-    schema,
     stateUpdater,
     reset = false,
     placeholderValue = "hhmm",
@@ -83,9 +82,9 @@ const TimeSelector = <T extends object>({
                             disabled={disabled}
                             placeholder={disabled ? "N/A" : placeholderValue}
                             aria-describedby={hint ? `${inputId}-hint` : ""}
-                            onBlur={(e) =>
-                                handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
-                            }
+                            onChange={(e) => {
+                                handleChange(e.target.value, inputName, stateUpdater);
+                            }}
                         />
                     </FormElementWrapper>
                     {showNowButton ? (

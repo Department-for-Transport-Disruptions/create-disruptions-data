@@ -411,7 +411,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
                         />
 
@@ -489,8 +488,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.description}
-                            resetError={props.disruptionSummary === pageState.inputs.description}
                         />
 
                         {!pageState.inputs.description ||
@@ -523,7 +520,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs["removeFromJourneyPlanners"]}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.removeFromJourneyPlanners}
                         />
 
                         <TimeSelector<ServicesConsequence>
@@ -535,7 +531,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.disruptionDelay}
                             placeholderValue=""
                         />
 
@@ -548,7 +543,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionSeverity}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.disruptionSeverity}
                         />
 
                         <Radios<ServicesConsequence>
@@ -573,7 +567,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionDirection}
                             initialErrors={pageState.errors}
-                            schema={servicesConsequenceSchema.shape.disruptionDirection}
                         />
 
                         <input type="hidden" name="consequenceType" value="services" />

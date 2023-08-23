@@ -161,7 +161,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -581,7 +580,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -642,7 +641,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -663,7 +661,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -711,7 +708,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -740,7 +737,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -814,7 +810,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -835,7 +830,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -856,7 +850,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -1217,7 +1210,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1627,7 +1619,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1665,7 +1657,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1686,7 +1677,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1734,7 +1724,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -1763,7 +1753,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1837,7 +1826,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -1858,7 +1846,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       defaultChecked={true}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -1879,7 +1866,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -2241,7 +2227,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2573,7 +2558,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -2622,7 +2607,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -2643,7 +2627,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -2690,7 +2673,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -2719,7 +2702,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2793,7 +2775,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -2814,7 +2795,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       defaultChecked={false}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -2835,7 +2815,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
@@ -3196,7 +3175,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -3606,7 +3584,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -3644,7 +3622,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -3665,7 +3642,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -3713,7 +3689,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -3742,7 +3718,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -3816,7 +3791,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       defaultChecked={true}
                       id="disruption-direction-allDirections"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="allDirections"
@@ -3837,7 +3811,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       defaultChecked={true}
                       id="disruption-direction-inbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="inbound"
@@ -3858,7 +3831,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       defaultChecked={false}
                       id="disruption-direction-outbound"
                       name="disruptionDirection"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="outbound"
