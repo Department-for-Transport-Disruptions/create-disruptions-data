@@ -636,7 +636,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
@@ -1545,7 +1545,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
@@ -2945,7 +2945,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
