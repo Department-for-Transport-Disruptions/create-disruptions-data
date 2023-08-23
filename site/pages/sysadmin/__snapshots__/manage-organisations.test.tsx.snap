@@ -59,19 +59,19 @@ exports[`manageOrganisations > should render correctly when there are no inputs 
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Organisation
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               NaPTAN AdminArea
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Action
@@ -346,19 +346,19 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Organisation
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               NaPTAN AdminArea
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Action

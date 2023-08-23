@@ -59,37 +59,37 @@ exports[`socialMediaAccounts > should render correctly when there are no inputs 
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Account type
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Username/page
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Added by
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Expires in
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Hootsuite Profiles
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Actions
@@ -361,37 +361,37 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Account type
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Username/page
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Added by
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Expires in
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Hootsuite Profiles
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Actions

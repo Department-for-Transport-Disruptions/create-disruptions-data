@@ -107,43 +107,43 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -1016,43 +1016,43 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -1925,43 +1925,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -2416,43 +2416,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -3325,43 +3325,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status

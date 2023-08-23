@@ -16,13 +16,13 @@ exports[`Table > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
@@ -82,13 +82,13 @@ exports[`Table > should render correctly with jsx element 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
@@ -150,13 +150,13 @@ exports[`Table > should render correctly without a header 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
