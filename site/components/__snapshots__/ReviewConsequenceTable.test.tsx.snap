@@ -53,12 +53,12 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
           Mode of transport
         </th>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           Bus
         </td>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           <a
             className="govuk-link"
@@ -81,12 +81,12 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
           Advice to display
         </th>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           The road is closed for the following reasons: Example, example, example, example
         </td>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           <a
             className="govuk-link"
@@ -109,12 +109,12 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
           Remove from journey planner
         </th>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           Yes
         </td>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           <a
             className="govuk-link"
@@ -137,12 +137,12 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
           Disruption delay
         </th>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           33 minutes
         </td>
         <td
-          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+          className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
         >
           <a
             className="govuk-link"

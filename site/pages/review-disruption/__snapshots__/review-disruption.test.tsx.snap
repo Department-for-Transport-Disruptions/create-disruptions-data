@@ -110,12 +110,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   ID
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   8fg3ha
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 />
               </tr>
               <tr
@@ -128,7 +128,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Type of disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Planned
                 </td>
@@ -156,12 +156,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Summary
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -184,12 +184,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Description
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -212,12 +212,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Associated link
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   https://www.flooding.com
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -240,12 +240,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Reason for disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Flooding
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -342,12 +342,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Publish start date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -370,12 +370,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Publish start time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -398,12 +398,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Publish end date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -426,12 +426,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                   Publish end time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   14:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -529,12 +529,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -557,12 +557,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -585,12 +585,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -613,12 +613,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         33 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -722,12 +722,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Tram
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -750,12 +750,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Operators affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         FMAN
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -778,12 +778,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -806,12 +806,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -834,12 +834,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         50 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -943,12 +943,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -971,12 +971,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -999,12 +999,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1027,12 +1027,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1055,12 +1055,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1083,12 +1083,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         12 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1186,7 +1186,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Test post 12345
                       </td>
@@ -1214,12 +1214,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         No image uploaded
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1242,12 +1242,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         14/01/2027
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1270,12 +1270,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1298,12 +1298,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1326,12 +1326,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1354,12 +1354,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       />
                     </tr>
                   </tbody>
@@ -1418,7 +1418,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Test post 12345
                       </td>
@@ -1446,7 +1446,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link text-govBlue"
@@ -1459,7 +1459,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         </a>
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1482,12 +1482,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         14/01/2028
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1510,12 +1510,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1538,12 +1538,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1566,12 +1566,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -1594,12 +1594,12 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       />
                     </tr>
                   </tbody>
@@ -1931,12 +1931,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   ID
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   8fg3ha
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 />
               </tr>
               <tr
@@ -1949,7 +1949,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Type of disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Planned
                 </td>
@@ -1977,12 +1977,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Summary
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2005,12 +2005,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Description
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2033,12 +2033,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Associated link
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   https://www.flooding.com
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2061,12 +2061,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Reason for disruption
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Flooding
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2163,12 +2163,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Publish start date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2191,12 +2191,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Publish start time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2219,12 +2219,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Publish end date
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   13/01/2022
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2247,12 +2247,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                   Publish end time
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   14:00
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     className="govuk-link"
@@ -2350,12 +2350,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2378,12 +2378,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2406,12 +2406,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2434,12 +2434,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         33 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2543,12 +2543,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Tram
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2571,12 +2571,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Operators affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         FMAN
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2599,12 +2599,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2627,12 +2627,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2655,12 +2655,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         50 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2764,12 +2764,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Mode of transport
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2792,12 +2792,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Service(s)
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2820,12 +2820,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Stops affected
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         N/A
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2848,12 +2848,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Advice to display
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         The road is closed for the following reasons: Example, example, example, example
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2876,12 +2876,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Remove from journey planner
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Yes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -2904,12 +2904,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Disruption delay
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         12 minutes
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3007,7 +3007,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Test post 12345
                       </td>
@@ -3035,12 +3035,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         No image uploaded
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3063,12 +3063,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         14/01/2027
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3091,12 +3091,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3119,12 +3119,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3147,12 +3147,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3175,12 +3175,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       />
                     </tr>
                   </tbody>
@@ -3239,7 +3239,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Message to appear
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Test post 12345
                       </td>
@@ -3267,7 +3267,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Image
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link text-govBlue"
@@ -3280,7 +3280,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         </a>
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3303,12 +3303,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Publish date
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         14/01/2028
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3331,12 +3331,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Publish time
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         1300
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3359,12 +3359,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Account name
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3387,12 +3387,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         HootSuite profile
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter/1234
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <a
                           className="govuk-link"
@@ -3415,12 +3415,12 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         Status
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Pending
                       </td>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl undefined"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       />
                     </tr>
                   </tbody>
