@@ -32,7 +32,7 @@ module.exports = {
                 10: "10px",
             },
             width: {
-                "1/10": "10%"
+                "1/10": "10%",
             },
             spacing: () => ({
                 ...Array.from({ length: 96 }, (_, index) => index * 0.5)
