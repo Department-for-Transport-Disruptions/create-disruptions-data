@@ -1,7 +1,7 @@
 import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
-import Table from "./form/Table";
+import Table, { CellProps } from "./form/Table";
 import {
     CONSEQUENCE_TYPES,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -54,33 +54,45 @@ export const createChangeLink = (
 };
 
 const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionDetail?: boolean) => {
-    const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
+    const rows: { header?: string | ReactNode; cells: CellProps[] }[] = [
         {
             header: "Consequence type",
             cells: [
-                getDisplayByValue(CONSEQUENCE_TYPES, consequence.consequenceType),
-                createChangeLink(
-                    "consequence-type",
-                    TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: getDisplayByValue(CONSEQUENCE_TYPES, consequence.consequenceType),
+                    styles: {
+                        width: "w-1/2",
+                    },
+                },
+                {
+                    value: createChangeLink(
+                        "consequence-type",
+                        TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                    styles: {
+                        width: "w-1/10",
+                    },
+                },
             ],
         },
         {
             header: "Mode of transport",
             cells: [
-                getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode),
-                createChangeLink(
-                    "vehicle-mode",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                { value: getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode) },
+                {
+                    value: createChangeLink(
+                        "vehicle-mode",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         },
     ];
@@ -89,20 +101,24 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
         rows.push({
             header: "Service(s)",
             cells: [
-                consequence.services
-                    .map(
-                        (service) =>
-                            `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
-                    )
-                    .join(", "),
-                createChangeLink(
-                    "service",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: consequence.services
+                        .map(
+                            (service) =>
+                                `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`,
+                        )
+                        .join(", "),
+                },
+                {
+                    value: createChangeLink(
+                        "service",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         });
     }
@@ -111,23 +127,27 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
         rows.push({
             header: "Stops affected",
             cells: [
-                consequence.stops
-                    ? consequence.stops
-                          .map((stop) =>
-                              stop.commonName && stop.indicator && stop.atcoCode
-                                  ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                                  : `${stop.commonName} ${stop.atcoCode}`,
-                          )
-                          .join(", ")
-                    : "N/A",
-                createChangeLink(
-                    "stops-affected",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: consequence.stops
+                        ? consequence.stops
+                              .map((stop) =>
+                                  stop.commonName && stop.indicator && stop.atcoCode
+                                      ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                                      : `${stop.commonName} ${stop.atcoCode}`,
+                              )
+                              .join(", ")
+                        : "N/A",
+                },
+                {
+                    value: createChangeLink(
+                        "stops-affected",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         });
     }
@@ -136,17 +156,21 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
         rows.push({
             header: "Operators affected",
             cells: [
-                consequence.consequenceOperators
-                    ? consequence.consequenceOperators.map((op) => op.operatorNoc).join(", ")
-                    : "N/A",
-                createChangeLink(
-                    "operators-affected",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: consequence.consequenceOperators
+                        ? consequence.consequenceOperators.map((op) => op.operatorNoc).join(", ")
+                        : "N/A",
+                },
+                {
+                    value: createChangeLink(
+                        "operators-affected",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         });
     }
@@ -155,43 +179,55 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
         {
             header: "Advice to display",
             cells: [
-                consequence.description,
-                createChangeLink(
-                    "advice-to-display",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: consequence.description,
+                },
+                {
+                    value: createChangeLink(
+                        "advice-to-display",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         },
         {
             header: "Remove from journey planner",
             cells: [
-                splitCamelCaseToString(consequence.removeFromJourneyPlanners),
-                createChangeLink(
-                    "remove-from-journey-planners",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),
+                },
+                {
+                    value: createChangeLink(
+                        "remove-from-journey-planners",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         },
         {
             header: "Disruption delay",
             cells: [
-                consequence.disruptionDelay ? `${consequence.disruptionDelay} minutes` : "N/A",
-                createChangeLink(
-                    "disruption-delay",
-                    getConsequenceUrl(consequence.consequenceType),
-                    disruption,
-                    consequence.consequenceIndex,
-                    true,
-                    isDisruptionDetail,
-                ),
+                {
+                    value: consequence.disruptionDelay ? `${consequence.disruptionDelay} minutes` : "N/A",
+                },
+                {
+                    value: createChangeLink(
+                        "disruption-delay",
+                        getConsequenceUrl(consequence.consequenceType),
+                        disruption,
+                        consequence.consequenceIndex,
+                        true,
+                        isDisruptionDetail,
+                    ),
+                },
             ],
         },
     );

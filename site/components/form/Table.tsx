@@ -1,10 +1,23 @@
 import { ReactElement, ReactNode } from "react";
 
+export interface TableStyles {
+    width?: string;
+}
+
+export interface CellProps {
+    value: string | ReactNode;
+    styles?: TableStyles;
+}
+
 interface TableProps {
     caption?: { text: string; size: "s" | "m" | "l" };
     columns?: string[];
-    rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[];
+    rows: { header?: string | ReactNode; cells: string[] | ReactNode[] | CellProps[] }[];
 }
+
+const isCellProps = (cell: any): cell is CellProps => {
+    return cell && (typeof cell.value === "string" || typeof cell.value === "object");
+};
 
 const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
     return (
@@ -34,8 +47,13 @@ const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {
                             </th>
                         )}
                         {row.cells.map((cell, i) => (
-                            <td className="govuk-table__cell align-middle" key={i}>
-                                {cell}
+                            <td
+                                className={`govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl ${
+                                    isCellProps(cell) ? cell.styles?.width : ""
+                                }`}
+                                key={i}
+                            >
+                                {isCellProps(cell) ? cell.value : cell}
                             </td>
                         ))}
                     </tr>

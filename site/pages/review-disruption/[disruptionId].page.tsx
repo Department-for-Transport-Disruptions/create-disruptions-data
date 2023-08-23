@@ -8,7 +8,7 @@ import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
-import Table from "../../components/form/Table";
+import Table, { CellProps } from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import NotificationBanner from "../../components/layout/NotificationBanner";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
@@ -54,106 +54,140 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
-        const socialMediaTableRows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [
+        const socialMediaTableRows: { header?: string | ReactNode; cells: CellProps[] }[] = [
             {
                 header: "Message to appear",
                 cells: [
-                    post.messageContent,
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "message-to-appear",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.messageContent,
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "message-to-appear",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                        styles: {
+                            width: "w-1/10",
+                        },
+                    },
                 ],
             },
             {
                 header: "Image",
                 cells: [
-                    post.image ? (
-                        <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
-                            {post.image.originalFilename}
-                        </Link>
-                    ) : (
-                        "No image uploaded"
-                    ),
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "hootsuite-profile",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.image ? (
+                            <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
+                                {post.image.originalFilename}
+                            </Link>
+                        ) : (
+                            "No image uploaded"
+                        ),
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "hootsuite-profile",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                    },
                 ],
             },
             {
                 header: "Publish date",
                 cells: [
-                    post.publishDate,
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "publish-date",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.publishDate,
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "publish-date",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                    },
                 ],
             },
             {
                 header: "Publish time",
                 cells: [
-                    post.publishTime,
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "publish-time",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.publishTime,
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "publish-time",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                    },
                 ],
             },
             {
                 header: "Account name",
                 cells: [
-                    post.socialAccount,
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "account-to-publish",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.socialAccount,
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "account-to-publish",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                    },
                 ],
             },
             {
                 header: "HootSuite profile",
                 cells: [
-                    post.hootsuiteProfile,
-                    isPendingOrRejected
-                        ? createChangeLink(
-                              "hootsuite-profile",
-                              CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                              disruption,
-                              post.socialMediaPostIndex,
-                              true,
-                          )
-                        : "",
+                    {
+                        value: post.hootsuiteProfile,
+                    },
+                    {
+                        value: isPendingOrRejected
+                            ? createChangeLink(
+                                  "hootsuite-profile",
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption,
+                                  post.socialMediaPostIndex,
+                                  true,
+                              )
+                            : "",
+                    },
                 ],
             },
             {
                 header: "Status",
-                cells: [post.status, ""],
+                cells: [
+                    {
+                        value: post.status,
+                    },
+                    {
+                        value: "",
+                    },
+                ],
             },
         ];
 
@@ -294,119 +328,172 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                             rows={[
                                 {
                                     header: "ID",
-                                    cells: [disruption.displayId, ""],
+                                    cells: [
+                                        {
+                                            value: disruption.displayId,
+                                        },
+                                        {
+                                            value: "",
+                                        },
+                                    ],
                                 },
                                 {
                                     header: "Type of disruption",
                                     cells: [
-                                        startCase(disruption.disruptionType),
-                                        createChangeLink(
-                                            "type-of-disruption",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: startCase(disruption.disruptionType),
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "type-of-disruption",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                            styles: {
+                                                width: "w-1/10",
+                                            },
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Summary",
                                     cells: [
-                                        disruption.summary,
-                                        createChangeLink("summary", "/create-disruption", disruption, undefined, true),
+                                        {
+                                            value: disruption.summary,
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "summary",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Description",
                                     cells: [
-                                        disruption.description,
-                                        createChangeLink(
-                                            "description",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: disruption.description,
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "description",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Associated link",
                                     cells: [
-                                        disruption.associatedLink || "N/A",
-                                        createChangeLink(
-                                            "associated-link",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: disruption.associatedLink || "N/A",
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "associated-link",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Reason for disruption",
                                     cells: [
-                                        splitCamelCaseToString(disruption.disruptionReason),
-                                        createChangeLink(
-                                            "disruption-reason",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: splitCamelCaseToString(disruption.disruptionReason),
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "disruption-reason",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 ...getValidityRows(),
                                 {
                                     header: "Publish start date",
                                     cells: [
-                                        disruption.publishStartDate,
-                                        createChangeLink(
-                                            "publish-start-date",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: disruption.publishStartDate,
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "publish-start-date",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Publish start time",
                                     cells: [
-                                        formatTime(disruption.publishStartTime),
-                                        createChangeLink(
-                                            "publish-start-time",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: formatTime(disruption.publishStartTime),
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "publish-start-time",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Publish end date",
                                     cells: [
-                                        disruption.publishEndDate || "N/A",
-                                        createChangeLink(
-                                            "publish-end-date",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: disruption.publishEndDate || "N/A",
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "publish-end-date",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                                 {
                                     header: "Publish end time",
                                     cells: [
-                                        disruption.publishEndTime ? formatTime(disruption.publishEndTime) : "N/A",
-                                        ,
-                                        createChangeLink(
-                                            "publish-end-time",
-                                            "/create-disruption",
-                                            disruption,
-                                            undefined,
-                                            true,
-                                        ),
+                                        {
+                                            value: disruption.publishEndTime
+                                                ? formatTime(disruption.publishEndTime)
+                                                : "N/A",
+                                        },
+                                        {
+                                            value: createChangeLink(
+                                                "publish-end-time",
+                                                "/create-disruption",
+                                                disruption,
+                                                undefined,
+                                                true,
+                                            ),
+                                        },
                                     ],
                                 },
                             ]}
