@@ -26,7 +26,6 @@ const TextInput = <T extends object>({
     rows,
     hint,
     stateUpdater,
-    schema,
     isPassword,
     resetError = false,
 }: TextInputProps<T>): ReactElement => {
