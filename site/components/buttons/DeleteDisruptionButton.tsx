@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import DeleteConfirmationPopup from "../popup/DeleteConfirmationPopup";
 
 interface DeleteDisruptionButtonProps {
