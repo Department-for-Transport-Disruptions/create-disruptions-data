@@ -351,7 +351,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         >
                             Save as draft
                         </button>
-                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                        <DeleteDisruptionButton
+                            disruptionId={props.disruptionId}
+                            csrfToken={props.csrfToken}
+                            buttonClasses="mt-8"
+                        />
                     </div>
                 </>
             </CsrfForm>

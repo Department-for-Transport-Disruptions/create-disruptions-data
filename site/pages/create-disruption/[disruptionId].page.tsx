@@ -566,11 +566,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     ) : null}
 
                     {props.disruptionExists && (
-                        <DeleteDisruptionButton
-                            disruptionId={props.disruptionId}
-                            csrfToken={props.csrfToken}
-                            buttonClasses="mt-0"
-                        />
+                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                     )}
                 </>
             </CsrfForm>

@@ -266,7 +266,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         >
                             Save as draft
                         </button>
-                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                        <DeleteDisruptionButton
+                            disruptionId={props.disruptionId}
+                            csrfToken={props.csrfToken}
+                            buttonClasses="mt-8"
+                        />
                     </div>
                 </>
             </CsrfForm>

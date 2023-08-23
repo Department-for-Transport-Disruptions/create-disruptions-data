@@ -2,7 +2,7 @@
 
 exports[`DeleteDisruptionButton > should render correctly 1`] = `
 <button
-  className="govuk-button govuk-button--warning ml-5 mt-8 "
+  className="govuk-button govuk-button--warning ml-5 "
   data-module="govuk-button"
   onClick={[Function]}
 >
