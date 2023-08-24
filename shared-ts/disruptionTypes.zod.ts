@@ -754,7 +754,12 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
-        consequences: z.array(consequenceSchema).optional(),
+        consequences: z
+            .array(consequenceSchema)
+            .max(10, {
+                message: "Only up to 10 consequences can be added",
+            })
+            .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
     }),
 );

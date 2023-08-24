@@ -600,24 +600,20 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        <Link
-                            role="button"
-                            href={
-                                disruption.consequences && disruption.consequences.length >= 10
-                                    ? "#"
-                                    : {
-                                          pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                          query: { return: DISRUPTION_DETAIL_PAGE_PATH },
-                                      }
-                            }
-                            className={`govuk-button mt-2 govuk-button--secondary ${
-                                disruption.consequences && disruption.consequences.length >= 10
-                                    ? "govuk-button--disabled pointer-events-none"
-                                    : ""
-                            }`}
+                        <button
+                            className="govuk-button mt-2 govuk-button--secondary"
+                            disabled={disruption.consequences && disruption.consequences.length >= 10}
+                            aria-disabled={disruption.consequences && disruption.consequences.length >= 10}
                         >
-                            Add another consequence
-                        </Link>
+                            <Link
+                                href={{
+                                    pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
+                                    query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                }}
+                            >
+                                Add another consequence
+                            </Link>
+                        </button>
 
                         <br />
 

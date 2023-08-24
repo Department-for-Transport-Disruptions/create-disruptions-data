@@ -1108,16 +1108,20 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               </div>
             </div>
           </div>
-          <a
-            className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
+          <button
+            aria-disabled={false}
+            className="govuk-button mt-2 govuk-button--secondary"
+            disabled={false}
           >
-            Add another consequence
-          </a>
+            <a
+              href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Add another consequence
+            </a>
+          </button>
           <br />
           <h2
             className="govuk-heading-l"
@@ -2950,16 +2954,20 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
               </div>
             </div>
           </div>
-          <a
-            className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
+          <button
+            aria-disabled={false}
+            className="govuk-button mt-2 govuk-button--secondary"
+            disabled={false}
           >
-            Add another consequence
-          </a>
+            <a
+              href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Add another consequence
+            </a>
+          </button>
           <br />
           <h2
             className="govuk-heading-l"
