@@ -66,7 +66,7 @@ exports[`pages > DisruptionHistory > should render correctly 1`] = `
             className="govuk-table__row"
           >
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <h2
                 className="govuk-heading-s mb-3"
@@ -95,7 +95,7 @@ exports[`pages > DisruptionHistory > should render correctly 1`] = `
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p
                 className="text-right"
@@ -108,7 +108,7 @@ exports[`pages > DisruptionHistory > should render correctly 1`] = `
             className="govuk-table__row"
           >
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <h2
                 className="govuk-heading-s mb-3"
@@ -132,7 +132,7 @@ exports[`pages > DisruptionHistory > should render correctly 1`] = `
               </p>
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <p
                 className="text-right"

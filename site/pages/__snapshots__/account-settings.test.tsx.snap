@@ -86,12 +86,12 @@ exports[`accountSettings > should render correctly 1`] = `
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
@@ -104,7 +104,7 @@ exports[`accountSettings > should render correctly 1`] = `
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <input
                       className="bg-white"
@@ -116,7 +116,7 @@ exports[`accountSettings > should render correctly 1`] = `
                     />
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
                       className="govuk-link"
@@ -139,12 +139,12 @@ exports[`accountSettings > should render correctly 1`] = `
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
@@ -157,10 +157,10 @@ exports[`accountSettings > should render correctly 1`] = `
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -199,7 +199,7 @@ exports[`accountSettings > should render correctly 1`] = `
                         Bus
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
                           className="govuk-radios govuk-radios--inline"
@@ -256,7 +256,7 @@ exports[`accountSettings > should render correctly 1`] = `
                         Tram
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
                           className="govuk-radios govuk-radios--inline"
@@ -313,7 +313,7 @@ exports[`accountSettings > should render correctly 1`] = `
                         Ferry
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
                           className="govuk-radios govuk-radios--inline"
@@ -370,7 +370,7 @@ exports[`accountSettings > should render correctly 1`] = `
                         Rail
                       </th>
                       <td
-                        className="govuk-table__cell align-middle"
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
                           className="govuk-radios govuk-radios--inline"

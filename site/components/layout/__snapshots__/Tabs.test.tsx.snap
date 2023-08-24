@@ -53,19 +53,19 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
           className="govuk-table__row"
         >
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             ID
           </th>
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             Summary
           </th>
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             Affected dates
@@ -93,12 +93,12 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
             </a>
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             Test summary
           </td>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             01/01/2023 onwards
           </td>
@@ -121,12 +121,12 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
             </a>
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             Test summary
           </td>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             02/01/2023 - 02/02-2024
           </td>
@@ -153,19 +153,19 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
           className="govuk-table__row"
         >
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             ID
           </th>
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             Summary
           </th>
           <th
-            className="govuk-table__header align-middle"
+            className="govuk-table__header align-middle px-2"
             scope="col"
           >
             Affected dates
@@ -193,12 +193,12 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
             </a>
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             Test summary
           </td>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             01/01/2023 onwards
           </td>
@@ -221,12 +221,12 @@ exports[`Tabs > should render correctly when given a table as the content 1`] = 
             </a>
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             Test summary
           </td>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             02/01/2023 - 02/02-2024
           </td>

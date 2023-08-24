@@ -148,7 +148,7 @@ exports[`SearchSelect > should render correctly with errors 1`] = `
             test row 1
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             1
           </td>
@@ -163,7 +163,7 @@ exports[`SearchSelect > should render correctly with errors 1`] = `
             test row 2
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             2
           </td>
@@ -311,7 +311,7 @@ exports[`SearchSelect > should render correctly with no errors 1`] = `
             test row 1
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             1
           </td>
@@ -326,7 +326,7 @@ exports[`SearchSelect > should render correctly with no errors 1`] = `
             test row 2
           </th>
           <td
-            className="govuk-table__cell align-middle"
+            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
           >
             2
           </td>
