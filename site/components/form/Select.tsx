@@ -65,9 +65,7 @@ const Select = <T extends object>({
                         id={`${inputId}-input`}
                         defaultValue={useDefaultValue ? value ?? "" : undefined}
                         value={!useDefaultValue ? value ?? "" : undefined}
-                        onChange={
-                            updateOnChange ? (e) => stateUpdater(e.target.value, inputName) : undefined
-                        }
+                        onChange={updateOnChange ? (e) => stateUpdater(e.target.value, inputName) : undefined}
                         aria-describedby={hint ? `${inputName}-hint` : undefined}
                     >
                         {getSelectOptions()}

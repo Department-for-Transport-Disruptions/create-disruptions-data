@@ -20,7 +20,7 @@ import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, handleChange } from "../../../utils/formUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
