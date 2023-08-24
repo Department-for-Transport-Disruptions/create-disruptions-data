@@ -608,6 +608,11 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
             },
         ];
 
+        // This is to address a bug with zod where super refines still run if there is an error within a regex check
+        if (!disruptionStartDate || !disruptionStartTime || !publishStartDate || !publishStartTime) {
+            return;
+        }
+
         const sortedValidity = combinedValidity.sort((a, b) => {
             return getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime).isBefore(
                 getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime),
