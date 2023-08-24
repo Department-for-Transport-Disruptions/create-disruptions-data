@@ -2,7 +2,6 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { handleChange } from "../../utils/formUtils";
 
 interface TimeSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
@@ -83,7 +82,7 @@ const TimeSelector = <T extends object>({
                             placeholder={disabled ? "N/A" : placeholderValue}
                             aria-describedby={hint ? `${inputId}-hint` : ""}
                             onChange={(e) => {
-                                handleChange(e.target.value, inputName, stateUpdater);
+                                stateUpdater(e.target.value, inputName);
                             }}
                         />
                     </FormElementWrapper>

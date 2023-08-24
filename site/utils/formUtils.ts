@@ -6,14 +6,6 @@ import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
-export const handleChange = <T>(
-    input: string,
-    inputName: Extract<keyof T, string>,
-    stateUpdater: (change: string, field: keyof T) => void,
-) => {
-    stateUpdater(input, inputName);
-};
-
 export const getStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
     (change: string | string[], field: keyof T) => {

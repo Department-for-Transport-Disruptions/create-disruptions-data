@@ -2,7 +2,6 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
-import { handleChange } from "../../utils/formUtils";
 
 interface SelectProps<T> extends FormBase<T> {
     defaultDisplay: string;
@@ -67,7 +66,7 @@ const Select = <T extends object>({
                         defaultValue={useDefaultValue ? value ?? "" : undefined}
                         value={!useDefaultValue ? value ?? "" : undefined}
                         onChange={
-                            updateOnChange ? (e) => handleChange(e.target.value, inputName, stateUpdater) : undefined
+                            updateOnChange ? (e) => stateUpdater(e.target.value, inputName) : undefined
                         }
                         aria-describedby={hint ? `${inputName}-hint` : undefined}
                     >

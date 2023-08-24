@@ -76,7 +76,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         rows={3}
                                         maxLength={500}
                                         defaultValue={pageState.inputs.messageContent}
-                                        onChange={(e) => handleChange(e.target.value, "messageContent", stateUpdater)}
+                                        onChange={(e) => stateUpdater(e.target.value, "messageContent")}
                                         aria-describedby={`message-content-hint`}
                                     />
                                 </FormElementWrapper>
