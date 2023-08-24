@@ -1614,16 +1614,20 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
               </div>
             </div>
           </div>
-          <a
+          <button
+            aria-disabled={false}
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
+            disabled={false}
           >
-            Add another social media post
-          </a>
+            <a
+              href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Add another social media post
+            </a>
+          </button>
           <br />
           <input
             name="disruptionId"
@@ -3435,16 +3439,20 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
               </div>
             </div>
           </div>
-          <a
+          <button
+            aria-disabled={false}
             className="govuk-button mt-2 govuk-button--secondary"
-            href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
+            disabled={false}
           >
-            Add another social media post
-          </a>
+            <a
+              href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/2?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Add another social media post
+            </a>
+          </button>
           <br />
           <input
             name="disruptionId"

@@ -655,20 +655,23 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        {disruption.socialMediaPosts && disruption.socialMediaPosts.length < 5 ? (
+
+                        <button
+                            disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5}
+                            aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5}
+                            className="govuk-button mt-2 govuk-button--secondary"
+                        >
                             <Link
-                                role="button"
                                 href={{
                                     pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                     query: { return: DISRUPTION_DETAIL_PAGE_PATH },
                                 }}
-                                className="govuk-button mt-2 govuk-button--secondary"
                             >
                                 {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
                                     ? "Add another social media post"
                                     : "Add a social media post"}
                             </Link>
-                        ) : null}
+                        </button>
                         <br />
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
