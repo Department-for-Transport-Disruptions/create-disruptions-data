@@ -544,11 +544,19 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         </div>
                         <Link
                             role="button"
-                            href={{
-                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
-                            }}
-                            className="govuk-button mt-2 govuk-button--secondary"
+                            href={
+                                disruption.consequences && disruption.consequences.length >= 1
+                                    ? ""
+                                    : {
+                                          pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
+                                          query: { return: REVIEW_DISRUPTION_PAGE_PATH },
+                                      }
+                            }
+                            className={`govuk-button mt-2 govuk-button--secondary ${
+                                disruption.consequences && disruption.consequences.length >= 1
+                                    ? "govuk-button--disabled pointer-events-none"
+                                    : "#"
+                            }`}
                         >
                             Add another consequence
                         </Link>
