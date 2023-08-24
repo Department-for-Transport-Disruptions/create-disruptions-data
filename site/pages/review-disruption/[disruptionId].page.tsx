@@ -545,7 +545,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <Link
                             role="button"
                             href={
-                                disruption.consequences && disruption.consequences.length >= 1
+                                disruption.consequences && disruption.consequences.length >= 10
                                     ? ""
                                     : {
                                           pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
@@ -553,7 +553,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                       }
                             }
                             className={`govuk-button mt-2 govuk-button--secondary ${
-                                disruption.consequences && disruption.consequences.length >= 1
+                                disruption.consequences && disruption.consequences.length >= 10
                                     ? "govuk-button--disabled pointer-events-none"
                                     : "#"
                             }`}
