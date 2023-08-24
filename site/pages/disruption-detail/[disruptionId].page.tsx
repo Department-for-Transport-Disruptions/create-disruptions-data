@@ -604,7 +604,7 @@ const DisruptionDetail = ({
                             role="button"
                             href={
                                 disruption.consequences && disruption.consequences.length >= 10
-                                    ? ""
+                                    ? "#"
                                     : {
                                           pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
                                           query: { return: DISRUPTION_DETAIL_PAGE_PATH },
@@ -613,7 +613,7 @@ const DisruptionDetail = ({
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10
                                     ? "govuk-button--disabled pointer-events-none"
-                                    : "#"
+                                    : ""
                             }`}
                         >
                             Add another consequence
