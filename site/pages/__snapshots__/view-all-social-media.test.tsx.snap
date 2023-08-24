@@ -375,7 +375,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     a post
                   </td>
@@ -390,7 +390,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
@@ -405,7 +405,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
@@ -420,7 +420,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1700
                   </td>
@@ -435,7 +435,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
@@ -450,7 +450,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
@@ -465,12 +465,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -522,7 +522,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test 12345
                   </td>
@@ -537,7 +537,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
                       className="govuk-link text-govBlue"
@@ -560,7 +560,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
@@ -575,7 +575,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1800
                   </td>
@@ -590,7 +590,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
@@ -605,7 +605,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
@@ -620,12 +620,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -677,7 +677,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     oh no
                   </td>
@@ -692,7 +692,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
                       className="govuk-link text-govBlue"
@@ -715,7 +715,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     04/07/2023
                   </td>
@@ -730,7 +730,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1900
                   </td>
@@ -745,7 +745,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
@@ -760,7 +760,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
@@ -775,12 +775,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -832,7 +832,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     a post
                   </td>
@@ -847,7 +847,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
@@ -862,7 +862,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
@@ -877,7 +877,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1700
                   </td>
@@ -892,7 +892,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
@@ -907,7 +907,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
@@ -922,12 +922,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -979,7 +979,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     another one here
                   </td>
@@ -994,7 +994,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
@@ -1009,7 +1009,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
@@ -1024,7 +1024,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1715
                   </td>
@@ -1039,7 +1039,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
@@ -1054,7 +1054,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
@@ -1069,12 +1069,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle"
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>

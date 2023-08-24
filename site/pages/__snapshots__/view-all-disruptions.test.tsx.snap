@@ -107,43 +107,43 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -171,32 +171,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -219,32 +219,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -267,32 +267,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -315,32 +315,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -363,32 +363,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -411,32 +411,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -459,32 +459,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -507,32 +507,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -555,32 +555,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -603,32 +603,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -636,7 +636,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
@@ -1016,43 +1016,43 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -1080,32 +1080,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1128,32 +1128,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1176,32 +1176,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -1224,32 +1224,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1272,32 +1272,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1320,32 +1320,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -1368,32 +1368,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1416,32 +1416,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1464,32 +1464,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -1512,32 +1512,32 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -1545,7 +1545,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
@@ -1925,43 +1925,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -1989,32 +1989,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2037,32 +2037,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2085,32 +2085,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -2416,43 +2416,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
@@ -2480,32 +2480,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2528,32 +2528,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2576,32 +2576,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -2624,32 +2624,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2672,32 +2672,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2720,32 +2720,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -2768,32 +2768,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2816,32 +2816,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2864,32 +2864,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Draft
             </td>
@@ -2912,32 +2912,32 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </a>
             </th>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle"
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Open
             </td>
@@ -2945,7 +2945,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
         </tbody>
       </table>
       <nav
-        className="govuk-pagination"
+        className="govuk-pagination justify-center"
         role="navigation"
       >
         <ul
@@ -3325,43 +3325,43 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Starts
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Ends
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle"
+              className="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status

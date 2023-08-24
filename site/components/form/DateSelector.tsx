@@ -100,9 +100,7 @@ const DateSelector = <T extends object>({
     }, [resetError]);
 
     useEffect(() => {
-        if (value) {
-            setDateValue(getFormattedDate(value).toDate());
-        }
+        setDateValue(value ? getFormattedDate(value).toDate() : null);
     }, [value]);
 
     useEffect(() => {

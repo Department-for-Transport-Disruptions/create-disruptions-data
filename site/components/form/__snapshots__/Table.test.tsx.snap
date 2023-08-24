@@ -16,13 +16,13 @@ exports[`Table > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
@@ -42,7 +42,7 @@ exports[`Table > should render correctly 1`] = `
         test row 1
       </th>
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         1
       </td>
@@ -57,7 +57,7 @@ exports[`Table > should render correctly 1`] = `
         test row 2
       </th>
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         2
       </td>
@@ -82,13 +82,13 @@ exports[`Table > should render correctly with jsx element 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
@@ -108,7 +108,7 @@ exports[`Table > should render correctly with jsx element 1`] = `
         test row 1
       </th>
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         <p>
           test 1
@@ -125,7 +125,7 @@ exports[`Table > should render correctly with jsx element 1`] = `
         test row 2
       </th>
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         2
       </td>
@@ -150,13 +150,13 @@ exports[`Table > should render correctly without a header 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 1
       </th>
       <th
-        className="govuk-table__header align-middle"
+        className="govuk-table__header align-middle px-2"
         scope="col"
       >
         test col 2
@@ -170,7 +170,7 @@ exports[`Table > should render correctly without a header 1`] = `
       className="govuk-table__row"
     >
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         1
       </td>
@@ -179,7 +179,7 @@ exports[`Table > should render correctly without a header 1`] = `
       className="govuk-table__row"
     >
       <td
-        className="govuk-table__cell align-middle"
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
       >
         2
       </td>

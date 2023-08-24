@@ -47,10 +47,8 @@ const TimeSelector = <T extends object>({
     }, [resetError]);
 
     useEffect(() => {
-        if (value) {
-            if (ref.current) {
-                ref.current.value = value;
-            }
+        if (ref.current) {
+            ref.current.value = value || "";
         }
     }, [value]);
 

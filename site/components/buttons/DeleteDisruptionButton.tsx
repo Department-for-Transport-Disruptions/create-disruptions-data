@@ -40,7 +40,7 @@ const DeleteDisruptionButton = ({
             )}
 
             <button
-                className={`govuk-button govuk-button--warning ml-5 mt-8 ${buttonClasses || ""}`}
+                className={`govuk-button govuk-button--warning ml-5 ${buttonClasses || ""}`}
                 data-module="govuk-button"
                 onClick={(e) => {
                     e.preventDefault();

@@ -268,7 +268,7 @@ const PageNumbers = ({ currentPage, numberOfPages, setCurrentPage }: PageNumbers
     numberOfPages <= 1 ? (
         <></>
     ) : (
-        <nav className="govuk-pagination" role="navigation">
+        <nav className="govuk-pagination justify-center" role="navigation">
             {currentPage !== 1 ? (
                 <div className="govuk-pagination__prev">
                     <Link

@@ -421,12 +421,12 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   Validity period 1
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   01/04/2023 0100 - 03/04/2023 0200
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <button
                     className="govuk-link"
@@ -3399,12 +3399,12 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   Validity period 1
                 </th>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   01/04/2023 0100 - 03/04/2023 0200
                 </td>
                 <td
-                  className="govuk-table__cell align-middle"
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <button
                     className="govuk-link"
