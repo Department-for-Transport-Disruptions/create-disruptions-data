@@ -67,27 +67,31 @@ const TimeSelector = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <div className={!!showNowButton ? "flex gap-4" : ""}>
-                    <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
-                        <input
-                            ref={ref}
-                            className="govuk-input govuk-date-input__input govuk-input--width-4"
-                            name={inputName}
-                            id={`${inputId}-input`}
-                            type="text"
-                            defaultValue={value}
-                            disabled={disabled}
-                            placeholder={disabled ? "N/A" : placeholderValue}
-                            aria-describedby={hint ? `${inputId}-hint` : ""}
-                            onChange={(e) => {
-                                stateUpdater(e.target.value, inputName);
-                            }}
-                        />
-                    </FormElementWrapper>
+                <div className={!!showNowButton ? "flex flex-row content-end gap-4" : ""}>
+                    <div>
+                        <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                            <input
+                                ref={ref}
+                                className="govuk-input govuk-date-input__input govuk-input--width-4"
+                                name={inputName}
+                                id={`${inputId}-input`}
+                                type="text"
+                                defaultValue={value}
+                                disabled={disabled}
+                                placeholder={disabled ? "N/A" : placeholderValue}
+                                aria-describedby={hint ? `${inputId}-hint` : ""}
+                                onChange={(e) => {
+                                    stateUpdater(e.target.value, inputName);
+                                }}
+                            />
+                        </FormElementWrapper>
+                    </div>
                     {showNowButton ? (
-                        <button className="mt-3 govuk-link h-6" data-module="govuk-button" onClick={showNowButton}>
-                            <p className="text-govBlue govuk-body-m">Now</p>
-                        </button>
+                        <div className="flex items-end">
+                            <button className="mt-3 govuk-link h-6" data-module="govuk-button" onClick={showNowButton}>
+                                <p className="text-govBlue govuk-body-m">Now</p>
+                            </button>
+                        </div>
                     ) : null}
                 </div>
             </div>
