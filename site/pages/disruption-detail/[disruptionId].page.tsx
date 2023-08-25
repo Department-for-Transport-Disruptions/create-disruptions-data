@@ -656,22 +656,22 @@ const DisruptionDetail = ({
                             ))}
                         </div>
 
-                        <button
-                            disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5}
-                            aria-disabled={disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5}
-                            className="govuk-button mt-2 govuk-button--secondary"
+                        <Link
+                            className={`govuk-button mt-2 govuk-button--secondary ${
+                                disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5
+                                    ? "pointer-events-none govuk-button--disabled"
+                                    : ""
+                            }`}
+                            href={{
+                                pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                            }}
                         >
-                            <Link
-                                href={{
-                                    pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                    query: { return: DISRUPTION_DETAIL_PAGE_PATH },
-                                }}
-                            >
-                                {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
-                                    ? "Add another social media post"
-                                    : "Add a social media post"}
-                            </Link>
-                        </button>
+                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                ? "Add another social media post"
+                                : "Add a social media post"}
+                        </Link>
+
                         <br />
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
