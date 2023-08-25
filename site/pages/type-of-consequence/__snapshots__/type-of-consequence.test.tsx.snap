@@ -147,7 +147,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -168,7 +167,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -189,7 +187,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -210,7 +207,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"
@@ -539,7 +535,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -560,7 +555,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -581,7 +575,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -602,7 +595,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"
@@ -931,7 +923,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -952,7 +943,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-networkWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -973,7 +963,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -994,7 +983,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"
@@ -1323,7 +1311,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           defaultChecked={false}
                           id="consequence-type-services"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="services"
@@ -1344,7 +1331,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           defaultChecked={true}
                           id="consequence-type-networkWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="networkWide"
@@ -1365,7 +1351,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           defaultChecked={false}
                           id="consequence-type-operatorWide"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="operatorWide"
@@ -1386,7 +1371,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           defaultChecked={false}
                           id="consequence-type-stops"
                           name="consequenceType"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           type="radio"
                           value="stops"

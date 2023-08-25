@@ -86,7 +86,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   id="message-content-input"
                   maxLength={500}
                   name="messageContent"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -163,7 +163,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       disabled={false}
                       id="publish-date-input"
                       name="publishDate"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
@@ -242,7 +241,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     disabled={false}
                     id="publish-time-input"
                     name="publishTime"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder="hhmm"
                     type="text"
                   />
@@ -277,7 +276,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="13958638"
                     id="social-account-input"
                     name="socialAccount"
-                    onBlur={[Function]}
                   >
                     <option
                       disabled={true}
@@ -320,7 +318,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="127196025"
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
-                    onBlur={[Function]}
                   >
                     <option
                       disabled={true}
@@ -627,7 +624,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   id="message-content-input"
                   maxLength={500}
                   name="messageContent"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -715,7 +712,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                       disabled={false}
                       id="publish-date-input"
                       name="publishDate"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       placeholder="DD/MM/YYYY"
                       type="tel"
@@ -796,7 +792,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     disabled={false}
                     id="publish-time-input"
                     name="publishTime"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder="hhmm"
                     type="text"
                   />
@@ -831,7 +827,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="social-account-input"
                     name="socialAccount"
-                    onBlur={[Function]}
                   >
                     <option
                       disabled={true}
@@ -869,7 +864,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
-                    onBlur={[Function]}
                   >
                     <option
                       disabled={true}

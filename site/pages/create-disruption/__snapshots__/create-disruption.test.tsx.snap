@@ -93,7 +93,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       defaultChecked={true}
                       id="disruption-type-planned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="planned"
@@ -114,7 +113,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       defaultChecked={false}
                       id="disruption-type-unplanned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="unplanned"
@@ -152,7 +150,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   id="summary-input"
                   maxLength={100}
                   name="summary"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -180,7 +178,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -208,7 +206,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   id="associated-link-input"
                   maxLength={250}
                   name="associatedLink"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -235,7 +233,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -511,7 +508,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           disabled={false}
                           id="disruption-start-date-input"
                           name="disruptionStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -597,7 +593,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         disabled={false}
                         id="disruption-start-time-input"
                         name="disruptionStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -643,7 +639,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           disabled={false}
                           id="disruption-end-date-input"
                           name="disruptionEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -723,7 +718,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         disabled={false}
                         id="disruption-end-time-input"
                         name="disruptionEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -816,7 +811,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           disabled={false}
                           id="publish-start-date-input"
                           name="publishStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -902,7 +896,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         disabled={false}
                         id="publish-start-time-input"
                         name="publishStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -959,7 +953,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           disabled={false}
                           id="publish-end-date-input"
                           name="publishEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -1039,7 +1032,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         disabled={false}
                         id="publish-end-time-input"
                         name="publishEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -1081,7 +1074,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       defaultChecked={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="doesntRepeat"
@@ -1103,7 +1095,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       disabled={false}
                       id="disruption-repeats-daily"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="daily"
@@ -1154,7 +1145,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   disabled={false}
                                   id="disruption-repeats-end-datedaily-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
@@ -1216,7 +1206,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       disabled={false}
                       id="disruption-repeats-weekly"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="weekly"
@@ -1267,7 +1256,6 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   disabled={false}
                                   id="disruption-repeats-end-date-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
@@ -1636,7 +1624,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       defaultChecked={false}
                       id="disruption-type-planned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="planned"
@@ -1657,7 +1644,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       defaultChecked={false}
                       id="disruption-type-unplanned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="unplanned"
@@ -1694,7 +1680,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   id="summary-input"
                   maxLength={100}
                   name="summary"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -1721,7 +1707,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1748,7 +1734,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   id="associated-link-input"
                   maxLength={250}
                   name="associatedLink"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -1775,7 +1761,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   defaultValue=""
                   id="disruption-reason-input"
                   name="disruptionReason"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1991,7 +1976,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           disabled={false}
                           id="disruption-start-date-input"
                           name="disruptionStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -2074,7 +2058,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         disabled={false}
                         id="disruption-start-time-input"
                         name="disruptionStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -2120,7 +2104,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           disabled={false}
                           id="disruption-end-date-input"
                           name="disruptionEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -2197,7 +2180,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         disabled={false}
                         id="disruption-end-time-input"
                         name="disruptionEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -2290,7 +2273,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           disabled={false}
                           id="publish-start-date-input"
                           name="publishStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -2373,7 +2355,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         disabled={false}
                         id="publish-start-time-input"
                         name="publishStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -2430,7 +2412,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           disabled={false}
                           id="publish-end-date-input"
                           name="publishEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -2507,7 +2488,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         disabled={false}
                         id="publish-end-time-input"
                         name="publishEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -2549,7 +2530,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       defaultChecked={true}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="doesntRepeat"
@@ -2571,7 +2551,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       disabled={false}
                       id="disruption-repeats-daily"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="daily"
@@ -2622,7 +2601,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   disabled={false}
                                   id="disruption-repeats-end-datedaily-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
@@ -2681,7 +2659,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       disabled={false}
                       id="disruption-repeats-weekly"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="weekly"
@@ -2732,7 +2709,6 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   disabled={false}
                                   id="disruption-repeats-end-date-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
@@ -3095,7 +3071,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       defaultChecked={true}
                       id="disruption-type-planned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="planned"
@@ -3116,7 +3091,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       defaultChecked={false}
                       id="disruption-type-unplanned"
                       name="disruptionType"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="unplanned"
@@ -3154,7 +3128,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   id="summary-input"
                   maxLength={100}
                   name="summary"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -3182,7 +3156,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -3210,7 +3184,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   id="associated-link-input"
                   maxLength={250}
                   name="associatedLink"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   type="text"
                 />
               </div>
@@ -3237,7 +3211,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -3513,7 +3486,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           disabled={false}
                           id="disruption-start-date-input"
                           name="disruptionStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -3596,7 +3568,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         disabled={false}
                         id="disruption-start-time-input"
                         name="disruptionStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -3642,7 +3614,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           disabled={false}
                           id="disruption-end-date-input"
                           name="disruptionEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -3719,7 +3690,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         disabled={false}
                         id="disruption-end-time-input"
                         name="disruptionEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -3812,7 +3783,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           disabled={false}
                           id="publish-start-date-input"
                           name="publishStartDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -3895,7 +3865,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         disabled={false}
                         id="publish-start-time-input"
                         name="publishStartTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -3952,7 +3922,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           disabled={false}
                           id="publish-end-date-input"
                           name="publishEndDate"
-                          onBlur={[Function]}
                           onChange={[Function]}
                           placeholder="DD/MM/YYYY"
                           type="tel"
@@ -4029,7 +3998,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         disabled={false}
                         id="publish-end-time-input"
                         name="publishEndTime"
-                        onBlur={[Function]}
+                        onChange={[Function]}
                         placeholder="hhmm"
                         type="text"
                       />
@@ -4071,7 +4040,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       defaultChecked={false}
                       id="disruption-repeats-doesntRepeat"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="doesntRepeat"
@@ -4093,7 +4061,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       disabled={false}
                       id="disruption-repeats-daily"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="daily"
@@ -4144,7 +4111,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   disabled={false}
                                   id="disruption-repeats-end-datedaily-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"
@@ -4203,7 +4169,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       disabled={false}
                       id="disruption-repeats-weekly"
                       name="disruptionRepeats"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="weekly"
@@ -4254,7 +4219,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   disabled={false}
                                   id="disruption-repeats-end-date-input"
                                   name="disruptionRepeatsEndDate"
-                                  onBlur={[Function]}
                                   onChange={[Function]}
                                   placeholder="DD/MM/YYYY"
                                   type="tel"

@@ -608,6 +608,11 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
             },
         ];
 
+        // This is to address a bug with zod where super refines still run if there is an error within a regex check
+        if (!disruptionStartDate || !disruptionStartTime || !publishStartDate || !publishStartTime) {
+            return;
+        }
+
         const sortedValidity = combinedValidity.sort((a, b) => {
             return getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime).isBefore(
                 getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime),
@@ -754,7 +759,12 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
-        consequences: z.array(consequenceSchema).optional(),
+        consequences: z
+            .array(consequenceSchema)
+            .max(10, {
+                message: "Only up to 10 consequences can be added",
+            })
+            .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
     }),
 );

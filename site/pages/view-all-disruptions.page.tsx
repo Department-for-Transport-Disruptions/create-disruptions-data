@@ -867,8 +867,6 @@ const ViewAllDisruptions = ({
                                 setClearButtonClicked(false);
                             }}
                             reset={clearButtonClicked}
-                            schema={validitySchema.shape.disruptionStartDate}
-                            errorOnBlur={startDateFilterError || endDateFilterError}
                         />
                         <div className="ml-5">
                             <DateSelector
@@ -891,8 +889,6 @@ const ViewAllDisruptions = ({
                                     setClearButtonClicked(false);
                                 }}
                                 reset={clearButtonClicked}
-                                schema={validitySchema.shape.disruptionEndDate}
-                                errorOnBlur={startDateFilterError || endDateFilterError}
                             />
                         </div>
                     </div>

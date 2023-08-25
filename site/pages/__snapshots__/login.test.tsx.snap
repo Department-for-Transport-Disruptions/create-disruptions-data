@@ -90,7 +90,7 @@ exports[`login > should render correctly when there are no inputs 1`] = `
                     id="email-input"
                     maxLength={100}
                     name="email"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -117,7 +117,7 @@ exports[`login > should render correctly when there are no inputs 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -431,7 +431,7 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                     id="email-input"
                     maxLength={100}
                     name="email"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -459,7 +459,7 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
@@ -814,7 +814,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                     id="email-input"
                     maxLength={100}
                     name="email"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -842,7 +842,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                     id="password-input"
                     maxLength={100}
                     name="password"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="password"
                   />
                 </div>
