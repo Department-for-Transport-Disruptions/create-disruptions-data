@@ -85,7 +85,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                     id="given-name-input"
                     maxLength={100}
                     name="givenName"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -112,7 +112,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                     id="family-name-input"
                     maxLength={100}
                     name="familyName"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -139,7 +139,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                     id="email-input"
                     maxLength={100}
                     name="email"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -208,7 +208,6 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         defaultChecked={false}
                         id="group-org-admins"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-admins"
@@ -229,7 +228,6 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         defaultChecked={false}
                         id="group-org-publishers"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-publishers"
@@ -250,7 +248,6 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         defaultChecked={false}
                         id="group-org-staff"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-staff"
@@ -563,7 +560,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                     id="given-name-input"
                     maxLength={100}
                     name="givenName"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -591,7 +588,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                     id="family-name-input"
                     maxLength={100}
                     name="familyName"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -619,7 +616,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                     id="email-input"
                     maxLength={100}
                     name="email"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     type="text"
                   />
                 </div>
@@ -688,7 +685,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         defaultChecked={true}
                         id="group-org-admins"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-admins"
@@ -709,7 +705,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         defaultChecked={false}
                         id="group-org-publishers"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-publishers"
@@ -730,7 +725,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         defaultChecked={false}
                         id="group-org-staff"
                         name="group"
-                        onBlur={[Function]}
                         onChange={[Function]}
                         type="radio"
                         value="org-staff"

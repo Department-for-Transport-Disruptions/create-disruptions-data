@@ -22,7 +22,6 @@ exports[`Select > should render correctly with errors 1`] = `
         defaultValue=""
         id="field-1-input"
         name="field1"
-        onBlur={[Function]}
       >
         <option
           disabled={true}
@@ -203,7 +202,6 @@ exports[`Select > should render correctly with no errors 1`] = `
         defaultValue=""
         id="field-1-input"
         name="field1"
-        onBlur={[Function]}
       >
         <option
           disabled={true}
