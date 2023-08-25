@@ -1,11 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
-import { z } from "zod";
 import TimeSelector from "./TimeSelector";
 import { TestInputs } from "../../interfaces";
-import { setZodDefaultError } from "../../utils";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {
@@ -68,48 +64,5 @@ describe("TimeSelector", () => {
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
-    });
-
-    it("should validate minLength and display error", async () => {
-        const { unmount } = render(
-            <TimeSelector<TestInputs>
-                display="Start time"
-                hint="Test Hint"
-                value={""}
-                disabled={false}
-                inputName="field1"
-                stateUpdater={vi.fn()}
-                initialErrors={[]}
-                schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
-            />,
-        );
-
-        await userEvent.click(screen.getByLabelText("Start time"));
-        await userEvent.tab();
-
-        expect(screen.getByText("Error: Test Error")).toBeTruthy();
-
-        unmount();
-    });
-
-    it("should not display error if the component is disabled", async () => {
-        const { unmount } = render(
-            <TimeSelector<TestInputs>
-                display="Start time"
-                hint="Test Hint"
-                value={""}
-                disabled
-                inputName="field1"
-                stateUpdater={vi.fn()}
-                schema={z.string(setZodDefaultError("Error: Test Error")).min(1)}
-            />,
-        );
-
-        await userEvent.click(screen.getByLabelText("Start time"));
-        await userEvent.tab();
-
-        expect(screen.queryByText("Error: Test Error")).toBeFalsy();
-
-        unmount();
     });
 });

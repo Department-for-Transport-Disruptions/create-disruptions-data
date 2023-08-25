@@ -125,7 +125,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -346,7 +345,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -384,7 +383,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -405,7 +403,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -453,7 +450,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -482,7 +479,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -870,7 +866,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1052,7 +1047,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1101,7 +1096,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1122,7 +1116,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1169,7 +1162,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -1198,7 +1191,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1585,7 +1577,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1806,7 +1797,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1844,7 +1835,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1865,7 +1855,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1913,7 +1902,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                     disabled={false}
                     id="disruption-delay-input"
                     name="disruptionDelay"
-                    onBlur={[Function]}
+                    onChange={[Function]}
                     placeholder=""
                     type="text"
                   />
@@ -1942,7 +1931,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}

@@ -2,10 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi } from "vitest";
-import { z } from "zod";
 import DateSelector from "./DateSelector";
 import { TestInputs } from "../../interfaces";
-import { setZodDefaultError } from "../../utils";
 
 describe("DateSelector", () => {
     it("should render correctly with no input", () => {
@@ -92,29 +90,6 @@ describe("DateSelector", () => {
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
-    });
-
-    it("should validate minLength and display error", async () => {
-        const { unmount } = render(
-            <DateSelector<TestInputs>
-                display="Start date"
-                hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
-                value=""
-                disabled={false}
-                disablePast={false}
-                inputName="field1"
-                initialErrors={[]}
-                stateUpdater={vi.fn()}
-                schema={z.string(setZodDefaultError("Error: Select a date")).min(1)}
-            />,
-        );
-
-        await userEvent.click(screen.getByLabelText("Start date"));
-        await userEvent.tab();
-
-        expect(screen.getByText("Error: Select a date")).toBeTruthy();
-
-        unmount();
     });
 
     it("should not error when the component is disabled", async () => {

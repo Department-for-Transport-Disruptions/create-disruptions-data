@@ -2,7 +2,6 @@ import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
-import { handleBlur } from "../../utils/formUtils";
 
 interface TextInputProps<T> extends FormBase<T> {
     widthClass: string;
@@ -26,7 +25,6 @@ const TextInput = <T extends object>({
     rows,
     hint,
     stateUpdater,
-    schema,
     isPassword,
     resetError = false,
 }: TextInputProps<T>): ReactElement => {
@@ -59,7 +57,7 @@ const TextInput = <T extends object>({
                             rows={rows}
                             maxLength={maxLength}
                             defaultValue={value}
-                            onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            onChange={(e) => stateUpdater(e.target.value, inputName)}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     ) : (
@@ -70,7 +68,7 @@ const TextInput = <T extends object>({
                             type={isPassword ? "password" : "text"}
                             maxLength={maxLength}
                             defaultValue={value}
-                            onBlur={(e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema)}
+                            onChange={(e) => stateUpdater(e.target.value, inputName)}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     )}
