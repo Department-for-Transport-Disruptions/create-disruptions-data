@@ -1602,20 +1602,15 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another social media post
-            </a>
-          </button>
+            Add another social media post
+          </a>
           <br />
           <input
             name="disruptionId"
@@ -3448,20 +3443,15 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another social media post
-            </a>
-          </button>
+            Add another social media post
+          </a>
           <br />
           <input
             name="disruptionId"
