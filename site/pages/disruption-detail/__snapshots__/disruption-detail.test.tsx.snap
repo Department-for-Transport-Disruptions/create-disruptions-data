@@ -1108,20 +1108,15 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another consequence
-            </a>
-          </button>
+            Add another consequence
+          </a>
           <br />
           <h2
             className="govuk-heading-l"
@@ -2954,20 +2949,15 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another consequence
-            </a>
-          </button>
+            Add another consequence
+          </a>
           <br />
           <h2
             className="govuk-heading-l"

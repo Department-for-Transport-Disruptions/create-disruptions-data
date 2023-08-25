@@ -1120,20 +1120,15 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another consequence
-            </a>
-          </button>
+            Add another consequence
+          </a>
           <br />
           <h2
             className="govuk-heading-l"
@@ -2945,20 +2940,15 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
               </div>
             </div>
           </div>
-          <button
-            aria-disabled={false}
-            className="govuk-button mt-2 govuk-button--secondary"
-            disabled={false}
+          <a
+            className="govuk-button mt-2 govuk-button--secondary "
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
           >
-            <a
-              href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-            >
-              Add another consequence
-            </a>
-          </button>
+            Add another consequence
+          </a>
           <br />
           <h2
             className="govuk-heading-l"
