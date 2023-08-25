@@ -399,7 +399,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                     value={
                                         pageState.inputs.publishStartDate ||
-                                        validity.disruptionRepeats !== "doesntRepeat"
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishStartDate")
                                             ? pageState.inputs.publishStartDate
                                             : validity.disruptionStartDate
                                     }
@@ -416,7 +417,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                                     value={
                                         pageState.inputs.publishStartTime ||
-                                        validity.disruptionRepeats !== "doesntRepeat"
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishStartTime")
                                             ? pageState.inputs.publishStartTime
                                             : validity.disruptionStartTime
                                     }
@@ -435,7 +437,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     display="Publication end date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                     value={
-                                        pageState.inputs.publishEndDate || validity.disruptionRepeats !== "doesntRepeat"
+                                        pageState.inputs.publishEndDate ||
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishEndDate")
                                             ? pageState.inputs.publishEndDate
                                             : validity.disruptionEndDate
                                     }
@@ -450,7 +454,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication end time"
                                     value={
-                                        pageState.inputs.publishEndTime || validity.disruptionRepeats !== "doesntRepeat"
+                                        pageState.inputs.publishEndTime ||
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishEndTime")
                                             ? pageState.inputs.publishEndTime
                                             : validity.disruptionEndTime
                                     }
