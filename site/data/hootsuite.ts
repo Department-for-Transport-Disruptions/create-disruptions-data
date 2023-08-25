@@ -102,29 +102,36 @@ export const getHootsuiteData = async (
                                 expiresIn: "Never",
                             };
 
-                            const socialProfilesResponse = await fetch(`${HOOTSUITE_URL}v1/socialProfiles`, {
-                                method: "GET",
-                                headers: {
-                                    Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
-                                },
-                            });
-                            if (socialProfilesResponse.ok) {
-                                const socialProfiles = hootsuiteSocialProfilesSchema.parse(
-                                    await socialProfilesResponse.json(),
-                                );
+                            const resp = await getHootsuiteToken(tokenResult.refresh_token || "", authToken);
+                            if (resp.ok) {
+                                const tokenResult = hootsuiteTokenSchema.parse(await resp.json());
 
-                                userData = [
-                                    ...userData,
-                                    {
-                                        ...extraInfo,
-                                        hootsuiteProfiles:
-                                            socialProfiles.data?.map((sp: HootsuiteProfiles[0]) => ({
-                                                type: sp.type,
-                                                socialNetworkId: sp.socialNetworkId,
-                                                id: sp.id,
-                                            })) ?? [],
+                                await putParameter(key, tokenResult.refresh_token ?? "", "SecureString", true);
+
+                                const socialProfilesResponse = await fetch(`${HOOTSUITE_URL}v1/socialProfiles`, {
+                                    method: "GET",
+                                    headers: {
+                                        Authorization: `Bearer ${tokenResult.access_token ?? ""}`,
                                     },
-                                ];
+                                });
+                                if (socialProfilesResponse.ok) {
+                                    const socialProfiles = hootsuiteSocialProfilesSchema.parse(
+                                        await socialProfilesResponse.json(),
+                                    );
+
+                                    userData = [
+                                        ...userData,
+                                        {
+                                            ...extraInfo,
+                                            hootsuiteProfiles:
+                                                socialProfiles.data?.map((sp: HootsuiteProfiles[0]) => ({
+                                                    type: sp.type,
+                                                    socialNetworkId: sp.socialNetworkId,
+                                                    id: sp.id,
+                                                })) ?? [],
+                                        },
+                                    ];
+                                }
                             }
                         }
                     }
