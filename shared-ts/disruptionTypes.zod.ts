@@ -12,8 +12,8 @@ import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./ut
 import { setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
-    disruptionStartDate: zodDate("Enter a start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a start time for the disruption"),
+    disruptionStartDate: zodDate("Enter a start date"),
+    disruptionStartTime: zodTime("Enter a start time"),
     disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
@@ -228,12 +228,12 @@ export const disruptionInfoSchema = z.object({
         [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
         setZodDefaultError("Select a reason from the dropdown"),
     ),
-    publishStartDate: zodDate("Enter a publish start date for the disruption"),
-    publishStartTime: zodTime("Enter a publish start time for the disruption"),
+    publishStartDate: zodDate("Enter publication start date"),
+    publishStartTime: zodTime("Enter publication start time"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
-    disruptionStartDate: zodDate("Enter a validity start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a validity start time for the disruption"),
+    disruptionStartDate: zodDate("Enter a start date"),
+    disruptionStartTime: zodTime("Enter a start time"),
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
@@ -271,7 +271,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["disruptionEndDate"],
-            message: "Disruption end datetime must be after start datetime",
+            message: "Disruption end date/time must be after start date/time",
         },
     )
     .refine(
@@ -307,7 +307,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndDate"],
-            message: "Publish end datetime must be after start datetime",
+            message: "Publication end date/time must be after publication start date/time",
         },
     )
     .refine(
@@ -320,7 +320,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndDate"],
-            message: "Enter an end date for the disruption",
+            message: "Enter publication end date",
         },
     )
     .refine(
@@ -333,7 +333,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndTime"],
-            message: "Enter an end time for the disruption",
+            message: "Enter publication end time",
         },
     )
     .refine(
