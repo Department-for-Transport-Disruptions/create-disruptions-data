@@ -16,7 +16,12 @@ export const publishDisruptionSchema = disruptionInfoSchemaRefined.and(
             .max(10, {
                 message: "Only up to 10 consequences can be added",
             }),
-        socialMediaPosts: z.array(socialMediaPostSchema).optional(),
+        socialMediaPosts: z
+            .array(socialMediaPostSchema)
+            .max(5, {
+                message: "Only up to 5 social media posts can be added",
+            })
+            .optional(),
     }),
 );
 
