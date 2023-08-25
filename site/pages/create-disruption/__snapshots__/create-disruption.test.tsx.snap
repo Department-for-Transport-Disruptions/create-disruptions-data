@@ -581,7 +581,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
                     <div
                       className=""
@@ -598,6 +598,17 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         type="text"
                       />
                     </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2046,7 +2057,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
                     <div
                       className=""
@@ -2063,6 +2074,17 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         type="text"
                       />
                     </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -3556,7 +3578,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className=""
+                    className="flex gap-4"
                   >
                     <div
                       className=""
@@ -3573,6 +3595,17 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         type="text"
                       />
                     </div>
+                    <button
+                      className="mt-3 govuk-link h-6"
+                      data-module="govuk-button"
+                      onClick={[Function]}
+                    >
+                      <p
+                        className="text-govBlue govuk-body-m"
+                      >
+                        Now
+                      </p>
+                    </button>
                   </div>
                 </div>
               </div>

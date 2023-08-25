@@ -210,6 +210,17 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         });
     };
 
+    const handleStartDateNow = (e: SyntheticEvent) => {
+        e.preventDefault();
+        const dateTime = new Date();
+
+        setValidity({
+            ...validity,
+            disruptionStartDate: convertDateTimeToFormat(dateTime, "DD/MM/YYYY"),
+            disruptionStartTime: convertDateTimeToFormat(dateTime, "HHmm"),
+        });
+    };
+
     const getEndingDateDisplay = () => {
         return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
             ? `The validity period ends on ${getEndingOnDateText(
@@ -334,6 +345,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
+                                    showNowButton={handleStartDateNow}
                                 />
                             </div>
                         </div>
@@ -396,7 +408,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={disruptionInfoSchema.shape.publishStartDate}
                                 />
                             </div>
                             <div className="pl-4">
