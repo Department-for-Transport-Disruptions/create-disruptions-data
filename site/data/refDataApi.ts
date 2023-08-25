@@ -237,14 +237,22 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
     return parseResult.data;
 };
 
-export const fetchAdminAreaCodes = async () => {
-    const searchApiUrl = `${API_BASE_URL}/area-codes`;
+const adminAreaSchema = z.object({
+    administrativeAreaCode: z.string(),
+    name: z.string(),
+    shortName: z.string(),
+});
+
+export type AdminArea = z.infer<typeof adminAreaSchema>;
+
+export const fetchAdminAreas = async () => {
+    const searchApiUrl = `${API_BASE_URL}/admin-areas`;
 
     const res = await fetch(searchApiUrl, {
         method: "GET",
     });
 
-    const parseResult = z.array(z.string()).safeParse(await res.json());
+    const parseResult = z.array(adminAreaSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
