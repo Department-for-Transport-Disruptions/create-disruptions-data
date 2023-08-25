@@ -495,13 +495,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -514,52 +514,52 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           value="10/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 10, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 10, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                          <span
+                            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           />
-                        </svg>
-                        <span
-                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -583,20 +583,22 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="disruption-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0100"
-                        disabled={false}
-                        id="disruption-start-time-input"
-                        name="disruptionStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby="disruption-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0100"
+                          disabled={false}
+                          id="disruption-start-time-input"
+                          name="disruptionStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -626,13 +628,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -645,52 +647,52 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           value="13/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 13, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 13, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                          <span
+                            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           />
-                        </svg>
-                        <span
-                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -708,20 +710,22 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0200"
-                        disabled={false}
-                        id="disruption-end-time-input"
-                        name="disruptionEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0200"
+                          disabled={false}
+                          id="disruption-end-time-input"
+                          name="disruptionEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -798,13 +802,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -817,52 +821,52 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           value="01/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 1, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 1, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                          <span
+                            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           />
-                        </svg>
-                        <span
-                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -884,34 +888,40 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="publish-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0200"
-                        disabled={false}
-                        id="publish-start-time-input"
-                        name="publishStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
-                    </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
-                    >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                    <div>
+                      <div
+                        className=""
                       >
-                        Now
-                      </p>
-                    </button>
+                        <input
+                          aria-describedby="publish-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0200"
+                          disabled={false}
+                          id="publish-start-time-input"
+                          name="publishStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="flex items-end"
+                    >
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
+                      >
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -940,13 +950,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -959,52 +969,52 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           value="01/08/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Aug 1, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Aug 1, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                          <span
+                            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           />
-                        </svg>
-                        <span
-                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -1022,20 +1032,22 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="2300"
-                        disabled={false}
-                        id="publish-end-time-input"
-                        name="publishEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="2300"
+                          disabled={false}
+                          id="publish-end-time-input"
+                          name="publishEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1132,13 +1144,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -1151,45 +1163,45 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   value="30/03/2023"
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date, selected date is Mar 30, 2023"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date, selected date is Mar 30, 2023"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                  <span
+                                    className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                   />
-                                </svg>
-                                <span
-                                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                                />
-                              </button>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1243,13 +1255,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -1262,45 +1274,45 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   value="30/03/2023"
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date, selected date is Mar 30, 2023"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date, selected date is Mar 30, 2023"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                  <span
+                                    className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                   />
-                                </svg>
-                                <span
-                                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                                />
-                              </button>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1963,13 +1975,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -1982,49 +1994,49 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           value=""
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2048,20 +2060,22 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="disruption-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue=""
-                        disabled={false}
-                        id="disruption-start-time-input"
-                        name="disruptionStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby="disruption-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue=""
+                          disabled={false}
+                          id="disruption-start-time-input"
+                          name="disruptionStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2091,13 +2105,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -2110,49 +2124,49 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           value=""
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2170,20 +2184,22 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue=""
-                        disabled={false}
-                        id="disruption-end-time-input"
-                        name="disruptionEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue=""
+                          disabled={false}
+                          id="disruption-end-time-input"
+                          name="disruptionEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2260,13 +2276,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -2279,49 +2295,49 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           value=""
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2343,34 +2359,40 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="publish-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue=""
-                        disabled={false}
-                        id="publish-start-time-input"
-                        name="publishStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
-                    </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
-                    >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                    <div>
+                      <div
+                        className=""
                       >
-                        Now
-                      </p>
-                    </button>
+                        <input
+                          aria-describedby="publish-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue=""
+                          disabled={false}
+                          id="publish-start-time-input"
+                          name="publishStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="flex items-end"
+                    >
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
+                      >
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2399,13 +2421,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -2418,49 +2440,49 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           value=""
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2478,20 +2500,22 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue=""
-                        disabled={false}
-                        id="publish-end-time-input"
-                        name="publishEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue=""
+                          disabled={false}
+                          id="publish-end-time-input"
+                          name="publishEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2588,13 +2612,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -2607,42 +2631,42 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   value=""
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -2696,13 +2720,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -2715,42 +2739,42 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   value=""
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -3473,13 +3497,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -3492,49 +3516,49 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           value="10/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 10, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 10, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3558,20 +3582,22 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="disruption-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0100"
-                        disabled={false}
-                        id="disruption-start-time-input"
-                        name="disruptionStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby="disruption-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0100"
+                          disabled={false}
+                          id="disruption-start-time-input"
+                          name="disruptionStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3601,13 +3627,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -3620,49 +3646,49 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           value="13/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 13, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 13, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3680,20 +3706,22 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0200"
-                        disabled={false}
-                        id="disruption-end-time-input"
-                        name="disruptionEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0200"
+                          disabled={false}
+                          id="disruption-end-time-input"
+                          name="disruptionEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3770,13 +3798,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -3789,49 +3817,49 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           value="01/03/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Mar 1, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Mar 1, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-4"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3853,34 +3881,40 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby="publish-start-time-hint"
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="0200"
-                        disabled={false}
-                        id="publish-start-time-input"
-                        name="publishStartTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
-                    </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
-                    >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                    <div>
+                      <div
+                        className=""
                       >
-                        Now
-                      </p>
-                    </button>
+                        <input
+                          aria-describedby="publish-start-time-hint"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="0200"
+                          disabled={false}
+                          id="publish-start-time-input"
+                          name="publishStartTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="flex items-end"
+                    >
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
+                      >
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3909,13 +3943,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                    className=""
                   >
                     <div
-                      className="govuk-date-input__item govuk-!-margin-right-0"
+                      className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className=""
+                        className="govuk-date-input__item govuk-!-margin-right-0"
                       >
                         <input
                           className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -3928,49 +3962,49 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           value="01/08/2023"
                         />
                       </div>
-                    </div>
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Aug 1, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <button
+                          aria-label="Choose date, selected date is Aug 1, 2023"
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CalendarIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="pl-5"
+              className="pl-5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3988,20 +4022,22 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <div
-                      className=""
-                    >
-                      <input
-                        aria-describedby=""
-                        className="govuk-input govuk-date-input__input govuk-input--width-4"
-                        defaultValue="2300"
-                        disabled={false}
-                        id="publish-end-time-input"
-                        name="publishEndTime"
-                        onChange={[Function]}
-                        placeholder="hhmm"
-                        type="text"
-                      />
+                    <div>
+                      <div
+                        className=""
+                      >
+                        <input
+                          aria-describedby=""
+                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          defaultValue="2300"
+                          disabled={false}
+                          id="publish-end-time-input"
+                          name="publishEndTime"
+                          onChange={[Function]}
+                          placeholder="hhmm"
+                          type="text"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4098,13 +4134,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -4117,42 +4153,42 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   value="30/03/2023"
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date, selected date is Mar 30, 2023"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date, selected date is Mar 30, 2023"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -4206,13 +4242,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
+                            className=""
                           >
                             <div
-                              className="govuk-date-input__item govuk-!-margin-right-0"
+                              className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className=""
+                                className="govuk-date-input__item govuk-!-margin-right-0"
                               >
                                 <input
                                   className="govuk-input govuk-date-input__input govuk-input--width-6"
@@ -4225,42 +4261,42 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   value="30/03/2023"
                                 />
                               </div>
-                            </div>
-                            <div
-                              className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                            >
-                              <button
-                                aria-label="Choose date, selected date is Mar 30, 2023"
-                                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onContextMenu={[Function]}
-                                onDragLeave={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                onMouseDown={[Function]}
-                                onMouseLeave={[Function]}
-                                onMouseUp={[Function]}
-                                onTouchEnd={[Function]}
-                                onTouchMove={[Function]}
-                                onTouchStart={[Function]}
-                                tabIndex={0}
-                                type="button"
+                              <div
+                                className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
                               >
-                                <svg
-                                  aria-hidden={true}
-                                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                                  data-testid="CalendarIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
+                                <button
+                                  aria-label="Choose date, selected date is Mar 30, 2023"
+                                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onContextMenu={[Function]}
+                                  onDragLeave={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onMouseUp={[Function]}
+                                  onTouchEnd={[Function]}
+                                  onTouchMove={[Function]}
+                                  onTouchStart={[Function]}
+                                  tabIndex={0}
+                                  type="button"
                                 >
-                                  <path
-                                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    aria-hidden={true}
+                                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                    data-testid="CalendarIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
