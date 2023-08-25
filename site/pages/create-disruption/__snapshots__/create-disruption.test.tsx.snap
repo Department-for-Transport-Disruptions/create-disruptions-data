@@ -589,7 +589,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
                     <div>
                       <div
@@ -608,17 +608,21 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         />
                       </div>
                     </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
+                    <div
+                      className="flex items-end"
                     >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
                       >
-                        Now
-                      </p>
-                    </button>
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2125,7 +2129,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
                     <div>
                       <div
@@ -2144,17 +2148,21 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         />
                       </div>
                     </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
+                    <div
+                      className="flex items-end"
                     >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
                       >
-                        Now
-                      </p>
-                    </button>
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3706,7 +3714,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex gap-4"
+                    className="flex flex-row content-end gap-4"
                   >
                     <div>
                       <div
@@ -3725,17 +3733,21 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         />
                       </div>
                     </div>
-                    <button
-                      className="mt-3 govuk-link h-6"
-                      data-module="govuk-button"
-                      onClick={[Function]}
+                    <div
+                      className="flex items-end"
                     >
-                      <p
-                        className="text-govBlue govuk-body-m"
+                      <button
+                        className="mt-3 govuk-link h-6"
+                        data-module="govuk-button"
+                        onClick={[Function]}
                       >
-                        Now
-                      </p>
-                    </button>
+                        <p
+                          className="text-govBlue govuk-body-m"
+                        >
+                          Now
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
