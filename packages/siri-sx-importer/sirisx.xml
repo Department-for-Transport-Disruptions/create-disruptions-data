@@ -5196,7 +5196,7 @@ Routes 4/4A will operate as normal from Greenbank to Sefton Street then will con
                                             </AffectedOperator>
                                             <LineRef>1</LineRef>
                                             <Direction>
-                                                <DirectionRef>inboundTowardsTown</DirectionRef>
+                                                <DirectionRef>inbound</DirectionRef>
                                             </Direction>
                                         </AffectedLine>
                                     </AffectedNetwork>

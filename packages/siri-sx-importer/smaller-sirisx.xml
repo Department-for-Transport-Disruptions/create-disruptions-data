@@ -224,12 +224,12 @@
                     <SituationNumber>d089da0a-baa5-4831-ad58-39681aaf66d2</SituationNumber>
                     <Source>
                         <SourceType>feed</SourceType>
-                        <TimeOfCommunication>2023-07-20T10:18:09.664Z</TimeOfCommunication>
+                        <TimeOfCommunication>2023-12-20T10:18:09.664Z</TimeOfCommunication>
                     </Source>
                     <Progress>open</Progress>
                     <ValidityPeriod>
-                        <StartTime>2023-07-05T08:00:00.000Z</StartTime>
-                        <EndTime>2023-07-31T16:00:00.000Z</EndTime>
+                        <StartTime>2023-12-05T08:00:00.000Z</StartTime>
+                        <EndTime>2023-12-31T16:00:00.000Z</EndTime>
                     </ValidityPeriod>
                     <PublicationWindow>
                         <StartTime>2023-07-05T08:00:00.000Z</StartTime>
@@ -264,7 +264,7 @@
                                 <Details>Network test</Details>
                             </Advice>
                             <Blocking>
-                                <JourneyPlanner>false</JourneyPlanner>
+                                <JourneyPlanner>true</JourneyPlanner>
                             </Blocking>
                         </Consequence>
                         <Consequence>
@@ -284,6 +284,19 @@
                                     <AffectedStopPoint>
                                         <StopPointRef>370020589</StopPointRef>
                                         <StopPointName>Ecclesall Road/Hickmott Road</StopPointName>
+                                        <Location>
+                                            <Longitude>-1.497909374</Longitude>
+                                            <Latitude>53.368694893</Latitude>
+                                        </Location>
+                                        <AffectedModes>
+                                            <Mode>
+                                                <VehicleMode>bus</VehicleMode>
+                                            </Mode>
+                                        </AffectedModes>
+                                    </AffectedStopPoint>
+                                    <AffectedStopPoint>
+                                        <StopPointRef>370020589</StopPointRef>
+                                        <StopPointName>Second Stop Point</StopPointName>
                                         <Location>
                                             <Longitude>-1.497909374</Longitude>
                                             <Latitude>53.368694893</Latitude>
@@ -326,6 +339,46 @@
                             <Blocking>
                                 <JourneyPlanner>false</JourneyPlanner>
                             </Blocking>
+                            <Delays>
+                                <Delay>PT20M</Delay>
+                            </Delays>
+                        </Consequence>
+                        <Consequence>
+                            <Condition>unknown</Condition>
+                            <Severity>unknown</Severity>
+                            <Affects>
+                                <Networks>
+                                    <AffectedNetwork>
+                                        <VehicleMode>ferryService</VehicleMode>
+                                        <AffectedLine>
+                                            <AffectedOperator>
+                                                <OperatorRef>SYRK</OperatorRef>
+                                                <OperatorName>Stagecoach</OperatorName>
+                                            </AffectedOperator>
+                                            <LineRef>1</LineRef>
+                                            <Direction>
+                                                <DirectionRef>inboundTowardsTown</DirectionRef>
+                                            </Direction>
+                                        </AffectedLine>
+                                        <AffectedLine>
+                                            <AffectedOperator>
+                                                <OperatorRef>FLDS</OperatorRef>
+                                                <OperatorName>First Leeds</OperatorName>
+                                            </AffectedOperator>
+                                            <LineRef>1</LineRef>
+                                        </AffectedLine>
+                                    </AffectedNetwork>
+                                </Networks>
+                            </Affects>
+                            <Advice>
+                                <Details>SIRI 2</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>false</JourneyPlanner>
+                            </Blocking>
+                            <Delays>
+                                <Delay>PT16M</Delay>
+                            </Delays>
                         </Consequence>
                     </Consequences>
                 </PtSituationElement>

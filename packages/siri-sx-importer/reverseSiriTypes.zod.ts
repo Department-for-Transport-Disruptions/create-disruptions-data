@@ -71,6 +71,8 @@ export const affectedOperatorSchema = z.object({
     OperatorName: z.string().optional(),
 });
 
+export type Operators = z.infer<typeof operatorsSchema>;
+
 export const operatorsSchema = z.object({
     AllOperators: z.literal("").optional(),
     AffectedOperator: z
@@ -99,6 +101,9 @@ export const networksSchema = z.object({
     }),
 });
 
+export type AffectedLine = z.infer<typeof affectedLineSchema>;
+export const affectedLineSchema = networksSchema.shape.AffectedNetwork.shape.AffectedLine;
+
 export const affectedStopPointItem = z.object({
     StopPointRef: z.string(),
     StopPointName: z.string(),
@@ -112,6 +117,9 @@ export const affectedStopPointItem = z.object({
         }),
     }),
 });
+
+export type StopPoints = z.infer<typeof stopPointsSchema>;
+
 export const stopPointsSchema = z.object({
     AffectedStopPoint: z
         .union([z.array(affectedStopPointItem), affectedStopPointItem])
@@ -139,6 +147,9 @@ export const consequenceItem = z.object({
         })
         .optional(),
 });
+
+export type Affects = z.infer<typeof affectsSchema>;
+export const affectsSchema = consequenceItem.shape.Affects;
 export const consequenceSchema = z.object({
     Consequence: z.union([z.array(consequenceItem), consequenceItem]).transform((item) => transformToArray(item)),
 });
@@ -177,18 +188,9 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
             }),
         ),
 );
-
-export const ptSituationElementSchemaWithTransform = ptSituationElementSchema.transform((val) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    delete val.ReasonType;
-
-    return val;
-});
-
 export const situationsSchema = z.object({
     PtSituationElement: z
-        .union([z.array(ptSituationElementSchemaWithTransform), ptSituationElementSchemaWithTransform])
+        .union([z.array(ptSituationElementSchema), ptSituationElementSchema])
         .transform((item) => transformToArray(item)),
 });
 
