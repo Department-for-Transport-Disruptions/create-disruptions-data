@@ -29,22 +29,25 @@ const inputBox = <T extends object>(
     InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
     inputId: string,
     inputName: Extract<keyof T, string>,
+    errors: ErrorInfo[],
     disabled: boolean,
 ) => (
-    <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
+    <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <input
-                className="govuk-input govuk-date-input__input govuk-input--width-6"
-                name={inputName}
-                id={`${inputId}-input`}
-                type="text"
-                ref={inputRef}
-                {...inputProps}
-                disabled={disabled}
-                placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-            />
+            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                <input
+                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                    name={inputName}
+                    id={`${inputId}-input`}
+                    type="text"
+                    ref={inputRef}
+                    {...inputProps}
+                    disabled={disabled}
+                    placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
+                />
+            </FormElementWrapper>
         </div>
-        {InputProps?.endAdornment}
+        <div className="flex items-end pb-5">{InputProps?.endAdornment}</div>
     </div>
 );
 
@@ -114,7 +117,7 @@ const DateSelector = <T extends object>({
                 {hint ? (
                     <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
                 ) : null}
-                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                <div className="flex flex-col">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             renderDay={renderWeekPickerDay}
@@ -129,7 +132,7 @@ const DateSelector = <T extends object>({
                             }}
                             onAccept={() => setErrors([])}
                             renderInput={({ inputRef, inputProps, InputProps }) => {
-                                return inputBox(inputRef, inputProps, InputProps, inputId, inputName, disabled);
+                                return inputBox(inputRef, inputProps, InputProps, inputId, inputName, errors, disabled);
                             }}
                             disablePast={disablePast}
                             inputFormat="DD/MM/YYYY"
@@ -137,7 +140,7 @@ const DateSelector = <T extends object>({
                             aria-describedby={hint ? `${inputName}-hint` : undefined}
                         />
                     </LocalizationProvider>
-                </FormElementWrapper>
+                </div>
             </div>
         </FormGroupWrapper>
     );
