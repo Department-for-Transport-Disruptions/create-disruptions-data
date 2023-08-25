@@ -210,6 +210,17 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         });
     };
 
+    const handleStartDateNow = (e: SyntheticEvent) => {
+        e.preventDefault();
+        const dateTime = new Date();
+
+        setValidity({
+            ...validity,
+            disruptionStartDate: convertDateTimeToFormat(dateTime, "DD/MM/YYYY"),
+            disruptionStartTime: convertDateTimeToFormat(dateTime, "HHmm"),
+        });
+    };
+
     const getEndingDateDisplay = () => {
         return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
             ? `The validity period ends on ${getEndingOnDateText(
@@ -327,6 +338,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
                                     schema={validitySchema.shape.disruptionStartDate}
+                                    resetError={
+                                        (!pageState.inputs.disruptionStartDate &&
+                                            !!validity.disruptionStartDate &&
+                                            validity.disruptionRepeats === "doesntRepeat") ||
+                                        pageState.inputs.disruptionStartDate ===
+                                            convertDateTimeToFormat(new Date(), "DD/MM/YYYY")
+                                    }
                                 />
                             </div>
                             <div className="pl-4">
@@ -340,6 +358,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
                                     schema={validitySchema.shape.disruptionStartTime}
+                                    resetError={
+                                        (!pageState.inputs.disruptionStartTime &&
+                                            !!validity.disruptionStartTime &&
+                                            validity.disruptionRepeats === "doesntRepeat") ||
+                                        pageState.inputs.disruptionStartTime ===
+                                            convertDateTimeToFormat(new Date(), "HHmm")
+                                    }
+                                    showNowButton={handleStartDateNow}
                                 />
                             </div>
                         </div>
