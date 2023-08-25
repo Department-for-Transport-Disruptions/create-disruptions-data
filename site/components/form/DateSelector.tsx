@@ -41,23 +41,21 @@ const inputBox = <T extends object>(
 ) => (
     <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
-            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
-                <input
-                    className="govuk-input govuk-date-input__input govuk-input--width-6"
-                    name={inputName}
-                    id={`${inputId}-input`}
-                    type="text"
-                    ref={inputRef}
-                    {...inputProps}
-                    disabled={disabled}
-                    placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={
-                        errorOnBlur
-                            ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
-                            : undefined
-                    }
-                />
-            </FormElementWrapper>
+            <input
+                className="govuk-input govuk-date-input__input govuk-input--width-6"
+                name={inputName}
+                id={`${inputId}-input`}
+                type="text"
+                ref={inputRef}
+                {...inputProps}
+                disabled={disabled}
+                placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
+                onBlur={
+                    errorOnBlur
+                        ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
+                        : undefined
+                }
+            />
         </div>
         {InputProps?.endAdornment}
     </div>
@@ -133,40 +131,42 @@ const DateSelector = <T extends object>({
                 {hint ? (
                     <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
                 ) : null}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        renderDay={renderWeekPickerDay}
-                        value={dateValue}
-                        onChange={(newValue) => {
-                            setDateValue(newValue);
-                            if (newValue) {
-                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
-                            } else {
-                                stateUpdater("", inputName);
-                            }
-                        }}
-                        onAccept={() => setErrors([])}
-                        renderInput={({ inputRef, inputProps, InputProps }) => {
-                            return inputBox(
-                                inputRef,
-                                inputProps,
-                                InputProps,
-                                inputId,
-                                inputName,
-                                errors,
-                                disabled,
-                                stateUpdater,
-                                setErrors,
-                                schema,
-                                errorOnBlur,
-                            );
-                        }}
-                        disablePast={disablePast}
-                        inputFormat="DD/MM/YYYY"
-                        disabled={disabled}
-                        aria-describedby={hint ? `${inputName}-hint` : undefined}
-                    />
-                </LocalizationProvider>
+                <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            renderDay={renderWeekPickerDay}
+                            value={dateValue}
+                            onChange={(newValue) => {
+                                setDateValue(newValue);
+                                if (newValue) {
+                                    stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                                } else {
+                                    stateUpdater("", inputName);
+                                }
+                            }}
+                            onAccept={() => setErrors([])}
+                            renderInput={({ inputRef, inputProps, InputProps }) => {
+                                return inputBox(
+                                    inputRef,
+                                    inputProps,
+                                    InputProps,
+                                    inputId,
+                                    inputName,
+                                    errors,
+                                    disabled,
+                                    stateUpdater,
+                                    setErrors,
+                                    schema,
+                                    errorOnBlur,
+                                );
+                            }}
+                            disablePast={disablePast}
+                            inputFormat="DD/MM/YYYY"
+                            disabled={disabled}
+                            aria-describedby={hint ? `${inputName}-hint` : undefined}
+                        />
+                    </LocalizationProvider>
+                </FormElementWrapper>
             </div>
         </FormGroupWrapper>
     );
