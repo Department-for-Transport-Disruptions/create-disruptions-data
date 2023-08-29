@@ -28,7 +28,7 @@ describe("accountSettings", () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it("should render correctly and display the expected button for sysadmin", async () => {
+    it("should render correctly and display the expected button for sysadmin", () => {
         const { unmount } = render(
             <AccountSettings
                 sessionWithOrg={{
