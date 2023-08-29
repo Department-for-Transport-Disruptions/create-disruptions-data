@@ -1,3 +1,4 @@
+import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import AccountSettings from "./account-settings.page";
@@ -25,5 +26,30 @@ describe("accountSettings", () => {
             )
             .toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly and display the expected button for sysadmin", async () => {
+        const { unmount } = render(
+            <AccountSettings
+                sessionWithOrg={{
+                    email: "test@example.com",
+                    username: "Test",
+                    orgId: "org",
+                    adminAreaCodes: [],
+                    orgName: "Test Org",
+                    isOrgAdmin: false,
+                    isOrgPublisher: false,
+                    isOrgStaff: false,
+                    isSystemAdmin: true,
+                    name: "Test User",
+                    mode: defaultModes,
+                }}
+            />,
+        );
+
+        const buttonElement = screen.getByText("Return to Manage Organisations");
+        expect(buttonElement).toBeDefined();
+
+        unmount();
     });
 });

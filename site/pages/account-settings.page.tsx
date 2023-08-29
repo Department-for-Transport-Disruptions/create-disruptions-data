@@ -6,6 +6,7 @@ import ErrorSummary from "../components/form/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
+import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
 import { ErrorInfo } from "../interfaces";
 import { ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
@@ -68,28 +69,62 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                 <h2 className="govuk-heading-m">Account settings</h2>
                 <ErrorSummary errors={errors.filter((err) => err.id !== "modes")} />
                 <Table
-                    rows={[
-                        { header: "Email address", cells: [sessionWithOrg.email, ""] },
-                        {
-                            header: "Password",
-                            cells: [
-                                <input
-                                    className="bg-white"
-                                    disabled={true}
-                                    key="password"
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={"myPassword"}
-                                />,
-                                <Link key={"change-password"} className="govuk-link" href={"/change-password"}>
-                                    Change
-                                </Link>,
-                            ],
-                        },
-                        { header: "Organisation", cells: [sessionWithOrg.orgName, ""] },
-                        { header: "NaPTAN Adminarea", cells: [sessionWithOrg?.adminAreaCodes.join(", "), ""] },
-                    ]}
+                    rows={
+                        sessionWithOrg.isSystemAdmin
+                            ? [
+                                  { header: "Email address", cells: [sessionWithOrg.email, ""] },
+                                  {
+                                      header: "Password",
+                                      cells: [
+                                          <input
+                                              className="bg-white"
+                                              disabled={true}
+                                              key="password"
+                                              type="password"
+                                              id="password"
+                                              name="password"
+                                              value={"myPassword"}
+                                          />,
+                                          <Link
+                                              key={"change-password"}
+                                              className="govuk-link"
+                                              href={"/change-password"}
+                                          >
+                                              Change
+                                          </Link>,
+                                      ],
+                                  },
+                              ]
+                            : [
+                                  { header: "Email address", cells: [sessionWithOrg.email, ""] },
+                                  {
+                                      header: "Password",
+                                      cells: [
+                                          <input
+                                              className="bg-white"
+                                              disabled={true}
+                                              key="password"
+                                              type="password"
+                                              id="password"
+                                              name="password"
+                                              value={"myPassword"}
+                                          />,
+                                          <Link
+                                              key={"change-password"}
+                                              className="govuk-link"
+                                              href={"/change-password"}
+                                          >
+                                              Change
+                                          </Link>,
+                                      ],
+                                  },
+                                  { header: "Organisation", cells: [sessionWithOrg.orgName, ""] },
+                                  {
+                                      header: "NaPTAN Adminarea",
+                                      cells: [sessionWithOrg?.adminAreaCodes.join(", "), ""],
+                                  },
+                              ]
+                    }
                 />
                 {sessionWithOrg.isOrgAdmin ? (
                     <>
@@ -108,6 +143,15 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                             </FormElementWrapper>
                         </FormGroupWrapper>
                     </>
+                ) : null}
+                {sessionWithOrg.isSystemAdmin ? (
+                    <Link
+                        role="button"
+                        href={SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH}
+                        className="govuk-button mt-2 govuk-button--secondary"
+                    >
+                        Return to Manage Organisations
+                    </Link>
                 ) : null}
             </div>
         </TwoThirdsLayout>
