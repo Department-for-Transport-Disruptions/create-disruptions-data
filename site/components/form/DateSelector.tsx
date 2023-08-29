@@ -32,7 +32,7 @@ const inputBox = <T extends object>(
     errors: ErrorInfo[],
     disabled: boolean,
 ) => (
-    <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
+    <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
             <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
@@ -47,7 +47,7 @@ const inputBox = <T extends object>(
                 />
             </FormElementWrapper>
         </div>
-        {InputProps?.endAdornment}
+        <div className="flex items-end pb-5">{InputProps?.endAdornment}</div>
     </div>
 );
 
@@ -117,28 +117,30 @@ const DateSelector = <T extends object>({
                 {hint ? (
                     <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
                 ) : null}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        renderDay={renderWeekPickerDay}
-                        value={dateValue}
-                        onChange={(newValue) => {
-                            setDateValue(newValue);
-                            if (newValue) {
-                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
-                            } else {
-                                stateUpdater("", inputName);
-                            }
-                        }}
-                        onAccept={() => setErrors([])}
-                        renderInput={({ inputRef, inputProps, InputProps }) => {
-                            return inputBox(inputRef, inputProps, InputProps, inputId, inputName, errors, disabled);
-                        }}
-                        disablePast={disablePast}
-                        inputFormat="DD/MM/YYYY"
-                        disabled={disabled}
-                        aria-describedby={hint ? `${inputName}-hint` : undefined}
-                    />
-                </LocalizationProvider>
+                <div className="flex flex-col">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            renderDay={renderWeekPickerDay}
+                            value={dateValue}
+                            onChange={(newValue) => {
+                                setDateValue(newValue);
+                                if (newValue) {
+                                    stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                                } else {
+                                    stateUpdater("", inputName);
+                                }
+                            }}
+                            onAccept={() => setErrors([])}
+                            renderInput={({ inputRef, inputProps, InputProps }) => {
+                                return inputBox(inputRef, inputProps, InputProps, inputId, inputName, errors, disabled);
+                            }}
+                            disablePast={disablePast}
+                            inputFormat="DD/MM/YYYY"
+                            disabled={disabled}
+                            aria-describedby={hint ? `${inputName}-hint` : undefined}
+                        />
+                    </LocalizationProvider>
+                </div>
             </div>
         </FormGroupWrapper>
     );
