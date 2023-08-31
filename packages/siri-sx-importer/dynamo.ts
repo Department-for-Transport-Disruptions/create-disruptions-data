@@ -1,7 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, ScanCommand, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, ScanCommand, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
 import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { disruption } from "@create-disruptions-data/siri-sx-generator/test/testData";
 import * as console from "console";
 import { Organisation, organisationSchema } from "./utils/importerSiriTypes.zod";
 

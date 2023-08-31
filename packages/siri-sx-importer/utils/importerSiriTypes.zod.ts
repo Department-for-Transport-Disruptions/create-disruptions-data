@@ -9,7 +9,6 @@ import {
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
-import { orgId } from "@create-disruptions-data/siri-sx-generator/test/testData";
 import dayjs from "dayjs";
 import { z } from "zod";
 
@@ -140,7 +139,7 @@ export const consequenceItem = z.object({
     }),
     Delays: z
         .object({
-            // Requires Delay to be in ISO 8601 notation, eg. PT10M represents 10 minutes
+            // Requires Delay to be in ISO 8601 notation, e.g. PT10M represents 10 minutes
             Delay: z.string().regex(/^PT\d+M$/),
         })
         .optional(),

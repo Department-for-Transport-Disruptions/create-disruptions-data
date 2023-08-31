@@ -2,7 +2,7 @@ import { Service, Stop, Validity } from "@create-disruptions-data/shared-ts/disr
 import { serviceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import dayjs from "dayjs";
+import dayjs, { extend } from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import * as console from "console";
@@ -16,12 +16,8 @@ import {
 } from "./importerSiriTypes.zod";
 import { fetchServicesByOperators } from "../refDataApi";
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
+extend(utc);
+extend(timezone);
 
 export const convertDateTimeToFormat = (dateOrTime: string | Date | undefined, format: "DD/MM/YYYY" | "HHmm") => {
     return dayjs(dateOrTime).tz("Europe/London").format(format);

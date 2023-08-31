@@ -1,11 +1,10 @@
-import { Consequence, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import cryptoRandomString from "crypto-random-string";
 import { v5 as uuidv5 } from "uuid";
 import { parseString } from "xml2js";
 import { parseBooleans } from "xml2js/lib/processors";
 import * as console from "console";
-import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import { getOrgIdFromDynamo, publishConsequenceInfoToDynamo, publishDisruptionInfoToDynamo } from "./dynamo";
 import {
@@ -39,7 +38,7 @@ async function loadXml() {
 const xml = await loadXml();
 
 const parsedXml = () => {
-    let parsedXml: { Siri: any } = { Siri: {} };
+    let parsedXml = { Siri: {} };
     let error = null;
 
     parseString(
@@ -58,7 +57,9 @@ const parsedXml = () => {
     };
 };
 
-const addReasonTypeToXml = (Siri: Record<string, any>) => {
+const addReasonTypeToXml = (Siri: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     let PtSituationElement = Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -70,6 +71,7 @@ const addReasonTypeToXml = (Siri: Record<string, any>) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         PtSituationElement.map((item: Record<string, unknown>) => {
             const fixedUuid = "bd1e919c-d98e-4744-b786-ebe0f0d980c2";
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const situationNumber: string = uuidv5(item.SituationNumber, fixedUuid);
             if (!!item.EnvironmentReason) {
@@ -110,6 +112,8 @@ const addReasonTypeToXml = (Siri: Record<string, any>) => {
             }
         });
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement = PtSituationElementWithReasonType;
 

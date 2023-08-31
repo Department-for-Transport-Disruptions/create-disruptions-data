@@ -12,7 +12,7 @@ interface FetchServicesByOperatorsInput {
     lineNames?: string;
 }
 
-export const fetchServicesByOperators = async (input: FetchServicesByOperatorsInput): Promise<Service | {}> => {
+export const fetchServicesByOperators = async (input: FetchServicesByOperatorsInput): Promise<Service | object> => {
     const searchApiUrl = `${API_BASE_URL}/operators/${input.nocCode}/services`;
 
     const queryStringItems = [];
