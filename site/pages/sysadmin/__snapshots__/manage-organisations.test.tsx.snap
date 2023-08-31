@@ -52,7 +52,7 @@ exports[`manageOrganisations > should render correctly when there are no inputs 
       <p
         className="govuk-body"
       >
-        Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminArea's per organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as being able to add and remove organisation admin users.
+        Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminAreas per organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as being able to add and remove organisation admin users.
       </p>
       <table
         className="govuk-table"
@@ -344,7 +344,7 @@ exports[`manageOrganisations > should render correctly with inputs 1`] = `
       <p
         className="govuk-body"
       >
-        Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminArea's per organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as being able to add and remove organisation admin users.
+        Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminAreas per organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as being able to add and remove organisation admin users.
       </p>
       <table
         className="govuk-table"
