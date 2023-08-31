@@ -79,11 +79,13 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                     ]}
                 />
             ) : null}
-            <Table
-                caption={{ text: "Manage organisations", size: "m" }}
-                columns={["Organisation", "NaPTAN AdminArea", "Action"]}
-                rows={getRows()}
-            ></Table>
+            <h1 className="govuk-heading-l">Manage organisations</h1>
+            <p className="govuk-body">
+                Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminAreas per
+                organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as
+                being able to add and remove organisation admin users.
+            </p>
+            <Table columns={["Organisation", "NaPTAN AdminArea", "Action"]} rows={getRows()}></Table>
 
             <Link
                 href={`/sysadmin/org`}
@@ -116,7 +118,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            orgList,
+            orgList: orgList.sort((a, b) => a.name.localeCompare(b.name)),
         },
     };
 };

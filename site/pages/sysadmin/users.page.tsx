@@ -41,6 +41,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     user.familyName,
                     user.email,
                     createLink("user-action", index, user.username, "org-admins"),
+                    user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",
                 ],
             });
         });
@@ -138,7 +139,12 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />
-            <h1 className="govuk-heading-xl">Add new user</h1>
+            <h1 className="govuk-heading-l">Add an organisation admin</h1>
+            <p className="govuk-body">
+                Users added below will be set up as admins for their respective organisations. They will have the
+                ability to perform all functionality available within the tool, including the ability to set up further
+                admin users on their own and users with lower permission settings.
+            </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
                 <TextInput<AddUserSchema>
                     display="First name"
@@ -177,7 +183,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 <button className="govuk-button mt-8" data-module="govuk-button">
                     Add and send invitation
                 </button>
-                <Table columns={["First name", "Last name", "Email", "Action"]} rows={getRows()}></Table>
+                <Table columns={["First name", "Last name", "Email", "Action", "Status"]} rows={getRows()}></Table>
             </CsrfForm>
         </BaseLayout>
     );

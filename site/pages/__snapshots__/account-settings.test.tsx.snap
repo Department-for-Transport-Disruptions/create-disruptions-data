@@ -56,13 +56,8 @@ exports[`accountSettings > should render correctly 1`] = `
             <h1
               className="govuk-heading-l"
             >
-              My account
-            </h1>
-            <h2
-              className="govuk-heading-m"
-            >
               Account settings
-            </h2>
+            </h1>
             <table
               className="govuk-table"
             >
@@ -128,40 +123,6 @@ exports[`accountSettings > should render correctly 1`] = `
                       Change
                     </a>
                   </td>
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Organisation
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  >
-                    Test Org
-                  </td>
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  />
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    NaPTAN Adminarea
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  />
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  />
                 </tr>
               </tbody>
             </table>
@@ -421,6 +382,16 @@ exports[`accountSettings > should render correctly 1`] = `
                 </table>
               </div>
             </div>
+            <a
+              className="govuk-button mt-2 govuk-button--secondary"
+              href="/sysadmin/manage-organisations"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+            >
+              Return to Manage Organisations
+            </a>
           </div>
         </div>
       </div>
