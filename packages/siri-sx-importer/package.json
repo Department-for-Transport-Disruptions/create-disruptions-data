@@ -7,14 +7,14 @@
         "test:unit": "vitest",
         "test:updateSnapshots": "vitest -u",
         "typecheck": "tsc -noEmit",
-        "parse-xml": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  index.ts"
+        "import-sirisx": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  index.ts"
     },
     "devDependencies": {
         "@tsconfig/node18": "^1.0.1",
         "@types/aws-lambda": "^8.10.110",
         "@types/jstoxml": "^2.0.2",
         "@types/lambda-log": "^2.2.1",
-        "@types/node": "^18.13.0",
+        "@types/node": "^20.5.6",
         "@types/xml2js": "^0.4.11",
         "aws-sdk-client-mock": "^2.1.0",
         "dayjs": "^1.11.7",
@@ -27,7 +27,9 @@
         "crypto-random-string": "^5.0.0",
         "js2xmlparser": "^5.0.0",
         "lambda-log": "^3.1.0",
+        "node-fetch": "^3.3.2",
         "sst": "^2.0.18",
+        "uuid": "^9.0.0",
         "xml-formatter": "^3.3.0"
     }
 }

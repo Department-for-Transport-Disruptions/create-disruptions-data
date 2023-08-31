@@ -9,6 +9,7 @@ import {
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
+import { orgId } from "@create-disruptions-data/siri-sx-generator/test/testData";
 import dayjs from "dayjs";
 import { z } from "zod";
 
@@ -42,7 +43,14 @@ export const periodSchema = z
     );
 
 export const infoLinkSchema = z.object({
-    Uri: z.string().url(),
+    Uri: z
+        .preprocess((val) => {
+            if (val === "" || undefined) {
+                return null;
+            }
+        }, z.string().url().optional().nullable())
+        .nullable()
+        .optional(),
 });
 
 export const situationElementRefSchema = z.object({
@@ -53,31 +61,36 @@ export const situationElementRefSchema = z.object({
 
 export const transformToArray = <T>(item: T | T[]): T[] => (Array.isArray(item) ? item : [item]);
 export const referenceSchema = z.object({
-    RelatedToRef: z
-        .union([z.array(situationElementRefSchema), situationElementRefSchema])
-        .transform((item) => transformToArray(item)),
+    RelatedToRef: z.preprocess((val) => transformToArray(val), z.array(situationElementRefSchema)),
 });
 
 export const repetitionsSchema = z.object({
-    DayType: z.union([z.array(dayTypeSchema), dayTypeSchema]).transform((item) => transformToArray(item)),
+    DayType: z.preprocess((val) => transformToArray(val), z.array(dayTypeSchema)),
 });
 
 export const infoLinksSchema = z.object({
-    InfoLink: z.union([z.array(infoLinkSchema), infoLinkSchema]).transform((item) => transformToArray(item)),
+    InfoLink: z.preprocess((val) => transformToArray(val), z.array(infoLinkSchema)),
 });
 
 export const affectedOperatorSchema = z.object({
     OperatorRef: z.string(),
-    OperatorName: z.string().optional(),
+    OperatorName: z.string(),
 });
 
 export type Operators = z.infer<typeof operatorsSchema>;
 
 export const operatorsSchema = z.object({
     AllOperators: z.literal("").optional(),
-    AffectedOperator: z
-        .union([z.array(affectedOperatorSchema), affectedOperatorSchema])
-        .transform((item) => transformToArray(item))
+    AffectedOperator: z.preprocess((val) => transformToArray(val), z.array(affectedOperatorSchema)).optional(),
+});
+
+export const affectedLineSchema = z.object({
+    AffectedOperator: z.preprocess((val) => transformToArray(val), z.array(affectedOperatorSchema)).optional(),
+    LineRef: z.string(),
+    Direction: z
+        .object({
+            DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
+        })
         .optional(),
 });
 
@@ -85,24 +98,11 @@ export const networksSchema = z.object({
     AffectedNetwork: z.object({
         VehicleMode: z.nativeEnum(VehicleMode),
         AllLines: z.literal("").optional(),
-        AffectedLine: z
-            .array(
-                z.object({
-                    AffectedOperator: affectedOperatorSchema,
-                    LineRef: z.string(),
-                    Direction: z
-                        .object({
-                            DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
-                        })
-                        .optional(),
-                }),
-            )
-            .optional(),
+        AffectedLine: z.preprocess((val) => transformToArray(val), z.array(affectedLineSchema)).optional(),
     }),
 });
 
 export type AffectedLine = z.infer<typeof affectedLineSchema>;
-export const affectedLineSchema = networksSchema.shape.AffectedNetwork.shape.AffectedLine;
 
 export const affectedStopPointItem = z.object({
     StopPointRef: z.string(),
@@ -121,14 +121,12 @@ export const affectedStopPointItem = z.object({
 export type StopPoints = z.infer<typeof stopPointsSchema>;
 
 export const stopPointsSchema = z.object({
-    AffectedStopPoint: z
-        .union([z.array(affectedStopPointItem), affectedStopPointItem])
-        .transform((item) => transformToArray(item)),
+    AffectedStopPoint: z.preprocess((val) => transformToArray(val), z.array(affectedStopPointItem)),
 });
 
 export const consequenceItem = z.object({
     Condition: z.literal("unknown"),
-    Severity: z.nativeEnum(Severity),
+    Severity: z.preprocess((val) => (val === "undefined" ? Severity.unknown : val), z.nativeEnum(Severity)),
     Affects: z.object({
         Operators: operatorsSchema.optional(),
         Networks: networksSchema.optional(),
@@ -151,18 +149,18 @@ export const consequenceItem = z.object({
 export type Affects = z.infer<typeof affectsSchema>;
 export const affectsSchema = consequenceItem.shape.Affects;
 export const consequenceSchema = z.object({
-    Consequence: z.union([z.array(consequenceItem), consequenceItem]).transform((item) => transformToArray(item)),
+    Consequence: z.preprocess((val) => transformToArray(val), z.array(consequenceItem)),
 });
 
 export const basePtSituationElementSchema = z.object({
     CreationTime: situationElementRefSchema.shape.CreationTime,
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
     SituationNumber: situationElementRefSchema.shape.SituationNumber,
-    Version: z.number().optional(),
+    Version: z.coerce.number().optional(),
     References: referenceSchema.optional(),
     Source: sourceSchema,
     Progress: progressSchema,
-    ValidityPeriod: z.union([z.array(periodSchema), periodSchema]).transform((item) => transformToArray(item)),
+    ValidityPeriod: z.preprocess((val) => transformToArray(val), z.array(periodSchema)),
     Repetitions: repetitionsSchema.optional(),
     PublicationWindow: periodSchema,
 });
@@ -188,21 +186,22 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
             }),
         ),
 );
+
+export type PtSituationElement = z.infer<typeof ptSituationElementSchema>;
+
 export const situationsSchema = z.object({
-    PtSituationElement: z
-        .union([z.array(ptSituationElementSchema), ptSituationElementSchema])
-        .transform((item) => transformToArray(item)),
+    PtSituationElement: z.array(ptSituationElementSchema),
 });
 
 export const situationExchangeDeliverySchema = z.object({
-    ResponseTimestamp: z.string().datetime(),
+    ResponseTimestamp: z.string(),
     Status: z.boolean().optional(),
     ShortestPossibleCycle: z.string().optional(),
     Situations: situationsSchema,
 });
 
 export const serviceDeliverySchema = z.object({
-    ResponseTimestamp: z.string().datetime(),
+    ResponseTimestamp: z.string(),
     ProducerRef: z.string(),
     ResponseMessageIdentifier: z.string(),
     SituationExchangeDelivery: situationExchangeDeliverySchema,
@@ -211,3 +210,24 @@ export const serviceDeliverySchema = z.object({
 export const siriSchema = z.object({
     ServiceDelivery: serviceDeliverySchema,
 });
+
+export const organisationSchema = z
+    .object({
+        PK: z.string(),
+        name: z.string(),
+        mode: z.coerce.string().optional(),
+        adminAreaCodes: z.coerce.string(),
+    })
+    .array();
+
+export type Organisation = z.infer<typeof organisationSchema>;
+
+export type ValidityPeriodItem = {
+    StartTime?: string | Date;
+    EndTime?: string | Date;
+};
+
+export interface DisruptionAndValidityDates {
+    disruptionDatesAndTimes: ValidityPeriodItem;
+    validityDatesAndTimes: ValidityPeriodItem[] | [];
+}
