@@ -20,7 +20,6 @@ export const getOrgIdFromDynamo = async (participantRef: string, tableName: stri
     return !!filteredOrg ? filteredOrg[0].PK : "";
 };
 
-// TODO Deanna turn me into a generic
 const createConsequenceBatches = (items: Consequence[], size = 50) =>
     Array.from({ length: Math.ceil(items.length / size) }, (v, i) => items.slice(i * size, i * size + size));
 
