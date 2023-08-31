@@ -139,8 +139,8 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />
-            <h1 className="govuk-heading-xl">Add an organisation admin</h1>
-            <p className="govuk-body-s">
+            <h1 className="govuk-heading-l">Add an organisation admin</h1>
+            <p className="govuk-body">
                 Users added below will be set up as admins for their respective organisations. They will have the
                 ability to perform all functionality available within the tool, including the ability to set up further
                 admin users on their own and users with lower permission settings.

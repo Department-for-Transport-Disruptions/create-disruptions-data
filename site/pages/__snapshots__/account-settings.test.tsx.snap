@@ -56,13 +56,8 @@ exports[`accountSettings > should render correctly 1`] = `
             <h1
               className="govuk-heading-l"
             >
-              My account
-            </h1>
-            <h2
-              className="govuk-heading-m"
-            >
               Account settings
-            </h2>
+            </h1>
             <table
               className="govuk-table"
             >

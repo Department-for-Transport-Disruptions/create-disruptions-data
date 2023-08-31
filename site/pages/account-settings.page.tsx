@@ -65,8 +65,7 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
     return (
         <TwoThirdsLayout title={title} description={description}>
             <div className="govuk-form-group">
-                <h1 className="govuk-heading-l">My account</h1>
-                <h2 className="govuk-heading-m">Account settings</h2>
+                <h1 className="govuk-heading-l">Account settings</h1>
                 <ErrorSummary errors={errors.filter((err) => err.id !== "modes")} />
                 <Table
                     rows={

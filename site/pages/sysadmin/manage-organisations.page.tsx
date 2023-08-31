@@ -79,8 +79,8 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                     ]}
                 />
             ) : null}
-            <h1 className="govuk-heading-xl">Manage organisations</h1>
-            <p className="govuk-body-s">
+            <h1 className="govuk-heading-l">Manage organisations</h1>
+            <p className="govuk-body">
                 Create, edit and remove organisations who can use the CTDD tool. Assign NaPTAN AdminArea&apos;s per
                 organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as
                 being able to add and remove organisation admin users.
