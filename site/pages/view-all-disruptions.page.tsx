@@ -680,6 +680,9 @@ const ViewAllDisruptions = ({
         });
     };
 
+    const [sortedField, setSortedField] = useState(null);
+    const [sortOrder, setSortOrder] = useState("asc");
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
