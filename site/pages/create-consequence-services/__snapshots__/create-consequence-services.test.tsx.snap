@@ -698,20 +698,22 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onChange={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1714,20 +1716,22 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onChange={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -2664,19 +2668,21 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onChange={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -3679,20 +3685,22 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onChange={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
