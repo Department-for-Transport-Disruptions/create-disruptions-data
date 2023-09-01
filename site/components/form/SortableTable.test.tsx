@@ -39,7 +39,7 @@ const defaultData: RandomTable[] = [
             <Link
                 className="govuk-link"
                 href={{
-                    pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${randomUUID()}`,
+                    pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
                     query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
                 key="key-1"

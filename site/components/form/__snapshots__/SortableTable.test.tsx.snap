@@ -81,7 +81,7 @@ exports[`SortableTable > should render correctly 1`] = `
       >
         <a
           className="govuk-link"
-          href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+          href="/disruption-detail/id?return=%2Fview-all-disruptions"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
@@ -304,7 +304,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -432,7 +432,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -560,7 +560,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -821,7 +821,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -949,7 +949,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1077,7 +1077,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/1c42180b-7514-46da-a848-e727b7e531a1?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
