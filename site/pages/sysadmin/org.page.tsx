@@ -10,7 +10,7 @@ import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_ORG_ERRORS, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../constants";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { AdminArea, fetchAdminAreas } from "../../data/refDataApi";
-import { DisplayValuePair, PageState } from "../../interfaces";
+import { PageState } from "../../interfaces";
 import { AreaCodeValuePair, Organisation, organisationSchema } from "../../schemas/organisation.schema";
 import { notEmpty } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
@@ -22,7 +22,7 @@ const description = "Manage organisations page for the Create Transport Disrupti
 
 export interface ManageOrgProps extends Organisation {
     adminAreas: AdminArea[];
-    orgAdminAreas: DisplayValuePair<string>[];
+    orgAdminAreas: AdminArea[];
 }
 
 const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => {
@@ -37,16 +37,17 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
             (!pageState.inputs.adminAreaCodes ||
                 !pageState.inputs.adminAreaCodes.some((data) => data === adminArea.value))
         ) {
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    orgAdminAreas: [
-                        ...(pageState.inputs.orgAdminAreas || []),
-                        { display: adminArea.label, value: adminArea.value },
-                    ],
-                },
-            });
+            const areaToAdd = props.inputs.adminAreas?.find((area) => area.administrativeAreaCode === adminArea.value);
+
+            if (areaToAdd) {
+                setPageState({
+                    ...pageState,
+                    inputs: {
+                        ...pageState.inputs,
+                        orgAdminAreas: [...(pageState.inputs.orgAdminAreas || []), areaToAdd],
+                    },
+                });
+            }
         }
         setSelected(null);
     };
@@ -71,10 +72,10 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
         if (pageState.inputs.orgAdminAreas) {
             return pageState.inputs.orgAdminAreas.map((area, i) => ({
                 cells: [
-                    area.display,
+                    `${area.administrativeAreaCode} - ${area.name}`,
                     <button
-                        id={`remove-stop-${area.value}`}
-                        key={`remove-stop-${area.value}`}
+                        id={`remove-stop-${area.administrativeAreaCode}`}
+                        key={`remove-stop-${area.administrativeAreaCode}`}
                         className="govuk-link"
                         onClick={(e) => removeCode(e, i)}
                     >
@@ -110,7 +111,7 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
                     tableData={[]}
                     getRows={getRows}
                     getOptionValue={undefined}
-                    display="NaPTAN Admin Area"
+                    display="NaPTAN AdminArea"
                     displaySize="s"
                     inputId="adminAreaCodes"
                     inputValue={searchInput}
@@ -127,7 +128,7 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
                 <input
                     type="hidden"
                     name="adminAreaCodes"
-                    value={pageState.inputs.orgAdminAreas?.map((area) => area.value) ?? []}
+                    value={pageState.inputs.orgAdminAreas?.map((area) => area.administrativeAreaCode) ?? []}
                 />
                 <input type="hidden" name="mode" value={JSON.stringify(pageState.inputs.mode)} />
                 <button className="govuk-button mt-2" data-module="govuk-button">
@@ -169,9 +170,9 @@ export const getServerSideProps = async (
     const orgId = ctx.query.orgId?.toString();
 
     const [orgInfo, adminAreas] = await Promise.all([orgId ? getOrganisationInfoById(orgId) : null, fetchAdminAreas()]);
-    const orgAdminAreas: DisplayValuePair<string>[] =
+    const orgAdminAreas: AdminArea[] =
         orgInfo?.adminAreaCodes
-            .map((code): DisplayValuePair<string> | null => {
+            .map((code): AdminArea | null => {
                 const adminArea = adminAreas.find((area) => area.administrativeAreaCode === code);
 
                 if (!adminArea) {
@@ -179,8 +180,9 @@ export const getServerSideProps = async (
                 }
 
                 return {
-                    display: `${adminArea.administrativeAreaCode} - ${adminArea.name}`,
-                    value: adminArea.administrativeAreaCode,
+                    administrativeAreaCode: adminArea.administrativeAreaCode,
+                    name: adminArea.name,
+                    shortName: adminArea.shortName,
                 };
             })
             .filter(notEmpty) ?? [];

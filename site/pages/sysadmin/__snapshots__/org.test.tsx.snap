@@ -149,7 +149,7 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
                             autoCorrect="off"
                             className=""
                             disabled={false}
-                            id="dropdown-adminAreaCodes-value"
+                            id="adminAreaCodes-input"
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
@@ -596,7 +596,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                             autoCorrect="off"
                             className=""
                             disabled={false}
-                            id="dropdown-adminAreaCodes-value"
+                            id="adminAreaCodes-input"
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
@@ -672,7 +672,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
-                        001
+                        001 - Area 1
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -692,7 +692,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
-                        002
+                        002 - Area 2
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "

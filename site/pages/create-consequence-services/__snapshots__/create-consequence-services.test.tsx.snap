@@ -256,7 +256,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-service-value"
+                          id="services-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -417,7 +417,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1307,7 +1307,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-service-value"
+                          id="services-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1468,7 +1468,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2326,7 +2326,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-service-value"
+                          id="services-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2461,7 +2461,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -3276,7 +3276,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-service-value"
+                          id="services-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -3437,7 +3437,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}

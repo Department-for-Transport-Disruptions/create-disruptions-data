@@ -261,7 +261,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
-            if (val.disruptionEndDate && val.disruptionEndTime) {
+            if (val.disruptionEndDate && val.disruptionEndTime && val.disruptionStartDate && val.disruptionStartTime) {
                 return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
                 );
@@ -297,7 +297,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
-            if (val.publishEndDate && val.publishEndTime) {
+            if (val.publishEndDate && val.publishEndTime && val.publishStartDate && val.publishStartTime) {
                 return getDatetimeFromDateAndTime(val.publishEndDate, val.publishEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.publishStartDate, val.publishStartTime),
                 );
@@ -426,6 +426,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "daily" &&
                 val.disruptionRepeatsEndDate &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
                 )
@@ -445,6 +447,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "weekly" &&
                 val.disruptionRepeatsEndDate &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
                 )
@@ -465,6 +469,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 val.disruptionEndDate &&
                 val.disruptionEndTime &&
                 val.disruptionRepeats === "daily" &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(24, "hours"),
                 )
@@ -484,6 +490,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
                 val.disruptionEndTime &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 val.disruptionRepeats === "weekly" &&
                 getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(7, "day"),
