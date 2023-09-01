@@ -476,7 +476,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -502,7 +504,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -632,7 +634,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -658,7 +662,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -724,7 +728,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -814,7 +818,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -840,7 +846,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -970,7 +976,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -996,7 +1004,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -1062,7 +1070,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -1198,7 +1206,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
@@ -1317,7 +1325,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
@@ -2020,7 +2028,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2046,7 +2056,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -2173,7 +2183,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2199,7 +2211,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -2262,7 +2274,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2352,7 +2364,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2378,7 +2392,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -2505,7 +2519,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2531,7 +2547,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -2594,7 +2610,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -2730,7 +2746,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
@@ -2846,7 +2862,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
@@ -3606,7 +3622,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3632,7 +3650,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -3759,7 +3777,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3785,7 +3805,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -3848,7 +3868,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3938,7 +3958,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3964,7 +3986,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -4091,7 +4113,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -4117,7 +4141,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                       >
                         <div
                           className=""
@@ -4180,7 +4204,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -4316,7 +4340,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
@@ -4432,7 +4456,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]"
                               >
                                 <div
                                   className=""
