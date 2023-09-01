@@ -161,6 +161,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -572,6 +573,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -958,6 +960,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1336,6 +1339,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1723,6 +1727,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2059,6 +2064,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2445,6 +2451,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2823,6 +2830,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}

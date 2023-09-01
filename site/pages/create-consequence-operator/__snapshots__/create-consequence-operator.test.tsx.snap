@@ -125,6 +125,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -481,6 +482,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -868,6 +870,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1195,6 +1198,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1581,6 +1585,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1937,6 +1942,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
