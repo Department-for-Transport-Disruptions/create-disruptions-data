@@ -33,7 +33,7 @@ const inputBox = <T extends object>(
     disabled: boolean,
 ) => (
     <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
-        <div className="govuk-date-input__item govuk-!-margin-right-0 min-w-[235px]">
+        <div className="govuk-date-input__item govuk-!-margin-right-0]">
             <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
                     className="govuk-input govuk-date-input__input govuk-input--width-6"
