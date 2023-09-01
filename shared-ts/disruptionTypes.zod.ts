@@ -12,8 +12,8 @@ import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./ut
 import { setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
-    disruptionStartDate: zodDate("Enter a start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a start time for the disruption"),
+    disruptionStartDate: zodDate("Enter a start date"),
+    disruptionStartTime: zodTime("Enter a start time"),
     disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
@@ -228,12 +228,12 @@ export const disruptionInfoSchema = z.object({
         [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
         setZodDefaultError("Select a reason from the dropdown"),
     ),
-    publishStartDate: zodDate("Enter a publish start date for the disruption"),
-    publishStartTime: zodTime("Enter a publish start time for the disruption"),
+    publishStartDate: zodDate("Enter publication start date"),
+    publishStartTime: zodTime("Enter publication start time"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
-    disruptionStartDate: zodDate("Enter a validity start date for the disruption"),
-    disruptionStartTime: zodTime("Enter a validity start time for the disruption"),
+    disruptionStartDate: zodDate("Enter a start date"),
+    disruptionStartTime: zodTime("Enter a start time"),
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
@@ -261,7 +261,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
-            if (val.disruptionEndDate && val.disruptionEndTime) {
+            if (val.disruptionEndDate && val.disruptionEndTime && val.disruptionStartDate && val.disruptionStartTime) {
                 return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
                 );
@@ -271,7 +271,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["disruptionEndDate"],
-            message: "Disruption end datetime must be after start datetime",
+            message: "Disruption end date/time must be after start date/time",
         },
     )
     .refine(
@@ -297,7 +297,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
-            if (val.publishEndDate && val.publishEndTime) {
+            if (val.publishEndDate && val.publishEndTime && val.publishStartDate && val.publishStartTime) {
                 return getDatetimeFromDateAndTime(val.publishEndDate, val.publishEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.publishStartDate, val.publishStartTime),
                 );
@@ -307,7 +307,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndDate"],
-            message: "Publish end datetime must be after start datetime",
+            message: "Publication end date/time must be after publication start date/time",
         },
     )
     .refine(
@@ -320,7 +320,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndDate"],
-            message: "Enter an end date for the disruption",
+            message: "Enter publication end date",
         },
     )
     .refine(
@@ -333,7 +333,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
         },
         {
             path: ["publishEndTime"],
-            message: "Enter an end time for the disruption",
+            message: "Enter publication end time",
         },
     )
     .refine(
@@ -426,6 +426,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "daily" &&
                 val.disruptionRepeatsEndDate &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
                 )
@@ -445,6 +447,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "weekly" &&
                 val.disruptionRepeatsEndDate &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getFormattedDate(val.disruptionRepeatsEndDate).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(365, "day"),
                 )
@@ -465,6 +469,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 val.disruptionEndDate &&
                 val.disruptionEndTime &&
                 val.disruptionRepeats === "daily" &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(24, "hours"),
                 )
@@ -484,6 +490,8 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
                 val.disruptionEndTime &&
+                val.disruptionStartDate &&
+                val.disruptionStartTime &&
                 val.disruptionRepeats === "weekly" &&
                 getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isSameOrAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime).add(7, "day"),
@@ -607,6 +615,11 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 disruptionRepeatsEndDate,
             },
         ];
+
+        // This is to address a bug with zod where super refines still run if there is an error within a regex check
+        if (!disruptionStartDate || !disruptionStartTime || !publishStartDate || !publishStartTime) {
+            return;
+        }
 
         const sortedValidity = combinedValidity.sort((a, b) => {
             return getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime).isBefore(
@@ -754,7 +767,12 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
-        consequences: z.array(consequenceSchema).optional(),
+        consequences: z
+            .array(consequenceSchema)
+            .max(10, {
+                message: "Only up to 10 consequences can be added",
+            })
+            .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
     }),
 );

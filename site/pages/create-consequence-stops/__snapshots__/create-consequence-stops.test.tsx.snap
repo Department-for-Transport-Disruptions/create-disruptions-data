@@ -161,7 +161,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -251,7 +250,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -414,7 +413,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -475,7 +474,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -496,7 +494,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -534,20 +531,22 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -573,7 +572,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -960,7 +958,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1050,7 +1047,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1203,7 +1200,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1241,7 +1238,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1262,7 +1258,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1300,20 +1295,22 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1339,7 +1336,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1727,7 +1723,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1817,7 +1812,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1918,7 +1913,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1967,7 +1962,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1988,7 +1982,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -2026,19 +2019,21 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -2064,7 +2059,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2451,7 +2445,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2541,7 +2534,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2694,7 +2687,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -2732,7 +2725,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -2753,7 +2745,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -2791,20 +2782,22 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="45"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="45"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -2830,7 +2823,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}

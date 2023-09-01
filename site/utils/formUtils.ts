@@ -1,37 +1,10 @@
 import { ConsequenceOperators, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
-import { Dispatch, SetStateAction } from "react";
-import { z } from "zod";
-import { ErrorInfo, PageState } from "../interfaces";
+import { SetStateAction } from "react";
+import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
-
-export const handleBlur = <T>(
-    input: string,
-    inputName: Extract<keyof T, string>,
-    stateUpdater: (change: string, field: keyof T) => void,
-    setErrors: Dispatch<SetStateAction<ErrorInfo[]>>,
-    schema?: z.ZodTypeAny,
-    disabled?: boolean,
-) => {
-    stateUpdater(input, inputName);
-
-    if (schema && !disabled) {
-        const parsed = schema.safeParse(input);
-
-        if (parsed.success === false) {
-            setErrors([
-                {
-                    id: inputName,
-                    errorMessage: parsed.error.errors[0].message,
-                },
-            ]);
-        } else {
-            setErrors([]);
-        }
-    }
-};
 
 export const getStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>

@@ -125,7 +125,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -186,7 +185,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -224,7 +223,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -245,7 +243,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -283,20 +280,22 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="yes"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="yes"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -322,7 +321,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -710,7 +708,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -770,7 +767,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -819,7 +816,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -840,7 +836,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -878,19 +873,21 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -916,7 +913,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1303,7 +1299,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1364,7 +1359,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   id="description-input"
                   maxLength={500}
                   name="description"
-                  onBlur={[Function]}
+                  onChange={[Function]}
                   rows={3}
                 />
               </div>
@@ -1402,7 +1397,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                       defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="yes"
@@ -1423,7 +1417,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                       defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onBlur={[Function]}
                       onChange={[Function]}
                       type="radio"
                       value="no"
@@ -1461,20 +1454,22 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               <div
                 className=""
               >
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="disruption-delay-hint"
-                    className="govuk-input govuk-date-input__input govuk-input--width-4"
-                    defaultValue="yes"
-                    disabled={false}
-                    id="disruption-delay-input"
-                    name="disruptionDelay"
-                    onBlur={[Function]}
-                    placeholder=""
-                    type="text"
-                  />
+                <div>
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="yes"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1500,7 +1495,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onBlur={[Function]}
                 >
                   <option
                     disabled={true}

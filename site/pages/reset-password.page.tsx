@@ -9,7 +9,7 @@ import TextInput from "../components/form/TextInput";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { COOKIES_RESET_PASSWORD_ERRORS, LOGIN_PAGE_PATH, MIN_PASSWORD_LENGTH } from "../constants";
 import { PageState } from "../interfaces";
-import { resetPasswordSchema, ResetPasswordSchema, resetPasswordSchemaRefined } from "../schemas/reset-password.schema";
+import { ResetPasswordSchema, resetPasswordSchemaRefined } from "../schemas/reset-password.schema";
 import { redirectTo } from "../utils";
 import { getPageState } from "../utils/apiUtils";
 import { getStateUpdater } from "../utils/formUtils";
@@ -55,7 +55,6 @@ const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.newPassword}
                                 initialErrors={pageState.errors}
-                                schema={resetPasswordSchema.shape.newPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
@@ -68,7 +67,6 @@ const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.confirmPassword}
                                 initialErrors={pageState.errors}
-                                schema={resetPasswordSchema.shape.confirmPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword

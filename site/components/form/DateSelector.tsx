@@ -7,11 +7,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import kebabCase from "lodash/kebabCase";
 import React, { ReactElement, useEffect, useState } from "react";
-import { z } from "zod";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { convertDateTimeToFormat } from "../../utils/dates";
-import { handleBlur } from "../../utils/formUtils";
 
 interface DateSelectorProps<T> extends FormBase<T> {
     disabled: boolean;
@@ -21,7 +19,6 @@ interface DateSelectorProps<T> extends FormBase<T> {
     };
     disablePast: boolean;
     reset?: boolean;
-    errorOnBlur?: boolean;
     suffixId?: string;
     resetError?: boolean;
 }
@@ -34,12 +31,8 @@ const inputBox = <T extends object>(
     inputName: Extract<keyof T, string>,
     errors: ErrorInfo[],
     disabled: boolean,
-    stateUpdater: (change: string, field: keyof T) => void,
-    setErrors: React.Dispatch<React.SetStateAction<ErrorInfo[]>>,
-    schema?: z.ZodTypeAny,
-    errorOnBlur?: boolean,
 ) => (
-    <div className="govuk-date-input flex items-center [&_.MuiSvgIcon-root]:fill-govBlue">
+    <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
             <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
@@ -51,15 +44,10 @@ const inputBox = <T extends object>(
                     {...inputProps}
                     disabled={disabled}
                     placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                    onBlur={
-                        errorOnBlur
-                            ? (e) => handleBlur(e.target.value, inputName, stateUpdater, setErrors, schema, disabled)
-                            : undefined
-                    }
                 />
             </FormElementWrapper>
         </div>
-        {InputProps?.endAdornment}
+        <div className="flex items-end pb-5">{InputProps?.endAdornment}</div>
     </div>
 );
 
@@ -88,9 +76,7 @@ const DateSelector = <T extends object>({
     hint,
     disablePast,
     stateUpdater,
-    schema,
     reset = false,
-    errorOnBlur = true,
     suffixId,
     resetError = false,
 }: DateSelectorProps<T>): ReactElement => {
@@ -114,9 +100,7 @@ const DateSelector = <T extends object>({
     }, [resetError]);
 
     useEffect(() => {
-        if (value) {
-            setDateValue(getFormattedDate(value).toDate());
-        }
+        setDateValue(value ? getFormattedDate(value).toDate() : null);
     }, [value]);
 
     useEffect(() => {
@@ -133,40 +117,30 @@ const DateSelector = <T extends object>({
                 {hint ? (
                     <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
                 ) : null}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        renderDay={renderWeekPickerDay}
-                        value={dateValue}
-                        onChange={(newValue) => {
-                            setDateValue(newValue);
-                            if (newValue) {
-                                stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
-                            } else {
-                                stateUpdater("", inputName);
-                            }
-                        }}
-                        onAccept={() => setErrors([])}
-                        renderInput={({ inputRef, inputProps, InputProps }) => {
-                            return inputBox(
-                                inputRef,
-                                inputProps,
-                                InputProps,
-                                inputId,
-                                inputName,
-                                errors,
-                                disabled,
-                                stateUpdater,
-                                setErrors,
-                                schema,
-                                errorOnBlur,
-                            );
-                        }}
-                        disablePast={disablePast}
-                        inputFormat="DD/MM/YYYY"
-                        disabled={disabled}
-                        aria-describedby={hint ? `${inputName}-hint` : undefined}
-                    />
-                </LocalizationProvider>
+                <div className="flex flex-col">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            renderDay={renderWeekPickerDay}
+                            value={dateValue}
+                            onChange={(newValue) => {
+                                setDateValue(newValue);
+                                if (newValue) {
+                                    stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
+                                } else {
+                                    stateUpdater("", inputName);
+                                }
+                            }}
+                            onAccept={() => setErrors([])}
+                            renderInput={({ inputRef, inputProps, InputProps }) => {
+                                return inputBox(inputRef, inputProps, InputProps, inputId, inputName, errors, disabled);
+                            }}
+                            disablePast={disablePast}
+                            inputFormat="DD/MM/YYYY"
+                            disabled={disabled}
+                            aria-describedby={hint ? `${inputName}-hint` : undefined}
+                        />
+                    </LocalizationProvider>
+                </div>
             </div>
         </FormGroupWrapper>
     );

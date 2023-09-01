@@ -45,10 +45,15 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        className="govuk-heading-l"
       >
-        Add new user
+        Add an organisation admin
       </h1>
+      <p
+        className="govuk-body"
+      >
+        Users added below will be set up as admins for their respective organisations. They will have the ability to perform all functionality available within the tool, including the ability to set up further admin users on their own and users with lower permission settings.
+      </p>
       <form
         action="/api/sysadmin/users"
         method="post"
@@ -79,7 +84,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 id="given-name-input"
                 maxLength={100}
                 name="givenName"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -106,7 +111,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 id="family-name-input"
                 maxLength={100}
                 name="familyName"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -133,7 +138,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 id="email-input"
                 maxLength={100}
                 name="email"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -187,6 +192,12 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 scope="col"
               >
                 Action
+              </th>
+              <th
+                className="govuk-table__header align-middle px-2"
+                scope="col"
+              >
+                Status
               </th>
             </tr>
           </thead>
@@ -432,10 +443,15 @@ exports[`addUser > should render correctly with inputs 1`] = `
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        className="govuk-heading-l"
       >
-        Add new user
+        Add an organisation admin
       </h1>
+      <p
+        className="govuk-body"
+      >
+        Users added below will be set up as admins for their respective organisations. They will have the ability to perform all functionality available within the tool, including the ability to set up further admin users on their own and users with lower permission settings.
+      </p>
       <form
         action="/api/sysadmin/users"
         method="post"
@@ -467,7 +483,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 id="given-name-input"
                 maxLength={100}
                 name="givenName"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -495,7 +511,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 id="family-name-input"
                 maxLength={100}
                 name="familyName"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -523,7 +539,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 id="email-input"
                 maxLength={100}
                 name="email"
-                onBlur={[Function]}
+                onChange={[Function]}
                 type="text"
               />
             </div>
@@ -578,6 +594,12 @@ exports[`addUser > should render correctly with inputs 1`] = `
               >
                 Action
               </th>
+              <th
+                className="govuk-table__header align-middle px-2"
+                scope="col"
+              >
+                Status
+              </th>
             </tr>
           </thead>
           <tbody
@@ -618,6 +640,11 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   Remove
                 </button>
               </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Registered
+              </td>
             </tr>
             <tr
               className="govuk-table__row"
@@ -653,6 +680,11 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 >
                   Remove
                 </button>
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Registered
               </td>
             </tr>
           </tbody>

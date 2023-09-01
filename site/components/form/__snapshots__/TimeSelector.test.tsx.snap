@@ -17,20 +17,22 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
     <div
       className=""
     >
-      <div
-        className=""
-      >
-        <input
-          aria-describedby=""
-          className="govuk-input govuk-date-input__input govuk-input--width-4"
-          defaultValue="three thirty"
-          disabled={true}
-          id="field-1-input"
-          name="field1"
-          onBlur={[Function]}
-          placeholder="N/A"
-          type="text"
-        />
+      <div>
+        <div
+          className=""
+        >
+          <input
+            aria-describedby=""
+            className="govuk-input govuk-date-input__input govuk-input--width-4"
+            defaultValue="three thirty"
+            disabled={true}
+            id="field-1-input"
+            name="field1"
+            onChange={[Function]}
+            placeholder="N/A"
+            type="text"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -60,20 +62,22 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
     <div
       className=""
     >
-      <div
-        className=""
-      >
-        <input
-          aria-describedby="field-1-hint"
-          className="govuk-input govuk-date-input__input govuk-input--width-4"
-          defaultValue="three thirty"
-          disabled={false}
-          id="field-1-input"
-          name="field1"
-          onBlur={[Function]}
-          placeholder="hhmm"
-          type="text"
-        />
+      <div>
+        <div
+          className=""
+        >
+          <input
+            aria-describedby="field-1-hint"
+            className="govuk-input govuk-date-input__input govuk-input--width-4"
+            defaultValue="three thirty"
+            disabled={false}
+            id="field-1-input"
+            name="field1"
+            onChange={[Function]}
+            placeholder="hhmm"
+            type="text"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -97,20 +101,22 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
     <div
       className=""
     >
-      <div
-        className=""
-      >
-        <input
-          aria-describedby=""
-          className="govuk-input govuk-date-input__input govuk-input--width-4"
-          defaultValue="0900"
-          disabled={false}
-          id="field-1-input"
-          name="field1"
-          onBlur={[Function]}
-          placeholder="hhmm"
-          type="text"
-        />
+      <div>
+        <div
+          className=""
+        >
+          <input
+            aria-describedby=""
+            className="govuk-input govuk-date-input__input govuk-input--width-4"
+            defaultValue="0900"
+            disabled={false}
+            id="field-1-input"
+            name="field1"
+            onChange={[Function]}
+            placeholder="hhmm"
+            type="text"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -134,20 +140,22 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
     <div
       className=""
     >
-      <div
-        className=""
-      >
-        <input
-          aria-describedby=""
-          className="govuk-input govuk-date-input__input govuk-input--width-4"
-          defaultValue=""
-          disabled={false}
-          id="field-1-input"
-          name="field1"
-          onBlur={[Function]}
-          placeholder="hhmm"
-          type="text"
-        />
+      <div>
+        <div
+          className=""
+        >
+          <input
+            aria-describedby=""
+            className="govuk-input govuk-date-input__input govuk-input--width-4"
+            defaultValue=""
+            disabled={false}
+            id="field-1-input"
+            name="field1"
+            onChange={[Function]}
+            placeholder="hhmm"
+            type="text"
+          />
+        </div>
       </div>
     </div>
   </div>

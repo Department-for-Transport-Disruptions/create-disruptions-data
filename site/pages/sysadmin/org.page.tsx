@@ -3,16 +3,16 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useState } from "react";
 import { SingleValue } from "react-select";
-import { z } from "zod";
 import CsrfForm from "../../components/form/CsrfForm";
 import SearchSelect from "../../components/form/SearchSelect";
 import TextInput from "../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_ORG_ERRORS, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../constants";
 import { getOrganisationInfoById } from "../../data/dynamo";
-import { fetchAdminAreaCodes } from "../../data/refDataApi";
+import { AdminArea, fetchAdminAreas } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
-import { Organisation, organisationSchema, areaCodeSchema, AreaCodeValuePair } from "../../schemas/organisation.schema";
+import { AreaCodeValuePair, Organisation, organisationSchema } from "../../schemas/organisation.schema";
+import { notEmpty } from "../../utils";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -21,7 +21,8 @@ const title = "Manage organisations - Create Transport Disruptions Service";
 const description = "Manage organisations page for the Create Transport Disruptions Service";
 
 export interface ManageOrgProps extends Organisation {
-    areaCodesDisplay: AreaCodeValuePair[];
+    adminAreas: AdminArea[];
+    orgAdminAreas: AdminArea[];
 }
 
 const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => {
@@ -30,46 +31,51 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
     const [searchInput, setSearchInput] = useState("");
     const [selected, setSelected] = useState<SingleValue<AreaCodeValuePair>>(null);
 
-    const handleChange = (code: SingleValue<AreaCodeValuePair>) => {
+    const handleChange = (adminArea: SingleValue<AreaCodeValuePair>) => {
         if (
-            code &&
-            (!pageState.inputs.adminAreaCodes || !pageState.inputs.adminAreaCodes.some((data) => data === code.value))
+            adminArea &&
+            (!pageState.inputs.adminAreaCodes ||
+                !pageState.inputs.adminAreaCodes.some((data) => data === adminArea.value))
         ) {
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    adminAreaCodes: [...(pageState.inputs.adminAreaCodes ?? []), code.value].sort(),
-                },
-            });
+            const areaToAdd = props.inputs.adminAreas?.find((area) => area.administrativeAreaCode === adminArea.value);
+
+            if (areaToAdd) {
+                setPageState({
+                    ...pageState,
+                    inputs: {
+                        ...pageState.inputs,
+                        orgAdminAreas: [...(pageState.inputs.orgAdminAreas || []), areaToAdd],
+                    },
+                });
+            }
         }
         setSelected(null);
     };
 
     const removeCode = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.adminAreaCodes) {
-            const codes = pageState.inputs.adminAreaCodes;
-            codes.splice(index, 1);
+        if (pageState.inputs.orgAdminAreas) {
+            const orgAdminAreas = pageState.inputs.orgAdminAreas;
+            orgAdminAreas.splice(index, 1);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    adminAreaCodes: codes,
+                    orgAdminAreas: [...orgAdminAreas],
                 },
             });
         }
     };
 
     const getRows = () => {
-        if (pageState.inputs.adminAreaCodes) {
-            return pageState.inputs.adminAreaCodes.map((code, i) => ({
+        if (pageState.inputs.orgAdminAreas) {
+            return pageState.inputs.orgAdminAreas.map((area, i) => ({
                 cells: [
-                    code,
+                    `${area.administrativeAreaCode} - ${area.name}`,
                     <button
-                        id={`remove-stop-${code}`}
-                        key={`remove-stop-${code}`}
+                        id={`remove-stop-${area.administrativeAreaCode}`}
+                        key={`remove-stop-${area.administrativeAreaCode}`}
                         className="govuk-link"
                         onClick={(e) => removeCode(e, i)}
                     >
@@ -111,12 +117,19 @@ const ManageOrgs = (props: PageState<Partial<ManageOrgProps>>): ReactElement => 
                     inputValue={searchInput}
                     setSearchInput={setSearchInput}
                     isClearable
-                    options={pageState.inputs.areaCodesDisplay}
+                    options={pageState.inputs.adminAreas?.map((area) => ({
+                        label: `${area.administrativeAreaCode} - ${area.name}`,
+                        value: area.administrativeAreaCode,
+                    }))}
                     width="100%"
                 />
 
                 <input type="hidden" name="PK" value={pageState.inputs.PK} />
-                <input type="hidden" name="adminAreaCodes" value={pageState.inputs.adminAreaCodes ?? []} />
+                <input
+                    type="hidden"
+                    name="adminAreaCodes"
+                    value={pageState.inputs.orgAdminAreas?.map((area) => area.administrativeAreaCode) ?? []}
+                />
                 <input type="hidden" name="mode" value={JSON.stringify(pageState.inputs.mode)} />
                 <button className="govuk-button mt-2" data-module="govuk-button">
                     {pageState.inputs.PK ? "Update" : "Add"}
@@ -156,10 +169,23 @@ export const getServerSideProps = async (
 
     const orgId = ctx.query.orgId?.toString();
 
-    const [orgInfo, areaCodes] = await Promise.all([
-        orgId ? getOrganisationInfoById(orgId) : null,
-        fetchAdminAreaCodes(),
-    ]);
+    const [orgInfo, adminAreas] = await Promise.all([orgId ? getOrganisationInfoById(orgId) : null, fetchAdminAreas()]);
+    const orgAdminAreas: AdminArea[] =
+        orgInfo?.adminAreaCodes
+            .map((code): AdminArea | null => {
+                const adminArea = adminAreas.find((area) => area.administrativeAreaCode === code);
+
+                if (!adminArea) {
+                    return null;
+                }
+
+                return {
+                    administrativeAreaCode: adminArea.administrativeAreaCode,
+                    name: adminArea.name,
+                    shortName: adminArea.shortName,
+                };
+            })
+            .filter(notEmpty) ?? [];
 
     let pageState: PageState<Partial<Organisation>> = {
         errors: [],
@@ -172,11 +198,10 @@ export const getServerSideProps = async (
         pageState.inputs = orgInfo;
     }
 
-    const parsedCodes = z.array(areaCodeSchema).safeParse(areaCodes);
     return {
         props: {
             ...pageState,
-            inputs: { ...pageState.inputs, areaCodesDisplay: parsedCodes.success ? parsedCodes.data : [] },
+            inputs: { ...pageState.inputs, adminAreas, orgAdminAreas },
         },
     };
 };

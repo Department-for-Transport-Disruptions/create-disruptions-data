@@ -210,6 +210,17 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
         });
     };
 
+    const handleStartDateNow = (e: SyntheticEvent) => {
+        e.preventDefault();
+        const dateTime = new Date();
+
+        setValidity({
+            ...validity,
+            disruptionStartDate: convertDateTimeToFormat(dateTime, "DD/MM/YYYY"),
+            disruptionStartTime: convertDateTimeToFormat(dateTime, "HHmm"),
+        });
+    };
+
     const getEndingDateDisplay = () => {
         return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
             ? `The validity period ends on ${getEndingOnDateText(
@@ -255,7 +266,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.summary}
                             initialErrors={pageState.errors}
-                            schema={disruptionInfoSchema.shape.summary}
                         />
 
                         <TextInput<DisruptionInfo>
@@ -268,7 +278,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
-                            schema={disruptionInfoSchema.shape.description}
                         />
 
                         <TextInput<DisruptionInfo>
@@ -278,7 +287,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             maxLength={250}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.associatedLink}
-                            schema={disruptionInfoSchema.shape.associatedLink}
                         />
 
                         <Select<DisruptionInfo>
@@ -289,7 +297,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.disruptionReason}
                             initialErrors={pageState.errors}
-                            schema={disruptionInfoSchema.shape.disruptionReason}
                         />
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
@@ -326,10 +333,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    schema={validitySchema.shape.disruptionStartDate}
                                 />
                             </div>
-                            <div className="pl-4">
+                            <div className="pl-4 flex flex-col justify-end">
                                 <TimeSelector<Validity>
                                     display="Start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -339,7 +345,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    schema={validitySchema.shape.disruptionStartTime}
+                                    showNowButton={handleStartDateNow}
                                 />
                             </div>
                         </div>
@@ -355,10 +361,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    schema={validitySchema.shape.disruptionEndDate}
                                 />
                             </div>
-                            <div className="pl-5">
+                            <div className="pl-5 flex flex-col justify-end">
                                 <TimeSelector<Validity>
                                     display="End time"
                                     value={validity.disruptionEndTime}
@@ -367,7 +372,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    schema={validitySchema.shape.disruptionEndTime}
                                 />
                             </div>
                         </div>
@@ -386,7 +390,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             stateUpdater={validityStateUpdater}
                             initialErrors={pageState.errors}
                             reset={addValidityClicked}
-                            schema={validitySchema.shape.disruptionNoEndDateTime}
                         />
 
                         <div className="flex pb-8">
@@ -396,7 +399,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                     value={
                                         pageState.inputs.publishStartDate ||
-                                        validity.disruptionRepeats !== "doesntRepeat"
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishStartDate")
                                             ? pageState.inputs.publishStartDate
                                             : validity.disruptionStartDate
                                     }
@@ -405,23 +409,16 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={disruptionInfoSchema.shape.publishStartDate}
-                                    resetError={
-                                        (!pageState.inputs.publishStartDate &&
-                                            !!validity.disruptionStartDate &&
-                                            validity.disruptionRepeats === "doesntRepeat") ||
-                                        pageState.inputs.publishStartDate ===
-                                            convertDateTimeToFormat(new Date(), "DD/MM/YYYY")
-                                    }
                                 />
                             </div>
-                            <div className="pl-4">
+                            <div className="pl-4 flex flex-col justify-end">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                                     value={
                                         pageState.inputs.publishStartTime ||
-                                        validity.disruptionRepeats !== "doesntRepeat"
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishStartTime")
                                             ? pageState.inputs.publishStartTime
                                             : validity.disruptionStartTime
                                     }
@@ -429,14 +426,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={disruptionInfoSchema.shape.publishStartTime}
-                                    resetError={
-                                        (!pageState.inputs.publishStartTime &&
-                                            !!validity.disruptionStartTime &&
-                                            validity.disruptionRepeats === "doesntRepeat") ||
-                                        pageState.inputs.publishStartTime ===
-                                            convertDateTimeToFormat(new Date(), "HHmm")
-                                    }
                                     showNowButton={handleNow}
                                 />
                             </div>
@@ -448,7 +437,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     display="Publication end date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                     value={
-                                        pageState.inputs.publishEndDate || validity.disruptionRepeats !== "doesntRepeat"
+                                        pageState.inputs.publishEndDate ||
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishEndDate")
                                             ? pageState.inputs.publishEndDate
                                             : validity.disruptionEndDate
                                     }
@@ -457,14 +448,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={disruptionInfoSchema.shape.publishEndDate}
                                 />
                             </div>
-                            <div className="pl-5">
+                            <div className="pl-5 flex flex-col justify-end">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication end time"
                                     value={
-                                        pageState.inputs.publishEndTime || validity.disruptionRepeats !== "doesntRepeat"
+                                        pageState.inputs.publishEndTime ||
+                                        validity.disruptionRepeats !== "doesntRepeat" ||
+                                        !!pageState.errors.find((error) => error.id === "publishEndTime")
                                             ? pageState.inputs.publishEndTime
                                             : validity.disruptionEndTime
                                     }
@@ -472,7 +464,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    schema={disruptionInfoSchema.shape.publishEndTime}
                                 />
                             </div>
                         </div>
@@ -501,7 +492,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "daily"}
-                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
                                             suffixId="daily"
                                         />
                                     ),
@@ -522,7 +512,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             stateUpdater={validityStateUpdater}
                                             initialErrors={pageState.errors}
                                             reset={addValidityClicked || validity.disruptionRepeats !== "weekly"}
-                                            schema={validitySchema.shape.disruptionRepeatsEndDate}
                                         />
                                     ),
                                 },

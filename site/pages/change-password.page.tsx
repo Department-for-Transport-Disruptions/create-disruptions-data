@@ -10,11 +10,7 @@ import TextInput from "../components/form/TextInput";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { ACCOUNT_SETTINGS_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS, MIN_PASSWORD_LENGTH } from "../constants";
 import { PageState } from "../interfaces";
-import {
-    ChangePasswordSchema,
-    changePasswordSchema,
-    changePasswordSchemaRefined,
-} from "../schemas/change-password.schema";
+import { ChangePasswordSchema, changePasswordSchemaRefined } from "../schemas/change-password.schema";
 import { getPageState } from "../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getStateUpdater } from "../utils/formUtils";
@@ -65,7 +61,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.currentPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.currentPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword
@@ -77,7 +72,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.newPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.newPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
@@ -90,7 +84,6 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
                                 widthClass="w"
                                 value={pageState.inputs.confirmPassword}
                                 initialErrors={pageState.errors}
-                                schema={changePasswordSchema.shape.confirmPassword}
                                 stateUpdater={stateUpdater}
                                 maxLength={100}
                                 isPassword

@@ -38,7 +38,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         widthClass="w"
                         value={pageState.inputs.givenName}
                         initialErrors={pageState.errors}
-                        schema={addUserSchema.shape.givenName}
                         stateUpdater={stateUpdater}
                         maxLength={100}
                     />
@@ -48,7 +47,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         widthClass="w"
                         value={pageState.inputs.familyName}
                         initialErrors={pageState.errors}
-                        schema={addUserSchema.shape.familyName}
                         stateUpdater={stateUpdater}
                         maxLength={100}
                     />

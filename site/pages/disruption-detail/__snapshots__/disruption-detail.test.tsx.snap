@@ -1109,12 +1109,11 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             </div>
           </div>
           <a
-            className="govuk-button mt-2 govuk-button--secondary"
+            className="govuk-button mt-2 govuk-button--secondary "
             href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
-            role="button"
           >
             Add another consequence
           </a>
@@ -1603,12 +1602,11 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             </div>
           </div>
           <a
-            className="govuk-button mt-2 govuk-button--secondary"
+            className="govuk-button mt-2 govuk-button--secondary "
             href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
-            role="button"
           >
             Add another social media post
           </a>
@@ -2951,12 +2949,11 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             </div>
           </div>
           <a
-            className="govuk-button mt-2 govuk-button--secondary"
+            className="govuk-button mt-2 govuk-button--secondary "
             href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
-            role="button"
           >
             Add another consequence
           </a>
@@ -3445,12 +3442,11 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             </div>
           </div>
           <a
-            className="govuk-button mt-2 govuk-button--secondary"
+            className="govuk-button mt-2 govuk-button--secondary "
             href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
-            role="button"
           >
             Add another social media post
           </a>
