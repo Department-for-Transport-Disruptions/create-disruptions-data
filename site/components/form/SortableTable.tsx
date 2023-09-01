@@ -113,7 +113,7 @@ const SortableTable = <T extends object>({ columns, rows, sortFunction }: Sortab
                         <tr className="govuk-table__row" key={`row-${index}`}>
                             {columns.map((column, i) => (
                                 <td className={"govuk-table__cell align-middle px-2"} key={`row-${index}${i}`}>
-                                    {column.key.toString()}
+                                    {column.displayName}
                                     {row[column.key]}
                                 </td>
                             ))}
