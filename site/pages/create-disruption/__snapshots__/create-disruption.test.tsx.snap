@@ -233,6 +233,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1836,6 +1837,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   defaultValue=""
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -3361,6 +3363,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
