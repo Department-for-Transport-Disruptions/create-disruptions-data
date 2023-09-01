@@ -2,7 +2,7 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, SyntheticEvent, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
@@ -35,8 +35,6 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
     } | null>(null);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
-
-    console.log(pageState);
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
@@ -76,7 +74,10 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                         <button
                             key={`${key}${index ? `-${index}` : ""}`}
                             className="govuk-link"
-                            onClick={() => resendInvite(username, userGroup, userOrgId)}
+                            onClick={(e: SyntheticEvent) => {
+                                e.preventDefault();
+                                resendInvite(username, userGroup, userOrgId);
+                            }}
                         >
                             Resend invite
                         </button>
@@ -84,7 +85,10 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                         <button
                             key={`${key}${index ? `-remove-${index}` : "-remove"}`}
                             className="govuk-link"
-                            onClick={() => removeUser(username)}
+                            onClick={(e: SyntheticEvent) => {
+                                e.preventDefault();
+                                removeUser(username);
+                            }}
                         >
                             Remove
                         </button>
@@ -93,7 +97,10 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     <button
                         key={`${key}${index ? `-${index}` : ""}`}
                         className="govuk-link"
-                        onClick={() => removeUser(username)}
+                        onClick={(e: SyntheticEvent) => {
+                            e.preventDefault();
+                            removeUser(username);
+                        }}
                     >
                         Remove
                     </button>
@@ -219,7 +226,6 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AdminUserProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_ADD_ADMIN_USER_ERRORS];
-    console.log(errorCookie);
 
     if (!ctx.req) {
         throw new Error("No context request");

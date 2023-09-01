@@ -87,37 +87,42 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         userOrgId: string,
         showResendInvite?: boolean,
     ) => {
-        return (
-            <>
-                {showResendInvite ? (
+        {
+            if (userGroup !== "system-admins") {
+                return (
                     <>
-                        <button
-                            key={`${key}${index ? `-${index}` : ""}`}
-                            className="govuk-link"
-                            onClick={() => resendInvite(username, userGroup, userOrgId)}
-                        >
-                            Resend invite
-                        </button>
-                        <br />
-                        <button
-                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
-                            className="govuk-link"
-                            onClick={() => removeUser(username)}
-                        >
-                            Remove
-                        </button>
+                        {showResendInvite ? (
+                            <>
+                                <button
+                                    key={`${key}${index ? `-${index}` : ""}`}
+                                    className="govuk-link"
+                                    onClick={() => resendInvite(username, userGroup, userOrgId)}
+                                >
+                                    Resend invite
+                                </button>
+                                <br />
+                                <button
+                                    key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                                    className="govuk-link"
+                                    onClick={() => removeUser(username)}
+                                >
+                                    Remove
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                key={`${key}${index ? `-${index}` : ""}`}
+                                className="govuk-link"
+                                onClick={() => removeUser(username)}
+                            >
+                                Remove
+                            </button>
+                        )}
                     </>
-                ) : (
-                    <button
-                        key={`${key}${index ? `-${index}` : ""}`}
-                        className="govuk-link"
-                        onClick={() => removeUser(username)}
-                    >
-                        Remove
-                    </button>
-                )}
-            </>
-        );
+                );
+            }
+            return null;
+        }
     };
 
     return (

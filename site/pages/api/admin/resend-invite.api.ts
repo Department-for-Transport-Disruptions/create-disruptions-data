@@ -16,7 +16,6 @@ export interface ResendUserApiRequest extends NextApiRequest {
 const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { username, group, orgId } = req.body;
-        console.log(username, group, orgId);
 
         const session = getSession(req);
         if ((session && !session.orgId) || !session || !username || !group) {
@@ -31,19 +30,24 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
             throw Error("Insufficient values provided to resend an invite");
         }
 
-        // if (validatedBody.data.orgId !== session.orgId) {
-        //     throw Error("Users can only resend users invites within the same organisation");
-        // }
-        //TODO check is this logic is ok
-        if (!session.isSystemAdmin) {
-            throw Error("Only system admins can resend users invites.");
+        if (!session.isSystemAdmin && !session.isOrgAdmin) {
+            throw Error("Only admins can resend users invites.");
+        }
+
+        if (session.isOrgAdmin && validatedBody.data.orgId !== session.orgId) {
+            throw Error("Organisation admins can only resend users invites within the same organisation");
         }
 
         await deleteCognitoUser(username);
 
         await createUser(validatedBody.data);
 
-        redirectTo(res, orgId ? `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgId}` : USER_MANAGEMENT_PAGE_PATH);
+        redirectTo(
+            res,
+            orgId && session.isSystemAdmin
+                ? `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgId}`
+                : USER_MANAGEMENT_PAGE_PATH,
+        );
         return;
     } catch (error) {
         const message = "There was a problem resending an invite.";
