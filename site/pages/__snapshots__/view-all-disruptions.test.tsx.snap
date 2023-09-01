@@ -193,7 +193,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -207,37 +206,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -247,7 +240,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -261,37 +253,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -301,7 +287,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -315,37 +300,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -355,7 +334,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -369,37 +347,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -409,7 +381,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -423,37 +394,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -463,7 +428,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -477,37 +441,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -517,7 +475,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -531,37 +488,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -571,7 +522,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -585,37 +535,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -625,7 +569,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -639,37 +582,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -679,7 +616,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -693,37 +629,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1196,7 +1126,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -1210,37 +1139,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1250,7 +1173,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -1264,37 +1186,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1304,7 +1220,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -1318,37 +1233,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -1358,7 +1267,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -1372,37 +1280,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1412,7 +1314,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -1426,37 +1327,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1466,7 +1361,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -1480,37 +1374,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -1520,7 +1408,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -1534,37 +1421,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1574,7 +1455,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -1588,37 +1468,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -1628,7 +1502,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -1642,37 +1515,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -1682,7 +1549,6 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -1696,37 +1562,31 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2199,7 +2059,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -2213,37 +2072,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2253,7 +2106,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -2267,37 +2119,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2307,7 +2153,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -2321,37 +2166,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -2742,7 +2581,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -2756,37 +2594,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2796,7 +2628,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -2810,37 +2641,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2850,7 +2675,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -2864,37 +2688,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -2904,7 +2722,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -2918,37 +2735,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -2958,7 +2769,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -2972,37 +2782,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -3012,7 +2816,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -3026,37 +2829,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -3066,7 +2863,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -3080,37 +2876,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -3120,7 +2910,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
@@ -3134,37 +2923,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               18/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>
@@ -3174,7 +2957,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
@@ -3188,37 +2970,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Busted reunion traffic
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram, Ferry, Train
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               19/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               11/05/2024
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Draft
             </td>
           </tr>
@@ -3228,7 +3004,6 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              ID
               <a
                 className="govuk-link"
                 href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
@@ -3242,37 +3017,31 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Summary
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Modes
               Tram
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Start
               05/01/2022
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              End
               No end time
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Severity
               Very severe
             </td>
             <td
               className="govuk-table__cell align-middle px-2"
             >
-              Status
               Open
             </td>
           </tr>

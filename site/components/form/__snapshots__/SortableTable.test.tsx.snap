@@ -79,7 +79,6 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        ID
         <a
           className="govuk-link"
           href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -93,19 +92,16 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Name
         Random name1
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Start
         25/03/2023
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Role
         Engineer
       </td>
     </tr>
@@ -115,7 +111,6 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        ID
         <a
           className="govuk-link"
           href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -129,19 +124,16 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Name
         Random name4
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Start
         25/03/2023
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Role
         Architect
       </td>
     </tr>
@@ -151,7 +143,6 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        ID
         <a
           className="govuk-link"
           href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -165,19 +156,16 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Name
         Random name2
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Start
         20/04/2023
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Role
         Engineer
       </td>
     </tr>
@@ -187,7 +175,6 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        ID
         <a
           className="govuk-link"
           href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -201,19 +188,16 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Name
         Random name3
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Start
         25/03/2024
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Role
         Director
       </td>
     </tr>
@@ -318,7 +302,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -332,19 +315,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -354,7 +334,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -368,19 +347,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
@@ -390,7 +366,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -404,19 +379,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name2
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           20/04/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -426,7 +398,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -440,19 +411,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name3
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2024
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Director
         </td>
       </tr>
@@ -462,7 +430,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -476,19 +443,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -498,7 +462,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -512,19 +475,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
@@ -534,7 +494,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -548,19 +507,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name2
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           20/04/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -570,7 +526,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -584,19 +539,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name3
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2024
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Director
         </td>
       </tr>
@@ -606,7 +558,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -620,19 +571,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -642,7 +590,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -656,19 +603,16 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
@@ -875,7 +819,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -889,19 +832,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -911,7 +851,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -925,19 +864,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
@@ -947,7 +883,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -961,19 +896,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name2
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           20/04/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -983,7 +915,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -997,19 +928,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name3
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2024
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Director
         </td>
       </tr>
@@ -1019,7 +947,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1033,19 +960,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -1055,7 +979,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1069,19 +992,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
@@ -1091,7 +1011,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1105,19 +1024,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name2
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           20/04/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -1127,7 +1043,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1141,19 +1056,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name3
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2024
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Director
         </td>
       </tr>
@@ -1163,7 +1075,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1177,19 +1088,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name1
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Engineer
         </td>
       </tr>
@@ -1199,7 +1107,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          ID
           <a
             className="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
@@ -1213,19 +1120,16 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Name
           Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Start
           25/03/2023
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Role
           Architect
         </td>
       </tr>
