@@ -250,7 +250,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1047,7 +1047,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1812,7 +1812,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2534,7 +2534,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                           autoCorrect="off"
                           className=""
                           disabled={false}
-                          id="dropdown-stop-value"
+                          id="stops-input"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
