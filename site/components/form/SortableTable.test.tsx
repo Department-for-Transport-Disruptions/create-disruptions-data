@@ -1,8 +1,6 @@
-import { random } from "lodash";
 import Link from "next/link";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
-import { randomUUID } from "crypto";
 import SortableTable, { TableColumn } from "./SortableTable";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
 
@@ -64,7 +62,7 @@ const defaultData: RandomTable[] = [
                 aft62h
             </Link>
         ),
-        name: "Random name1",
+        name: "Random name4",
         start: "25/03/2023",
         role: "Architect",
     },

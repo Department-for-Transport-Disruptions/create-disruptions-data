@@ -124,7 +124,7 @@ exports[`SortableTable > should render correctly 1`] = `
       <td
         className="govuk-table__cell align-middle px-2"
       >
-        Random name1
+        Random name4
       </td>
       <td
         className="govuk-table__cell align-middle px-2"
@@ -347,7 +347,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
@@ -475,7 +475,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
@@ -603,7 +603,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
@@ -864,7 +864,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
@@ -992,7 +992,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
@@ -1120,7 +1120,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         <td
           className="govuk-table__cell align-middle px-2"
         >
-          Random name1
+          Random name4
         </td>
         <td
           className="govuk-table__cell align-middle px-2"
