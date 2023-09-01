@@ -19,8 +19,8 @@ import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtil
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
 
-const title = "Nexus admins - Create Transport Disruptions Service";
-const description = "Nexus admins user page for the Create Transport Disruptions Service";
+const title = "System admins - Create Transport Disruptions Service";
+const description = "System admins user page for the Create Transport Disruptions Service";
 
 export interface AdminUserProps extends PageState<Partial<AddUserSchema>> {
     admins?: AdminSchema;
@@ -28,9 +28,15 @@ export interface AdminUserProps extends PageState<Partial<AddUserSchema>> {
 const AdminUsers = (props: AdminUserProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
-    const [userToResendInvite, setUserToResendInvite] = useState<{ username: string; userGroup: string } | null>(null);
+    const [userToResendInvite, setUserToResendInvite] = useState<{
+        username: string;
+        userGroup: string;
+        userOrgId: string;
+    } | null>(null);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    console.log(pageState);
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
@@ -40,7 +46,14 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     user.givenName,
                     user.familyName,
                     user.email,
-                    createLink("user-action", index, user.username, "org-admins"),
+                    createLink(
+                        "user-action",
+                        index,
+                        user.username,
+                        "org-admins",
+                        user.organisation,
+                        user.userStatus !== "CONFIRMED",
+                    ),
                     user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",
                 ],
             });
@@ -48,30 +61,43 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
         return rows;
     };
 
-    const createLink = (key: string, index: number, username: string, userGroup: string) => {
+    const createLink = (
+        key: string,
+        index: number,
+        username: string,
+        userGroup: string,
+        userOrgId: string,
+        showResendInvite?: boolean,
+    ) => {
         return (
             <>
-                <button
-                    key={`${key}${index ? `-${index}` : ""}`}
-                    className="govuk-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        resendInvite(username, userGroup);
-                    }}
-                >
-                    Resend invite
-                </button>
-                <br />
-                <button
-                    key={`${key}${index ? `-remove-${index}` : "-remove"}`}
-                    className="govuk-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        removeUser(username);
-                    }}
-                >
-                    Remove
-                </button>
+                {showResendInvite ? (
+                    <>
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => resendInvite(username, userGroup, userOrgId)}
+                        >
+                            Resend invite
+                        </button>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={() => removeUser(username)}
+                        >
+                            Remove
+                        </button>
+                    </>
+                ) : (
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={() => removeUser(username)}
+                    >
+                        Remove
+                    </button>
+                )}
             </>
         );
     };
@@ -83,8 +109,8 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
     const cancelResendActionHandler = () => {
         setUserToResendInvite(null);
     };
-    const resendInvite = (username: string, userGroup: string) => {
-        setUserToResendInvite({ username, userGroup });
+    const resendInvite = (username: string, userGroup: string, userOrgId: string) => {
+        setUserToResendInvite({ username, userGroup, userOrgId });
     };
 
     const cancelActionHandler = () => {
@@ -92,6 +118,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
     };
 
     const queryParams = useRouter().query;
+
     const orgId = queryParams["orgId"];
 
     return (
@@ -132,7 +159,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                         },
                         {
                             name: "orgId",
-                            value: orgId?.toString(),
+                            value: userToResendInvite.userOrgId,
                         },
                     ]}
                     questionText={`Are you sure you wish to resend the invite?`}
@@ -192,6 +219,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AdminUserProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_ADD_ADMIN_USER_ERRORS];
+    console.log(errorCookie);
 
     if (!ctx.req) {
         throw new Error("No context request");

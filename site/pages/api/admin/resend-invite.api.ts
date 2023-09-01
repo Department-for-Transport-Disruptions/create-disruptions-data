@@ -16,6 +16,7 @@ export interface ResendUserApiRequest extends NextApiRequest {
 const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { username, group, orgId } = req.body;
+        console.log(username, group, orgId);
 
         const session = getSession(req);
         if ((session && !session.orgId) || !session || !username || !group) {
@@ -30,8 +31,12 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
             throw Error("Insufficient values provided to resend an invite");
         }
 
-        if (validatedBody.data.orgId !== session.orgId) {
-            throw Error("Users can only delete users within the same organisation");
+        // if (validatedBody.data.orgId !== session.orgId) {
+        //     throw Error("Users can only resend users invites within the same organisation");
+        // }
+        //TODO check is this logic is ok
+        if (!session.isSystemAdmin) {
+            throw Error("Only system admins can resend users invites.");
         }
 
         await deleteCognitoUser(username);

@@ -30,6 +30,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         const userDetails = await getUserDetails(username);
         const formattedUserDetails = user.parse(userDetails);
 
+        //TODO DEANNA check if this logic is correct
         if (!session.isSystemAdmin && formattedUserDetails.organisation !== session.orgId) {
             throw Error("Users can only delete users within the same organisation");
         }
