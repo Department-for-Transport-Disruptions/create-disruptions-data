@@ -21,17 +21,22 @@ import {
 } from "./utils";
 import { siriSchema, PtSituationElement } from "./utils/importerSiriTypes.zod";
 
-const { STAGE_NAME: stageName } = process.env;
+const { STAGE_NAME: stageName, FILE_NAME: fileName } = process.env;
 
 if (!stageName) {
-    throw new Error("stage name not set");
+    throw new Error("Stage name not set");
+}
+
+if (!fileName) {
+    throw new Error("File name not provided");
 }
 
 const disruptionsTableName = `cdd-disruptions-table-${stageName}`;
 const orgTableName = `cdd-organisations-table-${stageName}`;
 
 async function loadXml() {
-    const data = await fs.readFile("siri_sx.xml", "utf8");
+    // @ts-ignore
+    const data = await fs.readFile(fileName, "utf8");
     return data;
 }
 
