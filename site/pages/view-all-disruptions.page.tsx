@@ -905,7 +905,6 @@ const ViewAllDisruptions = ({
                             ]}
                             stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
                             width="1/4"
-                            updateOnChange
                             useDefaultValue={false}
                         />
                         <div className="ml-10">
@@ -920,7 +919,6 @@ const ViewAllDisruptions = ({
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
                                 width="1/4"
-                                updateOnChange
                                 useDefaultValue={false}
                             />
                         </div>
@@ -936,7 +934,6 @@ const ViewAllDisruptions = ({
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"
-                                updateOnChange
                                 useDefaultValue={false}
                             />
                         </div>

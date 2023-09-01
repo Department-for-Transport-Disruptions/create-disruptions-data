@@ -7,7 +7,6 @@ interface SelectProps<T> extends FormBase<T> {
     defaultDisplay: string;
     selectValues: DisplayValuePair[];
     width?: string;
-    updateOnChange?: boolean;
     useDefaultValue?: boolean;
     hint?: string;
 }
@@ -22,7 +21,6 @@ const Select = <T extends object>({
     selectValues,
     stateUpdater,
     width = "3/4",
-    updateOnChange = false,
     useDefaultValue = true,
     hint,
 }: SelectProps<T>): ReactElement => {
@@ -65,7 +63,7 @@ const Select = <T extends object>({
                         id={`${inputId}-input`}
                         defaultValue={useDefaultValue ? value ?? "" : undefined}
                         value={!useDefaultValue ? value ?? "" : undefined}
-                        onChange={updateOnChange ? (e) => stateUpdater(e.target.value, inputName) : undefined}
+                        onChange={(e) => stateUpdater(e.target.value, inputName)}
                         aria-describedby={hint ? `${inputName}-hint` : undefined}
                     >
                         {getSelectOptions()}
