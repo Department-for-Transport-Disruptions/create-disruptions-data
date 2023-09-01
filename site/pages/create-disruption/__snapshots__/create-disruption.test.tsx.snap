@@ -178,7 +178,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onBlur={[Function]}
                   rows={3}
@@ -1719,7 +1719,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <textarea
                   className="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onBlur={[Function]}
                   rows={3}
@@ -3180,7 +3180,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onBlur={[Function]}
                   rows={3}

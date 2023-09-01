@@ -6,7 +6,10 @@ import { parseString } from "xml2js";
 import { parseBooleans } from "xml2js/lib/processors";
 import * as console from "console";
 import { promises as fs } from "fs";
-import { getOrgIdFromDynamo, publishConsequenceInfoToDynamo, publishDisruptionInfoToDynamo } from "./dynamo";
+import {
+    getOrgIdFromDynamo,
+    publishDisruptionAndConsequenceInfoToDynamo,
+} from "./dynamo";
 import {
     convertDateTimeToFormat,
     getDisruptionReason,
@@ -263,16 +266,15 @@ const getConsequencesForGivenDisruption = async (disruption: PtSituationElement)
 
 const consequenceInfo: Consequence[][] = [];
 
-for (const c of parsedJson.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement) {
-    const con = await getConsequencesForGivenDisruption(c);
+for (const disruption of parsedJson.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement) {
+    const consequences = await getConsequencesForGivenDisruption(disruption);
 
-    if (con) {
-        consequenceInfo.push(con.filter(notEmpty));
+    if (consequences) {
+        consequenceInfo.push(consequences.filter(notEmpty));
         console.log("Consequence generated...");
     }
 
     await new Promise((resolve) => setTimeout(resolve, 500));
 }
 
-publishDisruptionInfoToDynamo(disruptionsInfo, disruptionsTableName);
-publishConsequenceInfoToDynamo(consequenceInfo.flat(1).filter(notEmpty), disruptionsTableName);
+publishDisruptionAndConsequenceInfoToDynamo(disruptionsInfo, consequenceInfo.flat(1).filter(notEmpty), disruptionsTableName);

@@ -26,10 +26,11 @@ const createConsequenceBatches = (items: Consequence[], size = 50) =>
 const createDisruptionInfoBatches = (items: DisruptionInfo[], size = 50) =>
     Array.from({ length: Math.ceil(items.length / size) }, (v, i) => items.slice(i * size, i * size + size));
 
-export const publishDisruptionInfoToDynamo = (disruptionInfo: DisruptionInfo[], tableName: string) => {
-    const batches = disruptionInfo.length > 50 ? createDisruptionInfoBatches(disruptionInfo) : [disruptionInfo];
+export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: DisruptionInfo[], consequenceInfo: Consequence[], tableName: string) => {
+    const disruptionBatches = disruptionInfo.length > 50 ? createDisruptionInfoBatches(disruptionInfo) : [disruptionInfo];
+    const consequenceBatches = consequenceInfo.length > 50 ? createConsequenceBatches(consequenceInfo) : [consequenceInfo];
 
-    batches.forEach((batch) => {
+    disruptionBatches.forEach((batch) => {
         const disruptionsPutCommand = batch.map((disruption) => {
             return {
                 Put: {
@@ -42,7 +43,7 @@ export const publishDisruptionInfoToDynamo = (disruptionInfo: DisruptionInfo[], 
                     },
                 },
             };
-        });
+        })
 
         ddbDocClient
             .send(
@@ -52,13 +53,9 @@ export const publishDisruptionInfoToDynamo = (disruptionInfo: DisruptionInfo[], 
             )
             // eslint-disable-next-line no-console
             .catch((e) => console.error(e));
-    });
-};
+    })
 
-export const publishConsequenceInfoToDynamo = (consequenceInfo: Consequence[], tableName: string) => {
-    const batches = consequenceInfo.length > 50 ? createConsequenceBatches(consequenceInfo) : [consequenceInfo];
-
-    batches.forEach((batch) => {
+    consequenceBatches.forEach((batch) => {
         const consequencePutCommand = batch.map((consequence) => {
             return {
                 Put: {
