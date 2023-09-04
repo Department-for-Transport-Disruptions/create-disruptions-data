@@ -30,6 +30,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
+    template?: string;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
