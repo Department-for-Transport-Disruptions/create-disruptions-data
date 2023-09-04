@@ -9,7 +9,7 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
@@ -136,6 +136,13 @@ const previousDisruptionInformation: FullDisruption = {
 
 describe("pages", () => {
     describe("DisruptionDetail", () => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const useRouter = vi.spyOn(require("next/router"), "useRouter");
+        beforeEach(() => {
+            useRouter.mockImplementation(() => ({
+                query: "",
+            }));
+        });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(

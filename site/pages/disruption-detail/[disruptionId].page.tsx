@@ -29,6 +29,7 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
+import { useRouter } from "next/router";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
@@ -326,6 +327,7 @@ const DisruptionDetail = ({
             ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
                   .socialMediaPostIndex + 1
             : 0;
+    const queryParams = useRouter().query;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -353,7 +355,7 @@ const DisruptionDetail = ({
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken ? (
                 <Popup
-                    action={"/api/duplicate-disruption"}
+                    action={`/api/duplicate-disruption${queryParams["template"] ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
@@ -362,7 +364,11 @@ const DisruptionDetail = ({
                     questionText={"Are you sure you wish to duplicate the disruption?"}
                 />
             ) : null}
-            <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
+            <CsrfForm
+                action={`/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={csrfToken}
+            >
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">

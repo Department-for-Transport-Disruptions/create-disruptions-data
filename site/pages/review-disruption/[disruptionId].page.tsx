@@ -336,7 +336,11 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                 />
             ) : null}
 
-            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
+            <CsrfForm
+                action={`/publish${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={csrfToken}
+            >
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
@@ -660,7 +664,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            {canPublish
+                            {canPublish || disruption.template
                                 ? disruption.template
                                     ? "Create template"
                                     : "Publish disruption"

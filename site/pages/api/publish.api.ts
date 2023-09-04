@@ -34,7 +34,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const [draftDisruption, orgInfo] = await Promise.all([
-            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId, req.query.template === "true"),
             getOrganisationInfoById(session.orgId),
         ]);
 
