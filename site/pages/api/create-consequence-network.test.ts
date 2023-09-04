@@ -27,6 +27,7 @@ const defaultNetworkData = {
     consequenceType: "networkWide",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
+    template: "",
 };
 
 describe("create-consequence-network API", () => {
@@ -74,6 +75,7 @@ describe("create-consequence-network API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -177,6 +179,7 @@ describe("create-consequence-network API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

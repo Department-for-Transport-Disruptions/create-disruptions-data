@@ -44,6 +44,7 @@ const defaultStopsData = {
     consequenceType: "stops",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
+    template: "",
 };
 
 describe("create-consequence-stops API", () => {
@@ -107,6 +108,7 @@ describe("create-consequence-stops API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -227,6 +229,7 @@ describe("create-consequence-stops API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

@@ -75,7 +75,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: previousCreateSocialMediaPostInformation,
+            body: { ...previousCreateSocialMediaPostInformation, template: "" },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -95,6 +95,7 @@ describe("create-social-media-post API", () => {
             },
             DEFAULT_ORG_ID,
             false,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -103,7 +104,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and an image", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: previousCreateSocialMediaPostInformation,
+            body: { ...previousCreateSocialMediaPostInformation, template: "" },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
@@ -140,6 +141,7 @@ describe("create-social-media-post API", () => {
             },
             DEFAULT_ORG_ID,
             false,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -148,7 +150,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and an image is size 0", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: previousCreateSocialMediaPostInformation,
+            body: { ...previousCreateSocialMediaPostInformation, template: "" },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
@@ -176,6 +178,7 @@ describe("create-social-media-post API", () => {
             },
             DEFAULT_ORG_ID,
             false,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -184,7 +187,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /create-social-media-post when the image size is over 5MB", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: previousCreateSocialMediaPostInformation,
+            body: { ...previousCreateSocialMediaPostInformation, template: "" },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
@@ -268,7 +271,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /create-social-media-post when publish date is in the past", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
+            body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020", template: "" },
             mockWriteHeadFn: writeHeadMock,
         });
 
