@@ -492,11 +492,18 @@ export const updatePendingDisruptionStatus = async (disruption: Disruption, id: 
     );
 };
 
-export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: string, isUserStaff?: boolean) => {
+export const upsertDisruptionInfo = async (
+    disruptionInfo: DisruptionInfo,
+    id: string,
+    isUserStaff?: boolean,
+    isTemplate?: boolean,
+) => {
     logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id);
     const isPending =
-        isUserStaff && currentDisruption?.publishStatus && currentDisruption?.publishStatus === PublishStatus.published;
+        (isUserStaff || !isTemplate) &&
+        currentDisruption?.publishStatus &&
+        currentDisruption?.publishStatus === PublishStatus.published;
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -504,8 +511,11 @@ export const upsertDisruptionInfo = async (disruptionInfo: DisruptionInfo, id: s
             TableName: disruptionsTableName,
             Item: {
                 PK: id,
-                SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
+                SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}${
+                    isTemplate ? "#TEMPLATE" : ""
+                }`,
                 ...disruptionInfo,
+                template: isTemplate,
             },
         }),
     );
@@ -651,8 +661,12 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
     const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
 
-    let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+    console.log(JSON.stringify(disruptionItems));
+    let info = disruptionItems.find(
+        (item) => item.SK === `${disruptionId}#INFO` || item.SK === `${disruptionId}#INFO#TEMPLATE`,
+    );
 
+    //template
     const consequences = disruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
@@ -670,6 +684,14 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
     );
 
+    const template = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#PENDING#TEMPLATE`) ||
+                (item.SK as string).startsWith(`${disruptionId}#EDITING#TEMPLATE`) ||
+                (item.SK as string).startsWith(`${disruptionId}#TEMPLATE`)) ??
+            false,
+    );
+
     const newHistoryItems: string[] = [];
 
     if (isPending) {
@@ -677,7 +699,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         const pendingConsequences = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                    (item.SK as string).endsWith("#PENDING")) ??
+                    (item.SK as string).includes("#PENDING")) ??
                 false,
         );
         pendingConsequences.forEach((pendingConsequence) => {
@@ -694,7 +716,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         const pendingSocialMediaPosts = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
-                    (item.SK as string).endsWith("#PENDING")) ??
+                    (item.SK as string).includes("#PENDING")) ??
                 false,
         );
         pendingSocialMediaPosts.forEach((pendingSocialMediaPost) => {
@@ -726,7 +748,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         const editedSocialMediaPosts = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
-                    (item.SK as string).endsWith("#EDIT")) ??
+                    (item.SK as string).includes("#EDIT")) ??
                 false,
         );
         editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
@@ -743,7 +765,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         const editedConsequences = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                    (item.SK as string).endsWith("#EDIT")) ??
+                    (item.SK as string).includes("#EDIT")) ??
                 false,
         );
         editedConsequences.forEach((editedConsequence) => {
@@ -808,6 +830,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         deletedConsequences,
         history,
         newHistory: newHistoryItems,
+        template: !!template.length,
         publishStatus:
             (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)) ||
             (isPending && isEdited)

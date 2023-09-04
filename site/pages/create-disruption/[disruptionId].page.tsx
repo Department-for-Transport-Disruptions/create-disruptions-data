@@ -238,7 +238,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Create a new disruption</h1>
+                        <h1 className="govuk-heading-xl">
+                            {queryParams["template"]?.includes("true")
+                                ? "Create a new template"
+                                : "Create a new disruption"}
+                        </h1>
 
                         <Radios<DisruptionInfo>
                             display="Type of disruption"
@@ -539,6 +543,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
+                    <input type="hidden" name="template" value={queryParams["template"]?.includes("true").toString()} />
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue

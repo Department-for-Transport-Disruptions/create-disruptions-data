@@ -323,7 +323,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
+                        <h1 className="govuk-heading-xl">{`Review your answers before submitting the ${
+                            disruption.template ? "template" : "disruption"
+                        }`}</h1>
                         <Table
                             rows={[
                                 {
@@ -622,7 +624,11 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            {canPublish ? "Publish disruption" : "Send to review"}
+                            {canPublish
+                                ? disruption.template
+                                    ? "Create template"
+                                    : "Publish disruption"
+                                : "Send to review"}
                         </button>
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -637,7 +643,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                 ]);
                             }}
                         >
-                            Delete disruption
+                            {disruption.template ? "Delete template" : "Delete disruption"}
                         </button>
                         <Link
                             className="govuk-button mt-8 ml-5 govuk-button--secondary"

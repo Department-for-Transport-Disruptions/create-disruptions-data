@@ -73,7 +73,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const { draft } = req.query;
 
-        const body = req.body as DisruptionInfo;
+        const body = req.body as DisruptionInfo & { template: string };
 
         if (!body.disruptionId) {
             throw new Error("No disruptionId found");
@@ -102,7 +102,16 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${queryParam ? `?${queryParam}` : ""}`);
+            redirectTo(
+                res,
+                `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${
+                    queryParam
+                        ? `?${queryParam}${body.template ? "&template=true" : ""}`
+                        : body.template === "true"
+                        ? "?template=true"
+                        : ""
+                }`,
+            );
             return;
         }
 
@@ -110,7 +119,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff, body.template === "true");
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
