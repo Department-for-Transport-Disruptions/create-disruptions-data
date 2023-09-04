@@ -226,5 +226,19 @@ describe("pages", () => {
 
             unmount();
         });
+
+        it("should render correctly with inputs and no errors when disruption is a template", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{ ...previousDisruptionInformation, template: true }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
     });
 });

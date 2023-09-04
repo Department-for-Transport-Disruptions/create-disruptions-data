@@ -183,5 +183,18 @@ describe("pages", () => {
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
+
+        it("should render correctly with inputs and no errors when disruption is a template", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={{ ...previousDisruptionInformation, template: true }}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
     });
 });

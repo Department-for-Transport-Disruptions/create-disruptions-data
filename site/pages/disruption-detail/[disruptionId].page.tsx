@@ -713,7 +713,7 @@ const DisruptionDetail = ({
                                         data-module="govuk-button"
                                         formAction="/api/reject"
                                     >
-                                        Reject disruption
+                                        {disruption.template ? "Reject template" : "Reject disruption"}
                                     </button>
                                 ) : null}
                             </>
@@ -744,7 +744,7 @@ const DisruptionDetail = ({
                                     ]);
                                 }}
                             >
-                                Delete disruption
+                                {disruption.template ? "Delete template" : "Delete disruption"}
                             </button>
                         )}
                         {disruption.publishStatus === PublishStatus.published ? (
@@ -763,7 +763,7 @@ const DisruptionDetail = ({
                                     });
                                 }}
                             >
-                                Duplicate disruption
+                                {disruption.template ? "Duplicate template" : "Duplicate disruption"}
                             </button>
                         ) : null}
                     </div>
