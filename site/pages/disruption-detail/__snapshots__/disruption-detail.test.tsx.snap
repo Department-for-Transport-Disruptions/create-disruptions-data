@@ -3183,7 +3183,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
-                        Pending
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -3423,7 +3423,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
-                        Pending
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "

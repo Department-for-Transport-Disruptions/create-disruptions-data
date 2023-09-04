@@ -182,7 +182,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                 header: "Status",
                 cells: [
                     {
-                        value: post.status,
+                        value: disruption.template ? "N/A" : post.status,
                     },
                     {
                         value: "",
