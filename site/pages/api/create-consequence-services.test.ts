@@ -41,7 +41,6 @@ const defaultServicesData = {
     disruptionDirection: "inbound",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
-    template: "",
 };
 
 describe("create-consequence-services API", () => {

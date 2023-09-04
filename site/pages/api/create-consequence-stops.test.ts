@@ -44,7 +44,6 @@ const defaultStopsData = {
     consequenceType: "stops",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
-    template: "",
 };
 
 describe("create-consequence-stops API", () => {
