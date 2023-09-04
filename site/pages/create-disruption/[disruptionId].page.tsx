@@ -344,7 +344,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     reset={addValidityClicked}
                                 />
                             </div>
-                            <div className="pl-4 flex flex-col justify-end">
+                            <div className="pl-4.5 flex flex-col justify-end">
                                 <TimeSelector<Validity>
                                     display="Start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -372,7 +372,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     reset={addValidityClicked}
                                 />
                             </div>
-                            <div className="pl-4 flex flex-col justify-end">
+                            <div className="pl-4.5 flex flex-col justify-end">
                                 <TimeSelector<Validity>
                                     display="End time"
                                     value={validity.disruptionEndTime}

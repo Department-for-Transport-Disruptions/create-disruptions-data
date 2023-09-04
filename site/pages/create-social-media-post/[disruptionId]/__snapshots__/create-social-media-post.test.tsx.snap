@@ -156,13 +156,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0]"
+                    className="govuk-date-input__item govuk-!-margin-right-0"
                   >
                     <div
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
@@ -717,13 +717,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0]"
+                    className="govuk-date-input__item govuk-!-margin-right-0"
                   >
                     <div
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
