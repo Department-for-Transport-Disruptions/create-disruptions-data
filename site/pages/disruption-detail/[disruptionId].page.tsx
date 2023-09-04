@@ -60,7 +60,7 @@ const DisruptionDetail = ({
         disruption.publishStatus === PublishStatus.editing ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
-            : "Disruption Overview";
+            : `${disruption.template ? "Template" : "Disruption"} Overview`;
 
     const hiddenInputs = (index: number) => [
         {
