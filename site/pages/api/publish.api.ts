@@ -77,7 +77,8 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         if (
             validatedDisruptionBody.data.socialMediaPosts &&
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
-            canPublish(session)
+            canPublish(session) &&
+            !draftDisruption.template
         ) {
             await publishToHootsuite(
                 validatedDisruptionBody.data.socialMediaPosts,
