@@ -27,7 +27,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const [userToResendInvite, setUserToResendInvite] = useState<{
         username: string;
         userGroup: string;
-        orgId: string;
     } | null>(null);
 
     const getAccountType = (groupName: UserGroups): string => {
@@ -50,14 +49,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink(
-                        "user-action",
-                        index,
-                        user.username,
-                        user.group,
-                        user.organisation,
-                        user.userStatus !== "CONFIRMED",
-                    ),
+                    createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED"),
                 ],
             });
         });
@@ -71,8 +63,8 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const cancelResendActionHandler = () => {
         setUserToResendInvite(null);
     };
-    const resendInvite = (username: string, userGroup: string, orgId: string) => {
-        setUserToResendInvite({ username, userGroup, orgId });
+    const resendInvite = (username: string, userGroup: string) => {
+        setUserToResendInvite({ username, userGroup });
     };
 
     const cancelActionHandler = () => {
@@ -84,7 +76,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         index: number,
         username: string,
         userGroup: string,
-        userOrgId: string,
         showResendInvite?: boolean,
     ) => {
         {
@@ -96,7 +87,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                                 <button
                                     key={`${key}${index ? `-${index}` : ""}`}
                                     className="govuk-link"
-                                    onClick={() => resendInvite(username, userGroup, userOrgId)}
+                                    onClick={() => resendInvite(username, userGroup)}
                                 >
                                     Resend invite
                                 </button>
@@ -157,10 +148,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                             {
                                 name: "group",
                                 value: userToResendInvite.userGroup,
-                            },
-                            {
-                                name: "orgId",
-                                value: userToResendInvite.orgId,
                             },
                         ]}
                         questionText={`Are you sure you wish to resend the invite?`}

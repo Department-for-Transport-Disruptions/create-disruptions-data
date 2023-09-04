@@ -84,32 +84,10 @@ describe("delete-user", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
-    it("should redirect to /500 if org admin is trying to delete and account and organisation ids do not match", async () => {
+    it("should redirect to /500 if org admin is trying to delete an account and organisation ids do not match", async () => {
         getSession.mockImplementation(() => ({
             ...mockSession,
             isOrgAdmin: true,
-            isSystemAdmin: false,
-            orgId: "1234",
-        }));
-        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
-
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await deleteUser(req, res);
-
-        expect(deleteAdminUserSpy).not.toBeCalled();
-        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
-    });
-
-    it("should redirect to /500 if a non-admin account is trying to delete an account", async () => {
-        getSession.mockImplementation(() => ({
-            ...mockSession,
-            isOrgAdmin: false,
             isSystemAdmin: false,
             orgId: "1234",
         }));

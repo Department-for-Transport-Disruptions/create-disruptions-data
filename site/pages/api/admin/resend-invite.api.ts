@@ -30,10 +30,6 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
             throw Error("Insufficient values provided to resend an invite");
         }
 
-        if (!session.isSystemAdmin && !session.isOrgAdmin) {
-            throw Error("Only admins can resend users invites.");
-        }
-
         if (session.isOrgAdmin && validatedBody.data.orgId !== session.orgId) {
             throw Error("Organisation admins can only resend users invites within the same organisation");
         }

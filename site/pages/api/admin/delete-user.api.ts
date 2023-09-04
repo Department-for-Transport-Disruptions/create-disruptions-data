@@ -30,10 +30,6 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         const userDetails = await getUserDetails(username);
         const formattedUserDetails = user.parse(userDetails);
 
-        if (!session.isSystemAdmin && !session.isOrgAdmin) {
-            throw Error("Only admins can delete users.");
-        }
-
         if (session.isOrgAdmin && formattedUserDetails.organisation !== session.orgId) {
             throw Error("Organisation admins can only delete users invites within the same organisation");
         }
