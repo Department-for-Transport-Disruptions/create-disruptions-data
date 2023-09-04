@@ -159,6 +159,33 @@ describe("publishEdit", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
+    it("should retrieve valid data from cookies, write template to dynamo and redirect for staff user", async () => {
+        getDisruptionSpy.mockResolvedValue({ ...disruptionWithConsequencesAndSocialMediaPosts, template: true });
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
+        });
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            { ...disruptionWithConsequencesAndSocialMediaPosts, template: true },
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+            "Test User",
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
 

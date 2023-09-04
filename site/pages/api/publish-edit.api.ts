@@ -74,7 +74,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
         }
 
-        if (canPublish(session)) {
+        if (canPublish(session) || draftDisruption.template) {
             if (isEditPendingDsp)
                 await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
@@ -85,7 +85,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
         }
 
-        isEditPendingDsp && !canPublish(session)
+        isEditPendingDsp && (!canPublish(session) || !draftDisruption.template)
             ? await updatePendingDisruptionStatus(
                   { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,
@@ -93,7 +93,9 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
                   draftDisruption,
                   session.orgId,
-                  canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
+                  canPublish(session) || draftDisruption.template
+                      ? PublishStatus.published
+                      : PublishStatus.pendingApproval,
                   session.name,
               );
 

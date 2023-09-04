@@ -39,7 +39,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         ]);
 
         if (!orgInfo) {
-            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            logger.error(`Organisation info not found for Org Id ${session.orgId}`);
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -67,9 +67,11 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             draftDisruption,
             session.orgId,
-            canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
+            canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval,
             session.name,
-            canPublish(session) ? "Disruption created and published" : "Disruption submitted for review",
+            canPublish(session) || draftDisruption.template
+                ? "Disruption created and published"
+                : "Disruption submitted for review",
         );
 
         if (
