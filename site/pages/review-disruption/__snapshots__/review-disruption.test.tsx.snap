@@ -71,7 +71,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
         </div>
       </div>
       <form
-        action="/publish"
+        action="/api/publish"
         method="post"
       >
         <input
@@ -1902,7 +1902,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/publish"
+        action="/api/publish"
         method="post"
       >
         <input
@@ -3733,7 +3733,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/publish"
+        action="/api/publish"
         method="post"
       >
         <input

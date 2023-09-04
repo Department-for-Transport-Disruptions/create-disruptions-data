@@ -45,7 +45,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/publish-edit"
+        action="/api/publish-edit"
         method="post"
       >
         <input
@@ -1885,7 +1885,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/publish-edit"
+        action="/api/publish-edit"
         method="post"
       >
         <input
@@ -3718,7 +3718,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
       id="main-content"
     >
       <form
-        action="/publish-edit"
+        action="/api/publish-edit"
         method="post"
       >
         <input
