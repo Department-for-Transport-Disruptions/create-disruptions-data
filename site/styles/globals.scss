@@ -10,3 +10,13 @@
 .mapboxgl-ctrl-top-right {
     z-index: 0;
 }
+
+.sort-arrow {
+    display: inline-block;
+    font-size: 8px;
+    vertical-align: middle;
+}
+
+.up-arrow {
+    transform: rotate(180deg);
+}
