@@ -525,6 +525,7 @@ export const upsertConsequence = async (
     consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
     id: string,
     isUserStaff?: boolean,
+    isTemplate?: boolean,
 ) => {
     logger.info(
         `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
@@ -545,7 +546,7 @@ export const upsertConsequence = async (
                 PK: id,
                 SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}${
                     isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
-                }`,
+                }${isTemplate ? "#TEMPLATE" : ""}`,
                 ...consequence,
             },
         }),
@@ -559,6 +560,7 @@ export const upsertSocialMediaPost = async (
     id: string,
     isUserStaff?: boolean,
     forcePublish?: boolean,
+    isTemplate?: boolean,
 ) => {
     logger.info(
         `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
@@ -578,7 +580,7 @@ export const upsertSocialMediaPost = async (
                 PK: id,
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
                     forcePublish ? "" : isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
-                }`,
+                }${isTemplate ? "#TEMPLATE" : ""}`,
                 ...socialMediaPost,
             },
         }),
@@ -661,7 +663,6 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
     const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
 
-    console.log(JSON.stringify(disruptionItems));
     let info = disruptionItems.find(
         (item) => item.SK === `${disruptionId}#INFO` || item.SK === `${disruptionId}#INFO#TEMPLATE`,
     );
@@ -686,9 +687,9 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
 
     const template = disruptionItems.filter(
         (item) =>
-            ((item.SK as string).startsWith(`${disruptionId}#PENDING#TEMPLATE`) ||
-                (item.SK as string).startsWith(`${disruptionId}#EDITING#TEMPLATE`) ||
-                (item.SK as string).startsWith(`${disruptionId}#TEMPLATE`)) ??
+            ((item.SK as string).startsWith(`${disruptionId}#INFO#PENDING#TEMPLATE`) ||
+                (item.SK as string).startsWith(`${disruptionId}#INFO#EDITING#TEMPLATE`) ||
+                (item.SK as string).startsWith(`${disruptionId}#INFO#TEMPLATE`)) ??
             false,
     );
 

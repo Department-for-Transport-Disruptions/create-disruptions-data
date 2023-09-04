@@ -52,7 +52,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
 
         const { draft } = req.query;
 
-        const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
+        const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence & { template: string };
 
         if (!session) {
             throw new Error("No session found");
@@ -83,7 +83,12 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(
+            validatedBody.data,
+            session.orgId,
+            session.isOrgStaff,
+            formattedBody.template == "true",
+        );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =

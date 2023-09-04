@@ -187,6 +187,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         </div>
                         <input type="hidden" name="disruptionId" value={pageState.disruptionId} />
                         <input type="hidden" name="socialMediaPostIndex" value={props.socialMediaPostIndex} />
+                        <input type="hidden" name="template" value={props.template} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -246,6 +247,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
             socialAccounts,
+            template: disruption?.template?.toString() || "",
         },
     };
 };

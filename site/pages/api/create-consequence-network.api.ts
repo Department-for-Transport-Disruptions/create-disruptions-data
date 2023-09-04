@@ -56,7 +56,12 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(
+            validatedBody.data,
+            session.orgId,
+            session.isOrgStaff,
+            (req.body as { template: string }).template === "true",
+        );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
