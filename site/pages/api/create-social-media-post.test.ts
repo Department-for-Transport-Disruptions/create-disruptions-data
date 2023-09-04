@@ -180,7 +180,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and an image is size 0", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, template: "" },
+            body: { ...previousCreateSocialMediaPostInformation },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
@@ -217,7 +217,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /create-social-media-post when the image size is over 5MB", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, template: "" },
+            body: { ...previousCreateSocialMediaPostInformation },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
@@ -301,7 +301,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /create-social-media-post when publish date is in the past", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020", template: "" },
+            body: { ...previousCreateSocialMediaPostInformation, publishDate: "11/02/2020" },
             mockWriteHeadFn: writeHeadMock,
         });
 
