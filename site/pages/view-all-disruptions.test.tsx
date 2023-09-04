@@ -4,11 +4,11 @@ import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllDisruptions, {
-    disruptionIsClosingOrClosed,
+    isClosingOrClosed,
     Filter,
-    filterDisruptions,
+    filterContents,
     getWorstSeverity,
-    TableDisruption,
+    TableContents,
 } from "./view-all-disruptions.page";
 import { mockServices } from "../testData/mockData";
 
@@ -22,7 +22,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const disruptions: TableDisruption[] = [
+const disruptions: TableContents[] = [
     {
         id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
@@ -108,7 +108,7 @@ describe("pages", () => {
             await act(() => {
                 component = renderer.create(
                     <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
+                        newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
                     />,
@@ -128,7 +128,7 @@ describe("pages", () => {
             await act(() => {
                 component = renderer.create(
                     <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
+                        newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
                     />,
@@ -148,7 +148,7 @@ describe("pages", () => {
             await act(() => {
                 component = renderer.create(
                     <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
+                        newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
                     />,
@@ -168,7 +168,7 @@ describe("pages", () => {
             await act(() => {
                 component = renderer.create(
                     <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
+                        newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.pendingApproval}
                         enableLoadingSpinnerOnPageLoad={false}
@@ -189,7 +189,7 @@ describe("pages", () => {
             await act(() => {
                 component = renderer.create(
                     <ViewAllDisruptions
-                        newDisruptionId={defaultNewDisruptionId}
+                        newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.draft}
                         enableLoadingSpinnerOnPageLoad={false}
@@ -210,13 +210,13 @@ describe("getWorstSeverity", () => {
     });
 });
 
-describe("filterDisruptions", () => {
+describe("filterContents", () => {
     it("correctly applies service filters to the disruptions", () => {
         const filter: Filter = {
             services: [mockServices[0]],
             operators: [],
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[0]]);
     });
 
@@ -225,7 +225,7 @@ describe("filterDisruptions", () => {
             services: [mockServices[1], mockServices[2]],
             operators: [],
         };
-        const resultTwo = filterDisruptions(disruptions, filterTwo);
+        const resultTwo = filterContents(disruptions, filterTwo);
 
         expect(resultTwo).toStrictEqual([disruptions[0], disruptions[2]]);
     });
@@ -240,7 +240,7 @@ describe("filterDisruptions", () => {
                 },
             ],
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[0], disruptions[2]]);
     });
 
@@ -250,7 +250,7 @@ describe("filterDisruptions", () => {
             operators: [],
             mode: VehicleMode.rail,
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[2]]);
     });
 
@@ -260,7 +260,7 @@ describe("filterDisruptions", () => {
             operators: [],
             severity: Severity.severe,
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[2]]);
     });
 
@@ -270,7 +270,7 @@ describe("filterDisruptions", () => {
             operators: [],
             status: Progress.draft,
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[2]]);
     });
 
@@ -280,7 +280,7 @@ describe("filterDisruptions", () => {
             operators: [],
             period: { startTime: "19-02-2021", endTime: "24-02-2021" },
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([]);
     });
 
@@ -290,16 +290,16 @@ describe("filterDisruptions", () => {
             operators: [],
             period: { startTime: "04-01-2022", endTime: "14-01-2022" },
         };
-        const result = filterDisruptions(disruptions, filter);
+        const result = filterContents(disruptions, filter);
         expect(result).toStrictEqual([disruptions[0]]);
     });
 });
 
-describe("disruptionIsClosingOrClosed", () => {
+describe("isClosingOrClosed", () => {
     it("should return closed for a disruption which has an end date that has passed", () => {
         const today: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "1000");
         const disruptionEndDate: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "0700");
-        const result = disruptionIsClosingOrClosed(disruptionEndDate, today);
+        const result = isClosingOrClosed(disruptionEndDate, today);
 
         expect(result).toEqual("closed");
     });
@@ -307,7 +307,7 @@ describe("disruptionIsClosingOrClosed", () => {
     it("should return closing for a disruption which has an end date within 24 hours of today", () => {
         const today: Dayjs = getDatetimeFromDateAndTime("03/04/2023", "2200");
         const disruptionEndDate: Dayjs = getDatetimeFromDateAndTime("04/04/2023", "0700");
-        const result = disruptionIsClosingOrClosed(disruptionEndDate, today);
+        const result = isClosingOrClosed(disruptionEndDate, today);
 
         expect(result).toEqual("closing");
     });
