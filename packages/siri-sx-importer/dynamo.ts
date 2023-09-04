@@ -20,31 +20,46 @@ export const getOrgIdFromDynamo = async (participantRef: string, tableName: stri
     return !!filteredOrg ? filteredOrg[0].PK : "";
 };
 
-const createConsequenceBatches = (items: Consequence[], size = 50) =>
-    Array.from({ length: Math.ceil(items.length / size) }, (v, i) => items.slice(i * size, i * size + size));
 
-const createDisruptionInfoBatches = (items: DisruptionInfo[], size = 50) =>
+const isConsequenceInfo = (item: Consequence | DisruptionInfo): item is Consequence =>
+    (item as Consequence).consequenceIndex !== undefined && (item as Consequence).consequenceIndex !== null;
+
+const createBatches = (items: (Consequence| DisruptionInfo)[], size = 50) =>
     Array.from({ length: Math.ceil(items.length / size) }, (v, i) => items.slice(i * size, i * size + size));
 
 export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: DisruptionInfo[], consequenceInfo: Consequence[], tableName: string) => {
-    const disruptionBatches = disruptionInfo.length > 50 ? createDisruptionInfoBatches(disruptionInfo) : [disruptionInfo];
-    const consequenceBatches = consequenceInfo.length > 50 ? createConsequenceBatches(consequenceInfo) : [consequenceInfo];
+    const mergedItems = [...disruptionInfo, ...consequenceInfo];
+    const batches = mergedItems.length > 50 ? createBatches(mergedItems) : [mergedItems];
 
-    disruptionBatches.forEach((batch) => {
-        const disruptionsPutCommand = batch.map((disruption) => {
+
+    batches.forEach((batch) => {
+        const disruptionsPutCommand = batch.map((item) => {
+             if (isConsequenceInfo(item)) {
+                return {
+                    Put: {
+                        TableName: tableName,
+                        Item: {
+                            PK: item.orgId,
+                            SK: `${item.disruptionId}#CONSEQUENCE#${item.consequenceIndex}`,
+                            publishStatus: "PUBLISHED",
+                            ...item,
+                        },
+                    },
+                };
+            }
+
             return {
                 Put: {
                     TableName: tableName,
                     Item: {
-                        PK: disruption.orgId,
-                        SK: `${disruption.disruptionId}#INFO`,
+                        PK: item.orgId,
+                        SK: `${item.disruptionId}#INFO`,
                         publishStatus: "PUBLISHED",
-                        ...disruption,
+                        ...item,
                     },
                 },
             };
         })
-
         ddbDocClient
             .send(
                 new TransactWriteCommand({
@@ -54,29 +69,4 @@ export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: Disr
             // eslint-disable-next-line no-console
             .catch((e) => console.error(e));
     })
-
-    consequenceBatches.forEach((batch) => {
-        const consequencePutCommand = batch.map((consequence) => {
-            return {
-                Put: {
-                    TableName: tableName,
-                    Item: {
-                        PK: consequence.orgId,
-                        SK: `${consequence.disruptionId}#CONSEQUENCE#${consequence.consequenceIndex}`,
-                        publishStatus: "PUBLISHED",
-                        ...consequence,
-                    },
-                },
-            };
-        });
-
-        ddbDocClient
-            .send(
-                new TransactWriteCommand({
-                    TransactItems: [...consequencePutCommand],
-                }),
-            )
-            // eslint-disable-next-line no-console
-            .catch((e) => console.error(e));
-    });
 };

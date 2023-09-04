@@ -116,7 +116,7 @@ export const getDisruptionDirection = (affectedLine: AffectedLine[] | undefined)
 
 let numErrors = 0;
 let numSuccess = 0;
-const bodsOperators = ["BEVC", "FHAL", "FMAN", "FSYO", "SCGR"];
+const bodsOperators = ["BEVC", "FHAL", "FMAN", "FSYO", "SCGR", "GONW", "YSYC", "SYRK", "SCLIgit adfd"];
 
 export const getServices = async (affectedLine: AffectedLine[] | undefined, disruptionId: string) => {
     if (affectedLine) {
