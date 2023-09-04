@@ -337,7 +337,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
             ) : null}
 
             <CsrfForm
-                action={`/publish${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/publish${queryParams["template"] ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >

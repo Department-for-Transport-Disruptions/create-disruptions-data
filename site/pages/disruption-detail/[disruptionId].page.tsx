@@ -3,6 +3,7 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
@@ -29,7 +30,6 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
-import { useRouter } from "next/router";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 
@@ -365,7 +365,7 @@ const DisruptionDetail = ({
                 />
             ) : null}
             <CsrfForm
-                action={`/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >

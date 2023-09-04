@@ -168,7 +168,7 @@ describe("publishEdit", () => {
             body: {
                 disruptionId: defaultDisruptionId,
             },
-            query: { template: 'true' },
+            query: { template: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
 
