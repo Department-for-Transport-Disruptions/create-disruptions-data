@@ -229,6 +229,87 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
+    it("should redirect to /type-of-consequence when all required inputs are passed and disruption is a template", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createDisruption(req, res);
+
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: defaultDisruptionId,
+                disruptionType: "unplanned",
+                orgId: DEFAULT_ORG_ID,
+                summary: "Lorem ipsum dolor sit amet",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                associatedLink: "",
+                disruptionReason: MiscellaneousReason.roadworks,
+                publishStartDate: defaultPublishStartDate,
+                publishStartTime: "0900",
+                publishEndDate: "",
+                publishEndTime: "",
+                disruptionStartDate: getFutureDateAsString(40),
+                disruptionStartTime: "1200",
+                disruptionEndDate: "",
+                disruptionEndTime: "",
+                disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
+                validity: [
+                    {
+                        disruptionStartDate: defaultDisruptionStartDate,
+                        disruptionStartTime: "1000",
+                        disruptionEndDate: defaultDisruptionStartDate,
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "daily",
+                        disruptionRepeatsEndDate: getFutureDateAsString(11),
+                    },
+                    {
+                        disruptionStartDate: getFutureDateAsString(11),
+                        disruptionStartTime: "0900",
+                        disruptionEndDate: getFutureDateAsString(13),
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "weekly",
+                        disruptionRepeatsEndDate: getFutureDateAsString(40),
+                    },
+                ],
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            true,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
+    });
+
     it("should redirect to /create-disruption when disruptionNoEndDateTime is false and there is no publish end date/time", async () => {
         const disruptionData = {
             ...defaultDisruptionData,

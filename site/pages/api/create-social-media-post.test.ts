@@ -102,6 +102,35 @@ describe("create-social-media-post API", () => {
         });
     });
 
+    it("should redirect to /review-disruption when all required inputs are passed and social media post is a template", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...previousCreateSocialMediaPostInformation, template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+            files: [],
+        });
+
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
+            {
+                ...previousCreateSocialMediaPostInformation,
+                socialMediaPostIndex: 0,
+            },
+            DEFAULT_ORG_ID,
+            false,
+            true,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
     it("should redirect to /review-disruption when all required inputs are passed and an image", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...previousCreateSocialMediaPostInformation, template: "" },
