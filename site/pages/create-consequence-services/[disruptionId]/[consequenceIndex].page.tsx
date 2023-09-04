@@ -484,7 +484,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             widthClass="w-3/4"
                             textArea
                             rows={3}
-                            maxLength={500}
+                            maxLength={1000}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
