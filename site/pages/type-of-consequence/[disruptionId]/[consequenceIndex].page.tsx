@@ -107,7 +107,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    console.log(ctx.query.template);
     const disruption = await getDisruptionById(
         ctx.query.disruptionId?.toString() ?? "",
         session.orgId,

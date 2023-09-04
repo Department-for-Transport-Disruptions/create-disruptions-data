@@ -383,7 +383,6 @@ export const redirectToWithQueryParams = (
         })
         .filter(notEmpty);
 
-    console.log(location, queryStringParams);
     redirectTo(
         res,
         `${location}${

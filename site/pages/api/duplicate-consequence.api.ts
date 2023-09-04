@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
-import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
