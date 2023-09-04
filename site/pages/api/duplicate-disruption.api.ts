@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -76,17 +76,29 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
+            req.query.template === "true",
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                    await upsertConsequence(
+                        consequence,
+                        session.orgId,
+                        session.isOrgStaff,
+                        req.query.template === "true",
+                    );
                 }),
             );
         }
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            req.query.template === "true" ? ["template"] : [],
+            `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
+            ["duplicate=true"],
+        );
 
         return;
     } catch (e) {

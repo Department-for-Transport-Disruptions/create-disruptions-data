@@ -255,7 +255,8 @@ describe("create-disruption API", () => {
             ],
         };
         const { req, res } = getMockRequestAndResponse({
-            body: { ...disruptionData, template: "true" },
+            body: { ...disruptionData },
+            query: { template: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -307,7 +308,9 @@ describe("create-disruption API", () => {
             mockSession.isOrgStaff,
             true,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/type-of-consequence/${defaultDisruptionId}/0?template=true`,
+        });
     });
 
     it("should redirect to /create-disruption when disruptionNoEndDateTime is false and there is no publish end date/time", async () => {

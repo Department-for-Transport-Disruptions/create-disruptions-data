@@ -56,6 +56,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
+    const isTemplate = (queryParams["template"] as string) || "";
+
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
     useEffect(() => {
@@ -92,7 +94,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-operator${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -242,7 +248,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <input type="hidden" name="consequenceType" value="operatorWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
-                        <input type="hidden" name="template" value={props.template} />
+                      
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
@@ -266,6 +272,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
+                            isTemplate={isTemplate}
                         />
                     </div>
                 </>
@@ -290,7 +297,11 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");

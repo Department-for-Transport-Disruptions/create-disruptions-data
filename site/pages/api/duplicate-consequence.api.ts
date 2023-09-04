@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -28,7 +28,11 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("disruptionId is required to duplicate a consequence");
         }
 
-        const disruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
+        const disruption = await getDisruptionById(
+            validatedBody.data.disruptionId,
+            session.orgId,
+            !!req.query?.template,
+        );
 
         if (!disruption || !disruption.consequences) {
             throw new Error("No disruption / disruption with consequences found");
@@ -55,9 +59,15 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             },
             session.orgId,
             session.isOrgStaff,
+            req.query.template === "true",
         );
 
-        redirectTo(res, `${req.query.return as string}/${validatedBody.data.disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            req.query.template === "true" ? ["template"] : [],
+            `${req.query.return as string}/${validatedBody.data.disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

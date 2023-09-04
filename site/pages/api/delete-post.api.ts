@@ -49,7 +49,12 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId);
+            await removeSocialMediaPostFromDisruption(
+                Number(id),
+                disruptionId,
+                session.orgId,
+                req.query.template === "true",
+            );
         }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);

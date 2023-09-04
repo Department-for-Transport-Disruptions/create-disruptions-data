@@ -234,7 +234,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -543,7 +547,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
-                    <input type="hidden" name="template" value={queryParams["template"]?.includes("true").toString()} />
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
@@ -583,7 +586,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

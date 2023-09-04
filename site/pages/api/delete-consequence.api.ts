@@ -2,7 +2,7 @@ import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes"
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { removeConsequenceFromDisruption, upsertConsequence } from "../../data/dynamo";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -42,14 +42,24 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 consequenceIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+            await upsertConsequence(consequence, session.orgId, session.isOrgStaff, req.query.template === "true");
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId);
+            await removeConsequenceFromDisruption(
+                Number(id),
+                disruptionId,
+                session.orgId,
+                req.query.template === "true",
+            );
         }
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            req.query.template === "true" ? ["template"] : [],
+            `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

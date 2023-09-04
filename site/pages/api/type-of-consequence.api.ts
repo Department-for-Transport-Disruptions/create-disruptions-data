@@ -12,8 +12,8 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
-    redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
@@ -38,11 +38,12 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
-                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}${
-                    queryParam ? `?${queryParam}` : ""
-                }`,
+                req.query.template ? ["template"] : [],
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
@@ -69,11 +70,12 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 break;
         }
 
-        redirectTo(
+        redirectToWithQueryParams(
+            req,
             res,
-            `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}${
-                queryParam ? `?${queryParam}` : ""
-            }`,
+            req.query.template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
+            queryParam ? [queryParam] : [],
         );
     } catch (e) {
         if (e instanceof Error) {

@@ -332,7 +332,7 @@ const DisruptionDetail = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}`}
+                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -342,7 +342,9 @@ const DisruptionDetail = ({
             {socialMediaPostPopUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
-                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}`}
+                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
+                        disruption.template ? "?template=true" : ""
+                    }`}
                     cancelActionHandler={cancelActionHandlerSocialMediaPost}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -399,6 +401,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -420,6 +423,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -438,6 +442,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -456,6 +461,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -474,6 +480,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -493,6 +500,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -511,6 +519,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -529,6 +538,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -549,6 +559,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -705,9 +716,9 @@ const DisruptionDetail = ({
                         {canPublish && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    Publish disruption
+                                    {disruption.template ? "Publish template" : "Publish disruption"}
                                 </button>
-                                {disruption.publishStatus !== PublishStatus.editing ? (
+                                {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
                                         className="govuk-button mt-8 govuk-button--secondary ml-5"
                                         data-module="govuk-button"
@@ -784,7 +795,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query?.template,
+    );
 
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];

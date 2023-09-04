@@ -119,6 +119,7 @@ describe("duplicate-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
@@ -126,6 +127,7 @@ describe("duplicate-disruption API", () => {
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

@@ -20,11 +20,11 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!canPublish(session) && !isEdited) {
             await Promise.all([
-                deleteDisruptionsInEdit(disruptionId, session.orgId),
-                deleteDisruptionsInPending(disruptionId, session.orgId),
+                deleteDisruptionsInEdit(disruptionId, session.orgId, req.query.template === "true"),
+                deleteDisruptionsInPending(disruptionId, session.orgId, req.query.template === "true"),
             ]);
         } else {
-            await deleteDisruptionsInEdit(disruptionId, session.orgId);
+            await deleteDisruptionsInEdit(disruptionId, session.orgId, req.query.template === "true");
         }
 
         redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);

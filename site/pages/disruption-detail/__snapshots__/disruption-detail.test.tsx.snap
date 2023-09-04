@@ -1965,7 +1965,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1993,7 +1993,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2021,7 +2021,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2049,7 +2049,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2077,7 +2077,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2179,7 +2179,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2207,7 +2207,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2235,7 +2235,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2263,7 +2263,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 >
                   <a
                     className="govuk-link"
-                    href="/create-disruption/2?return=%2Fdisruption-detail"
+                    href="/create-disruption/2?return=%2Fdisruption-detail&template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -3470,14 +3470,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             className="govuk-button mt-8 govuk-button"
             data-module="govuk-button"
           >
-            Publish disruption
-          </button>
-          <button
-            className="govuk-button mt-8 govuk-button--secondary ml-5"
-            data-module="govuk-button"
-            formAction="/api/reject"
-          >
-            Reject template
+            Publish template
           </button>
           <button
             className="govuk-button govuk-button--warning ml-5 mt-8"

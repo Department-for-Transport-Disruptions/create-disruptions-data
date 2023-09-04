@@ -19,7 +19,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             );
         }
 
-        const disruption = await getDisruptionById(id, session.orgId);
+        const disruption = await getDisruptionById(id, session.orgId, req.query.template === "true");
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);

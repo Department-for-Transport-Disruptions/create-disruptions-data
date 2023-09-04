@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
+import { notEmpty } from "..";
 import {
     COOKIES_POLICY_COOKIE,
     COOKIE_CSRF,
@@ -365,4 +366,30 @@ export const publishToHootsuite = async (
         }
         throw e;
     }
+};
+
+export const redirectToWithQueryParams = (
+    req: NextApiRequest,
+    res: NextApiResponse,
+    queryParamsToForward: string[],
+    location: string,
+    paramsToAdd?: string[],
+) => {
+    const queryStringParams = queryParamsToForward
+        .map((p) => {
+            const paramValue = req.query[p];
+
+            return paramValue ? `${p}=${paramValue.toString()}` : null;
+        })
+        .filter(notEmpty);
+
+    console.log(location, queryStringParams);
+    redirectTo(
+        res,
+        `${location}${
+            [...queryStringParams, ...(paramsToAdd || [])].length > 0
+                ? `?${[...queryStringParams, ...(paramsToAdd || [])].join("&")}`
+                : ""
+        }`,
+    );
 };

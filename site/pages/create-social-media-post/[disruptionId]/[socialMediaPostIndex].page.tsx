@@ -47,7 +47,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         <BaseLayout title={title} description={description}>
             <form
                 encType="multipart/form-data"
-                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}`}
+                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${
+                    queryParams["template"] ? "&template=true" : ""
+                }`}
                 method="post"
             >
                 <>
@@ -188,7 +190,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         </div>
                         <input type="hidden" name="disruptionId" value={pageState.disruptionId} />
                         <input type="hidden" name="socialMediaPostIndex" value={props.socialMediaPostIndex} />
-                        <input type="hidden" name="template" value={props.template} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue

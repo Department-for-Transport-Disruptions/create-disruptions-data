@@ -89,7 +89,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
             session.orgId,
             session.isOrgStaff,
-            (req.body as { template: string }).template === "true",
+            req.query.template === "true",
         );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);

@@ -27,7 +27,6 @@ const defaultNetworkData = {
     consequenceType: "networkWide",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
-    template: "",
 };
 
 describe("create-consequence-network API", () => {
@@ -85,7 +84,8 @@ describe("create-consequence-network API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and consequence is a template", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...defaultNetworkData, template: "true" },
+            body: { ...defaultNetworkData },
+            query: { template: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -110,7 +110,7 @@ describe("create-consequence-network API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?template=true`,
         });
     });
 

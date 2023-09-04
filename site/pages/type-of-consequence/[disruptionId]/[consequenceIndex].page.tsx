@@ -36,9 +36,15 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
+    const isTemplate = (queryParams["template"] as string) || "";
+
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/type-of-consequence" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -74,7 +80,11 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 <></>
                             )}
 
-                            <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                            <DeleteDisruptionButton
+                                disruptionId={props.disruptionId}
+                                csrfToken={props.csrfToken}
+                                isTemplate={isTemplate}
+                            />
                         </div>
                     </div>
                 </>
@@ -97,7 +107,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    console.log(ctx.query.template);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
     if (!disruption) {

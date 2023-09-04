@@ -149,6 +149,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
+    const isTemplate = (queryParams["template"] as string) || "";
+
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
@@ -378,7 +380,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-services" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-services${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -572,7 +578,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         <input type="hidden" name="consequenceType" value="services" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
-                        <input type="hidden" name="template" value={props.template} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -598,6 +603,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
+                            isTemplate={isTemplate}
                         />
                     </div>
                 </>
@@ -622,7 +628,11 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");

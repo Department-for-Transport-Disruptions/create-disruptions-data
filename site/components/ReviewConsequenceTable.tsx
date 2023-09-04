@@ -36,6 +36,7 @@ export const createChangeLink = (
     index?: number,
     includePreviousPage?: boolean,
     isDisruptionDetail?: boolean,
+    isTemplate?: boolean,
 ) => {
     return (
         <Link
@@ -44,7 +45,12 @@ export const createChangeLink = (
             href={{
                 pathname: `${href}/${disruption.disruptionId}${index !== undefined ? `/${index}` : ""}`,
                 query: includePreviousPage
-                    ? { return: isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH }
+                    ? {
+                          return: isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH,
+                          ...(isTemplate ? { template: isTemplate.toString() } : {}),
+                      }
+                    : isTemplate
+                    ? { template: isTemplate.toString() }
                     : null,
             }}
         >
@@ -53,7 +59,12 @@ export const createChangeLink = (
     );
 };
 
-const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionDetail?: boolean) => {
+const getRows = (
+    consequence: Consequence,
+    disruption: Disruption,
+    isDisruptionDetail?: boolean,
+    isTemplate?: boolean,
+) => {
     const rows: { header?: string | ReactNode; cells: CellProps[] }[] = [
         {
             header: "Consequence type",
@@ -72,6 +83,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                     styles: {
                         width: "w-1/10",
@@ -91,6 +103,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -117,6 +130,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -146,6 +160,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -169,6 +184,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -190,6 +206,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -208,6 +225,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -226,6 +244,7 @@ const getRows = (consequence: Consequence, disruption: Disruption, isDisruptionD
                         consequence.consequenceIndex,
                         true,
                         isDisruptionDetail,
+                        isTemplate,
                     ),
                 },
             ],
@@ -245,6 +264,7 @@ interface ReviewConsequenceTableProps {
         }[],
     ) => void;
     isDisruptionDetail?: boolean;
+    isTemplate?: boolean;
 }
 
 const ReviewConsequenceTable = ({
@@ -252,6 +272,7 @@ const ReviewConsequenceTable = ({
     disruption,
     deleteActionHandler,
     isDisruptionDetail,
+    isTemplate,
 }: ReviewConsequenceTableProps): ReactElement => {
     const hiddenInputs = [
         {
@@ -272,7 +293,7 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, isDisruptionDetail)} />
+            <Table rows={getRows(consequence, disruption, isDisruptionDetail, isTemplate)} />
             <button
                 key={consequence.consequenceIndex}
                 className="govuk-button govuk-button--warning mt-4"
@@ -290,7 +311,7 @@ const ReviewConsequenceTable = ({
                 data-module="govuk-button"
                 formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${
                     isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH
-                }`}
+                }${isTemplate ? "&template=true" : ""}`}
             >
                 Duplicate consequence
             </button>

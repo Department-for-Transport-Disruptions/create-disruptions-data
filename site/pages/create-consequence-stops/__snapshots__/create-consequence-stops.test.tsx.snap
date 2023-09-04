@@ -626,10 +626,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             name="consequenceIndex"
             type="hidden"
           />
-          <input
-            name="template"
-            type="hidden"
-          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -1395,10 +1391,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             name="consequenceIndex"
             type="hidden"
           />
-          <input
-            name="template"
-            type="hidden"
-          />
           <button
             className="govuk-button mt-8"
             data-module="govuk-button"
@@ -2119,10 +2111,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
           />
           <input
             name="consequenceIndex"
-            type="hidden"
-          />
-          <input
-            name="template"
             type="hidden"
           />
           <button
@@ -2888,10 +2876,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
           />
           <input
             name="consequenceIndex"
-            type="hidden"
-          />
-          <input
-            name="template"
             type="hidden"
           />
           <button

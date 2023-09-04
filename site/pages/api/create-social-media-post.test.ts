@@ -75,7 +75,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, template: "" },
+            body: { ...previousCreateSocialMediaPostInformation },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -104,7 +104,8 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and social media post is a template", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, template: "true" },
+            body: { ...previousCreateSocialMediaPostInformation },
+            query: { template: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -133,7 +134,7 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and an image", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, template: "" },
+            body: { ...previousCreateSocialMediaPostInformation },
             mockWriteHeadFn: writeHeadMock,
         });
         formParseSpy.mockResolvedValue({
