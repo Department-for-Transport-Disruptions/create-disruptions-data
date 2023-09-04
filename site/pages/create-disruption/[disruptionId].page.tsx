@@ -342,6 +342,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end">
@@ -370,6 +371,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end">
@@ -418,6 +420,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end">
@@ -457,6 +460,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end ">

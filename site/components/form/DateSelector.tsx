@@ -21,6 +21,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     reset?: boolean;
     suffixId?: string;
     resetError?: boolean;
+    minWidth?: string;
 }
 
 const inputBox = <T extends object>(
@@ -31,13 +32,14 @@ const inputBox = <T extends object>(
     inputName: Extract<keyof T, string>,
     errors: ErrorInfo[],
     disabled: boolean,
+    minWidth?: string,
 ) => (
     <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
         <div className="govuk-date-input__item govuk-!-margin-right-0">
             <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
                     className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
-                        errors.some((error) => error.id === inputName) ? "min-w-[236px]" : ""
+                        errors.some((error) => error.id === inputName) && minWidth ? minWidth : ""
                     }`}
                     name={inputName}
                     id={`${inputId}-input`}
@@ -81,6 +83,7 @@ const DateSelector = <T extends object>({
     reset = false,
     suffixId,
     resetError = false,
+    minWidth,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -134,7 +137,16 @@ const DateSelector = <T extends object>({
                             }}
                             onAccept={() => setErrors([])}
                             renderInput={({ inputRef, inputProps, InputProps }) => {
-                                return inputBox(inputRef, inputProps, InputProps, inputId, inputName, errors, disabled);
+                                return inputBox(
+                                    inputRef,
+                                    inputProps,
+                                    InputProps,
+                                    inputId,
+                                    inputName,
+                                    errors,
+                                    disabled,
+                                    minWidth,
+                                );
                             }}
                             disablePast={disablePast}
                             inputFormat="DD/MM/YYYY"
