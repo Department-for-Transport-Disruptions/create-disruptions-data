@@ -85,7 +85,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                         <button
                             key={`${key}${index ? `-remove-${index}` : "-remove"}`}
                             className="govuk-link"
-                            onClick={(e: SyntheticEvent) => {
+                            onClick={(e) => {
                                 e.preventDefault();
                                 removeUser(username);
                             }}
@@ -97,7 +97,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     <button
                         key={`${key}${index ? `-${index}` : ""}`}
                         className="govuk-link"
-                        onClick={(e: SyntheticEvent) => {
+                        onClick={(e) => {
                             e.preventDefault();
                             removeUser(username);
                         }}

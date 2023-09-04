@@ -31,7 +31,7 @@ const deleteUser = async (req: DeleteUserApiRequest, res: NextApiResponse): Prom
         const formattedUserDetails = user.parse(userDetails);
 
         if (session.isOrgAdmin && formattedUserDetails.organisation !== session.orgId) {
-            throw Error("Organisation admins can only delete users invites within the same organisation");
+            throw Error("Organisation admins can only delete users within the same organisation");
         }
 
         await deleteCognitoUser(username);
