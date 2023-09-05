@@ -1,6 +1,6 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ERROR_PATH } from "../../constants";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -33,7 +33,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         await deletePublishedDisruption(disruption, id, session.orgId, req.query.template === "true");
 
-        redirectTo(res, "/dashboard");
+        redirectTo(res, req.query.template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
