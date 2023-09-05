@@ -227,7 +227,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const index = ctx.query.socialMediaPostIndex ? Number(ctx.query.socialMediaPostIndex) : 0;
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query?.template);
     const socialMediaPost = disruption?.socialMediaPosts?.find((s) => s.socialMediaPostIndex === index);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
