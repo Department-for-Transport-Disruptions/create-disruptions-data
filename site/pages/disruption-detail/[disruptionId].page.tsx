@@ -390,13 +390,14 @@ const DisruptionDetail = ({
                                 Create disruption
                             </button>
                         )}
-                        {!disruption.template && 
-                        <Link
-                            className="govuk-link"
-                            href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
-                        >
-                            <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
-                        </Link>}
+                        {!disruption.template && (
+                            <Link
+                                className="govuk-link"
+                                href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                            >
+                                <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
+                            </Link>
+                        )}
                         <br />
                         <Table
                             rows={[
@@ -785,7 +786,7 @@ const DisruptionDetail = ({
                                 {disruption.template ? "Delete template" : "Delete disruption"}
                             </button>
                         )}
-                        {disruption.publishStatus === PublishStatus.published ? (
+                        {disruption.publishStatus === PublishStatus.published && !disruption.template ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"
@@ -801,7 +802,7 @@ const DisruptionDetail = ({
                                     });
                                 }}
                             >
-                                {disruption.template ? "Duplicate template" : "Duplicate disruption"}
+                                Duplicate disruption
                             </button>
                         ) : null}
                     </div>
