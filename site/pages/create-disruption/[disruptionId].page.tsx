@@ -356,6 +356,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
                                     showNowButton={handleStartDateNow}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                         </div>
@@ -439,6 +440,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
                                     showNowButton={handleNow}
+                                    minWidth="min-w-[236px]"
                                 />
                             </div>
                         </div>

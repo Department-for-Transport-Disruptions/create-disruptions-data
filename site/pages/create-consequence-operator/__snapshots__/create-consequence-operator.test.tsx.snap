@@ -447,7 +447,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="yes"
                       disabled={false}
                       id="disruption-delay-input"
@@ -1164,7 +1164,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       disabled={false}
                       id="disruption-delay-input"
                       name="disruptionDelay"
@@ -1907,7 +1907,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="yes"
                       disabled={false}
                       id="disruption-delay-input"
