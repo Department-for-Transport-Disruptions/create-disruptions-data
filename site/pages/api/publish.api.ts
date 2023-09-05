@@ -18,6 +18,7 @@ import {
     publishToHootsuite,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -61,7 +62,12 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 res,
             );
 
-            redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`,
+            );
             return;
         }
 
