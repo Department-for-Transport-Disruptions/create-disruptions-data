@@ -35,6 +35,7 @@ export interface DashboardProps {
     pendingApprovalCount?: number;
     canPublish: boolean;
     orgName: string;
+    stage?: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -100,6 +101,7 @@ const Dashboard = ({
     pendingApprovalCount,
     canPublish,
     orgName,
+    stage,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -254,7 +256,7 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-            {STAGE !== "prod" && STAGE !== "preprod" && process.env.NODE_ENV !== "production" && (
+            {stage !== "prod" && stage !== "preprod" && (
                 <Link className="govuk-link" href="/view-all-templates">
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
@@ -358,6 +360,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 pendingApprovalCount: pendingApprovalCount,
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
+                stage: STAGE,
             },
         };
     }
