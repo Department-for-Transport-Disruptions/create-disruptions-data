@@ -2,7 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
-import { ERROR_PATH } from "../../constants";
+import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -192,7 +192,7 @@ describe("publishEdit", () => {
             undefined,
             true,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location:VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
