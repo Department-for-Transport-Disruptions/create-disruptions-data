@@ -19,6 +19,7 @@ export const fullDisruptionSchema = disruptionSchema.and(
         deletedConsequences: z.array(z.object({ consequenceIndex: z.number() })).optional(),
         history: z.array(historySchema).optional(),
         newHistory: z.array(z.string()).optional(),
+        template: z.boolean().optional(),
         socialMediaPosts: z
             .array(socialMediaPostSchema)
             .max(5, {
