@@ -748,7 +748,7 @@ const DisruptionDetail = ({
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
-                                formAction="/api/cancel-changes"
+                                formAction={`/api/cancel-changes${queryParams["template"] ? "?template=true" : ""}`}
                             >
                                 Cancel all changes
                             </button>
