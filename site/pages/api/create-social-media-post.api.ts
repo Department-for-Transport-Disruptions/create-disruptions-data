@@ -14,7 +14,6 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
-    redirectTo,
     redirectToError,
     redirectToWithQueryParams,
     setCookieOnResponseObject,
