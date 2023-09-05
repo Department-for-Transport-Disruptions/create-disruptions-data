@@ -9,13 +9,19 @@ import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 const title = "View All Templates";
 const description = "View All Templates page for the Create Transport Disruptions Service";
 
-const ViewAllTemplates = ({ newContentId, adminAreaCodes, filterStatus }: ViewAllContentProps): ReactElement => {
+const ViewAllTemplates = ({
+    newContentId,
+    adminAreaCodes,
+    filterStatus,
+    enableLoadingSpinnerOnPageLoad = true,
+}: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <ViewAllContents
                 newContentId={newContentId}
                 adminAreaCodes={adminAreaCodes}
                 filterStatus={filterStatus}
+                enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
                 isTemplate={true}
             />
         </BaseLayout>

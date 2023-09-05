@@ -97,368 +97,208 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
           </button>
         </div>
       </div>
-      <div
-        className="src__StyledContainer-sc-gm1edz-0 bfzDal"
+      <table
+        className="govuk-table"
       >
-        <div
-          backgroundColor="#ffffff"
-          backgroundColorOpacity={0.85}
-          className="src__Innerwrap-sc-gm1edz-1 eFdCXW"
-          timeIn={800}
-          timeOut={200}
+        <thead
+          className="govuk-table__head"
         >
-          <svg
-            className="SVGBase__StyledSvg-sc-16k4s64-0 iZwUAC icon-loading"
-            fill="#0b0c0c"
-            height="50px"
-            preserveAspectRatio="xMidYMid meet"
-            version="1.1"
-            viewBox="-25 -25 50 50"
-            width="50px"
+          <tr
+            className="govuk-table__row"
           >
-            <title>
-              Loading
-            </title>
-            <rect
-              animationDelay={0}
-              className="Spinner__Rect-sc-1f5b0zr-0 bJtWcG"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(0, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={1}
-              className="Spinner__Rect-sc-1f5b0zr-0 knRIjF"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(30, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={2}
-              className="Spinner__Rect-sc-1f5b0zr-0 lfzWOj"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(60, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={3}
-              className="Spinner__Rect-sc-1f5b0zr-0 kiKgwp"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(90, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={4}
-              className="Spinner__Rect-sc-1f5b0zr-0 kudAY"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(120, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={5}
-              className="Spinner__Rect-sc-1f5b0zr-0 kEFJcq"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(150, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={6}
-              className="Spinner__Rect-sc-1f5b0zr-0 kzTCtX"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(180, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={7}
-              className="Spinner__Rect-sc-1f5b0zr-0 kYSlQm"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(210, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={8}
-              className="Spinner__Rect-sc-1f5b0zr-0 kVwmRq"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(240, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={9}
-              className="Spinner__Rect-sc-1f5b0zr-0 kQehxW"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(270, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={10}
-              className="Spinner__Rect-sc-1f5b0zr-0 oWNx"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(300, 0, 2) translate(10 0)"
-              width="12"
-            />
-            <rect
-              animationDelay={11}
-              className="Spinner__Rect-sc-1f5b0zr-0 lkIUXV"
-              fill="#0b0c0c"
-              height="5"
-              opacity="0"
-              rx="2.5"
-              ry="2.5"
-              transform="rotate(330, 0, 2) translate(10 0)"
-              width="12"
-            />
-          </svg>
-          <div
-            className="src__Overlay-sc-gm1edz-2 ckaYFr overlay"
-          />
-        </div>
-        <table
-          className="govuk-table"
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              ID
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Summary
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Modes
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Starts
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Ends
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Severity
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
         >
-          <thead
-            className="govuk-table__head"
+          <tr
+            className="govuk-table__row"
           >
-            <tr
-              className="govuk-table__row"
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
             >
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
+              <a
+                className="govuk-link"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
-                ID
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Summary
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Modes
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Starts
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Ends
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Severity
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            className="govuk-table__body"
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              05/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
           >
-            <tr
-              className="govuk-table__row"
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
+              <a
+                className="govuk-link"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                05/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                18/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              18/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
-                <a
-                  className="govuk-link"
-                  href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Busted reunion traffic
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram, Ferry, Train
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                19/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                11/05/2024
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Draft
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Busted reunion traffic
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram, Ferry, Train
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              19/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              11/05/2024
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Draft
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </main>
     <div>
       <h2
@@ -748,630 +588,626 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
           </button>
         </div>
       </div>
-      <div
-        className="src__StyledContainer-sc-gm1edz-0 bfzDal"
+      <table
+        className="govuk-table"
       >
-        <table
-          className="govuk-table"
+        <thead
+          className="govuk-table__head"
         >
-          <thead
-            className="govuk-table__head"
+          <tr
+            className="govuk-table__row"
           >
-            <tr
-              className="govuk-table__row"
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                ID
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Summary
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Modes
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Starts
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Ends
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Severity
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            className="govuk-table__body"
-          >
-            <tr
-              className="govuk-table__row"
+              ID
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                05/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Summary
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                18/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Modes
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Busted reunion traffic
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram, Ferry, Train
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                19/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                11/05/2024
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Draft
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Starts
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                05/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Ends
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                18/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
+              Severity
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Busted reunion traffic
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram, Ferry, Train
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                19/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                11/05/2024
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Draft
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
-            >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                05/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
-            >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                18/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
-            >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Busted reunion traffic
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram, Ferry, Train
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                19/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                11/05/2024
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Draft
-              </td>
-            </tr>
-            <tr
-              className="govuk-table__row"
-            >
-              <th
-                className="govuk-table__header align-middle"
-                scope="row"
-              >
-                <a
-                  className="govuk-link"
-                  href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                >
-                  8fg3ha
-                </a>
-              </th>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Tram
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                05/01/2022
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                No end time
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Very severe
-              </td>
-              <td
-                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-              >
-                Open
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <nav
-          className="govuk-pagination justify-center"
-          role="navigation"
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
         >
-          <ul
-            className="govuk-pagination__list"
+          <tr
+            className="govuk-table__row"
           >
-             
-            <li
-              className="govuk-pagination__item govuk-pagination__item--current"
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
             >
               <a
-                aria-label="Page 1"
-                className="govuk-link govuk-pagination__link"
-                data-module="govuk-button"
-                draggable="false"
-                href="#"
+                className="govuk-link"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-                role="button"
               >
-                1
-                 
+                8fg3ha
               </a>
-            </li>
-            <li
-              className="govuk-pagination__item"
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              05/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
             >
               <a
-                aria-label="Page 2"
-                className="govuk-link govuk-pagination__link"
-                data-module="govuk-button"
-                draggable="false"
-                href="#"
+                className="govuk-link"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
-                role="button"
               >
-                2
-                 
+                8fg3ha
               </a>
-            </li>
-          </ul>
-          <div
-            className="govuk-pagination__next"
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              18/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Busted reunion traffic
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram, Ferry, Train
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              19/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              11/05/2024
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Draft
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              05/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              18/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Busted reunion traffic
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram, Ferry, Train
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              19/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              11/05/2024
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Draft
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              05/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              18/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Busted reunion traffic
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram, Ferry, Train
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              19/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              11/05/2024
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Draft
+            </td>
+          </tr>
+          <tr
+            className="govuk-table__row"
+          >
+            <th
+              className="govuk-table__header align-middle"
+              scope="row"
+            >
+              <a
+                className="govuk-link"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                8fg3ha
+              </a>
+            </th>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Tram
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              05/01/2022
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              No end time
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Very severe
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              Open
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav
+        className="govuk-pagination justify-center"
+        role="navigation"
+      >
+        <ul
+          className="govuk-pagination__list"
+        >
+           
+          <li
+            className="govuk-pagination__item govuk-pagination__item--current"
+          >
+            <a
+              aria-label="Page 1"
+              className="govuk-link govuk-pagination__link"
+              data-module="govuk-button"
+              draggable="false"
+              href="#"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+            >
+              1
+               
+            </a>
+          </li>
+          <li
+            className="govuk-pagination__item"
           >
             <a
               aria-label="Page 2"
               className="govuk-link govuk-pagination__link"
               data-module="govuk-button"
               draggable="false"
-              href=""
+              href="#"
               onClick={[Function]}
               onMouseEnter={[Function]}
               onTouchStart={[Function]}
-              rel="next"
               role="button"
             >
-              <span
-                className="govuk-pagination__link-title"
-              >
-                Next
-              </span>
+              2
                
-              <svg
-                aria-hidden="true"
-                className="govuk-pagination__icon govuk-pagination__icon--next"
-                focusable="false"
-                height="13"
-                viewBox="0 0 15 13"
-                width="15"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
-                />
-              </svg>
             </a>
-          </div>
-        </nav>
-      </div>
+          </li>
+        </ul>
+        <div
+          className="govuk-pagination__next"
+        >
+          <a
+            aria-label="Page 2"
+            className="govuk-link govuk-pagination__link"
+            data-module="govuk-button"
+            draggable="false"
+            href=""
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            rel="next"
+            role="button"
+          >
+            <span
+              className="govuk-pagination__link-title"
+            >
+              Next
+            </span>
+             
+            <svg
+              aria-hidden="true"
+              className="govuk-pagination__icon govuk-pagination__icon--next"
+              focusable="false"
+              height="13"
+              viewBox="0 0 15 13"
+              width="15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+              />
+            </svg>
+          </a>
+        </div>
+      </nav>
     </main>
     <div>
       <h2
@@ -1661,67 +1497,63 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
           </button>
         </div>
       </div>
-      <div
-        className="src__StyledContainer-sc-gm1edz-0 bfzDal"
+      <table
+        className="govuk-table"
       >
-        <table
-          className="govuk-table"
+        <thead
+          className="govuk-table__head"
         >
-          <thead
-            className="govuk-table__head"
+          <tr
+            className="govuk-table__row"
           >
-            <tr
-              className="govuk-table__row"
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                ID
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Summary
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Modes
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Starts
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Ends
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Severity
-              </th>
-              <th
-                className="govuk-table__header align-middle px-2"
-                scope="col"
-              >
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            className="govuk-table__body"
-          />
-        </table>
-      </div>
+              ID
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Summary
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Modes
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Starts
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Ends
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Severity
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
+        />
+      </table>
     </main>
     <div>
       <h2

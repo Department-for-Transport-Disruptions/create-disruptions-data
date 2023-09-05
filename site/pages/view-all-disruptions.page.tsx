@@ -79,10 +79,20 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-const ViewAllDisruptions = ({ newContentId, adminAreaCodes, filterStatus }: ViewAllContentProps): ReactElement => {
+const ViewAllDisruptions = ({
+    newContentId,
+    adminAreaCodes,
+    filterStatus,
+    enableLoadingSpinnerOnPageLoad = true,
+}: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <ViewAllContents newContentId={newContentId} adminAreaCodes={adminAreaCodes} filterStatus={filterStatus} />
+            <ViewAllContents
+                newContentId={newContentId}
+                adminAreaCodes={adminAreaCodes}
+                filterStatus={filterStatus}
+                enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
+            />
         </BaseLayout>
     );
 };
