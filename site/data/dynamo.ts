@@ -919,7 +919,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
                     TransactItems: [
                         ...editedDisruption.map((disruption) => ({
                             Put: {
-                                TableName: disruptionsTableName,
+                                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                                 Item: {
                                     ...disruption,
                                     PK: id,
@@ -929,7 +929,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
                         })),
                         ...editedConsequences.map((consequence) => ({
                             Put: {
-                                TableName: disruptionsTableName,
+                                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                                 Item: {
                                     ...consequence,
                                     PK: id,
@@ -939,7 +939,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
                         })),
                         ...deleteConsequences.map((consequence) => ({
                             Delete: {
-                                TableName: disruptionsTableName,
+                                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}`,
@@ -948,7 +948,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
                         })),
                         ...editedSocialMediaPosts.map((socialMediaPost) => ({
                             Put: {
-                                TableName: disruptionsTableName,
+                                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                                 Item: {
                                     ...socialMediaPost,
                                     PK: id,
@@ -960,7 +960,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
                         })),
                         ...deleteSocialMediaPosts.map((socialMediaPost) => ({
                             Delete: {
-                                TableName: disruptionsTableName,
+                                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                                 Key: {
                                     PK: id,
                                     SK: `${disruptionId}#SOCIALMEDIAPOST#${
