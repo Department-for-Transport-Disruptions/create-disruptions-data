@@ -304,7 +304,7 @@ export const deletePublishedDisruption = async (
     }[] =
         disruption?.consequences?.map((_, index) => ({
             Delete: {
-                TableName: isTemplate?templateDisruptionsTableName:  disruptionsTableName,
+                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#CONSEQUENCE#${index}`,
