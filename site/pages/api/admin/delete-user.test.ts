@@ -8,8 +8,12 @@ import {
     USER_MANAGEMENT_PAGE_PATH,
 } from "../../../constants";
 import * as cognito from "../../../data/cognito";
-import { Session } from "../../../schemas/session.schema";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
+import {
+    getMockRequestAndResponse,
+    mockDeleteAdminUser,
+    mockGetUserDetails,
+    mockSession,
+} from "../../../testData/mockData";
 import { destroyCookieOnResponseObject } from "../../../utils/apiUtils";
 import * as session from "../../../utils/apiUtils/auth";
 
@@ -42,42 +46,13 @@ describe("delete-user", () => {
         vi.resetAllMocks();
     });
 
-    const defaultSession: Session = {
-        email: "test@example.com",
-        isOrgAdmin: false,
-        isOrgPublisher: false,
-        isOrgStaff: false,
-        isSystemAdmin: true,
-        orgId: DEFAULT_ORG_ID,
-        username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-        name: "Test User",
-    };
-
     beforeEach(() => {
-        getSession.mockImplementation(() => defaultSession);
+        getSession.mockImplementation(() => mockSession);
     });
 
     it("should redirect to /admin/user-management if delete was a success", async () => {
-        deleteAdminUserSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-            }),
-        );
-
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: DEFAULT_ORG_ID,
-                    },
-                ],
-            }),
-        );
+        deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -92,26 +67,8 @@ describe("delete-user", () => {
     });
 
     it("should redirect to /sysadmin/users if delete was a success and request received from add admin users page", async () => {
-        deleteAdminUserSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-            }),
-        );
-
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: DEFAULT_ORG_ID,
-                    },
-                ],
-            }),
-        );
+        deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const randomId = randomUUID();
         const { req, res } = getMockRequestAndResponse({
@@ -127,21 +84,14 @@ describe("delete-user", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
-    it("should redirect to /500 if organisation ids do not match and role is not sysadmin", async () => {
-        getSession.mockImplementation(() => ({ ...defaultSession, isOrgAdmin: true, isSystemAdmin: false }));
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: "1234",
-                    },
-                ],
-            }),
-        );
+    it("should redirect to /500 if org admin is trying to delete an account and organisation ids do not match", async () => {
+        getSession.mockImplementation(() => ({
+            ...mockSession,
+            isOrgAdmin: true,
+            isSystemAdmin: false,
+            orgId: "1234",
+        }));
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -163,14 +113,7 @@ describe("delete-user", () => {
             });
         });
 
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 400 },
-                Username: "",
-                UserAttributes: [],
-            }),
-        );
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {},
@@ -183,27 +126,9 @@ describe("delete-user", () => {
     });
 
     it("should redirect to /login if delete was a success and the user deletes themselves", async () => {
-        getSession.mockImplementation(() => ({ ...defaultSession, username: "2f99b92e-a86f-4457-a2dc-923db4781c53" }));
-        deleteAdminUserSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-            }),
-        );
-
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c53",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: DEFAULT_ORG_ID,
-                    },
-                ],
-            }),
-        );
+        getSession.mockImplementation(() => ({ ...mockSession, username: "2f99b92e-a86f-4457-a2dc-923db4781c53" }));
+        deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const randomId = randomUUID();
         const { req, res } = getMockRequestAndResponse({
