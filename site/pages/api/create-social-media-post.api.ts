@@ -71,11 +71,14 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
+                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }${queryParam ? `?${queryParam}` : ""}`,
+                }`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
