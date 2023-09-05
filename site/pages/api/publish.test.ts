@@ -78,7 +78,7 @@ describe("publish", () => {
             PublishStatus.published,
             "test@example.com",
             "Disruption created and published",
-            false
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
