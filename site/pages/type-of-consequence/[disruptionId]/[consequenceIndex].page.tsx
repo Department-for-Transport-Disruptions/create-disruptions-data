@@ -71,7 +71,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             {displayCancelButton ? (
                                 <Link
                                     role="button"
-                                    href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                    href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}${
+                                        isTemplate ? "?template=true" : ""
+                                    }`}
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
                                 >
                                     Cancel Changes
