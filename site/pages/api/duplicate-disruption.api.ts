@@ -3,10 +3,10 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import { CREATE_DISRUPTION_PAGE_PATH, DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -23,8 +23,18 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
-        const { template } = req.query;
-        const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
+        const { template, templateId } = req.query;
+        const createDisruptionFromTemplate = template === "create-disruption";
+
+        if (createDisruptionFromTemplate && templateId) {
+            throw new Error("Template id is required");
+        }
+
+        const disruptionToDuplicate = await getDisruptionById(
+            createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
+            session.orgId,
+            createDisruptionFromTemplate,
+        );
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
@@ -88,13 +98,20 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        redirectToWithQueryParams(
-            req,
-            res,
-            template === "true" ? ["template"] : [],
-            `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
-            ["duplicate=true"],
-        );
+        createDisruptionFromTemplate
+            ? redirectTo(
+                  res,
+                  `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?return=${DISRUPTION_DETAIL_PAGE_PATH}/${
+                      templateId as string
+                  }`,
+              )
+            : redirectToWithQueryParams(
+                  req,
+                  res,
+                  template === "true" ? ["template"] : [],
+                  `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
+                  ["duplicate=true"],
+              );
 
         return;
     } catch (e) {
