@@ -623,14 +623,14 @@ const ViewAllContents = ({
             <h1 className="govuk-heading-xl">View all disruptions</h1>
             <div>
                 <Link
-                    href={`/create-disruption/${newContentId}`}
+                    href={`/create-disruption/${newContentId}${isTemplate ? "?template=true" : ""}`}
                     role="button"
                     draggable="false"
                     className="govuk-button govuk-button--start"
                     data-module="govuk-button"
                     id="create-new-button"
                 >
-                    Create new disruption
+                    {isTemplate ? "Create new template" : "Create new disruption"}
                     <svg
                         className="govuk-button__start-icon"
                         xmlns="http://www.w3.org/2000/svg"

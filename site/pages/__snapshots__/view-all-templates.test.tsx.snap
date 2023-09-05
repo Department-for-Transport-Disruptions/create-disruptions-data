@@ -54,14 +54,14 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"
@@ -545,14 +545,14 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"
@@ -1454,14 +1454,14 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"
