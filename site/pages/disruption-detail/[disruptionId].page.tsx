@@ -380,12 +380,23 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
+                        {disruption.template && (
+                            <button
+                                key="create-disruption-from-template"
+                                className="govuk-button"
+                                data-module="govuk-button"
+                                formAction=""
+                            >
+                                Create disruption
+                            </button>
+                        )}
+                        {!disruption.template && 
                         <Link
                             className="govuk-link"
                             href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
                         >
                             <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
-                        </Link>
+                        </Link>}
                         <br />
                         <Table
                             rows={[

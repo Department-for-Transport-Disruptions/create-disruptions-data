@@ -183,6 +183,7 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionRepeats: undefined,
                     },
                 ],
+                template: false,
             },
             {
                 publishStatus: PublishStatus.draft,
@@ -216,6 +217,7 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionRepeats: undefined,
                     },
                 ],
+                template: false,
             },
             {
                 publishStatus: PublishStatus.draft,
@@ -243,6 +245,7 @@ describe("sortDisruptionsByStartDate", () => {
                         disruptionRepeats: undefined,
                     },
                 ],
+                template: false,
             },
         ]);
     });
