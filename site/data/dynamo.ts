@@ -1253,7 +1253,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
         }[] =
             editedConsequences?.map((consequence) => ({
                 Delete: {
-                    TableName: disruptionsTableName,
+                    TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#EDIT`,
@@ -1269,7 +1269,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
         }[] =
             editedSocialMediaPosts?.map((socialMediaPost) => ({
                 Delete: {
-                    TableName: disruptionsTableName,
+                    TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#EDIT`,
@@ -1282,7 +1282,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
                 TransactItems: [
                     {
                         Delete: {
-                            TableName: disruptionsTableName,
+                            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                             Key: {
                                 PK: id,
                                 SK: `${disruptionId}#INFO#EDIT`,
