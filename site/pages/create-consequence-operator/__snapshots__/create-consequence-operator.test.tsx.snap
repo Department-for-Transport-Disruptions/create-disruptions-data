@@ -125,6 +125,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -343,7 +344,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -481,6 +482,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -868,6 +870,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1047,7 +1050,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -1195,6 +1198,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1581,6 +1585,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1799,7 +1804,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -1937,6 +1942,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}

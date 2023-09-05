@@ -1,0 +1,16 @@
+{
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "compilerOptions": {
+        "module": "esnext",
+        "baseUrl": ".",
+        "paths": {
+            "@create-disruptions-data/core/*": ["../core/src/*"]
+        },
+        "types": ["node"]
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "moduleResolution": "node"
+        }
+    }
+}

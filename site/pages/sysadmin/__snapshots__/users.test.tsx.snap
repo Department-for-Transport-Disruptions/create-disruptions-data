@@ -630,13 +630,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   className="govuk-link"
                   onClick={[Function]}
                 >
-                  Resend invite
-                </button>
-                <br />
-                <button
-                  className="govuk-link"
-                  onClick={[Function]}
-                >
                   Remove
                 </button>
               </td>
@@ -667,13 +660,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
               <td
                 className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
               >
-                <button
-                  className="govuk-link"
-                  onClick={[Function]}
-                >
-                  Resend invite
-                </button>
-                <br />
                 <button
                   className="govuk-link"
                   onClick={[Function]}

@@ -286,6 +286,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="13958638"
                     id="social-account-input"
                     name="socialAccount"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -328,6 +329,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="127196025"
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -847,6 +849,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="social-account-input"
                     name="socialAccount"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -884,6 +887,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}

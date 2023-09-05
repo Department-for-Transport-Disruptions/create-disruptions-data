@@ -16,9 +16,9 @@ import { z } from "zod";
 import { randomUUID } from "crypto";
 import DateSelector from "../components/form/DateSelector";
 import Select from "../components/form/Select";
+import SortableTable, { SortOrder, TableColumn } from "../components/form/SortableTable";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
-import PageNumbers from "../components/layout/PageNumbers";
 import PDFDoc from "../components/pdf/DownloadPDF";
 import ExportPopUp from "../components/popup/ExportPopup";
 import OperatorSearch from "../components/search/OperatorSearch";
@@ -34,13 +34,13 @@ import {
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { disruptionsTableSchema, ExportDisruptionData, exportDisruptionsSchema } from "../schemas/disruption.schema";
+import { ExportDisruptionData, disruptionsTableSchema, exportDisruptionsSchema } from "../schemas/disruption.schema";
 import {
+    SortedDisruption,
     getDisplayByValue,
-    splitCamelCaseToString,
     getServiceLabel,
     getSortedDisruptionFinalEndDate,
-    SortedDisruption,
+    splitCamelCaseToString,
 } from "../utils";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import {
@@ -101,6 +101,31 @@ export interface Filter {
     searchText?: string;
 }
 
+export interface DisruptionTable {
+    id: JSX.Element;
+    summary: string;
+    modes: string;
+    start: string;
+    end: string;
+    severity: string;
+    status: string;
+}
+
+const sortFunction = (disruptions: DisruptionTable[], sortField: keyof DisruptionTable, sortOrder: SortOrder) => {
+    return disruptions.sort((a, b) => {
+        const aValue = getFormattedDate(a[sortField] === "No end time" ? "01/01/1900" : (a[sortField] as string));
+        const bValue = getFormattedDate(b[sortField] === "No end time" ? "01/01/1900" : (b[sortField] as string));
+
+        if (aValue.isBefore(bValue)) {
+            return sortOrder === SortOrder.asc ? -1 : 1;
+        } else if (aValue.isAfter(bValue)) {
+            return sortOrder === SortOrder.asc ? 1 : -1;
+        } else {
+            return 0;
+        }
+    });
+};
+
 export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
@@ -145,9 +170,8 @@ export const disruptionIsClosingOrClosed = (disruptionEndDate: Dayjs, today: Day
     return Progress.open;
 };
 
-const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: number) => {
-    const pageOfDisruptions = getPageOfDisruptions(currentPage, disruptions);
-    return pageOfDisruptions.map((disruption) => {
+const formatDisruptionsIntoRows = (disruptions: TableDisruption[]): DisruptionTable[] => {
+    return disruptions.map((disruption) => {
         const earliestPeriod: {
             startTime: string;
             endTime: string | null;
@@ -155,7 +179,7 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: 
         const latestPeriod: string | null = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
 
         return {
-            header: (
+            id: (
                 <Link
                     className="govuk-link"
                     href={
@@ -179,22 +203,14 @@ const formatDisruptionsIntoRows = (disruptions: TableDisruption[], currentPage: 
                     {disruption.displayId}
                 </Link>
             ),
-            cells: [
-                disruption.summary,
-                disruption.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
-                convertDateTimeToFormat(earliestPeriod.startTime),
-                !!latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
-                splitCamelCaseToString(disruption.severity),
-                splitCamelCaseToString(disruption.status),
-            ],
+            summary: disruption.summary,
+            modes: disruption.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
+            start: convertDateTimeToFormat(earliestPeriod.startTime),
+            end: !!latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
+            severity: splitCamelCaseToString(disruption.severity),
+            status: splitCamelCaseToString(disruption.status),
         };
     });
-};
-
-const getPageOfDisruptions = (pageNumber: number, disruptions: TableDisruption[]): TableDisruption[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return disruptions.slice(startPoint, endPoint);
 };
 
 export const getWorstSeverity = (severitys: Severity[]): Severity => {
@@ -344,12 +360,10 @@ const applyFiltersToDisruptions = (
     disruptions: TableDisruption[],
     setDisruptionsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     filter: Filter,
-    setNumberOfDisruptionsPages: Dispatch<SetStateAction<number>>,
 ): void => {
     const disruptionsToDisplay = filterDisruptions(disruptions, filter);
 
     setDisruptionsToDisplay(disruptionsToDisplay);
-    setNumberOfDisruptionsPages(Math.ceil(disruptionsToDisplay.length / 10));
 };
 
 const filterIsEmpty = (filter: Filter): boolean =>
@@ -378,8 +392,6 @@ const ViewAllDisruptions = ({
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
 }: ViewAllDisruptionsProps): ReactElement => {
-    const [numberOfDisruptionsPages, setNumberOfDisruptionsPages] = useState<number>(0);
-    const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
 
@@ -477,13 +489,11 @@ const ViewAllDisruptions = ({
             const disruptions = await getDisruptionData();
             setDisruptionsToDisplay(disruptions);
             setDisruptions(disruptions);
-            setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
             setLoadPage(false);
         };
 
         fetchData().catch(() => {
             setDisruptionsToDisplay([]);
-            setNumberOfDisruptionsPages(0);
             setLoadPage(false);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -525,22 +535,12 @@ const ViewAllDisruptions = ({
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        applyFiltersToDisruptions(
-            disruptions,
-            setDisruptionsToDisplay,
-            { ...filter, services: selectedServices },
-            setNumberOfDisruptionsPages,
-        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, { ...filter, services: selectedServices }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedServices]);
 
     useEffect(() => {
         setFilter({ ...filter, searchText });
-        applyFiltersToDisruptions(
-            disruptions,
-            setDisruptionsToDisplay,
-            { ...filter, searchText },
-            setNumberOfDisruptionsPages,
-        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, { ...filter, searchText }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchText]);
 
     useEffect(() => {
@@ -560,21 +560,17 @@ const ViewAllDisruptions = ({
             operators: disruptionOperatorsToSet,
         });
 
-        applyFiltersToDisruptions(
-            disruptions,
-            setDisruptionsToDisplay,
-            { ...filter, operators: disruptionOperatorsToSet },
-            setNumberOfDisruptionsPages,
-        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, {
+            ...filter,
+            operators: disruptionOperatorsToSet,
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedOperators]);
 
     useEffect(() => {
         if (filterIsEmpty(filter)) {
             setDisruptionsToDisplay(disruptions);
-            setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
         } else {
-            applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, filter, setNumberOfDisruptionsPages);
-            setCurrentPage(1);
+            applyFiltersToDisruptions(disruptions, setDisruptionsToDisplay, filter);
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
@@ -685,6 +681,39 @@ const ViewAllDisruptions = ({
         });
     };
 
+    const columns: TableColumn<DisruptionTable>[] = [
+        {
+            displayName: "ID",
+            key: "id",
+        },
+        {
+            displayName: "Summary",
+            key: "summary",
+        },
+        {
+            displayName: "Modes",
+            key: "modes",
+        },
+        {
+            displayName: "Start",
+            key: "start",
+            sortable: true,
+        },
+        {
+            displayName: "End",
+            key: "end",
+            sortable: true,
+        },
+        {
+            displayName: "Severity",
+            key: "severity",
+        },
+        {
+            displayName: "Status",
+            key: "status",
+        },
+    ];
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
@@ -719,7 +748,6 @@ const ViewAllDisruptions = ({
                             if (showFilters) {
                                 setFilter({ services: [], operators: [] });
                                 setDisruptionsToDisplay(disruptions);
-                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
                                 setClearButtonClicked(true);
                                 setShowFilters(false);
                             } else {
@@ -743,8 +771,6 @@ const ViewAllDisruptions = ({
                                 setFilter({ services: [], operators: [] });
                                 setDisruptionsToDisplay(disruptions);
                                 setClearButtonClicked(true);
-                                setNumberOfDisruptionsPages(Math.ceil(disruptions.length / 10));
-                                setCurrentPage(1);
                             }}
                         >
                             Clear filters
@@ -910,7 +936,6 @@ const ViewAllDisruptions = ({
                             ]}
                             stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
                             width="1/4"
-                            updateOnChange
                             useDefaultValue={false}
                         />
                         <div className="ml-10">
@@ -925,7 +950,6 @@ const ViewAllDisruptions = ({
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
                                 width="1/4"
-                                updateOnChange
                                 useDefaultValue={false}
                             />
                         </div>
@@ -941,7 +965,6 @@ const ViewAllDisruptions = ({
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"
-                                updateOnChange
                                 useDefaultValue={false}
                             />
                         </div>
@@ -951,30 +974,18 @@ const ViewAllDisruptions = ({
 
             {enableLoadingSpinnerOnPageLoad ? (
                 <LoadingBox loading={loadPage}>
-                    <>
-                        <Table
-                            columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                            rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
-                        />
-                        <PageNumbers
-                            numberOfPages={numberOfDisruptionsPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </>
+                    <SortableTable
+                        columns={columns}
+                        rows={formatDisruptionsIntoRows(disruptionsToDisplay)}
+                        sortFunction={sortFunction}
+                    />
                 </LoadingBox>
             ) : (
-                <>
-                    <Table
-                        columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                        rows={formatDisruptionsIntoRows(disruptionsToDisplay, currentPage)}
-                    />
-                    <PageNumbers
-                        numberOfPages={numberOfDisruptionsPages}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                </>
+                <SortableTable
+                    columns={columns}
+                    rows={formatDisruptionsIntoRows(disruptionsToDisplay)}
+                    sortFunction={sortFunction}
+                />
             )}
         </BaseLayout>
     );

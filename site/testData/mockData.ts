@@ -684,17 +684,6 @@ export const mockOperators: Operator[] = [
     },
 ];
 
-export const mockSession: Session = {
-    email: "test@example.com",
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-    isSystemAdmin: true,
-    orgId: DEFAULT_ORG_ID,
-    username: "test@example.com",
-    name: "Test User",
-};
-
 export const exportDisruption: ExportDisruptions = [
     {
         id: "8fg3ha",
@@ -1016,3 +1005,44 @@ export const mockBodsServicesWithDuplicates: ServiceApiResponse[] = [
         lineId: "LineId3",
     },
 ];
+
+export const mockSession: Session = {
+    email: "test@example.com",
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: true,
+    orgId: DEFAULT_ORG_ID,
+    username: "test@example.com",
+    name: "Test User",
+};
+
+export const mockGetUserDetails = Promise.resolve({
+    body: {},
+    $metadata: { httpStatusCode: 302 },
+    Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
+    UserStatus: "FORCE_CHANGE_PASSWORD",
+    UserAttributes: [
+        {
+            Name: "custom:orgId",
+            Value: DEFAULT_ORG_ID,
+        },
+        {
+            Name: "given_name",
+            Value: "dummy",
+        },
+        {
+            Name: "family_name",
+            Value: "user",
+        },
+        {
+            Name: "email",
+            Value: "dummy.user@gmail.com",
+        },
+    ],
+});
+
+export const mockDeleteAdminUser = Promise.resolve({
+    body: {},
+    $metadata: { httpStatusCode: 302 },
+});
