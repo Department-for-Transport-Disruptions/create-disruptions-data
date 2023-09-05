@@ -691,7 +691,10 @@ const DisruptionDetail = ({
                             }`}
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                query: {
+                                    return: DISRUPTION_DETAIL_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0

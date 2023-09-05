@@ -651,7 +651,10 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                             }`}
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
+                                query: {
+                                    return: REVIEW_DISRUPTION_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
