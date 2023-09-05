@@ -8,7 +8,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
-import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { DASHBOARD_PAGE_PATH, STAGE, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -254,9 +254,11 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-            <Link className="govuk-link" href="/view-all-templates">
-                <h2 className="govuk-heading-s text-govBlue">Templates</h2>
-            </Link>
+            {STAGE !== "prod" && STAGE !== "preprod" && (
+                <Link className="govuk-link" href="/view-all-templates">
+                    <h2 className="govuk-heading-s text-govBlue">Templates</h2>
+                </Link>
+            )}
         </BaseLayout>
     );
 };
