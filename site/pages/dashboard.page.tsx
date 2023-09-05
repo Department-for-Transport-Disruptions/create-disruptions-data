@@ -254,7 +254,7 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-            {STAGE !== "prod" && STAGE !== "preprod" && (
+            {STAGE !== "prod" && STAGE !== "preprod" && process.env.NODE_ENV !== "production" && (
                 <Link className="govuk-link" href="/view-all-templates">
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
