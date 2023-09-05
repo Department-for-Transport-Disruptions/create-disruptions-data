@@ -23,9 +23,6 @@ const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const fetchSpy = vi.spyOn(global, "fetch");
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const useRouter = vi.spyOn(require("next/router"), "useRouter");
-
 afterEach(() => {
     vi.resetAllMocks();
 });
