@@ -645,12 +645,16 @@ export const removeSocialMediaPostFromDisruption = async (
 ) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
 
+    const getSK = isTemplate
+        ? `${disruptionId}#SOCIALMEDIAPOST#${index}#EDIT`
+        : `${disruptionId}#SOCIALMEDIAPOST#${index}`;
+
     await ddbDocClient.send(
         new DeleteCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             Key: {
                 PK: id,
-                SK: `${disruptionId}#SOCIALMEDIAPOST#${index}`,
+                SK: `${getSK}`,
             },
         }),
     );
