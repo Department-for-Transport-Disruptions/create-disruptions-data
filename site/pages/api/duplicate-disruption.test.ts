@@ -52,6 +52,7 @@ const disruption: FullDisruption = {
     consequences: [defaultNetworkData],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    template: false,
 };
 
 describe("duplicate-disruption API", () => {
