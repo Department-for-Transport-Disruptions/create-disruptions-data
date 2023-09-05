@@ -14,7 +14,6 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
-    redirectTo,
     redirectToError,
     redirectToWithQueryParams,
     setCookieOnResponseObject,
@@ -71,11 +70,14 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
+                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }${queryParam ? `?${queryParam}` : ""}`,
+                }`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
@@ -92,6 +94,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
             session.orgId,
             session.isOrgStaff,
+            false,
             template === "true",
         );
 

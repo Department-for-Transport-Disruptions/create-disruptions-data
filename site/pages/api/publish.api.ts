@@ -5,6 +5,7 @@ import {
     DASHBOARD_PAGE_PATH,
     ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import {
     getDisruptionById,
@@ -98,7 +99,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         cleardownCookies(req, res);
 
-        redirectTo(res, DASHBOARD_PAGE_PATH);
+        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

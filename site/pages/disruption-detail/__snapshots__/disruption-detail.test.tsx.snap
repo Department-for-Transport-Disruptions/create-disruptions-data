@@ -1901,19 +1901,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Template Overview
           </h1>
-          <a
-            className="govuk-link"
-            href="/disruption-history/2"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            <h2
-              className="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
-          </a>
           <br />
           <table
             className="govuk-table"
@@ -3443,7 +3430,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/create-social-media-post/2/2?return=%2Fdisruption-detail"
+            href="/create-social-media-post/2/2?return=%2Fdisruption-detail&template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

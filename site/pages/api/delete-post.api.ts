@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { removeSocialMediaPostFromDisruption, upsertSocialMediaPost } from "../../data/dynamo";
 import { SocialMediaPostTransformed as SocialMediaPost } from "../../schemas/social-media.schema";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -45,15 +45,26 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
                 socialMediaPostIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff);
+            await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff, template === "true");
 
-            redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`,
+            );
+
             return;
         } else {
             await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
         }
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

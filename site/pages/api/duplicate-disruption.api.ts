@@ -74,6 +74,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                       })),
                   }
                 : {}),
+            template: false,
         };
 
         if (!draftDisruption.disruptionNoEndDateTime) {

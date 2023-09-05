@@ -1,6 +1,12 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
+import {
+    COOKIES_DISRUPTION_DETAIL_ERRORS,
+    DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    ERROR_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 import {
     deleteDisruptionsInEdit,
     getDisruptionById,
@@ -19,6 +25,7 @@ import {
     publishToHootsuite,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -61,7 +68,12 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                 res,
             );
 
-            redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`,
+            );
             return;
         }
 
@@ -130,7 +142,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         cleardownCookies(req, res);
-        redirectTo(res, "/dashboard");
+        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
