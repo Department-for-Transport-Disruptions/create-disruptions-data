@@ -3022,7 +3022,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3050,7 +3050,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3078,7 +3078,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3106,7 +3106,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3134,7 +3134,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3254,7 +3254,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3290,7 +3290,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3318,7 +3318,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3346,7 +3346,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -3374,7 +3374,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail"
+                          href="/create-social-media-post/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}

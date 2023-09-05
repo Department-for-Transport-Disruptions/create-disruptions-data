@@ -60,6 +60,7 @@ describe("deleteDisruption", () => {
             disruptionWithConsequencesAndSocialMediaPosts,
             defaultDisruptionId,
             DEFAULT_ORG_ID,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

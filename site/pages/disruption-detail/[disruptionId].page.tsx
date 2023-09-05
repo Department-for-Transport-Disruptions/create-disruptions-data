@@ -97,6 +97,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                         styles: {
@@ -126,6 +127,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -146,6 +148,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -166,6 +169,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -186,6 +190,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -361,7 +366,9 @@ const DisruptionDetail = ({
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
                     continueText="Yes, duplicate"
                     cancelText="No, return"
-                    questionText={"Are you sure you wish to duplicate the disruption?"}
+                    questionText={`Are you sure you wish to duplicate the ${
+                        queryParams["template"] ? "template" : "disruption"
+                    }?`}
                 />
             ) : null}
             <CsrfForm
@@ -407,7 +414,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -429,7 +436,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -467,7 +474,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -486,7 +493,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -506,7 +513,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -525,7 +532,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -544,7 +551,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -565,7 +572,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
-                                                disruption.template,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -753,7 +760,7 @@ const DisruptionDetail = ({
                                 data-module="govuk-button"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    deleteActionHandler("disruption", [
+                                    deleteActionHandler(queryParams["template"] ? "template" : "disruption", [
                                         {
                                             name: "id",
                                             value: disruption.disruptionId,
