@@ -428,6 +428,19 @@ exports[`pages > dashboard > should render correctly when there are all three li
           Draft disruptions
         </h2>
       </a>
+      <a
+        className="govuk-link"
+        href="/view-all-templates"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="govuk-heading-s text-govBlue"
+        >
+          Templates
+        </h2>
+      </a>
     </main>
     <div>
       <h2
@@ -907,6 +920,19 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
           className="govuk-heading-s text-govBlue"
         >
           Draft disruptions
+        </h2>
+      </a>
+      <a
+        className="govuk-link"
+        href="/view-all-templates"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="govuk-heading-s text-govBlue"
+        >
+          Templates
         </h2>
       </a>
     </main>
@@ -1527,6 +1553,19 @@ exports[`pages > dashboard > should render correctly when there are only live di
           Draft disruptions
         </h2>
       </a>
+      <a
+        className="govuk-link"
+        href="/view-all-templates"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="govuk-heading-s text-govBlue"
+        >
+          Templates
+        </h2>
+      </a>
     </main>
     <div>
       <h2
@@ -2145,6 +2184,19 @@ exports[`pages > dashboard > should render correctly when there are only recentl
           Draft disruptions
         </h2>
       </a>
+      <a
+        className="govuk-link"
+        href="/view-all-templates"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="govuk-heading-s text-govBlue"
+        >
+          Templates
+        </h2>
+      </a>
     </main>
     <div>
       <h2
@@ -2761,6 +2813,19 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
           className="govuk-heading-s text-govBlue"
         >
           Draft disruptions
+        </h2>
+      </a>
+      <a
+        className="govuk-link"
+        href="/view-all-templates"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="govuk-heading-s text-govBlue"
+        >
+          Templates
         </h2>
       </a>
     </main>
