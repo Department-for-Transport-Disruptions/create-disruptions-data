@@ -107,25 +107,25 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -148,7 +148,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -171,13 +171,13 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -1040,25 +1040,25 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -1081,7 +1081,7 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -1104,13 +1104,13 @@ exports[`pages > viewAllDisruptions > should render correctly when filter is set
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -1973,25 +1973,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -2014,7 +2014,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -2037,13 +2037,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -2495,25 +2495,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -2536,7 +2536,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -2559,13 +2559,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are eno
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -3428,25 +3428,25 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -3469,7 +3469,7 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
               onClick={[Function]}
               scope="col"
             >
@@ -3492,13 +3492,13 @@ exports[`pages > viewAllDisruptions > should render correctly when there are no 
               </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
