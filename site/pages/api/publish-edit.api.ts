@@ -70,26 +70,39 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (isEditPendingDsp) {
-            await publishEditedConsequencesAndSocialMediaPostsIntoPending(draftDisruption.disruptionId, session.orgId);
+            await publishEditedConsequencesAndSocialMediaPostsIntoPending(
+                draftDisruption.disruptionId,
+                session.orgId,
+                template === "true",
+            );
         } else {
-            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
+            await publishEditedConsequencesAndSocialMediaPosts(
+                draftDisruption.disruptionId,
+                session.orgId,
+                template === "true",
+            );
         }
 
         if (canPublish(session) || draftDisruption.template) {
             if (isEditPendingDsp)
-                await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
+                await publishPendingConsequencesAndSocialMediaPosts(
+                    draftDisruption.disruptionId,
+                    session.orgId,
+                    template === "true",
+                );
             await Promise.all([
-                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
-                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
+                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, template === "true"),
+                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, template === "true"),
             ]);
         } else {
-            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
+            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, template === "true");
         }
 
         isEditPendingDsp && (!canPublish(session) || !draftDisruption.template)
             ? await updatePendingDisruptionStatus(
                   { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,
+                  template === "true",
               )
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
                   draftDisruption,
@@ -98,6 +111,8 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                       ? PublishStatus.published
                       : PublishStatus.pendingApproval,
                   session.name,
+                  undefined,
+                  template === "true",
               );
 
         if (

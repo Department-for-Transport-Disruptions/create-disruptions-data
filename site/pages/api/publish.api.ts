@@ -79,6 +79,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             canPublish(session) || draftDisruption.template
                 ? "Disruption created and published"
                 : "Disruption submitted for review",
+                template==='true'
         );
 
         if (

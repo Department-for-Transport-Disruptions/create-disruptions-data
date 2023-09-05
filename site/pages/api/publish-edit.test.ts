@@ -95,6 +95,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -128,6 +130,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -155,6 +159,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -183,6 +189,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -208,6 +216,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -235,6 +245,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
