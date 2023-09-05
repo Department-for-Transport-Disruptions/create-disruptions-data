@@ -94,6 +94,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
             session.orgId,
             session.isOrgStaff,
+            false,
             template === "true",
         );
 

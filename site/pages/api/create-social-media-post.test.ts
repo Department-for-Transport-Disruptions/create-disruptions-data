@@ -96,6 +96,7 @@ describe("create-social-media-post API", () => {
             DEFAULT_ORG_ID,
             false,
             false,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -124,6 +125,7 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
+            false,
             false,
             true,
         );
@@ -172,6 +174,7 @@ describe("create-social-media-post API", () => {
             DEFAULT_ORG_ID,
             false,
             false,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -207,6 +210,7 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
+            false,
             false,
             false,
         );
