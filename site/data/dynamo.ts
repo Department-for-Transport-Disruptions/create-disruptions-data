@@ -8,7 +8,6 @@ import {
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
@@ -801,7 +800,7 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
         }
     });
 
-    const parsedDisruption = disruptionSchema.safeParse({
+    const parsedDisruption = fullDisruptionSchema.safeParse({
         ...info,
         consequences: consequencesToShow,
         socialMediaPosts: socialMediaPostsToShow,
