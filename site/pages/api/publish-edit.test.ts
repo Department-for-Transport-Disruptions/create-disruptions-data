@@ -192,7 +192,7 @@ describe("publishEdit", () => {
             undefined,
             true,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location:VIEW_ALL_TEMPLATES_PAGE_PATH });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
