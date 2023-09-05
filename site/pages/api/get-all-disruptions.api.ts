@@ -102,6 +102,8 @@ export const formatSortedDisruption = (disruption: SortedDisruption) => {
 const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
+    const { template } = req.query;
+
     if (!session) {
         res.status(403);
         return;
@@ -109,7 +111,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { orgId } = session;
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(orgId);
+    let disruptionsData = await getDisruptionsDataFromDynamo(orgId, template === "true");
 
     if (disruptionsData) {
         disruptionsData = disruptionsData.filter(

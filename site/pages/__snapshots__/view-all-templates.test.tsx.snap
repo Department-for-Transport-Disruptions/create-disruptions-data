@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are enough disruptions for no pagination 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are enough disruptions for no pagination 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -495,7 +495,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
 ]
 `;
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are enough disruptions for pagination 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are enough templates for pagination 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -1408,7 +1408,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
 ]
 `;
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are no disruptions 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are no templates 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
