@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { removeSocialMediaPostFromDisruption, upsertSocialMediaPost } from "../../data/dynamo";
 import { SocialMediaPostTransformed as SocialMediaPost } from "../../schemas/social-media.schema";
-import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
