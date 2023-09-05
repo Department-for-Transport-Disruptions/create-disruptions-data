@@ -170,19 +170,23 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${isTemplate? '?template=true': ""}`}
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                                    isTemplate ? "?template=true" : ""
+                                }`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
-                        >
-                            Save as draft
-                        </button>
+                        {!isTemplate && (
+                            <button
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
+                            >
+                                Save as draft
+                            </button>
+                        )}
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}

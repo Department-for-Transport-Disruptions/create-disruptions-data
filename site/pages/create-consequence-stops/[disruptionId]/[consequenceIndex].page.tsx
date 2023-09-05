@@ -346,13 +346,15 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
-                        >
-                            Save as draft
-                        </button>
+                        {!isTemplate && (
+                            <button
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                formAction={`/api${CREATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
+                            >
+                                Save as draft
+                            </button>
+                        )}
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}

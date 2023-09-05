@@ -685,13 +685,15 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         >
                             {disruption.template ? "Delete template" : "Delete disruption"}
                         </button>
-                        <Link
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            href={DASHBOARD_PAGE_PATH}
-                        >
-                            Save as draft
-                        </Link>
+                        {!disruption.template && (
+                            <Link
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                href={DASHBOARD_PAGE_PATH}
+                            >
+                                Save as draft
+                            </Link>
+                        )}
                     </div>
                 </>
             </CsrfForm>
