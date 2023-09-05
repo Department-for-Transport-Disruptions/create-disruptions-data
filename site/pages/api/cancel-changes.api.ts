@@ -17,7 +17,7 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const disruptionId = validatedBody.data.disruptionId;
-        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
+        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId, template === "true");
 
         if (!canPublish(session) && !isEdited) {
             await Promise.all([

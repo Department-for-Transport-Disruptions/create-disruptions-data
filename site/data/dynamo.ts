@@ -1333,7 +1333,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
         }[] =
             pendingConsequences?.map((consequence) => ({
                 Delete: {
-                    TableName: disruptionsTableName,
+                    TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#CONSEQUENCE#${consequence.consequenceIndex as string}#PENDING`,
@@ -1349,7 +1349,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
         }[] =
             pendingSocialMediaPosts?.map((socialMediaPost) => ({
                 Delete: {
-                    TableName: disruptionsTableName,
+                    TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                     Key: {
                         PK: id,
                         SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex as string}#PENDING`,
@@ -1362,7 +1362,7 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
                 TransactItems: [
                     {
                         Delete: {
-                            TableName: disruptionsTableName,
+                            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                             Key: {
                                 PK: id,
                                 SK: `${disruptionId}#INFO#PENDING`,
@@ -1377,11 +1377,11 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
     }
 };
 
-export const isDisruptionInEdit = async (disruptionId: string, id: string) => {
+export const isDisruptionInEdit = async (disruptionId: string, id: string, isTemplate?: boolean) => {
     logger.info(`Check if there are any edit records for disruption (${disruptionId}) from DynamoDB table...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
-            TableName: disruptionsTableName,
+            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
