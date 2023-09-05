@@ -288,7 +288,12 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
     return parsedOrg.data;
 };
 
-export const deletePublishedDisruption = async (disruption: FullDisruption, disruptionId: string, id: string) => {
+export const deletePublishedDisruption = async (
+    disruption: FullDisruption,
+    disruptionId: string,
+    id: string,
+    isTemplate?: boolean,
+) => {
     logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
 
     const consequenceDeleteCommands: {
@@ -299,7 +304,7 @@ export const deletePublishedDisruption = async (disruption: FullDisruption, disr
     }[] =
         disruption?.consequences?.map((_, index) => ({
             Delete: {
-                TableName: disruptionsTableName,
+                TableName: isTemplate?templateDisruptionsTableName:  disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#CONSEQUENCE#${index}`,
