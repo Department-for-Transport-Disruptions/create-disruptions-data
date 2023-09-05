@@ -318,15 +318,21 @@ export const deletePublishedDisruption = async (
             Key: Record<string, string>;
         };
     }[] =
-        disruption?.socialMediaPosts?.map((socialMediaPost) => ({
-            Delete: {
-                TableName: disruptionsTableName,
-                Key: {
-                    PK: id,
-                    SK: `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`,
+        disruption?.socialMediaPosts?.map((socialMediaPost) => {
+            const getSK = isTemplate
+                ? `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}#EDIT`
+                : `${disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}`;
+
+            return {
+                Delete: {
+                    TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
+                    Key: {
+                        PK: id,
+                        SK: getSK,
+                    },
                 },
-            },
-        })) ?? [];
+            };
+        }) ?? [];
 
     const editedConsequenceDeleteCommands: {
         Delete: {
@@ -336,7 +342,7 @@ export const deletePublishedDisruption = async (
     }[] =
         disruption?.consequences?.map((_, index) => ({
             Delete: {
-                TableName: disruptionsTableName,
+                TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                 Key: {
                     PK: id,
                     SK: `${disruptionId}#CONSEQUENCE#${index}#EDIT`,
@@ -349,7 +355,7 @@ export const deletePublishedDisruption = async (
             TransactItems: [
                 {
                     Delete: {
-                        TableName: disruptionsTableName,
+                        TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                         Key: {
                             PK: id,
                             SK: `${disruptionId}#INFO`,
@@ -358,7 +364,7 @@ export const deletePublishedDisruption = async (
                 },
                 {
                     Delete: {
-                        TableName: disruptionsTableName,
+                        TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                         Key: {
                             PK: id,
                             SK: `${disruptionId}#INFO#EDIT`,
@@ -645,12 +651,16 @@ export const removeSocialMediaPostFromDisruption = async (
 ) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
 
+    const getSK = isTemplate
+        ? `${disruptionId}#SOCIALMEDIAPOST#${index}#EDIT`
+        : `${disruptionId}#SOCIALMEDIAPOST#${index}`;
+
     await ddbDocClient.send(
         new DeleteCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             Key: {
                 PK: id,
-                SK: `${disruptionId}#SOCIALMEDIAPOST#${index}`,
+                SK: `${getSK}`,
             },
         }),
     );
