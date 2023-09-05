@@ -6,14 +6,20 @@ import { randomUUID } from "crypto";
 import { CREATE_DISRUPTION_PAGE_PATH, DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { disruptionId } = req.body as { disruptionId: string };
+        const { template, templateId } = req.query;
+        const createDisruptionFromTemplate = template === "true";
 
-        if (!disruptionId) {
+        if (createDisruptionFromTemplate && templateId) {
+            throw new Error("Template id is required");
+        }
+
+        if (!createDisruptionFromTemplate && !disruptionId) {
             throw new Error("No disruptionId found");
         }
 
@@ -23,18 +29,13 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
-        const { template, templateId } = req.query;
-        const createDisruptionFromTemplate = template === "create-disruption";
-
-        if (createDisruptionFromTemplate && templateId) {
-            throw new Error("Template id is required");
-        }
-
+        console.log("Before----");
         const disruptionToDuplicate = await getDisruptionById(
             createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
             session.orgId,
             createDisruptionFromTemplate,
         );
+        console.log("After----");
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
@@ -87,31 +88,26 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
-            template === "true",
+            createDisruptionFromTemplate,
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
+                    await upsertConsequence(
+                        consequence,
+                        session.orgId,
+                        session.isOrgStaff,
+                        createDisruptionFromTemplate,
+                    );
                 }),
             );
         }
 
+        const returnPath = encodeURIComponent(`${DISRUPTION_DETAIL_PAGE_PATH}/${templateId as string}?template=true`);
         createDisruptionFromTemplate
-            ? redirectTo(
-                  res,
-                  `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?return=${DISRUPTION_DETAIL_PAGE_PATH}/${
-                      templateId as string
-                  }`,
-              )
-            : redirectToWithQueryParams(
-                  req,
-                  res,
-                  template === "true" ? ["template"] : [],
-                  `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
-                  ["duplicate=true"],
-              );
+            ? redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?return=${returnPath}`)
+            : redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);
 
         return;
     } catch (e) {

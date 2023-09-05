@@ -387,8 +387,26 @@ const DisruptionDetail = ({
                             <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
                         </Link>
                         <br />
+                        {/* <button
+                            key="create-new-button"
+                            className="govuk-button flex"
+                            data-module="govuk-button"
+                            formAction={`/duplicate-disruption?templateId=${disruption.disruptionId}`}
+                        >
+                            Create disruption
+                            <svg
+                                className="govuk-button__start-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="19"
+                                viewBox="0 0 33 40"
+                                role="presentation"
+                                focusable="false"
+                            >
+                                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                            </svg>
+                        </button> */}
                         <Link
-                            href={`/duplicate-disruption?templateId=${disruption.disruptionId}`}
+                            href={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template`}
                             role="button"
                             draggable="false"
                             className="govuk-button govuk-button--start"
