@@ -12,6 +12,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("return path required");
         }
 
+        const { template } = req.query;
         const validatedBody = duplicateConsequenceSchema.safeParse(req.body);
 
         if (!consequenceId) {
@@ -59,13 +60,13 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             },
             session.orgId,
             session.isOrgStaff,
-            req.query.template === "true",
+            template === "true",
         );
 
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template === "true" ? ["template"] : [],
+            template === "true" ? ["template"] : [],
             `${req.query.return as string}/${validatedBody.data.disruptionId}`,
         );
         return;

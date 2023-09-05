@@ -19,6 +19,7 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             inEdit?: string | undefined;
         };
 
+        const { template } = req.query;
         const id = body?.id;
         const disruptionId = body?.disruptionId;
         const inEdit = body?.inEdit;
@@ -49,12 +50,7 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeSocialMediaPostFromDisruption(
-                Number(id),
-                disruptionId,
-                session.orgId,
-                req.query.template === "true",
-            );
+            await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
         }
 
         redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`);

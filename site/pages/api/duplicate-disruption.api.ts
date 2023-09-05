@@ -23,6 +23,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
+        const { template } = req.query;
         const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
 
         if (!disruptionToDuplicate) {
@@ -76,18 +77,13 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
-            req.query.template === "true",
+            template === "true",
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(
-                        consequence,
-                        session.orgId,
-                        session.isOrgStaff,
-                        req.query.template === "true",
-                    );
+                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
                 }),
             );
         }
@@ -95,7 +91,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template === "true" ? ["template"] : [],
+            template === "true" ? ["template"] : [],
             `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
             ["duplicate=true"],
         );

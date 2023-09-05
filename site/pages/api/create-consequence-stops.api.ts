@@ -39,6 +39,8 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
     try {
         const queryParam = getReturnPage(req);
 
+        const { template } = req.query;
+
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
         const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
@@ -70,14 +72,14 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, req.query.template === "true");
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
@@ -92,7 +94,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template ? ["template"] : [],
+            template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
         );
         return;

@@ -50,6 +50,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
     try {
         const queryParam = getReturnPage(req);
         const session = getSession(req);
+        const { template } = req.query;
 
         const { draft } = req.query;
 
@@ -78,14 +79,14 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, req.query.template == "true");
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =
@@ -100,7 +101,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template ? ["template"] : [],
+            template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
         );
         return;

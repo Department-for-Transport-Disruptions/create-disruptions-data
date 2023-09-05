@@ -16,6 +16,7 @@ import {
     getReturnPage,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -24,6 +25,8 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+
+        const { template } = req.query;
 
         const session = getSession(req);
 
@@ -89,7 +92,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
             session.orgId,
             session.isOrgStaff,
-            req.query.template === "true",
+            template === "true",
         );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
@@ -98,7 +101,13 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+        );
 
         return;
     } catch (e) {

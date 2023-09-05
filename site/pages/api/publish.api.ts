@@ -27,6 +27,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
+        const { template } = req.query;
 
         if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
@@ -34,7 +35,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const [draftDisruption, orgInfo] = await Promise.all([
-            getDisruptionById(validatedBody.data.disruptionId, session.orgId, req.query.template === "true"),
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId, template === "true"),
             getOrganisationInfoById(session.orgId),
         ]);
 

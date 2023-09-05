@@ -21,6 +21,8 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
         const queryParam = getReturnPage(req);
 
+        const { template } = req.query;
+
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
@@ -41,7 +43,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );
@@ -73,7 +75,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template ? ["template"] : [],
+            template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
             queryParam ? [queryParam] : [],
         );

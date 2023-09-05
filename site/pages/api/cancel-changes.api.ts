@@ -9,6 +9,7 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
+        const { template } = req.query;
 
         if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
@@ -20,11 +21,11 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!canPublish(session) && !isEdited) {
             await Promise.all([
-                deleteDisruptionsInEdit(disruptionId, session.orgId, req.query.template === "true"),
-                deleteDisruptionsInPending(disruptionId, session.orgId, req.query.template === "true"),
+                deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true"),
+                deleteDisruptionsInPending(disruptionId, session.orgId, template === "true"),
             ]);
         } else {
-            await deleteDisruptionsInEdit(disruptionId, session.orgId, req.query.template === "true");
+            await deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true");
         }
 
         redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);

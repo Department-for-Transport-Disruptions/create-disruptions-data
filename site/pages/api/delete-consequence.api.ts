@@ -13,6 +13,8 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
             throw new Error("No session found");
         }
 
+        const { template } = req.query;
+
         const body = req.body as {
             id: string | undefined;
             disruptionId: string | undefined;
@@ -42,22 +44,17 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 consequenceIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertConsequence(consequence, session.orgId, session.isOrgStaff, req.query.template === "true");
+            await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
-            await removeConsequenceFromDisruption(
-                Number(id),
-                disruptionId,
-                session.orgId,
-                req.query.template === "true",
-            );
+            await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
         }
 
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template === "true" ? ["template"] : [],
+            template === "true" ? ["template"] : [],
             `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`,
         );
         return;

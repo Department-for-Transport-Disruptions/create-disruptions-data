@@ -11,6 +11,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         const body = req.body as { id: string | undefined };
         const id = body?.id;
 
+        const { template } = req.query;
         const session = getSession(req);
 
         if (!id || Array.isArray(id) || !session) {
@@ -19,7 +20,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             );
         }
 
-        const disruption = await getDisruptionById(id, session.orgId, req.query.template === "true");
+        const disruption = await getDisruptionById(id, session.orgId, template === "true");
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);
@@ -31,9 +32,9 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             throw new Error(`Insufficient permissions to delete disruption (${id})`);
         }
 
-        await deletePublishedDisruption(disruption, id, session.orgId, req.query.template === "true");
+        await deletePublishedDisruption(disruption, id, session.orgId, template === "true");
 
-        redirectTo(res, req.query.template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
+        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

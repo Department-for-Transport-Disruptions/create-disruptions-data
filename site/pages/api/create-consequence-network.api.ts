@@ -23,6 +23,7 @@ import { getSession } from "../../utils/apiUtils/auth";
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const { template } = req.query;
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
         const session = getSession(req);
 
@@ -51,14 +52,14 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, req.query.template === "true");
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
@@ -73,7 +74,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         redirectToWithQueryParams(
             req,
             res,
-            req.query.template ? ["template"] : [],
+            template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
         );
         return;

@@ -86,6 +86,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             throw new Error("No session found");
         }
 
+        const { template } = req.query;
+
         const formattedBody = formatCreateDisruptionBody(req.body as object);
 
         const validatedBody = disruptionInfoSchemaRefined.safeParse({
@@ -106,7 +108,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
                 queryParam ? [queryParam] : [],
             );
@@ -118,12 +120,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(
-            validatedBody.data,
-            session.orgId,
-            session.isOrgStaff,
-            req.query.template === "true",
-        );
+        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
@@ -131,7 +128,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             ? redirectToWithQueryParams(
                   req,
                   res,
-                  req.query.template ? ["template"] : [],
+                  template ? ["template"] : [],
                   `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
               )
             : draft
@@ -139,7 +136,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             : redirectToWithQueryParams(
                   req,
                   res,
-                  req.query.template ? ["template"] : [],
+                  template ? ["template"] : [],
                   `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`,
               );
 
