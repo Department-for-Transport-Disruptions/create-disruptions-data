@@ -11,6 +11,7 @@ interface MarkersProps {
     selectMarker: (id: string) => void;
     handleMouseEnter: (id: string) => void;
     setPopupInfo: Dispatch<SetStateAction<Partial<Stop>>>;
+    pastStops?: Stop[];
 }
 
 const Markers = ({
@@ -21,6 +22,7 @@ const Markers = ({
     selectMarker,
     handleMouseEnter,
     setPopupInfo,
+    pastStops,
 }: MarkersProps): ReactElement | null => {
     const dataFromPolygon =
         selected && selected.length > 0
@@ -37,6 +39,15 @@ const Markers = ({
             ? filterSelected.filter((sToFilter: Stop) => !markerData.some((s) => s.atcoCode === sToFilter.atcoCode))
             : filterSelected;
 
+    const previouslySelectedStops =
+        pastStops && pastStops.length > 0
+            ? pastStops
+                  .filter((sToFilter: Stop) => !markerData.some((s) => s.atcoCode === sToFilter.atcoCode))
+                  .filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
+                  .filter((sToFilter: Stop) => !searched.some((s) => s.atcoCode === sToFilter.atcoCode))
+            : pastStops;
+
+    console.log(previouslySelectedStops, pastStops);
     return (
         <>
             {selected && selected.length > 0
@@ -61,7 +72,7 @@ const Markers = ({
                       </Marker>
                   ))
                 : null}
-            {[...dataFromPolygon, ...notInTable].map((s) => (
+            {[...dataFromPolygon, ...notInTable, ...(previouslySelectedStops || [])].map((s) => (
                 <Marker
                     key={uniqueId(s.atcoCode)}
                     longitude={Number(s.longitude)}
