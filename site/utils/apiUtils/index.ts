@@ -118,6 +118,14 @@ export const getReturnPage = (req: NextApiRequest) => {
         : null;
 };
 
+export const isDisruptionFromTemplate = (req: NextApiRequest) => {
+    const queryParam = req.headers.referer?.split("?")[1];
+    const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
+    return decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH) && decodedQueryParam.includes("template=true")
+        ? queryParam
+        : null;
+};
+
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const publishToHootsuite = async (
@@ -375,6 +383,7 @@ export const redirectToWithQueryParams = (
     location: string,
     paramsToAdd?: string[],
 ) => {
+    console.log("queryParamsToForward----", queryParamsToForward);
     const queryStringParams = queryParamsToForward
         .map((p) => {
             const paramValue = req.query[p];
@@ -383,6 +392,7 @@ export const redirectToWithQueryParams = (
         })
         .filter(notEmpty);
 
+    console.log("queryStringParams----", queryStringParams);
     redirectTo(
         res,
         `${location}${

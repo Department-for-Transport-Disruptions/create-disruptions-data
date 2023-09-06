@@ -19,9 +19,7 @@ import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
-    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
@@ -33,7 +31,12 @@ import { ModeType } from "../../../schemas/organisation.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
+import {
+    getStateUpdater,
+    operatorStateUpdater,
+    returnTemplateOverview,
+    showCancelButton,
+} from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -52,9 +55,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
 
@@ -255,9 +258,13 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${
-                                    isTemplate ? "?template=true" : ""
-                                }`}
+                                href={
+                                    returnToTemplateOverview
+                                        ? (queryParams["return"] as string)
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                              isTemplate ? "?template=true" : ""
+                                          }`
+                                }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes

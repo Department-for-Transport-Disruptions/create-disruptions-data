@@ -15,7 +15,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const { template, templateId } = req.query;
         const createDisruptionFromTemplate = template === "true";
 
-        if (createDisruptionFromTemplate && templateId) {
+        if (createDisruptionFromTemplate && !templateId) {
             throw new Error("Template id is required");
         }
 
@@ -29,13 +29,11 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
-        console.log("Before----");
         const disruptionToDuplicate = await getDisruptionById(
             createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
             session.orgId,
             createDisruptionFromTemplate,
         );
-        console.log("After----");
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
@@ -89,18 +87,12 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
-            createDisruptionFromTemplate,
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(
-                        consequence,
-                        session.orgId,
-                        session.isOrgStaff,
-                        createDisruptionFromTemplate,
-                    );
+                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
                 }),
             );
         }

@@ -27,8 +27,6 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
 } from "../../../constants";
@@ -45,6 +43,8 @@ import {
     getStateUpdater,
     getStopLabel,
     getStopValue,
+    returnTemplateOverview,
+    showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
 
@@ -145,9 +145,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     }, [selectedService]);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
 
@@ -586,9 +586,13 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${
-                                    isTemplate ? "?template=true" : ""
-                                }`}
+                                href={
+                                    returnToTemplateOverview
+                                        ? (queryParams["return"] as string)
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                              isTemplate ? "?template=true" : ""
+                                          }`
+                                }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes

@@ -859,6 +859,7 @@ export const getDisruptionById = async (
     });
 
     if (!parsedDisruption.success) {
+        logger.error(`Error-------`, flattenZodErrors(parsedDisruption.error));
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
     }
