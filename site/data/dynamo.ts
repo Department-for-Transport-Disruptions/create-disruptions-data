@@ -23,6 +23,10 @@ const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 const templateDisruptionsTableName = process.env.TEMPLATE_DISRUPTIONS_TABLE_NAME as string;
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
+const getTableName = (isTemplate: boolean) => {
+    return isTemplate ? templateDisruptionsTableName : disruptionsTableName;
+};
+
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
@@ -294,7 +298,9 @@ export const deletePublishedDisruption = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Deleting published disruption (${disruptionId}) from DynamoDB table...`);
+    logger.info(
+        `Deleting published disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
+    );
 
     const consequenceDeleteCommands: {
         Delete: {
@@ -387,7 +393,11 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     history?: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Inserting published disruption (${disruption.disruptionId}) into DynamoDB table...`);
+    logger.info(
+        `Inserting published disruption (${disruption.disruptionId}) into DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
 
     const currentTime = getDate();
 
@@ -484,7 +494,11 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
 };
 
 export const updatePendingDisruptionStatus = async (disruption: Disruption, id: string, isTemplate?: boolean) => {
-    logger.info(`Updating status of pending disruption (${disruption.disruptionId}) into DynamoDB table...`);
+    logger.info(
+        `Updating status of pending disruption (${disruption.disruptionId}) from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
 
     await ddbDocClient.send(
         new TransactWriteCommand({
@@ -510,7 +524,11 @@ export const upsertDisruptionInfo = async (
     isUserStaff?: boolean,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Updating draft disruption (${disruptionInfo.disruptionId}) in DynamoDB table...`);
+    logger.info(
+        `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
     const isPending =
         (isUserStaff || !isTemplate) &&
@@ -540,7 +558,7 @@ export const upsertConsequence = async (
     logger.info(
         `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
             consequence.disruptionId || ""
-        }) in DynamoDB table...`,
+        }) from DynamoDB table (${getTableName(!!isTemplate)})...`,
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id, isTemplate);
     const isPending =
@@ -573,7 +591,9 @@ export const upsertSocialMediaPost = async (
     isTemplate?: boolean,
 ) => {
     logger.info(
-        `Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id}) in DynamoDB table...`,
+        `Updating socialMediaPost index ${
+            socialMediaPost.socialMediaPostIndex
+        } in disruption (${id})from DynamoDB table (${getTableName(!!isTemplate)})...`,
     );
 
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id, isTemplate);
@@ -603,7 +623,11 @@ export const removeConsequenceFromDisruption = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Updating consequence ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+    logger.info(
+        `Updating consequence ${index} in disruption (${disruptionId})from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
 
     await ddbDocClient.send(
         new DeleteCommand({
@@ -649,7 +673,11 @@ export const removeSocialMediaPostFromDisruption = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId}) in DynamoDB table...`);
+    logger.info(
+        `Removing socialMediaPost ${index} in disruption (${disruptionId}) from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
 
     const getSK = isTemplate
         ? `${disruptionId}#SOCIALMEDIAPOST#${index}#EDIT`
@@ -671,7 +699,7 @@ export const getDisruptionById = async (
     id: string,
     isTemplate?: boolean,
 ): Promise<FullDisruption | null> => {
-    logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
+    logger.info(`Retrieving (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
@@ -870,7 +898,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Publishing edited disruption (${disruptionId}) in DynamoDB table...`);
+    logger.info(`Publishing edited disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
@@ -990,7 +1018,11 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Publishing edited disruption(${disruptionId}) to pending status in DynamoDB table...`);
+    logger.info(
+        `Publishing edited disruption(${disruptionId}) to pending status from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
@@ -1112,7 +1144,9 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Publishing pending disruption (${disruptionId}) in DynamoDB table...`);
+    logger.info(
+        `Publishing pending disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
+    );
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: disruptionsTableName,
@@ -1228,7 +1262,7 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (
 };
 
 export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, isTemplate?: boolean) => {
-    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
+    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
@@ -1308,7 +1342,7 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
 };
 
 export const deleteDisruptionsInPending = async (disruptionId: string, id: string, isTemplate?: boolean) => {
-    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table...`);
+    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
@@ -1388,7 +1422,11 @@ export const deleteDisruptionsInPending = async (disruptionId: string, id: strin
 };
 
 export const isDisruptionInEdit = async (disruptionId: string, id: string, isTemplate?: boolean) => {
-    logger.info(`Check if there are any edit records for disruption (${disruptionId}) from DynamoDB table...`);
+    logger.info(
+        `Check if there are any edit records for disruption (${disruptionId}) from DynamoDB table (${getTableName(
+            !!isTemplate,
+        )})...`,
+    );
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
