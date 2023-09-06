@@ -383,7 +383,6 @@ export const redirectToWithQueryParams = (
     location: string,
     paramsToAdd?: string[],
 ) => {
-    console.log("queryParamsToForward----", queryParamsToForward);
     const queryStringParams = queryParamsToForward
         .map((p) => {
             const paramValue = req.query[p];
@@ -392,7 +391,6 @@ export const redirectToWithQueryParams = (
         })
         .filter(notEmpty);
 
-    console.log("queryStringParams----", queryStringParams);
     redirectTo(
         res,
         `${location}${

@@ -23,6 +23,7 @@ import { getSession } from "../../utils/apiUtils/auth";
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+
         const { template } = req.query;
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
         const session = getSession(req);
@@ -76,6 +77,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
+            queryParam ? [queryParam] : [],
         );
         return;
     } catch (e) {

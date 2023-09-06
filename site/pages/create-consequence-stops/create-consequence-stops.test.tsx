@@ -1,8 +1,10 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
 import { defaultModes } from "../../schemas/organisation.schema";
+import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 
 const blankInputs: CreateConsequenceStopsProps = {
     errors: [],
@@ -121,6 +123,25 @@ describe("pages", () => {
             }));
             const tree = renderer.create(<CreateConsequenceStops {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with appropriate buttons", () => {
+            useRouter.mockImplementation(() => ({
+                query: {
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                },
+            }));
+            const { queryAllByText, unmount } = render(<CreateConsequenceStops {...withInputs} />);
+
+            const cancelButton = queryAllByText("Cancel Changes");
+            const deleteButton = queryAllByText("Delete disruption");
+            const saveAsDraftButton = queryAllByText("Save as draft");
+
+            expect(cancelButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            expect(saveAsDraftButton).toBeTruthy();
+
+            unmount();
         });
     });
 });

@@ -13,7 +13,7 @@ import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/sh
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
+import { notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -136,7 +136,6 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        logger.warn(flattenZodErrors(parsedDisruption.error));
 
         return null;
     }
@@ -198,7 +197,7 @@ export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: bool
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: isTemplate ? disruptionsTableName : process.env.DISRUPTIONS_TABLE_NAME,
+            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -859,7 +858,6 @@ export const getDisruptionById = async (
     });
 
     if (!parsedDisruption.success) {
-        logger.error(`Error-------`, flattenZodErrors(parsedDisruption.error));
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
     }

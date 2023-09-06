@@ -20,12 +20,7 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import {
-    DISRUPTION_REASONS,
-    COOKIES_DISRUPTION_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants/index";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
@@ -245,7 +240,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <h1 className="govuk-heading-xl">
                             {queryParams["template"]?.includes("true")
                                 ? "Create a new template"
-                                : "Create a new disruption"}
+                                : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
                         </h1>
 
                         <Radios<DisruptionInfo>

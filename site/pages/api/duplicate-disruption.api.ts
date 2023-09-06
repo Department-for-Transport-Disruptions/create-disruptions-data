@@ -3,7 +3,12 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { CREATE_DISRUPTION_PAGE_PATH, DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import {
+    CREATE_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
@@ -97,7 +102,11 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        const returnPath = encodeURIComponent(`${DISRUPTION_DETAIL_PAGE_PATH}/${templateId as string}?template=true`);
+        const returnPath = encodeURIComponent(
+            `${DISRUPTION_DETAIL_PAGE_PATH}/${
+                templateId as string
+            }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+        );
         createDisruptionFromTemplate
             ? redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?return=${returnPath}`)
             : redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);

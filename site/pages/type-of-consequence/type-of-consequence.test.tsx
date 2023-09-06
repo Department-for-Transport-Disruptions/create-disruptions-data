@@ -1,8 +1,10 @@
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
+import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 
 const noErrors: ErrorInfo[] = [];
 
@@ -47,6 +49,23 @@ describe("pages", () => {
             }));
             const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with appropriate buttons", () => {
+            useRouter.mockImplementation(() => ({
+                query: {
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                },
+            }));
+            const { queryAllByText, unmount } = render(<TypeOfConsequence errors={noErrors} inputs={withInputs} />);
+
+            const cancelButton = queryAllByText("Cancel Changes");
+            const deleteButton = queryAllByText("Delete disruption");
+
+            expect(cancelButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+
+            unmount();
         });
     });
 });

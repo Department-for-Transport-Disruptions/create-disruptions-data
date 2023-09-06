@@ -9,11 +9,7 @@ import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/F
 import Select from "../../../components/form/Select";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import {
-    COOKIES_SOCIAL_MEDIA_ERRORS,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
-} from "../../../constants";
+import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteData } from "../../../data/hootsuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
