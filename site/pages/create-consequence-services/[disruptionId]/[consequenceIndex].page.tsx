@@ -671,7 +671,6 @@ export const getServerSideProps = async (
             consequenceIndex: index,
             sessionWithOrg: session,
             disruptionSummary: disruption.description || "",
-            template: disruption.template?.toString() || "",
         },
     };
 };

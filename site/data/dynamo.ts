@@ -898,7 +898,7 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
     id: string,
     isTemplate?: boolean,
 ) => {
-    logger.info(`Publishing edited disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...
+    logger.info(`Publishing edited disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)}...`)
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
