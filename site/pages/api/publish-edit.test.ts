@@ -2,7 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
-import { ERROR_PATH } from "../../constants";
+import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -95,6 +95,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -128,6 +130,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -155,8 +159,40 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+    });
+
+    it("should retrieve valid data from cookies, write template to dynamo and redirect for staff user", async () => {
+        getDisruptionSpy.mockResolvedValue({ ...disruptionWithConsequencesAndSocialMediaPosts, template: true });
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
+        });
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            query: { template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            { ...disruptionWithConsequencesAndSocialMediaPosts, template: true },
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+            "Test User",
+            undefined,
+            true,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with records in pending", async () => {
@@ -180,6 +216,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.published,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -207,6 +245,8 @@ describe("publishEdit", () => {
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
             "Test User",
+            undefined,
+            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

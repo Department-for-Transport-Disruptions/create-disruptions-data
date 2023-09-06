@@ -15,6 +15,7 @@ import {
     getReturnPage,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -51,6 +52,8 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
     try {
         const queryParam = getReturnPage(req);
 
+        const { template } = req.query;
+
         const formattedBody = formatCreateConsequenceStopsServicesBody(req.body as object);
 
         const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
@@ -79,16 +82,17 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
-                `${CREATE_CONSEQUENCE_SERVICES_PATH}/${body.disruptionId}/${body.consequenceIndex}${
-                    queryParam ? `?${queryParam}` : ""
-                }`,
+                template ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_SERVICES_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
 
         const redirectPath =
@@ -100,7 +104,12 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

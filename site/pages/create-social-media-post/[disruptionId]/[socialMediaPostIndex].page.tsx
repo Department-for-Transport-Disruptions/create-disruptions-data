@@ -30,6 +30,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
+    template?: string;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -46,7 +47,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         <BaseLayout title={title} description={description}>
             <form
                 encType="multipart/form-data"
-                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}`}
+                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${
+                    queryParams["template"] ? "&template=true" : ""
+                }`}
                 method="post"
             >
                 <>
@@ -224,7 +227,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const index = ctx.query.socialMediaPostIndex ? Number(ctx.query.socialMediaPostIndex) : 0;
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query?.template);
     const socialMediaPost = disruption?.socialMediaPosts?.find((s) => s.socialMediaPostIndex === index);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
@@ -246,6 +249,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
             socialAccounts,
+            template: disruption?.template?.toString() || "",
         },
     };
 };

@@ -77,6 +77,7 @@ export interface TableDisruption {
     isLive: boolean;
     stopsAffectedCount: number;
     consequenceLength?: number;
+    template?: boolean;
 }
 
 export interface ViewAllDisruptionsProps {
@@ -303,6 +304,10 @@ export const filterDisruptions = (disruptions: TableDisruption[], filter: Filter
             if (!showService) {
                 return false;
             }
+        }
+
+        if (disruption.template) {
+            return false;
         }
 
         if (filter.mode && filter.mode !== "any") {

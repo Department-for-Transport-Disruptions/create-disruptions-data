@@ -53,6 +53,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
+    const isTemplate = (queryParams["template"] as string) || "";
+
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
@@ -176,7 +178,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-stops" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-stops${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -332,23 +338,28 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                                    isTemplate ? "?template=true" : ""
+                                }`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
-                        >
-                            Save as draft
-                        </button>
+                        {!isTemplate && (
+                            <button
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                formAction={`/api${CREATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
+                            >
+                                Save as draft
+                            </button>
+                        )}
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
+                            isTemplate={isTemplate}
                         />
                     </div>
                 </>
@@ -373,7 +384,11 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");

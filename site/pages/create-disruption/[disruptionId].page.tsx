@@ -234,11 +234,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Create a new disruption</h1>
+                        <h1 className="govuk-heading-xl">
+                            {queryParams["template"]?.includes("true")
+                                ? "Create a new template"
+                                : "Create a new disruption"}
+                        </h1>
 
                         <Radios<DisruptionInfo>
                             display="Type of disruption"
@@ -547,7 +555,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                                queryParams["template"] ? "?template=true" : ""
+                            }`}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes
@@ -555,7 +565,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     ) : null}
 
                     {props.disruptionExists && (
-                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                        <DeleteDisruptionButton
+                            disruptionId={props.disruptionId}
+                            csrfToken={props.csrfToken}
+                            isTemplate={queryParams["template"]?.toString()}
+                        />
                     )}
                 </>
             </CsrfForm>
@@ -578,7 +592,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

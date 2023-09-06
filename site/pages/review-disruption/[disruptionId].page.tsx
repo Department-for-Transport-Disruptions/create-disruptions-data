@@ -69,6 +69,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                         styles: {
@@ -97,6 +99,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                     },
@@ -116,6 +120,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                     },
@@ -135,6 +141,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                     },
@@ -154,6 +162,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                     },
@@ -173,6 +183,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                   disruption,
                                   post.socialMediaPostIndex,
                                   true,
+                                  false,
+                                  disruption.template,
                               )
                             : "",
                     },
@@ -182,7 +194,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                 header: "Status",
                 cells: [
                     {
-                        value: post.status,
+                        value: disruption.template ? "N/A" : post.status,
                     },
                     {
                         value: "",
@@ -280,6 +292,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
                     createChangeLink(`validity-period-${i + 1}`, "/create-disruption", disruption, undefined, true),
+                    false,
+                    disruption.template,
+                    ,
                 ],
             };
         });
@@ -301,7 +316,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}`}
+                    deleteUrl={`/api/delete-disruption${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -311,7 +326,9 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
             {socialMediaPostPopUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
-                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}`}
+                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
+                        disruption.template ? "?template=true" : ""
+                    }`}
                     cancelActionHandler={cancelActionHandlerSocialMediaPost}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -319,11 +336,17 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                 />
             ) : null}
 
-            <CsrfForm action="/api/publish" method="post" csrfToken={csrfToken}>
+            <CsrfForm
+                action={`/api/publish${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={csrfToken}
+            >
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Review your answers before submitting the disruption</h1>
+                        <h1 className="govuk-heading-xl">{`Review your answers before submitting the ${
+                            disruption.template ? "template" : "disruption"
+                        }`}</h1>
                         <Table
                             rows={[
                                 {
@@ -350,6 +373,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -370,6 +395,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -387,6 +414,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -404,6 +433,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -421,6 +452,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -439,6 +472,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -456,6 +491,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -473,6 +510,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -492,6 +531,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                                 disruption,
                                                 undefined,
                                                 true,
+                                                false,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -537,6 +578,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                             consequence={consequence}
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
+                                            isTemplate={disruption.template}
                                         />
                                     </div>
                                 </div>
@@ -546,7 +588,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <Link
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
+                                query: { return: REVIEW_DISRUPTION_PAGE_PATH, template: queryParams["template"] },
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10
@@ -609,7 +651,10 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                             }`}
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
+                                query: {
+                                    return: REVIEW_DISRUPTION_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
@@ -622,7 +667,11 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
-                            {canPublish ? "Publish disruption" : "Send to review"}
+                            {canPublish || disruption.template
+                                ? disruption.template
+                                    ? "Create template"
+                                    : "Publish disruption"
+                                : "Send to review"}
                         </button>
                         <button
                             className="govuk-button govuk-button--warning ml-5 mt-8"
@@ -637,15 +686,17 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                 ]);
                             }}
                         >
-                            Delete disruption
+                            {disruption.template ? "Delete template" : "Delete disruption"}
                         </button>
-                        <Link
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            href={DASHBOARD_PAGE_PATH}
-                        >
-                            Save as draft
-                        </Link>
+                        {!disruption.template && (
+                            <Link
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                href={DASHBOARD_PAGE_PATH}
+                            >
+                                Save as draft
+                            </Link>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -664,7 +715,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query?.template,
+    );
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 

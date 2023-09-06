@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -23,6 +23,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
+        const { template } = req.query;
         const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
 
         if (!disruptionToDuplicate) {
@@ -62,6 +63,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                       })),
                   }
                 : {}),
+            template: false,
         };
 
         if (!draftDisruption.disruptionNoEndDateTime) {
@@ -76,17 +78,24 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
+            template === "true",
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
                 }),
             );
         }
 
-        redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template === "true" ? ["template"] : [],
+            `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
+            ["duplicate=true"],
+        );
 
         return;
     } catch (e) {

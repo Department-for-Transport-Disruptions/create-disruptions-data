@@ -118,7 +118,8 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
                 item.publishStatus === PublishStatus.draft ||
                 item.publishStatus === PublishStatus.pendingApproval ||
                 item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected,
+                item.publishStatus === PublishStatus.rejected ||
+                !item.template,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
 

@@ -15,6 +15,7 @@ import {
     getReturnPage,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -37,6 +38,8 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+
+        const { template } = req.query;
 
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
@@ -66,16 +69,17 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
-                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}${
-                    queryParam ? `?${queryParam}` : ""
-                }`,
+                template ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
@@ -87,7 +91,12 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

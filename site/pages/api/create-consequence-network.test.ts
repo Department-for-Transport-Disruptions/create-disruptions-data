@@ -74,10 +74,43 @@ describe("create-consequence-network API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when all required inputs are passed and consequence is a template", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultNetworkData },
+            query: { template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceNetwork(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "",
+                disruptionSeverity: Severity.slight,
+                vehicleMode: VehicleMode.bus,
+                consequenceType: "networkWide",
+                consequenceIndex: 0,
+                disruptionId: defaultDisruptionId,
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            true,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?template=true`,
         });
     });
 
@@ -179,6 +212,7 @@ describe("create-consequence-network API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

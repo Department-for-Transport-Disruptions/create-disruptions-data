@@ -256,6 +256,7 @@ export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
 export const DISRUPTION_HISTORY_PAGE_PATH = "/disruption-history";
 export const DASHBOARD_PAGE_PATH = "/dashboard";
 export const VIEW_ALL_DISRUPTIONS_PAGE_PATH = "/view-all-disruptions";
+export const VIEW_ALL_TEMPLATES_PAGE_PATH = "/view-all-templates";
 export const ACCOUNT_SETTINGS_PAGE_PATH = "/account-settings";
 export const LOGIN_PAGE_PATH = "/login";
 export const FORGOT_PASSWORD_PAGE_PATH = "/forgot-password";

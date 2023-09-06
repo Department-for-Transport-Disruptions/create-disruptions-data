@@ -84,6 +84,7 @@ describe("create-consequence-operator API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -214,6 +215,7 @@ describe("create-consequence-operator API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

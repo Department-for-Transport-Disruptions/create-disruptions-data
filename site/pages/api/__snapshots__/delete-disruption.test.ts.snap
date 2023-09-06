@@ -78,6 +78,7 @@ exports[`deleteDisruption > should write the correct disruptions data to dynamoD
     },
   ],
   "summary": "Some summary",
+  "template": false,
   "validity": [
     {
       "disruptionEndDate": "17/03/2023",
@@ -105,6 +106,7 @@ exports[`deleteDisruption > should write the correct disruptions data to dynamoD
   "publishStartTime": "1200",
   "publishStatus": "DRAFT",
   "summary": "Some summary",
+  "template": false,
   "validity": [
     {
       "disruptionEndDate": "17/03/2023",

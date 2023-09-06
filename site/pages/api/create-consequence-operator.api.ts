@@ -15,6 +15,7 @@ import {
     getReturnPage,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -49,6 +50,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
     try {
         const queryParam = getReturnPage(req);
         const session = getSession(req);
+        const { template } = req.query;
 
         const { draft } = req.query;
 
@@ -74,16 +76,17 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
-                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}${
-                    queryParam ? `?${queryParam}` : ""
-                }`,
+                template ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =
@@ -95,7 +98,12 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {
