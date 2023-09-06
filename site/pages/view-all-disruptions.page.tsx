@@ -680,32 +680,39 @@ const ViewAllDisruptions = ({
         {
             displayName: "ID",
             key: "id",
+            widthClass: "w-[10%]",
         },
         {
             displayName: "Summary",
             key: "summary",
+            widthClass: "w-[30%]",
         },
         {
             displayName: "Modes",
             key: "modes",
+            widthClass: "w-[10%]",
         },
         {
             displayName: "Start",
             key: "start",
             sortable: true,
+            widthClass: "w-[13%]",
         },
         {
             displayName: "End",
             key: "end",
             sortable: true,
+            widthClass: "w-[13%]",
         },
         {
             displayName: "Severity",
             key: "severity",
+            widthClass: "w-[12%]",
         },
         {
             displayName: "Status",
             key: "status",
+            widthClass: "w-[12%]",
         },
     ];
 

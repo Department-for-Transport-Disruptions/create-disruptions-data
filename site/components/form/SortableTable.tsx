@@ -5,6 +5,7 @@ export interface TableColumn<T> {
     displayName: string;
     key: keyof T;
     sortable?: boolean;
+    widthClass?: string;
 }
 
 interface SortableTableProps<T> {
@@ -87,7 +88,9 @@ const SortableTable = <T extends object>({ columns, rows, sortFunction }: Sortab
                             return column.sortable ? (
                                 <th
                                     scope="col"
-                                    className="govuk-table__header align-middle px-2"
+                                    className={`govuk-table__header align-middle px-2 ${
+                                        column.widthClass ? column.widthClass : ""
+                                    }`}
                                     key={`header-${column.displayName}`}
                                     onClick={() => sortData(column.key)}
                                 >
@@ -99,7 +102,9 @@ const SortableTable = <T extends object>({ columns, rows, sortFunction }: Sortab
                             ) : (
                                 <th
                                     scope="col"
-                                    className="govuk-table__header align-middle px-2"
+                                    className={`govuk-table__header align-middle px-2 ${
+                                        column.widthClass ? column.widthClass : ""
+                                    }`}
                                     key={`header-${column.displayName}`}
                                 >
                                     {column.displayName}
