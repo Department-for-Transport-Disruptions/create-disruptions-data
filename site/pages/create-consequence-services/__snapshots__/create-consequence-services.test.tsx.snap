@@ -705,7 +705,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
@@ -1725,7 +1725,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
@@ -2679,7 +2679,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       disabled={false}
                       id="disruption-delay-input"
                       name="disruptionDelay"
@@ -3698,7 +3698,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
