@@ -1901,6 +1901,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Template Overview
           </h1>
+          <button
+            className="govuk-button"
+            data-module="govuk-button"
+            formAction=""
+          >
+            Create disruption
+          </button>
           <br />
           <table
             className="govuk-table"
