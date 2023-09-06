@@ -2332,7 +2332,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/0?return=%2Fdisruption-detail"
+                          href="/type-of-consequence/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2360,7 +2360,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2388,7 +2388,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2416,7 +2416,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2444,7 +2444,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2465,7 +2465,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -2525,7 +2525,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/1?return=%2Fdisruption-detail"
+                          href="/type-of-consequence/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2553,7 +2553,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
+                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2581,7 +2581,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
+                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2609,7 +2609,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
+                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2637,7 +2637,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
+                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2665,7 +2665,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail"
+                          href="/create-consequence-operator/2/1?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2686,7 +2686,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -2746,7 +2746,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail"
+                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2774,7 +2774,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2802,7 +2802,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2830,7 +2830,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2858,7 +2858,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2886,7 +2886,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2914,7 +2914,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                       >
                         <a
                           className="govuk-link"
-                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -2935,7 +2935,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail&template=true"
                 >
                   Duplicate consequence
                 </button>
