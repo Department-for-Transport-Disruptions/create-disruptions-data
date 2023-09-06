@@ -47,7 +47,6 @@ const Markers = ({
                   .filter((sToFilter: Stop) => !searched.some((s) => s.atcoCode === sToFilter.atcoCode))
             : pastStops;
 
-    console.log(previouslySelectedStops, pastStops);
     return (
         <>
             {selected && selected.length > 0
