@@ -455,7 +455,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         ? [
               {
                   Put: {
-                      TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
+                      TableName: disruptionsTableName,
                       Item: {
                           PK: id,
                           SK: `${disruption.disruptionId}#HISTORY#${currentTime.unix()}`,
@@ -487,7 +487,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                 },
                 ...consequenceUpdateCommands,
                 ...socialMediaPostUpdateCommands,
-                ...historyPutCommand,
+                ...(isTemplate ? [] : historyPutCommand),
             ],
         }),
     );
@@ -874,8 +874,8 @@ export const getDisruptionById = async (
         consequences: consequencesToShow,
         socialMediaPosts: socialMediaPostsToShow,
         deletedConsequences,
-        history,
-        newHistory: newHistoryItems,
+        history: isTemplate ? [] : history,
+        newHistory: isTemplate ? [] : newHistoryItems,
         template: isTemplate ? true : false,
         publishStatus:
             (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)) ||
