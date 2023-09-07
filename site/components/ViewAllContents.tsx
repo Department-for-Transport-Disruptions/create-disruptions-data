@@ -336,31 +336,30 @@ export const formatContentsIntoRows = (contents: TableContents[], currentPage: n
                 <Link
                     className="govuk-link"
                     href={
-                        content.status === Progress.draft
+                        content.status === Progress.draft && !isTemplate
                             ? content.consequenceLength && content.consequenceLength > 0
                                 ? {
                                       pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${content.id}`,
                                       query: {
-                                          return: isTemplate
-                                              ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
-                                              : VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                          return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
                                       },
                                   }
                                 : {
                                       pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${content.id}/0`,
                                       query: {
-                                          return: isTemplate
-                                              ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
-                                              : VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                          return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
                                       },
                                   }
                             : {
                                   pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${content.id}`,
-                                  query: {
-                                      return: isTemplate
-                                          ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
-                                          : VIEW_ALL_TEMPLATES_PAGE_PATH,
-                                  },
+                                  query: isTemplate
+                                      ? {
+                                            return: VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                            template: "true",
+                                        }
+                                      : {
+                                            return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+                                        },
                               }
                     }
                     key={content.id}
@@ -902,7 +901,7 @@ const ViewAllContents = ({
                     <>
                         <Table
                             columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                            rows={formatContentsIntoRows(contentsToDisplay, currentPage)}
+                            rows={formatContentsIntoRows(contentsToDisplay, currentPage, isTemplate)}
                         />
                         <PageNumbers
                             numberOfPages={numberOfContentPages}
@@ -915,7 +914,7 @@ const ViewAllContents = ({
                 <>
                     <Table
                         columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                        rows={formatContentsIntoRows(contentsToDisplay, currentPage)}
+                        rows={formatContentsIntoRows(contentsToDisplay, currentPage, isTemplate)}
                     />
                     <PageNumbers
                         numberOfPages={numberOfContentPages}

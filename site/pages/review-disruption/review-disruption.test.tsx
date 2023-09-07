@@ -150,14 +150,21 @@ describe("pages", () => {
         });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
+                .create(
+                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish={false}
+                    redirect=""
+                />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
@@ -168,7 +175,7 @@ describe("pages", () => {
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
@@ -182,7 +189,9 @@ describe("pages", () => {
                 query: { duplicate: true },
             }));
             const tree = renderer
-                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
+                .create(
+                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -194,6 +203,7 @@ describe("pages", () => {
                         disruption={{ ...previousDisruptionInformation, template: true }}
                         errors={[]}
                         canPublish
+                        redirect=""
                     />,
                 )
                 .toJSON();
@@ -206,6 +216,7 @@ describe("pages", () => {
                     disruption={{ ...previousDisruptionInformation, template: true }}
                     errors={[]}
                     canPublish
+                    redirect=""
                 />,
             );
 
@@ -215,24 +226,33 @@ describe("pages", () => {
             const deleteButton = queryByText("Delete disruption", {
                 selector: "button",
             });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
 
             const header = queryByText("Review your answers before submitting the template");
 
             expect(deleteTemplateButton).toBeTruthy();
             expect(deleteButton).toBeFalsy();
             expect(header).toBeTruthy();
+            expect(cancelButton).toBeFalsy();
 
             unmount();
         });
 
         it("should render correctly with appropriate buttons", () => {
-            useRouter.mockImplementation(() => ({
-                query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-                },
-            }));
+            // useRouter.mockImplementation(() => ({
+            //     query: {
+            //         return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+            //     },
+            // }));
             const { queryByText, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                />,
             );
 
             const publishButton = queryByText("Publish disruption", {
@@ -247,6 +267,9 @@ describe("pages", () => {
             const deleteTemplateButton = queryByText("Delete template", {
                 selector: "button",
             });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
 
             const header = queryByText("Review your answers before submitting the disruption");
 
@@ -255,18 +278,24 @@ describe("pages", () => {
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
+            expect(cancelButton).toBeTruthy();
 
             unmount();
         });
 
         it("should render correctly with appropriate buttons for staff user", () => {
-            useRouter.mockImplementation(() => ({
-                query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-                },
-            }));
+            // useRouter.mockImplementation(() => ({
+            //     query: {
+            //         return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+            //     },
+            // }));
             const { queryByText, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish={false}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                />,
             );
 
             const draftButton = queryByText("Save as draft");
@@ -281,6 +310,9 @@ describe("pages", () => {
             const deleteTemplateButton = queryByText("Delete template", {
                 selector: "button",
             });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
 
             const header = queryByText("Review your answers before submitting the disruption");
 
@@ -289,6 +321,7 @@ describe("pages", () => {
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
+            expect(cancelButton).toBeTruthy();
 
             unmount();
         });
