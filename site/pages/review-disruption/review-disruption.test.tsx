@@ -11,6 +11,7 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
+import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
@@ -197,6 +198,99 @@ describe("pages", () => {
                 )
                 .toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the template");
+
+            expect(deleteTemplateButton).toBeTruthy();
+            expect(deleteButton).toBeFalsy();
+            expect(header).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should render correctly with appropriate buttons", () => {
+            useRouter.mockImplementation(() => ({
+                query: {
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                },
+            }));
+            const { queryByText, unmount } = render(
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
+            );
+
+            const publishButton = queryByText("Publish disruption", {
+                selector: "button",
+            });
+
+            const draftButton = queryByText("Save as draft");
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the disruption");
+
+            expect(publishButton).toBeTruthy();
+            expect(draftButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            expect(header).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
+
+            unmount();
+        });
+
+        it("should render correctly with appropriate buttons for staff user", () => {
+            useRouter.mockImplementation(() => ({
+                query: {
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                },
+            }));
+            const { queryByText, unmount } = render(
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
+            );
+
+            const draftButton = queryByText("Save as draft");
+
+            const reviewButton = queryByText("Send to review", {
+                selector: "button",
+            });
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the disruption");
+
+            expect(draftButton).toBeTruthy();
+            expect(reviewButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            expect(header).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
+
+            unmount();
         });
     });
 });

@@ -78,6 +78,7 @@ const DisruptionDetail = ({
         },
     ];
 
+    const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
@@ -726,6 +727,8 @@ const DisruptionDetail = ({
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
+                                        : displaySendToReview
+                                        ? "govuk-button--secondary"
                                         : ""
                                 }`}
                             >

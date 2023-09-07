@@ -13,6 +13,7 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
+    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -23,7 +24,7 @@ import { getSession } from "../../utils/apiUtils/auth";
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
-
+        const isFromTemplate = isDisruptionFromTemplate(req);
         const { template } = req.query;
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
         const session = getSession(req);
@@ -64,7 +65,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
-            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            !isFromTemplate && queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -72,6 +73,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
+
         redirectToWithQueryParams(
             req,
             res,

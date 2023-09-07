@@ -3,8 +3,8 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
-import { defaultModes } from "../../schemas/organisation.schema";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import { defaultModes } from "../../schemas/organisation.schema";
 
 const blankInputs: CreateConsequenceStopsProps = {
     errors: [],

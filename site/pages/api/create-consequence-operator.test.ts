@@ -6,8 +6,11 @@ import createConsequenceOperator from "./create-consequence-operator.api";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
@@ -56,6 +59,18 @@ describe("create-consequence-operator API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
+
+    const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
+        `${DISRUPTION_DETAIL_PAGE_PATH}/${
+            defaultDisruptionId as string
+        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+    )}`;
+
+    const returnPath = encodeURIComponent(
+        `${DISRUPTION_DETAIL_PAGE_PATH}/${
+            defaultDisruptionId as string
+        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -220,6 +235,78 @@ describe("create-consequence-operator API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: DASHBOARD_PAGE_PATH,
+        });
+    });
+
+    it("should redirect to /review-disruption when all required inputs are passed  with appropriate query params when a new disruption is created from template", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: bodyData,
+            requestHeaders: {
+                referer: refererPath,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "",
+                disruptionSeverity: "slight",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceOperators: defaultConsequenceOperators,
+                consequenceType: "operatorWide",
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+        });
+    });
+
+    it("should redirect back to /create-consequence-operator when description is too long with appropriate query params", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...bodyData,
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            },
+            requestHeaders: {
+                referer: refererPath,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Description must not exceed 1000 characters", id: "description" },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+            JSON.stringify({
+                inputs: {
+                    ...bodyData,
+                    consequenceOperators: defaultConsequenceOperators,
+                    description:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                },
+                errors,
+            }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
         });
     });
 });

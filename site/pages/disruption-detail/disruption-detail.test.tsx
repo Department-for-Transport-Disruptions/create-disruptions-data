@@ -13,7 +13,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
-import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
     {
@@ -300,42 +299,6 @@ describe("pages", () => {
             expect(createDisruptionButton).toBeTruthy();
             expect(closeButton).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
-
-            unmount();
-        });
-
-        it("should render correctly with appropriate buttons", () => {
-            useRouter.mockImplementation(() => ({
-                query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-                },
-            }));
-            const { queryByText, unmount } = render(
-                <DisruptionDetail
-                    disruption={{
-                        ...previousDisruptionInformation,
-                    }}
-                    redirect={"/view-all-disruptions"}
-                    errors={[]}
-                    canPublish
-                />,
-            );
-
-            const publishButton = queryByText("Publish disruption", {
-                selector: "button",
-            });
-
-            const rejectButton = queryByText("Reject disruption", {
-                selector: "button",
-            });
-
-            const deleteButton = queryByText("Delete disruption", {
-                selector: "button",
-            });
-
-            expect(publishButton).toBeTruthy();
-            expect(rejectButton).toBeTruthy();
-            expect(deleteButton).toBeTruthy();
 
             unmount();
         });

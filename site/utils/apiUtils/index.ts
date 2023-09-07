@@ -120,6 +120,7 @@ export const getReturnPage = (req: NextApiRequest) => {
 
 export const isDisruptionFromTemplate = (req: NextApiRequest) => {
     const queryParam = req.headers.referer?.split("?")[1];
+
     const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
     return decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH) && decodedQueryParam.includes("template=true")
         ? queryParam
