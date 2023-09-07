@@ -93,7 +93,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["s3:GetObject", "s3:PutObject"],
             }),
             new PolicyStatement({
-                resources: [disruptionsTable.tableArn, organisationsTable.tableArn],
+                resources: [disruptionsTable.tableArn, organisationsTable.tableArn, templateDisruptionsTable.tableArn],
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
