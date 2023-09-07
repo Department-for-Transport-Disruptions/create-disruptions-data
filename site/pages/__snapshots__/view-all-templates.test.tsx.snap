@@ -162,7 +162,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -210,7 +210,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -258,7 +258,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -653,7 +653,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -701,7 +701,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -749,7 +749,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -797,7 +797,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -845,7 +845,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -893,7 +893,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -941,7 +941,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -989,7 +989,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1037,7 +1037,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1085,7 +1085,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}

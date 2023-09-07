@@ -27,6 +27,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
@@ -321,7 +322,7 @@ export const getContentPage = (pageNumber: number, contents: TableContents[]): T
     return contents.slice(startPoint, endPoint);
 };
 
-export const formatContentsIntoRows = (contents: TableContents[], currentPage: number) => {
+export const formatContentsIntoRows = (contents: TableContents[], currentPage: number, isTemplate: boolean) => {
     const contentPages = getContentPage(currentPage, contents);
     return contentPages.map((content) => {
         const earliestPeriod: {
@@ -339,15 +340,27 @@ export const formatContentsIntoRows = (contents: TableContents[], currentPage: n
                             ? content.consequenceLength && content.consequenceLength > 0
                                 ? {
                                       pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${content.id}`,
-                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                      query: {
+                                          return: isTemplate
+                                              ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
+                                              : VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                      },
                                   }
                                 : {
                                       pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${content.id}/0`,
-                                      query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                      query: {
+                                          return: isTemplate
+                                              ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
+                                              : VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                      },
                                   }
                             : {
                                   pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${content.id}`,
-                                  query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
+                                  query: {
+                                      return: isTemplate
+                                          ? VIEW_ALL_DISRUPTIONS_PAGE_PATH
+                                          : VIEW_ALL_TEMPLATES_PAGE_PATH,
+                                  },
                               }
                     }
                     key={content.id}

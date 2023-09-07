@@ -287,7 +287,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="yes"
                       disabled={false}
                       id="disruption-delay-input"
@@ -376,10 +376,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           />
           <input
             name="consequenceIndex"
-            type="hidden"
-          />
-          <input
-            name="template"
             type="hidden"
           />
           <button
@@ -886,7 +882,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       disabled={false}
                       id="disruption-delay-input"
                       name="disruptionDelay"
@@ -973,10 +969,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           />
           <input
             name="consequenceIndex"
-            type="hidden"
-          />
-          <input
-            name="template"
             type="hidden"
           />
           <button
@@ -1473,7 +1465,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="yes"
                       disabled={false}
                       id="disruption-delay-input"
@@ -1562,10 +1554,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           />
           <input
             name="consequenceIndex"
-            type="hidden"
-          />
-          <input
-            name="template"
             type="hidden"
           />
           <button

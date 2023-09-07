@@ -77,7 +77,9 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             session.orgId,
             canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval,
             session.name,
-            canPublish(session) || draftDisruption.template
+            draftDisruption.template
+                ? undefined
+                : canPublish(session)
                 ? "Disruption created and published"
                 : "Disruption submitted for review",
             template === "true",

@@ -73,7 +73,6 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-
         redirectToWithQueryParams(
             req,
             res,

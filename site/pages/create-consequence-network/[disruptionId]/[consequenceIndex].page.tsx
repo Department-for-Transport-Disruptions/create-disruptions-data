@@ -159,7 +159,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         <input type="hidden" name="consequenceType" value="networkWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
-                        <input type="hidden" name="template" value={props.template} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue

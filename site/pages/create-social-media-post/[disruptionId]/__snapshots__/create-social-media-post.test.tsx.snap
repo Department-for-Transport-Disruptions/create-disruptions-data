@@ -162,7 +162,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
@@ -245,7 +245,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   >
                     <input
                       aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       defaultValue="1805"
                       disabled={false}
                       id="publish-time-input"
@@ -723,7 +723,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
@@ -809,7 +809,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   >
                     <input
                       aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
                       disabled={false}
                       id="publish-time-input"
                       name="publishTime"

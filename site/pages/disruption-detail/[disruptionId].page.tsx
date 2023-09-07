@@ -632,6 +632,7 @@ const DisruptionDetail = ({
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
+                                            isTemplate={disruption.template}
                                         />
                                     </div>
                                 </div>
