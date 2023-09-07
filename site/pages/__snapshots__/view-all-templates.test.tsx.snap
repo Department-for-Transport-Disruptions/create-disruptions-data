@@ -107,43 +107,77 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Starts
+              <div
+                className="flex flex-row items-center"
+              >
+                Start
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Ends
+              <div
+                className="flex flex-row items-center"
+              >
+                End
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -156,9 +190,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -169,34 +202,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -204,9 +237,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -217,34 +249,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -252,9 +284,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -265,34 +296,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Draft
             </td>
@@ -598,43 +629,77 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Starts
+              <div
+                className="flex flex-row items-center"
+              >
+                Start
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Ends
+              <div
+                className="flex flex-row items-center"
+              >
+                End
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status
@@ -647,9 +712,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -660,34 +724,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -695,9 +759,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -708,34 +771,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -743,9 +806,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -756,34 +818,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Draft
             </td>
@@ -791,9 +853,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -804,34 +865,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -839,9 +900,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -852,34 +912,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -887,9 +947,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -900,34 +959,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Draft
             </td>
@@ -935,9 +994,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -948,34 +1006,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -983,9 +1041,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -996,34 +1053,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               18/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -1031,9 +1088,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -1044,34 +1100,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Busted reunion traffic
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram, Ferry, Train
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               19/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               11/05/2024
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Draft
             </td>
@@ -1079,9 +1135,8 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           <tr
             className="govuk-table__row"
           >
-            <th
-              className="govuk-table__header align-middle"
-              scope="row"
+            <td
+              className="govuk-table__cell align-middle px-2"
             >
               <a
                 className="govuk-link"
@@ -1092,34 +1147,34 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
               >
                 8fg3ha
               </a>
-            </th>
+            </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Tram
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               05/01/2022
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               No end time
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Very severe
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              className="govuk-table__cell align-middle px-2"
             >
               Open
             </td>
@@ -1507,43 +1562,77 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             className="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               ID
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[30%]"
               scope="col"
             >
               Summary
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[10%]"
               scope="col"
             >
               Modes
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Starts
+              <div
+                className="flex flex-row items-center"
+              >
+                Start
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[13%]"
+              onClick={[Function]}
               scope="col"
             >
-              Ends
+              <div
+                className="flex flex-row items-center"
+              >
+                End
+                <div
+                  className="flex flex-col pl-1 text-arrow"
+                >
+                  <span
+                    className="-mb-1"
+                  >
+                    ▲
+                  </span>
+                  <span>
+                    ▼
+                  </span>
+                </div>
+              </div>
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Severity
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              className="govuk-table__header align-middle px-2 w-[12%]"
               scope="col"
             >
               Status

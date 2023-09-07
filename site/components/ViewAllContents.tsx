@@ -40,6 +40,7 @@ import {
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
+import SortableTable, { SortOrder, TableColumn } from "./form/SortableTable";
 
 export interface ViewAllContentProps {
     adminAreaCodes: string[];
@@ -87,6 +88,31 @@ export interface TableContents {
     stopsAffectedCount: number;
     consequenceLength?: number;
 }
+
+export interface ContentTable {
+    id: JSX.Element;
+    summary: string;
+    modes: string;
+    start: string;
+    end: string;
+    severity: string;
+    status: string;
+}
+
+const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, sortOrder: SortOrder) => {
+    return contents.sort((a, b) => {
+        const aValue = getFormattedDate(a[sortField] === "No end time" ? "01/01/1900" : (a[sortField] as string));
+        const bValue = getFormattedDate(b[sortField] === "No end time" ? "01/01/1900" : (b[sortField] as string));
+
+        if (aValue.isBefore(bValue)) {
+            return sortOrder === SortOrder.asc ? -1 : 1;
+        } else if (aValue.isAfter(bValue)) {
+            return sortOrder === SortOrder.asc ? 1 : -1;
+        } else {
+            return 0;
+        }
+    });
+};
 
 export const getDisruptionData = async (isTemplate?: boolean) => {
     const options: RequestInit = {
@@ -200,12 +226,10 @@ export const applyFiltersToContents = (
     disruptions: TableContents[],
     setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
     filter: Filter,
-    setNumberOfContentPages: Dispatch<SetStateAction<number>>,
 ): void => {
     const disruptionsToDisplay = filterContents(disruptions, filter);
 
     setContentsToDisplay(disruptionsToDisplay);
-    setNumberOfContentPages(Math.ceil(disruptionsToDisplay.length / 10));
 };
 
 export const filterIsEmpty = (filter: Filter): boolean =>
@@ -322,9 +346,8 @@ export const getContentPage = (pageNumber: number, contents: TableContents[]): T
     return contents.slice(startPoint, endPoint);
 };
 
-export const formatContentsIntoRows = (contents: TableContents[], currentPage: number, isTemplate: boolean) => {
-    const contentPages = getContentPage(currentPage, contents);
-    return contentPages.map((content) => {
+const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean): ContentTable[] => {
+    return contents.map((content) => {
         const earliestPeriod: {
             startTime: string;
             endTime: string | null;
@@ -332,7 +355,7 @@ export const formatContentsIntoRows = (contents: TableContents[], currentPage: n
         const latestPeriod: string | null = content.validityPeriods[content.validityPeriods.length - 1].endTime;
 
         return {
-            header: (
+            id: (
                 <Link
                     className="govuk-link"
                     href={
@@ -367,17 +390,55 @@ export const formatContentsIntoRows = (contents: TableContents[], currentPage: n
                     {content.displayId}
                 </Link>
             ),
-            cells: [
-                content.summary,
-                content.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
-                convertDateTimeToFormat(earliestPeriod.startTime),
-                !!latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
-                splitCamelCaseToString(content.severity),
-                splitCamelCaseToString(content.status),
-            ],
+            summary: content.summary,
+            modes: content.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
+            start: convertDateTimeToFormat(earliestPeriod.startTime),
+            end: !!latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
+            severity: splitCamelCaseToString(content.severity),
+            status: splitCamelCaseToString(content.status),
         };
     });
 };
+
+const columns: TableColumn<ContentTable>[] = [
+    {
+        displayName: "ID",
+        key: "id",
+        widthClass: "w-[10%]",
+    },
+    {
+        displayName: "Summary",
+        key: "summary",
+        widthClass: "w-[30%]",
+    },
+    {
+        displayName: "Modes",
+        key: "modes",
+        widthClass: "w-[10%]",
+    },
+    {
+        displayName: "Start",
+        key: "start",
+        sortable: true,
+        widthClass: "w-[13%]",
+    },
+    {
+        displayName: "End",
+        key: "end",
+        sortable: true,
+        widthClass: "w-[13%]",
+    },
+    {
+        displayName: "Severity",
+        key: "severity",
+        widthClass: "w-[12%]",
+    },
+    {
+        displayName: "Status",
+        key: "status",
+        widthClass: "w-[12%]",
+    },
+];
 
 const ViewAllContents = ({
     newContentId,
@@ -386,8 +447,6 @@ const ViewAllContents = ({
     enableLoadingSpinnerOnPageLoad = true,
     isTemplate = false,
 }: ViewAllContentProps): ReactElement => {
-    const [numberOfContentPages, setNumberOfContentPages] = useState<number>(0);
-    const [currentPage, setCurrentPage] = useState(1);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
 
@@ -426,13 +485,11 @@ const ViewAllContents = ({
             const data = await getDisruptionData(isTemplate);
             setContentsToDisplay(data);
             setContents(data);
-            setNumberOfContentPages(Math.ceil(data.length / 10));
             setLoadPage(false);
         };
 
         fetchData().catch(() => {
             setContentsToDisplay([]);
-            setNumberOfContentPages(0);
             setLoadPage(false);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -474,17 +531,12 @@ const ViewAllContents = ({
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        applyFiltersToContents(
-            contents,
-            setContentsToDisplay,
-            { ...filter, services: selectedServices },
-            setNumberOfContentPages,
-        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, services: selectedServices }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedServices]);
 
     useEffect(() => {
         setFilter({ ...filter, searchText });
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, searchText }, setNumberOfContentPages); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, searchText }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchText]);
 
     useEffect(() => {
@@ -504,21 +556,14 @@ const ViewAllContents = ({
             operators: filterOperatorsToSet,
         });
 
-        applyFiltersToContents(
-            contents,
-            setContentsToDisplay,
-            { ...filter, operators: filterOperatorsToSet },
-            setNumberOfContentPages,
-        ); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, operators: filterOperatorsToSet }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedOperators]);
 
     useEffect(() => {
         if (filterIsEmpty(filter)) {
             setContentsToDisplay(contents);
-            setNumberOfContentPages(Math.ceil(contents.length / 10));
         } else {
-            applyFiltersToContents(contents, setContentsToDisplay, filter, setNumberOfContentPages);
-            setCurrentPage(1);
+            applyFiltersToContents(contents, setContentsToDisplay, filter);
         } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
@@ -663,7 +708,6 @@ const ViewAllContents = ({
                             if (showFilters) {
                                 setFilter({ services: [], operators: [] });
                                 setContentsToDisplay(contents);
-                                setNumberOfContentPages(Math.ceil(contents.length / 10));
                                 setClearButtonClicked(true);
                                 setShowFilters(false);
                             } else {
@@ -687,8 +731,6 @@ const ViewAllContents = ({
                                 setFilter({ services: [], operators: [] });
                                 setContentsToDisplay(contents);
                                 setClearButtonClicked(true);
-                                setNumberOfContentPages(Math.ceil(contents.length / 10));
-                                setCurrentPage(1);
                             }}
                         >
                             Clear filters
@@ -898,30 +940,18 @@ const ViewAllContents = ({
 
             {enableLoadingSpinnerOnPageLoad ? (
                 <LoadingBox loading={loadPage}>
-                    <>
-                        <Table
-                            columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                            rows={formatContentsIntoRows(contentsToDisplay, currentPage, isTemplate)}
-                        />
-                        <PageNumbers
-                            numberOfPages={numberOfContentPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </>
+                    <SortableTable
+                        columns={columns}
+                        rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
+                        sortFunction={sortFunction}
+                    />
                 </LoadingBox>
             ) : (
-                <>
-                    <Table
-                        columns={["ID", "Summary", "Modes", "Starts", "Ends", "Severity", "Status"]}
-                        rows={formatContentsIntoRows(contentsToDisplay, currentPage, isTemplate)}
-                    />
-                    <PageNumbers
-                        numberOfPages={numberOfContentPages}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                </>
+                <SortableTable
+                    columns={columns}
+                    rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
+                    sortFunction={sortFunction}
+                />
             )}
         </>
     );
