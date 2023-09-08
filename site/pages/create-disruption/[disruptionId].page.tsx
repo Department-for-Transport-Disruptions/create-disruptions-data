@@ -27,7 +27,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
-import { PageState } from "../../interfaces";
+import { ErrorInfo, PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -42,6 +42,7 @@ export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> 
 }
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
+const arrayTimeFields = ["disruptionStartTime", "publishStartTime"];
 
 const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const initialValidity: Validity = {
@@ -68,6 +69,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const weeklyRef = useRef<HTMLInputElement>(null);
 
     const [dateColumnError, setDateColumnError] = useState(false);
+    const [timeColumnError, setTimeColumnError] = useState(false);
 
     const hasInitialised = useRef(false);
     useEffect(() => {
@@ -79,7 +81,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     useEffect(() => {
         const errorInDateColumn = pageState.errors.some((errors) => arrayDateFields.includes(errors.id));
+        const errorInTimeColumn = pageState.errors.some((errors) => arrayTimeFields.includes(errors.id));
+
         setDateColumnError(errorInDateColumn);
+        setTimeColumnError(errorInTimeColumn);
     }, [pageState.errors]);
 
     const addValidity = (e: SyntheticEvent) => {
@@ -330,8 +335,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 />
                             </Fragment>
                         ))}
-                        <div className="flex pb-8">
-                            <div className={`${dateColumnError ? "min-w-[300px] pr-1" : "pr-1"}`}>
+                        <div className="flex pb-8 items-end">
+                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-1"}`}>
                                 <DateSelector<Validity>
                                     display="Start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
@@ -342,7 +347,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="min-w-[236px]"
+                                    minWidth="w-[203px]"
+                                    inputDivWidth={dateColumnError ? "w-[400px]" : ""}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end">
@@ -356,12 +362,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
                                     showNowButton={handleStartDateNow}
-                                    minWidth="min-w-[236px]"
+                                    inputDivWidth={timeColumnError ? "w-[220px]" : ""}
                                 />
                             </div>
                         </div>
-                        <div className="flex pb-8">
-                            <div className={`${dateColumnError ? "min-w-[300px] pr-2" : "pr-2"}`}>
+                        <div className="flex pb-8 items-end">
+                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-2"}`}>
                                 <DateSelector<Validity>
                                     display="End date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
@@ -372,7 +378,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="min-w-[236px]"
+                                    minWidth="w-[203px]"
+                                    inputDivWidth={dateColumnError ? "w-[400px]" : ""}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end">
@@ -404,8 +411,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             reset={addValidityClicked}
                         />
 
-                        <div className="flex pb-8">
-                            <div className={`${dateColumnError ? "min-w-[300px] pr-1" : "pr-1"}`}>
+                        <div className="flex pb-8 items-end">
+                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-1"}`}>
                                 <DateSelector<DisruptionInfo>
                                     display="Publication start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
@@ -421,7 +428,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="min-w-[236px]"
+                                    minWidth="w-[203px]"
+                                    inputDivWidth={dateColumnError ? "w-[400px]" : ""}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end">
@@ -440,13 +448,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
                                     showNowButton={handleNow}
-                                    minWidth="min-w-[236px]"
+                                    inputDivWidth={timeColumnError ? "w-[220px]" : ""}
                                 />
                             </div>
                         </div>
 
-                        <div className="flex pb-8">
-                            <div className={`${dateColumnError ? "min-w-[300px] pr-2" : "pr-2"}`}>
+                        <div className="flex pb-8 items-end">
+                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-2"}`}>
                                 <DateSelector<DisruptionInfo>
                                     display="Publication end date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
@@ -462,7 +470,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="min-w-[236px]"
+                                    minWidth="w-[203px]"
+                                    inputDivWidth={dateColumnError ? "w-[400px]" : ""}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end ">

@@ -156,7 +156,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0"
+                    className="govuk-date-input__item govuk-!-margin-right-0 "
                   >
                     <div
                       className=""
@@ -239,13 +239,15 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       defaultValue="1805"
                       disabled={false}
                       id="publish-time-input"
@@ -717,7 +719,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0"
+                    className="govuk-date-input__item govuk-!-margin-right-0 "
                   >
                     <div
                       className=""
@@ -803,13 +805,15 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       disabled={false}
                       id="publish-time-input"
                       name="publishTime"
