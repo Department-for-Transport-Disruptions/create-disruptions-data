@@ -336,7 +336,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             </Fragment>
                         ))}
                         <div className="flex pb-8 items-end">
-                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-1"}`}>
+                            <div className={`${dateColumnError ? "w-[410px] pr-1" : "pr-1"}`}>
                                 <DateSelector<Validity>
                                     display="Start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
@@ -367,7 +367,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             </div>
                         </div>
                         <div className="flex pb-8 items-end">
-                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-2"}`}>
+                            <div className={`${dateColumnError ? "w-[410px] pr-1" : "pr-2"}`}>
                                 <DateSelector<Validity>
                                     display="End date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
@@ -412,7 +412,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         />
 
                         <div className="flex pb-8 items-end">
-                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-1"}`}>
+                            <div className={`${dateColumnError ? "w-[410px] pr-1" : "pr-1"}`}>
                                 <DateSelector<DisruptionInfo>
                                     display="Publication start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
@@ -454,7 +454,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         </div>
 
                         <div className="flex pb-8 items-end">
-                            <div className={`${dateColumnError ? "min-w-[410px] max-w-[410px] pr-1" : "pr-2"}`}>
+                            <div className={`${dateColumnError ? "w-[410px] pr-1" : "pr-2"}`}>
                                 <DateSelector<DisruptionInfo>
                                     display="Publication end date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
