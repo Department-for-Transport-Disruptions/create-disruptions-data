@@ -241,11 +241,6 @@ describe("pages", () => {
         });
 
         it("should render correctly with appropriate buttons", () => {
-            // useRouter.mockImplementation(() => ({
-            //     query: {
-            //         return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-            //     },
-            // }));
             const { queryByText, unmount } = render(
                 <ReviewDisruption
                     disruption={previousDisruptionInformation}
@@ -284,11 +279,6 @@ describe("pages", () => {
         });
 
         it("should render correctly with appropriate buttons for staff user", () => {
-            // useRouter.mockImplementation(() => ({
-            //     query: {
-            //         return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-            //     },
-            // }));
             const { queryByText, unmount } = render(
                 <ReviewDisruption
                     disruption={previousDisruptionInformation}

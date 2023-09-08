@@ -11,7 +11,7 @@ import {
 } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -107,9 +107,14 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                 templateId as string
             }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
         );
+
         createDisruptionFromTemplate
-            ? redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?return=${returnPath}`)
-            : redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}?duplicate=true`);
+            ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
+                  `return=${returnPath}`,
+              ])
+            : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
+                  "duplicate=true",
+              ]);
 
         return;
     } catch (e) {

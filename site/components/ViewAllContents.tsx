@@ -676,7 +676,11 @@ const ViewAllContents = ({
     return (
         <>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
-            <h1 className="govuk-heading-xl">View all disruptions</h1>
+            {isTemplate ? (
+                <h1 className="govuk-heading-xl">View all templates</h1>
+            ) : (
+                <h1 className="govuk-heading-xl">View all disruptions</h1>
+            )}
             <div>
                 <Link
                     href={`/create-disruption/${newContentId}${isTemplate ? "?template=true" : ""}`}
