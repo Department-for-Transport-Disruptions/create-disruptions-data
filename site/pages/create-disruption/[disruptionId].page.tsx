@@ -27,7 +27,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
-import { ErrorInfo, PageState } from "../../interfaces";
+import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
