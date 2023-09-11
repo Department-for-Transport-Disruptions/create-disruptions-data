@@ -107,8 +107,6 @@ export const main = async (): Promise<void> => {
         }
 
         const siriStats = await getSiriStats(disruptionsTableName);
-        //TODO DEANNA remove when finished ticket
-        logger.info(siriStats);
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
