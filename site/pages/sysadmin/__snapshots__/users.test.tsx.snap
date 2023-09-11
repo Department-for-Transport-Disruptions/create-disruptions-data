@@ -616,7 +616,86 @@ exports[`addUser > should render correctly with inputs 1`] = `
           </thead>
           <tbody
             className="govuk-table__body"
-          />
+          >
+            <tr
+              className="govuk-table__row"
+            >
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                dummy
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                user1
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                dummy.user1@gmail.com
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Admin
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                <button
+                  className="govuk-link"
+                  onClick={[Function]}
+                >
+                  Remove
+                </button>
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Registered
+              </td>
+            </tr>
+            <tr
+              className="govuk-table__row"
+            >
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                dummy
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                user2
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                dummy.user2@gmail.com
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Admin
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                <button
+                  className="govuk-link"
+                  onClick={[Function]}
+                >
+                  Remove
+                </button>
+              </td>
+              <td
+                className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              >
+                Registered
+              </td>
+            </tr>
+          </tbody>
         </table>
       </form>
     </main>
