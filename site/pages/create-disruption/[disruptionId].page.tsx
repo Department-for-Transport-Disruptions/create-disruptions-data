@@ -362,7 +362,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
                                     showNowButton={handleStartDateNow}
-                                    inputDivWidth={timeColumnError ? "w-[220px]" : ""}
+                                    inputDivWidth={
+                                        timeColumnError
+                                            ? pageState.errors.some((error) => error.id === "disruptionStartTime")
+                                                ? "w-[280px]"
+                                                : "w-[300px]"
+                                            : ""
+                                    }
                                 />
                             </div>
                         </div>
@@ -448,7 +454,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
                                     showNowButton={handleNow}
-                                    inputDivWidth={timeColumnError ? "w-[220px]" : ""}
+                                    inputDivWidth={
+                                        timeColumnError
+                                            ? pageState.errors.some((error) => error.id === "publishStartTime")
+                                                ? "w-[280px]"
+                                                : "w-[300px]"
+                                            : ""
+                                    }
                                 />
                             </div>
                         </div>
