@@ -11,21 +11,22 @@ import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
 import { COOKIES_ADD_ADMIN_USER_ERRORS } from "../../constants";
-import { getUsersInGroupAndOrg } from "../../data/cognito";
+import { listUsersWithGroups } from "../../data/cognito";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { AdminSchema, adminSchema } from "../../schemas/user-management.schema";
+import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
+import { getAccountType } from "../../utils/tableUtils";
 
 const title = "System admins - Create Transport Disruptions Service";
 const description = "System admins user page for the Create Transport Disruptions Service";
 
-export interface AdminUserProps extends PageState<Partial<AddUserSchema>> {
-    admins?: AdminSchema;
+export interface SysAdminUserManagementProps extends PageState<Partial<AddUserSchema>> {
+    users?: UserManagementSchema;
 }
-const AdminUsers = (props: AdminUserProps): ReactElement => {
+const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
     const [userToResendInvite, setUserToResendInvite] = useState<{
@@ -38,19 +39,20 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
-        props.admins?.forEach((user, index) => {
+        props.users?.forEach((user, index) => {
             rows.push({
                 cells: [
                     user.givenName,
                     user.familyName,
                     user.email,
+                    `${getAccountType(user.group)}`,
                     createLink(
                         "user-action",
                         index,
                         user.username,
-                        "org-admins",
+                        user.group,
                         user.organisation,
-                        user.userStatus !== "CONFIRMED",
+                        user.userStatus !== "CONFIRMED" && user.group == "org-admins",
                     ),
                     user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",
                 ],
@@ -217,13 +219,16 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 <button className="govuk-button mt-8" data-module="govuk-button">
                     Add and send invitation
                 </button>
-                <Table columns={["First name", "Last name", "Email", "Action", "Status"]} rows={getRows()}></Table>
+                <Table
+                    columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}
+                    rows={getRows()}
+                ></Table>
             </CsrfForm>
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AdminUserProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: SysAdminUserManagementProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_ADD_ADMIN_USER_ERRORS];
 
@@ -243,15 +248,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgId = ctx.query.orgId?.toString();
 
-    const orgAdminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "org-admins") : undefined;
+    const orgAdminUsers = await listUsersWithGroups();
 
-    const parsedList = adminSchema.safeParse(orgAdminUsers);
+    const parsedList = userManagementSchema.safeParse(orgAdminUsers);
 
     if (parsedList.success) {
         return {
             props: {
                 ...getPageState(errorCookie, addUserSchema),
-                admins: parsedList.data,
+                users: parsedList.data.filter((user) => user.organisation === orgId),
             },
         };
     }
@@ -263,4 +268,4 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     };
 };
 
-export default AdminUsers;
+export default SysAdminUserManagement;
