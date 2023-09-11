@@ -184,7 +184,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
             </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
                 <TextInput<AddUserSchema>
-                    display="First name"
+                    display="Admin First name"
                     inputName="givenName"
                     widthClass="w"
                     value={pageState.inputs.givenName}
@@ -194,7 +194,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Last name"
+                    display="Admin Last name"
                     inputName="familyName"
                     widthClass="w"
                     value={pageState.inputs.familyName}
@@ -204,7 +204,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Email address"
+                    display="Admin Email address"
                     inputName="email"
                     widthClass="w"
                     value={pageState.inputs.email}
