@@ -37,7 +37,9 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED"),
+                    user.group !== "system-admins"
+                        ? createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED")
+                        : "",
                 ],
             });
         });
@@ -66,42 +68,37 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         userGroup: string,
         showResendInvite?: boolean,
     ) => {
-        {
-            if (userGroup !== "system-admins") {
-                return (
+        return (
+            <>
+                {showResendInvite ? (
                     <>
-                        {showResendInvite ? (
-                            <>
-                                <button
-                                    key={`${key}${index ? `-${index}` : ""}`}
-                                    className="govuk-link"
-                                    onClick={() => resendInvite(username, userGroup)}
-                                >
-                                    Resend invite
-                                </button>
-                                <br />
-                                <button
-                                    key={`${key}${index ? `-remove-${index}` : "-remove"}`}
-                                    className="govuk-link"
-                                    onClick={() => removeUser(username)}
-                                >
-                                    Remove
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                key={`${key}${index ? `-${index}` : ""}`}
-                                className="govuk-link"
-                                onClick={() => removeUser(username)}
-                            >
-                                Remove
-                            </button>
-                        )}
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => resendInvite(username, userGroup)}
+                        >
+                            Resend invite
+                        </button>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={() => removeUser(username)}
+                        >
+                            Remove
+                        </button>
                     </>
-                );
-            }
-            return null;
-        }
+                ) : (
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={() => removeUser(username)}
+                    >
+                        Remove
+                    </button>
+                )}
+            </>
+        );
     };
 
     return (
