@@ -1,0 +1,28 @@
+{
+    "name": "@create-disruptions-data/siri-sx-stats-generator",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "test": "sst bind 'vitest'",
+        "test:unit": "vitest",
+        "test:updateSnapshots": "vitest -u",
+        "typecheck": "tsc -noEmit"
+    },
+    "devDependencies": {
+        "@tsconfig/node18": "^1.0.1",
+        "@types/aws-lambda": "^8.10.110",
+        "@types/lambda-log": "^2.2.1",
+        "@types/node": "^18.13.0",
+        "aws-sdk-client-mock": "^3.0.0",
+        "dayjs": "^1.11.7",
+        "mockdate": "^3.0.5",
+        "sst": "^2.0.18",
+        "ts-node": "^10.9.1"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.388.0",
+        "@create-disruptions-data/shared-ts": "file:../../shared-ts",
+        "lambda-log": "^3.1.0",
+        "sst": "^2.0.18"
+    }
+}
