@@ -104,13 +104,16 @@ const Map = ({
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop: Stop[] = [...searched, ...markerData].filter((stop: Stop) => stop.atcoCode === id);
+                const stop: Stop[] = [...searched, ...markerData, ...(state.inputs?.pastStops || [])].filter(
+                    (stop: Stop) => stop.atcoCode === id,
+                );
 
                 stateUpdater({
                     ...state,
                     inputs: {
                         ...state.inputs,
                         stops: sortAndFilterStops([...selected, ...stop]),
+                        pastStops: state.inputs?.pastStops?.filter((stop: Stop) => stop.atcoCode !== id),
                     },
                     errors: state.errors,
                 });
