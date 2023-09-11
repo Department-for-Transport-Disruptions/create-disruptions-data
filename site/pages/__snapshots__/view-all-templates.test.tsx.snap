@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are enough disruptions for no pagination 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are enough disruptions for no pagination 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -47,21 +47,21 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       <h1
         className="govuk-heading-xl"
       >
-        View all disruptions
+        View all templates
       </h1>
       <div>
         <a
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"
@@ -195,7 +195,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -242,7 +242,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -289,7 +289,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -522,7 +522,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
 ]
 `;
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are enough disruptions for pagination 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are enough templates for pagination 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -569,21 +569,21 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       <h1
         className="govuk-heading-xl"
       >
-        View all disruptions
+        View all templates
       </h1>
       <div>
         <a
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"
@@ -717,7 +717,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -764,7 +764,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -811,7 +811,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -858,7 +858,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -905,7 +905,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -952,7 +952,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -999,7 +999,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1046,7 +1046,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+                href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1093,7 +1093,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+                href="/disruption-detail/dfd19560-99c1-4da6-8a73-de1220f37056?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1140,7 +1140,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
             >
               <a
                 className="govuk-link"
-                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+                href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-templates&template=true"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1455,7 +1455,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
 ]
 `;
 
-exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when there are no disruptions 1`] = `
+exports[`ViewAllTemplates > viewAllTemplates > should render correctly when there are no templates 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -1502,21 +1502,21 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       <h1
         className="govuk-heading-xl"
       >
-        View all disruptions
+        View all templates
       </h1>
       <div>
         <a
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
+          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
           role="button"
         >
-          Create new disruption
+          Create new template
           <svg
             className="govuk-button__start-icon"
             focusable="false"

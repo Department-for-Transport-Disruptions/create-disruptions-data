@@ -248,5 +248,59 @@ describe("pages", () => {
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
+
+        it("should render correctly with inputs and create new disruption button for templates", () => {
+            const { queryByText, getAllByRole, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={true}
+                />,
+            );
+
+            const createDisruptionButton = queryByText("Create disruption", {
+                selector: "button",
+            });
+
+            const closeButton = getAllByRole("button", { name: "Close and Return" });
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            expect(createDisruptionButton).toBeTruthy();
+            expect(closeButton).toBeTruthy();
+            expect(deleteTemplateButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should render correctly with inputs and create new disruption button for templates without Delete template button for staff user", () => {
+            const { queryByText, getAllByRole, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const createDisruptionButton = queryByText("Create disruption", {
+                selector: "button",
+            });
+
+            const closeButton = getAllByRole("button", { name: "Close and Return" });
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            expect(createDisruptionButton).toBeTruthy();
+            expect(closeButton).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
+
+            unmount();
+        });
     });
 });

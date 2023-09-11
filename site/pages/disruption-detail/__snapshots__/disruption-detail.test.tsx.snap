@@ -1904,7 +1904,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           <button
             className="govuk-button"
             data-module="govuk-button"
-            formAction=""
+            formAction="/api/duplicate-disruption?templateId=2&template=true"
           >
             Create disruption
           </button>

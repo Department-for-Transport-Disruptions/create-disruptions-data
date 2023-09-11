@@ -20,19 +20,14 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import {
-    DISRUPTION_REASONS,
-    COOKIES_DISRUPTION_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants/index";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getEndingOnDateText } from "../../utils/dates";
-import { getStateUpdater } from "../../utils/formUtils";
+import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -59,9 +54,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
@@ -254,7 +249,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <h1 className="govuk-heading-xl">
                             {queryParams["template"]?.includes("true")
                                 ? "Create a new template"
-                                : "Create a new disruption"}
+                                : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
                         </h1>
 
                         <Radios<DisruptionInfo>
@@ -570,9 +565,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
-                                queryParams["template"] ? "?template=true" : ""
-                            }`}
+                            href={
+                                returnToTemplateOverview
+                                    ? (queryParams["return"] as string)
+                                    : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                          queryParams["template"] ? "?template=true" : ""
+                                      }`
+                            }
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes

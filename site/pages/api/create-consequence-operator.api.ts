@@ -13,6 +13,7 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
+    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -49,6 +50,7 @@ export const formatCreateConsequenceBody = (body: object) => {
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
         const { template } = req.query;
 
@@ -90,7 +92,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =
-            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            !isFromTemplate && queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -103,6 +105,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
+            queryParam ? [queryParam] : [],
         );
         return;
     } catch (e) {

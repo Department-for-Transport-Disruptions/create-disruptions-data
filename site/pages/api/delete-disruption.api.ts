@@ -2,7 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
-import { redirectTo, redirectToError } from "../../utils/apiUtils";
+import { isDisruptionFromTemplate, redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
@@ -13,6 +13,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const { template } = req.query;
         const session = getSession(req);
+        const isFromTemplate = isDisruptionFromTemplate(req);
 
         if (!id || Array.isArray(id) || !session) {
             throw new Error(
@@ -34,7 +35,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         await deletePublishedDisruption(disruption, id, session.orgId, template === "true");
 
-        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
+        redirectTo(res, template || isFromTemplate ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

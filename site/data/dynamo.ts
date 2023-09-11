@@ -13,7 +13,7 @@ import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/sh
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
+import { notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -140,7 +140,6 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        logger.warn(flattenZodErrors(parsedDisruption.error));
 
         return null;
     }
@@ -197,12 +196,12 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
+export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: disruptionsTableName,
+            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -455,7 +454,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         ? [
               {
                   Put: {
-                      TableName: disruptionsTableName,
+                      TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                       Item: {
                           PK: id,
                           SK: `${disruption.disruptionId}#HISTORY#${currentTime.unix()}`,

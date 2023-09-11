@@ -1,53 +1,39 @@
+import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
-import Link from "next/link";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
+import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "View All Templates";
 const description = "View All Templates page for the Create Transport Disruptions Service";
 
-export interface ViewAllTemplatesProps {
-    newDisruptionId: string;
-    csrfToken?: string;
-}
-
-const ViewAllTemplates = ({ newDisruptionId }: ViewAllTemplatesProps): ReactElement => {
+const ViewAllTemplates = ({
+    newContentId,
+    adminAreaCodes,
+    filterStatus,
+    enableLoadingSpinnerOnPageLoad = true,
+}: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <h1 className="govuk-heading-xl">View all templates</h1>
-            <div>
-                <Link
-                    href={`/create-disruption/${newDisruptionId}?template=true`}
-                    role="button"
-                    draggable="false"
-                    className="govuk-button govuk-button--start"
-                    data-module="govuk-button"
-                    id="create-new-button"
-                >
-                    Create new template
-                    <svg
-                        className="govuk-button__start-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="17.5"
-                        height="19"
-                        viewBox="0 0 33 40"
-                        role="presentation"
-                        focusable="false"
-                    >
-                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-                    </svg>
-                </Link>
-            </div>
+            <ViewAllContents
+                newContentId={newContentId}
+                adminAreaCodes={adminAreaCodes}
+                filterStatus={filterStatus}
+                enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
+                isTemplate={true}
+            />
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllTemplatesProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllContentProps }> => {
     const baseProps = {
         props: {
-            newDisruptionId: randomUUID(),
+            newContentId: randomUUID(),
+            adminAreaCodes: [],
+            orgId: "",
         },
     };
 
@@ -61,11 +47,19 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
+    const showPending = ctx.query.pending?.toString() === "true";
+    const showDraft = ctx.query.draft?.toString() === "true";
+
     return {
         props: {
-            newDisruptionId: randomUUID(),
+            adminAreaCodes: session.adminAreaCodes,
+            newContentId: randomUUID(),
+            ...(showPending
+                ? { filterStatus: Progress.pendingApproval }
+                : showDraft
+                ? { filterStatus: Progress.draft }
+                : {}),
         },
     };
 };
-
 export default ViewAllTemplates;

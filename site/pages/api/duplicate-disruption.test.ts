@@ -6,7 +6,13 @@ import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
 import duplicateDisruption from "./duplicate-disruption.api";
-import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import {
+    CREATE_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    ERROR_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -90,6 +96,12 @@ describe("duplicate-disruption API", () => {
 
     const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
 
+    const returnPath = encodeURIComponent(
+        `${DISRUPTION_DETAIL_PAGE_PATH}/${
+            defaultDisruptionId as string
+        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+    );
+
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
@@ -120,7 +132,6 @@ describe("duplicate-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
@@ -128,7 +139,6 @@ describe("duplicate-disruption API", () => {
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -168,6 +178,42 @@ describe("duplicate-disruption API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: ERROR_PATH,
+        });
+    });
+
+    it("should redirect to /create-disruption when new disruption is required from templates", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {},
+            query: {
+                template: "true",
+                templateId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        await duplicateDisruption(req, res);
+
+        expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
+            {
+                ...disruptionInfoSchemaRefined.parse(disruption),
+                disruptionId: newDefaultDisruptionId,
+                displayId: "9fg4gc",
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+        );
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?return=${returnPath}`,
         });
     });
 });
