@@ -22,6 +22,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     suffixId?: string;
     resetError?: boolean;
     minWidth?: string;
+    inputDivWidth?: string;
 }
 
 const inputBox = <T extends object>(
@@ -33,14 +34,13 @@ const inputBox = <T extends object>(
     errors: ErrorInfo[],
     disabled: boolean,
     minWidth?: string,
+    inputDivWidth?: string,
 ) => (
     <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
-        <div className="govuk-date-input__item govuk-!-margin-right-0">
+        <div className={`govuk-date-input__item govuk-!-margin-right-0 ${inputDivWidth ? inputDivWidth : ""}`}>
             <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                 <input
-                    className={`govuk-input govuk-date-input__input govuk-input--width-6 ${
-                        errors.some((error) => error.id === inputName) && minWidth ? minWidth : ""
-                    }`}
+                    className={`govuk-input govuk-date-input__input govuk-input--width-6 ${minWidth ? minWidth : ""}`}
                     name={inputName}
                     id={`${inputId}-input`}
                     type="text"
@@ -84,6 +84,7 @@ const DateSelector = <T extends object>({
     suffixId,
     resetError = false,
     minWidth,
+    inputDivWidth,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -146,6 +147,7 @@ const DateSelector = <T extends object>({
                                     errors,
                                     disabled,
                                     minWidth,
+                                    inputDivWidth,
                                 );
                             }}
                             disablePast={disablePast}

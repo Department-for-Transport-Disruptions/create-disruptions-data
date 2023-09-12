@@ -12,7 +12,7 @@ module.exports = {
     theme: {
         extend: {
             screens: {
-                xs: "400px",
+                xs: "360px",
             },
             colors: {
                 govBlue: "#1d70b8",

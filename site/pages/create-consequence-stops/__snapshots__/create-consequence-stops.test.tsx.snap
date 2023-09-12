@@ -532,13 +532,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
@@ -1298,13 +1300,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
@@ -2024,13 +2028,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       disabled={false}
                       id="disruption-delay-input"
                       name="disruptionDelay"
@@ -2789,13 +2795,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4 "
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
                       defaultValue="45"
                       disabled={false}
                       id="disruption-delay-input"
