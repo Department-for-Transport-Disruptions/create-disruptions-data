@@ -12,6 +12,7 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 import Popup from "../../components/popup/Popup";
 import { COOKIES_ADD_ADMIN_USER_ERRORS } from "../../constants";
 import { listUsersWithGroups } from "../../data/cognito";
+import { getOrganisationInfoById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
 import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
@@ -25,6 +26,7 @@ const description = "System admins user page for the Create Transport Disruption
 
 export interface SysAdminUserManagementProps extends PageState<Partial<AddUserSchema>> {
     users?: UserManagementSchema;
+    orgName?: string;
 }
 const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -177,7 +179,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />
-            <h1 className="govuk-heading-l">Add an organisation admin</h1>
+            <h1 className="govuk-heading-l">Add {props.orgName} admin</h1>
             <p className="govuk-body">
                 Users added below will be set up as admins for their respective organisations. They will have the
                 ability to perform all functionality available within the tool, including the ability to set up further
@@ -249,17 +251,26 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Invalid user accessing the page");
     }
 
-    const orgId = ctx.query.orgId?.toString();
+    const orgId = ctx.query.orgId?.toString() || "";
+
+    const orgInfo = await getOrganisationInfoById(orgId);
+
+    const orgName = !!orgInfo?.name ? orgInfo.name : "";
 
     const orgAdminUsers = await listUsersWithGroups();
 
     const parsedList = userManagementSchema.safeParse(orgAdminUsers);
 
     if (parsedList.success) {
+        const sortedAndFilteredUsersList = parsedList.data
+            .filter((user) => user.organisation === orgId)
+            .sort((a, b) => a.givenName.localeCompare(b.givenName));
+
         return {
             props: {
                 ...getPageState(errorCookie, addUserSchema),
-                users: parsedList.data.filter((user) => user.organisation === orgId),
+                users: sortedAndFilteredUsersList,
+                orgName: orgName,
             },
         };
     }
@@ -267,6 +278,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
+            orgName: orgName,
         },
     };
 };
