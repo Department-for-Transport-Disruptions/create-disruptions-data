@@ -20,6 +20,8 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    COOKIES_REVIEW_DISRUPTION_REFERER,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
@@ -27,7 +29,7 @@ import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
-import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
@@ -39,9 +41,16 @@ interface ReviewDisruptionProps {
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
+    redirect: string;
 }
 
-const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({
+    disruption,
+    csrfToken,
+    errors,
+    canPublish,
+    redirect,
+}: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
@@ -50,6 +59,8 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
     }>();
 
     const queryParams = useRouter().query;
+    const returnToTemplateOverview =
+        redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
@@ -316,7 +327,7 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-disruption${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -697,6 +708,16 @@ const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewD
                                 Save as draft
                             </Link>
                         )}
+
+                        {returnToTemplateOverview && (
+                            <button
+                                className="govuk-button govuk-button--secondary mt-8 ml-5"
+                                data-module="govuk-button"
+                                formAction={redirect}
+                            >
+                                Cancel all changes
+                            </button>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -722,6 +743,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     );
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
+
+    const referer = (ctx.query.return as string) || cookies[COOKIES_REVIEW_DISRUPTION_REFERER];
+
+    if (ctx.res && ctx.query.return) {
+        setCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_REFERER, referer, ctx.res);
+    }
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
@@ -763,6 +790,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
+            redirect: referer || "",
             errors,
             canPublish: canPublish(session),
         },

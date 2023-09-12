@@ -8,7 +8,7 @@ import { createStatsGeneratorLambda } from "./services/StatsGeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
-    const { disruptionsTable, organisationsTable } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 

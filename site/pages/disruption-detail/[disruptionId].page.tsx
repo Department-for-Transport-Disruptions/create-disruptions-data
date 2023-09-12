@@ -78,6 +78,7 @@ const DisruptionDetail = ({
         },
     ];
 
+    const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
@@ -339,7 +340,7 @@ const DisruptionDetail = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-disruption${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -385,7 +386,7 @@ const DisruptionDetail = ({
                                 key="create-disruption-from-template"
                                 className="govuk-button"
                                 data-module="govuk-button"
-                                formAction=""
+                                formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
                             >
                                 Create disruption
                             </button>
@@ -727,6 +728,8 @@ const DisruptionDetail = ({
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
+                                        : displaySendToReview
+                                        ? "govuk-button--secondary"
                                         : ""
                                 }`}
                             >

@@ -1,6 +1,6 @@
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import ViewAllDisruptions from "./view-all-disruptions.page";
+import ViewAllTemplates from "./view-all-templates.page";
 import { TableContents } from "../components/ViewAllContents";
 import { mockViewAllData } from "../testData/mockData";
 
@@ -14,7 +14,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const disruptions: TableContents[] = mockViewAllData;
+const templates: TableContents[] = mockViewAllData;
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -32,13 +32,13 @@ afterEach(() => {
     vi.resetAllMocks();
 });
 
-describe("ViewAllDisruption", () => {
-    vi.mock("./view-all-disruptions.page", async () => ({
-        ...(await vi.importActual<object>("./view-all-disruptions.page")),
+describe("ViewAllTemplates", () => {
+    vi.mock("./view-all-templates.page", async () => ({
+        ...(await vi.importActual<object>("./view-all-templates.page")),
     }));
 
-    describe("viewAllDisruptions", () => {
-        it("should render correctly when there are no disruptions", async () => {
+    describe("viewAllTemplates", () => {
+        it("should render correctly when there are no templates", async () => {
             fetchSpy.mockResolvedValue({
                 json: vi.fn().mockResolvedValue([]),
             } as unknown as Response);
@@ -47,7 +47,7 @@ describe("ViewAllDisruption", () => {
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
@@ -60,14 +60,14 @@ describe("ViewAllDisruption", () => {
 
         it("should render correctly when there are enough disruptions for no pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue(disruptions),
+                json: vi.fn().mockResolvedValue(templates),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
@@ -78,16 +78,16 @@ describe("ViewAllDisruption", () => {
             expect(component.toJSON()).toMatchSnapshot();
         });
 
-        it("should render correctly when there are enough disruptions for pagination", async () => {
+        it("should render correctly when there are enough templates for pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+                json: vi.fn().mockResolvedValue([...templates, ...templates, ...templates, ...templates]),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllDisruptions
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}

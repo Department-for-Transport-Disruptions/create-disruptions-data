@@ -22,8 +22,6 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
 } from "../../../constants";
@@ -33,7 +31,13 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, getStopLabel, getStopValue } from "../../../utils/formUtils";
+import {
+    getStateUpdater,
+    getStopLabel,
+    getStopValue,
+    returnTemplateOverview,
+    showCancelButton,
+} from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -49,9 +53,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
 
@@ -338,9 +342,13 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}${
-                                    isTemplate ? "?template=true" : ""
-                                }`}
+                                href={
+                                    returnToTemplateOverview
+                                        ? (queryParams["return"] as string)
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                              isTemplate ? "?template=true" : ""
+                                          }`
+                                }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
@@ -413,6 +421,7 @@ export const getServerSideProps = async (
             consequenceIndex: index,
             sessionWithOrg: session,
             disruptionSummary: disruption.description || "",
+            template: disruption.template?.toString() || "",
         },
     };
 };

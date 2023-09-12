@@ -302,27 +302,6 @@ export const createUser = async (userData: AddUserSchema) => {
     );
 };
 
-export const getUsersInGroupAndOrg = async (orgId: string, groupName: string) => {
-    logger.info("", {
-        context: "data.cognito",
-        message: "Listing cognito users in an organisation and in a group",
-    });
-
-    try {
-        const userList = await cognito.send(
-            new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: groupName }),
-        );
-
-        return userList.Users?.filter((user) => user.Attributes?.find((value) => value.Value === orgId)) ?? [];
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(`Failed to list cognito users in organisation ${orgId}: ${error.stack || ""}`);
-        }
-
-        throw error;
-    }
-};
-
 export const initiateResetPassword = async (email: string) => {
     logger.info("", {
         context: "data.cognito",

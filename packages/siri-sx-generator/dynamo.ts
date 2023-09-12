@@ -22,6 +22,7 @@ export const getOrganisationInfoById = async (tableName: string, orgId: string):
             TableName: tableName,
             Key: {
                 PK: orgId,
+                SK: "INFO",
             },
         }),
     );

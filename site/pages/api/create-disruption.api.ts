@@ -13,6 +13,7 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
+    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -71,6 +72,7 @@ export const formatCreateDisruptionBody = (body: object) => {
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const isFromTemplate = isDisruptionFromTemplate(req);
 
         const { draft } = req.query;
 
@@ -124,7 +126,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        queryParam
+        queryParam && !isFromTemplate
             ? redirectToWithQueryParams(
                   req,
                   res,
@@ -137,7 +139,9 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   req,
                   res,
                   template ? ["template"] : [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`,
+                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0${
+                      isFromTemplate ? `?${isFromTemplate}` : ""
+                  }`,
               );
 
         return;

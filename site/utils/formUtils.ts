@@ -2,6 +2,8 @@ import { ConsequenceOperators, Stop } from "@create-disruptions-data/shared-ts/d
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
+import { ParsedUrlQuery } from "querystring";
+import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
 import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
@@ -110,4 +112,17 @@ export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], fil
         }
     });
     return filteredServices;
+};
+
+export const showCancelButton = (queryParams: ParsedUrlQuery) => {
+    return (
+        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+    );
+};
+
+export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
+    return (
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template=true")
+    );
 };

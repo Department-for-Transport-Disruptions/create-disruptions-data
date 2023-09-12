@@ -3,7 +3,12 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import {
+    CREATE_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
@@ -12,8 +17,14 @@ import { getSession } from "../../utils/apiUtils/auth";
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { disruptionId } = req.body as { disruptionId: string };
+        const { template, templateId } = req.query;
+        const createDisruptionFromTemplate = template === "true";
 
-        if (!disruptionId) {
+        if (createDisruptionFromTemplate && !templateId) {
+            throw new Error("Template id is required");
+        }
+
+        if (!createDisruptionFromTemplate && !disruptionId) {
             throw new Error("No disruptionId found");
         }
 
@@ -23,8 +34,11 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
-        const { template } = req.query;
-        const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
+        const disruptionToDuplicate = await getDisruptionById(
+            createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
+            session.orgId,
+            createDisruptionFromTemplate,
+        );
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
@@ -78,24 +92,29 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
-            template === "true",
         );
 
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
+                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
                 }),
             );
         }
 
-        redirectToWithQueryParams(
-            req,
-            res,
-            template === "true" ? ["template"] : [],
-            `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`,
-            ["duplicate=true"],
+        const returnPath = encodeURIComponent(
+            `${DISRUPTION_DETAIL_PAGE_PATH}/${
+                templateId as string
+            }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
         );
+
+        createDisruptionFromTemplate
+            ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
+                  `return=${returnPath}`,
+              ])
+            : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
+                  "duplicate=true",
+              ]);
 
         return;
     } catch (e) {

@@ -1,4 +1,3 @@
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
@@ -11,6 +10,7 @@ import { listUsersWithGroups } from "../../data/cognito";
 import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getDataInPages } from "../../utils/formUtils";
+import { getAccountType } from "../../utils/tableUtils";
 
 const title = "User Management";
 const description = "User Management page for the Create Transport Disruptions Service";
@@ -29,18 +29,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         userGroup: string;
     } | null>(null);
 
-    const getAccountType = (groupName: UserGroups): string => {
-        switch (groupName) {
-            case UserGroups.systemAdmins:
-            case UserGroups.orgAdmins:
-                return "Admin";
-            case UserGroups.orgPublishers:
-                return "Publisher";
-            case UserGroups.orgStaff:
-                return "Staff";
-        }
-    };
-
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
         getDataInPages(currentPage, userList).forEach((user, index) => {
@@ -49,7 +37,9 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED"),
+                    user.group !== "system-admins"
+                        ? createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED")
+                        : "",
                 ],
             });
         });
@@ -78,42 +68,37 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         userGroup: string,
         showResendInvite?: boolean,
     ) => {
-        {
-            if (userGroup !== "system-admins") {
-                return (
+        return (
+            <>
+                {showResendInvite ? (
                     <>
-                        {showResendInvite ? (
-                            <>
-                                <button
-                                    key={`${key}${index ? `-${index}` : ""}`}
-                                    className="govuk-link"
-                                    onClick={() => resendInvite(username, userGroup)}
-                                >
-                                    Resend invite
-                                </button>
-                                <br />
-                                <button
-                                    key={`${key}${index ? `-remove-${index}` : "-remove"}`}
-                                    className="govuk-link"
-                                    onClick={() => removeUser(username)}
-                                >
-                                    Remove
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                key={`${key}${index ? `-${index}` : ""}`}
-                                className="govuk-link"
-                                onClick={() => removeUser(username)}
-                            >
-                                Remove
-                            </button>
-                        )}
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => resendInvite(username, userGroup)}
+                        >
+                            Resend invite
+                        </button>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={() => removeUser(username)}
+                        >
+                            Remove
+                        </button>
                     </>
-                );
-            }
-            return null;
-        }
+                ) : (
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={() => removeUser(username)}
+                    >
+                        Remove
+                    </button>
+                )}
+            </>
+        );
     };
 
     return (

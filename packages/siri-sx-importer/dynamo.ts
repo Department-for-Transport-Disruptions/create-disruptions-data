@@ -10,6 +10,10 @@ export const getOrgIdFromDynamo = async (participantRef: string, tableName: stri
     const dbData = await ddbDocClient.send(
         new ScanCommand({
             TableName: tableName,
+            FilterExpression: "SK = :info",
+            ExpressionAttributeValues: {
+                ":info": "INFO",
+            },
         }),
     );
 
@@ -20,21 +24,23 @@ export const getOrgIdFromDynamo = async (participantRef: string, tableName: stri
     return !!filteredOrg ? filteredOrg[0].PK : "";
 };
 
-
 const isConsequenceInfo = (item: Consequence | DisruptionInfo): item is Consequence =>
     (item as Consequence).consequenceIndex !== undefined && (item as Consequence).consequenceIndex !== null;
 
-const createBatches = (items: (Consequence| DisruptionInfo)[], size = 50) =>
+const createBatches = (items: (Consequence | DisruptionInfo)[], size = 50) =>
     Array.from({ length: Math.ceil(items.length / size) }, (v, i) => items.slice(i * size, i * size + size));
 
-export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: DisruptionInfo[], consequenceInfo: Consequence[], tableName: string) => {
+export const publishDisruptionAndConsequenceInfoToDynamo = (
+    disruptionInfo: DisruptionInfo[],
+    consequenceInfo: Consequence[],
+    tableName: string,
+) => {
     const mergedItems = [...disruptionInfo, ...consequenceInfo];
     const batches = mergedItems.length > 50 ? createBatches(mergedItems) : [mergedItems];
 
-
     batches.forEach((batch) => {
         const disruptionsPutCommand = batch.map((item) => {
-             if (isConsequenceInfo(item)) {
+            if (isConsequenceInfo(item)) {
                 return {
                     Put: {
                         TableName: tableName,
@@ -59,7 +65,7 @@ export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: Disr
                     },
                 },
             };
-        })
+        });
         ddbDocClient
             .send(
                 new TransactWriteCommand({
@@ -68,5 +74,5 @@ export const publishDisruptionAndConsequenceInfoToDynamo = (disruptionInfo: Disr
             )
             // eslint-disable-next-line no-console
             .catch((e) => console.error(e));
-    })
+    });
 };

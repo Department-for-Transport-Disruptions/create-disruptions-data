@@ -1,4 +1,4 @@
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
     QueryCommand,
@@ -6,6 +6,7 @@ import {
     TransactWriteCommand,
     PutCommand,
     GetCommand,
+    ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
@@ -13,7 +14,7 @@ import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/sh
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
+import { notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -140,7 +141,6 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        logger.warn(flattenZodErrors(parsedDisruption.error));
 
         return null;
     }
@@ -197,12 +197,12 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
+export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await ddbDocClient.send(
         new QueryCommand({
-            TableName: disruptionsTableName,
+            TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
@@ -261,6 +261,7 @@ export const getOrganisationInfoById = async (orgId: string): Promise<Organisati
             TableName: organisationsTableName,
             Key: {
                 PK: orgId,
+                SK: "INFO",
             },
         }),
     );
@@ -280,6 +281,10 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
     const dbData = await ddbDocClient.send(
         new ScanCommand({
             TableName: organisationsTableName,
+            FilterExpression: "SK = :info",
+            ExpressionAttributeValues: {
+                ":info": "INFO",
+            },
         }),
     );
 
@@ -455,7 +460,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         ? [
               {
                   Put: {
-                      TableName: disruptionsTableName,
+                      TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
                       Item: {
                           PK: id,
                           SK: `${disruption.disruptionId}#HISTORY#${currentTime.unix()}`,
@@ -648,6 +653,7 @@ export const upsertOrganisation = async (orgId: string, organisation: Organisati
             TableName: organisationsTableName,
             Item: {
                 PK: orgId,
+                SK: "INFO",
                 ...organisation,
             },
         }),
@@ -662,6 +668,7 @@ export const removeOrganisation = async (orgId: string) => {
             TableName: organisationsTableName,
             Key: {
                 PK: orgId,
+                SK: "INFO",
             },
         }),
     );

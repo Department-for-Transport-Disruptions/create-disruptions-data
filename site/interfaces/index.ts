@@ -70,6 +70,7 @@ export interface PageState<T> {
 export interface CreateConsequenceProps {
     initialStops?: Stop[];
     disruptionSummary?: string;
+    template?: string;
 }
 
 export interface DisruptionDetailCookie {
