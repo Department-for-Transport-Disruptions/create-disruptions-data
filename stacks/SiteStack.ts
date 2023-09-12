@@ -8,7 +8,7 @@ import { createBucket } from "./services/Buckets";
 import { getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
-    const { disruptionsTable, organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
