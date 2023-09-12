@@ -38,25 +38,6 @@ export function DynamoDBStack({ stack }: StackContext) {
         },
     });
 
-    const siriTable = new Table(stack, "cdd-dynamodb-siri-table", {
-        fields: {
-            PK: "string",
-            SK: "string",
-        },
-        primaryIndex: {
-            partitionKey: "PK",
-            sortKey: "SK",
-        },
-        stream: "new_image",
-        cdk: {
-            table: {
-                tableName: `cdd-siri-table-${stack.stage}`,
-                billingMode: BillingMode.PAY_PER_REQUEST,
-                pointInTimeRecovery: stack.stage === "prod",
-            },
-        },
-    });
-
     const organisationsTable = new Table(stack, "cdd-dynamodb-organisations-table", {
         fields: {
             PK: "string",
@@ -93,7 +74,6 @@ export function DynamoDBStack({ stack }: StackContext) {
 
     return {
         disruptionsTable,
-        siriTable,
         organisationsTable,
         organisationsTableV2,
         templateDisruptionsTable,
