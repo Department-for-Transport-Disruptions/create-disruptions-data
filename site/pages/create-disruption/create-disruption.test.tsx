@@ -1,7 +1,13 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
+import {
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 
 const blankInputs: DisruptionPageProps = {
     errors: [],
@@ -62,10 +68,28 @@ describe("pages", () => {
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
-                query: { return: "/review-disruption" },
+                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
             }));
             const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with appropriate text when redirected from template overview", () => {
+            useRouter.mockImplementation(() => ({
+                query: {
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                },
+            }));
+            const { queryAllByText, unmount } = render(<CreateDisruption {...withInputs} />);
+
+            const heading = queryAllByText("Create a new disruption from template");
+            const cancelButton = queryAllByText("Cancel Changes");
+            const deleteButton = queryAllByText("Delete disruption");
+
+            expect(heading).toBeTruthy();
+            expect(cancelButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            unmount();
         });
     });
 });

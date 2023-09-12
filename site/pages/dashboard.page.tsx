@@ -57,7 +57,7 @@ const mapDisruptions = (disruptions: Disruption[]) => {
     });
 };
 
-const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
+const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
     return disruptions.map((disruption) => {
         const earliestPeriod = disruption.validityPeriods[0];
         const latestPeriod = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
@@ -197,7 +197,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(liveDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(liveDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfLiveDisruptionsPages}
@@ -214,7 +214,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(upcomingDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(upcomingDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfUpcomingDisruptionsPages}
@@ -231,7 +231,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(recentlyClosedDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfRecentlyClosedDisruptionsPages}

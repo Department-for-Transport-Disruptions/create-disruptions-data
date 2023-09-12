@@ -353,6 +353,7 @@ export const disruptionWithNoConsequences: FullDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    template: false,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -764,6 +765,7 @@ export const sortedDisruption: SortedDisruption = {
             vehicleMode: VehicleMode.rail,
         },
     ],
+    template: false,
     validity: [
         {
             disruptionStartDate: "25/03/2021",
@@ -1046,3 +1048,56 @@ export const mockDeleteAdminUser = Promise.resolve({
     body: {},
     $metadata: { httpStatusCode: 302 },
 });
+export const mockViewAllData = [
+    {
+        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+        summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
+        validityPeriods: [{ startTime: "2022-01-05T04:42:17.239Z", endTime: null }],
+        modes: ["Tram"],
+        status: Progress.open,
+        severity: Severity.verySevere,
+        serviceIds: ["1212", "323"],
+        operators: ["BB"],
+        displayId: "8fg3ha",
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+        consequenceLength: 1,
+    },
+    {
+        id: "e234615d-8301-49c2-8143-1fca9dc187db",
+        summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
+        validityPeriods: [{ startTime: "2022-01-18T09:36:12.327Z", endTime: null }],
+        modes: ["Tram"],
+        status: Progress.open,
+        severity: Severity.verySevere,
+        serviceIds: ["42545"],
+        operators: ["DB"],
+        displayId: "8fg3ha",
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+        consequenceLength: 1,
+    },
+    {
+        id: "dfd19560-99c1-4da6-8a73-de1220f37056",
+        summary: "Busted reunion traffic",
+        validityPeriods: [
+            { startTime: "2022-01-19T11:41:12.445Z", endTime: "2022-01-26T11:41:12.445Z" },
+            { startTime: "2023-04-14T04:21:29.085Z", endTime: null },
+            { startTime: "2024-05-04T08:18:40.131Z", endTime: "2024-05-11T08:18:40.131Z" },
+        ],
+        modes: ["Tram", "Ferry", "Train"],
+        status: Progress.draft,
+        severity: Severity.severe,
+        serviceIds: ["6758"],
+        operators: ["BB", "SB"],
+        displayId: "8fg3ha",
+        isOperatorWideCq: true,
+        isNetworkWideCq: true,
+        isLive: true,
+        stopsAffectedCount: 0,
+    },
+];

@@ -8,18 +8,13 @@ import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import {
-    COOKIES_CONSEQUENCE_TYPE_ERRORS,
-    CONSEQUENCE_TYPES,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../../constants/index";
+import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
+import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
@@ -32,13 +27,19 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
+
+    const isTemplate = (queryParams["template"] as string) || "";
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/type-of-consequence" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -65,7 +66,13 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             {displayCancelButton ? (
                                 <Link
                                     role="button"
-                                    href={`${queryParams["return"] as string}/${pageState.disruptionId || ""}`}
+                                    href={
+                                        returnToTemplateOverview
+                                            ? (queryParams["return"] as string)
+                                            : `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
+                                                  isTemplate ? "?template=true" : ""
+                                              }`
+                                    }
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
                                 >
                                     Cancel Changes
@@ -74,7 +81,11 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 <></>
                             )}
 
-                            <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                            <DeleteDisruptionButton
+                                disruptionId={props.disruptionId}
+                                csrfToken={props.csrfToken}
+                                isTemplate={isTemplate}
+                            />
                         </div>
                     </div>
                 </>
@@ -97,7 +108,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
     if (!disruption) {

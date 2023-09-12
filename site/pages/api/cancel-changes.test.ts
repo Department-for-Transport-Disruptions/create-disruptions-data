@@ -53,6 +53,25 @@ describe("cancelChanges", () => {
         });
     });
 
+    it("should redirect to /disruption-detail page after cancelling disruptions for admin user", async () => {
+        isDisruptionInEditSpy.mockResolvedValue(true);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            query: { template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await cancelChanges(req, res);
+
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}?template=true`,
+        });
+    });
+
     it("should redirect to /disruption-detail page after cancelling disruptions for staff user", async () => {
         isDisruptionInEditSpy.mockResolvedValue(false);
         const { req, res } = getMockRequestAndResponse({

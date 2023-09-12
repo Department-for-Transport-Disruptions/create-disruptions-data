@@ -48,9 +48,10 @@ export default class CreateOrg extends Command {
 
         await ddbDocClient.send(
             new PutCommand({
-                TableName: `cdd-organisations-table-${stage}`,
+                TableName: `cdd-organisations-v2-table-${stage}`,
                 Item: {
                     PK: id,
+                    SK: "INFO",
                     name: name,
                     adminAreaCodes: adminAreaCodes?.split(",").map((item) => item.trim()),
                 },

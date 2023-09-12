@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
+import { notEmpty } from "..";
 import {
     COOKIES_POLICY_COOKIE,
     COOKIE_CSRF,
@@ -113,6 +114,15 @@ export const getReturnPage = (req: NextApiRequest) => {
     const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
     return decodedQueryParam?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
         decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+        ? queryParam
+        : null;
+};
+
+export const isDisruptionFromTemplate = (req: NextApiRequest) => {
+    const queryParam = req.headers.referer?.split("?")[1];
+
+    const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
+    return decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH) && decodedQueryParam.includes("template=true")
         ? queryParam
         : null;
 };
@@ -365,4 +375,29 @@ export const publishToHootsuite = async (
         }
         throw e;
     }
+};
+
+export const redirectToWithQueryParams = (
+    req: NextApiRequest,
+    res: NextApiResponse,
+    queryParamsToForward: string[],
+    location: string,
+    paramsToAdd?: string[],
+) => {
+    const queryStringParams = queryParamsToForward
+        .map((p) => {
+            const paramValue = req.query[p];
+
+            return paramValue ? `${p}=${paramValue.toString()}` : null;
+        })
+        .filter(notEmpty);
+
+    redirectTo(
+        res,
+        `${location}${
+            [...queryStringParams, ...(paramsToAdd || [])].length > 0
+                ? `?${[...queryStringParams, ...(paramsToAdd || [])].join("&")}`
+                : ""
+        }`,
+    );
 };

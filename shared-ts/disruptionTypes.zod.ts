@@ -727,6 +727,7 @@ export const stopsConsequenceSchema = z.object({
         .max(100, {
             message: "Maximum of 100 stops permitted per consequence",
         }),
+    pastStops: z.array(stopSchema).optional(),
 });
 
 export const serviceSchema = z.object({
@@ -775,5 +776,6 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             })
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
+        template: z.boolean().optional().default(false),
     }),
 );

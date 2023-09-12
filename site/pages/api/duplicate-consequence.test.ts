@@ -46,6 +46,7 @@ const disruption: FullDisruption = {
     consequences: [defaultNetworkData],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    template: false,
 };
 
 describe("duplicate-consequence API", () => {
@@ -101,6 +102,7 @@ describe("duplicate-consequence API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -133,6 +135,7 @@ describe("duplicate-consequence API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

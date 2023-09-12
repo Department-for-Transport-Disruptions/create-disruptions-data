@@ -6,10 +6,7 @@ import { parseString } from "xml2js";
 import { parseBooleans } from "xml2js/lib/processors";
 import * as console from "console";
 import { promises as fs } from "fs";
-import {
-    getOrgIdFromDynamo,
-    publishDisruptionAndConsequenceInfoToDynamo,
-} from "./dynamo";
+import { getOrgIdFromDynamo, publishDisruptionAndConsequenceInfoToDynamo } from "./dynamo";
 import {
     convertDateTimeToFormat,
     getDisruptionReason,
@@ -35,7 +32,7 @@ if (!fileName) {
 }
 
 const disruptionsTableName = `cdd-disruptions-table-${stageName}`;
-const orgTableName = `cdd-organisations-table-${stageName}`;
+const orgTableName = `cdd-organisations-v2-table-${stageName}`;
 
 async function loadXml() {
     // @ts-ignore
@@ -277,4 +274,8 @@ for (const disruption of parsedJson.ServiceDelivery.SituationExchangeDelivery.Si
     await new Promise((resolve) => setTimeout(resolve, 500));
 }
 
-publishDisruptionAndConsequenceInfoToDynamo(disruptionsInfo, consequenceInfo.flat(1).filter(notEmpty), disruptionsTableName);
+publishDisruptionAndConsequenceInfoToDynamo(
+    disruptionsInfo,
+    consequenceInfo.flat(1).filter(notEmpty),
+    disruptionsTableName,
+);

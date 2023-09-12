@@ -11,19 +11,19 @@ exports[`SortableTable > should render correctly 1`] = `
       className="govuk-table__row"
     >
       <th
-        className="govuk-table__header align-middle px-2"
+        className="govuk-table__header align-middle px-2 "
         scope="col"
       >
         ID
       </th>
       <th
-        className="govuk-table__header align-middle px-2"
+        className="govuk-table__header align-middle px-2 "
         scope="col"
       >
         Name
       </th>
       <th
-        className="govuk-table__header align-middle px-2"
+        className="govuk-table__header align-middle px-2 "
         onClick={[Function]}
         scope="col"
       >
@@ -46,7 +46,7 @@ exports[`SortableTable > should render correctly 1`] = `
         </div>
       </th>
       <th
-        className="govuk-table__header align-middle px-2"
+        className="govuk-table__header align-middle px-2 "
         onClick={[Function]}
         scope="col"
       >
@@ -234,19 +234,19 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         className="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           scope="col"
         >
           Name
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           onClick={[Function]}
           scope="col"
         >
@@ -269,7 +269,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           onClick={[Function]}
           scope="col"
         >
@@ -751,19 +751,19 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         className="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           scope="col"
         >
           Name
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           onClick={[Function]}
           scope="col"
         >
@@ -786,7 +786,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2"
+          className="govuk-table__header align-middle px-2 "
           onClick={[Function]}
           scope="col"
         >

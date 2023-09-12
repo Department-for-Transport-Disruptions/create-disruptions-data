@@ -20,19 +20,14 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import {
-    DISRUPTION_REASONS,
-    COOKIES_DISRUPTION_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants/index";
+import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getEndingOnDateText } from "../../utils/dates";
-import { getStateUpdater } from "../../utils/formUtils";
+import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -60,9 +55,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
@@ -248,11 +243,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">Create a new disruption</h1>
+                        <h1 className="govuk-heading-xl">
+                            {queryParams["template"]?.includes("true")
+                                ? "Create a new template"
+                                : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
+                        </h1>
 
                         <Radios<DisruptionInfo>
                             display="Type of disruption"
@@ -351,8 +354,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="w-[203px] sm:w-[80%] @screen xs:w-[80%]"
-                                    inputDivWidth={dateColumnError ? "w-[400px] sm:w-[100%] @screen xs:w-[100%]" : ""}
+                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    inputDivWidth={
+                                        dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
+                                    }
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
@@ -392,8 +397,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="w-[203px] sm:w-[80%] @screen xs:w-[80%]"
-                                    inputDivWidth={dateColumnError ? "w-[400px] sm:w-[100%] @screen xs:w-[100%]" : ""}
+                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    inputDivWidth={
+                                        dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
+                                    }
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
@@ -446,8 +453,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="w-[203px] sm:w-[80%] @screen xs:w-[80%]"
-                                    inputDivWidth={dateColumnError ? "w-[400px] sm:w-[100%] @screen xs:w-[100%]" : ""}
+                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    inputDivWidth={
+                                        dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
+                                    }
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
@@ -498,8 +507,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="w-[203px] sm:w-[80%] @screen xs:w-[80%]"
-                                    inputDivWidth={dateColumnError ? "w-[400px] sm:w-[100%] @screen xs:w-[100%]" : ""}
+                                    minWidth="w-[203px] lg:w-[40%] sm:w-[80%] @screen xs:w-[80%]"
+                                    inputDivWidth={
+                                        dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
+                                    }
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
@@ -599,7 +610,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                            href={
+                                returnToTemplateOverview
+                                    ? (queryParams["return"] as string)
+                                    : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                          queryParams["template"] ? "?template=true" : ""
+                                      }`
+                            }
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes
@@ -607,7 +624,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     ) : null}
 
                     {props.disruptionExists && (
-                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
+                        <DeleteDisruptionButton
+                            disruptionId={props.disruptionId}
+                            csrfToken={props.csrfToken}
+                            isTemplate={queryParams["template"]?.toString()}
+                        />
                     )}
                 </>
             </CsrfForm>
@@ -630,7 +651,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

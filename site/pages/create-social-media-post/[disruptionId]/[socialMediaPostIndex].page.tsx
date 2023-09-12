@@ -9,18 +9,14 @@ import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/F
 import Select from "../../../components/form/Select";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import {
-    COOKIES_SOCIAL_MEDIA_ERRORS,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
-} from "../../../constants";
+import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteData } from "../../../data/hootsuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
+import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
@@ -30,6 +26,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
+    template?: string;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -37,16 +34,16 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
     return (
         <BaseLayout title={title} description={description}>
             <form
                 encType="multipart/form-data"
-                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}`}
+                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${
+                    queryParams["template"] ? "&template=true" : ""
+                }`}
                 method="post"
             >
                 <>
@@ -224,7 +221,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const index = ctx.query.socialMediaPostIndex ? Number(ctx.query.socialMediaPostIndex) : 0;
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId);
+    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query?.template);
     const socialMediaPost = disruption?.socialMediaPosts?.find((s) => s.socialMediaPostIndex === index);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
@@ -246,6 +243,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
             socialAccounts,
+            template: disruption?.template?.toString() || "",
         },
     };
 };

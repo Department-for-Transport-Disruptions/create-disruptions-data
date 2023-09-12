@@ -11,6 +11,7 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
+import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
@@ -100,6 +101,7 @@ const previousCreateSocialMediaPostsInformation = [
             originalFilename: "blah.jpg",
             size: 1000,
         },
+        template: false,
     },
 ];
 
@@ -134,6 +136,7 @@ const previousDisruptionInformation: FullDisruption = {
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    template: false,
 };
 
 describe("pages", () => {
@@ -147,14 +150,21 @@ describe("pages", () => {
         });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
+                .create(
+                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish={false}
+                    redirect=""
+                />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
@@ -165,7 +175,7 @@ describe("pages", () => {
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
@@ -179,9 +189,131 @@ describe("pages", () => {
                 query: { duplicate: true },
             }));
             const tree = renderer
-                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
+                .create(
+                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors when disruption is a template", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={{ ...previousDisruptionInformation, template: true }}
+                        errors={[]}
+                        canPublish
+                        redirect=""
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    errors={[]}
+                    canPublish
+                    redirect=""
+                />,
+            );
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the template");
+
+            expect(deleteTemplateButton).toBeTruthy();
+            expect(deleteButton).toBeFalsy();
+            expect(header).toBeTruthy();
+            expect(cancelButton).toBeFalsy();
+
+            unmount();
+        });
+
+        it("should render correctly with appropriate buttons", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                />,
+            );
+
+            const publishButton = queryByText("Publish disruption", {
+                selector: "button",
+            });
+
+            const draftButton = queryByText("Save as draft");
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the disruption");
+
+            expect(publishButton).toBeTruthy();
+            expect(draftButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            expect(header).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
+            expect(cancelButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should render correctly with appropriate buttons for staff user", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    errors={[]}
+                    canPublish={false}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                />,
+            );
+
+            const draftButton = queryByText("Save as draft");
+
+            const reviewButton = queryByText("Send to review", {
+                selector: "button",
+            });
+
+            const deleteButton = queryByText("Delete disruption", {
+                selector: "button",
+            });
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+            const cancelButton = queryByText("Cancel all changes", {
+                selector: "button",
+            });
+
+            const header = queryByText("Review your answers before submitting the disruption");
+
+            expect(draftButton).toBeTruthy();
+            expect(reviewButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+            expect(header).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
+            expect(cancelButton).toBeTruthy();
+
+            unmount();
         });
     });
 });
