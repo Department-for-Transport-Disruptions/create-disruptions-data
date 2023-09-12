@@ -510,7 +510,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -670,7 +670,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -856,7 +856,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -1016,7 +1016,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -2070,7 +2070,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -2227,7 +2227,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -2410,7 +2410,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -2567,7 +2567,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -3672,7 +3672,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -3829,7 +3829,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -4012,7 +4012,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -4169,7 +4169,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px]"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] sm:w-[203px] @screen xs:w-[105px]"
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
