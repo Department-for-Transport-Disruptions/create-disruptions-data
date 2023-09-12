@@ -104,6 +104,7 @@ const csrfProtect = csrf({
     cookie: {
         secure: process.env.NODE_ENV === "production",
         name: "_csrf",
+        sameSite: "lax",
     },
     token: {
         value: async (req) => {

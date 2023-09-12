@@ -15,8 +15,10 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { getHootsuiteData } from "../../../data/hootsuite";
+import { getHootsuiteAccountList } from "../../../data/hootsuite";
+import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
+import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
@@ -29,7 +31,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     disruptionSummary: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
-    socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
+    socialAccounts: SocialMediaAccount[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -42,6 +44,11 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    const accountType = props.socialAccounts?.find(
+        (account) => account.id === pageState.inputs.socialAccount,
+    )?.accountType;
+
     return (
         <BaseLayout title={title} description={description}>
             <form
@@ -129,6 +136,42 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             </fieldset>
                         </FormGroupWrapper>
                     </div>
+                    <div className="govuk-form-group govuk-!-padding-top-3">
+                        <h2 className="govuk-heading-l">Select social media account</h2>
+
+                        <Select<SocialMediaPost>
+                            inputName="socialAccount"
+                            selectValues={props.socialAccounts.map((account) => ({
+                                value: account.id,
+                                display: `${account.display} (${account.accountType})`,
+                            }))}
+                            defaultDisplay="Social account"
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.socialAccount}
+                            initialErrors={pageState.errors}
+                            displaySize="l"
+                            display={""}
+                        />
+                        <Select<SocialMediaPost>
+                            inputName="hootsuiteProfile"
+                            defaultDisplay="Social account"
+                            hint={"Select Hootsuite profile"}
+                            display={""}
+                            selectValues={
+                                props.socialAccounts
+                                    ?.find((account) => account.id === pageState.inputs.socialAccount)
+                                    ?.hootsuiteProfiles?.map((profile) => ({
+                                        display: `${profile.type}/${profile.id}`,
+                                        value: profile.id,
+                                    })) ?? []
+                            }
+                            stateUpdater={stateUpdater}
+                            value={pageState.inputs.hootsuiteProfile}
+                            initialErrors={pageState.errors}
+                            displaySize="l"
+                            disabled={accountType === "Twitter"}
+                        />
+                    </div>
                     <div className="govuk-form-group">
                         <h2 className="govuk-heading-l">Publish time and date</h2>
 
@@ -136,7 +179,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             display="Date"
                             hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                             value={pageState.inputs.publishDate}
-                            disabled={false}
+                            disabled={accountType === "Twitter"}
                             disablePast={false}
                             inputName="publishDate"
                             stateUpdater={stateUpdater}
@@ -147,46 +190,15 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             display="Time"
                             hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                             value={pageState.inputs.publishTime}
-                            disabled={false}
+                            disabled={accountType === "Twitter"}
                             inputName="publishTime"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
                         />
 
-                        <div className="govuk-form-group govuk-!-padding-top-3">
-                            <h2 className="govuk-heading-l">Select social media account</h2>
-
-                            <Select<SocialMediaPost>
-                                inputName="socialAccount"
-                                selectValues={props.socialAccounts.map((account) => ({
-                                    value: account.value,
-                                    display: account.display,
-                                }))}
-                                defaultDisplay="Social account"
-                                stateUpdater={stateUpdater}
-                                value={pageState.inputs.socialAccount}
-                                initialErrors={pageState.errors}
-                                displaySize="l"
-                                display={""}
-                            />
-                            <Select<SocialMediaPost>
-                                inputName="hootsuiteProfile"
-                                defaultDisplay="Social account"
-                                hint={"Select Hootsuite profile"}
-                                display={""}
-                                selectValues={
-                                    props.socialAccounts?.find(
-                                        (account) => account.value === pageState.inputs.socialAccount,
-                                    )?.socialMediaProfiles || []
-                                }
-                                stateUpdater={stateUpdater}
-                                value={pageState.inputs.hootsuiteProfile}
-                                initialErrors={pageState.errors}
-                                displaySize="l"
-                            />
-                        </div>
                         <input type="hidden" name="disruptionId" value={pageState.disruptionId} />
                         <input type="hidden" name="socialMediaPostIndex" value={props.socialMediaPostIndex} />
+                        <input type="hidden" name="accountType" value={accountType} />
 
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
@@ -229,23 +241,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
 
-    const { userData } = await getHootsuiteData(ctx, session.username, session.orgId);
-
-    const socialAccounts = userData?.map((info) => ({
-        value: info.id,
-        display: info.email,
-        socialMediaProfiles: info.hootsuiteProfiles.map((smp) => ({
-            value: smp.id,
-            display: `${smp.type}/${smp.id}`,
-        })),
-    }));
+    const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId);
+    const twitterAccounts = await getTwitterAccountList(session.orgId);
 
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
-            socialAccounts,
+            socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
         },
     };
 };

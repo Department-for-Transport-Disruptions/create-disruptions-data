@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import removeHootsuiteConnection from "./remove-hootsuite-connection.api";
+import removeHootsuiteConnection from "./remove-social-connection.api";
 import { ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import * as ssm from "../../data/ssm";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";

@@ -1,4 +1,4 @@
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
     QueryCommand,
@@ -6,12 +6,16 @@ import {
     TransactWriteCommand,
     PutCommand,
     GetCommand,
+    ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
+import { inspect } from "util";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
+import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, flattenZodErrors, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
@@ -135,7 +139,7 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        logger.warn(flattenZodErrors(parsedDisruption.error));
+        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
 
         return null;
     }
@@ -256,6 +260,7 @@ export const getOrganisationInfoById = async (orgId: string): Promise<Organisati
             TableName: organisationsTableName,
             Key: {
                 PK: orgId,
+                SK: "INFO",
             },
         }),
     );
@@ -275,6 +280,10 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
     const dbData = await ddbDocClient.send(
         new ScanCommand({
             TableName: organisationsTableName,
+            FilterExpression: "SK = :info",
+            ExpressionAttributeValues: {
+                ":info": "INFO",
+            },
         }),
     );
 
@@ -596,6 +605,7 @@ export const upsertOrganisation = async (orgId: string, organisation: Organisati
             TableName: organisationsTableName,
             Item: {
                 PK: orgId,
+                SK: "INFO",
                 ...organisation,
             },
         }),
@@ -605,12 +615,31 @@ export const upsertOrganisation = async (orgId: string, organisation: Organisati
 export const removeOrganisation = async (orgId: string) => {
     logger.info(`Deleting organisation (${orgId}) in DynamoDB table...`);
 
-    await ddbDocClient.send(
-        new DeleteCommand({
+    const keys = await ddbDocClient.send(
+        new QueryCommand({
             TableName: organisationsTableName,
-            Key: {
-                PK: orgId,
+            KeyConditionExpression: "PK = :orgId",
+            ExpressionAttributeValues: {
+                ":orgId": orgId,
             },
+        }),
+    );
+
+    if (!keys.Items) {
+        return;
+    }
+
+    await ddbDocClient.send(
+        new TransactWriteCommand({
+            TransactItems: keys.Items.map((key) => ({
+                Delete: {
+                    TableName: organisationsTableName,
+                    Key: {
+                        PK: key.PK as string,
+                        SK: key.SK as string,
+                    },
+                },
+            })),
         }),
     );
 };
@@ -1349,4 +1378,59 @@ export const isDisruptionInEdit = async (disruptionId: string, id: string) => {
     const isEdited = dynamoDisruption?.Items?.some((item) => (item.SK as string).includes("#EDIT"));
 
     return isEdited || false;
+};
+
+export const addSocialAccountToOrg = async (
+    orgId: string,
+    socialId: string,
+    display: string,
+    addedBy: string,
+    accountType: SocialMediaAccount["accountType"],
+) => {
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: organisationsTableName,
+            Item: {
+                PK: orgId,
+                SK: `SOCIAL#${socialId}`,
+                id: socialId,
+                display,
+                addedBy,
+                accountType,
+            },
+        }),
+    );
+};
+
+export const removeSocialAccountFromOrg = async (orgId: string, socialId: string) => {
+    await ddbDocClient.send(
+        new DeleteCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `SOCIAL#${socialId}`,
+            },
+        }),
+    );
+};
+
+export const getOrgSocialAccounts = async (orgId: string) => {
+    const socialAccounts = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: organisationsTableName,
+            KeyConditionExpression: "PK = :orgId and begins_with(SK, :social)",
+            ExpressionAttributeValues: {
+                ":orgId": orgId,
+                ":social": "SOCIAL",
+            },
+        }),
+    );
+
+    const parsedSocialAccounts = makeFilteredArraySchema(dynamoSocialAccountSchema).safeParse(socialAccounts.Items);
+
+    if (!parsedSocialAccounts.success) {
+        return [];
+    }
+
+    return parsedSocialAccounts.data;
 };

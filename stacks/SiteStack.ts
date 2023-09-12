@@ -8,7 +8,7 @@ import { createBucket } from "./services/Buckets";
 import { getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
-    const { disruptionsTable, organisationsTable } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2 } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
@@ -59,7 +59,7 @@ export function SiteStack({ stack }: StackContext) {
         },
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
-            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+            ORGANISATIONS_TABLE_NAME: organisationsTableV2.tableName,
             STAGE: stack.stage,
             API_BASE_URL: apiUrl,
             MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN || "",
@@ -75,6 +75,8 @@ export function SiteStack({ stack }: StackContext) {
             DOMAIN_NAME: `${isSandbox(stack.stage) ? "http://" : "https://"}${
                 isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
             }`,
+            TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID || "",
+            TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET || "",
         },
         customDomain: {
             domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
@@ -92,7 +94,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["s3:GetObject", "s3:PutObject"],
             }),
             new PolicyStatement({
-                resources: [disruptionsTable.tableArn, organisationsTable.tableArn],
+                resources: [disruptionsTable.tableArn, organisationsTableV2.tableArn],
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
@@ -109,7 +111,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
             new PolicyStatement({
-                resources: ["*"],
+                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/*`],
                 actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
             }),
             new PolicyStatement({

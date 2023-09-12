@@ -34,7 +34,7 @@ export const setCookieOnResponseObject = (
     // default. An error will be thrown if you try to send secure cookies over an insecure socket.
     setCookie({ res }, cookieName, cookieValue, {
         path: "/",
-        sameSite: "strict",
+        sameSite: "lax",
         secure: process.env.NODE_ENV !== "development",
         maxAge: lifetime,
         httpOnly,

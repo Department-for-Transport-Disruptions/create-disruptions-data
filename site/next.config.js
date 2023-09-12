@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /** @type {import('next').NextConfig} */
 
 const securityHeaders = [
@@ -30,6 +33,10 @@ const nextConfig = {
         API_BASE_URL: process.env.API_BASE_URL,
         MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN,
         DOMAIN_NAME: process.env.DOMAIN_NAME,
+    },
+    webpack(config) {
+        config.experiments = { ...config.experiments, topLevelAwait: true };
+        return config;
     },
     headers() {
         return [

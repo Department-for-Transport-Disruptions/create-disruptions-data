@@ -12,10 +12,11 @@ export const socialMediaPostSchema = z.object({
         message: "Message content must not exceed 200 characters",
     }),
     socialAccount: z.string(setZodDefaultError("Select a social account")),
-    hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")),
-    publishDate: zodDate("Enter a publish date for the social media post"),
-    publishTime: zodTime("Enter a publish time for the social media post"),
+    hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")).optional(),
+    publishDate: zodDate("Enter a publish date for the social media post").optional(),
+    publishTime: zodTime("Enter a publish time for the social media post").optional(),
     socialMediaPostIndex: z.coerce.number().default(0),
+    accountType: z.enum(["Twitter", "Hootsuite"]),
     image: z
         .object({
             filepath: z.string(),
@@ -30,6 +31,18 @@ export const socialMediaPostSchema = z.object({
 });
 
 export const refineImageSchema = socialMediaPostSchema
+    .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
+        path: ["hootsuiteProfile"],
+        message: "Select a Hootsuite profile",
+    })
+    .refine((item) => (item.accountType === "Hootsuite" ? !!item.publishDate : true), {
+        path: ["publishDate"],
+        message: "Enter a publish date for the social media post",
+    })
+    .refine((item) => (item.accountType === "Hootsuite" ? !!item.publishTime : true), {
+        path: ["publishTime"],
+        message: "Enter a publish time for the social media post",
+    })
     .refine(
         (item) => {
             return item.image && item.image.size ? item.image.size <= MAX_FILE_SIZE : true;
@@ -43,9 +56,11 @@ export const refineImageSchema = socialMediaPostSchema
     )
     .refine(
         (item) =>
-            item.publishDate &&
-            item.publishTime &&
-            isAtLeast5MinutesAfter(getDatetimeFromDateAndTime(item.publishDate, item.publishTime)),
+            item.accountType === "Hootsuite"
+                ? item.publishDate &&
+                  item.publishTime &&
+                  isAtLeast5MinutesAfter(getDatetimeFromDateAndTime(item.publishDate, item.publishTime))
+                : true,
         {
             path: ["publishDate"],
             message: "Publish date/time must be at least 5 minutes into the future.",

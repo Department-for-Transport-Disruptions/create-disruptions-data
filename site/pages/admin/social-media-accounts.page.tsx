@@ -1,12 +1,12 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { Fragment, ReactElement, ReactNode, useState } from "react";
+import { Fragment, ReactElement, useState } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-import { DOMAIN_NAME, HOOTSUITE_URL } from "../../constants";
-import { getHootsuiteData } from "../../data/hootsuite";
-import { SocialMediaAccountsSchema } from "../../schemas/social-media-accounts.schema";
+import { getHootsuiteAuthUrl, getHootsuiteAccountList } from "../../data/hootsuite";
+import { getTwitterAuthUrl, getTwitterAccountList } from "../../data/twitter";
+import { SocialMediaAccount } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 
@@ -14,19 +14,19 @@ const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
 
 export interface SocialMediaAccountsPageProps {
-    socialMediaData: SocialMediaAccountsSchema;
-    username: string;
-    clientId: string;
+    socialMediaDetails: SocialMediaAccount[];
+    hootsuiteAuthUrl: string;
+    twitterAuthUrl: string;
     csrfToken?: string;
 }
 
 const SocialMediaAccounts = ({
-    socialMediaData,
-    username,
-    clientId,
+    socialMediaDetails,
+    hootsuiteAuthUrl,
+    twitterAuthUrl,
     csrfToken,
 }: SocialMediaAccountsPageProps): ReactElement => {
-    const [socialAccountToDelete, setSocialAccountToDelete] = useState<string>("");
+    const [socialAccountToDelete, setSocialAccountToDelete] = useState<SocialMediaAccount | null>(null);
     const getLink = (type: string, id: string) => {
         switch (type.toLocaleUpperCase()) {
             case "TWITTER":
@@ -39,12 +39,13 @@ const SocialMediaAccounts = ({
     };
 
     const getRows = () => {
-        const keys = ["accountType", "email", "addedBy", "expiresIn"];
-        return socialMediaData.length > 0
-            ? socialMediaData.map((item: SocialMediaAccountsSchema[0]) => ({
+        const keys: (keyof SocialMediaAccount)[] = ["accountType", "display", "addedBy", "expiresIn"];
+
+        return socialMediaDetails.length > 0
+            ? socialMediaDetails.map((item) => ({
                   cells: [
-                      ...keys.map((k) => <p key={k}>{item[k as keyof SocialMediaAccountsSchema[0]] as ReactNode}</p>),
-                      item.hootsuiteProfiles.map((profile) => (
+                      ...keys.map((k) => <p key={k}>{item[k]?.toString()}</p>),
+                      item.hootsuiteProfiles?.map((profile) => (
                           <Fragment key={profile.id}>
                               <li className="list-none">
                                   <Link
@@ -56,12 +57,12 @@ const SocialMediaAccounts = ({
                                   </Link>
                               </li>
                           </Fragment>
-                      )),
+                      )) ?? "N/A",
                       <button
                           className="govuk-link text-govBlue"
                           key={`remove-${item.id}`}
                           onClick={() => {
-                              setSocialAccountToDelete(item.id);
+                              setSocialAccountToDelete(item);
                           }}
                       >
                           Remove
@@ -72,7 +73,7 @@ const SocialMediaAccounts = ({
     };
 
     const cancelActionHandler = () => {
-        setSocialAccountToDelete("");
+        setSocialAccountToDelete(null);
     };
 
     return (
@@ -81,14 +82,20 @@ const SocialMediaAccounts = ({
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
                 {socialAccountToDelete ? (
                     <DeleteConfirmationPopup
-                        entityName="the hootsuite connection"
-                        deleteUrl="/api/remove-hootsuite-connection"
+                        entityName={`the ${
+                            socialAccountToDelete.accountType === "Hootsuite" ? "hootsuite" : "twitter"
+                        } connection`}
+                        deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
                         csrfToken={csrfToken || ""}
                         hiddenInputs={[
                             {
                                 name: "profileId",
-                                value: socialAccountToDelete,
+                                value: socialAccountToDelete.id,
+                            },
+                            {
+                                name: "type",
+                                value: socialAccountToDelete.accountType,
                             },
                         ]}
                     />
@@ -105,12 +112,11 @@ const SocialMediaAccounts = ({
                     rows={getRows()}
                 />
 
-                <Link
-                    className="govuk-button mt-8"
-                    data-module="govuk-button"
-                    href={`${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${DOMAIN_NAME}/api/hootsuite-callback&client_id=${clientId}&state=${username}`}
-                >
-                    Connect hootsuite
+                <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={hootsuiteAuthUrl}>
+                    Connect Hootsuite
+                </Link>
+                <Link className="govuk-button mt-8" data-module="govuk-button" href={twitterAuthUrl}>
+                    Connect Twitter
                 </Link>
             </>
         </BaseLayout>
@@ -128,10 +134,25 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
-    const { clientId, userData } = await getHootsuiteData(ctx, session.username, session.orgId);
+    const hootsuiteDetails = await getHootsuiteAccountList(session.orgId);
+
+    const socialMediaDetails = [...hootsuiteDetails];
+
+    const twitterDetails = await getTwitterAccountList(session.orgId);
+
+    if (twitterDetails) {
+        socialMediaDetails.push(...twitterDetails);
+    }
+
+    const hootsuiteAuthUrl = getHootsuiteAuthUrl(ctx);
+    const twitterAuthUrl = getTwitterAuthUrl(ctx);
 
     return {
-        props: { socialMediaData: userData, username: session.username, clientId },
+        props: {
+            socialMediaDetails,
+            hootsuiteAuthUrl: hootsuiteAuthUrl,
+            twitterAuthUrl: twitterAuthUrl,
+        },
     };
 };
 

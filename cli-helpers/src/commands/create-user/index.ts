@@ -60,7 +60,7 @@ export default class CreateUser extends Command {
         if (!orgId) {
             const orgsDb = await ddbDocClient.send(
                 new ScanCommand({
-                    TableName: `cdd-organisations-table-${flags.stage}`,
+                    TableName: `cdd-organisations-v2-table-${flags.stage}`,
                 }),
             );
 
@@ -150,8 +150,8 @@ export default class CreateUser extends Command {
                         Value: "true",
                     },
                     {
-                       Name: "email",
-                       Value: email,
+                        Name: "email",
+                        Value: email,
                     },
                 ],
             }),
