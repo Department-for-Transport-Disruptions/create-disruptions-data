@@ -8,7 +8,7 @@ import { createBucket } from "./services/Buckets";
 import { getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
-    const { disruptionsTable, organisationsTableV2 } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
@@ -59,7 +59,8 @@ export function SiteStack({ stack }: StackContext) {
         },
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
-            ORGANISATIONS_TABLE_NAME: organisationsTableV2.tableName,
+            TEMPLATE_DISRUPTIONS_TABLE_NAME: templateDisruptionsTable.tableName,
+            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             STAGE: stack.stage,
             API_BASE_URL: apiUrl,
             MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN || "",
@@ -94,7 +95,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["s3:GetObject", "s3:PutObject"],
             }),
             new PolicyStatement({
-                resources: [disruptionsTable.tableArn, organisationsTableV2.tableArn],
+                resources: [disruptionsTable.tableArn, organisationsTable.tableArn, templateDisruptionsTable.tableArn],
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",

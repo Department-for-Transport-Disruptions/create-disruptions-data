@@ -17,9 +17,7 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
-    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
@@ -28,7 +26,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
+import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
@@ -41,13 +39,19 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
+
+    const isTemplate = (queryParams["template"] as string) || "";
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-network${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -163,23 +167,32 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                href={
+                                    returnToTemplateOverview
+                                        ? (queryParams["return"] as string)
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                              isTemplate ? "?template=true" : ""
+                                          }`
+                                }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
-                        >
-                            Save as draft
-                        </button>
+                        {!isTemplate && (
+                            <button
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
+                            >
+                                Save as draft
+                            </button>
+                        )}
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
+                            isTemplate={isTemplate}
                         />
                     </div>
                 </>
@@ -202,7 +215,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
 
     if (!disruption) {
         throw new Error("No disruption found for network consequence page");
@@ -221,7 +238,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, ctx.res);
 
-    return { props: { ...pageState, consequenceIndex: index, disruptionSummary: disruption.description || "" } };
+    return {
+        props: {
+            ...pageState,
+            consequenceIndex: index,
+            disruptionSummary: disruption.description || "",
+            template: disruption.template?.toString() || "",
+        },
+    };
 };
 
 export default CreateConsequenceNetwork;

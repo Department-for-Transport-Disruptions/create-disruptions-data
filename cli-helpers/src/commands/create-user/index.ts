@@ -61,6 +61,10 @@ export default class CreateUser extends Command {
             const orgsDb = await ddbDocClient.send(
                 new ScanCommand({
                     TableName: `cdd-organisations-v2-table-${flags.stage}`,
+                    FilterExpression: "SK = :info",
+                    ExpressionAttributeValues: {
+                        ":info": "INFO",
+                    },
                 }),
             );
 
@@ -127,11 +131,13 @@ export default class CreateUser extends Command {
             lastName = responses.lastName;
         }
 
+        const key = Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join("");
+
         const createUserResult = await cognito.send(
             new AdminCreateUserCommand({
                 Username: email,
                 UserPoolId: poolId,
-                TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+                TemporaryPassword: key,
                 UserAttributes: [
                     {
                         Name: "custom:orgId",
@@ -166,5 +172,10 @@ export default class CreateUser extends Command {
         );
 
         console.log(`User created, ID: ${createUserResult.User?.Username}`);
+
+        const url =
+            stage === "prod" ? "https://disruption-data.dft.gov.uk" : `https://${stage}.cdd.dft-create-data.com`;
+
+        console.log(`Registration Link: ${url}/register?key=${key}&email=${email}&orgId=${orgId}`);
     }
 }

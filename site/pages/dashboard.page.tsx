@@ -8,7 +8,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
-import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { DASHBOARD_PAGE_PATH, STAGE, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -35,6 +35,7 @@ export interface DashboardProps {
     pendingApprovalCount?: number;
     canPublish: boolean;
     orgName: string;
+    stage?: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -56,7 +57,7 @@ const mapDisruptions = (disruptions: Disruption[]) => {
     });
 };
 
-const formatDisruptionsIntoRows = (disruptions: DashboardDisruption[]) => {
+const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
     return disruptions.map((disruption) => {
         const earliestPeriod = disruption.validityPeriods[0];
         const latestPeriod = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
@@ -100,6 +101,7 @@ const Dashboard = ({
     pendingApprovalCount,
     canPublish,
     orgName,
+    stage,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -195,7 +197,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(liveDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(liveDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfLiveDisruptionsPages}
@@ -212,7 +214,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(upcomingDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(upcomingDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfUpcomingDisruptionsPages}
@@ -229,7 +231,7 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatDisruptionsIntoRows(recentlyClosedDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptionsToDisplay)}
                                 />
                                 <PageNumbers
                                     numberOfPages={numberOfRecentlyClosedDisruptionsPages}
@@ -254,6 +256,11 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
+            {stage !== "prod" && stage !== "preprod" && (
+                <Link className="govuk-link" href="/view-all-templates">
+                    <h2 className="govuk-heading-s text-govBlue">Templates</h2>
+                </Link>
+            )}
         </BaseLayout>
     );
 };
@@ -353,6 +360,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 pendingApprovalCount: pendingApprovalCount,
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
+                stage: STAGE,
             },
         };
     }

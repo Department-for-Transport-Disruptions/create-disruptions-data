@@ -476,7 +476,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -508,7 +510,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -568,7 +570,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -598,7 +600,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           aria-describedby="disruption-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0100"
                           disabled={false}
                           id="disruption-start-time-input"
@@ -632,7 +634,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -664,7 +668,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -724,7 +728,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -748,7 +752,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0200"
                           disabled={false}
                           id="disruption-end-time-input"
@@ -814,7 +818,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -846,7 +852,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -936,7 +942,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           aria-describedby="publish-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0200"
                           disabled={false}
                           id="publish-start-time-input"
@@ -970,7 +976,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -1002,7 +1010,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -1062,7 +1070,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -1086,7 +1094,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="2300"
                           disabled={false}
                           id="publish-end-time-input"
@@ -1204,7 +1212,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -1323,7 +1331,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"
@@ -2020,7 +2028,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2052,7 +2062,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -2109,7 +2119,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2139,7 +2149,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           aria-describedby="disruption-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue=""
                           disabled={false}
                           id="disruption-start-time-input"
@@ -2173,7 +2183,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2205,7 +2217,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -2262,7 +2274,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -2286,7 +2298,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue=""
                           disabled={false}
                           id="disruption-end-time-input"
@@ -2352,7 +2364,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2384,7 +2398,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -2471,7 +2485,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           aria-describedby="publish-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue=""
                           disabled={false}
                           id="publish-start-time-input"
@@ -2505,7 +2519,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2537,7 +2553,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -2594,7 +2610,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -2618,7 +2634,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue=""
                           disabled={false}
                           id="publish-end-time-input"
@@ -2736,7 +2752,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -2852,7 +2868,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"
@@ -3606,7 +3622,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3638,7 +3656,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -3695,7 +3713,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3725,7 +3743,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       >
                         <input
                           aria-describedby="disruption-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0100"
                           disabled={false}
                           id="disruption-start-time-input"
@@ -3759,7 +3777,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3791,7 +3811,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -3848,7 +3868,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end"
             >
               <div
                 className="govuk-form-group"
@@ -3872,7 +3892,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0200"
                           disabled={false}
                           id="disruption-end-time-input"
@@ -3938,7 +3958,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3970,7 +3992,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -4057,7 +4079,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       >
                         <input
                           aria-describedby="publish-start-time-hint"
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="0200"
                           disabled={false}
                           id="publish-start-time-input"
@@ -4091,7 +4113,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           <div
             className="flex pb-8"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -4123,7 +4147,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -4180,7 +4204,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end "
             >
               <div
                 className="govuk-form-group"
@@ -4204,7 +4228,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       >
                         <input
                           aria-describedby=""
-                          className="govuk-input govuk-date-input__input govuk-input--width-4"
+                          className="govuk-input govuk-date-input__input govuk-input--width-4 "
                           defaultValue="2300"
                           disabled={false}
                           id="publish-end-time-input"
@@ -4322,7 +4346,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -4438,7 +4462,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"

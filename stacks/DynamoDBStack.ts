@@ -20,6 +20,24 @@ export function DynamoDBStack({ stack }: StackContext) {
         },
     });
 
+    const templateDisruptionsTable = new Table(stack, "cdd-dynamodb-template-disruptions-table", {
+        fields: {
+            PK: "string",
+            SK: "string",
+        },
+        primaryIndex: {
+            partitionKey: "PK",
+            sortKey: "SK",
+        },
+        cdk: {
+            table: {
+                tableName: `cdd-template-disruptions-table-${stack.stage}`,
+                billingMode: BillingMode.PAY_PER_REQUEST,
+                pointInTimeRecovery: stack.stage === "prod",
+            },
+        },
+    });
+
     const organisationsTable = new Table(stack, "cdd-dynamodb-organisations-table", {
         fields: {
             PK: "string",
@@ -58,5 +76,6 @@ export function DynamoDBStack({ stack }: StackContext) {
         disruptionsTable,
         organisationsTable,
         organisationsTableV2,
+        templateDisruptionsTable,
     };
 }

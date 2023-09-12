@@ -14,8 +14,8 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
-    redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -24,6 +24,8 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+
+        const { template } = req.query;
 
         const session = getSession(req);
 
@@ -68,11 +70,14 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
+                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }${queryParam ? `?${queryParam}` : ""}`,
+                }`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
@@ -89,6 +94,8 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : { ...validatedBody.data, status: SocialMediaPostStatus.pending },
             session.orgId,
             session.isOrgStaff,
+            false,
+            template === "true",
         );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
@@ -97,7 +104,13 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+        );
 
         return;
     } catch (e) {
