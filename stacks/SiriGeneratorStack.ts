@@ -16,12 +16,10 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     const siriGenerator = createGeneratorLambda(stack, siriSXUnvalidatedBucket, disruptionsTable, organisationsTable);
 
-    //TODO DEANNA uncomment when finished with this ticket
-
-    // new Cron(stack, "cdd-siri-sx-generator-cron", {
-    //     job: siriGenerator,
-    //     schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
-    // });
+    new Cron(stack, "cdd-siri-sx-generator-cron", {
+        job: siriGenerator,
+        schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
+    });
 
     const siriStatsGenerator = createStatsGeneratorLambda(stack, disruptionsTable, organisationsTable);
 

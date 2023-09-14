@@ -3,8 +3,7 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "test": "sst bind 'vitest'",
-        "test:unit": "vitest",
+        "test": "vitest",
         "test:updateSnapshots": "vitest -u",
         "typecheck": "tsc -noEmit"
     },

@@ -1,10 +1,10 @@
+import { getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-import { getOrganisationsInfo } from "../../data/dynamo";
 import { Organisations } from "../../schemas/organisation.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 

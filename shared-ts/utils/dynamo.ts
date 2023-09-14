@@ -1,10 +1,13 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import * as logger from "lambda-log";
+import { Organisations, organisationsSchema } from "../../site/schemas/organisation.schema";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
 import { notEmpty } from "./index";
+
+const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -60,4 +63,35 @@ export const getPublishedDisruptionsDataFromDynamo = async (tableName: string): 
     );
 
     return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+};
+
+export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
+    logger.info(`Getting all organisations from DynamoDB table...`);
+    try {
+        const dbData = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: organisationsTableName,
+                FilterExpression: "SK = :info",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                },
+            }),
+        );
+
+        const parsedOrg = organisationsSchema.safeParse(dbData.Items);
+
+        if (!parsedOrg.success) {
+            return null;
+        }
+
+        return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
 };

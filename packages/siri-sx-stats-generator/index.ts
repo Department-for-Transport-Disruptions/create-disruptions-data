@@ -1,77 +1,38 @@
-import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
+import {
+    getOrganisationsInfo,
+    getPublishedDisruptionsDataFromDynamo,
+} from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
+import {
+    Disruption,
+    generateConsequenceStats,
+    generateReasonCountStats,
+    initialConsequenceStatsValues,
+    initialDisruptionReasonCount,
+    SiriStats,
+} from "./utils/statGenerators";
 
-interface siriStats {
-    totalDisruptionsCount: number;
-    servicesConsequencesCount: number;
-    servicesAffected: number;
-    stopsConsequencesCount: number;
-    stopsAffected: number;
-    networkWideConsequencesCount: number;
-    operatorWideConsequencesCount: number;
-    totalConsequencesCount: number;
-}
-const getSiriStats = async (disruptionsTableName: string) => {
-    const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
-    const setInitialConsequenceStatsValues = {
-        totalConsequencesCount: 0,
-        servicesConsequencesCount: 0,
-        servicesAffected: 0,
-        stopsConsequencesCount: 0,
-        stopsAffected: 0,
-        networkWideConsequencesCount: 0,
-        operatorWideConsequencesCount: 0,
-    };
-
-    const getConsequenceStats = (key: string, disruption: Disruption) => {
-        if (disruption.consequences) {
-            return disruption.consequences.reduce((acc: Record<string, Record<string, number>>, consequence) => {
-                if (!acc.hasOwnProperty(key)) {
-                    acc[key] = setInitialConsequenceStatsValues;
-                }
-                acc[key] = {
-                    totalConsequencesCount: acc[key].totalConsequencesCount + 1,
-                    servicesConsequencesCount:
-                        consequence.consequenceType === "services"
-                            ? acc[key].servicesConsequencesCount + 1
-                            : acc[key].servicesConsequencesCount,
-                    servicesAffected:
-                        consequence.consequenceType === "services"
-                            ? consequence.services.length
-                            : acc[key].servicesAffected,
-                    stopsConsequencesCount:
-                        consequence.consequenceType === "stops"
-                            ? acc[key].stopsConsequencesCount + 1
-                            : acc[key].stopsConsequencesCount,
-                    stopsAffected:
-                        consequence.consequenceType === "stops" ? consequence.stops.length : acc[key].stopsAffected,
-                    networkWideConsequencesCount:
-                        consequence.consequenceType === "networkWide"
-                            ? acc[key].networkWideConsequencesCount + 1
-                            : acc[key].networkWideConsequencesCount,
-                    operatorWideConsequencesCount:
-                        consequence.consequenceType === "operatorWide"
-                            ? acc[key].operatorWideConsequencesCount + 1
-                            : acc[key].operatorWideConsequencesCount,
-                };
-                return acc;
-            }, {});
-        }
-        return null;
-    };
-
-    const siriStatsByOrg = disruptions.reduce((acc: Record<string, siriStats>, disruption) => {
+export const generateSiriStats = async (disruptions: Disruption[]) => {
+    return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
-        const consequenceStats = getConsequenceStats(key, disruption);
+        const consequenceStats = generateConsequenceStats(key, disruption);
         if (consequenceStats) {
             if (!acc.hasOwnProperty(key)) {
-                acc[key] = { totalDisruptionsCount: 0, ...setInitialConsequenceStatsValues };
+                acc[key] = {
+                    disruptionReasonCount: { ...initialDisruptionReasonCount },
+                    ...initialConsequenceStatsValues,
+                };
             }
             acc[key] = {
-                totalDisruptionsCount: acc[key].totalDisruptionsCount + 1,
+                disruptionReasonCount: generateReasonCountStats(
+                    disruption.disruptionReason,
+                    acc[key].disruptionReasonCount,
+                ),
                 servicesConsequencesCount:
                     acc[key].servicesConsequencesCount + consequenceStats[key].servicesConsequencesCount,
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
@@ -86,8 +47,68 @@ const getSiriStats = async (disruptionsTableName: string) => {
         }
         return acc;
     }, {});
+};
 
-    return siriStatsByOrg;
+const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
+    try {
+        const orgList = await getOrganisationsInfo();
+        if (!!orgList) {
+            const orgPutRequest = orgList.map((org) => {
+                const orgId = org.PK;
+                const statForOrg = siriStats[orgId];
+
+                return statForOrg
+                    ? {
+                          Put: {
+                              TableName: orgTableName,
+                              Item: {
+                                  PK: orgId,
+                                  SK: "STAT",
+                                  servicesConsequencesCount: statForOrg.servicesConsequencesCount,
+                                  servicesAffected: statForOrg.servicesAffected,
+                                  stopsConsequencesCount: statForOrg.stopsConsequencesCount,
+                                  stopsAffected: statForOrg.stopsAffected,
+                                  networkWideConsequencesCount: statForOrg.networkWideConsequencesCount,
+                                  operatorWideConsequencesCount: statForOrg.operatorWideConsequencesCount,
+                                  totalConsequencesCount: statForOrg.totalConsequencesCount,
+                                  disruptionReasonCount: statForOrg.disruptionReasonCount,
+                              },
+                          },
+                      }
+                    : {
+                          Put: {
+                              TableName: orgTableName,
+                              Item: {
+                                  PK: orgId,
+                                  SK: "STAT",
+                                  servicesConsequencesCount: 0,
+                                  servicesAffected: 0,
+                                  stopsConsequencesCount: 0,
+                                  stopsAffected: 0,
+                                  networkWideConsequencesCount: 0,
+                                  operatorWideConsequencesCount: 0,
+                                  totalConsequencesCount: 0,
+                                  disruptionReasonCount: {},
+                              },
+                          },
+                      };
+            });
+
+            await ddbDocClient.send(
+                new TransactWriteCommand({
+                    TransactItems: [...orgPutRequest],
+                }),
+            );
+        }
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
 };
 
 export const main = async (): Promise<void> => {
@@ -106,7 +127,13 @@ export const main = async (): Promise<void> => {
             throw new Error("Dynamo table names not set");
         }
 
-        const siriStats = await getSiriStats(disruptionsTableName);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+
+        const siriStats = await generateSiriStats(disruptions);
+
+        await publishStatsToDynamo(orgTableName, siriStats);
+
+        logger.info("Successfully published stats to DynamoDB...");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

@@ -15,7 +15,7 @@ export const createStatsGeneratorLambda = (stack: Stack, disruptionsTable: Table
             }),
             new PolicyStatement({
                 resources: [organisationsTable.tableArn],
-                actions: ["dynamodb:PutItem", "dynamodb:Scan", "dynamodb:GetItem"],
+                actions: ["dynamodb:Scan", "dynamodb:TransactWriteItem", "dynamodb:PutItem"],
             }),
         ],
         handler: "packages/siri-sx-stats-generator/index.main",
