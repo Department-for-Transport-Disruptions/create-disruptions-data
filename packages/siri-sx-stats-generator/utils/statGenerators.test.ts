@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
     generateConsequenceStats,
     generateReasonCountStats,
+    generateSiriStats,
     initialConsequenceStatsValues,
     initialDisruptionReasonCount,
 } from "./statGenerators";
-import { generateSiriStats } from "../index";
 
 const mockDisruptionReason = "accident";
 

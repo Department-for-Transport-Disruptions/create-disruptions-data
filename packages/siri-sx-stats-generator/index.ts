@@ -6,15 +6,7 @@ import {
 } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
-import {
-    Disruption,
-    generateConsequenceStats,
-    generateReasonCountStats,
-    generateSiriStats,
-    initialConsequenceStatsValues,
-    initialDisruptionReasonCount,
-    SiriStats,
-} from "./utils/statGenerators";
+import { generateSiriStats, SiriStats } from "./utils/statGenerators";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
