@@ -10,44 +10,13 @@ import {
     Disruption,
     generateConsequenceStats,
     generateReasonCountStats,
+    generateSiriStats,
     initialConsequenceStatsValues,
     initialDisruptionReasonCount,
     SiriStats,
 } from "./utils/statGenerators";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
-
-export const generateSiriStats = (disruptions: Disruption[]) => {
-    return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
-        const key = disruption.orgId ? disruption.orgId : "";
-        const consequenceStats = generateConsequenceStats(key, disruption);
-        if (consequenceStats) {
-            if (!acc.hasOwnProperty(key)) {
-                acc[key] = {
-                    disruptionReasonCount: { ...initialDisruptionReasonCount },
-                    ...initialConsequenceStatsValues,
-                };
-            }
-            acc[key] = {
-                disruptionReasonCount: generateReasonCountStats(
-                    disruption.disruptionReason,
-                    acc[key].disruptionReasonCount,
-                ),
-                servicesConsequencesCount:
-                    acc[key].servicesConsequencesCount + consequenceStats[key].servicesConsequencesCount,
-                servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
-                stopsConsequencesCount: acc[key].stopsConsequencesCount + consequenceStats[key].stopsConsequencesCount,
-                stopsAffected: acc[key].stopsAffected + consequenceStats[key].stopsAffected,
-                networkWideConsequencesCount:
-                    acc[key].networkWideConsequencesCount + consequenceStats[key].networkWideConsequencesCount,
-                operatorWideConsequencesCount:
-                    acc[key].operatorWideConsequencesCount + consequenceStats[key].operatorWideConsequencesCount,
-                totalConsequencesCount: acc[key].totalConsequencesCount + consequenceStats[key].totalConsequencesCount,
-            };
-        }
-        return acc;
-    }, {});
-};
 
 const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
     try {

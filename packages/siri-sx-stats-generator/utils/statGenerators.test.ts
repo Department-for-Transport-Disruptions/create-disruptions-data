@@ -5,8 +5,8 @@ import {
     generateReasonCountStats,
     initialConsequenceStatsValues,
     initialDisruptionReasonCount,
-} from "./utils/statGenerators";
-import { generateSiriStats } from "./index";
+} from "./statGenerators";
+import { generateSiriStats } from "../index";
 
 const mockDisruptionReason = "accident";
 
