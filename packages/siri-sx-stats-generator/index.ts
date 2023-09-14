@@ -17,7 +17,7 @@ import {
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
-export const generateSiriStats = async (disruptions: Disruption[]) => {
+export const generateSiriStats = (disruptions: Disruption[]) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
         const consequenceStats = generateConsequenceStats(key, disruption);
@@ -129,7 +129,7 @@ export const main = async (): Promise<void> => {
 
         const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
 
-        const siriStats = await generateSiriStats(disruptions);
+        const siriStats = generateSiriStats(disruptions);
 
         await publishStatsToDynamo(orgTableName, siriStats);
 

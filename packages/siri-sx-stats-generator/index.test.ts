@@ -1,5 +1,5 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
     generateConsequenceStats,
     generateReasonCountStats,
@@ -80,13 +80,12 @@ const mockDisruption = {
 };
 
 describe("generateReasonCountStats", () => {
-    it("increases the reason count by one for the relevant disruption reason"),
-        () => {
-            expect(generateReasonCountStats(mockDisruptionReason, mockDisruptionReasonCountStat)).toEqual({
-                ...mockDisruptionReasonCountStat,
-                accident: 4,
-            });
-        };
+    it("increases the reason count by one for the relevant disruption reason", () => {
+        expect(generateReasonCountStats(mockDisruptionReason, mockDisruptionReasonCountStat)).toEqual({
+            ...mockDisruptionReasonCountStat,
+            accident: 4,
+        });
+    });
 });
 
 describe("generateConsequenceStats", () => {
@@ -103,8 +102,8 @@ describe("generateConsequenceStats", () => {
 });
 
 describe("generateSiriStats", () => {
-    it("for a given disruption it correctly counts to the total number of consequences and the number of consequence types", async () => {
-        expect(await generateSiriStats([mockDisruption, mockDisruption])).toEqual({
+    it("correctly calculates the stats for a given set of disruptions", () => {
+        expect(generateSiriStats([mockDisruption, mockDisruption])).toEqual({
             "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
                 disruptionReasonCount: {
                     ...initialDisruptionReasonCount,
