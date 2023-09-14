@@ -354,13 +354,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    minWidth={`w-[203px] ${
+                                        dateColumnError ? "lg:w-[50%]" : "lg:w-[70%]"
+                                    } sm:w-[80%] @screen xs:w-[80%]`}
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
                                 />
                             </div>
-                            <div className="pl-4.5 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
+                            <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
                                 <TimeSelector<Validity>
                                     display="Start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -397,13 +399,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
-                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    minWidth={`w-[203px] ${
+                                        dateColumnError ? "lg:w-[50%]" : "lg:w-[70%]"
+                                    } sm:w-[80%] @screen xs:w-[80%]`}
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
                                 />
                             </div>
-                            <div className="pl-4.5 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
+                            <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
                                 <TimeSelector<Validity>
                                     display="End time"
                                     value={validity.disruptionEndTime}
@@ -453,13 +457,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="w-[203px] lg:w-[50%] sm:w-[80%] @screen xs:w-[80%]"
+                                    minWidth={`w-[203px] ${
+                                        dateColumnError ? "lg:w-[50%]" : "lg:w-[70%]"
+                                    } sm:w-[80%] @screen xs:w-[80%]`}
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
                                 />
                             </div>
-                            <div className="pl-4 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
+                            <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
@@ -507,13 +513,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndDate"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
-                                    minWidth="w-[203px] lg:w-[40%] sm:w-[80%] @screen xs:w-[80%]"
+                                    minWidth={`w-[203px] ${
+                                        dateColumnError ? "lg:w-[50%]" : "lg:w-[70%]"
+                                    } sm:w-[80%] @screen xs:w-[80%]`}
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
                                 />
                             </div>
-                            <div className="pl-4 flex flex-col justify-end sm:w-[50%] @screen xs:w-[50%]">
+                            <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
                                 <TimeSelector<DisruptionInfo>
                                     display="Publication end time"
                                     value={
