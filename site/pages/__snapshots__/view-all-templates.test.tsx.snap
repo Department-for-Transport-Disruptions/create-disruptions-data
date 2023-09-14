@@ -47,7 +47,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
       <h1
         className="govuk-heading-xl"
       >
-        View all templates
+        Templates
       </h1>
       <div>
         <a
@@ -569,7 +569,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
       <h1
         className="govuk-heading-xl"
       >
-        View all templates
+        Templates
       </h1>
       <div>
         <a
@@ -1502,7 +1502,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
       <h1
         className="govuk-heading-xl"
       >
-        View all templates
+        Templates
       </h1>
       <div>
         <a

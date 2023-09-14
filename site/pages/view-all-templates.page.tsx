@@ -6,8 +6,8 @@ import { BaseLayout } from "../components/layout/Layout";
 import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
-const title = "View All Templates";
-const description = "View All Templates page for the Create Transport Disruptions Service";
+const title = "Templates";
+const description = "Templates page for the Create Transport Disruptions Service";
 
 const ViewAllTemplates = ({
     newContentId,
