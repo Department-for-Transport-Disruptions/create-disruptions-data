@@ -677,7 +677,7 @@ const ViewAllContents = ({
         <>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
             {isTemplate ? (
-                <h1 className="govuk-heading-xl">View all templates</h1>
+                <h1 className="govuk-heading-xl">Templates</h1>
             ) : (
                 <h1 className="govuk-heading-xl">View all disruptions</h1>
             )}
