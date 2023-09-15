@@ -641,7 +641,10 @@ const DisruptionDetail = ({
                         <Link
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                query: {
+                                    return: DISRUPTION_DETAIL_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10
