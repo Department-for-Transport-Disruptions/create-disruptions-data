@@ -1012,7 +1012,7 @@ describe("create-disruption API", () => {
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/type-of-consequence/${defaultDisruptionId}/0?${returnPath}`,
+            Location: `/type-of-consequence/${defaultDisruptionId}/0?template=true`,
         });
     });
 

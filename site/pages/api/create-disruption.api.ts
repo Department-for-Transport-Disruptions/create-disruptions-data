@@ -126,7 +126,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        queryParam && !isFromTemplate
+        queryParam && (!isFromTemplate || template)
             ? redirectToWithQueryParams(
                   req,
                   res,
@@ -139,9 +139,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   req,
                   res,
                   template ? ["template"] : [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0${
-                      isFromTemplate ? `?${isFromTemplate}` : ""
-                  }`,
+                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`,
+                  isFromTemplate && !template ? ["template=true"] : [],
               );
 
         return;
