@@ -12,6 +12,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
@@ -71,7 +72,7 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
-const previousCreateSocialMediaPostsInformation = [
+const previousCreateSocialMediaPostsInformation: SocialMediaPost[] = [
     {
         disruptionId: "1",
         publishDate: "14/01/2027",
@@ -81,6 +82,7 @@ const previousCreateSocialMediaPostsInformation = [
         hootsuiteProfile: "Twitter/1234",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.pending,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "1",
@@ -98,6 +100,7 @@ const previousCreateSocialMediaPostsInformation = [
             originalFilename: "blah.jpg",
             size: 1000,
         },
+        accountType: "Hootsuite",
     },
 ];
 

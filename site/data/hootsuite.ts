@@ -1,12 +1,24 @@
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import { setCookie } from "nookies";
 import { randomUUID } from "crypto";
-import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
+import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { getObject } from "./s3";
 import { getParameter, putParameter } from "./ssm";
 import { COOKIES_HOOTSUITE_STATE, HOOTSUITE_URL } from "../constants";
-import { hootsuiteMeSchema, hootsuiteSocialProfilesSchema, hootsuiteTokenSchema } from "../schemas/hootsuite.schema";
+import {
+    HootsuiteMedia,
+    hootsuiteMeSchema,
+    hootsuiteMediaSchema,
+    hootsuiteMediaStatusSchema,
+    hootsuiteSocialProfilesSchema,
+    hootsuiteTokenSchema,
+} from "../schemas/hootsuite.schema";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
+import { HootsuitePost, SocialMediaImage } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
+import { delay } from "../utils/apiUtils";
+import { formatDate } from "../utils/dates";
 import logger from "../utils/logger";
 
 const [hootsuiteClientIdParam, hootsuiteClientSecretParam] = await Promise.all([
@@ -129,22 +141,26 @@ export const getHootsuiteAuthHeader = () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
+export const getAccessToken = async (orgId: string, socialId: string) => {
+    const refreshTokenParam = await getParameter(getSsmKey(orgId, socialId), true);
+
+    if (!refreshTokenParam.Parameter?.Value) {
+        throw new Error("Refresh token not found");
+    }
+
+    const refreshToken = refreshTokenParam.Parameter.Value;
+    const authHeader = getHootsuiteAuthHeader();
+
+    return refreshHootsuiteToken(refreshToken, authHeader, orgId, socialId);
+};
+
 export const getHootsuiteDetails = async (
     orgId: string,
     socialId: string,
     addedBy: string,
 ): Promise<SocialMediaAccount | null> => {
     try {
-        const refreshTokenParam = await getParameter(getSsmKey(orgId, socialId), true);
-
-        if (!refreshTokenParam.Parameter?.Value) {
-            return null;
-        }
-
-        const refreshToken = refreshTokenParam.Parameter.Value;
-
-        const authHeader = getHootsuiteAuthHeader();
-        const hootsuiteAccessToken = await refreshHootsuiteToken(refreshToken, authHeader, orgId, socialId);
+        const hootsuiteAccessToken = await getAccessToken(orgId, socialId);
 
         const [hootsuiteUserDetails, hootsuiteProfiles] = await Promise.all([
             getHootsuiteUserDetails(hootsuiteAccessToken),
@@ -190,4 +206,136 @@ export const getHootsuiteAuthUrl = (ctx: NextPageContext) => {
     });
 
     return `${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${hootsuiteRedirectUri}&client_id=${hootsuiteClientId}&state=${state}`;
+};
+
+export const processHootsuiteImage = async (image: SocialMediaImage, accessToken: string) => {
+    const responseImage = await fetch(`${HOOTSUITE_URL}v1/media`, {
+        method: "POST",
+        body: JSON.stringify({
+            sizeBytes: image.size,
+            mimeType: image.mimetype,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    if (!responseImage.ok) {
+        logger.error(await responseImage.text());
+        throw new Error("Failed to request image upload to hootsuite");
+    }
+
+    const parsedImageData = hootsuiteMediaSchema.safeParse(await responseImage.json());
+
+    if (!parsedImageData.success) {
+        throw new Error("Could not parse data from hootsuite media endpoint");
+    }
+
+    const parsedImage = parsedImageData.data;
+
+    const imageContents = await getObject(process.env.IMAGE_BUCKET_NAME || "", image.key, image.originalFilename);
+
+    if (!imageContents) {
+        throw new Error("Could not read image file");
+    }
+
+    const uploadResponse = await fetch(parsedImage.uploadUrl, {
+        method: "PUT",
+        headers: {
+            "Content-Type": image.mimetype,
+        },
+        body: Buffer.from(imageContents),
+    });
+
+    if (!uploadResponse.ok) {
+        logger.error(await uploadResponse.text());
+        throw new Error("Cannot upload image to hootsuite");
+    }
+
+    for (let i = 0; i < 5; i++) {
+        const imageStatus = await fetch(`${HOOTSUITE_URL}v1/media/${parsedImage.id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!imageStatus.ok) {
+            throw new Error("Cannot retrieve media details from hootsuite");
+        }
+
+        const parsedImageState = hootsuiteMediaStatusSchema.safeParse(await imageStatus.json());
+
+        if (!parsedImageState.success) {
+            throw new Error("Could not parse data from hootsuite media by id endpoint");
+        }
+
+        const imageState = parsedImageState.data;
+
+        if (imageState.state === "READY") {
+            break;
+        } else {
+            await delay(1000);
+        }
+    }
+
+    return parsedImage;
+};
+
+export const publishToHootsuite = async (
+    socialMediaPost: HootsuitePost,
+    orgId: string,
+    isUserStaff: boolean,
+    canPublish: boolean,
+) => {
+    try {
+        const accessToken = await getAccessToken(orgId, socialMediaPost.socialAccount);
+        let image: HootsuiteMedia | null = null;
+
+        if (socialMediaPost.image) {
+            image = await processHootsuiteImage(socialMediaPost.image, accessToken);
+        }
+
+        const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
+        const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
+            method: "POST",
+            body: JSON.stringify({
+                text: socialMediaPost.messageContent,
+                scheduledSendTime: formattedDate,
+                socialProfileIds: [socialMediaPost.hootsuiteProfile],
+                ...(image ? { media: [{ id: image.id }] } : {}),
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!createSocialPostResponse.ok) {
+            logger.error(await createSocialPostResponse.text());
+            throw new Error("Failed to create social media post");
+        }
+
+        await upsertSocialMediaPost(
+            {
+                ...socialMediaPost,
+                status: SocialMediaPostStatus.successful,
+            },
+            orgId,
+            isUserStaff,
+            canPublish,
+        );
+    } catch (e) {
+        logger.error(e);
+        await upsertSocialMediaPost(
+            {
+                ...socialMediaPost,
+                status: SocialMediaPostStatus.rejected,
+            },
+            orgId,
+            isUserStaff,
+            canPublish,
+        );
+    }
 };

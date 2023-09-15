@@ -7,7 +7,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
-import { upsertSocialMediaPost } from "../../data/dynamo";
+import { getOrgSocialAccount, upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
 import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
@@ -43,6 +43,16 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             throw new Error("No image data to upload");
         }
 
+        if (!fields.socialAccount) {
+            throw new Error("No social account selected");
+        }
+
+        const socialMediaAccount = await getOrgSocialAccount(session.orgId, fields.socialAccount.toString());
+
+        if (!socialMediaAccount) {
+            throw new Error("Social media account not found");
+        }
+
         const imageFile =
             files[0] && files[0].size
                 ? {
@@ -53,7 +63,12 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                   }
                 : null;
 
-        const validatedBody = refineImageSchema.safeParse({ ...fields, ...(imageFile ? { image: imageFile } : {}) });
+        const validatedBody = refineImageSchema.safeParse({
+            ...fields,
+            ...(imageFile ? { image: imageFile } : {}),
+            display: socialMediaAccount.display,
+            accountType: socialMediaAccount.accountType,
+        });
 
         if (!validatedBody.success) {
             setCookieOnResponseObject(
@@ -82,7 +97,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             return;
         }
 
-        if (validatedBody.data.image) {
+        if (validatedBody.data.accountType === "Hootsuite" && validatedBody.data.image) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);

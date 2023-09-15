@@ -22,7 +22,7 @@ import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.sc
 import { flattenZodErrors } from "../../utils";
 import {
     cleardownCookies,
-    publishToHootsuite,
+    publishSocialMedia,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -133,7 +133,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             canPublish(session) &&
             !draftDisruption.template
         ) {
-            await publishToHootsuite(
+            await publishSocialMedia(
                 validatedDisruptionBody.data.socialMediaPosts,
                 session.orgId,
                 session.isOrgStaff,

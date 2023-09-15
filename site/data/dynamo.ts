@@ -1526,3 +1526,23 @@ export const getOrgSocialAccounts = async (orgId: string) => {
 
     return parsedSocialAccounts.data;
 };
+
+export const getOrgSocialAccount = async (orgId: string, socialId: string) => {
+    const socialAccount = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `SOCIAL#${socialId}`,
+            },
+        }),
+    );
+
+    const parsedSocialAccount = dynamoSocialAccountSchema.safeParse(socialAccount.Item);
+
+    if (!parsedSocialAccount.success) {
+        return null;
+    }
+
+    return parsedSocialAccount.data;
+};

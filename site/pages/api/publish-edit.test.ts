@@ -4,6 +4,7 @@ import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vites
 import publishEdit from "./publish-edit.api";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
+import * as hootsuite from "../../data/hootsuite";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
@@ -14,7 +15,6 @@ import {
     mockSession,
     disruptionWithConsequences,
 } from "../../testData/mockData";
-import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -54,7 +54,7 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const publishToHootsuiteSpy = vi.spyOn(apiUtils, "publishToHootsuite");
+    const publishToHootsuiteSpy = vi.spyOn(hootsuite, "publishToHootsuite");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
 
     afterEach(() => {

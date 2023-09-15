@@ -94,13 +94,18 @@ const ReviewDisruption = ({
                 header: "Image",
                 cells: [
                     {
-                        value: post.image ? (
-                            <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
-                                {post.image.originalFilename}
-                            </Link>
-                        ) : (
-                            "No image uploaded"
-                        ),
+                        value:
+                            post.accountType === "Hootsuite" && post.image ? (
+                                <Link
+                                    className="govuk-link text-govBlue"
+                                    key={post.image.key}
+                                    href={post.image?.url ?? ""}
+                                >
+                                    {post.image.originalFilename}
+                                </Link>
+                            ) : (
+                                "No image uploaded"
+                            ),
                     },
                     {
                         value: isPendingOrRejected
@@ -121,7 +126,7 @@ const ReviewDisruption = ({
                 header: "Publish date",
                 cells: [
                     {
-                        value: post.publishDate,
+                        value: post.accountType === "Hootsuite" ? post.publishDate : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -142,7 +147,7 @@ const ReviewDisruption = ({
                 header: "Publish time",
                 cells: [
                     {
-                        value: post.publishTime,
+                        value: post.accountType === "Hootsuite" ? post.publishTime : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -163,7 +168,10 @@ const ReviewDisruption = ({
                 header: "Account name",
                 cells: [
                     {
-                        value: post.socialAccount,
+                        value:
+                            post.display && post.accountType
+                                ? `${post.display} (${post.accountType})`
+                                : post.socialAccount,
                     },
                     {
                         value: isPendingOrRejected
@@ -184,7 +192,7 @@ const ReviewDisruption = ({
                 header: "HootSuite profile",
                 cells: [
                     {
-                        value: post.hootsuiteProfile,
+                        value: post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -754,7 +762,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
-                if (s.image) {
+                if (s.accountType === "Hootsuite" && s.image) {
                     const url =
                         (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
                         "";

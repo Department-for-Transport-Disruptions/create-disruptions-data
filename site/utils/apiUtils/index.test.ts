@@ -2,11 +2,12 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { HOOTSUITE_URL } from "../../constants";
 import * as dynamo from "../../data/dynamo";
+import { publishToHootsuite } from "../../data/hootsuite";
 import * as s3 from "../../data/s3";
 import { getObject } from "../../data/s3";
 import * as ssm from "../../data/ssm";
-import { DEFAULT_ORG_ID, socialMediaPostsInformation } from "../../testData/mockData";
-import { delay, publishToHootsuite } from "./";
+import { DEFAULT_ORG_ID, hootsuiteSocialMediaPosts } from "../../testData/mockData";
+import { delay } from "./";
 
 describe("publishToHootsuite", () => {
     afterEach(() => {
@@ -161,7 +162,7 @@ describe("publishToHootsuite", () => {
                 ok: true,
             });
 
-        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID, false, true);
+        await publishToHootsuite(hootsuiteSocialMediaPosts[1], DEFAULT_ORG_ID, false, true);
         await delay(500);
         expect(ssm.getParametersByPath).toBeCalledWith(`/social/${DEFAULT_ORG_ID}/hootsuite`);
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_id");
@@ -243,9 +244,9 @@ describe("publishToHootsuite", () => {
         expect(fetch).toHaveBeenNthCalledWith(6, `${HOOTSUITE_URL}v1/messages`, {
             method: "POST",
             body: JSON.stringify({
-                text: socialMediaPostsInformation[1].messageContent,
+                text: hootsuiteSocialMediaPosts[1].messageContent,
                 scheduledSendTime: "2023-06-20T19:05:00.000Z",
-                socialProfileIds: [socialMediaPostsInformation[1].hootsuiteProfile],
+                socialProfileIds: [hootsuiteSocialMediaPosts[1].hootsuiteProfile],
                 media: [{ id: "1" }],
             }),
             headers: {
@@ -255,7 +256,7 @@ describe("publishToHootsuite", () => {
         });
         expect(dynamo.upsertSocialMediaPost).toHaveBeenCalledWith(
             {
-                ...socialMediaPostsInformation[1],
+                ...hootsuiteSocialMediaPosts[1],
                 status: SocialMediaPostStatus.successful,
             },
             DEFAULT_ORG_ID,
@@ -358,7 +359,7 @@ describe("publishToHootsuite", () => {
                 ok: false,
             });
 
-        await publishToHootsuite(socialMediaPostsInformation, DEFAULT_ORG_ID, false, true);
+        await publishToHootsuite(hootsuiteSocialMediaPosts[0], DEFAULT_ORG_ID, false, true);
         await delay(500);
         expect(ssm.getParametersByPath).toBeCalledWith(`/social/${DEFAULT_ORG_ID}/hootsuite`);
         expect(ssm.getParameter).toBeCalledWith("/social/hootsuite/client_id");
@@ -418,7 +419,7 @@ describe("publishToHootsuite", () => {
         });
         expect(dynamo.upsertSocialMediaPost).toHaveBeenCalledWith(
             {
-                ...socialMediaPostsInformation[1],
+                ...hootsuiteSocialMediaPosts[1],
                 status: SocialMediaPostStatus.rejected,
             },
             DEFAULT_ORG_ID,

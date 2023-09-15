@@ -1,4 +1,4 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_REVIEW_DISRUPTION_ERRORS,
@@ -16,7 +16,7 @@ import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.sc
 import { flattenZodErrors } from "../../utils";
 import {
     cleardownCookies,
-    publishToHootsuite,
+    publishSocialMedia,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -91,8 +91,10 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             canPublish(session) &&
             !draftDisruption.template
         ) {
-            await publishToHootsuite(
-                validatedDisruptionBody.data.socialMediaPosts,
+            await publishSocialMedia(
+                validatedDisruptionBody.data.socialMediaPosts.filter(
+                    (post) => post.status === SocialMediaPostStatus.pending,
+                ),
                 session.orgId,
                 session.isOrgStaff,
                 canPublish(session),

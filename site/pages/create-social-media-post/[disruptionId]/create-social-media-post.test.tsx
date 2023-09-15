@@ -20,6 +20,7 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     socialAccount: "13958638",
     socialMediaPostIndex: 0,
     status: SocialMediaPostStatus.successful,
+    accountType: "Hootsuite",
 };
 
 describe("pages", () => {
@@ -43,11 +44,22 @@ describe("pages", () => {
                         socialAccounts={[
                             {
                                 display: "testemail@gmail.com",
-                                socialMediaProfiles: [
-                                    { display: "TWITTER/138196022", value: "138196022" },
-                                    { display: "FACEBOOK/138196178", value: "138196178" },
+                                accountType: "Hootsuite",
+                                hootsuiteProfiles: [
+                                    {
+                                        id: "138196022",
+                                        socialNetworkId: "138196022",
+                                        type: "TWITTER",
+                                    },
+                                    {
+                                        id: "138196178",
+                                        socialNetworkId: "138196178",
+                                        type: "FACEBOOK",
+                                    },
                                 ],
-                                value: "25858639",
+                                addedBy: "Test User",
+                                expiresIn: "Never",
+                                id: "138196022",
                             },
                         ]}
                     />,

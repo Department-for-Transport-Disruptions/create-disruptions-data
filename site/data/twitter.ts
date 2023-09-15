@@ -1,16 +1,18 @@
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import { setCookie } from "nookies";
 import { TwitterApi, UserV2Result } from "twitter-api-v2";
-import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
+import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getParameter, putParameter } from "./ssm";
 import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE } from "../constants";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
+import { TwitterPost } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
 const [twitterClientIdParam, twitterClientSecretParam] = await Promise.all([
-    getParameter(`/social/twitter/client_id`),
-    getParameter(`/social/twitter/client_secret`),
+    getParameter("/social/twitter/client_id"),
+    getParameter("/social/twitter/client_secret"),
 ]);
 
 const twitterClientId = twitterClientIdParam.Parameter?.Value ?? "";
@@ -20,13 +22,13 @@ export const twitterRedirectUri = `${process.env.DOMAIN_NAME as string}/api/twit
 
 const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/twitter/${id}/refresh_token`;
 
-const twitterClient = new TwitterApi({
+const twitterClientV2 = new TwitterApi({
     clientId: twitterClientId,
     clientSecret: twitterClientSecret,
 });
 
 export const addTwitterAccount = async (code: string, codeVerifier: string, orgId: string, addedBy: string) => {
-    const { refreshToken, client } = await twitterClient.loginWithOAuth2({
+    const { refreshToken, client } = await twitterClientV2.loginWithOAuth2({
         code: code.toString(),
         codeVerifier,
         redirectUri: twitterRedirectUri,
@@ -52,7 +54,7 @@ export const addTwitterAccount = async (code: string, codeVerifier: string, orgI
 
 export const refreshTwitterToken = async (refreshToken: string, orgId: string, socialId: string) => {
     try {
-        const { refreshToken: newRefreshToken, client: authedClient } = await twitterClient.refreshOAuth2Token(
+        const { refreshToken: newRefreshToken, client: authedClient } = await twitterClientV2.refreshOAuth2Token(
             refreshToken,
         );
 
@@ -69,7 +71,7 @@ export const refreshTwitterToken = async (refreshToken: string, orgId: string, s
 };
 
 export const getTwitterAuthUrl = (ctx: NextPageContext) => {
-    const { url, state, codeVerifier } = twitterClient.generateOAuth2AuthLink(twitterRedirectUri, {
+    const { url, state, codeVerifier } = twitterClientV2.generateOAuth2AuthLink(twitterRedirectUri, {
         scope: ["tweet.write", "offline.access", "tweet.read", "users.read"],
     });
 
@@ -101,16 +103,40 @@ export const getAuthedTwitterClient = async (orgId: string, socialId: string) =>
     }
 };
 
-export const sendTweet = async (orgId: string, socialId: string, text: string) => {
-    const authedClient = await getAuthedTwitterClient(orgId, socialId);
+export const sendTweet = async (orgId: string, post: TwitterPost, isUserStaff: boolean, canPublish: boolean) => {
+    try {
+        const authedClient = await getAuthedTwitterClient(orgId, post.socialAccount);
 
-    if (!authedClient) {
-        throw new Error("Not authenticated to twitter");
+        if (!authedClient) {
+            throw new Error("Not authenticated to twitter");
+        }
+
+        await Promise.all([
+            authedClient.v2.tweet({
+                text: post.messageContent,
+            }),
+            upsertSocialMediaPost(
+                {
+                    ...post,
+                    status: SocialMediaPostStatus.successful,
+                },
+                orgId,
+                isUserStaff,
+                canPublish,
+            ),
+        ]);
+    } catch (e) {
+        logger.error(e);
+        await upsertSocialMediaPost(
+            {
+                ...post,
+                status: SocialMediaPostStatus.rejected,
+            },
+            orgId,
+            isUserStaff,
+            canPublish,
+        );
     }
-
-    await authedClient.v2.tweet({
-        text,
-    });
 };
 
 export type TwitterDetails = {

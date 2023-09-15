@@ -42,13 +42,15 @@ export const hootsuiteMediaSchema = z
     })
     .transform((res) => res.data);
 
+export type HootsuiteMedia = z.infer<typeof hootsuiteMediaSchema>;
+
 export const hootsuiteMediaStatusSchema = z
     .object({
         data: z.object({
             id: z.string(),
             state: z.string(),
-            downloadUrl: z.string(),
-            downloadUrlDurationSeconds: z.number(),
+            downloadUrl: z.string().or(z.null()),
+            downloadUrlDurationSeconds: z.number().or(z.null()),
         }),
     })
     .transform((res) => res.data);
