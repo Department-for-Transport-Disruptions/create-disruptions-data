@@ -140,7 +140,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   res,
                   template ? ["template"] : [],
                   `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`,
-                  isFromTemplate && !template ? ["template=true"] : [],
+                  isFromTemplate ? [`${isFromTemplate}`] : [],
               );
 
         return;
