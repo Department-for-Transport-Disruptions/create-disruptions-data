@@ -144,8 +144,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         socialMediaDetails.push(...twitterDetails);
     }
 
-    const hootsuiteAuthUrl = getHootsuiteAuthUrl(ctx);
-    const twitterAuthUrl = getTwitterAuthUrl(ctx);
+    const hootsuiteAuthUrl = await getHootsuiteAuthUrl(ctx);
+    const twitterAuthUrl = await getTwitterAuthUrl(ctx);
 
     return {
         props: {

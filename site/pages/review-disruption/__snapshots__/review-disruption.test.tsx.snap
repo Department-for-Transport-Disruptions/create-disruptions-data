@@ -1624,6 +1624,238 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                 </button>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Social media post 3
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test twitter 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Remove post
+                </button>
+              </div>
+            </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
@@ -3455,6 +3687,238 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                 </button>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Social media post 3
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test twitter 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Remove post
+                </button>
+              </div>
+            </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
@@ -5242,6 +5706,238 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Remove post
+                </button>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Social media post 3
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test twitter 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "

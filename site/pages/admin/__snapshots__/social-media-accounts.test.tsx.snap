@@ -101,14 +101,24 @@ exports[`socialMediaAccounts > should render correctly when there are no inputs 
         />
       </table>
       <a
-        className="govuk-button mt-8"
+        className="govuk-button mt-8 mr-4"
         data-module="govuk-button"
-        href="https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=6ab8fd00-4b2d-42a7-beef-8558da21c82d&state=6ab8fd00-4b2d-42a7-beef-8558da21c82d"
+        href="https://hootsuite-test-auth.com"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
       >
-        Connect hootsuite
+        Connect Hootsuite
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://twitter-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Twitter
       </a>
     </main>
     <div>
@@ -476,14 +486,24 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
         </tbody>
       </table>
       <a
-        className="govuk-button mt-8"
+        className="govuk-button mt-8 mr-4"
         data-module="govuk-button"
-        href="https://platform.hootsuite.com/oauth2/auth?response_type=code&scope=offline&redirect_uri=http://localhost:3000/api/hootsuite-callback&client_id=6ab8fd00-4b2d-42a7-beef-8558da21c82d&state=6ab8fd00-4b2d-42a7-beef-8558da21c82d"
+        href="https://hootsuite-test-auth.com"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
       >
-        Connect hootsuite
+        Connect Hootsuite
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://twitter-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Twitter
       </a>
     </main>
     <div>

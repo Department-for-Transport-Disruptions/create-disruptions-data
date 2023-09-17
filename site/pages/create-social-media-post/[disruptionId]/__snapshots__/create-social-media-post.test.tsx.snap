@@ -58,6 +58,90 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             Social media message
           </h1>
           <div
+            className="govuk-form-group govuk-!-padding-top-3"
+          >
+            <h2
+              className="govuk-heading-l"
+            >
+              Select social media account
+            </h2>
+            <div
+              className="govuk-form-group"
+            >
+              <div
+                className="govuk-form-group"
+                id="social-account"
+              >
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="social-account-input"
+                />
+                <div
+                  className=""
+                >
+                  <select
+                    className="govuk-select w-3/4"
+                    defaultValue="13958638"
+                    id="social-account-input"
+                    name="socialAccount"
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      value=""
+                    >
+                      Social account
+                    </option>
+                    <option
+                      value="138196022"
+                    >
+                      testemail@gmail.com (Hootsuite)
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div
+              className="govuk-form-group"
+            >
+              <div
+                className="govuk-form-group"
+                id="hootsuite-profile"
+              >
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="hootsuite-profile-input"
+                />
+                <div
+                  className="govuk-hint"
+                  id="hootsuite-profile-hint"
+                >
+                  Select Hootsuite profile
+                </div>
+                <div
+                  className=""
+                >
+                  <select
+                    aria-describedby="hootsuiteProfile-hint"
+                    className="govuk-select w-3/4"
+                    defaultValue="127196025"
+                    disabled={false}
+                    id="hootsuite-profile-input"
+                    name="hootsuiteProfile"
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      value=""
+                    >
+                      Social account
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             className="govuk-form-group"
           >
             <div
@@ -115,6 +199,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 <input
                   accept="image/png, image/jpeg, image/jpg"
                   className="govuk-file-upload"
+                  disabled={false}
                   id="image"
                   name="image"
                   type="file"
@@ -255,89 +340,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       type="text"
                     />
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group govuk-!-padding-top-3"
-          >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="social-account"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
-                />
-                <div
-                  className=""
-                >
-                  <select
-                    className="govuk-select w-3/4"
-                    defaultValue="13958638"
-                    id="social-account-input"
-                    name="socialAccount"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                    <option
-                      value="25858639"
-                    >
-                      testemail@gmail.com
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="hootsuite-profile"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="hootsuite-profile-input"
-                />
-                <div
-                  className="govuk-hint"
-                  id="hootsuite-profile-hint"
-                >
-                  Select Hootsuite profile
-                </div>
-                <div
-                  className=""
-                >
-                  <select
-                    aria-describedby="hootsuiteProfile-hint"
-                    className="govuk-select w-3/4"
-                    defaultValue="127196025"
-                    id="hootsuite-profile-input"
-                    name="hootsuiteProfile"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -609,6 +611,85 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             Social media message
           </h1>
           <div
+            className="govuk-form-group govuk-!-padding-top-3"
+          >
+            <h2
+              className="govuk-heading-l"
+            >
+              Select social media account
+            </h2>
+            <div
+              className="govuk-form-group"
+            >
+              <div
+                className="govuk-form-group"
+                id="social-account"
+              >
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="social-account-input"
+                />
+                <div
+                  className=""
+                >
+                  <select
+                    className="govuk-select w-3/4"
+                    defaultValue=""
+                    id="social-account-input"
+                    name="socialAccount"
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      value=""
+                    >
+                      Social account
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div
+              className="govuk-form-group"
+            >
+              <div
+                className="govuk-form-group"
+                id="hootsuite-profile"
+              >
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="hootsuite-profile-input"
+                />
+                <div
+                  className="govuk-hint"
+                  id="hootsuite-profile-hint"
+                >
+                  Select Hootsuite profile
+                </div>
+                <div
+                  className=""
+                >
+                  <select
+                    aria-describedby="hootsuiteProfile-hint"
+                    className="govuk-select w-3/4"
+                    defaultValue=""
+                    disabled={false}
+                    id="hootsuite-profile-input"
+                    name="hootsuiteProfile"
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      value=""
+                    >
+                      Social account
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             className="govuk-form-group"
           >
             <div
@@ -676,6 +757,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 <input
                   accept="image/png, image/jpeg, image/jpg"
                   className="govuk-file-upload"
+                  disabled={false}
                   id="image"
                   name="image"
                   type="file"
@@ -818,84 +900,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                       type="text"
                     />
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group govuk-!-padding-top-3"
-          >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="social-account"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
-                />
-                <div
-                  className=""
-                >
-                  <select
-                    className="govuk-select w-3/4"
-                    defaultValue=""
-                    id="social-account-input"
-                    name="socialAccount"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="hootsuite-profile"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="hootsuite-profile-input"
-                />
-                <div
-                  className="govuk-hint"
-                  id="hootsuite-profile-hint"
-                >
-                  Select Hootsuite profile
-                </div>
-                <div
-                  className=""
-                >
-                  <select
-                    aria-describedby="hootsuiteProfile-hint"
-                    className="govuk-select w-3/4"
-                    defaultValue=""
-                    id="hootsuite-profile-input"
-                    name="hootsuiteProfile"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                  </select>
                 </div>
               </div>
             </div>

@@ -15,18 +15,18 @@ interface RemoveHootsuiteConnectionApiRequest extends NextApiRequest {
 const removeHootsuiteConnection = async (req: RemoveHootsuiteConnectionApiRequest, res: NextApiResponse) => {
     try {
         const { profileId, type } = req.body;
+        const session = getSession(req);
+
+        if (!session || !session.isOrgAdmin) {
+            throw new Error("Not authorised");
+        }
+
         if (!profileId || !type) {
             throw new Error("Profile id and type must be provided");
         }
 
         if (type !== "Twitter" && type !== "Hootsuite") {
             throw new Error("Invalid type");
-        }
-
-        const session = getSession(req);
-
-        if (!session || !session.isOrgAdmin) {
-            throw new Error("Session data not found");
         }
 
         const key = `/social/${session.orgId}/${type.toLowerCase()}/${profileId}/refresh_token`;

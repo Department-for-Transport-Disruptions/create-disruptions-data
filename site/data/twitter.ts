@@ -10,25 +10,37 @@ import { TwitterPost } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
-const [twitterClientIdParam, twitterClientSecretParam] = await Promise.all([
-    getParameter("/social/twitter/client_id"),
-    getParameter("/social/twitter/client_secret"),
-]);
+let twitterClientV2: TwitterApi | null = null;
 
-const twitterClientId = twitterClientIdParam.Parameter?.Value ?? "";
-const twitterClientSecret = twitterClientSecretParam.Parameter?.Value ?? "";
+const getTwitterClient = async () => {
+    if (twitterClientV2) {
+        return twitterClientV2;
+    }
+
+    const [twitterClientIdParam, twitterClientSecretParam] = await Promise.all([
+        getParameter("/social/twitter/client_id"),
+        getParameter("/social/twitter/client_secret"),
+    ]);
+
+    const twitterClientId = twitterClientIdParam.Parameter?.Value ?? "";
+    const twitterClientSecret = twitterClientSecretParam.Parameter?.Value ?? "";
+
+    twitterClientV2 = new TwitterApi({
+        clientId: twitterClientId,
+        clientSecret: twitterClientSecret,
+    });
+
+    return twitterClientV2;
+};
 
 export const twitterRedirectUri = `${process.env.DOMAIN_NAME as string}/api/twitter-callback`;
 
 const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/twitter/${id}/refresh_token`;
 
-const twitterClientV2 = new TwitterApi({
-    clientId: twitterClientId,
-    clientSecret: twitterClientSecret,
-});
-
 export const addTwitterAccount = async (code: string, codeVerifier: string, orgId: string, addedBy: string) => {
-    const { refreshToken, client } = await twitterClientV2.loginWithOAuth2({
+    const twitterClient = await getTwitterClient();
+
+    const { refreshToken, client } = await twitterClient.loginWithOAuth2({
         code: code.toString(),
         codeVerifier,
         redirectUri: twitterRedirectUri,
@@ -54,7 +66,9 @@ export const addTwitterAccount = async (code: string, codeVerifier: string, orgI
 
 export const refreshTwitterToken = async (refreshToken: string, orgId: string, socialId: string) => {
     try {
-        const { refreshToken: newRefreshToken, client: authedClient } = await twitterClientV2.refreshOAuth2Token(
+        const twitterClient = await getTwitterClient();
+
+        const { refreshToken: newRefreshToken, client: authedClient } = await twitterClient.refreshOAuth2Token(
             refreshToken,
         );
 
@@ -70,8 +84,10 @@ export const refreshTwitterToken = async (refreshToken: string, orgId: string, s
     }
 };
 
-export const getTwitterAuthUrl = (ctx: NextPageContext) => {
-    const { url, state, codeVerifier } = twitterClientV2.generateOAuth2AuthLink(twitterRedirectUri, {
+export const getTwitterAuthUrl = async (ctx: NextPageContext) => {
+    const twitterClient = await getTwitterClient();
+
+    const { url, state, codeVerifier } = twitterClient.generateOAuth2AuthLink(twitterRedirectUri, {
         scope: ["tweet.write", "offline.access", "tweet.read", "users.read"],
     });
 

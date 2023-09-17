@@ -1,10 +1,9 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publish from "./publish.api";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
-import * as hootsuite from "../../data/hootsuite";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
@@ -14,6 +13,8 @@ import {
     DEFAULT_ORG_ID,
     disruptionWithConsequences,
 } from "../../testData/mockData";
+import * as apiUtils from "../../utils/apiUtils";
+
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const orgInfo: Organisation = {
@@ -45,7 +46,7 @@ describe("publish", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const publishToHootsuiteSpy = vi.spyOn(hootsuite, "publishToHootsuite");
+    const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
 
     beforeEach(() => {
@@ -92,12 +93,14 @@ describe("publish", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        publishToHootsuiteSpy.mockResolvedValue();
+        publishSocialMediaSpy.mockResolvedValue();
 
         await publish(req, res);
 
-        expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
+        expect(publishSocialMediaSpy).toHaveBeenCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts?.filter(
+                (post) => post.status === SocialMediaPostStatus.pending,
+            ),
             DEFAULT_ORG_ID,
             false,
             true,

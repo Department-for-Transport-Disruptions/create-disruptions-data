@@ -1,10 +1,9 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import * as hootsuite from "../../data/hootsuite";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
@@ -15,6 +14,7 @@ import {
     mockSession,
     disruptionWithConsequences,
 } from "../../testData/mockData";
+import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -54,7 +54,7 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const publishToHootsuiteSpy = vi.spyOn(hootsuite, "publishToHootsuite");
+    const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
 
     afterEach(() => {
@@ -111,12 +111,14 @@ describe("publishEdit", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        publishToHootsuiteSpy.mockResolvedValue();
+        publishSocialMediaSpy.mockResolvedValue();
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
+        expect(publishSocialMediaSpy).toHaveBeenCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts?.filter(
+                (post) => post.status === SocialMediaPostStatus.pending,
+            ),
             DEFAULT_ORG_ID,
             false,
             true,
@@ -150,7 +152,7 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(publishSocialMediaSpy).not.toHaveBeenCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
@@ -180,7 +182,7 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(publishSocialMediaSpy).not.toHaveBeenCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);

@@ -1,4 +1,4 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
@@ -134,7 +134,9 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             !draftDisruption.template
         ) {
             await publishSocialMedia(
-                validatedDisruptionBody.data.socialMediaPosts,
+                validatedDisruptionBody.data.socialMediaPosts.filter(
+                    (post) => post.status === SocialMediaPostStatus.pending,
+                ),
                 session.orgId,
                 session.isOrgStaff,
                 canPublish(session),

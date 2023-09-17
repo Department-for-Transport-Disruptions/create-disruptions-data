@@ -34,10 +34,6 @@ const nextConfig = {
         MAP_BOX_ACCESS_TOKEN: process.env.MAP_BOX_ACCESS_TOKEN,
         DOMAIN_NAME: process.env.DOMAIN_NAME,
     },
-    webpack(config) {
-        config.experiments = { ...config.experiments, topLevelAwait: true };
-        return config;
-    },
     headers() {
         return [
             {
