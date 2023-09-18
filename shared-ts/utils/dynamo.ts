@@ -141,7 +141,7 @@ export const getAllOrganisationsInfo = async (): Promise<OrganisationsWithStats 
 
         const organisationsData = parsedOrgInfo.data.map((org) => ({
             ...org,
-            ...parsedOrgStat.data.find((orgStats: Organisation | Statistic) => orgStats.PK === org.PK),
+            ...(parsedOrgStat.data.find((orgStats: Organisation | Statistic) => orgStats.PK === org.PK) || {}),
         })) as OrganisationsWithStats;
 
         return organisationsData;
