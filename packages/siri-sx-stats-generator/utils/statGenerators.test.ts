@@ -78,7 +78,7 @@ const mockDisruption = {
     template: false,
 };
 
-describe("generateReasonCountStats", () => {
+describe("generateDisruptionReasonCount", () => {
     it("increases the reason count by one for the relevant disruption reason", () => {
         expect(generateDisruptionReasonCount(mockDisruptionReason, mockDisruptionReasonCountStat)).toEqual({
             roadworks: 1,

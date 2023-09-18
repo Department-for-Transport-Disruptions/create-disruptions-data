@@ -105,54 +105,6 @@ export const generateConsequenceStats = (key: string, disruption: Disruption) =>
     return null;
 };
 
-export const generateReasonCountStats = (disruptionReason: string, currentStat: DisruptionReasonCount) => {
-    return {
-        accident: disruptionReason === "accident" ? currentStat.accident + 1 : currentStat.accident,
-        breakDown: disruptionReason === "breakDown" ? currentStat.breakDown + 1 : currentStat.breakDown,
-        congestion: disruptionReason === "congestion" ? currentStat.congestion + 1 : currentStat.congestion,
-        constructionWork:
-            disruptionReason === "constructionWork" ? currentStat.constructionWork + 1 : currentStat.constructionWork,
-        emergencyEngineeringWork:
-            disruptionReason === "emergencyEngineeringWork"
-                ? currentStat.emergencyEngineeringWork + 1
-                : currentStat.emergencyEngineeringWork,
-        fog: disruptionReason === "fog" ? currentStat.fog + 1 : currentStat.fog,
-        flooding: disruptionReason === "flooding" ? currentStat.flooding + 1 : currentStat.flooding,
-        heavySnowFall: disruptionReason === "heavySnowFall" ? currentStat.heavySnowFall + 1 : currentStat.heavySnowFall,
-        highTemperatures:
-            disruptionReason === "highTemperatures" ? currentStat.highTemperatures + 1 : currentStat.highTemperatures,
-        heavyRain: disruptionReason === "heavyRain" ? currentStat.heavyRain + 1 : currentStat.heavyRain,
-        ice: disruptionReason === "ice" ? currentStat.ice + 1 : currentStat.ice,
-        incident: disruptionReason === "incident" ? currentStat.incident + 1 : currentStat.incident,
-        securityAlert: disruptionReason === "securityAlert" ? currentStat.securityAlert + 1 : currentStat.securityAlert,
-        maintenanceWork:
-            disruptionReason === "maintenanceWork" ? currentStat.maintenanceWork + 1 : currentStat.maintenanceWork,
-        operatorCeasedTrading:
-            disruptionReason === "operatorCeasedTrading"
-                ? currentStat.operatorCeasedTrading + 1
-                : currentStat.operatorCeasedTrading,
-        overcrowded: disruptionReason === "overcrowded" ? currentStat.overcrowded + 1 : currentStat.overcrowded,
-        signalProblem: disruptionReason === "signalProblem" ? currentStat.signalProblem + 1 : currentStat.signalProblem,
-        roadClosed: disruptionReason === "roadClosed" ? currentStat.roadClosed + 1 : currentStat.roadClosed,
-        roadworks: disruptionReason === "roadworks" ? currentStat.roadworks + 1 : currentStat.roadworks,
-        routeDiversion:
-            disruptionReason === "routeDiversion" ? currentStat.routeDiversion + 1 : currentStat.routeDiversion,
-        specialEvent: disruptionReason === "specialEvent" ? currentStat.specialEvent + 1 : currentStat.specialEvent,
-        industrialAction:
-            disruptionReason === "industrialAction" ? currentStat.industrialAction + 1 : currentStat.industrialAction,
-        signalFailure: disruptionReason === "signalFailure" ? currentStat.signalFailure + 1 : currentStat.signalFailure,
-        repairWork: disruptionReason === "repairWork" ? currentStat.repairWork + 1 : currentStat.repairWork,
-        vandalism: disruptionReason === "vandalism" ? currentStat.vandalism + 1 : currentStat.vandalism,
-        unknown: disruptionReason === "unknown" ? currentStat.unknown + 1 : currentStat.unknown,
-        escalatorFailure:
-            disruptionReason === "escalatorFailure" ? currentStat.escalatorFailure + 1 : currentStat.escalatorFailure,
-        insufficientDemand:
-            disruptionReason === "insufficientDemand"
-                ? currentStat.insufficientDemand + 1
-                : currentStat.insufficientDemand,
-    };
-};
-
 export const generateDisruptionReasonCount = (
     currentDisruptionReason: string,
     disruptionReasonCountObject: Record<string, number>,
