@@ -1,6 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
-import { setCookie } from "nookies";
 import { randomUUID } from "crypto";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getObject } from "./s3";

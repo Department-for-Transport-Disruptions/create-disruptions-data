@@ -916,6 +916,7 @@ export const getDisruptionById = async (
     });
 
     if (!parsedDisruption.success) {
+        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
     }

@@ -1,6 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
-import { setCookie } from "nookies";
 import { TwitterApi, UserV2Result } from "twitter-api-v2";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getParameter, putParameter } from "./ssm";
@@ -8,8 +7,8 @@ import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE } from "../constan
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
-import logger from "../utils/logger";
 import { setCookieOnResponseObject } from "../utils/apiUtils";
+import logger from "../utils/logger";
 
 let twitterClientV2: TwitterApi | null = null;
 
