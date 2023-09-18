@@ -1,17 +1,16 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import * as logger from "lambda-log";
+import { Disruption } from "../disruptionTypes";
+import { disruptionSchema } from "../disruptionTypes.zod";
+import { PublishStatus } from "../enums";
 import {
     Organisations,
-    Organisation,
     OrganisationsWithStats,
     Statistic,
     organisationsSchema,
     statistics,
-} from "../../site/schemas/organisation.schema";
-import { Disruption } from "../disruptionTypes";
-import { disruptionSchema } from "../disruptionTypes.zod";
-import { PublishStatus } from "../enums";
+} from "../organisationTypes";
 import { notEmpty } from "./index";
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
@@ -140,7 +139,7 @@ export const getAllOrganisationsInfo = async (): Promise<OrganisationsWithStats 
 
         const organisationsData = parsedOrgInfo.data.map((org) => ({
             ...org,
-            ...(parsedOrgStat.data.find((orgStats: Organisation | Statistic) => orgStats.PK === org.PK) || {}),
+            ...(parsedOrgStat.data.find((orgStats: Organisations[0] | Statistic) => orgStats.PK === org.PK) || {}),
         })) as OrganisationsWithStats;
 
         return organisationsData;
