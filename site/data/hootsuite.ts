@@ -17,7 +17,7 @@ import {
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { HootsuitePost, SocialMediaImage } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
-import { delay } from "../utils/apiUtils";
+import { delay, setCookieOnResponseObject } from "../utils/apiUtils";
 import { formatDate } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -219,10 +219,9 @@ export const getHootsuiteAuthUrl = async (ctx: NextPageContext) => {
     const state = randomUUID();
     const { hootsuiteClientId } = await getHootsuiteClientIdAndSecret();
 
-    setCookie(ctx, COOKIES_HOOTSUITE_STATE, state, {
-        sameSite: "lax",
-        path: "/",
-    });
+    if (ctx.res) {
+        setCookieOnResponseObject(COOKIES_HOOTSUITE_STATE, state, ctx.res);
+    }
 
     return `${HOOTSUITE_URL}oauth2/auth?response_type=code&scope=offline&redirect_uri=${hootsuiteRedirectUri}&client_id=${hootsuiteClientId}&state=${state}`;
 };

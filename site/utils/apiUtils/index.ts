@@ -25,12 +25,13 @@ export const setCookieOnResponseObject = (
     res: NextApiResponse | ServerResponse<IncomingMessage>,
     lifetime?: number,
     httpOnly = true,
+    sameSite: "lax" | "strict" | "none" = "lax",
 ): void => {
     // From docs: All cookies are httponly by default, and cookies sent over SSL are secure by
     // default. An error will be thrown if you try to send secure cookies over an insecure socket.
     setCookie({ res }, cookieName, cookieValue, {
         path: "/",
-        sameSite: "lax",
+        sameSite,
         secure: process.env.NODE_ENV !== "development",
         maxAge: lifetime,
         httpOnly,

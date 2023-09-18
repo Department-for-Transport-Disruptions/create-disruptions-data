@@ -9,6 +9,7 @@ import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
 import logger from "../utils/logger";
+import { setCookieOnResponseObject } from "../utils/apiUtils";
 
 let twitterClientV2: TwitterApi | null = null;
 
@@ -91,14 +92,10 @@ export const getTwitterAuthUrl = async (ctx: NextPageContext) => {
         scope: ["tweet.write", "offline.access", "tweet.read", "users.read"],
     });
 
-    setCookie(ctx, COOKIES_TWITTER_CODE_VERIFIER, codeVerifier, {
-        sameSite: "lax",
-        path: "/",
-    });
-    setCookie(ctx, COOKIES_TWITTER_STATE, state, {
-        sameSite: "lax",
-        path: "/",
-    });
+    if (ctx.res) {
+        setCookieOnResponseObject(COOKIES_TWITTER_CODE_VERIFIER, codeVerifier, ctx.res);
+        setCookieOnResponseObject(COOKIES_TWITTER_STATE, state, ctx.res);
+    }
 
     return url;
 };
