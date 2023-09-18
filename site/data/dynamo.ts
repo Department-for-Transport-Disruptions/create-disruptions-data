@@ -31,6 +31,37 @@ const getTableName = (isTemplate: boolean) => {
     return isTemplate ? templateDisruptionsTableName : disruptionsTableName;
 };
 
+export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
+    logger.info(`Getting all organisations from DynamoDB table...`);
+    try {
+        const dbData = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: organisationsTableName,
+                FilterExpression: "SK = :info",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                },
+            }),
+        );
+
+        const parsedOrg = organisationsSchema.safeParse(dbData.Items);
+
+        if (!parsedOrg.success) {
+            return null;
+        }
+
+        return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
@@ -271,28 +302,6 @@ export const getOrganisationInfoById = async (orgId: string): Promise<Organisati
     );
 
     const parsedOrg = organisationSchema.safeParse(dbData.Item);
-
-    if (!parsedOrg.success) {
-        return null;
-    }
-
-    return parsedOrg.data;
-};
-
-export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
-    logger.info(`Getting all organisations from DynamoDB table...`);
-
-    const dbData = await ddbDocClient.send(
-        new ScanCommand({
-            TableName: organisationsTableName,
-            FilterExpression: "SK = :info",
-            ExpressionAttributeValues: {
-                ":info": "INFO",
-            },
-        }),
-    );
-
-    const parsedOrg = organisationsSchema.safeParse(dbData.Items);
 
     if (!parsedOrg.success) {
         return null;
