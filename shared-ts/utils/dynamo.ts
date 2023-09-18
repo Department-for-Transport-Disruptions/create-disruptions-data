@@ -1,10 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import * as logger from "lambda-log";
-import { Organisations, organisationsSchema } from "../../site/schemas/organisation.schema";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
+import { Organisations, organisationsSchema } from "../organisationTypes";
 import { notEmpty } from "./index";
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
