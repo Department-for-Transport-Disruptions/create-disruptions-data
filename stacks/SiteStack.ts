@@ -76,8 +76,6 @@ export function SiteStack({ stack }: StackContext) {
             DOMAIN_NAME: `${isSandbox(stack.stage) ? "http://" : "https://"}${
                 isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
             }`,
-            TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID || "",
-            TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET || "",
         },
         customDomain: {
             domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
