@@ -134,24 +134,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
-    const hootsuiteDetails = await getHootsuiteAccountList(session.orgId);
-
-    const socialMediaDetails = [...hootsuiteDetails];
-
-    const twitterDetails = await getTwitterAccountList(session.orgId);
-
-    if (twitterDetails) {
-        socialMediaDetails.push(...twitterDetails);
-    }
-
-    const hootsuiteAuthUrl = await getHootsuiteAuthUrl(ctx);
-    const twitterAuthUrl = await getTwitterAuthUrl(ctx);
+    const [hootsuiteAccountList, twitterAccountList, hootsuiteAuthUrl, twitterAuthUrl] = await Promise.all([
+        getHootsuiteAccountList(session.orgId),
+        getTwitterAccountList(session.orgId),
+        getHootsuiteAuthUrl(ctx),
+        getTwitterAuthUrl(ctx),
+    ]);
 
     return {
         props: {
-            socialMediaDetails,
-            hootsuiteAuthUrl: hootsuiteAuthUrl,
-            twitterAuthUrl: twitterAuthUrl,
+            socialMediaDetails: [...hootsuiteAccountList, ...twitterAccountList],
+            hootsuiteAuthUrl,
+            twitterAuthUrl,
         },
     };
 };
