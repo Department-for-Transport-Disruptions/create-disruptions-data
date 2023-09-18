@@ -27,37 +27,6 @@ export interface SiriStats {
     disruptionReasonCount: Record<string, number>;
 }
 
-export interface DisruptionReasonCount {
-    accident: number;
-    breakDown: number;
-    congestion: number;
-    constructionWork: number;
-    emergencyEngineeringWork: number;
-    fog: number;
-    flooding: number;
-    heavySnowFall: number;
-    highTemperatures: number;
-    heavyRain: number;
-    ice: number;
-    incident: number;
-    securityAlert: number;
-    maintenanceWork: number;
-    operatorCeasedTrading: number;
-    overcrowded: number;
-    signalProblem: number;
-    roadClosed: number;
-    roadworks: number;
-    routeDiversion: number;
-    specialEvent: number;
-    industrialAction: number;
-    signalFailure: number;
-    repairWork: number;
-    vandalism: number;
-    unknown: number;
-    escalatorFailure: number;
-    insufficientDemand: number;
-}
-
 export const initialConsequenceStatsValues = {
     totalConsequencesCount: 0,
     servicesConsequencesCount: 0,
