@@ -1,7 +1,15 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import * as logger from "lambda-log";
-import { Organisations, organisationsSchema } from "../../site/schemas/organisation.schema";
+import {
+    Organisations,
+    Organisation,
+    OrganisationsWithStats,
+    Statistic,
+    organisationsSchema,
+    organisationsSchemaWithStats,
+    statistics,
+} from "../../site/schemas/organisation.schema";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
@@ -85,6 +93,58 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
         }
 
         return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getAllOrganisationsInfo = async (): Promise<OrganisationsWithStats | null> => {
+    logger.info(`Getting all organisations from DynamoDB table...`);
+    try {
+        const dbDataInfo = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: organisationsTableName,
+                FilterExpression: "SK = :info",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                },
+            }),
+        );
+
+        const dbDataStat = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: organisationsTableName,
+                FilterExpression: "SK = :stat",
+                ExpressionAttributeValues: {
+                    ":stat": "STAT",
+                },
+            }),
+        );
+
+        const parsedOrgInfo = organisationsSchema.safeParse(dbDataInfo.Items);
+
+        if (!parsedOrgInfo.success) {
+            return null;
+        }
+
+        const parsedOrgStat = statistics.safeParse(dbDataStat.Items);
+
+        if (!parsedOrgStat.success) {
+            return null;
+        }
+
+        const organisationsData = parsedOrgInfo.data.map((org) => ({
+            ...org,
+            ...parsedOrgStat.data.find((orgStats: Organisation | Statistic) => orgStats.PK === org.PK),
+        })) as OrganisationsWithStats;
+
+        return organisationsData;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
