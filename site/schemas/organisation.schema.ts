@@ -27,15 +27,6 @@ export const organisationSchema = z.object({
 
 export type Organisation = z.infer<typeof organisationSchema>;
 
-export const organisationsSchema = z.array(
-    z.object({
-        PK: z.string(),
-        name: z.string(),
-        adminAreaCodes: z.array(z.string()),
-    }),
-);
-export type Organisations = z.infer<typeof organisationsSchema>;
-
 export const areaCodeSchema = z.string().transform((item) => ({
     value: item,
     label: item,

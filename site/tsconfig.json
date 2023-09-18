@@ -24,8 +24,7 @@
         "useUnknownInCatchVariables": false,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["*"],
-            "@create-disruptions-data/*": ["create-disruptions-data/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": [
