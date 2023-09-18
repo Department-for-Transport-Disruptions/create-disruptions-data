@@ -6,13 +6,12 @@ import {
     TransactWriteCommand,
     PutCommand,
     GetCommand,
-    ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
-import { Organisation, Organisations, organisationSchema, organisationsSchema } from "../schemas/organisation.schema";
+import { Organisation, organisationSchema } from "../schemas/organisation.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
@@ -267,28 +266,6 @@ export const getOrganisationInfoById = async (orgId: string): Promise<Organisati
     );
 
     const parsedOrg = organisationSchema.safeParse(dbData.Item);
-
-    if (!parsedOrg.success) {
-        return null;
-    }
-
-    return parsedOrg.data;
-};
-
-export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
-    logger.info(`Getting all organisations from DynamoDB table...`);
-
-    const dbData = await ddbDocClient.send(
-        new ScanCommand({
-            TableName: organisationsTableName,
-            FilterExpression: "SK = :info",
-            ExpressionAttributeValues: {
-                ":info": "INFO",
-            },
-        }),
-    );
-
-    const parsedOrg = organisationsSchema.safeParse(dbData.Items);
 
     if (!parsedOrg.success) {
         return null;
