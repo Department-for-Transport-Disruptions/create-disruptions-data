@@ -7,7 +7,6 @@ import {
     OrganisationsWithStats,
     Statistic,
     organisationsSchema,
-    organisationsSchemaWithStats,
     statistics,
 } from "../../site/schemas/organisation.schema";
 import { Disruption } from "../disruptionTypes";
