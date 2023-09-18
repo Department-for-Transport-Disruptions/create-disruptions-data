@@ -1326,7 +1326,9 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
 };
 
 export const deleteDisruptionsInPending = async (disruptionId: string, id: string, isTemplate?: boolean) => {
-    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
+    logger.info(
+        `Deleting pending disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
+    );
     const dynamoDisruption = await ddbDocClient.send(
         new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
