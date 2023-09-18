@@ -4,6 +4,7 @@ import { Cron, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./services/Buckets";
 import { createGeneratorLambda } from "./services/GeneratorLambda";
+import { createStatsGeneratorLambda } from "./services/StatsGeneratorLambda";
 import { createValidatorLambda } from "./services/ValidatorLambda";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
@@ -17,6 +18,13 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     new Cron(stack, "cdd-siri-sx-generator-cron", {
         job: siriGenerator,
+        schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
+    });
+
+    const siriStatsGenerator = createStatsGeneratorLambda(stack, disruptionsTable, organisationsTable);
+
+    new Cron(stack, "cdd-siri-stats-generator-cron", {
+        job: siriStatsGenerator,
         schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
     });
 
