@@ -2,16 +2,15 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import { describe, expect, it } from "vitest";
 import {
     generateConsequenceStats,
-    generateReasonCountStats,
+    generateDisruptionReasonCount,
     generateSiriStats,
     initialConsequenceStatsValues,
-    initialDisruptionReasonCount,
 } from "./statGenerators";
 
 const mockDisruptionReason = "accident";
 
 const mockDisruptionReasonCountStat = {
-    ...initialDisruptionReasonCount,
+    roadworks: 1,
     accident: 3,
 };
 
@@ -81,8 +80,8 @@ const mockDisruption = {
 
 describe("generateReasonCountStats", () => {
     it("increases the reason count by one for the relevant disruption reason", () => {
-        expect(generateReasonCountStats(mockDisruptionReason, mockDisruptionReasonCountStat)).toEqual({
-            ...mockDisruptionReasonCountStat,
+        expect(generateDisruptionReasonCount(mockDisruptionReason, mockDisruptionReasonCountStat)).toEqual({
+            roadworks: 1,
             accident: 4,
         });
     });
@@ -106,7 +105,6 @@ describe("generateSiriStats", () => {
         expect(generateSiriStats([mockDisruption, mockDisruption])).toEqual({
             "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
                 disruptionReasonCount: {
-                    ...initialDisruptionReasonCount,
                     roadworks: 2,
                 },
                 ...initialConsequenceStatsValues,

@@ -24,7 +24,7 @@ export interface SiriStats {
     networkWideConsequencesCount: number;
     operatorWideConsequencesCount: number;
     totalConsequencesCount: number;
-    disruptionReasonCount: DisruptionReasonCount;
+    disruptionReasonCount: Record<string, number>;
 }
 
 export interface DisruptionReasonCount {
@@ -66,37 +66,6 @@ export const initialConsequenceStatsValues = {
     stopsAffected: 0,
     networkWideConsequencesCount: 0,
     operatorWideConsequencesCount: 0,
-};
-
-export const initialDisruptionReasonCount: DisruptionReasonCount = {
-    accident: 0,
-    breakDown: 0,
-    congestion: 0,
-    constructionWork: 0,
-    emergencyEngineeringWork: 0,
-    fog: 0,
-    flooding: 0,
-    heavySnowFall: 0,
-    highTemperatures: 0,
-    heavyRain: 0,
-    ice: 0,
-    incident: 0,
-    securityAlert: 0,
-    maintenanceWork: 0,
-    operatorCeasedTrading: 0,
-    overcrowded: 0,
-    signalProblem: 0,
-    roadClosed: 0,
-    roadworks: 0,
-    routeDiversion: 0,
-    specialEvent: 0,
-    industrialAction: 0,
-    signalFailure: 0,
-    repairWork: 0,
-    vandalism: 0,
-    unknown: 0,
-    escalatorFailure: 0,
-    insufficientDemand: 0,
 };
 
 export const generateConsequenceStats = (key: string, disruption: Disruption) => {
@@ -184,6 +153,23 @@ export const generateReasonCountStats = (disruptionReason: string, currentStat: 
     };
 };
 
+export const generateDisruptionReasonCount = (
+    currentDisruptionReason: string,
+    disruptionReasonCountObject: Record<string, number>,
+) => {
+    if (disruptionReasonCountObject.hasOwnProperty(currentDisruptionReason)) {
+        return {
+            ...disruptionReasonCountObject,
+            [currentDisruptionReason]: disruptionReasonCountObject[currentDisruptionReason] + 1,
+        };
+    } else {
+        return {
+            ...disruptionReasonCountObject,
+            [currentDisruptionReason]: 1,
+        };
+    }
+};
+
 export const generateSiriStats = (disruptions: Disruption[]) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
@@ -191,12 +177,12 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
         if (consequenceStats) {
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = {
-                    disruptionReasonCount: { ...initialDisruptionReasonCount },
+                    disruptionReasonCount: {},
                     ...initialConsequenceStatsValues,
                 };
             }
             acc[key] = {
-                disruptionReasonCount: generateReasonCountStats(
+                disruptionReasonCount: generateDisruptionReasonCount(
                     disruption.disruptionReason,
                     acc[key].disruptionReasonCount,
                 ),
