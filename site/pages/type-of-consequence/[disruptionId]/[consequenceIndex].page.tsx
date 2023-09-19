@@ -69,8 +69,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                     href={
                                         returnToTemplateOverview
                                             ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
-                                                isTemplate ? "?template=true" : ""
-                                            }`
+                                                  isTemplate ? "?template=true" : ""
+                                              }`
                                             : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                     }
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
