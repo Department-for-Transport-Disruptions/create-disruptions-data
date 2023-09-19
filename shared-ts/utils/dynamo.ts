@@ -7,8 +7,12 @@ import { PublishStatus } from "../enums";
 import {
     Organisations,
     OrganisationsWithStats,
+    Statistic,
     organisationsSchema,
+    organisationSchema,
     organisationsSchemaWithStats,
+    statistic,
+    OrganisationWithStats,
 } from "../organisationTypes";
 import { notEmpty } from "./index";
 
@@ -127,6 +131,63 @@ export const getAllOrganisationsInfoAndStats = async (): Promise<OrganisationsWi
         }));
 
         return organisationsData;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getOrganisationInfoAndStats = async (orgId: string): Promise<OrganisationWithStats | null> => {
+    logger.info(`Getting organisation ${orgId} from DynamoDB table...`);
+    try {
+        const dbDataInfo = await ddbDocClient.send(
+            new ScanCommand({
+                TableName: organisationsTableName,
+                FilterExpression: "PK = :orgId",
+                ExpressionAttributeValues: {
+                    ":orgId": orgId,
+                },
+            }),
+        );
+
+        const parsedOrgWithStats = organisationsSchemaWithStats.safeParse(dbDataInfo.Items);
+
+        if (!parsedOrgWithStats.success) {
+            return null;
+        }
+
+        const organisations = parsedOrgWithStats.data.find((org) => org.SK === "INFO");
+
+        const stats = parsedOrgWithStats.data.find((org) => org.SK === "STAT");
+
+        if (!organisations || !stats) {
+            return null;
+        }
+
+        const parsedOrg = organisationSchema.safeParse(organisations);
+        const parsedStats = statistic.safeParse(organisations);
+
+        if (!parsedOrg.success || !parsedStats.success) {
+            return null;
+        }
+
+        return {
+            networkWideConsequencesCount: parsedStats.data.networkWideConsequencesCount || 0,
+            servicesAffected: parsedStats.data.servicesAffected || 0,
+            servicesConsequencesCount: parsedStats.data.servicesConsequencesCount || 0,
+            stopsAffected: parsedStats.data.stopsAffected || 0,
+            stopsConsequencesCount: parsedStats.data.stopsConsequencesCount || 0,
+            disruptionReasonCount: parsedStats.data.disruptionReasonCount,
+            totalConsequencesCount: parsedStats.data.totalConsequencesCount || 0,
+            PK: parsedOrg.data.PK,
+            adminAreaCodes: parsedOrg.data.adminAreaCodes,
+            name: parsedOrg.data.name,
+        };
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

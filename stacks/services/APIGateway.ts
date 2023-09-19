@@ -37,6 +37,7 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         },
         routes: {
             "GET    /organisations": "packages/get-organisations/index.main",
+            "GET    /organisations/{id}": "packages/get-organisation/index.main",
         },
     });
 
