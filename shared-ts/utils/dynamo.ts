@@ -7,10 +7,8 @@ import { PublishStatus } from "../enums";
 import {
     Organisations,
     OrganisationsWithStats,
-    Statistic,
     organisationsSchema,
     organisationsSchemaWithStats,
-    statistics,
 } from "../organisationTypes";
 import { notEmpty } from "./index";
 
