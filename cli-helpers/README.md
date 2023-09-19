@@ -33,7 +33,9 @@ USAGE
 - [Commands](#commands)
   - [`cdd-helpers create-org`](#cdd-helpers-create-org)
   - [`cdd-helpers create-user`](#cdd-helpers-create-user)
+  - [`cdd-helpers change-group`](#cdd-helpers-change-group)
   - [`cdd-helpers help [COMMANDS]`](#cdd-helpers-help-commands)
+
 
 ## `cdd-helpers create-org`
 
@@ -77,6 +79,24 @@ DESCRIPTION
 ```
 
 _See code: [dist/cli-helpers/src/commands/create-user/index.ts](https://github.com/Department-for-Transport-Disruptions/create-disruptions-data/blob/v0.0.0/dist/cli-helpers/src/commands/create-user/index.ts)_
+
+## `cdd-helpers change-group`
+
+Change a users group
+
+```
+USAGE
+  $ ./bin/run change-group --stage <value>
+
+FLAGS
+  --stage=<value>           (required) SST stage to use
+
+DESCRIPTION
+  Change a users group.
+```
+
+_See code: [dist/cli-helpers/src/commands/change-group/index.ts](https://github.com/Department-for-Transport-Disruptions/create-disruptions-data/blob/v0.0.0/dist/cli-helpers/src/commands/change-group/index.ts)_
+
 
 ## `cdd-helpers help [COMMANDS]`
 
