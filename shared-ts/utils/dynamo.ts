@@ -169,7 +169,7 @@ export const getOrganisationInfoAndStats = async (orgId: string): Promise<Organi
         }
 
         const parsedOrg = organisationSchema.safeParse(organisations);
-        const parsedStats = statistic.safeParse(organisations);
+        const parsedStats = statistic.safeParse(stats);
 
         if (!parsedOrg.success || !parsedStats.success) {
             return null;
