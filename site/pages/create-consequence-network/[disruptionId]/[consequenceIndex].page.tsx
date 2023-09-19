@@ -27,6 +27,7 @@ import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
@@ -62,15 +63,15 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     header: "Consequence type",
                                     cells: [
                                         "Network wide",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview,
+                                            returnToTemplateOverview,
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}

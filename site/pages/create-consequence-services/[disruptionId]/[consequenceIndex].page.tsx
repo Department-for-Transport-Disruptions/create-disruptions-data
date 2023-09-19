@@ -47,6 +47,7 @@ import {
     showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -395,15 +396,15 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                     header: "Consequence type",
                                     cells: [
                                         "Services",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview,
+                                            returnToTemplateOverview,
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}

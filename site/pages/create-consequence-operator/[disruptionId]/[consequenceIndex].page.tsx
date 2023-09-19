@@ -15,6 +15,7 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
@@ -112,15 +113,15 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                     header: "Consequence type",
                                     cells: [
                                         "Operator wide",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview,
+                                            returnToTemplateOverview,
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}

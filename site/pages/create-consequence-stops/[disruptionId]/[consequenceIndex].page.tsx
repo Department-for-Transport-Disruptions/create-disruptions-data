@@ -18,6 +18,7 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/StopsMap";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
@@ -197,15 +198,15 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     header: "Consequence type",
                                     cells: [
                                         "Stops",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview,
+                                            returnToTemplateOverview,
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}
