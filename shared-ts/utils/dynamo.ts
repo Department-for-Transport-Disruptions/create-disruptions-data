@@ -7,7 +7,6 @@ import { PublishStatus } from "../enums";
 import {
     Organisations,
     OrganisationsWithStats,
-    Statistic,
     organisationsSchema,
     organisationSchema,
     organisationsSchemaWithStats,
