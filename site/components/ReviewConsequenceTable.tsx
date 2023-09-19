@@ -13,7 +13,6 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
-import { FullDisruption } from "../schemas/disruption.schema";
 import { getDisplayByValue, splitCamelCaseToString } from "../utils";
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {

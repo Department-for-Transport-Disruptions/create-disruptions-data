@@ -302,7 +302,13 @@ const ReviewDisruption = ({
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption", disruption.disruptionId, undefined, true),
+                    createChangeLink(
+                        `validity-period-${i + 1}`,
+                        "/create-disruption",
+                        disruption.disruptionId,
+                        undefined,
+                        true,
+                    ),
                     false,
                     disruption.template,
                     ,

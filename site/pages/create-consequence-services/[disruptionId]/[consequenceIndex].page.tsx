@@ -23,6 +23,7 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/ServicesMap";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
@@ -48,7 +49,6 @@ import {
     showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
