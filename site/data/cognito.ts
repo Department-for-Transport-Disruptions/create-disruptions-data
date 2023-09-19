@@ -194,7 +194,7 @@ export const listUsersWithGroups = async () => {
     });
 
     try {
-        const groupList = await cognito.send(new ListGroupsCommand({ UserPoolId: userPoolId }));
+        const groupList = await cognito.send(new ListGroupsCommand({ UserPoolId: userPoolId, Limit: 60 }));
 
         const userList: (UserType & { GroupName: string | undefined })[] = [];
         await Promise.all(
