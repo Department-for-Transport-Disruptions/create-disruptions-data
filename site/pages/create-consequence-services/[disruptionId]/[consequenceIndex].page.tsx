@@ -29,6 +29,7 @@ import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
@@ -401,8 +402,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview,
-                                            returnToTemplateOverview,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],

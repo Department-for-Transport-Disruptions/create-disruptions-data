@@ -17,6 +17,7 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
@@ -68,8 +69,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview,
-                                            returnToTemplateOverview,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],

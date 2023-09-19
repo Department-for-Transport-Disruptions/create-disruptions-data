@@ -20,6 +20,7 @@ import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
@@ -118,8 +119,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview,
-                                            returnToTemplateOverview,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],

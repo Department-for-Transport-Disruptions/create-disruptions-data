@@ -25,6 +25,7 @@ import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -203,8 +204,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview,
-                                            returnToTemplateOverview,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
