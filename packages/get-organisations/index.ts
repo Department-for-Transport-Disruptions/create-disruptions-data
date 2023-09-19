@@ -1,11 +1,10 @@
-import { getAllOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getAllOrganisationsInfoAndStats } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
 const getOrganisations = async () => {
     try {
-        const orgList = await getAllOrganisationsInfo();
-        logger.info(JSON.stringify(orgList));
+        const orgList = await getAllOrganisationsInfoAndStats();
         return orgList || [];
     } catch (e) {
         if (e instanceof Error) {

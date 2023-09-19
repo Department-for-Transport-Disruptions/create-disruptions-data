@@ -8,18 +8,18 @@ export const organisationsSchema = z.array(
     }),
 );
 
-export const statistic = z
-    .object({
-        disruptionReasonCount: z.record(z.string(), z.coerce.number().default(0)),
-        networkWideConsequencesCount: z.coerce.number().default(0),
-        operatorWideConsequencesCount: z.coerce.number().default(0),
-        servicesAffected: z.coerce.number().default(0),
-        servicesConsequencesCount: z.coerce.number().default(0),
-        stopsAffected: z.coerce.number().default(0),
-        stopsConsequencesCount: z.coerce.number().default(0),
-        totalConsequencesCount: z.coerce.number().default(0),
-    })
-    .and(z.object({ PK: z.string() }));
+export const statistic = z.object({
+    disruptionReasonCount: z.record(z.string(), z.coerce.number().default(0)),
+    networkWideConsequencesCount: z.coerce.number().default(0),
+    operatorWideConsequencesCount: z.coerce.number().default(0),
+    servicesAffected: z.coerce.number().default(0),
+    servicesConsequencesCount: z.coerce.number().default(0),
+    stopsAffected: z.coerce.number().default(0),
+    stopsConsequencesCount: z.coerce.number().default(0),
+    totalConsequencesCount: z.coerce.number().default(0),
+    PK: z.string(),
+    SK: z.string().optional(),
+});
 
 export const statistics = z.array(statistic);
 
@@ -27,10 +27,11 @@ export const organisationsSchemaWithStats = z.array(
     z
         .object({
             PK: z.string(),
+            SK: z.string().optional(),
             name: z.string(),
             adminAreaCodes: z.array(z.string()),
         })
-        .and(statistic),
+        .or(statistic),
 );
 
 export type Organisations = z.infer<typeof organisationsSchema>;

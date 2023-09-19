@@ -25,14 +25,14 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         cdk: {
             restApi: {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
-                description: "API to retrieve Siri SX XML data",
+                description: "API to retrieve Siri SX XML data and includes statistics about this data",
             },
         },
         defaults: {
             function: {
                 timeout: 20,
                 environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
-                permissions: [organisationsTable],
+                permissions: ["dynamodb:Scan"],
             },
         },
         routes: {

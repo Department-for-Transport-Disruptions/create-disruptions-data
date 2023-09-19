@@ -9,6 +9,7 @@ import {
     OrganisationsWithStats,
     Statistic,
     organisationsSchema,
+    organisationsSchemaWithStats,
     statistics,
 } from "../organisationTypes";
 import { notEmpty } from "./index";
@@ -102,45 +103,30 @@ export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
     }
 };
 
-export const getAllOrganisationsInfo = async (): Promise<OrganisationsWithStats | null> => {
+export const getAllOrganisationsInfoAndStats = async (): Promise<OrganisationsWithStats | null> => {
     logger.info(`Getting all organisations from DynamoDB table...`);
     try {
         const dbDataInfo = await ddbDocClient.send(
             new ScanCommand({
                 TableName: organisationsTableName,
-                FilterExpression: "SK = :info",
-                ExpressionAttributeValues: {
-                    ":info": "INFO",
-                },
             }),
         );
 
-        const dbDataStat = await ddbDocClient.send(
-            new ScanCommand({
-                TableName: organisationsTableName,
-                FilterExpression: "SK = :stat",
-                ExpressionAttributeValues: {
-                    ":stat": "STAT",
-                },
-            }),
-        );
+        const parsedOrgWithStats = organisationsSchemaWithStats.safeParse(dbDataInfo.Items);
 
-        const parsedOrgInfo = organisationsSchema.safeParse(dbDataInfo.Items);
-
-        if (!parsedOrgInfo.success) {
+        if (!parsedOrgWithStats.success) {
             return null;
         }
 
-        const parsedOrgStat = statistics.safeParse(dbDataStat.Items);
+        const organisations = parsedOrgWithStats.data.filter((org) => org.SK === "INFO");
 
-        if (!parsedOrgStat.success) {
-            return null;
-        }
+        const stats = parsedOrgWithStats.data.filter((org) => org.SK === "STAT");
 
-        const organisationsData = parsedOrgInfo.data.map((org) => ({
+        const organisationsData = organisations.map((org) => ({
             ...org,
-            ...(parsedOrgStat.data.find((orgStats: Organisations[0] | Statistic) => orgStats.PK === org.PK) || {}),
-        })) as OrganisationsWithStats;
+            ...(stats.find((orgStats) => orgStats.PK === org.PK) || {}),
+            SK: undefined,
+        }));
 
         return organisationsData;
     } catch (e) {
