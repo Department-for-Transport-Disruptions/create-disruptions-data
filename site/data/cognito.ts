@@ -200,7 +200,7 @@ export const listUsersWithGroups = async () => {
         await Promise.all(
             groupList.Groups?.map(async (group) => {
                 const usersRequest = await cognito.send(
-                    new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName }),
+                    new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName, Limit: 60 }),
                 );
 
                 usersRequest.Users?.forEach((user) => {
