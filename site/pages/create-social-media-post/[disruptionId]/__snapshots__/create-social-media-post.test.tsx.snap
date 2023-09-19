@@ -156,13 +156,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0"
+                    className="govuk-date-input__item govuk-!-margin-right-0 "
                   >
                     <div
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
@@ -239,7 +239,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
@@ -286,6 +288,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="13958638"
                     id="social-account-input"
                     name="socialAccount"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -328,6 +331,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     defaultValue="127196025"
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -715,13 +719,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                 >
                   <div
-                    className="govuk-date-input__item govuk-!-margin-right-0"
+                    className="govuk-date-input__item govuk-!-margin-right-0 "
                   >
                     <div
                       className=""
                     >
                       <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6"
+                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
                         disabled={false}
                         id="publish-date-input"
                         name="publishDate"
@@ -801,7 +805,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
@@ -847,6 +853,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="social-account-input"
                     name="socialAccount"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}
@@ -884,6 +891,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     defaultValue=""
                     id="hootsuite-profile-input"
                     name="hootsuiteProfile"
+                    onChange={[Function]}
                   >
                     <option
                       disabled={true}

@@ -10,6 +10,7 @@ interface TimeSelectorProps<T> extends FormBase<T> {
     placeholderValue?: string;
     resetError?: boolean;
     showNowButton?: (e: SyntheticEvent) => void;
+    inputDivWidth?: string;
 }
 
 const TimeSelector = <T extends object>({
@@ -25,6 +26,7 @@ const TimeSelector = <T extends object>({
     placeholderValue = "hhmm",
     resetError = false,
     showNowButton,
+    inputDivWidth,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -68,7 +70,7 @@ const TimeSelector = <T extends object>({
                     </div>
                 ) : null}
                 <div className={!!showNowButton ? "flex flex-row content-end gap-4" : ""}>
-                    <div>
+                    <div className={`${inputDivWidth ? inputDivWidth : ""}`}>
                         <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                             <input
                                 ref={ref}

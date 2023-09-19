@@ -211,8 +211,8 @@ export const disruptionInfoSchema = z.object({
     summary: z.string(setZodDefaultError("Enter a summary for this disruption")).min(1).max(100, {
         message: "Summary must not exceed 100 characters",
     }),
-    description: z.string(setZodDefaultError("Enter a description for this disruption")).min(1).max(500, {
-        message: "Description must not exceed 500 characters",
+    description: z.string(setZodDefaultError("Enter a description for this disruption")).min(1).max(1000, {
+        message: "Description must not exceed 1000 characters",
     }),
     associatedLink: z
         .string()
@@ -674,15 +674,16 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     });
 
 const baseConsequence = {
-    disruptionId: z.string().uuid(),
-    description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(500, {
-        message: "Description must not exceed 500 characters",
+    disruptionId: z.string(),
+    description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(1000, {
+        message: "Description must not exceed 1000 characters",
     }),
     removeFromJourneyPlanners: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
     disruptionDelay: zodTimeInMinutes("Enter a number between 0 to 999 for disruption delay").optional(),
     disruptionSeverity: z.nativeEnum(Severity, setZodDefaultError("Select the severity from the dropdown")),
     vehicleMode: z.nativeEnum(VehicleMode, setZodDefaultError("Select a mode of transport")),
     consequenceIndex: z.coerce.number(),
+    orgId: z.string().uuid().optional(),
 };
 
 export const networkConsequenceSchema = z.object({
@@ -726,6 +727,7 @@ export const stopsConsequenceSchema = z.object({
         .max(100, {
             message: "Maximum of 100 stops permitted per consequence",
         }),
+    pastStops: z.array(stopSchema).optional(),
 });
 
 export const serviceSchema = z.object({
@@ -774,5 +776,6 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             })
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
+        template: z.boolean().optional().default(false),
     }),
 );

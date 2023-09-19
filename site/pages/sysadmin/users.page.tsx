@@ -2,7 +2,7 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, SyntheticEvent, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
@@ -11,36 +11,53 @@ import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
 import { COOKIES_ADD_ADMIN_USER_ERRORS } from "../../constants";
-import { getUsersInGroupAndOrg } from "../../data/cognito";
+import { listUsersWithGroups } from "../../data/cognito";
+import { getOrganisationInfoById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { AdminSchema, adminSchema } from "../../schemas/user-management.schema";
+import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
+import { getAccountType } from "../../utils/tableUtils";
 
-const title = "Nexus admins - Create Transport Disruptions Service";
-const description = "Nexus admins user page for the Create Transport Disruptions Service";
+const title = "System admins - Create Transport Disruptions Service";
+const description = "System admins user page for the Create Transport Disruptions Service";
 
-export interface AdminUserProps extends PageState<Partial<AddUserSchema>> {
-    admins?: AdminSchema;
+export interface SysAdminUserManagementProps extends PageState<Partial<AddUserSchema>> {
+    users?: UserManagementSchema;
+    orgName?: string;
 }
-const AdminUsers = (props: AdminUserProps): ReactElement => {
+const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
-    const [userToResendInvite, setUserToResendInvite] = useState<{ username: string; userGroup: string } | null>(null);
+    const [userToResendInvite, setUserToResendInvite] = useState<{
+        username: string;
+        userGroup: string;
+        userOrgId: string;
+    } | null>(null);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
-        props.admins?.forEach((user, index) => {
+        props.users?.forEach((user, index) => {
             rows.push({
                 cells: [
                     user.givenName,
                     user.familyName,
                     user.email,
-                    createLink("user-action", index, user.username, "org-admins"),
+                    `${getAccountType(user.group)}`,
+                    user.group !== "system-admins"
+                        ? createLink(
+                              "user-action",
+                              index,
+                              user.username,
+                              user.group,
+                              user.organisation,
+                              user.userStatus !== "CONFIRMED" && user.group == "org-admins",
+                          )
+                        : "",
                     user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",
                 ],
             });
@@ -48,30 +65,52 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
         return rows;
     };
 
-    const createLink = (key: string, index: number, username: string, userGroup: string) => {
+    const createLink = (
+        key: string,
+        index: number,
+        username: string,
+        userGroup: string,
+        userOrgId: string,
+        showResendInvite?: boolean,
+    ) => {
         return (
             <>
-                <button
-                    key={`${key}${index ? `-${index}` : ""}`}
-                    className="govuk-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        resendInvite(username, userGroup);
-                    }}
-                >
-                    Resend invite
-                </button>
-                <br />
-                <button
-                    key={`${key}${index ? `-remove-${index}` : "-remove"}`}
-                    className="govuk-link"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        removeUser(username);
-                    }}
-                >
-                    Remove
-                </button>
+                {showResendInvite ? (
+                    <>
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={(e: SyntheticEvent) => {
+                                e.preventDefault();
+                                resendInvite(username, userGroup, userOrgId);
+                            }}
+                        >
+                            Resend invite
+                        </button>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-remove-${index}` : "-remove"}`}
+                            className="govuk-link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                removeUser(username);
+                            }}
+                        >
+                            Remove
+                        </button>
+                    </>
+                ) : (
+                    <button
+                        key={`${key}${index ? `-${index}` : ""}`}
+                        className="govuk-link"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            removeUser(username);
+                        }}
+                    >
+                        Remove
+                    </button>
+                )}
             </>
         );
     };
@@ -83,8 +122,8 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
     const cancelResendActionHandler = () => {
         setUserToResendInvite(null);
     };
-    const resendInvite = (username: string, userGroup: string) => {
-        setUserToResendInvite({ username, userGroup });
+    const resendInvite = (username: string, userGroup: string, userOrgId: string) => {
+        setUserToResendInvite({ username, userGroup, userOrgId });
     };
 
     const cancelActionHandler = () => {
@@ -92,6 +131,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
     };
 
     const queryParams = useRouter().query;
+
     const orgId = queryParams["orgId"];
 
     return (
@@ -132,22 +172,23 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                         },
                         {
                             name: "orgId",
-                            value: orgId?.toString(),
+                            value: userToResendInvite.userOrgId,
                         },
                     ]}
                     questionText={`Are you sure you wish to resend the invite?`}
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />
-            <h1 className="govuk-heading-l">Add an organisation admin</h1>
+            <h1 className="govuk-heading-l">Add {props.orgName} admin</h1>
             <p className="govuk-body">
                 Users added below will be set up as admins for their respective organisations. They will have the
                 ability to perform all functionality available within the tool, including the ability to set up further
-                admin users on their own and users with lower permission settings.
+                admin users on their own and users with lower permission settings. Users of any account type added by
+                the organisations admin will also appear in the list of users below
             </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
                 <TextInput<AddUserSchema>
-                    display="First name"
+                    display="Admin First name"
                     inputName="givenName"
                     widthClass="w"
                     value={pageState.inputs.givenName}
@@ -157,7 +198,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Last name"
+                    display="Admin Last name"
                     inputName="familyName"
                     widthClass="w"
                     value={pageState.inputs.familyName}
@@ -167,7 +208,7 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Email address"
+                    display="Admin Email address"
                     inputName="email"
                     widthClass="w"
                     value={pageState.inputs.email}
@@ -183,13 +224,16 @@ const AdminUsers = (props: AdminUserProps): ReactElement => {
                 <button className="govuk-button mt-8" data-module="govuk-button">
                     Add and send invitation
                 </button>
-                <Table columns={["First name", "Last name", "Email", "Action", "Status"]} rows={getRows()}></Table>
+                <Table
+                    columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}
+                    rows={getRows()}
+                ></Table>
             </CsrfForm>
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AdminUserProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: SysAdminUserManagementProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_ADD_ADMIN_USER_ERRORS];
 
@@ -207,17 +251,26 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Invalid user accessing the page");
     }
 
-    const orgId = ctx.query.orgId?.toString();
+    const orgId = ctx.query.orgId?.toString() || "";
 
-    const orgAdminUsers = orgId ? await getUsersInGroupAndOrg(orgId, "org-admins") : undefined;
+    const orgInfo = await getOrganisationInfoById(orgId);
 
-    const parsedList = adminSchema.safeParse(orgAdminUsers);
+    const orgName = !!orgInfo?.name ? orgInfo.name : "";
+
+    const orgAdminUsers = await listUsersWithGroups();
+
+    const parsedList = userManagementSchema.safeParse(orgAdminUsers);
 
     if (parsedList.success) {
+        const sortedAndFilteredUsersList = parsedList.data
+            .filter((user) => user.organisation === orgId)
+            .sort((a, b) => a.givenName.localeCompare(b.givenName));
+
         return {
             props: {
                 ...getPageState(errorCookie, addUserSchema),
-                admins: parsedList.data,
+                users: sortedAndFilteredUsersList,
+                orgName: orgName,
             },
         };
     }
@@ -225,8 +278,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
+            orgName: orgName,
         },
     };
 };
 
-export default AdminUsers;
+export default SysAdminUserManagement;

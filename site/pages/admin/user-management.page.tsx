@@ -1,4 +1,3 @@
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
@@ -11,6 +10,7 @@ import { listUsersWithGroups } from "../../data/cognito";
 import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getDataInPages } from "../../utils/formUtils";
+import { getAccountType } from "../../utils/tableUtils";
 
 const title = "User Management";
 const description = "User Management page for the Create Transport Disruptions Service";
@@ -24,19 +24,10 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
-    const [userToResendInvite, setUserToResendInvite] = useState<{ username: string; userGroup: string } | null>(null);
-
-    const getAccountType = (groupName: UserGroups): string => {
-        switch (groupName) {
-            case UserGroups.systemAdmins:
-            case UserGroups.orgAdmins:
-                return "Admin";
-            case UserGroups.orgPublishers:
-                return "Publisher";
-            case UserGroups.orgStaff:
-                return "Staff";
-        }
-    };
+    const [userToResendInvite, setUserToResendInvite] = useState<{
+        username: string;
+        userGroup: string;
+    } | null>(null);
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
@@ -46,13 +37,9 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    createLink(
-                        "user-action",
-                        index,
-                        user.username,
-                        user.group,
-                        user.userStatus === "CONFIRMED" ? false : true,
-                    ),
+                    user.group !== "system-admins"
+                        ? createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED")
+                        : "",
                 ],
             });
         });
@@ -74,10 +61,16 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
         setUserToDelete(null);
     };
 
-    const createLink = (key: string, index: number, username: string, userGroup: string, sendInvite?: boolean) => {
+    const createLink = (
+        key: string,
+        index: number,
+        username: string,
+        userGroup: string,
+        showResendInvite?: boolean,
+    ) => {
         return (
             <>
-                {sendInvite ? (
+                {showResendInvite ? (
                     <>
                         <button
                             key={`${key}${index ? `-${index}` : ""}`}

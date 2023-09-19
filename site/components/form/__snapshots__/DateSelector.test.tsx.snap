@@ -26,13 +26,13 @@ exports[`DateSelector > should render correctly when disabled 1`] = `
         className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0"
+          className="govuk-date-input__item govuk-!-margin-right-0 "
         >
           <div
             className=""
           >
             <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6"
+              className="govuk-input govuk-date-input__input govuk-input--width-6 "
               disabled={true}
               id="field-1-input"
               name="field1"
@@ -115,13 +115,13 @@ exports[`DateSelector > should render correctly with an input 1`] = `
         className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0"
+          className="govuk-date-input__item govuk-!-margin-right-0 "
         >
           <div
             className=""
           >
             <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6"
+              className="govuk-input govuk-date-input__input govuk-input--width-6 "
               disabled={false}
               id="field-1-input"
               name="field1"
@@ -207,7 +207,7 @@ exports[`DateSelector > should render correctly with errors 1`] = `
         className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0"
+          className="govuk-date-input__item govuk-!-margin-right-0 "
         >
           <div
             className=""
@@ -225,7 +225,7 @@ exports[`DateSelector > should render correctly with errors 1`] = `
             </span>
             <input
               aria-describedby="field1-error"
-              className="govuk-input govuk-date-input__input govuk-input--width-6 govuk-input--error"
+              className="govuk-input govuk-date-input__input govuk-input--width-6  govuk-input--error"
               disabled={false}
               id="field-1-input"
               name="field1"
@@ -308,13 +308,13 @@ exports[`DateSelector > should render correctly with no input 1`] = `
         className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0"
+          className="govuk-date-input__item govuk-!-margin-right-0 "
         >
           <div
             className=""
           >
             <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6"
+              className="govuk-input govuk-date-input__input govuk-input--width-6 "
               disabled={false}
               id="field-1-input"
               name="field1"
@@ -397,13 +397,13 @@ exports[`DateSelector > should render correctly with no input and the hint is hi
         className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0"
+          className="govuk-date-input__item govuk-!-margin-right-0 "
         >
           <div
             className=""
           >
             <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6"
+              className="govuk-input govuk-date-input__input govuk-input--width-6 "
               disabled={false}
               id="field-1-input"
               name="field1"

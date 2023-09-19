@@ -19,9 +19,7 @@ import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
-    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
@@ -33,7 +31,12 @@ import { ModeType } from "../../../schemas/organisation.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
+import {
+    getStateUpdater,
+    operatorStateUpdater,
+    returnTemplateOverview,
+    showCancelButton,
+} from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -52,9 +55,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton =
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH);
+    const displayCancelButton = showCancelButton(queryParams);
+
+    const returnToTemplateOverview = returnTemplateOverview(queryParams);
+
+    const isTemplate = (queryParams["template"] as string) || "";
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -92,7 +97,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-operator${isTemplate ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -183,7 +192,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             widthClass="w-3/4"
                             textArea
                             rows={3}
-                            maxLength={500}
+                            maxLength={1000}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.description}
                             initialErrors={pageState.errors}
@@ -242,29 +251,39 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <input type="hidden" name="consequenceType" value="operatorWide" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
+
                         <button className="govuk-button mt-8" data-module="govuk-button">
                             Save and continue
                         </button>
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                href={
+                                    returnToTemplateOverview
+                                        ? (queryParams["return"] as string)
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                              isTemplate ? "?template=true" : ""
+                                          }`
+                                }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        <button
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                            data-module="govuk-button"
-                            formAction={`/api${CREATE_CONSEQUENCE_OPERATOR_PATH}?draft=true`}
-                        >
-                            Save as draft
-                        </button>
+                        {!isTemplate && (
+                            <button
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                                formAction={`/api${CREATE_CONSEQUENCE_OPERATOR_PATH}?draft=true`}
+                            >
+                                Save as draft
+                            </button>
+                        )}
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
+                            isTemplate={isTemplate}
                         />
                     </div>
                 </>
@@ -289,7 +308,11 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query.template,
+    );
 
     if (!disruption) {
         throw new Error("No disruption found for operator consequence page");
@@ -330,6 +353,7 @@ export const getServerSideProps = async (
             operators: uniqueOperators,
             disruptionSummary: disruption.description || "",
             sessionWithOrg: session,
+            template: disruption.template?.toString() || "",
         },
     };
 };

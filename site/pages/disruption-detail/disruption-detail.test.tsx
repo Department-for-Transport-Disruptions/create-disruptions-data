@@ -9,7 +9,7 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
@@ -132,10 +132,18 @@ const previousDisruptionInformation: FullDisruption = {
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    template: false,
 };
 
 describe("pages", () => {
     describe("DisruptionDetail", () => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const useRouter = vi.spyOn(require("next/router"), "useRouter");
+        beforeEach(() => {
+            useRouter.mockImplementation(() => ({
+                query: "",
+            }));
+        });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
@@ -223,6 +231,74 @@ describe("pages", () => {
             });
 
             expect(deleteButton).toBeFalsy();
+
+            unmount();
+        });
+
+        it("should render correctly with inputs and no errors when disruption is a template", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{ ...previousDisruptionInformation, template: true }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and create new disruption button for templates", () => {
+            const { queryByText, getAllByRole, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={true}
+                />,
+            );
+
+            const createDisruptionButton = queryByText("Create disruption", {
+                selector: "button",
+            });
+
+            const closeButton = getAllByRole("button", { name: "Close and Return" });
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            expect(createDisruptionButton).toBeTruthy();
+            expect(closeButton).toBeTruthy();
+            expect(deleteTemplateButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should render correctly with inputs and create new disruption button for templates without Delete template button for staff user", () => {
+            const { queryByText, getAllByRole, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const createDisruptionButton = queryByText("Create disruption", {
+                selector: "button",
+            });
+
+            const closeButton = getAllByRole("button", { name: "Close and Return" });
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            expect(createDisruptionButton).toBeTruthy();
+            expect(closeButton).toBeTruthy();
+            expect(deleteTemplateButton).toBeFalsy();
 
             unmount();
         });

@@ -4,7 +4,13 @@ import { randomUUID } from "crypto";
 import resendInvite from "./resend-invite.api";
 import { ERROR_PATH, SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
+import {
+    getMockRequestAndResponse,
+    mockDeleteAdminUser,
+    mockGetUserDetails,
+    mockSession,
+} from "../../../testData/mockData";
+import * as session from "../../../utils/apiUtils/auth";
 
 describe("resend-invite", () => {
     const writeHeadMock = vi.fn();
@@ -14,6 +20,8 @@ describe("resend-invite", () => {
     const getUserDetailsSpy = vi.spyOn(cognito, "getUserDetails");
 
     const createUserSpy = vi.spyOn(cognito, "createUser");
+
+    const getSession = vi.spyOn(session, "getSession");
 
     vi.mock("../../../data/cognito", () => ({
         deleteUser: vi.fn(),
@@ -26,39 +34,8 @@ describe("resend-invite", () => {
     });
 
     it("should redirect to /admin/user-management if resend was a success", async () => {
-        deleteAdminUserSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-            }),
-        );
-
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-                UserStatus: "FORCE_CHANGE_PASSWORD",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: DEFAULT_ORG_ID,
-                    },
-                    {
-                        Name: "given_name",
-                        Value: "dummy",
-                    },
-                    {
-                        Name: "family_name",
-                        Value: "user",
-                    },
-                    {
-                        Name: "email",
-                        Value: "dummy.user@gmail.com",
-                    },
-                ],
-            }),
-        );
+        deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -75,39 +52,8 @@ describe("resend-invite", () => {
     });
 
     it("should redirect to /sysadmin/users if resend was a success and request received from add admin users page", async () => {
-        deleteAdminUserSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-            }),
-        );
-
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-                UserStatus: "FORCE_CHANGE_PASSWORD",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: DEFAULT_ORG_ID,
-                    },
-                    {
-                        Name: "given_name",
-                        Value: "dummy",
-                    },
-                    {
-                        Name: "family_name",
-                        Value: "user",
-                    },
-                    {
-                        Name: "email",
-                        Value: "dummy.user@gmail.com",
-                    },
-                ],
-            }),
-        );
+        deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const randomId = randomUUID();
         const { req, res } = getMockRequestAndResponse({
@@ -125,38 +71,19 @@ describe("resend-invite", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${randomId}` });
     });
 
-    it("should redirect to /500 if organisation ids do not match", async () => {
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 302 },
-                Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-                UserStatus: "FORCE_CHANGE_PASSWORD",
-                UserAttributes: [
-                    {
-                        Name: "custom:orgId",
-                        Value: "1234",
-                    },
-                    {
-                        Name: "given_name",
-                        Value: "dummy",
-                    },
-                    {
-                        Name: "family_name",
-                        Value: "user",
-                    },
-                    {
-                        Name: "email",
-                        Value: "dummy.user@gmail.com",
-                    },
-                ],
-            }),
-        );
+    it("should redirect to /500 if org admin is trying to resend an invite and account and organisation ids do not match", async () => {
+        getSession.mockImplementation(() => ({
+            ...mockSession,
+            isOrgAdmin: true,
+            isSystemAdmin: false,
+            orgId: "1234",
+        }));
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
                 username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-                group: UserGroups.systemAdmins,
+                group: UserGroups.orgAdmins,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -175,14 +102,7 @@ describe("resend-invite", () => {
             });
         });
 
-        getUserDetailsSpy.mockImplementation(() =>
-            Promise.resolve({
-                body: {},
-                $metadata: { httpStatusCode: 400 },
-                Username: "",
-                UserAttributes: [],
-            }),
-        );
+        getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
 
         const { req, res } = getMockRequestAndResponse({
             body: {},

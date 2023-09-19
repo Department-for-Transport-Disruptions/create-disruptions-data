@@ -12,7 +12,7 @@ module.exports = {
     theme: {
         extend: {
             screens: {
-                xs: "400px",
+                xs: "360px",
             },
             colors: {
                 govBlue: "#1d70b8",
@@ -43,6 +43,7 @@ module.exports = {
                 "govuk-crest": "url('/assets/images/govuk-crest-2x.png')",
             },
             fontSize: {
+                arrow: "0.5em",
                 xs: [
                     `${(16 * 0.75) / baseFontSize}rem` /* 12px */,
                     {

@@ -17,7 +17,9 @@ exports[`TimeSelector > should render correctly when disabled 1`] = `
     <div
       className=""
     >
-      <div>
+      <div
+        className=""
+      >
         <div
           className=""
         >
@@ -62,7 +64,9 @@ exports[`TimeSelector > should render correctly with errors 1`] = `
     <div
       className=""
     >
-      <div>
+      <div
+        className=""
+      >
         <div
           className=""
         >
@@ -101,7 +105,9 @@ exports[`TimeSelector > should render correctly with inputs 1`] = `
     <div
       className=""
     >
-      <div>
+      <div
+        className=""
+      >
         <div
           className=""
         >
@@ -140,7 +146,9 @@ exports[`TimeSelector > should render correctly with no inputs 1`] = `
     <div
       className=""
     >
-      <div>
+      <div
+        className=""
+      >
         <div
           className=""
         >

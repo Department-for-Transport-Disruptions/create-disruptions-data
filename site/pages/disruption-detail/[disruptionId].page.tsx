@@ -3,6 +3,7 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
@@ -60,7 +61,7 @@ const DisruptionDetail = ({
         disruption.publishStatus === PublishStatus.editing ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
-            : "Disruption Overview";
+            : `${disruption.template ? "Template" : "Disruption"} Overview`;
 
     const hiddenInputs = (index: number) => [
         {
@@ -77,6 +78,7 @@ const DisruptionDetail = ({
         },
     ];
 
+    const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
@@ -96,6 +98,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                         styles: {
@@ -125,6 +128,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -145,6 +149,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -165,6 +170,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -185,6 +191,7 @@ const DisruptionDetail = ({
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
+                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -214,7 +221,7 @@ const DisruptionDetail = ({
                 header: "Status",
                 cells: [
                     {
-                        value: post.status,
+                        value: disruption.template ? "N/A" : post.status,
                     },
                     {
                         value: "",
@@ -326,13 +333,14 @@ const DisruptionDetail = ({
             ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
                   .socialMediaPostIndex + 1
             : 0;
+    const queryParams = useRouter().query;
 
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}`}
+                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -342,7 +350,9 @@ const DisruptionDetail = ({
             {socialMediaPostPopUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
-                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}`}
+                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
+                        disruption.template ? "?template=true" : ""
+                    }`}
                     cancelActionHandler={cancelActionHandlerSocialMediaPost}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -351,26 +361,44 @@ const DisruptionDetail = ({
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken ? (
                 <Popup
-                    action={"/api/duplicate-disruption"}
+                    action={`/api/duplicate-disruption${queryParams["template"] ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
                     continueText="Yes, duplicate"
                     cancelText="No, return"
-                    questionText={"Are you sure you wish to duplicate the disruption?"}
+                    questionText={`Are you sure you wish to duplicate the ${
+                        queryParams["template"] ? "template" : "disruption"
+                    }?`}
                 />
             ) : null}
-            <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
+            <CsrfForm
+                action={`/api/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
+                method="post"
+                csrfToken={csrfToken}
+            >
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        <Link
-                            className="govuk-link"
-                            href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
-                        >
-                            <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
-                        </Link>
+                        {disruption.template && (
+                            <button
+                                key="create-disruption-from-template"
+                                className="govuk-button"
+                                data-module="govuk-button"
+                                formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
+                            >
+                                Create disruption
+                            </button>
+                        )}
+                        {!disruption.template && (
+                            <Link
+                                className="govuk-link"
+                                href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                            >
+                                <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
+                            </Link>
+                        )}
                         <br />
                         <Table
                             rows={[
@@ -399,6 +427,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -420,6 +449,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -438,6 +468,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -456,6 +487,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -474,6 +506,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -493,6 +526,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -511,6 +545,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -529,6 +564,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -549,6 +585,7 @@ const DisruptionDetail = ({
                                                 undefined,
                                                 true,
                                                 true,
+                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -595,6 +632,7 @@ const DisruptionDetail = ({
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
+                                            isTemplate={disruption.template}
                                         />
                                     </div>
                                 </div>
@@ -667,7 +705,10 @@ const DisruptionDetail = ({
                             }`}
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                query: {
+                                    return: DISRUPTION_DETAIL_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
@@ -687,6 +728,8 @@ const DisruptionDetail = ({
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
+                                        : displaySendToReview
+                                        ? "govuk-button--secondary"
                                         : ""
                                 }`}
                             >
@@ -705,15 +748,15 @@ const DisruptionDetail = ({
                         {canPublish && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    Publish disruption
+                                    {disruption.template ? "Publish template" : "Publish disruption"}
                                 </button>
-                                {disruption.publishStatus !== PublishStatus.editing ? (
+                                {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
                                         className="govuk-button mt-8 govuk-button--secondary ml-5"
                                         data-module="govuk-button"
                                         formAction="/api/reject"
                                     >
-                                        Reject disruption
+                                        {disruption.template ? "Reject template" : "Reject disruption"}
                                     </button>
                                 ) : null}
                             </>
@@ -724,7 +767,7 @@ const DisruptionDetail = ({
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
-                                formAction="/api/cancel-changes"
+                                formAction={`/api/cancel-changes${queryParams["template"] ? "?template=true" : ""}`}
                             >
                                 Cancel all changes
                             </button>
@@ -736,7 +779,7 @@ const DisruptionDetail = ({
                                 data-module="govuk-button"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    deleteActionHandler("disruption", [
+                                    deleteActionHandler(queryParams["template"] ? "template" : "disruption", [
                                         {
                                             name: "id",
                                             value: disruption.disruptionId,
@@ -744,10 +787,10 @@ const DisruptionDetail = ({
                                     ]);
                                 }}
                             >
-                                Delete disruption
+                                {disruption.template ? "Delete template" : "Delete disruption"}
                             </button>
                         )}
-                        {disruption.publishStatus === PublishStatus.published ? (
+                        {disruption.publishStatus === PublishStatus.published && !disruption.template ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"
@@ -784,7 +827,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDisruptionById(
+        ctx.query.disruptionId?.toString() ?? "",
+        session.orgId,
+        !!ctx.query?.template,
+    );
 
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];

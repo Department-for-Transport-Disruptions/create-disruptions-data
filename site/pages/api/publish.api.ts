@@ -5,6 +5,7 @@ import {
     DASHBOARD_PAGE_PATH,
     ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import {
     getDisruptionById,
@@ -18,6 +19,7 @@ import {
     publishToHootsuite,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -27,6 +29,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
+        const { template } = req.query;
 
         if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
@@ -34,12 +37,12 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const [draftDisruption, orgInfo] = await Promise.all([
-            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId, template === "true"),
             getOrganisationInfoById(session.orgId),
         ]);
 
         if (!orgInfo) {
-            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            logger.error(`Organisation info not found for Org Id ${session.orgId}`);
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -60,22 +63,33 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 res,
             );
 
-            redirectTo(res, `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${REVIEW_DISRUPTION_PAGE_PATH}/${validatedBody.data.disruptionId}`,
+            );
             return;
         }
 
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             draftDisruption,
             session.orgId,
-            canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
+            canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval,
             session.name,
-            canPublish(session) ? "Disruption created and published" : "Disruption submitted for review",
+            draftDisruption.template
+                ? undefined
+                : canPublish(session)
+                ? "Disruption created and published"
+                : "Disruption submitted for review",
+            template === "true",
         );
 
         if (
             validatedDisruptionBody.data.socialMediaPosts &&
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
-            canPublish(session)
+            canPublish(session) &&
+            !draftDisruption.template
         ) {
             await publishToHootsuite(
                 validatedDisruptionBody.data.socialMediaPosts,
@@ -87,7 +101,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
 
         cleardownCookies(req, res);
 
-        redirectTo(res, DASHBOARD_PAGE_PATH);
+        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

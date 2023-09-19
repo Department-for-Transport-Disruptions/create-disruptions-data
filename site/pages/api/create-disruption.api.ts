@@ -13,8 +13,10 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
+    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -70,6 +72,7 @@ export const formatCreateDisruptionBody = (body: object) => {
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const isFromTemplate = isDisruptionFromTemplate(req);
 
         const { draft } = req.query;
 
@@ -84,6 +87,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         if (!session) {
             throw new Error("No session found");
         }
+
+        const { template } = req.query;
 
         const formattedBody = formatCreateDisruptionBody(req.body as object);
 
@@ -102,7 +107,14 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${queryParam ? `?${queryParam}` : ""}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
+                queryParam ? [queryParam] : [],
+            );
+
             return;
         }
 
@@ -110,15 +122,27 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        queryParam
-            ? redirectTo(res, `${decodeURIComponent(queryParam.split("=")[1])}/${validatedBody.data.disruptionId}`)
+        queryParam && !isFromTemplate
+            ? redirectToWithQueryParams(
+                  req,
+                  res,
+                  template ? ["template"] : [],
+                  `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
+              )
             : draft
             ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`);
+            : redirectToWithQueryParams(
+                  req,
+                  res,
+                  template ? ["template"] : [],
+                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0${
+                      isFromTemplate ? `?${isFromTemplate}` : ""
+                  }`,
+              );
 
         return;
     } catch (e) {

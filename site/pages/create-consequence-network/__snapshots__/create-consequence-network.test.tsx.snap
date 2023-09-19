@@ -125,6 +125,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -183,7 +184,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -280,7 +281,9 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
@@ -321,6 +324,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -708,6 +712,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -765,7 +770,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -873,7 +878,9 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
@@ -913,6 +920,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                   defaultValue=""
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1299,6 +1307,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   defaultValue=""
                   id="vehicle-mode-input"
                   name="vehicleMode"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -1357,7 +1366,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke down on a bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -1454,7 +1463,9 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               <div
                 className=""
               >
-                <div>
+                <div
+                  className=""
+                >
                   <div
                     className=""
                   >
@@ -1495,6 +1506,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                   defaultValue="severe"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}

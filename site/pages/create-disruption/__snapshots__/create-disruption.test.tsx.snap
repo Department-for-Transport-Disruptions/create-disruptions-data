@@ -176,7 +176,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -233,6 +233,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -473,9 +474,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             type="hidden"
           />
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -501,13 +504,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -567,7 +570,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -591,7 +594,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -629,9 +634,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -657,13 +664,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -723,7 +730,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -741,7 +748,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -811,9 +820,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             </fieldset>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -839,13 +850,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -905,7 +916,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -929,7 +940,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -967,9 +980,11 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -995,13 +1010,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -1061,7 +1076,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -1079,7 +1094,9 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -1197,13 +1214,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -1316,13 +1333,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"
@@ -1780,7 +1797,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 <textarea
                   className="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -1836,6 +1853,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   defaultValue=""
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -2016,9 +2034,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             />
           </table>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2044,13 +2064,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -2107,7 +2127,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -2131,7 +2151,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -2169,9 +2191,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2197,13 +2221,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -2260,7 +2284,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -2278,7 +2302,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -2348,9 +2374,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             </fieldset>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2376,13 +2404,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -2439,7 +2467,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -2463,7 +2491,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -2501,9 +2531,11 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -2529,13 +2561,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -2592,7 +2624,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -2610,7 +2642,9 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -2728,13 +2762,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -2844,13 +2878,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"
@@ -3304,7 +3338,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   className="govuk-textarea w-3/4"
                   defaultValue="A truck broke the bridge"
                   id="description-input"
-                  maxLength={500}
+                  maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
@@ -3361,6 +3395,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   defaultValue="routeDiversion"
                   id="disruption-reason-input"
                   name="disruptionReason"
+                  onChange={[Function]}
                 >
                   <option
                     disabled={true}
@@ -3601,9 +3636,11 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
             type="hidden"
           />
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3629,13 +3666,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-start-date-input"
                             name="disruptionStartDate"
@@ -3692,7 +3729,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -3716,7 +3753,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -3754,9 +3793,11 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3782,13 +3823,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="disruption-end-date-input"
                             name="disruptionEndDate"
@@ -3845,7 +3886,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -3863,7 +3904,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -3933,9 +3976,11 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
             </fieldset>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-1"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -3961,13 +4006,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-start-date-input"
                             name="publishStartDate"
@@ -4024,7 +4069,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-4 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -4048,7 +4093,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className="flex flex-row content-end gap-4"
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -4086,9 +4133,11 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
             </div>
           </div>
           <div
-            className="flex pb-8"
+            className="flex pb-8 items-end"
           >
-            <div>
+            <div
+              className="pr-2"
+            >
               <div
                 className="govuk-form-group"
               >
@@ -4114,13 +4163,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                     >
                       <div
-                        className="govuk-date-input__item govuk-!-margin-right-0"
+                        className="govuk-date-input__item govuk-!-margin-right-0 "
                       >
                         <div
                           className=""
                         >
                           <input
-                            className="govuk-input govuk-date-input__input govuk-input--width-6"
+                            className="govuk-input govuk-date-input__input govuk-input--width-6 w-[203px] "
                             disabled={false}
                             id="publish-end-date-input"
                             name="publishEndDate"
@@ -4177,7 +4226,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               </div>
             </div>
             <div
-              className="pl-5 flex flex-col justify-end"
+              className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]"
             >
               <div
                 className="govuk-form-group"
@@ -4195,7 +4244,9 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                   <div
                     className=""
                   >
-                    <div>
+                    <div
+                      className=""
+                    >
                       <div
                         className=""
                       >
@@ -4313,13 +4364,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-datedaily-input"
                                     name="disruptionRepeatsEndDate"
@@ -4429,13 +4480,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
                             >
                               <div
-                                className="govuk-date-input__item govuk-!-margin-right-0"
+                                className="govuk-date-input__item govuk-!-margin-right-0 "
                               >
                                 <div
                                   className=""
                                 >
                                   <input
-                                    className="govuk-input govuk-date-input__input govuk-input--width-6"
+                                    className="govuk-input govuk-date-input__input govuk-input--width-6 "
                                     disabled={false}
                                     id="disruption-repeats-end-date-input"
                                     name="disruptionRepeatsEndDate"

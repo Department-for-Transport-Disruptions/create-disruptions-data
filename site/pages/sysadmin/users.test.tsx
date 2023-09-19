@@ -1,18 +1,18 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import AdminUsers, { AdminUserProps } from "./users.page";
+import SysAdminUserManagement, { SysAdminUserManagementProps } from "./users.page";
 import { defaultModes } from "../../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
 import * as session from "../../utils/apiUtils/auth";
 
-const blankInputs: AdminUserProps = {
+const blankInputs: SysAdminUserManagementProps = {
     inputs: {},
     errors: [],
 };
 
 const randomId = "016f954c-0e14-11ee-be56-0242ac120002";
-const withInputs: AdminUserProps = {
+const withInputs: SysAdminUserManagementProps = {
     inputs: {
         givenName: "dummy",
         familyName: "user",
@@ -20,7 +20,7 @@ const withInputs: AdminUserProps = {
         group: UserGroups.orgAdmins,
     },
     errors: [],
-    admins: [
+    users: [
         {
             userStatus: "CONFIRMED",
             username: randomId,
@@ -28,6 +28,7 @@ const withInputs: AdminUserProps = {
             familyName: "user1",
             email: "dummy.user1@gmail.com",
             organisation: randomId,
+            group: UserGroups.orgAdmins,
         },
         {
             userStatus: "CONFIRMED",
@@ -36,6 +37,7 @@ const withInputs: AdminUserProps = {
             familyName: "user2",
             email: "dummy.user2@gmail.com",
             organisation: randomId,
+            group: UserGroups.orgAdmins,
         },
     ],
 };
@@ -76,12 +78,12 @@ describe("addUser", () => {
     });
 
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<AdminUsers {...blankInputs} />).toJSON();
+        const tree = renderer.create(<SysAdminUserManagement {...blankInputs} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<AdminUsers {...withInputs} />).toJSON();
+        const tree = renderer.create(<SysAdminUserManagement {...withInputs} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

@@ -13,8 +13,10 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
+    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
+    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -22,6 +24,8 @@ import { getSession } from "../../utils/apiUtils/auth";
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
+        const isFromTemplate = isDisruptionFromTemplate(req);
+        const { template } = req.query;
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
         const session = getSession(req);
 
@@ -47,20 +51,21 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
                 res,
             );
 
-            redirectTo(
+            redirectToWithQueryParams(
+                req,
                 res,
-                `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}${
-                    queryParam ? `?${queryParam}` : ""
-                }`,
+                template ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
             );
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff);
+        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
-            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            !isFromTemplate && queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -68,7 +73,13 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+        redirectToWithQueryParams(
+            req,
+            res,
+            template ? ["template"] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}`,
+            queryParam ? [queryParam] : [],
+        );
         return;
     } catch (e) {
         if (e instanceof Error) {

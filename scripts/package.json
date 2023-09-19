@@ -1,0 +1,8 @@
+{
+    "name": "@create-disruptions-data/scripts",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "copy-orgs": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  copy-org-table.ts"
+    }
+}
