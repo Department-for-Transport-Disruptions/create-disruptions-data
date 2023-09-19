@@ -14,6 +14,7 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -28,7 +29,6 @@ import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
