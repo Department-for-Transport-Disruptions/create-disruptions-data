@@ -36,7 +36,6 @@ USAGE
   - [`cdd-helpers change-group`](#cdd-helpers-change-group)
   - [`cdd-helpers help [COMMANDS]`](#cdd-helpers-help-commands)
 
-
 ## `cdd-helpers create-org`
 
 Create organisation
@@ -96,7 +95,6 @@ DESCRIPTION
 ```
 
 _See code: [dist/cli-helpers/src/commands/change-group/index.ts](https://github.com/Department-for-Transport-Disruptions/create-disruptions-data/blob/v0.0.0/dist/cli-helpers/src/commands/change-group/index.ts)_
-
 
 ## `cdd-helpers help [COMMANDS]`
 
