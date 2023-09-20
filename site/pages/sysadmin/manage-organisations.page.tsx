@@ -1,12 +1,13 @@
+import { Organisations } from "@create-disruptions-data/shared-ts/organisationTypes";
+import { getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-import { getOrganisationsInfo } from "../../data/dynamo";
-import { Organisations } from "../../schemas/organisation.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 export interface ManageOrganisationsProps {
     orgList: Organisations;
@@ -114,7 +115,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Access to system admins only");
     }
 
-    const orgList = (await getOrganisationsInfo()) ?? [];
+    const orgList: Organisations = (await getOrganisationsInfo(logger)) ?? [];
 
     return {
         props: {

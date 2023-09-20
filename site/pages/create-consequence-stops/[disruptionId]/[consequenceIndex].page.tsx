@@ -18,12 +18,14 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/StopsMap";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -197,15 +199,16 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     header: "Consequence type",
                                     cells: [
                                         "Stops",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}

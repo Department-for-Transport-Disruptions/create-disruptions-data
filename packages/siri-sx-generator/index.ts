@@ -4,12 +4,13 @@ import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { Dayjs } from "dayjs";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
 import { randomUUID } from "crypto";
-import { getOrganisationInfoById, getPublishedDisruptionsDataFromDynamo } from "./dynamo";
+import { getOrganisationInfoById } from "./dynamo";
 import { getDdbDocumentClient, getS3Client, uploadToS3 } from "./util/awsClient";
 import { getPtSituationElementFromSiteDisruption } from "./util/siri";
 
@@ -48,7 +49,7 @@ export const generateSiriSxAndUploadToS3 = async (
     logger.info(`Scanning DynamoDB table...`);
 
     try {
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
         const orgIds = disruptions
             .map((disruption) => disruption.orgId)

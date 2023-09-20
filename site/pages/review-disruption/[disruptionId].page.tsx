@@ -77,7 +77,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "message-to-appear",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -107,7 +107,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "hootsuite-profile",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -128,7 +128,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "publish-date",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -149,7 +149,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "publish-time",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -170,7 +170,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "account-to-publish",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -191,7 +191,7 @@ const ReviewDisruption = ({
                             ? createChangeLink(
                                   "hootsuite-profile",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   false,
@@ -302,7 +302,13 @@ const ReviewDisruption = ({
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    createChangeLink(`validity-period-${i + 1}`, "/create-disruption", disruption, undefined, true),
+                    createChangeLink(
+                        `validity-period-${i + 1}`,
+                        "/create-disruption",
+                        disruption.disruptionId,
+                        undefined,
+                        true,
+                    ),
                     false,
                     disruption.template,
                     ,
@@ -381,7 +387,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "type-of-disruption",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -403,7 +409,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "summary",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -422,7 +428,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "description",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -441,7 +447,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "associated-link",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -460,7 +466,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "disruption-reason",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -480,7 +486,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "publish-start-date",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -499,7 +505,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "publish-start-time",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -518,7 +524,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "publish-end-date",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -539,7 +545,7 @@ const ReviewDisruption = ({
                                             value: createChangeLink(
                                                 "publish-end-time",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 false,
@@ -599,7 +605,10 @@ const ReviewDisruption = ({
                         <Link
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: { return: REVIEW_DISRUPTION_PAGE_PATH, template: queryParams["template"] },
+                                query: {
+                                    return: REVIEW_DISRUPTION_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10

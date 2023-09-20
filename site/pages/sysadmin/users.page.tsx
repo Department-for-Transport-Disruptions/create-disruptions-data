@@ -15,7 +15,7 @@ import { listUsersWithGroups } from "../../data/cognito";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
+import { UserManagementSchema } from "../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -188,7 +188,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
             </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
                 <TextInput<AddUserSchema>
-                    display="Admin First name"
+                    display="Admin first name"
                     inputName="givenName"
                     widthClass="w"
                     value={pageState.inputs.givenName}
@@ -198,7 +198,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Admin Last name"
+                    display="Admin last name"
                     inputName="familyName"
                     widthClass="w"
                     value={pageState.inputs.familyName}
@@ -208,7 +208,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Admin Email address"
+                    display="Admin email address"
                     inputName="email"
                     widthClass="w"
                     value={pageState.inputs.email}
@@ -222,7 +222,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                 <input type="hidden" name="group" value={UserGroups.orgAdmins} />
 
                 <button className="govuk-button mt-8" data-module="govuk-button">
-                    Add and send invitation
+                    Add and send invite
                 </button>
                 <Table
                     columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}
@@ -259,25 +259,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgAdminUsers = await listUsersWithGroups();
 
-    const parsedList = userManagementSchema.safeParse(orgAdminUsers);
-
-    if (parsedList.success) {
-        const sortedAndFilteredUsersList = parsedList.data
-            .filter((user) => user.organisation === orgId)
-            .sort((a, b) => a.givenName.localeCompare(b.givenName));
-
-        return {
-            props: {
-                ...getPageState(errorCookie, addUserSchema),
-                users: sortedAndFilteredUsersList,
-                orgName: orgName,
-            },
-        };
-    }
+    const sortedAndFilteredUsersList = orgAdminUsers
+        .filter((user) => user.organisation === orgId)
+        .sort((a, b) => a.givenName.localeCompare(b.givenName));
 
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
+            users: sortedAndFilteredUsersList,
             orgName: orgName,
         },
     };

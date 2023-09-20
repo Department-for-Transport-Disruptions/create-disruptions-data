@@ -14,9 +14,11 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
@@ -62,15 +64,16 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     header: "Consequence type",
                                     cells: [
                                         "Network wide",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}
@@ -169,10 +172,10 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? (queryParams["return"] as string)
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                        ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
                                               isTemplate ? "?template=true" : ""
                                           }`
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
