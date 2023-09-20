@@ -4,7 +4,7 @@ import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import ViewAllContents, { Filter, TableContents, filterContents } from "./ViewAllContents";
-import { getWorstSeverity, isClosingOrClosed } from "../pages/view-all-disruptions.page";
+import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions.api";
 import { mockServices, mockViewAllData } from "../testData/mockData";
 
 type Renderer = {

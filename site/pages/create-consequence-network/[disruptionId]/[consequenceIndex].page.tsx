@@ -172,10 +172,10 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? (queryParams["return"] as string)
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
+                                        ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
                                               isTemplate ? "?template=true" : ""
                                           }`
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >

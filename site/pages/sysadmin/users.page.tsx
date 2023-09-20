@@ -15,7 +15,7 @@ import { listUsersWithGroups } from "../../data/cognito";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
+import { UserManagementSchema } from "../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -259,25 +259,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgAdminUsers = await listUsersWithGroups();
 
-    const parsedList = userManagementSchema.safeParse(orgAdminUsers);
-
-    if (parsedList.success) {
-        const sortedAndFilteredUsersList = parsedList.data
-            .filter((user) => user.organisation === orgId)
-            .sort((a, b) => a.givenName.localeCompare(b.givenName));
-
-        return {
-            props: {
-                ...getPageState(errorCookie, addUserSchema),
-                users: sortedAndFilteredUsersList,
-                orgName: orgName,
-            },
-        };
-    }
+    const sortedAndFilteredUsersList = orgAdminUsers
+        .filter((user) => user.organisation === orgId)
+        .sort((a, b) => a.givenName.localeCompare(b.givenName));
 
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
+            users: sortedAndFilteredUsersList,
             orgName: orgName,
         },
     };
