@@ -60,11 +60,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           <div
             className="govuk-form-group govuk-!-padding-top-3"
           >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
             <div
               className="govuk-form-group"
             >
@@ -75,7 +70,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 <label
                   className="govuk-label govuk-label--l"
                   htmlFor="social-account-input"
-                />
+                >
+                  Select social media account
+                </label>
                 <div
                   className=""
                 >
@@ -109,18 +106,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               className="govuk-form-group"
               id="message-content"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="message-content-input"
-              >
-                Message content
-              </label>
-              <div
-                className="govuk-hint"
-                id="message-content-hint"
-              >
-                You can enter up to 200 characters
-              </div>
               <div
                 className=""
               >
@@ -132,7 +117,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     id="message-content"
                   >
                     <label
-                      className="govuk-label govuk-label--s"
+                      className="govuk-label govuk-label--l"
                       htmlFor="message-content-input"
                     >
                       Message content
@@ -432,11 +417,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           <div
             className="govuk-form-group govuk-!-padding-top-3"
           >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
             <div
               className="govuk-form-group"
             >
@@ -447,7 +427,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 <label
                   className="govuk-label govuk-label--l"
                   htmlFor="social-account-input"
-                />
+                >
+                  Select social media account
+                </label>
                 <div
                   className=""
                 >
@@ -476,18 +458,6 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
               className="govuk-form-group"
               id="message-content"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="message-content-input"
-              >
-                Message content
-              </label>
-              <div
-                className="govuk-hint"
-                id="message-content-hint"
-              >
-                You can enter up to 200 characters
-              </div>
               <div
                 className=""
               >
@@ -499,7 +469,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                     id="message-content"
                   >
                     <label
-                      className="govuk-label govuk-label--s"
+                      className="govuk-label govuk-label--l"
                       htmlFor="message-content-input"
                     >
                       Message content
@@ -529,7 +499,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             </div>
           </div>
           <button
-            className="mt-3 govuk-link"
+            className="govuk-link"
             data-module="govuk-button"
             onClick={[Function]}
           >

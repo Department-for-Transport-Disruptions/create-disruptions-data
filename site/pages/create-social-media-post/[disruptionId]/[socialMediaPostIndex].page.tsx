@@ -61,8 +61,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         <h1 className="govuk-heading-xl">Social media message</h1>
 
                         <div className="govuk-form-group govuk-!-padding-top-3">
-                            <h2 className="govuk-heading-l">Select social media account</h2>
-
                             <Select<SocialMediaPost>
                                 inputName="socialAccount"
                                 selectValues={props.socialAccounts.map((account) => ({
@@ -74,14 +72,13 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 value={pageState.inputs.socialAccount}
                                 initialErrors={pageState.errors}
                                 displaySize="l"
-                                display={""}
+                                display="Select social media account"
                             />
                             {accountType === "Hootsuite" && (
                                 <Select<HootsuitePost>
                                     inputName="hootsuiteProfile"
                                     defaultDisplay="Social account"
-                                    hint={"Select Hootsuite profile"}
-                                    display={""}
+                                    display={"Select Hootsuite profile"}
                                     selectValues={
                                         props.socialAccounts
                                             ?.find((account) => account.id === pageState.inputs.socialAccount)
@@ -97,21 +94,13 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                             : undefined
                                     }
                                     initialErrors={pageState.errors}
-                                    displaySize="l"
+                                    displaySize="s"
                                 />
                             )}
                         </div>
 
                         <FormGroupWrapper errorIds={["messageContent"]} errors={errorsMessageContent}>
                             <div className="govuk-form-group" id={"message-content"}>
-                                <label className={`govuk-label govuk-label--l`} htmlFor={`message-content-input`}>
-                                    Message content
-                                </label>
-
-                                <div id={`message-content-hint`} className="govuk-hint">
-                                    You can enter up to 200 characters
-                                </div>
-
                                 <FormElementWrapper
                                     errors={errorsMessageContent}
                                     errorId={"messageContent"}
@@ -119,6 +108,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 >
                                     <TextInput<SocialMediaPost>
                                         display="Message content"
+                                        displaySize="l"
                                         hint="You can enter up to 200 characters"
                                         inputName="messageContent"
                                         maxLength={200}
@@ -135,7 +125,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         {!pageState.inputs.messageContent ||
                         (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
                             <button
-                                className="mt-3 govuk-link"
+                                className="govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
                                     setErrorsMessageContent(
