@@ -291,7 +291,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 

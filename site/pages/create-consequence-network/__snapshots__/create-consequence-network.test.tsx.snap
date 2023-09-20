@@ -786,7 +786,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div

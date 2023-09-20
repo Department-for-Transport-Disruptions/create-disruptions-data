@@ -595,7 +595,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -2585,7 +2585,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
