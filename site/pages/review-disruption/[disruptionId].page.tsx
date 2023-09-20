@@ -32,7 +32,6 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
-import { showCancelButton } from "../../utils/formUtils";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";
@@ -719,7 +718,7 @@ const ReviewDisruption = ({
                             </Link>
                         )}
 
-                        {showCancelButton(queryParams) && returnToTemplateOverview && (
+                        {returnToTemplateOverview && (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"

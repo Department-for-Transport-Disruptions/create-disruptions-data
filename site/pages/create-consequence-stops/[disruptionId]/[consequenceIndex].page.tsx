@@ -60,8 +60,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
-    const returnPath = (queryParams["return"] as string) || "";
-    console.log(returnPath);
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
