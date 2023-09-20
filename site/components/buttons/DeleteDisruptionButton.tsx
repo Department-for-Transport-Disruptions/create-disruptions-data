@@ -6,6 +6,7 @@ interface DeleteDisruptionButtonProps {
     csrfToken?: string;
     buttonClasses?: string;
     isTemplate?: string;
+    returnPath?: string;
 }
 
 const DeleteDisruptionButton = ({
@@ -13,6 +14,7 @@ const DeleteDisruptionButton = ({
     csrfToken,
     buttonClasses,
     isTemplate,
+    returnPath,
 }: DeleteDisruptionButtonProps): ReactElement | null => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -25,7 +27,9 @@ const DeleteDisruptionButton = ({
             {showDeleteModal && (
                 <DeleteConfirmationPopup
                     entityName={isTemplate ? "the template" : "the disruption"}
-                    deleteUrl={`/api/delete-disruption${isTemplate ? "?template=true" : ""}`}
+                    deleteUrl={`/api/delete-disruption${isTemplate ? "?template=true" : ""}${
+                        returnPath ? `${returnPath}` : ""
+                    }`}
                     cancelActionHandler={() => {
                         setShowDeleteModal(false);
                     }}

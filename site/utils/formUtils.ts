@@ -116,8 +116,9 @@ export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], fil
 
 export const showCancelButton = (queryParams: ParsedUrlQuery) => {
     return (
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+        (queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) &&
+            !queryParams["return"]?.includes("template")) ||
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
     );
 };
 

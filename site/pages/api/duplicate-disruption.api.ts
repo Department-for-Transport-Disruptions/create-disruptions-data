@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import {
     CREATE_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
@@ -101,9 +102,15 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
+        const returnPathForDisruptionCreatedFromTemplate = encodeURIComponent(
+            `${DISRUPTION_DETAIL_PAGE_PATH}/${
+                templateId as string
+            }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+        );
+
         createDisruptionFromTemplate
             ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-                  `return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                  `return=${returnPathForDisruptionCreatedFromTemplate}`,
               ])
             : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
                   "duplicate=true",
