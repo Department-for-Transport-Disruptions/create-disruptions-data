@@ -1275,7 +1275,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

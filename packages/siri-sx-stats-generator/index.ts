@@ -12,7 +12,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 
 const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
     try {
-        const orgList = await getOrganisationsInfo();
+        const orgList = await getOrganisationsInfo(logger);
         if (!!orgList) {
             const orgPutRequest = orgList.map((org) => {
                 const orgId = org.PK;
@@ -88,7 +88,7 @@ export const main = async (): Promise<void> => {
             throw new Error("Dynamo table names not set");
         }
 
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
         const siriStats = generateSiriStats(disruptions);
 

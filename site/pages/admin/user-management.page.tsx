@@ -7,7 +7,7 @@ import PageNumbers from "../../components/layout/PageNumbers";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
 import { listUsersWithGroups } from "../../data/cognito";
-import { UserManagementSchema, userManagementSchema } from "../../schemas/user-management.schema";
+import { UserManagementSchema } from "../../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getDataInPages } from "../../utils/formUtils";
 import { getAccountType } from "../../utils/tableUtils";
@@ -178,8 +178,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         };
     }
 
-    const userList = userManagementSchema
-        .parse(userRecords)
+    const userList = userRecords
         .filter((user) => user.organisation === sessionWithOrg.orgId)
         .sort((a, b) => {
             return a.email.toLowerCase().localeCompare(b.email.toLowerCase(), "en", { numeric: true });
