@@ -39,19 +39,11 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         const { files, fields } = await formParse(req);
 
-        if (!fields?.disruptionId && !fields?.socialMediaPostIndex) {
-            throw new Error("No image data to upload");
+        if (!fields) {
+            throw new Error("No form fields parsed");
         }
 
-        if (!fields.socialAccount) {
-            throw new Error("No social account selected");
-        }
-
-        const socialMediaAccount = await getOrgSocialAccount(session.orgId, fields.socialAccount.toString());
-
-        if (!socialMediaAccount) {
-            throw new Error("Social media account not found");
-        }
+        const socialMediaAccountDetail = await getOrgSocialAccount(session.orgId, fields.socialAccount?.toString());
 
         const imageFile =
             files[0] && files[0].size
@@ -66,8 +58,8 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
         const validatedBody = refineImageSchema.safeParse({
             ...fields,
             ...(imageFile ? { image: imageFile } : {}),
-            display: socialMediaAccount.display,
-            accountType: socialMediaAccount.accountType,
+            display: socialMediaAccountDetail?.display,
+            accountType: socialMediaAccountDetail?.accountType,
         });
 
         if (!validatedBody.success) {

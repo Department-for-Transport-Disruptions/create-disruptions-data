@@ -533,7 +533,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             displaySize="l"
                             hint="Enter time in minutes"
                             value={pageState.inputs.disruptionDelay}
-                            disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}

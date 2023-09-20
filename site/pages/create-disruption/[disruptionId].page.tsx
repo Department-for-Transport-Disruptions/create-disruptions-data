@@ -348,7 +348,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     display="Start date"
                                     hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                     value={validity.disruptionStartDate}
-                                    disabled={false}
                                     disablePast={false}
                                     inputName={"disruptionStartDate"}
                                     stateUpdater={validityStateUpdater}
@@ -367,7 +366,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     display="Start time"
                                     hint="Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm"
                                     value={validity.disruptionStartTime}
-                                    disabled={false}
                                     inputName="disruptionStartTime"
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
@@ -452,7 +450,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             ? pageState.inputs.publishStartDate
                                             : validity.disruptionStartDate
                                     }
-                                    disabled={false}
                                     disablePast={false}
                                     inputName="publishStartDate"
                                     stateUpdater={stateUpdater}
@@ -476,7 +473,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             ? pageState.inputs.publishStartTime
                                             : validity.disruptionStartTime
                                     }
-                                    disabled={false}
                                     inputName="publishStartTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
@@ -557,7 +553,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             display="Ending on"
                                             hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                             value={validity.disruptionRepeatsEndDate}
-                                            disabled={false}
                                             disablePast={false}
                                             inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
@@ -577,7 +572,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                             display="Ending on"
                                             hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                             value={validity.disruptionRepeatsEndDate}
-                                            disabled={false}
                                             disablePast={false}
                                             inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}

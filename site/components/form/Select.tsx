@@ -23,7 +23,6 @@ const Select = <T extends object>({
     width = "3/4",
     useDefaultValue = true,
     hint,
-    disabled,
 }: SelectProps<T>): ReactElement => {
     const [errors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -66,7 +65,6 @@ const Select = <T extends object>({
                         value={!useDefaultValue ? value ?? "" : undefined}
                         onChange={(e) => stateUpdater(e.target.value, inputName)}
                         aria-describedby={hint ? `${inputName}-hint` : undefined}
-                        disabled={disabled}
                     >
                         {getSelectOptions()}
                     </select>

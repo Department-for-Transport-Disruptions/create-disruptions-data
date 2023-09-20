@@ -845,7 +845,6 @@ const ViewAllContents = ({
                             display="Start date"
                             hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                             value=""
-                            disabled={false}
                             disablePast={false}
                             inputName="disruptionStartDate"
                             stateUpdater={(value) => {
@@ -870,7 +869,6 @@ const ViewAllContents = ({
                                 display="End date"
                                 hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
                                 value=""
-                                disabled={false}
                                 disablePast={false}
                                 inputName="disruptionEndDate"
                                 stateUpdater={(value) => {

@@ -4,7 +4,7 @@ import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 
 interface TimeSelectorProps<T> extends FormBase<T> {
-    disabled: boolean;
+    disabled?: boolean;
     hint?: string;
     reset?: boolean;
     placeholderValue?: string;
@@ -19,7 +19,7 @@ const TimeSelector = <T extends object>({
     displaySize = "s",
     inputName,
     initialErrors = [],
-    disabled,
+    disabled = false,
     hint,
     stateUpdater,
     reset = false,

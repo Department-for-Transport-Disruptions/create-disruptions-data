@@ -40,7 +40,11 @@ const twitterSchema = z.object({
     accountType: z.literal("Twitter"),
 });
 
-export const socialMediaPostSchema = z.discriminatedUnion("accountType", [hootsuiteSchema, twitterSchema]);
+export const socialMediaPostSchema = z.discriminatedUnion(
+    "accountType",
+    [hootsuiteSchema, twitterSchema],
+    setZodDefaultError("Select a social media profile"),
+);
 
 export const refineImageSchema = socialMediaPostSchema
     .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
