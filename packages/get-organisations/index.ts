@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 
 const getOrganisations = async () => {
     try {
-        const orgList = await getAllOrganisationsInfoAndStats();
+        const orgList = await getAllOrganisationsInfoAndStats(logger);
         return orgList || [];
     } catch (e) {
         if (e instanceof Error) {

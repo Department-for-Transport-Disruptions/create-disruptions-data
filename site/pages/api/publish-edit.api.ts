@@ -48,7 +48,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         ]);
 
         if (!orgInfo) {
-            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            logger.error(`Organisation info not found for Org Id ${session.orgId}`);
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -110,7 +110,8 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, template === "true");
         }
 
-        isEditPendingDsp && (!canPublish(session) || !draftDisruption.template)
+        draftDisruption.publishStatus === PublishStatus.pendingAndEditing &&
+        (!canPublish(session) || !draftDisruption.template)
             ? await updatePendingDisruptionStatus(
                   { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,

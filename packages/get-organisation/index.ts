@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 
 const getOrganisation = async (orgId: string) => {
     try {
-        const org = await getOrganisationInfoAndStats(orgId);
+        const org = await getOrganisationInfoAndStats(orgId, logger);
         if (!org) {
             throw new Error(`No valid organisation found for ID: ${orgId}`);
         }
