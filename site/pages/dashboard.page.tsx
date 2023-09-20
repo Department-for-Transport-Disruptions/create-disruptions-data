@@ -266,12 +266,14 @@ const Dashboard = ({
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DashboardProps }> => {
+    const newDisruptionId = randomUUID();
+
     const baseProps = {
         props: {
             liveDisruptions: [],
             upcomingDisruptions: [],
             recentlyClosedDisruptions: [],
-            newDisruptionId: randomUUID(),
+            newDisruptionId,
             canPublish: false,
             orgName: "",
         },
@@ -356,7 +358,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 liveDisruptions: mapDisruptions(liveDisruptions),
                 upcomingDisruptions: mapDisruptions(upcomingDisruptions),
                 recentlyClosedDisruptions: mapDisruptions(recentlyClosedDisruptions),
-                newDisruptionId: randomUUID(),
+                newDisruptionId,
                 pendingApprovalCount: pendingApprovalCount,
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
