@@ -595,7 +595,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -681,15 +681,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -697,7 +699,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -1703,15 +1705,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -1719,7 +1723,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -2585,7 +2589,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -2659,15 +2663,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -2675,7 +2681,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -3680,15 +3686,17 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -3696,7 +3704,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""

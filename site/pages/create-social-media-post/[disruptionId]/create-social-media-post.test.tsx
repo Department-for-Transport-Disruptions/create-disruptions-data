@@ -36,7 +36,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        disruptionSummary="test summary 123"
+                        disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={previousCreateSocialMediaPostInformation}
@@ -60,7 +60,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        disruptionSummary="test summary 123"
+                        disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={{}}

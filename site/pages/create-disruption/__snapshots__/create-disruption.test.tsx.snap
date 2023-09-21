@@ -483,22 +483,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-date-input"
-                  >
-                    Start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-date-input"
+                    >
+                      Start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -576,15 +578,17 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-time-input"
-                  >
-                    Start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-time-input"
+                    >
+                      Start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="disruption-start-time-hint"
@@ -592,7 +596,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -643,22 +647,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-date-input"
-                  >
-                    End date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-date-input"
+                    >
+                      End date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -736,17 +742,19 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-time-input"
-                  >
-                    End time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-time-input"
+                    >
+                      End time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -829,22 +837,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-date-input"
-                  >
-                    Publication start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-date-input"
+                    >
+                      Publication start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -922,15 +932,17 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-time-input"
-                  >
-                    Publication start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-time-input"
+                    >
+                      Publication start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="publish-start-time-hint"
@@ -938,7 +950,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -989,22 +1001,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-date-input"
-                  >
-                    Publication end date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-date-input"
+                    >
+                      Publication end date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -1082,17 +1096,19 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-time-input"
-                  >
-                    Publication end time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-time-input"
+                    >
+                      Publication end time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -1193,22 +1209,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-datedaily"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-datedaily-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-datedaily-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -1312,22 +1330,24 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-date"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-date-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-date-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2043,22 +2063,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-date-input"
-                  >
-                    Start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-date-input"
+                    >
+                      Start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2133,15 +2155,17 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-time-input"
-                  >
-                    Start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-time-input"
+                    >
+                      Start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="disruption-start-time-hint"
@@ -2149,7 +2173,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -2200,22 +2224,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-date-input"
-                  >
-                    End date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-date-input"
+                    >
+                      End date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2290,17 +2316,19 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-time-input"
-                  >
-                    End time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-time-input"
+                    >
+                      End time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -2383,22 +2411,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-date-input"
-                  >
-                    Publication start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-date-input"
+                    >
+                      Publication start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2473,15 +2503,17 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-time-input"
-                  >
-                    Publication start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-time-input"
+                    >
+                      Publication start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="publish-start-time-hint"
@@ -2489,7 +2521,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -2540,22 +2572,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-date-input"
-                  >
-                    Publication end date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-date-input"
+                    >
+                      Publication end date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2630,17 +2664,19 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-time-input"
-                  >
-                    Publication end time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-time-input"
+                    >
+                      Publication end time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -2741,22 +2777,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-datedaily"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-datedaily-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-datedaily-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -2857,22 +2895,24 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-date"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-date-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-date-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -3645,22 +3685,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-date-input"
-                  >
-                    Start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-date-input"
+                    >
+                      Start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -3735,15 +3777,17 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-start-time-input"
-                  >
-                    Start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-start-time-input"
+                    >
+                      Start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="disruption-start-time-hint"
@@ -3751,7 +3795,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -3802,22 +3846,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="disruption-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-date-input"
-                  >
-                    End date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-date-input"
+                    >
+                      End date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -3892,17 +3938,19 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="disruption-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="disruption-end-time-input"
-                  >
-                    End time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="disruption-end-time-input"
+                    >
+                      End time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -3985,22 +4033,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-start-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-date-input"
-                  >
-                    Publication start date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-date-input"
+                    >
+                      Publication start date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -4075,15 +4125,17 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-start-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-start-time-input"
-                  >
-                    Publication start time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-start-time-input"
+                    >
+                      Publication start time
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint"
                     id="publish-start-time-hint"
@@ -4091,7 +4143,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                     Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
                   </div>
                   <div
-                    className="flex flex-row content-end gap-4"
+                    className="flex flex-row content-end gap-4 mt-auto"
                   >
                     <div
                       className=""
@@ -4142,22 +4194,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group govuk-!-margin-bottom-0"
+                  className="govuk-form-group govuk-!-margin-bottom-0 "
                   id="publish-end-date"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-date-input"
-                  >
-                    Publication end date
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-date-input"
+                    >
+                      Publication end date
+                    </label>
+                  </div>
                   <div
                     className="govuk-hint govuk-visually-hidden"
                   >
                     Enter in format DD/MM/YYYY
                   </div>
                   <div
-                    className="flex flex-col"
+                    className="flex flex-col mt-auto"
                   >
                     <div
                       className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -4232,17 +4286,19 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 className="govuk-form-group"
               >
                 <div
-                  className="govuk-form-group"
+                  className="govuk-form-group "
                   id="publish-end-time"
                 >
-                  <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="publish-end-time-input"
-                  >
-                    Publication end time
-                  </label>
+                  <div>
+                    <label
+                      className="govuk-label govuk-label--s"
+                      htmlFor="publish-end-time-input"
+                    >
+                      Publication end time
+                    </label>
+                  </div>
                   <div
-                    className=""
+                    className="mt-auto"
                   >
                     <div
                       className=""
@@ -4343,22 +4399,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-datedaily"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-datedaily-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-datedaily-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -4459,22 +4517,24 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         className="govuk-form-group"
                       >
                         <div
-                          className="govuk-form-group govuk-!-margin-bottom-0"
+                          className="govuk-form-group govuk-!-margin-bottom-0 "
                           id="disruption-repeats-end-date"
                         >
-                          <label
-                            className="govuk-label govuk-label--s"
-                            htmlFor="disruption-repeats-end-date-input"
-                          >
-                            Ending on
-                          </label>
+                          <div>
+                            <label
+                              className="govuk-label govuk-label--s"
+                              htmlFor="disruption-repeats-end-date-input"
+                            >
+                              Ending on
+                            </label>
+                          </div>
                           <div
                             className="govuk-hint"
                           >
                             Enter in format DD/MM/YYYY
                           </div>
                           <div
-                            className="flex flex-col"
+                            className="flex flex-col mt-auto"
                           >
                             <div
                               className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
