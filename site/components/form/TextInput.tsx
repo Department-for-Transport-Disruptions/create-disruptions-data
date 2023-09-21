@@ -56,8 +56,10 @@ const TextInput = <T extends object>({
                             id={`${inputId}-input`}
                             rows={rows}
                             maxLength={maxLength}
-                            defaultValue={value}
-                            onChange={(e) => stateUpdater(e.target.value, inputName)}
+                            value={value}
+                            onChange={(e) => {
+                                stateUpdater(e.target.value, inputName);
+                            }}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     ) : (
@@ -67,8 +69,10 @@ const TextInput = <T extends object>({
                             name={inputName}
                             type={isPassword ? "password" : "text"}
                             maxLength={maxLength}
-                            defaultValue={value}
-                            onChange={(e) => stateUpdater(e.target.value, inputName)}
+                            value={value}
+                            onChange={(e) => {
+                                stateUpdater(e.target.value, inputName);
+                            }}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                         />
                     )}

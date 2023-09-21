@@ -427,12 +427,12 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
-                    defaultValue="dummyUser@gmail.com"
                     id="email-input"
                     maxLength={100}
                     name="email"
                     onChange={[Function]}
                     type="text"
+                    value="dummyUser@gmail.com"
                   />
                 </div>
               </div>
@@ -455,12 +455,12 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
                     id="password-input"
                     maxLength={100}
                     name="password"
                     onChange={[Function]}
                     type="password"
+                    value="dummyPassword"
                   />
                 </div>
               </div>
@@ -810,12 +810,12 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                   <input
                     aria-describedby="email-error"
                     className="govuk-input w-3/4 govuk-input--error"
-                    defaultValue="dummyUser@gmail.com"
                     id="email-input"
                     maxLength={100}
                     name="email"
                     onChange={[Function]}
                     type="text"
+                    value="dummyUser@gmail.com"
                   />
                 </div>
               </div>
@@ -838,12 +838,12 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
                     id="password-input"
                     maxLength={100}
                     name="password"
                     onChange={[Function]}
                     type="password"
+                    value="dummyPassword"
                   />
                 </div>
               </div>
