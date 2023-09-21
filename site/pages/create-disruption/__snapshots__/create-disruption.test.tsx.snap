@@ -146,12 +146,12 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input w-3/4"
-                  defaultValue="New disruption"
                   id="summary-input"
                   maxLength={100}
                   name="summary"
                   onChange={[Function]}
                   type="text"
+                  value="New disruption"
                 />
               </div>
             </div>
@@ -174,12 +174,12 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <textarea
                   className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke the bridge"
                   id="description-input"
                   maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
+                  value="A truck broke the bridge"
                 />
               </div>
             </div>
@@ -202,12 +202,12 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
               >
                 <input
                   className="govuk-input w-3/4"
-                  defaultValue="www.bbc.com"
                   id="associated-link-input"
                   maxLength={250}
                   name="associatedLink"
                   onChange={[Function]}
                   type="text"
+                  value="www.bbc.com"
                 />
               </div>
             </div>
@@ -3308,12 +3308,12 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               >
                 <input
                   className="govuk-input w-3/4"
-                  defaultValue="New disruption"
                   id="summary-input"
                   maxLength={100}
                   name="summary"
                   onChange={[Function]}
                   type="text"
+                  value="New disruption"
                 />
               </div>
             </div>
@@ -3336,12 +3336,12 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               >
                 <textarea
                   className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke the bridge"
                   id="description-input"
                   maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
+                  value="A truck broke the bridge"
                 />
               </div>
             </div>
@@ -3364,12 +3364,12 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
               >
                 <input
                   className="govuk-input w-3/4"
-                  defaultValue="www.bbc.com"
                   id="associated-link-input"
                   maxLength={250}
                   name="associatedLink"
                   onChange={[Function]}
                   type="text"
+                  value="www.bbc.com"
                 />
               </div>
             </div>
