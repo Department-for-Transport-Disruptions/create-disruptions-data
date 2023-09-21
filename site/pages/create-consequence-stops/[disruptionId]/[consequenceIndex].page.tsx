@@ -288,10 +288,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                    props.disruptionDescription
+                                        ? stateUpdater(props.disruptionDescription, "description")
+                                        : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 
@@ -423,7 +425,7 @@ export const getServerSideProps = async (
             ...pageState,
             consequenceIndex: index,
             sessionWithOrg: session,
-            disruptionSummary: disruption.description || "",
+            disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
         },
     };

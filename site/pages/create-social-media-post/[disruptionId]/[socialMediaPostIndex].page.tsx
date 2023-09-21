@@ -22,7 +22,7 @@ const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
 export interface CreateSocialMediaPostPageProps extends PageState<Partial<SocialMediaPost>> {
-    disruptionSummary: string;
+    disruptionDescription: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
@@ -58,7 +58,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 </label>
 
                                 <div id={`message-content-hint`} className="govuk-hint">
-                                    You can enter up to 200 characters
+                                    You can enter up to 280 characters
                                 </div>
 
                                 <FormElementWrapper
@@ -89,10 +89,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     setErrorsMessageContent(
                                         errorsMessageContent.filter((e) => e.id !== "messageContent"),
                                     );
-                                    stateUpdater(props.disruptionSummary, "messageContent");
+                                    stateUpdater(props.disruptionDescription?.slice(0, 280), "messageContent");
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 
@@ -240,7 +240,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
-            disruptionSummary: disruption?.summary || "",
+            disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
             socialAccounts,
             template: disruption?.template?.toString() || "",

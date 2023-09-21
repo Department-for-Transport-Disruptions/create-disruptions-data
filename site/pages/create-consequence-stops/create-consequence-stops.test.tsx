@@ -49,7 +49,7 @@ const withInputs: CreateConsequenceStopsProps = {
         name: "Test User",
         mode: defaultModes,
     },
-    disruptionSummary: "A truck broke down on a bridge",
+    disruptionDescription: "A truck broke down on a bridge",
 };
 
 const withInputsAndErrors: CreateConsequenceStopsProps = {

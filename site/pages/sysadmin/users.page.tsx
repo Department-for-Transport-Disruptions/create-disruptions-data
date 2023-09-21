@@ -225,7 +225,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     Add and send invite
                 </button>
                 <Table
-                    columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}
+                    columns={["First name", "Last name", "Email", "Account type", "Action", "Status"]}
                     rows={getRows()}
                 ></Table>
             </CsrfForm>

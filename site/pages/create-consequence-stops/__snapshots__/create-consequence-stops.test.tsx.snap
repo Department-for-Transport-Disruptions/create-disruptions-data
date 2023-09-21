@@ -428,7 +428,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -1936,7 +1936,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
