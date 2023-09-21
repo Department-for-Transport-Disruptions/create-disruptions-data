@@ -338,7 +338,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 />
                             </Fragment>
                         ))}
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${dateColumnError || timeColumnError ? "order-first" : "items-end"}`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-1"
@@ -360,6 +362,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -380,10 +383,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                                 : "w-[300px]"
                                             : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                         </div>
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${dateColumnError || timeColumnError ? "order-first" : "items-end"}`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-2"
@@ -405,6 +411,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -416,6 +423,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                         </div>
@@ -436,7 +444,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             reset={addValidityClicked}
                         />
 
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${dateColumnError || timeColumnError ? "order-first" : "items-end"}`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-1"
@@ -463,6 +473,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -488,11 +499,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                                 : "w-[300px]"
                                             : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                         </div>
 
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${dateColumnError || timeColumnError ? "order-first" : "items-end"}`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-2"
@@ -519,6 +533,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -535,6 +550,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
+                                    errorAlign={dateColumnError}
                                 />
                             </div>
                         </div>
