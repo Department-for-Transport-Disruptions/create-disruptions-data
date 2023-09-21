@@ -505,7 +505,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionDescription ? stateUpdater(props.disruptionDescription, "description") : "";
+                                    props.disruptionDescription
+                                        ? stateUpdater(props.disruptionDescription, "description")
+                                        : "";
                                 }}
                             >
                                 <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
