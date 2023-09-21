@@ -528,12 +528,12 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                 >
                   <input
                     className="govuk-input w border-3"
+                    defaultValue="test-org"
                     id="name-input"
                     maxLength={100}
                     name="name"
                     onChange={[Function]}
                     type="text"
-                    value="test-org"
                   />
                 </div>
               </div>

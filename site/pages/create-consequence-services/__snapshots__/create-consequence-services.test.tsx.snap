@@ -1622,12 +1622,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 <textarea
                   aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
+                  defaultValue="A truck broke down on a bridge"
                   id="description-input"
                   maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
-                  value="A truck broke down on a bridge"
                 />
               </div>
             </div>
@@ -3599,12 +3599,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 <textarea
                   aria-describedby="description-hint"
                   className="govuk-textarea w-3/4"
+                  defaultValue="A truck broke down on a bridge"
                   id="description-input"
                   maxLength={1000}
                   name="description"
                   onChange={[Function]}
                   rows={3}
-                  value="A truck broke down on a bridge"
                 />
               </div>
             </div>

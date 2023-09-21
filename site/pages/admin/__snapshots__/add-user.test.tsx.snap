@@ -556,12 +556,12 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    defaultValue="dummy"
                     id="given-name-input"
                     maxLength={100}
                     name="givenName"
                     onChange={[Function]}
                     type="text"
-                    value="dummy"
                   />
                 </div>
               </div>
@@ -584,12 +584,12 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    defaultValue="user"
                     id="family-name-input"
                     maxLength={100}
                     name="familyName"
                     onChange={[Function]}
                     type="text"
-                    value="user"
                   />
                 </div>
               </div>
@@ -612,12 +612,12 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    defaultValue="dummy.user@gmail.com"
                     id="email-input"
                     maxLength={100}
                     name="email"
                     onChange={[Function]}
                     type="text"
-                    value="dummy.user@gmail.com"
                   />
                 </div>
               </div>
