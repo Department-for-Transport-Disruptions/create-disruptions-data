@@ -13,10 +13,7 @@ import {
     Organisations,
     OrganisationsWithStats,
     organisationsSchema,
-    organisationSchema,
     organisationsSchemaWithStats,
-    statistic,
-    OrganisationWithStats,
 } from "../organisationTypes";
 import { notEmpty } from "./index";
 
@@ -179,32 +176,39 @@ export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation
 };
 
 export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationsWithStats | null> => {
-    logger.info(`Getting all organisations from DynamoDB table...`);
+    logger.info(`Getting all organisations with stats from DynamoDB table...`);
     try {
         const dbDataInfo = await recursiveScan(
             {
                 TableName: organisationsTableName,
+                FilterExpression: "begins_with(SK, :info) OR begins_with(SK, :stat)",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                    ":stat": "STAT",
+                },
             },
             logger,
         );
 
-        const parsedOrgWithStats = organisationsSchemaWithStats.safeParse(dbDataInfo);
+        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
 
-        if (!parsedOrgWithStats.success) {
+        const collectedOrgsWithStats = orgIds.map((id) => {
+            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
+            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
+
+            return {
+                ...info,
+                stats,
+            };
+        });
+
+        const parsedOrgsWithStats = organisationsSchemaWithStats.safeParse(collectedOrgsWithStats);
+
+        if (!parsedOrgsWithStats.success) {
             return null;
         }
 
-        const organisations = parsedOrgWithStats.data.filter((org) => org.SK === "INFO");
-
-        const stats = parsedOrgWithStats.data.filter((org) => org.SK === "STAT");
-
-        const organisationsData = organisations.map((org) => ({
-            ...org,
-            ...(stats.find((orgStats) => orgStats.PK === org.PK) || {}),
-            SK: undefined,
-        }));
-
-        return organisationsData;
+        return parsedOrgsWithStats.data;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
@@ -219,53 +223,41 @@ export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<O
 export const getOrganisationInfoAndStats = async (
     orgId: string,
     logger: Logger,
-): Promise<OrganisationWithStats | null> => {
+): Promise<OrganisationsWithStats[0] | null> => {
     logger.info(`Getting organisation ${orgId} from DynamoDB table...`);
     try {
         const dbDataInfo = await recursiveScan(
             {
                 TableName: organisationsTableName,
-                FilterExpression: "PK = :orgId",
+                FilterExpression: "(begins_with(SK, :info) OR begins_with(SK, :stat)) AND PK=:orgId",
                 ExpressionAttributeValues: {
+                    ":info": "INFO",
+                    ":stat": "STAT",
                     ":orgId": orgId,
                 },
             },
             logger,
         );
 
-        const parsedOrgWithStats = organisationsSchemaWithStats.safeParse(dbDataInfo);
+        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
 
-        if (!parsedOrgWithStats.success) {
+        const collectedOrgsWithStats = orgIds.map((id) => {
+            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
+            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
+
+            return {
+                ...info,
+                stats,
+            };
+        });
+
+        const parsedOrgsWithStats = organisationsSchemaWithStats.safeParse(collectedOrgsWithStats);
+
+        if (!parsedOrgsWithStats.success) {
             return null;
         }
 
-        const organisations = parsedOrgWithStats.data.find((org) => org.SK === "INFO");
-
-        const stats = parsedOrgWithStats.data.find((org) => org.SK === "STAT");
-
-        if (!organisations || !stats) {
-            return null;
-        }
-
-        const parsedOrg = organisationSchema.safeParse(organisations);
-        const parsedStats = statistic.safeParse(stats);
-
-        if (!parsedOrg.success || !parsedStats.success) {
-            return null;
-        }
-
-        return {
-            networkWideConsequencesCount: parsedStats.data.networkWideConsequencesCount || 0,
-            servicesAffected: parsedStats.data.servicesAffected || 0,
-            servicesConsequencesCount: parsedStats.data.servicesConsequencesCount || 0,
-            stopsAffected: parsedStats.data.stopsAffected || 0,
-            stopsConsequencesCount: parsedStats.data.stopsConsequencesCount || 0,
-            disruptionReasonCount: parsedStats.data.disruptionReasonCount,
-            totalConsequencesCount: parsedStats.data.totalConsequencesCount || 0,
-            PK: parsedOrg.data.PK,
-            adminAreaCodes: parsedOrg.data.adminAreaCodes,
-            name: parsedOrg.data.name,
-        };
+        return parsedOrgsWithStats.data?.[0] || null;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

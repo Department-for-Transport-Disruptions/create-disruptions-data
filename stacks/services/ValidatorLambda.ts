@@ -20,9 +20,9 @@ export const createValidatorLambda = (stack: Stack, siriSXUnvalidatedBucket: Buc
             }),
         ],
         handler: "packages/siri-sx-validator/index.main",
-        timeout: 600,
-        memorySize: 256,
-        runtime: "python3.9",
+        timeout: 60,
+        memorySize: 1536,
+        runtime: "python3.11",
         enableLiveDev: false,
     });
 

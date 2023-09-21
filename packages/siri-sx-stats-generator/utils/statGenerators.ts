@@ -95,7 +95,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
         const consequenceStats = generateConsequenceStats(key, disruption);
-        if (consequenceStats) {
+        if (consequenceStats?.[key]) {
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = {
                     disruptionReasonCount: {},

@@ -1,14 +1,20 @@
 import { z } from "zod";
 
-export const organisationSchema = z.object({
-    PK: z.string(),
-    name: z.string(),
-    adminAreaCodes: z.array(z.string()),
-});
+export const organisationSchema = z
+    .object({
+        PK: z.string(),
+        name: z.string(),
+        adminAreaCodes: z.array(z.string()),
+    })
+    .transform((data) => ({
+        id: data.PK,
+        name: data.name,
+        adminAreaCodes: data.adminAreaCodes,
+    }));
 
 export const organisationsSchema = z.array(organisationSchema);
 
-export const statistic = z.object({
+export const statisticSchema = z.object({
     disruptionReasonCount: z.record(z.string(), z.coerce.number().default(0)),
     networkWideConsequencesCount: z.coerce.number().default(0),
     operatorWideConsequencesCount: z.coerce.number().default(0),
@@ -17,29 +23,12 @@ export const statistic = z.object({
     stopsAffected: z.coerce.number().default(0),
     stopsConsequencesCount: z.coerce.number().default(0),
     totalConsequencesCount: z.coerce.number().default(0),
-    PK: z.string(),
-    SK: z.enum(["STAT"]).optional(),
 });
 
-export const statistics = z.array(statistic);
-
-export const organisationSchemaWithStats = z
-    .object({
-        PK: z.string(),
-        SK: z.enum(["INFO"]).optional(),
-        name: z.string(),
-        adminAreaCodes: z.array(z.string()),
-    })
-    .or(statistic);
-
-export const organisationsSchemaWithStats = z.array(organisationSchemaWithStats);
+export const organisationsSchemaWithStats = z.array(organisationSchema.and(z.object({ stats: statisticSchema })));
 
 export type Organisations = z.infer<typeof organisationsSchema>;
 
 export type OrganisationsWithStats = z.infer<typeof organisationsSchemaWithStats>;
 
-export type OrganisationWithStats = z.infer<typeof organisationSchemaWithStats>;
-
-export type Statistics = z.infer<typeof statistics>;
-
-export type Statistic = z.infer<typeof statistic>;
+export type Statistic = z.infer<typeof statisticSchema>;

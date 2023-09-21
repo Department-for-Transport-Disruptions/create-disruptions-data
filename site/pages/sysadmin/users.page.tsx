@@ -188,7 +188,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
             </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
                 <TextInput<AddUserSchema>
-                    display="Admin First name"
+                    display="Admin first name"
                     inputName="givenName"
                     widthClass="w"
                     value={pageState.inputs.givenName}
@@ -198,7 +198,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Admin Last name"
+                    display="Admin last name"
                     inputName="familyName"
                     widthClass="w"
                     value={pageState.inputs.familyName}
@@ -208,7 +208,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     maxLength={100}
                 />
                 <TextInput<AddUserSchema>
-                    display="Admin Email address"
+                    display="Admin email address"
                     inputName="email"
                     widthClass="w"
                     value={pageState.inputs.email}
@@ -222,7 +222,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                 <input type="hidden" name="group" value={UserGroups.orgAdmins} />
 
                 <button className="govuk-button mt-8" data-module="govuk-button">
-                    Add and send invitation
+                    Add and send invite
                 </button>
                 <Table
                     columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}

@@ -30,7 +30,8 @@ export const createGeneratorLambda = (
         ],
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,
-        memorySize: 256,
+        memorySize: 1536,
+        runtime: "nodejs18.x",
     });
 
     return siriGenerator;
