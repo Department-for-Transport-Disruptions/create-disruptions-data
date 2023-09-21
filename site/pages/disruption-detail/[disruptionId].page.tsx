@@ -320,6 +320,7 @@ const DisruptionDetail = ({
                         undefined,
                         true,
                         true,
+                        !!disruption.template,
                     ),
                 ],
             };
@@ -340,7 +341,7 @@ const DisruptionDetail = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`/api/delete-disruption${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}

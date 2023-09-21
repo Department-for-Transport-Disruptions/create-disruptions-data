@@ -20,7 +20,12 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
+import {
+    DISRUPTION_REASONS,
+    COOKIES_DISRUPTION_ERRORS,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
+} from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
@@ -34,6 +39,7 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {
     disruptionExists?: boolean;
+    template?: boolean;
 }
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
@@ -55,7 +61,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
+    const displayCancelChangesButton = showCancelButton(queryParams);
+    const returnPath = (queryParams["return"] as string) || "";
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
@@ -615,19 +622,27 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         Save and continue
                     </button>
 
-                    {displayCancelButton && pageState.disruptionId ? (
+                    {displayCancelChangesButton && pageState.disruptionId ? (
                         <Link
                             role="button"
                             href={
                                 returnToTemplateOverview
-                                    ? (queryParams["return"] as string)
-                                    : `${queryParams["return"] as string}/${pageState.disruptionId}${
-                                          queryParams["template"] ? "?template=true" : ""
-                                      }`
+                                    ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}?template=true`
+                                    : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                             }
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes
+                        </Link>
+                    ) : null}
+
+                    {!props.disruptionExists ? (
+                        <Link
+                            role="button"
+                            href={props.template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            className="govuk-button ml-5 govuk-button--secondary"
+                        >
+                            Cancel
                         </Link>
                     ) : null}
 
@@ -636,6 +651,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             isTemplate={queryParams["template"]?.toString()}
+                            returnPath={returnPath}
                         />
                     )}
                 </>
@@ -675,6 +691,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
+            template: ctx.query.template == "true",
         },
     };
 };

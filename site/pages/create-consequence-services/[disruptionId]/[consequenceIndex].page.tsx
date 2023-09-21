@@ -152,6 +152,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
+    const returnPath = (queryParams["return"] as string) || "";
 
     const handleStopChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -591,10 +592,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? (queryParams["return"] as string)
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
-                                              isTemplate ? "?template=true" : ""
-                                          }`
+                                        ? `${queryParams["return"] as string}/${
+                                              pageState.disruptionId || ""
+                                          }?template=true`
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
@@ -615,6 +616,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
+                            returnPath={returnPath}
                         />
                     </div>
                 </>

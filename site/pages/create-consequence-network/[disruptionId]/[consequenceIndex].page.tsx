@@ -46,6 +46,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
+    const returnPath = (queryParams["return"] as string) || "";
 
     return (
         <BaseLayout title={title} description={description}>
@@ -172,9 +173,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
-                                              isTemplate ? "?template=true" : ""
-                                          }`
+                                        ? `${queryParams["return"] as string}/${
+                                              pageState.disruptionId || ""
+                                          }?template=true`
                                         : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
@@ -196,6 +197,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
+                            returnPath={returnPath}
                         />
                     </div>
                 </>

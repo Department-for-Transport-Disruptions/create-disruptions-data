@@ -1,19 +1,32 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
-import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import {
+    DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    ERROR_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+} from "../../constants";
 import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
-import { isDisruptionFromTemplate, redirectTo, redirectToError } from "../../utils/apiUtils";
+import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
+
+const getRedirectPath = (template: string, returnPath: string) => {
+    if (template) {
+        return VIEW_ALL_TEMPLATES_PAGE_PATH;
+    }
+    if (returnPath?.toString().includes(DISRUPTION_DETAIL_PAGE_PATH) && returnPath?.toString().includes("template")) {
+        return returnPath.toString();
+    } else return DASHBOARD_PAGE_PATH;
+};
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const body = req.body as { id: string | undefined };
         const id = body?.id;
 
-        const { template } = req.query;
+        const { template, return: returnPath } = req.query;
         const session = getSession(req);
-        const isFromTemplate = isDisruptionFromTemplate(req);
 
         if (!id || Array.isArray(id) || !session) {
             throw new Error(
@@ -35,7 +48,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         await deletePublishedDisruption(disruption, id, session.orgId, template === "true");
 
-        redirectTo(res, template || isFromTemplate ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
+        redirectTo(res, getRedirectPath(template as string, returnPath as string));
         return;
     } catch (e) {
         if (e instanceof Error) {

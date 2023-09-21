@@ -62,6 +62,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
+    const returnPath = (queryParams["return"] as string) || "";
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -263,10 +264,10 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? (queryParams["return"] as string)
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
-                                              isTemplate ? "?template=true" : ""
-                                          }`
+                                        ? `${queryParams["return"] as string}/${
+                                              pageState.disruptionId || ""
+                                          }?template=true`
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
@@ -287,6 +288,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
+                            returnPath={returnPath}
                         />
                     </div>
                 </>

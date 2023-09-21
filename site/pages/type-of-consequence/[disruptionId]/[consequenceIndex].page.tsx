@@ -19,7 +19,7 @@ import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../..
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {}
+export type ConsequenceTypePageProps = PageState<Partial<ConsequenceType>>;
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -32,6 +32,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
+    const returnPath = (queryParams["return"] as string) || "";
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -68,9 +69,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                     role="button"
                                     href={
                                         returnToTemplateOverview
-                                            ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
-                                                  isTemplate ? "?template=true" : ""
-                                              }`
+                                            ? `${queryParams["return"] as string}/${
+                                                  pageState.disruptionId || ""
+                                              }?template=true`
                                             : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                                     }
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
@@ -85,6 +86,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 disruptionId={props.disruptionId}
                                 csrfToken={props.csrfToken}
                                 isTemplate={isTemplate}
+                                returnPath={returnPath}
                             />
                         </div>
                     </div>
