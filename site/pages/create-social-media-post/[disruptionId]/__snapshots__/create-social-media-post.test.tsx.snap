@@ -135,22 +135,24 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group govuk-!-margin-bottom-0 "
               id="publish-date"
             >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-date-input"
-              >
-                Date
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="publish-date-input"
+                >
+                  Date
+                </label>
+              </div>
               <div
                 className="govuk-hint"
               >
                 Enter in format DD/MM/YYYY
               </div>
               <div
-                className="flex flex-col"
+                className="flex flex-col mt-auto"
               >
                 <div
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -221,15 +223,17 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="publish-time"
             >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-time-input"
-              >
-                Time
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="publish-time-input"
+                >
+                  Time
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="publish-time-hint"
@@ -237,7 +241,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -698,22 +702,24 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
+              className="govuk-form-group govuk-!-margin-bottom-0 "
               id="publish-date"
             >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-date-input"
-              >
-                Date
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="publish-date-input"
+                >
+                  Date
+                </label>
+              </div>
               <div
                 className="govuk-hint"
               >
                 Enter in format DD/MM/YYYY
               </div>
               <div
-                className="flex flex-col"
+                className="flex flex-col mt-auto"
               >
                 <div
                   className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
@@ -787,15 +793,17 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="publish-time"
             >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-time-input"
-              >
-                Time
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--s"
+                  htmlFor="publish-time-input"
+                >
+                  Time
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="publish-time-hint"
@@ -803,7 +811,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
