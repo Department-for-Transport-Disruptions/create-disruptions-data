@@ -7,6 +7,7 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors } from "../../utils";
@@ -52,7 +53,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
-        const { template } = req.query;
+        const { template, addAnotherConsequence } = req.query;
 
         const { draft } = req.query;
 
@@ -97,6 +98,18 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
+
+        if (addAnotherConsequence) {
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${
+                    validatedBody.data.consequenceIndex + 1
+                }`,
+                queryParam ? [queryParam] : [],
+            );
+        }
 
         if (draft) {
             redirectTo(res, DASHBOARD_PAGE_PATH);
