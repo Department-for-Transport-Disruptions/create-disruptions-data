@@ -17,7 +17,8 @@ const getRedirectPath = (template: string, returnPath: string) => {
     }
     if (returnPath?.toString().includes(DISRUPTION_DETAIL_PAGE_PATH) && returnPath?.toString().includes("template")) {
         return returnPath.toString();
-    } else return DASHBOARD_PAGE_PATH;
+    }
+    return DASHBOARD_PAGE_PATH;
 };
 
 const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {

@@ -18,7 +18,8 @@ const getQueryParams = (isTemplate: boolean, returnPath: string) => {
     }
     if (returnPath && !isTemplate) {
         return `?return=${encodeURIComponent(returnPath)}`;
-    } else return "";
+    }
+    return "";
 };
 
 const DeleteDisruptionButton = ({
