@@ -30,7 +30,7 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
         orgList.forEach((organisation, index) => {
             rows.push({
-                cells: [organisation.name, organisation.adminAreaCodes.join(", "), createLink(index, organisation.PK)],
+                cells: [organisation.name, organisation.adminAreaCodes.join(", "), createLink(index, organisation.id)],
             });
         });
         return rows;
