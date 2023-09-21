@@ -183,7 +183,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
             <p className="govuk-body">
                 Users added below will be set up as admins for their respective organisations. They will have the
                 ability to perform all functionality available within the tool, including the ability to set up further
-                admin users on their own and users with lower permission settings. Users of any account type added by
+                admin users on their own and users with lower permission settings. Users of any Account type added by
                 the organisations admin will also appear in the list of users below
             </p>
             <CsrfForm action="/api/sysadmin/users" method="post" csrfToken={props.csrfToken}>
@@ -225,7 +225,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     Add and send invitation
                 </button>
                 <Table
-                    columns={["First name", "Last name", "Email", "Account Type", "Action", "Status"]}
+                    columns={["First name", "Last name", "Email", "Account type", "Action", "Status"]}
                     rows={getRows()}
                 ></Table>
             </CsrfForm>
