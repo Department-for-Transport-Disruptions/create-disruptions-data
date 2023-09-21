@@ -58,7 +58,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 </label>
 
                                 <div id={`message-content-hint`} className="govuk-hint">
-                                    You can enter up to 200 characters
+                                    You can enter up to 280 characters
                                 </div>
 
                                 <FormElementWrapper
@@ -89,7 +89,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     setErrorsMessageContent(
                                         errorsMessageContent.filter((e) => e.id !== "messageContent"),
                                     );
-                                    stateUpdater(props.disruptionDescription, "messageContent");
+                                    stateUpdater(props.disruptionDescription?.slice(0, 280), "messageContent");
                                 }}
                             >
                                 <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
@@ -240,7 +240,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
-            disruptionDescription: disruption?.summary || "",
+            disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
             socialAccounts,
             template: disruption?.template?.toString() || "",

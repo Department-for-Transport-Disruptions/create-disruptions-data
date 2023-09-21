@@ -74,7 +74,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 className="govuk-hint"
                 id="message-content-hint"
               >
-                You can enter up to 200 characters
+                You can enter up to 280 characters
               </div>
               <div
                 className=""
@@ -627,7 +627,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 className="govuk-hint"
                 id="message-content-hint"
               >
-                You can enter up to 200 characters
+                You can enter up to 280 characters
               </div>
               <div
                 className=""
