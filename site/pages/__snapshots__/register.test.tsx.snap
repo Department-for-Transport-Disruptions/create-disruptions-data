@@ -499,12 +499,12 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                   <input
                     aria-describedby="password-hint"
                     className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
                     id="password-input"
                     maxLength={100}
                     name="password"
                     onChange={[Function]}
                     type="password"
-                    value="dummyPassword"
                   />
                 </div>
               </div>
@@ -527,12 +527,12 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
                     onChange={[Function]}
                     type="password"
-                    value="dummyPassword"
                   />
                 </div>
               </div>
@@ -914,12 +914,12 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                   <input
                     aria-describedby="password-hint"
                     className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
                     id="password-input"
                     maxLength={100}
                     name="password"
                     onChange={[Function]}
                     type="password"
-                    value="dummyPassword"
                   />
                 </div>
               </div>
@@ -942,12 +942,12 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
+                    defaultValue="dummyPassword"
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
                     onChange={[Function]}
                     type="password"
-                    value="dummyPassword"
                   />
                 </div>
               </div>
