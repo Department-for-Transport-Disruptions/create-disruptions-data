@@ -15,7 +15,7 @@ const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<stri
         const orgList = await getOrganisationsInfo(logger);
         if (!!orgList) {
             const orgPutRequest = orgList.map((org) => {
-                const orgId = org.PK;
+                const orgId = org.id;
                 const statForOrg = siriStats[orgId];
 
                 return statForOrg

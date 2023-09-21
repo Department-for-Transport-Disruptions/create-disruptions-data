@@ -9,7 +9,12 @@ import {
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
-import { Organisations, organisationsSchema } from "../organisationTypes";
+import {
+    Organisations,
+    OrganisationsWithStats,
+    organisationsSchema,
+    organisationsSchemaWithStats,
+} from "../organisationTypes";
 import { notEmpty } from "./index";
 
 type Logger = {
@@ -159,6 +164,51 @@ export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation
         }
 
         return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationsWithStats | null> => {
+    logger.info(`Getting all organisations with stats from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveScan(
+            {
+                TableName: organisationsTableName,
+                FilterExpression: "begins_with(SK, :info) OR begins_with(SK, :stat)",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                    ":stat": "STAT",
+                },
+            },
+            logger,
+        );
+
+        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
+
+        const collectedOrgsWithStats = orgIds.map((id) => {
+            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
+            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
+
+            return {
+                ...info,
+                stats,
+            };
+        });
+
+        const parsedOrgsWithStats = organisationsSchemaWithStats.safeParse(collectedOrgsWithStats);
+
+        if (!parsedOrgsWithStats.success) {
+            return null;
+        }
+
+        return parsedOrgsWithStats.data;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
