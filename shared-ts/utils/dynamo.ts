@@ -224,7 +224,7 @@ export const getOrganisationInfoAndStats = async (
     orgId: string,
     logger: Logger,
 ): Promise<OrganisationsWithStats[0] | null> => {
-    logger.info(`Getting organisation ${orgId} from DynamoDB table...`);
+    logger.info(`Getting organisation ${orgId} with stats from DynamoDB table...`);
     try {
         const dbDataInfo = await recursiveScan(
             {
