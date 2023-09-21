@@ -8,9 +8,12 @@ import { isAtLeast5MinutesAfter } from "../utils/dates";
 
 export const socialMediaPostSchema = z.object({
     disruptionId: z.string().uuid(),
-    messageContent: z.string(setZodDefaultError("Enter a message content for this social media post")).min(1).max(200, {
-        message: "Message content must not exceed 200 characters",
-    }),
+    messageContent: z
+        .string(setZodDefaultError("Enter a message content for this social media post"))
+        .min(1)
+        .max(1000, {
+            message: "Message content must not exceed 1000 characters",
+        }),
     socialAccount: z.string(setZodDefaultError("Select a social account")),
     hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")),
     publishDate: zodDate("Enter a publish date for the social media post"),

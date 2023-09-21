@@ -25,7 +25,7 @@ const blankInputs: CreateConsequenceServicesProps = {
 };
 
 const withInputs: CreateConsequenceServicesProps = {
-    disruptionSummary: "A truck broke down on a bridge",
+    disruptionDescription: "A truck broke down on a bridge",
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     sessionWithOrg: {
@@ -91,7 +91,7 @@ beforeEach(() => {
 });
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
-    disruptionSummary: "A truck broke down on a bridge",
+    disruptionDescription: "A truck broke down on a bridge",
     sessionWithOrg: {
         email: "test@example.com",
         username: "Test",

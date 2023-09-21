@@ -22,7 +22,7 @@ const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
 export interface CreateSocialMediaPostPageProps extends PageState<Partial<SocialMediaPost>> {
-    disruptionSummary: string;
+    disruptionDescription: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
@@ -89,7 +89,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     setErrorsMessageContent(
                                         errorsMessageContent.filter((e) => e.id !== "messageContent"),
                                     );
-                                    stateUpdater(props.disruptionSummary, "messageContent");
+                                    stateUpdater(props.disruptionDescription, "messageContent");
                                 }}
                             >
                                 <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
@@ -240,7 +240,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
-            disruptionSummary: disruption?.summary || "",
+            disruptionDescription: disruption?.summary || "",
             socialMediaPostIndex: index,
             socialAccounts,
             template: disruption?.template?.toString() || "",
