@@ -407,7 +407,7 @@ describe("create-consequence-services API", () => {
 
     it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...defaultServicesData },
+            body: { ...defaultServicesData, consequenceIndex: "1" },
             query: { addAnotherConsequence: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -416,7 +416,7 @@ describe("create-consequence-services API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            servicesDataToUpsert,
+            { ...servicesDataToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -444,7 +444,7 @@ describe("create-consequence-services API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
         });
     });
 

@@ -108,7 +108,10 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             if (!disruption) {
                 throw new Error("No disruption found to add another consequence");
             }
-            const nextIndex = getLargestConsequenceIndex(disruption) + 2;
+            const currentIndex = validatedBody.data.consequenceIndex;
+            const largestIndex = getLargestConsequenceIndex(disruption);
+            const nextIndex = currentIndex >= largestIndex ? currentIndex + 1 : largestIndex + 1;
+
             redirectToWithQueryParams(
                 req,
                 res,
