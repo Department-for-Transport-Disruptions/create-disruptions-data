@@ -122,7 +122,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 queryParam ? [queryParam] : [],
             );
-            return
+            return;
         }
 
         if (draft) {
