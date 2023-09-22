@@ -518,9 +518,10 @@ export const upsertDisruptionInfo = async (
     );
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
     const isPending =
-        (isUserStaff || !isTemplate) &&
-        currentDisruption?.publishStatus &&
-        currentDisruption?.publishStatus === PublishStatus.published;
+        isUserStaff &&
+        !isTemplate &&
+        (currentDisruption?.publishStatus === PublishStatus.published ||
+            currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -550,6 +551,7 @@ export const upsertConsequence = async (
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id, isTemplate);
     const isPending =
         isUserStaff &&
+        !isTemplate &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;

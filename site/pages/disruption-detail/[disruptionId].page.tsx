@@ -741,6 +741,7 @@ const DisruptionDetail = ({
                         ) : null}
 
                         {!canPublish &&
+                        !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
@@ -748,7 +749,7 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
+                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     {disruption.template ? "Publish template" : "Publish disruption"}
@@ -759,7 +760,7 @@ const DisruptionDetail = ({
                                         data-module="govuk-button"
                                         formAction="/api/reject"
                                     >
-                                        {disruption.template ? "Reject template" : "Reject disruption"}
+                                        Reject disruption
                                     </button>
                                 ) : null}
                             </>
