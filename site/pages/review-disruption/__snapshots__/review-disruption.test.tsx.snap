@@ -1134,7 +1134,7 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/4?return=%2Freview-disruption"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -2965,7 +2965,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption"
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/4?return=%2Freview-disruption"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -4796,7 +4796,7 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/3?return=%2Freview-disruption&template=true"
+            href="/type-of-consequence/acde070d-8c4c-4f0d-9d8a-162843c10333/4?return=%2Freview-disruption&template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

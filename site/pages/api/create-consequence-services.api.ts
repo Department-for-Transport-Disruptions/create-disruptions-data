@@ -114,7 +114,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             if (!disruption) {
                 throw new Error("No disruption found to add another consequence");
             }
-            const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+            const nextIndex = getLargestConsequenceIndex(disruption) + 2;
             redirectToWithQueryParams(
                 req,
                 res,
@@ -122,6 +122,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 queryParam ? [queryParam] : [],
             );
+            return
         }
 
         if (draft) {

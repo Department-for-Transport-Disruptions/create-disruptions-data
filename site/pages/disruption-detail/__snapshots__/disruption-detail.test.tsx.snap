@@ -1110,7 +1110,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+            href="/type-of-consequence/2/4?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -2944,7 +2944,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/2/3?return=%2Fdisruption-detail&template=true"
+            href="/type-of-consequence/2/4?return=%2Fdisruption-detail&template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -4777,7 +4777,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
-            href="/type-of-consequence/2/3?return=%2Fdisruption-detail"
+            href="/type-of-consequence/2/4?return=%2Fdisruption-detail"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

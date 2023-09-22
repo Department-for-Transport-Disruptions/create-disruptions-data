@@ -317,7 +317,7 @@ const ReviewDisruption = ({
         });
     };
 
-    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+    const nextIndex = getLargestConsequenceIndex(disruption) + 2;
 
     const nextIndexSocialMedia =
         disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0

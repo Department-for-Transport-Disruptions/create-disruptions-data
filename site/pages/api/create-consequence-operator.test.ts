@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
 import { Consequence, ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
@@ -16,7 +16,13 @@ import {
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
+import {
+    DEFAULT_ORG_ID,
+    createDisruptionWithConsquences,
+    disruptionWithConsequences,
+    getMockRequestAndResponse,
+    mockSession,
+} from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
@@ -44,30 +50,9 @@ const bodyData = {
     disruptionId: defaultDisruptionId,
 };
 
-const defaultDisruptionStartDate = getFutureDateAsString(2);
-const defaultPublishStartDate = getFutureDateAsString(1);
-
-const disruption: FullDisruption = {
-    disruptionId: defaultDisruptionId,
-    disruptionType: "planned",
-    summary: "A test disruption",
-    description: "oh no",
-    associatedLink: "",
-    disruptionReason: MiscellaneousReason.accident,
-    publishStartDate: defaultPublishStartDate,
-    publishStartTime: "1900",
-    disruptionStartDate: defaultDisruptionStartDate,
-    disruptionStartTime: "1800",
-    disruptionNoEndDateTime: "true",
-    disruptionRepeats: "doesntRepeat",
-    disruptionRepeatsEndDate: "",
-    validity: [],
-    publishStatus: PublishStatus.editing,
-    consequences: [{ ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence],
-    displayId: "8fg3ha",
-    orgId: DEFAULT_ORG_ID,
-    template: false,
-};
+const disruption: FullDisruption = createDisruptionWithConsquences([
+    { ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+]);
 
 const operatorToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -337,7 +322,7 @@ describe("create-consequence-operator API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2`,
         });
     });
 
@@ -359,7 +344,30 @@ describe("create-consequence-operator API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2?template=true`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed, when another consequence is added and when the consequence index is not 0", async () => {
+        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...bodyData, consequenceIndex: "2" },
+            query: { addAnotherConsequence: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            { ...operatorToUpsert, consequenceIndex: 2 },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
         });
     });
 });

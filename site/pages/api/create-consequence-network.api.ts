@@ -9,7 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import {  upsertConsequence } from "../../data/dynamo";
+import { upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -81,7 +81,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             if (!disruption) {
                 throw new Error("No disruption found to add another consequence");
             }
-            const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+            const nextIndex = getLargestConsequenceIndex(disruption) + 2;
             redirectToWithQueryParams(
                 req,
                 res,
@@ -89,6 +89,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 queryParam ? [queryParam] : [],
             );
+            return;
         }
 
         if (draft) {
