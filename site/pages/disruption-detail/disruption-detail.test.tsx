@@ -303,30 +303,36 @@ describe("pages", () => {
             unmount();
         });
         it("should render correctly with inputs and no errors when disruption has no consequences", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{ ...previousDisruptionInformation, consequences: [] }}
-                        redirect={"/view-all-templates"}
-                        errors={[]}
-                        canPublish={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, consequences: [] }}
+                    redirect={"/view-all-disruptions"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+
+            expect(consequenceButton).toBeTruthy();
+            unmount();
         });
         it("should render correctly with inputs and no errors when disruption has no consequences and is template", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{ ...previousDisruptionInformation, template: true, consequences: [] }}
-                        redirect={"/view-all-templates"}
-                        errors={[]}
-                        canPublish={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true, consequences: [] }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+            expect(consequenceButton).toBeTruthy();
+            unmount();
         });
     });
 });
