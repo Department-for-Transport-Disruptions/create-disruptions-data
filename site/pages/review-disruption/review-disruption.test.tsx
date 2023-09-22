@@ -210,6 +210,20 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and no errors when disruption has no consequences", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={{ ...previousDisruptionInformation, consequences: [] }}
+                        errors={[]}
+                        canPublish
+                        redirect=""
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
             const { queryByText, unmount } = render(
                 <ReviewDisruption

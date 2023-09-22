@@ -616,7 +616,7 @@ const ReviewDisruption = ({
                                     : ""
                             }`}
                         >
-                            Add another consequence
+                            {disruption.consequences?.length === 0 ? "Add a consequence" : "Add another consequence"}
                         </Link>
 
                         <br />
