@@ -9,7 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
+import {  upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
