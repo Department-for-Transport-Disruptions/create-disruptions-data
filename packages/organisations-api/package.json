@@ -1,5 +1,5 @@
 {
-    "name": "@create-disruptions-data/get-organisation",
+    "name": "@create-disruptions-data/organisations-api",
     "version": "0.1.0",
     "type": "module",
     "scripts": {

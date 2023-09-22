@@ -12,6 +12,7 @@ import { PublishStatus } from "../enums";
 import {
     Organisations,
     OrganisationsWithStats,
+    organisationSchemaWithStats,
     organisationsSchema,
     organisationsSchemaWithStats,
 } from "../organisationTypes";
@@ -226,38 +227,30 @@ export const getOrganisationInfoAndStats = async (
 ): Promise<OrganisationsWithStats[0] | null> => {
     logger.info(`Getting organisation ${orgId} with stats from DynamoDB table...`);
     try {
-        const dbDataInfo = await recursiveScan(
+        const dbDataInfo = await recursiveQuery(
             {
                 TableName: organisationsTableName,
-                FilterExpression: "(begins_with(SK, :info) OR begins_with(SK, :stat)) AND PK=:orgId",
+                KeyConditionExpression: "PK=:orgId",
                 ExpressionAttributeValues: {
-                    ":info": "INFO",
-                    ":stat": "STAT",
                     ":orgId": orgId,
                 },
             },
             logger,
         );
 
-        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
+        const info = dbDataInfo.find((item) => item.SK === "INFO");
+        const stats = dbDataInfo.find((item) => item.SK === "STAT");
 
-        const collectedOrgsWithStats = orgIds.map((id) => {
-            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
-            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
-
-            return {
-                ...info,
-                stats,
-            };
+        const parsedOrgWithStats = organisationSchemaWithStats.safeParse({
+            ...info,
+            stats,
         });
 
-        const parsedOrgsWithStats = organisationsSchemaWithStats.safeParse(collectedOrgsWithStats);
-
-        if (!parsedOrgsWithStats.success) {
+        if (!parsedOrgWithStats.success) {
             return null;
         }
 
-        return parsedOrgsWithStats.data?.[0] || null;
+        return parsedOrgWithStats.data;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
