@@ -381,7 +381,7 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template && (
+                        {disruption.template && disruption.publishStatus === PublishStatus.published && (
                             <button
                                 key="create-disruption-from-template"
                                 className="govuk-button"
@@ -752,7 +752,7 @@ const DisruptionDetail = ({
                         {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    {disruption.template ? "Publish template" : "Publish disruption"}
+                                    {disruption.template ? "Save changes" : "Publish disruption"}
                                 </button>
                                 {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
