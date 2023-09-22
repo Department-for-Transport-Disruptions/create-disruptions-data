@@ -69,7 +69,7 @@ const disruption: FullDisruption = {
     template: false,
 };
 
-const operatorToUpsert =    {
+const operatorToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -80,7 +80,7 @@ const operatorToUpsert =    {
     consequenceIndex: 0,
     consequenceOperators: defaultConsequenceOperators,
     consequenceType: "operatorWide",
-}
+};
 
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
