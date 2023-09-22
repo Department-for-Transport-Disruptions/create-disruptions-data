@@ -9,8 +9,8 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
-import { flattenZodErrors } from "../../utils";
+import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
+import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
@@ -100,13 +100,16 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
         if (addAnotherConsequence) {
+            const disruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId, !!template);
+            if (!disruption) {
+                throw new Error("No disruption found to add another consequence");
+            }
+            const nextIndex = getLargestConsequenceIndex(disruption) + 1;
             redirectToWithQueryParams(
                 req,
                 res,
                 template ? ["template"] : [],
-                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${
-                    validatedBody.data.consequenceIndex + 1
-                }`,
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 queryParam ? [queryParam] : [],
             );
         }

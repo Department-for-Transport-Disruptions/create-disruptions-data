@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
@@ -9,13 +9,16 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
+import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
@@ -49,6 +52,59 @@ const defaultStopsData = {
     disruptionId: defaultDisruptionId,
 };
 
+const defaultDisruptionStartDate = getFutureDateAsString(2);
+const defaultPublishStartDate = getFutureDateAsString(1);
+
+const disruption: FullDisruption = {
+    disruptionId: defaultDisruptionId,
+    disruptionType: "planned",
+    summary: "A test disruption",
+    description: "oh no",
+    associatedLink: "",
+    disruptionReason: MiscellaneousReason.accident,
+    publishStartDate: defaultPublishStartDate,
+    publishStartTime: "1900",
+    disruptionStartDate: defaultDisruptionStartDate,
+    disruptionStartTime: "1800",
+    disruptionNoEndDateTime: "true",
+    disruptionRepeats: "doesntRepeat",
+    disruptionRepeatsEndDate: "",
+    validity: [],
+    publishStatus: PublishStatus.editing,
+    consequences: [{ ...defaultStopsData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence],
+    displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
+    template: false,
+};
+
+const stopDataToUpsert = {
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    removeFromJourneyPlanners: "no",
+    disruptionDelay: "45",
+    disruptionSeverity: "severe",
+    vehicleMode: "bus",
+    consequenceIndex: 0,
+    consequenceType: "stops",
+    stops: [
+        {
+            atcoCode: "0100BRP90310",
+            commonName: "Temple Meads Stn",
+            indicator: "T3",
+            longitude: -2.58569,
+            latitude: 51.44901,
+        },
+        {
+            atcoCode: "0100BRP90311",
+            commonName: "Temple Meads Stn",
+            indicator: "T7",
+            longitude: -2.5856,
+            latitude: 51.45014,
+        },
+    ],
+};
+
 describe("create-consequence-stops API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
@@ -58,8 +114,10 @@ describe("create-consequence-stops API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
+        getDisruptionById: vi.fn(),
     }));
 
     afterEach(() => {
@@ -93,33 +151,7 @@ describe("create-consequence-stops API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "45",
-                disruptionSeverity: "severe",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceType: "stops",
-                stops: [
-                    {
-                        atcoCode: "0100BRP90310",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T3",
-                        longitude: -2.58569,
-                        latitude: 51.44901,
-                    },
-                    {
-                        atcoCode: "0100BRP90311",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T7",
-                        longitude: -2.5856,
-                        latitude: 51.45014,
-                    },
-                ],
-            },
+            stopDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -216,33 +248,7 @@ describe("create-consequence-stops API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "45",
-                disruptionSeverity: "severe",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceType: "stops",
-                stops: [
-                    {
-                        atcoCode: "0100BRP90310",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T3",
-                        longitude: -2.58569,
-                        latitude: 51.44901,
-                    },
-                    {
-                        atcoCode: "0100BRP90311",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T7",
-                        longitude: -2.5856,
-                        latitude: 51.45014,
-                    },
-                ],
-            },
+            stopDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -266,33 +272,7 @@ describe("create-consequence-stops API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "45",
-                disruptionSeverity: "severe",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceType: "stops",
-                stops: [
-                    {
-                        atcoCode: "0100BRP90310",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T3",
-                        longitude: -2.58569,
-                        latitude: 51.44901,
-                    },
-                    {
-                        atcoCode: "0100BRP90311",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T7",
-                        longitude: -2.5856,
-                        latitude: 51.45014,
-                    },
-                ],
-            },
+            stopDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -331,6 +311,51 @@ describe("create-consequence-stops API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true", async () => {
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultStopsData },
+            query: { addAnotherConsequence: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceStops(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            stopDataToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1`,
+        });
+    });
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true and a template", async () => {
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultStopsData },
+            query: { addAnotherConsequence: "true", template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceStops(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            stopDataToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            true,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
         });
     });
 });

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
-import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Consequence, ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
@@ -10,13 +10,16 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
+import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
@@ -41,6 +44,44 @@ const bodyData = {
     disruptionId: defaultDisruptionId,
 };
 
+const defaultDisruptionStartDate = getFutureDateAsString(2);
+const defaultPublishStartDate = getFutureDateAsString(1);
+
+const disruption: FullDisruption = {
+    disruptionId: defaultDisruptionId,
+    disruptionType: "planned",
+    summary: "A test disruption",
+    description: "oh no",
+    associatedLink: "",
+    disruptionReason: MiscellaneousReason.accident,
+    publishStartDate: defaultPublishStartDate,
+    publishStartTime: "1900",
+    disruptionStartDate: defaultDisruptionStartDate,
+    disruptionStartTime: "1800",
+    disruptionNoEndDateTime: "true",
+    disruptionRepeats: "doesntRepeat",
+    disruptionRepeatsEndDate: "",
+    validity: [],
+    publishStatus: PublishStatus.editing,
+    consequences: [{ ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence],
+    displayId: "8fg3ha",
+    orgId: DEFAULT_ORG_ID,
+    template: false,
+};
+
+const operatorToUpsert =    {
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    removeFromJourneyPlanners: "no",
+    disruptionDelay: "",
+    disruptionSeverity: "slight",
+    vehicleMode: "bus",
+    consequenceIndex: 0,
+    consequenceOperators: defaultConsequenceOperators,
+    consequenceType: "operatorWide",
+}
+
 describe("create-consequence-operator API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
@@ -50,8 +91,10 @@ describe("create-consequence-operator API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
+        getDisruptionById: vi.fn(),
     }));
 
     afterEach(() => {
@@ -85,18 +128,7 @@ describe("create-consequence-operator API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: "slight",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceOperators: defaultConsequenceOperators,
-                consequenceType: "operatorWide",
-            },
+            operatorToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -216,18 +248,7 @@ describe("create-consequence-operator API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: "slight",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceOperators: defaultConsequenceOperators,
-                consequenceType: "operatorWide",
-            },
+            operatorToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -251,18 +272,7 @@ describe("create-consequence-operator API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: "slight",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceOperators: defaultConsequenceOperators,
-                consequenceType: "operatorWide",
-            },
+            operatorToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -307,6 +317,52 @@ describe("create-consequence-operator API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true", async () => {
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        const { req, res } = getMockRequestAndResponse({
+            body: bodyData,
+            query: { addAnotherConsequence: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            operatorToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true and a template", async () => {
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        const { req, res } = getMockRequestAndResponse({
+            body: bodyData,
+            query: { addAnotherConsequence: "true", template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            operatorToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            true,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
         });
     });
 });
