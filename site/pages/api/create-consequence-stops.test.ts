@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
