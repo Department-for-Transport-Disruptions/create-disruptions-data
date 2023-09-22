@@ -9,14 +9,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -49,13 +46,12 @@ export const formatCreateConsequenceBody = (body: object) => {
 
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
-        const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
-        const { template } = req.query;
-
-        const { draft } = req.query;
-
+        const { template, return: returnPath, draft } = req.query;
+        const queryParams = getQueryParams(
+            template === "true",
+            returnPath ? decodeURIComponent(returnPath as string) : "",
+        );
         const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 
         if (!session) {
@@ -78,37 +74,28 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
+            redirectTo(
                 res,
-                template ? ["template"] : [],
-                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}${queryParams}`,
             );
+
             return;
         }
 
         await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
-        const redirectPath =
-            (!isFromTemplate || template) &&
-            queryParam &&
-            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
-                ? DISRUPTION_DETAIL_PAGE_PATH
-                : REVIEW_DISRUPTION_PAGE_PATH;
+        const redirectPath = decodeURIComponent(returnPath as string).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
 
         if (draft) {
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectToWithQueryParams(
-            req,
-            res,
-            template ? ["template"] : [],
-            `${redirectPath}/${validatedBody.data.disruptionId}`,
-            queryParam ? [queryParam] : [],
-        );
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}${queryParams}`);
+
         return;
     } catch (e) {
         if (e instanceof Error) {

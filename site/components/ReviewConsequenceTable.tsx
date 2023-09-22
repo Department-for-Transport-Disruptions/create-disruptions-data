@@ -45,10 +45,7 @@ export const createChangeLink = (
                 pathname: `${href}/${disruptionId}${index !== undefined ? `/${index}` : ""}`,
                 query: includePreviousPage
                     ? {
-                          return:
-                              isDisruptionDetail || isTemplate
-                                  ? DISRUPTION_DETAIL_PAGE_PATH
-                                  : REVIEW_DISRUPTION_PAGE_PATH,
+                          return: isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH,
                           ...(isTemplate ? { template: isTemplate.toString() } : {}),
                       }
                     : isTemplate

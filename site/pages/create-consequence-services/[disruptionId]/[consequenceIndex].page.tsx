@@ -37,7 +37,7 @@ import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../d
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Routes } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import { flattenZodErrors, getQueryParams, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -45,7 +45,6 @@ import {
     getStateUpdater,
     getStopLabel,
     getStopValue,
-    returnTemplateOverview,
     showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
@@ -148,8 +147,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = (queryParams["template"] as string) || "";
     const returnPath = (queryParams["return"] as string) || "";
@@ -384,7 +381,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm
-                action={`/api/create-consequence-services${isTemplate ? "?template=true" : ""}`}
+                action={`/api/create-consequence-services${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -403,9 +400,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
-                                            returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!queryParams["return"],
+                                            queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -591,7 +587,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate === "true"
                                         ? `${queryParams["return"] as string}/${
                                               pageState.disruptionId || ""
                                           }?template=true`

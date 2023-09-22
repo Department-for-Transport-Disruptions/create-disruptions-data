@@ -1263,7 +1263,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           className="govuk-grid-column-two-thirds"
         >
           <form
-            action="/api/type-of-consequence"
+            action="/api/type-of-consequence?return=%2Freview-disruption"
             method="post"
           >
             <input

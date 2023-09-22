@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import { ParsedUrlQuery } from "querystring";
 import DateSelector from "../../../components/form/DateSelector";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
@@ -14,6 +15,7 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteData } from "../../../data/hootsuite";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
+import { getQueryParams } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
@@ -26,14 +28,23 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Social
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: { value: string; display: string; socialMediaProfiles: { value: string; display: string }[] }[];
-    template?: string;
 }
+
+const getCreatePostQueryParams = (queryParams: ParsedUrlQuery, csrfToken: string) => {
+    if (!!queryParams) {
+        const isTemplate = (queryParams["template"] as string) || "";
+        const returnPath = (queryParams["return"] as string) || "";
+        return `${getQueryParams(isTemplate === "true", returnPath)}&_csrf=${csrfToken}`;
+    }
+    return `?_csrf=${csrfToken}`;
+};
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<SocialMediaPost>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
     const queryParams = useRouter().query;
+    const isTemplate = (queryParams["template"] as string) || "";
     const displayCancelButton = showCancelButton(queryParams);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
@@ -41,9 +52,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         <BaseLayout title={title} description={description}>
             <form
                 encType="multipart/form-data"
-                action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${
-                    queryParams["template"] ? "&template=true" : ""
-                }`}
+                action={`/api/create-social-media-post${getCreatePostQueryParams(queryParams, props.csrfToken ?? "")}`}
                 method="post"
             >
                 <>
@@ -191,7 +200,13 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                                href={
+                                    isTemplate === "true"
+                                        ? `${queryParams["return"] as string}/${
+                                              pageState.disruptionId || ""
+                                          }?template=true`
+                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
+                                }
                                 className="govuk-button  mt-8 ml-5 govuk-button--secondary"
                             >
                                 Back
@@ -243,7 +258,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionSummary: disruption?.summary || "",
             socialMediaPostIndex: index,
             socialAccounts,
-            template: disruption?.template?.toString() || "",
         },
     };
 };

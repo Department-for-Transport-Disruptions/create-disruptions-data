@@ -6,17 +6,16 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-} from "../../constants/index";
+} from "../../constants";
 import { upsertDisruptionInfo } from "../../data/dynamo";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -71,10 +70,11 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
-        const isFromTemplate = isDisruptionFromTemplate(req);
-
-        const { draft } = req.query;
+        const { template, return: returnPath, draft } = req.query;
+        const queryParams = getQueryParams(
+            template === "true",
+            returnPath ? decodeURIComponent(returnPath as string) : "",
+        );
 
         const body = req.body as DisruptionInfo;
 
@@ -87,8 +87,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         if (!session) {
             throw new Error("No session found");
         }
-
-        const { template } = req.query;
 
         const formattedBody = formatCreateDisruptionBody(req.body as object);
 
@@ -107,13 +105,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
-                res,
-                template ? ["template"] : [],
-                `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
-                queryParam ? [queryParam] : [],
-            );
+            redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}${queryParams}`);
 
             return;
         }
@@ -126,22 +118,27 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        queryParam && (!isFromTemplate || template)
-            ? redirectToWithQueryParams(
-                  req,
-                  res,
-                  template ? ["template"] : [],
-                  `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
-              )
-            : draft
-            ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : redirectToWithQueryParams(
-                  req,
-                  res,
-                  template ? ["template"] : [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0`,
-                  isFromTemplate ? [`${isFromTemplate}`] : [],
-              );
+        if (draft) {
+            return redirectTo(res, DASHBOARD_PAGE_PATH);
+        }
+
+        if (!!returnPath) {
+            const redirectPath = decodeURIComponent(returnPath as string).includes(DISRUPTION_DETAIL_PAGE_PATH)
+                ? DISRUPTION_DETAIL_PAGE_PATH
+                : REVIEW_DISRUPTION_PAGE_PATH;
+
+            redirectTo(
+                res,
+                `${redirectPath}/${validatedBody.data.disruptionId}${template === "true" ? "?template=true" : ""}`,
+            );
+        }
+
+        redirectTo(
+            res,
+            `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/0${
+                template === "true" ? "?template=true" : ""
+            }`,
+        );
 
         return;
     } catch (e) {

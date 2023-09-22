@@ -6,7 +6,9 @@ import createSocialMediaPost from "./create-social-media-post.api";
 import {
     COOKIES_SOCIAL_MEDIA_ERRORS,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import * as s3 from "../../data/s3";
@@ -30,6 +32,12 @@ const previousCreateSocialMediaPostInformation = {
     socialMediaPostIndex: "0",
     status: "Pending",
 };
+
+const returnPath = encodeURIComponent(
+    `${DISRUPTION_DETAIL_PAGE_PATH}/${
+        defaultDisruptionId as string
+    }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+);
 
 describe("create-social-media-post API", () => {
     const env = process.env;
@@ -336,6 +344,39 @@ describe("create-social-media-post API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
+    it("should redirect to /disruption-detail when editing a social media post and all required inputs are passed", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...previousCreateSocialMediaPostInformation },
+            query: {
+                return: returnPath,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        formParseSpy.mockResolvedValue({
+            fields: previousCreateSocialMediaPostInformation,
+            files: [],
+        });
+
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
+            {
+                ...previousCreateSocialMediaPostInformation,
+                socialMediaPostIndex: 0,
+            },
+            DEFAULT_ORG_ID,
+            false,
+            false,
+            false,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}?return=${returnPath}`,
         });
     });
 });

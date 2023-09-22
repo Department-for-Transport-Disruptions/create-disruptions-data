@@ -121,10 +121,3 @@ export const showCancelButton = (queryParams: ParsedUrlQuery) => {
         (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
     );
 };
-
-export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
-    return (
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true")) ||
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template"))
-    );
-};

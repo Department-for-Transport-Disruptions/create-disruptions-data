@@ -5,7 +5,6 @@ import addConsequence from "./type-of-consequence.api";
 import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
-    CREATE_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants/index";
@@ -32,10 +31,6 @@ describe("addConsequence", () => {
         consequenceIndex: "0",
         consequenceType: "operatorWide",
     };
-
-    const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${disruptionId}?${encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    )}`;
 
     const returnPath = encodeURIComponent(
         `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
@@ -127,8 +122,9 @@ describe("addConsequence", () => {
     it("should redirect to operator consequence page when 'Operator wide' selected and with appropriate query params when a new disruption is created from template", () => {
         const { req, res } = getMockRequestAndResponse({
             body: disruptionData,
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                template: "true",
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -136,15 +132,16 @@ describe("addConsequence", () => {
         addConsequence(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-consequence-operator/${disruptionId}/0?${returnPath}`,
+            Location: `/create-consequence-operator/${disruptionId}/0?template=true&return=${returnPath}`,
         });
     });
 
-    it("should redirect to operator consequence page when 'Network wide' selected and with appropriate query params when a new disruption is created from template", () => {
+    it("should redirect to network consequence page when 'Network wide' selected and with appropriate query params when a new disruption is created from template", () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...disruptionData, consequenceType: "networkWide" },
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                template: "true",
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -152,15 +149,16 @@ describe("addConsequence", () => {
         addConsequence(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-consequence-network/${disruptionId}/0?${returnPath}`,
+            Location: `/create-consequence-network/${disruptionId}/0?template=true&return=${returnPath}`,
         });
     });
 
     it("should redirect to stops consequence page when 'Stops' is selected and with appropriate query params when a new disruption is created from template", () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...disruptionData, consequenceType: "stops" },
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                template: "true",
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -168,15 +166,16 @@ describe("addConsequence", () => {
         addConsequence(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-consequence-stops/${disruptionId}/0?${returnPath}`,
+            Location: `/create-consequence-stops/${disruptionId}/0?template=true&return=${returnPath}`,
         });
     });
 
     it("should redirect to services consequence page when 'Services' is selected and with appropriate query params when a new disruption is created from template", () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...disruptionData, consequenceType: "services" },
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                template: "true",
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -184,7 +183,7 @@ describe("addConsequence", () => {
         addConsequence(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-consequence-services/${disruptionId}/0?${returnPath}`,
+            Location: `/create-consequence-services/${disruptionId}/0?template=true&return=${returnPath}`,
         });
     });
 
@@ -193,8 +192,9 @@ describe("addConsequence", () => {
 
         const { req, res } = getMockRequestAndResponse({
             body: { ...disruptionData, consequenceType: "" },
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                template: "true",
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -210,7 +210,7 @@ describe("addConsequence", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruptionId}/0?${returnPath}`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruptionId}/0?template=true&return=${returnPath}`,
         });
     });
 });

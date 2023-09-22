@@ -25,14 +25,15 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-} from "../../constants/index";
+    DISRUPTION_DETAIL_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getEndingOnDateText } from "../../utils/dates";
-import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../utils/formUtils";
+import { getStateUpdater, showCancelButton } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -60,11 +61,13 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelChangesButton = showCancelButton(queryParams);
     const returnPath = (queryParams["return"] as string) || "";
-    const template = (queryParams["template"] as string) || "";
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
+    const isTemplate = (queryParams["template"] as string) || "";
+    const displayCancelChangesButton = showCancelButton(queryParams);
+    const isDisruptionCreatedFromTemplate =
+        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template")
+            ? true
+            : false;
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
@@ -251,7 +254,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
-                action={`/api/create-disruption${template == "true" ? "?template=true" : ""}`}
+                action={`/api/create-disruption${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -259,9 +262,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">
-                            {template == "true"
+                            {isTemplate === "true"
                                 ? "Create a new template"
-                                : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
+                                : `Create a new disruption${isDisruptionCreatedFromTemplate ? " from template" : ""}`}
                         </h1>
 
                         <Radios<DisruptionInfo>
@@ -626,7 +629,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <Link
                             role="button"
                             href={
-                                returnToTemplateOverview
+                                isTemplate === "true"
                                     ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}?template=true`
                                     : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                             }
@@ -639,7 +642,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {!props.disruptionExists ? (
                         <Link
                             role="button"
-                            href={template == "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            href={isTemplate === "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel
@@ -650,7 +653,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
-                            isTemplate={template}
+                            isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
                     )}

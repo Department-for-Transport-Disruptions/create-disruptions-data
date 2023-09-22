@@ -25,10 +25,10 @@ import {
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { isNetworkConsequence } from "../../../utils";
+import { getQueryParams, isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
+import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
 const description = "Create Consequence Network page for the Create Transport Disruptions Service";
@@ -41,17 +41,14 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = (queryParams["template"] as string) || "";
     const returnPath = (queryParams["return"] as string) || "";
+    const displayCancelButton = showCancelButton(queryParams);
 
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm
-                action={`/api/create-consequence-network${isTemplate ? "?template=true" : ""}`}
+                action={`/api/create-consequence-network${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -70,9 +67,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
-                                            returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!queryParams["return"],
+                                            queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -172,7 +168,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate === "true"
                                         ? `${queryParams["return"] as string}/${
                                               pageState.disruptionId || ""
                                           }?template=true`

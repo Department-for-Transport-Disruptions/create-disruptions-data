@@ -3227,7 +3227,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
       id="main-content"
     >
       <form
-        action="/api/create-disruption"
+        action="/api/create-disruption?return=%2Freview-disruption"
         method="post"
       >
         <input

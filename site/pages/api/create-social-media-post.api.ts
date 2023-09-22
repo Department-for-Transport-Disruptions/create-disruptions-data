@@ -6,16 +6,15 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-} from "../../constants/index";
+} from "../../constants";
 import { upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
 import { refineImageSchema } from "../../schemas/social-media.schema";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
+    redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -23,9 +22,11 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
-
-        const { template } = req.query;
+        const { template, return: returnPath } = req.query;
+        const queryParams = getQueryParams(
+            template === "true",
+            returnPath ? decodeURIComponent(returnPath as string) : "",
+        );
 
         const session = getSession(req);
 
@@ -70,15 +71,13 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
+            redirectTo(
                 res,
-                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
-                }`,
-                queryParam ? [queryParam] : [],
+                }${queryParams}`,
             );
+
             return;
         }
 
@@ -100,17 +99,11 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 
-        const redirectPath =
-            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
-                ? DISRUPTION_DETAIL_PAGE_PATH
-                : REVIEW_DISRUPTION_PAGE_PATH;
+        const redirectPath = decodeURIComponent(returnPath as string).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
 
-        redirectToWithQueryParams(
-            req,
-            res,
-            template ? ["template"] : [],
-            `${redirectPath}/${validatedBody.data.disruptionId}`,
-        );
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}${queryParams}`);
 
         return;
     } catch (e) {

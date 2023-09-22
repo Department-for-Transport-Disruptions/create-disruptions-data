@@ -2377,7 +2377,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
       id="main-content"
     >
       <form
-        action="/api/create-consequence-stops"
+        action="/api/create-consequence-stops?return=%2Freview-disruption"
         method="post"
       >
         <input

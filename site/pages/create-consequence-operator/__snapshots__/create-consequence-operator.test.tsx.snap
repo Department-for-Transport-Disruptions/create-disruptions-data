@@ -1509,7 +1509,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
       id="main-content"
     >
       <form
-        action="/api/create-consequence-operator"
+        action="/api/create-consequence-operator?return=%2Freview-disruption"
         method="post"
       >
         <input

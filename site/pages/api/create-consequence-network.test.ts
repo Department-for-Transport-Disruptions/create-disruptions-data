@@ -5,7 +5,6 @@ import createConsequenceNetwork from "./create-consequence-network.api";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
-    CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -50,12 +49,6 @@ describe("create-consequence-network API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    )}`;
 
     const returnPath = encodeURIComponent(
         `${DISRUPTION_DETAIL_PAGE_PATH}/${
@@ -236,10 +229,13 @@ describe("create-consequence-network API", () => {
     });
 
     it("should redirect to /review-disruption when all required inputs are passed with appropriate query params when a new disruption is created from template", async () => {
+        const newDisruptionReturnPath = encodeURIComponent(
+            `/${REVIEW_DISRUPTION_PAGE_PATH}/${defaultNetworkData.disruptionId}`,
+        );
         const { req, res } = getMockRequestAndResponse({
             body: defaultNetworkData,
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                return: newDisruptionReturnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -265,7 +261,7 @@ describe("create-consequence-network API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?return=${newDisruptionReturnPath}`,
         });
     });
 
@@ -278,8 +274,8 @@ describe("create-consequence-network API", () => {
 
         const { req, res } = getMockRequestAndResponse({
             body: networkData,
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -296,7 +292,7 @@ describe("create-consequence-network API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_NETWORK_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_NETWORK_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?return=${returnPath}`,
         });
     });
 });

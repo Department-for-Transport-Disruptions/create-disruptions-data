@@ -6,7 +6,6 @@ import createConsequenceOperator from "./create-consequence-operator.api";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
-    CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
@@ -59,12 +58,6 @@ describe("create-consequence-operator API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    )}`;
 
     const returnPath = encodeURIComponent(
         `${DISRUPTION_DETAIL_PAGE_PATH}/${
@@ -239,10 +232,11 @@ describe("create-consequence-operator API", () => {
     });
 
     it("should redirect to /review-disruption when all required inputs are passed  with appropriate query params when a new disruption is created from template", async () => {
+        const newDisruptionReturnPath = encodeURIComponent(`/${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`);
         const { req, res } = getMockRequestAndResponse({
             body: bodyData,
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                return: newDisruptionReturnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -269,7 +263,7 @@ describe("create-consequence-operator API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?return=${newDisruptionReturnPath}`,
         });
     });
 
@@ -280,8 +274,8 @@ describe("create-consequence-operator API", () => {
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             },
-            requestHeaders: {
-                referer: refererPath,
+            query: {
+                return: returnPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -306,7 +300,7 @@ describe("create-consequence-operator API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?return=${returnPath}`,
         });
     });
 });

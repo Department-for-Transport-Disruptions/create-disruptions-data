@@ -1227,7 +1227,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
       id="main-content"
     >
       <form
-        action="/api/create-consequence-network"
+        action="/api/create-consequence-network?return=%2Freview-disruption"
         method="post"
       >
         <input

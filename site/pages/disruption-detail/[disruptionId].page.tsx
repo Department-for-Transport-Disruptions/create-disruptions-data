@@ -17,9 +17,11 @@ import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
@@ -334,7 +336,9 @@ const DisruptionDetail = ({
             ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
                   .socialMediaPostIndex + 1
             : 0;
+
     const queryParams = useRouter().query;
+    const isTemplate = (queryParams["template"] as string) || "";
 
     return (
         <BaseLayout title={title} description={description}>
@@ -728,7 +732,7 @@ const DisruptionDetail = ({
                         disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
                             <Link
                                 role="button"
-                                href={redirect}
+                                href={isTemplate === "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
@@ -886,7 +890,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer,
+            redirect: referer || "",
             errors: errors,
             canPublish: canPublish(session),
         },

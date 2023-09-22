@@ -8,13 +8,14 @@ import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants/index";
+import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { PageState } from "../../../interfaces/index";
+import { PageState } from "../../../interfaces";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
+import { getQueryParams } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
+import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
@@ -27,17 +28,14 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = (queryParams["template"] as string) || "";
     const returnPath = (queryParams["return"] as string) || "";
+    const displayCancelButton = showCancelButton(queryParams);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
-                action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
+                action={`/api/type-of-consequence${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -68,7 +66,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 <Link
                                     role="button"
                                     href={
-                                        returnToTemplateOverview
+                                        isTemplate === "true"
                                             ? `${queryParams["return"] as string}/${
                                                   pageState.disruptionId || ""
                                               }?template=true`

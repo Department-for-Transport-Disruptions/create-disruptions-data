@@ -203,3 +203,16 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const getQueryParams = (isTemplate: boolean, returnPath: string) => {
+    if (isTemplate && returnPath) {
+        return `?template=true&return=${encodeURIComponent(returnPath)}`;
+    }
+    if (isTemplate && !returnPath) {
+        return "?template=true";
+    }
+    if (returnPath && !isTemplate) {
+        return `?return=${encodeURIComponent(returnPath)}`;
+    }
+    return "";
+};

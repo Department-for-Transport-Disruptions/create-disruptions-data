@@ -30,15 +30,10 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { isOperatorConsequence } from "../../../utils";
+import { getQueryParams, isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import {
-    getStateUpdater,
-    operatorStateUpdater,
-    returnTemplateOverview,
-    showCancelButton,
-} from "../../../utils/formUtils";
+import { getStateUpdater, operatorStateUpdater, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -51,20 +46,15 @@ export interface CreateConsequenceOperatorProps
 
 const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): ReactElement => {
     const [pageState, setConsequenceOperatorPageState] = useState<PageState<Partial<OperatorConsequence>>>(props);
-
+    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
     const stateUpdater = getStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = (queryParams["template"] as string) || "";
     const returnPath = (queryParams["return"] as string) || "";
-
-    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
+    const displayCancelButton = showCancelButton(queryParams);
 
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
@@ -101,7 +91,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm
-                action={`/api/create-consequence-operator${isTemplate ? "?template=true" : ""}`}
+                action={`/api/create-consequence-operator${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -120,9 +110,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
-                                            returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!queryParams["return"],
+                                            queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -263,7 +252,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate === "true"
                                         ? `${queryParams["return"] as string}/${
                                               pageState.disruptionId || ""
                                           }?template=true`

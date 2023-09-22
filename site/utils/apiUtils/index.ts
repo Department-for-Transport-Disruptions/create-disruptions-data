@@ -9,8 +9,6 @@ import {
     COOKIE_CSRF,
     COOKIES_ID_TOKEN,
     COOKIE_PREFERENCES_COOKIE,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
     HOOTSUITE_URL,
 } from "../../constants";
@@ -107,24 +105,6 @@ export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>,
     }
 
     return inputsProps;
-};
-
-export const getReturnPage = (req: NextApiRequest) => {
-    const queryParam = req.headers.referer?.split("?")[1];
-    const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
-    return decodedQueryParam?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH)
-        ? queryParam
-        : null;
-};
-
-export const isDisruptionFromTemplate = (req: NextApiRequest) => {
-    const queryParam = req.headers.referer?.split("?")[1];
-
-    const decodedQueryParam = queryParam ? decodeURIComponent(queryParam) : null;
-    return decodedQueryParam?.includes(DISRUPTION_DETAIL_PAGE_PATH) && decodedQueryParam.includes("template=true")
-        ? queryParam
-        : null;
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

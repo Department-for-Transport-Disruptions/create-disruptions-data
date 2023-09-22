@@ -30,16 +30,10 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { flattenZodErrors, getQueryParams, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import {
-    getStateUpdater,
-    getStopLabel,
-    getStopValue,
-    returnTemplateOverview,
-    showCancelButton,
-} from "../../../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -55,12 +49,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = (queryParams["template"] as string) || "";
     const returnPath = (queryParams["return"] as string) || "";
+    const displayCancelButton = showCancelButton(queryParams);
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -186,7 +177,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm
-                action={`/api/create-consequence-stops${isTemplate ? "?template=true" : ""}`}
+                action={`/api/create-consequence-stops${getQueryParams(isTemplate === "true", returnPath)}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -205,9 +196,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
-                                            returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!queryParams["return"],
+                                            queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -347,7 +337,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate === "true"
                                         ? `${queryParams["return"] as string}/${
                                               pageState.disruptionId || ""
                                           }?template=true`

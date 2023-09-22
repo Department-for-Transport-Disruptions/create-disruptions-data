@@ -3113,7 +3113,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
       id="main-content"
     >
       <form
-        action="/api/create-consequence-services"
+        action="/api/create-consequence-services?return=%2Freview-disruption"
         method="post"
       >
         <input

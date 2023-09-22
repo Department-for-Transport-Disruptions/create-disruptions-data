@@ -6,22 +6,23 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
-} from "../../constants/index";
+} from "../../constants";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
+    redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const queryParam = getReturnPage(req);
-
-        const { template } = req.query;
+        const { template, return: returnPath } = req.query;
+        const queryParams = getQueryParams(
+            template === "true",
+            returnPath ? decodeURIComponent(returnPath as string) : "",
+        );
 
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
@@ -40,13 +41,11 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
+            redirectTo(
                 res,
-                template ? ["template"] : [],
-                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}${queryParams}`,
             );
+
             return;
         }
 
@@ -72,12 +71,9 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 break;
         }
 
-        redirectToWithQueryParams(
-            req,
+        redirectTo(
             res,
-            template ? ["template"] : [],
-            `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
-            queryParam ? [queryParam] : [],
+            `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}${queryParams}`,
         );
     } catch (e) {
         if (e instanceof Error) {

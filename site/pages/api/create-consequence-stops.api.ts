@@ -9,14 +9,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getQueryParams } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -38,18 +35,17 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
-        const isFromTemplate = isDisruptionFromTemplate(req);
-
-        const { template } = req.query;
+        const { template, return: returnPath, draft } = req.query;
+        const queryParams = getQueryParams(
+            template === "true",
+            returnPath ? decodeURIComponent(returnPath as string) : "",
+        );
 
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
         const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
 
         const session = getSession(req);
-
-        const { draft } = req.query;
 
         if (!session) {
             throw new Error("No session found");
@@ -70,13 +66,9 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 }),
                 res,
             );
-
-            redirectToWithQueryParams(
-                req,
+            redirectTo(
                 res,
-                template ? ["template"] : [],
-                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}${queryParams}`,
             );
             return;
         }
@@ -84,24 +76,17 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
-        const redirectPath =
-            (!isFromTemplate || template) &&
-            queryParam &&
-            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
-                ? DISRUPTION_DETAIL_PAGE_PATH
-                : REVIEW_DISRUPTION_PAGE_PATH;
+        const redirectPath = decodeURIComponent(returnPath as string).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
 
         if (draft) {
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
-        redirectToWithQueryParams(
-            req,
-            res,
-            template ? ["template"] : [],
-            `${redirectPath}/${validatedBody.data.disruptionId}`,
-            queryParam ? [queryParam] : [],
-        );
+
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}${queryParams}`);
+
         return;
     } catch (e) {
         if (e instanceof Error) {
