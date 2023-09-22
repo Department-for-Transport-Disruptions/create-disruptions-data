@@ -115,10 +115,8 @@ describe("create-consequence-stops API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
-    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
-        getDisruptionById: vi.fn(),
     }));
 
     afterEach(() => {
@@ -143,6 +141,7 @@ describe("create-consequence-stops API", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
+        upsertConsequenceSpy.mockResolvedValue(disruption);
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -316,7 +315,6 @@ describe("create-consequence-stops API", () => {
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true", async () => {
-        getDisruptionByIdSpy.mockResolvedValue(disruption);
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultStopsData },
             query: { addAnotherConsequence: "true" },
@@ -338,7 +336,6 @@ describe("create-consequence-stops API", () => {
         });
     });
     it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true and a template", async () => {
-        getDisruptionByIdSpy.mockResolvedValue(disruption);
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultStopsData },
             query: { addAnotherConsequence: "true", template: "true" },

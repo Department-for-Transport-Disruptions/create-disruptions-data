@@ -541,7 +541,7 @@ export const upsertConsequence = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
-) => {
+): Promise<FullDisruption | null> => {
     logger.info(
         `Updating consequence index ${consequence.consequenceIndex || ""} in disruption (${
             consequence.disruptionId || ""
@@ -566,6 +566,7 @@ export const upsertConsequence = async (
             },
         }),
     );
+    return currentDisruption;
 };
 
 export const upsertSocialMediaPost = async (

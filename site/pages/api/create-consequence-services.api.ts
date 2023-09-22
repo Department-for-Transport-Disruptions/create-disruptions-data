@@ -95,7 +95,12 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
+        const disruption = await upsertConsequence(
+            validatedBody.data,
+            session.orgId,
+            session.isOrgStaff,
+            template === "true",
+        );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
 
         const redirectPath =
@@ -106,7 +111,6 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
         if (addAnotherConsequence) {
-            const disruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId, !!template);
             if (!disruption) {
                 throw new Error("No disruption found to add another consequence");
             }
