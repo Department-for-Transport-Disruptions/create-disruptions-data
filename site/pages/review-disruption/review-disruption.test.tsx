@@ -315,5 +315,22 @@ describe("pages", () => {
 
             unmount();
         });
+
+        it("should render correctly with inputs and no errors when disruption has no consequences", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={{ ...previousDisruptionInformation, consequences: [] }}
+                    errors={[]}
+                    canPublish
+                    redirect=""
+                />,
+            );
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+
+            expect(consequenceButton).toBeTruthy();
+            unmount();
+        });
     });
 });
