@@ -96,7 +96,9 @@ const fetchStops = async (
 
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
-        CreateConsequenceProps {}
+        CreateConsequenceProps {
+    disruptionDescription?: string;
+}
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(props);
@@ -223,11 +225,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     inputs: {
                         ...pageState.inputs,
                         stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
-                        ...(pageState.inputs?.services
-                            ? {
-                                  services: filterServices([...pageState.inputs?.services, ...servicesForGivenStop]),
-                              }
-                            : { services: [...filterServices(servicesForGivenStop)] }),
+                        services: filterServices([...(pageState.inputs.services ?? []), ...servicesForGivenStop]),
                     },
                     errors: [
                         ...pageState.errors.filter(
