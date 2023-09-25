@@ -1,28 +1,24 @@
 import { z } from "zod";
 
-export const hootsuiteProfileSchema = z.array(
-    z.object({ type: z.string(), id: z.string(), socialNetworkId: z.string() }),
-);
+export const hootsuiteProfileSchema = z.object({ type: z.string(), id: z.string(), socialNetworkId: z.string() });
 
-export const socialMediaAccounts = z.array(
+const accountType = z.enum(["Twitter", "Hootsuite"]);
+
+export const dynamoSocialAccountSchema = z.object({
+    id: z.string(),
+    display: z.string(),
+    accountType,
+    addedBy: z.string(),
+});
+
+export const socialMediaAccountSchema = dynamoSocialAccountSchema.and(
     z.object({
-        id: z.string(),
-        email: z.string(),
-        accountType: z.string().default("Hootsuite"),
-        addedBy: z.string(),
+        display: z.string(),
         expiresIn: z.string().default("Never"),
-        isActive: z.boolean().optional(),
-        createdDate: z.string().optional(),
-        modifiedDate: z.string().optional(),
-        fullName: z.string().optional(),
-        companyName: z.string().optional(),
-        bio: z.string().optional(),
-        defaultTimezone: z.string().optional(),
-        language: z.string().optional(),
-        hootsuiteProfiles: hootsuiteProfileSchema,
+        hootsuiteProfiles: z.array(hootsuiteProfileSchema).optional(),
     }),
 );
 
-export type SocialMediaAccountsSchema = z.infer<typeof socialMediaAccounts>;
+export type SocialMediaAccount = z.infer<typeof socialMediaAccountSchema>;
 
-export type HootsuiteProfiles = z.infer<typeof hootsuiteProfileSchema>;
+export type HootsuiteProfile = z.infer<typeof hootsuiteProfileSchema>;

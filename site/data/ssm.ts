@@ -7,6 +7,7 @@ import {
     GetParametersByPathCommand,
     DeleteParameterResult,
     DeleteParameterCommand,
+    PutParameterCommandInput,
 } from "@aws-sdk/client-ssm";
 import logger from "../utils/logger";
 
@@ -24,7 +25,7 @@ export const putParameter = async (
     });
 
     try {
-        const input = {
+        const input: PutParameterCommandInput = {
             Name: name,
             Value: value,
             Type: type,

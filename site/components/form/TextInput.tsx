@@ -1,5 +1,5 @@
 import kebabCase from "lodash/kebabCase";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 
@@ -30,12 +30,22 @@ const TextInput = <T extends object>({
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (resetError) {
             setErrors([]);
         }
     }, [resetError, setErrors]);
+
+    useEffect(() => {
+        if (textArea && textAreaRef.current) {
+            textAreaRef.current.value = value || "";
+        } else if (!textArea && inputRef.current) {
+            inputRef.current.value = value || "";
+        }
+    }, [value, textArea]);
 
     return (
         <FormGroupWrapper errorIds={[inputName]} errors={errors}>
@@ -59,6 +69,7 @@ const TextInput = <T extends object>({
                             defaultValue={value}
                             onChange={(e) => stateUpdater(e.target.value, inputName)}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
+                            ref={textAreaRef}
                         />
                     ) : (
                         <input
@@ -70,6 +81,7 @@ const TextInput = <T extends object>({
                             defaultValue={value}
                             onChange={(e) => stateUpdater(e.target.value, inputName)}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
+                            ref={inputRef}
                         />
                     )}
                 </FormElementWrapper>

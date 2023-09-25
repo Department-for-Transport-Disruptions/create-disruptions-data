@@ -36,6 +36,7 @@ export interface FormBase<T> {
     initialErrors?: ErrorInfo[];
     stateUpdater: (change: string, field: keyof T) => void;
     schema?: z.ZodTypeAny;
+    disabled?: boolean;
 }
 
 export interface DisplayValuePair<T = string> {

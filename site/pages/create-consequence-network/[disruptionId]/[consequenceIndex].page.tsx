@@ -143,7 +143,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             hint="Enter time in minutes"
                             displaySize="l"
                             value={pageState.inputs.disruptionDelay}
-                            disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}

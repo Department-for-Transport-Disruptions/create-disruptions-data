@@ -22,6 +22,7 @@ import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
+import { HootsuitePost } from "../schemas/social-media.schema";
 import { SortedDisruption } from "../utils";
 import { getFutureDateAsString } from "../utils/dates";
 
@@ -379,7 +380,7 @@ export const consequenceInfoNetworkTest: Consequence = {
     removeFromJourneyPlanners: "no",
 };
 
-export const socialMediaPostsInformation = [
+export const hootsuiteSocialMediaPosts: HootsuitePost[] = [
     {
         disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
         hootsuiteProfile: "127196025",
@@ -396,6 +397,7 @@ export const socialMediaPostsInformation = [
         socialAccount: "13958638",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.successful,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
@@ -413,6 +415,7 @@ export const socialMediaPostsInformation = [
         socialAccount: "137196026",
         socialMediaPostIndex: 1,
         status: SocialMediaPostStatus.pending,
+        accountType: "Hootsuite",
     },
 ];
 
@@ -423,7 +426,7 @@ export const disruptionWithConsequences: FullDisruption = {
 
 export const disruptionWithConsequencesAndSocialMediaPosts: FullDisruption = {
     ...disruptionWithConsequences,
-    socialMediaPosts: socialMediaPostsInformation,
+    socialMediaPosts: hootsuiteSocialMediaPosts,
 };
 
 export const disruptionArray: FullDisruption[] = [

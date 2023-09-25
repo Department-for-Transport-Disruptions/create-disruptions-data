@@ -2,8 +2,9 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import ViewAllSocialMedia from "./view-all-social-media.page";
+import { SocialMediaPost } from "../schemas/social-media.schema";
 
-const mockPosts = [
+const mockPosts: SocialMediaPost[] = [
     {
         disruptionId: "2cf79629-5c9d-4bc2-8158-7ac68a9759e8",
         messageContent: "a post",
@@ -13,6 +14,7 @@ const mockPosts = [
         publishTime: "1700",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.successful,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "2cf79629-5c9d-4bc2-8158-7ac68a9759e8",
@@ -31,6 +33,7 @@ const mockPosts = [
             url: "https://cdd-image-bucket-teststage.s3.eu-west-2.amazonaws.com/12345",
         },
         status: SocialMediaPostStatus.successful,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "5fb739a8-e5f3-4d3c-b828-f6557c23e834",
@@ -49,6 +52,7 @@ const mockPosts = [
             url: "https://cdd-image-bucket-teststage.s3.eu-west-2.amazonaws.com/12345",
         },
         status: SocialMediaPostStatus.successful,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "640b8b7a-14b8-4f67-9cc3-7f5096a9403c",
@@ -58,17 +62,16 @@ const mockPosts = [
         publishDate: "28/06/2023",
         publishTime: "1700",
         socialMediaPostIndex: 0,
-        status: SocialMediaPostStatus.successful,
+        status: SocialMediaPostStatus.rejected,
+        accountType: "Hootsuite",
     },
     {
-        disruptionId: "640b8b7a-14b8-4f67-9cc3-7f5096a9403c",
-        messageContent: "another one here",
+        disruptionId: "640b8b7a-14b8-4f67-9cc3-7f8156a9403c",
+        messageContent: "twitter post",
         socialAccount: "25858639",
-        hootsuiteProfile: "138196022",
-        publishDate: "28/06/2023",
-        publishTime: "1715",
         socialMediaPostIndex: 1,
         status: SocialMediaPostStatus.successful,
+        accountType: "Twitter",
     },
 ];
 describe("pages", () => {

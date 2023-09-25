@@ -49,7 +49,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         const { IdToken: idToken, RefreshToken: refreshToken } = authResponse.AuthenticationResult;
 
         setCookieOnResponseObject(COOKIES_ID_TOKEN, idToken, res);
-        setCookieOnResponseObject(COOKIES_REFRESH_TOKEN, refreshToken, res);
+        setCookieOnResponseObject(COOKIES_REFRESH_TOKEN, refreshToken, res, undefined, true, "strict");
 
         logger.info("", {
             context: "api.login",

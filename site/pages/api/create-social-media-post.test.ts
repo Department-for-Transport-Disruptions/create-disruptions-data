@@ -29,29 +29,45 @@ const previousCreateSocialMediaPostInformation = {
     hootsuiteProfile: "Twitter/1234",
     socialMediaPostIndex: "0",
     status: "Pending",
+    accountType: "Hootsuite",
+    display: "Test Account",
 };
 
 describe("create-social-media-post API", () => {
     const env = process.env;
     process.env.IMAGE_BUCKET_NAME = DEFAULT_IMAGE_BUCKET_NAME;
+
+    const upsertSocialMediaPostSpy = vi.spyOn(dynamo, "upsertSocialMediaPost");
+    const getOrgSocialAccountSpy = vi.spyOn(dynamo, "getOrgSocialAccount");
+
     beforeEach(() => {
         vi.resetModules();
         process.env = { ...env };
+
+        getOrgSocialAccountSpy.mockResolvedValue({
+            accountType: "Hootsuite",
+            addedBy: "Test User",
+            display: "Test Account",
+            id: "12345",
+        });
     });
 
     afterEach(() => {
+        vi.resetAllMocks();
         process.env = env;
     });
+
     const writeHeadMock = vi.fn();
+
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertSocialMediaPostSpy = vi.spyOn(dynamo, "upsertSocialMediaPost");
     vi.mock("../../data/dynamo", () => ({
         upsertSocialMediaPost: vi.fn(),
+        getOrgSocialAccount: vi.fn(),
     }));
 
     const formParseSpy = vi.spyOn(file, "formParse");
@@ -68,10 +84,6 @@ describe("create-social-media-post API", () => {
     vi.mock("fs/promises", () => ({
         readFile: vi.fn(),
     }));
-
-    afterEach(() => {
-        vi.resetAllMocks();
-    });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({

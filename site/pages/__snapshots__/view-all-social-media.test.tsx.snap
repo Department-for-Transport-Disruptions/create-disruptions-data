@@ -924,7 +924,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    Successful
+                    Rejected
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -981,7 +981,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    another one here
+                    twitter post
                   </td>
                 </tr>
                 <tr
@@ -1011,7 +1011,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    28/06/2023
+                    N/A
                   </td>
                 </tr>
                 <tr
@@ -1026,7 +1026,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    1715
+                    N/A
                   </td>
                 </tr>
                 <tr
@@ -1056,7 +1056,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    138196022
+                    N/A
                   </td>
                 </tr>
                 <tr

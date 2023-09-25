@@ -110,7 +110,7 @@ export function SiteStack({ stack }: StackContext) {
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
             }),
             new PolicyStatement({
-                resources: ["*"],
+                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/*`],
                 actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
             }),
             new PolicyStatement({

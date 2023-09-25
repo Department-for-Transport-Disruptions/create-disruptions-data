@@ -44,6 +44,7 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
     "publishStatus": "DRAFT",
     "socialMediaPosts": [
       {
+        "accountType": "Hootsuite",
         "disruptionId": "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
         "hootsuiteProfile": "127196025",
         "image": {
@@ -61,6 +62,7 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
         "status": "Successful",
       },
       {
+        "accountType": "Hootsuite",
         "disruptionId": "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
         "hootsuiteProfile": "127196025",
         "image": {

@@ -12,7 +12,7 @@ import { ErrorInfo, FormBase } from "../../interfaces";
 import { convertDateTimeToFormat } from "../../utils/dates";
 
 interface DateSelectorProps<T> extends FormBase<T> {
-    disabled: boolean;
+    disabled?: boolean;
     hint?: {
         hidden: boolean;
         text: string;
@@ -77,7 +77,7 @@ const DateSelector = <T extends object>({
     displaySize = "s",
     inputName,
     initialErrors = [],
-    disabled,
+    disabled = false,
     hint,
     disablePast,
     stateUpdater,

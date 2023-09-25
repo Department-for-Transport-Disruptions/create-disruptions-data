@@ -320,7 +320,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             displaySize="l"
                             hint="Enter time in minutes"
                             value={pageState.inputs.disruptionDelay}
-                            disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
