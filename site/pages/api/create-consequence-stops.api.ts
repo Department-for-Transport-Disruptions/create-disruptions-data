@@ -7,9 +7,10 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
@@ -41,7 +42,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
 
-        const { template } = req.query;
+        const { template, addAnotherConsequence } = req.query;
 
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
@@ -81,7 +82,12 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             return;
         }
 
-        await upsertConsequence(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
+        const disruption = await upsertConsequence(
+            validatedBody.data,
+            session.orgId,
+            session.isOrgStaff,
+            template === "true",
+        );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
@@ -90,6 +96,24 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
+
+        if (addAnotherConsequence) {
+            if (!disruption) {
+                throw new Error("No disruption found to add another consequence");
+            }
+            const currentIndex = validatedBody.data.consequenceIndex;
+            const largestIndex = getLargestConsequenceIndex(disruption);
+            const nextIndex = currentIndex >= largestIndex ? currentIndex + 1 : largestIndex + 1;
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                template ? ["template"] : [],
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
+                queryParam ? [queryParam] : [],
+            );
+            return;
+        }
 
         if (draft) {
             redirectTo(res, DASHBOARD_PAGE_PATH);

@@ -12,7 +12,7 @@ import { ErrorInfo, FormBase } from "../../interfaces";
 import { convertDateTimeToFormat } from "../../utils/dates";
 
 interface DateSelectorProps<T> extends FormBase<T> {
-    disabled: boolean;
+    disabled?: boolean;
     hint?: {
         hidden: boolean;
         text: string;
@@ -23,6 +23,7 @@ interface DateSelectorProps<T> extends FormBase<T> {
     resetError?: boolean;
     minWidth?: string;
     inputDivWidth?: string;
+    errorAlign?: boolean;
 }
 
 const inputBox = <T extends object>(
@@ -76,7 +77,7 @@ const DateSelector = <T extends object>({
     displaySize = "s",
     inputName,
     initialErrors = [],
-    disabled,
+    disabled = false,
     hint,
     disablePast,
     stateUpdater,
@@ -85,6 +86,7 @@ const DateSelector = <T extends object>({
     resetError = false,
     minWidth,
     inputDivWidth,
+    errorAlign = false,
 }: DateSelectorProps<T>): ReactElement => {
     const [dateValue, setDateValue] = useState<Date | null>(
         !!disabled || !value ? null : getFormattedDate(value).toDate(),
@@ -115,15 +117,20 @@ const DateSelector = <T extends object>({
     }, [JSON.stringify(initialErrors)]);
 
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
-            <div className="govuk-form-group govuk-!-margin-bottom-0" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
-                    {display}
-                </label>
+        <FormGroupWrapper errorIds={[inputName]} errors={errors} errorAlign={errorAlign}>
+            <div
+                className={`govuk-form-group govuk-!-margin-bottom-0 ${errorAlign ? "h-full flex flex-col" : ""}`}
+                id={inputId}
+            >
+                <div>
+                    <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
+                        {display}
+                    </label>
+                </div>
                 {hint ? (
                     <div className={`govuk-hint${hint.hidden ? " govuk-visually-hidden" : ""}`}>{hint.text}</div>
                 ) : null}
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-auto">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             renderDay={renderWeekPickerDay}

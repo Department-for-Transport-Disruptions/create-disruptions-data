@@ -12,6 +12,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
@@ -71,7 +72,7 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
-const previousCreateSocialMediaPostsInformation = [
+const previousCreateSocialMediaPostsInformation: SocialMediaPost[] = [
     {
         disruptionId: "1",
         publishDate: "14/01/2027",
@@ -81,6 +82,7 @@ const previousCreateSocialMediaPostsInformation = [
         hootsuiteProfile: "Twitter/1234",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.pending,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "1",
@@ -98,11 +100,12 @@ const previousCreateSocialMediaPostsInformation = [
             originalFilename: "blah.jpg",
             size: 1000,
         },
+        accountType: "Hootsuite",
     },
 ];
 
 const previousDisruptionInformation: FullDisruption = {
-    publishStatus: PublishStatus.draft,
+    publishStatus: PublishStatus.published,
     disruptionType: "planned",
     disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -249,6 +252,24 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and no errors for an edited template", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            template: true,
+                            publishStatus: PublishStatus.editing,
+                        }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with inputs and create new disruption button for templates", () => {
             const { queryByText, getAllByRole, unmount } = render(
                 <DisruptionDetail
@@ -300,6 +321,38 @@ describe("pages", () => {
             expect(closeButton).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
 
+            unmount();
+        });
+        it("should render correctly with inputs and no errors when disruption has no consequences", () => {
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, consequences: [] }}
+                    redirect={"/view-all-disruptions"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+
+            expect(consequenceButton).toBeTruthy();
+            unmount();
+        });
+        it("should render correctly with inputs and no errors when disruption has no consequences and is template", () => {
+            const { queryByText, unmount } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true, consequences: [] }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={false}
+                />,
+            );
+
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+            expect(consequenceButton).toBeTruthy();
             unmount();
         });
     });

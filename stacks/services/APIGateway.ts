@@ -7,10 +7,12 @@ import {
 } from "aws-cdk-lib/aws-apigateway";
 import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { IHostedZone } from "aws-cdk-lib/aws-route53";
-import { ApiGatewayV1Api, Stack, Bucket } from "sst/constructs";
+import { ApiGatewayV1Api, Stack, Bucket, use } from "sst/constructs";
+import { DynamoDBStack } from "../DynamoDBStack";
 
 export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IHostedZone): void => {
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
 
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         customDomain: {
@@ -23,8 +25,19 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         cdk: {
             restApi: {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
-                description: "API to retrieve Siri SX XML data",
+                description: "API to retrieve Siri SX XML data and includes statistics about this data",
             },
+        },
+        defaults: {
+            function: {
+                timeout: 20,
+                environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
+                permissions: ["dynamodb:Scan", "dynamodb:Query"],
+            },
+        },
+        routes: {
+            "GET    /organisations": "packages/organisations-api/get-organisations/index.main",
+            "GET    /organisations/{id}": "packages/organisations-api/get-organisation/index.main",
         },
     });
 

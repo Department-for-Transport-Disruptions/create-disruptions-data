@@ -3,19 +3,16 @@ import { describe, it, expect } from "vitest";
 import SocialMediaAccounts, { SocialMediaAccountsPageProps } from "./social-media-accounts.page";
 
 const blankInputs: SocialMediaAccountsPageProps = {
-    socialMediaData: [],
-    username: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
-    clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
+    socialMediaDetails: [],
+    hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
+    twitterAuthUrl: "https://twitter-test-auth.com",
 };
 
 const withInputs: SocialMediaAccountsPageProps = {
-    username: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
-    clientId: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",
-    socialMediaData: [
+    socialMediaDetails: [
         {
             id: "24858630",
-            email: "testemail@gmail.com",
-            fullName: "Test Person",
+            display: "testemail@gmail.com",
             accountType: "Hootsuite",
             addedBy: "Test Account",
             expiresIn: "Never",
@@ -25,6 +22,8 @@ const withInputs: SocialMediaAccountsPageProps = {
             ],
         },
     ],
+    hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
+    twitterAuthUrl: "https://twitter-test-auth.com",
 };
 
 describe("socialMediaAccounts", () => {

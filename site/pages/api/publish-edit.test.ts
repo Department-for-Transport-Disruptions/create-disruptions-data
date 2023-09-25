@@ -1,4 +1,4 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
@@ -54,7 +54,7 @@ describe("publishEdit", () => {
 
     const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
-    const publishToHootsuiteSpy = vi.spyOn(apiUtils, "publishToHootsuite");
+    const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
 
     afterEach(() => {
@@ -111,12 +111,14 @@ describe("publishEdit", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        publishToHootsuiteSpy.mockResolvedValue();
+        publishSocialMediaSpy.mockResolvedValue();
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).toHaveBeenCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts,
+        expect(publishSocialMediaSpy).toHaveBeenCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.socialMediaPosts?.filter(
+                (post) => post.status === SocialMediaPostStatus.pending,
+            ),
             DEFAULT_ORG_ID,
             false,
             true,
@@ -150,7 +152,7 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(publishSocialMediaSpy).not.toHaveBeenCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
@@ -180,7 +182,7 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(publishToHootsuiteSpy).not.toHaveBeenCalled();
+        expect(publishSocialMediaSpy).not.toHaveBeenCalled();
         expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
         expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
         expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);

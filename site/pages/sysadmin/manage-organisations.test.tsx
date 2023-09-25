@@ -14,12 +14,12 @@ const randomID = "016f954c-0e14-11ee-be56-0242ac120002";
 const withInputs: ManageOrganisationsProps = {
     orgList: [
         {
-            PK: randomID,
+            id: randomID,
             name: "KPMG",
             adminAreaCodes: ["001", "002"],
         },
         {
-            PK: randomID,
+            id: randomID,
             name: "KPMG UK",
             adminAreaCodes: ["003", "004"],
         },

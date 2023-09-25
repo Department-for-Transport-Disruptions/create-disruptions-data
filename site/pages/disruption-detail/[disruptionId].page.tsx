@@ -111,13 +111,18 @@ const DisruptionDetail = ({
                 header: "Image",
                 cells: [
                     {
-                        value: post.image ? (
-                            <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
-                                {post.image.originalFilename}
-                            </Link>
-                        ) : (
-                            "No image uploaded"
-                        ),
+                        value:
+                            post.accountType === "Hootsuite" && post.image ? (
+                                <Link
+                                    className="govuk-link text-govBlue"
+                                    key={post.image.key}
+                                    href={post.image?.url ?? ""}
+                                >
+                                    {post.image.originalFilename}
+                                </Link>
+                            ) : (
+                                "No image uploaded"
+                            ),
                     },
                     {
                         value: isPendingOrRejected
@@ -138,7 +143,7 @@ const DisruptionDetail = ({
                 header: "Publish date",
                 cells: [
                     {
-                        value: post.publishDate,
+                        value: post.accountType === "Hootsuite" ? post.publishDate : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -159,7 +164,7 @@ const DisruptionDetail = ({
                 header: "Publish time",
                 cells: [
                     {
-                        value: post.publishTime,
+                        value: post.accountType === "Hootsuite" ? post.publishTime : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -201,7 +206,7 @@ const DisruptionDetail = ({
                 header: "HootSuite profile",
                 cells: [
                     {
-                        value: post.hootsuiteProfile,
+                        value: post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -382,7 +387,7 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template && (
+                        {disruption.template && disruption.publishStatus === PublishStatus.published && (
                             <button
                                 key="create-disruption-from-template"
                                 className="govuk-button"
@@ -653,7 +658,7 @@ const DisruptionDetail = ({
                                     : ""
                             }`}
                         >
-                            Add another consequence
+                            {disruption.consequences?.length === 0 ? "Add a consequence" : "Add another consequence"}
                         </Link>
 
                         <br />
@@ -742,6 +747,7 @@ const DisruptionDetail = ({
                         ) : null}
 
                         {!canPublish &&
+                        !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
@@ -749,10 +755,10 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
+                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    {disruption.template ? "Publish template" : "Publish disruption"}
+                                    {disruption.template ? "Save changes" : "Publish disruption"}
                                 </button>
                                 {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
@@ -760,7 +766,7 @@ const DisruptionDetail = ({
                                         data-module="govuk-button"
                                         formAction="/api/reject"
                                     >
-                                        {disruption.template ? "Reject template" : "Reject disruption"}
+                                        Reject disruption
                                     </button>
                                 ) : null}
                             </>
@@ -859,7 +865,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
-                if (s.image) {
+                if (s.accountType === "Hootsuite" && s.image) {
                     const url: string =
                         (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
                         "";

@@ -263,15 +263,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -279,7 +281,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -392,6 +394,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+          >
+            Add another consequence
           </button>
         </div>
       </form>
@@ -786,7 +795,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -860,15 +869,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -876,7 +887,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -987,6 +998,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+          >
+            Add another consequence
           </button>
         </div>
       </form>
@@ -1445,15 +1463,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -1461,7 +1481,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -1584,6 +1604,13 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             formAction="/api/create-consequence-network?draft=true"
           >
             Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+          >
+            Add another consequence
           </button>
         </div>
       </form>

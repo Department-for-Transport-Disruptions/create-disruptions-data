@@ -6,10 +6,16 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
+import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
-import { Organisations, organisationsSchema } from "../organisationTypes";
+import {
+    organisationSchemaWithStats,
+    Organisation,
+    organisationSchema,
+    OrganisationWithStats,
+} from "../organisationTypes";
 import { notEmpty } from "./index";
 
 type Logger = {
@@ -138,7 +144,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (
     return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];
 };
 
-export const getOrganisationsInfo = async (logger: Logger): Promise<Organisations | null> => {
+export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation[] | null> => {
     logger.info(`Getting all organisations from DynamoDB table...`);
     try {
         const dbData = await recursiveScan(
@@ -152,13 +158,99 @@ export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation
             logger,
         );
 
-        const parsedOrg = organisationsSchema.safeParse(dbData);
+        const parsedOrg = makeZodArray(organisationSchema).safeParse(dbData);
 
         if (!parsedOrg.success) {
             return null;
         }
 
         return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationWithStats[] | null> => {
+    logger.info(`Getting all organisations with stats from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveScan(
+            {
+                TableName: organisationsTableName,
+                FilterExpression: "begins_with(SK, :info) OR begins_with(SK, :stat)",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                    ":stat": "STAT",
+                },
+            },
+            logger,
+        );
+
+        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
+
+        const collectedOrgsWithStats = orgIds.map((id) => {
+            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
+            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
+
+            return {
+                ...info,
+                stats,
+            };
+        });
+
+        const parsedOrgsWithStats = makeZodArray(organisationSchemaWithStats).safeParse(collectedOrgsWithStats);
+
+        if (!parsedOrgsWithStats.success) {
+            return null;
+        }
+
+        return parsedOrgsWithStats.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getOrganisationInfoAndStats = async (
+    orgId: string,
+    logger: Logger,
+): Promise<OrganisationWithStats | null> => {
+    logger.info(`Getting organisation ${orgId} with stats from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveQuery(
+            {
+                TableName: organisationsTableName,
+                KeyConditionExpression: "PK=:orgId",
+                ExpressionAttributeValues: {
+                    ":orgId": orgId,
+                },
+            },
+            logger,
+        );
+
+        const info = dbDataInfo.find((item) => item.SK === "INFO");
+        const stats = dbDataInfo.find((item) => item.SK === "STAT");
+
+        const parsedOrgWithStats = organisationSchemaWithStats.safeParse({
+            ...info,
+            stats,
+        });
+
+        if (!parsedOrgWithStats.success) {
+            return null;
+        }
+
+        return parsedOrgWithStats.data;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

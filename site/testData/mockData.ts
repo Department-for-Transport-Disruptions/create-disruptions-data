@@ -22,7 +22,9 @@ import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
+import { HootsuitePost } from "../schemas/social-media.schema";
 import { SortedDisruption } from "../utils";
+import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
@@ -378,7 +380,7 @@ export const consequenceInfoNetworkTest: Consequence = {
     removeFromJourneyPlanners: "no",
 };
 
-export const socialMediaPostsInformation = [
+export const hootsuiteSocialMediaPosts: HootsuitePost[] = [
     {
         disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
         hootsuiteProfile: "127196025",
@@ -395,6 +397,7 @@ export const socialMediaPostsInformation = [
         socialAccount: "13958638",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.successful,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
@@ -412,6 +415,7 @@ export const socialMediaPostsInformation = [
         socialAccount: "137196026",
         socialMediaPostIndex: 1,
         status: SocialMediaPostStatus.pending,
+        accountType: "Hootsuite",
     },
 ];
 
@@ -422,7 +426,7 @@ export const disruptionWithConsequences: FullDisruption = {
 
 export const disruptionWithConsequencesAndSocialMediaPosts: FullDisruption = {
     ...disruptionWithConsequences,
-    socialMediaPosts: socialMediaPostsInformation,
+    socialMediaPosts: hootsuiteSocialMediaPosts,
 };
 
 export const disruptionArray: FullDisruption[] = [
@@ -1101,3 +1105,30 @@ export const mockViewAllData = [
         stopsAffectedCount: 0,
     },
 ];
+
+export const createDisruptionWithConsquences = (consequences: Consequence[]): FullDisruption => {
+    const defaultDisruptionStartDate = getFutureDateAsString(2);
+    const defaultPublishStartDate = getFutureDateAsString(1);
+    const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+    return {
+        disruptionId: defaultDisruptionId,
+        disruptionType: "planned",
+        summary: "A test disruption",
+        description: "oh no",
+        associatedLink: "",
+        disruptionReason: MiscellaneousReason.accident,
+        publishStartDate: defaultPublishStartDate,
+        publishStartTime: "1900",
+        disruptionStartDate: defaultDisruptionStartDate,
+        disruptionStartTime: "1800",
+        disruptionNoEndDateTime: "true",
+        disruptionRepeats: "doesntRepeat",
+        disruptionRepeatsEndDate: "",
+        validity: [],
+        publishStatus: PublishStatus.editing,
+        consequences: consequences,
+        displayId: "8fg3ha",
+        orgId: DEFAULT_ORG_ID,
+        template: false,
+    };
+};

@@ -71,7 +71,7 @@ const CookieBanner = (): ReactElement | null => {
     const handleAcceptAllClick = (): void => {
         const cookieOptions: CookieSerializeOptions = {
             maxAge: oneYearInSeconds,
-            sameSite: "strict",
+            sameSite: "lax",
             secure: process.env.NODE_ENV !== "development",
             path: "/",
         };

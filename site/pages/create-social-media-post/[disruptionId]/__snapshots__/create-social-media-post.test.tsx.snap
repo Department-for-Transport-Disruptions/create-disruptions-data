@@ -58,217 +58,8 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             Social media message
           </h1>
           <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="message-content"
-            >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="message-content-input"
-              >
-                Message content
-              </label>
-              <div
-                className="govuk-hint"
-                id="message-content-hint"
-              >
-                You can enter up to 200 characters
-              </div>
-              <div
-                className=""
-              >
-                <textarea
-                  aria-describedby="message-content-hint"
-                  className="govuk-textarea w-3/4"
-                  defaultValue="Test post 12345"
-                  id="message-content-input"
-                  maxLength={500}
-                  name="messageContent"
-                  onChange={[Function]}
-                  rows={3}
-                />
-              </div>
-            </div>
-          </div>
-          <br />
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
-              >
-                <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
-                  id="passenger-type-page-heading"
-                >
-                  Upload file
-                </h2>
-              </legend>
-              <div
-                className=""
-              >
-                <input
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="govuk-file-upload"
-                  id="image"
-                  name="image"
-                  type="file"
-                />
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div
-          className="govuk-form-group"
-        >
-          <h2
-            className="govuk-heading-l"
-          >
-            Publish time and date
-          </h2>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-              id="publish-date"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-date-input"
-              >
-                Date
-              </label>
-              <div
-                className="govuk-hint"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="flex flex-col"
-              >
-                <div
-                  className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
-                >
-                  <div
-                    className="govuk-date-input__item govuk-!-margin-right-0 "
-                  >
-                    <div
-                      className=""
-                    >
-                      <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
-                        disabled={false}
-                        id="publish-date-input"
-                        name="publishDate"
-                        onChange={[Function]}
-                        placeholder="DD/MM/YYYY"
-                        type="tel"
-                        value="19/06/2023"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="flex items-end pb-5"
-                  >
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date, selected date is Jun 19, 2023"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="publish-time"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-time-input"
-              >
-                Time
-              </label>
-              <div
-                className="govuk-hint"
-                id="publish-time-hint"
-              >
-                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
-              </div>
-              <div
-                className=""
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="1805"
-                      disabled={false}
-                      id="publish-time-input"
-                      name="publishTime"
-                      onChange={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
             className="govuk-form-group govuk-!-padding-top-3"
           >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
             <div
               className="govuk-form-group"
             >
@@ -279,7 +70,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 <label
                   className="govuk-label govuk-label--l"
                   htmlFor="social-account-input"
-                />
+                >
+                  Select social media account
+                </label>
                 <div
                   className=""
                 >
@@ -297,69 +90,80 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       Social account
                     </option>
                     <option
-                      value="25858639"
+                      value="138196022"
                     >
-                      testemail@gmail.com
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="hootsuite-profile"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="hootsuite-profile-input"
-                />
-                <div
-                  className="govuk-hint"
-                  id="hootsuite-profile-hint"
-                >
-                  Select Hootsuite profile
-                </div>
-                <div
-                  className=""
-                >
-                  <select
-                    aria-describedby="hootsuiteProfile-hint"
-                    className="govuk-select w-3/4"
-                    defaultValue="127196025"
-                    id="hootsuite-profile-input"
-                    name="hootsuiteProfile"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
+                      testemail@gmail.com (Hootsuite)
                     </option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
-          <input
-            name="disruptionId"
-            type="hidden"
-          />
-          <input
-            name="socialMediaPostIndex"
-            type="hidden"
-            value={0}
-          />
-          <button
-            className="govuk-button mt-8"
-            data-module="govuk-button"
+          <div
+            className="govuk-form-group"
           >
-            Save and continue
-          </button>
+            <div
+              className="govuk-form-group"
+              id="message-content"
+            >
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-form-group"
+                >
+                  <div
+                    className="govuk-form-group"
+                    id="message-content"
+                  >
+                    <label
+                      className="govuk-label govuk-label--l"
+                      htmlFor="message-content-input"
+                    >
+                      Message content
+                    </label>
+                    <div
+                      className="govuk-hint"
+                      id="message-content-hint"
+                    >
+                      You can enter up to 280 characters
+                    </div>
+                    <div
+                      className=""
+                    >
+                      <textarea
+                        aria-describedby="message-content-hint"
+                        className="govuk-textarea w-3/4"
+                        defaultValue="Test post 12345"
+                        id="message-content-input"
+                        maxLength={280}
+                        name="messageContent"
+                        onChange={[Function]}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
         </div>
+        <input
+          name="disruptionId"
+          type="hidden"
+        />
+        <input
+          name="socialMediaPostIndex"
+          type="hidden"
+          value={0}
+        />
+        <button
+          className="govuk-button mt-8"
+          data-module="govuk-button"
+        >
+          Save and continue
+        </button>
       </form>
     </main>
     <div>
@@ -611,229 +415,8 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             Social media message
           </h1>
           <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="message-content"
-            >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="message-content-input"
-              >
-                Message content
-              </label>
-              <div
-                className="govuk-hint"
-                id="message-content-hint"
-              >
-                You can enter up to 200 characters
-              </div>
-              <div
-                className=""
-              >
-                <textarea
-                  aria-describedby="message-content-hint"
-                  className="govuk-textarea w-3/4"
-                  id="message-content-input"
-                  maxLength={500}
-                  name="messageContent"
-                  onChange={[Function]}
-                  rows={3}
-                />
-              </div>
-            </div>
-          </div>
-          <button
-            className="mt-3 govuk-link"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            <p
-              className="text-govBlue govuk-body-m"
-            >
-              Copy from disruption summary
-            </p>
-          </button>
-          <br />
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
-            >
-              <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
-              >
-                <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
-                  id="passenger-type-page-heading"
-                >
-                  Upload file
-                </h2>
-              </legend>
-              <div
-                className=""
-              >
-                <input
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="govuk-file-upload"
-                  id="image"
-                  name="image"
-                  type="file"
-                />
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div
-          className="govuk-form-group"
-        >
-          <h2
-            className="govuk-heading-l"
-          >
-            Publish time and date
-          </h2>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group govuk-!-margin-bottom-0"
-              id="publish-date"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-date-input"
-              >
-                Date
-              </label>
-              <div
-                className="govuk-hint"
-              >
-                Enter in format DD/MM/YYYY
-              </div>
-              <div
-                className="flex flex-col"
-              >
-                <div
-                  className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
-                >
-                  <div
-                    className="govuk-date-input__item govuk-!-margin-right-0 "
-                  >
-                    <div
-                      className=""
-                    >
-                      <input
-                        className="govuk-input govuk-date-input__input govuk-input--width-6 "
-                        disabled={false}
-                        id="publish-date-input"
-                        name="publishDate"
-                        onChange={[Function]}
-                        placeholder="DD/MM/YYYY"
-                        type="tel"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="flex items-end pb-5"
-                  >
-                    <div
-                      className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        aria-label="Choose date"
-                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden={true}
-                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="CalendarIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                          />
-                        </svg>
-                        <span
-                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="publish-time"
-            >
-              <label
-                className="govuk-label govuk-label--s"
-                htmlFor="publish-time-input"
-              >
-                Time
-              </label>
-              <div
-                className="govuk-hint"
-                id="publish-time-hint"
-              >
-                Enter the time in 24hr format. For example 0900 is 9am, 1730 is 5:30pm
-              </div>
-              <div
-                className=""
-              >
-                <div
-                  className=""
-                >
-                  <div
-                    className=""
-                  >
-                    <input
-                      aria-describedby="publish-time-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      disabled={false}
-                      id="publish-time-input"
-                      name="publishTime"
-                      onChange={[Function]}
-                      placeholder="hhmm"
-                      type="text"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
             className="govuk-form-group govuk-!-padding-top-3"
           >
-            <h2
-              className="govuk-heading-l"
-            >
-              Select social media account
-            </h2>
             <div
               className="govuk-form-group"
             >
@@ -844,7 +427,9 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 <label
                   className="govuk-label govuk-label--l"
                   htmlFor="social-account-input"
-                />
+                >
+                  Select social media account
+                </label>
                 <div
                   className=""
                 >
@@ -865,61 +450,82 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
             <div
               className="govuk-form-group"
+              id="message-content"
             >
               <div
-                className="govuk-form-group"
-                id="hootsuite-profile"
+                className=""
               >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="hootsuite-profile-input"
-                />
                 <div
-                  className="govuk-hint"
-                  id="hootsuite-profile-hint"
+                  className="govuk-form-group"
                 >
-                  Select Hootsuite profile
-                </div>
-                <div
-                  className=""
-                >
-                  <select
-                    aria-describedby="hootsuiteProfile-hint"
-                    className="govuk-select w-3/4"
-                    defaultValue=""
-                    id="hootsuite-profile-input"
-                    name="hootsuiteProfile"
-                    onChange={[Function]}
+                  <div
+                    className="govuk-form-group"
+                    id="message-content"
                   >
-                    <option
-                      disabled={true}
-                      value=""
+                    <label
+                      className="govuk-label govuk-label--l"
+                      htmlFor="message-content-input"
                     >
-                      Social account
-                    </option>
-                  </select>
+                      Message content
+                    </label>
+                    <div
+                      className="govuk-hint"
+                      id="message-content-hint"
+                    >
+                      You can enter up to 280 characters
+                    </div>
+                    <div
+                      className=""
+                    >
+                      <textarea
+                        aria-describedby="message-content-hint"
+                        className="govuk-textarea w-3/4"
+                        id="message-content-input"
+                        maxLength={280}
+                        name="messageContent"
+                        onChange={[Function]}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <input
-            name="disruptionId"
-            type="hidden"
-          />
-          <input
-            name="socialMediaPostIndex"
-            type="hidden"
-            value={0}
-          />
           <button
-            className="govuk-button mt-8"
+            className="govuk-link"
             data-module="govuk-button"
+            onClick={[Function]}
           >
-            Save and continue
+            <p
+              className="text-govBlue govuk-body-m"
+            >
+              Copy from disruption description
+            </p>
           </button>
+          <br />
         </div>
+        <input
+          name="disruptionId"
+          type="hidden"
+        />
+        <input
+          name="socialMediaPostIndex"
+          type="hidden"
+          value={0}
+        />
+        <button
+          className="govuk-button mt-8"
+          data-module="govuk-button"
+        >
+          Save and continue
+        </button>
       </form>
     </main>
     <div>

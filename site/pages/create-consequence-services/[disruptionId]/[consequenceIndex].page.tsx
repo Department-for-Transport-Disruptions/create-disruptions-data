@@ -506,10 +506,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                    props.disruptionDescription
+                                        ? stateUpdater(props.disruptionDescription, "description")
+                                        : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 
@@ -537,7 +539,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             displaySize="l"
                             hint="Enter time in minutes"
                             value={pageState.inputs.disruptionDelay}
-                            disabled={false}
                             inputName="disruptionDelay"
                             stateUpdater={stateUpdater}
                             initialErrors={pageState.errors}
@@ -618,6 +619,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
+
+                        {(props.consequenceIndex || 0) <= 10 && (
+                            <button
+                                formAction={`/api/create-consequence-services${
+                                    isTemplate
+                                        ? "?template=true&addAnotherConsequence=true"
+                                        : "?addAnotherConsequence=true"
+                                }`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                            >
+                                Add another consequence
+                            </button>
+                        )}
                     </div>
                 </>
             </CsrfForm>
@@ -679,7 +694,7 @@ export const getServerSideProps = async (
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,
-            disruptionSummary: disruption.description || "",
+            disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
         },
     };

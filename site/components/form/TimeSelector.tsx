@@ -4,13 +4,14 @@ import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 
 interface TimeSelectorProps<T> extends FormBase<T> {
-    disabled: boolean;
+    disabled?: boolean;
     hint?: string;
     reset?: boolean;
     placeholderValue?: string;
     resetError?: boolean;
     showNowButton?: (e: SyntheticEvent) => void;
     inputDivWidth?: string;
+    errorAlign?: boolean;
 }
 
 const TimeSelector = <T extends object>({
@@ -19,7 +20,7 @@ const TimeSelector = <T extends object>({
     displaySize = "s",
     inputName,
     initialErrors = [],
-    disabled,
+    disabled = false,
     hint,
     stateUpdater,
     reset = false,
@@ -27,6 +28,7 @@ const TimeSelector = <T extends object>({
     resetError = false,
     showNowButton,
     inputDivWidth,
+    errorAlign = false,
 }: TimeSelectorProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -59,17 +61,19 @@ const TimeSelector = <T extends object>({
     }, [initialErrors]);
 
     return (
-        <FormGroupWrapper errorIds={[inputName]} errors={errors}>
-            <div className="govuk-form-group" id={inputId}>
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
-                    {display}
-                </label>
+        <FormGroupWrapper errorIds={[inputName]} errors={errors} errorAlign={errorAlign}>
+            <div className={`govuk-form-group ${errorAlign ? "h-full flex flex-col" : ""}`} id={inputId}>
+                <div>
+                    <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
+                        {display}
+                    </label>
+                </div>
                 {hint ? (
-                    <div id={`${inputId}-hint`} className="govuk-hint">
+                    <div id={`${inputId}-hint`} className={`govuk-hint${errorAlign ? " flex-grow" : ""}`}>
                         {hint}
                     </div>
                 ) : null}
-                <div className={!!showNowButton ? "flex flex-row content-end gap-4" : ""}>
+                <div className={!!showNowButton ? "flex flex-row content-end gap-4 mt-auto" : "mt-auto"}>
                     <div className={`${inputDivWidth ? inputDivWidth : ""}`}>
                         <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                             <input

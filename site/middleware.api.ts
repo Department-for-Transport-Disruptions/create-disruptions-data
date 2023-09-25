@@ -104,6 +104,7 @@ const csrfProtect = csrf({
     cookie: {
         secure: process.env.NODE_ENV === "production",
         name: "_csrf",
+        sameSite: "lax",
     },
     token: {
         value: async (req) => {
@@ -243,7 +244,10 @@ export async function middleware(request: NextRequest) {
                         const refreshResult = await initiateRefreshAuth(username, refreshToken.value);
                         if (refreshResult.AuthenticationResult?.IdToken) {
                             console.log("Token refresh successful");
-                            response.cookies.set(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken);
+                            response.cookies.set(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken, {
+                                sameSite: "lax",
+                                httpOnly: true,
+                            });
 
                             return response;
                         }

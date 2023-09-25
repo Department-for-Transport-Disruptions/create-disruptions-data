@@ -34,7 +34,7 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             {
                 header: "Image",
                 cells: [
-                    post.image ? (
+                    post.accountType === "Hootsuite" && post.image ? (
                         <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
                             {post.image.originalFilename}
                         </Link>
@@ -45,11 +45,11 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             },
             {
                 header: "Publish date",
-                cells: [post.publishDate],
+                cells: [post.accountType === "Hootsuite" ? post.publishDate : "N/A"],
             },
             {
                 header: "Publish time",
-                cells: [post.publishTime],
+                cells: [post.accountType === "Hootsuite" ? post.publishTime : "N/A"],
             },
             {
                 header: "Account name",
@@ -57,7 +57,7 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             },
             {
                 header: "HootSuite profile",
-                cells: [post.hootsuiteProfile],
+                cells: [post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A"],
             },
             {
                 header: "Status",
@@ -126,7 +126,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             socialMediaPosts.map(async (s) => {
-                if (s.image) {
+                if (s.accountType === "Hootsuite" && s.image) {
                     const url =
                         (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
                         "";

@@ -13,6 +13,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
+import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
@@ -74,7 +75,7 @@ const previousConsequencesInformation: Consequence[] = [
     },
 ];
 
-const previousCreateSocialMediaPostsInformation = [
+const previousCreateSocialMediaPostsInformation: SocialMediaPost[] = [
     {
         disruptionId: defaultDisruptionId,
         publishDate: "14/01/2027",
@@ -84,6 +85,7 @@ const previousCreateSocialMediaPostsInformation = [
         hootsuiteProfile: "Twitter/1234",
         socialMediaPostIndex: 0,
         status: SocialMediaPostStatus.pending,
+        accountType: "Hootsuite",
     },
     {
         disruptionId: defaultDisruptionId,
@@ -101,7 +103,15 @@ const previousCreateSocialMediaPostsInformation = [
             originalFilename: "blah.jpg",
             size: 1000,
         },
-        template: false,
+        accountType: "Hootsuite",
+    },
+    {
+        disruptionId: defaultDisruptionId,
+        messageContent: "Test twitter 12345",
+        socialAccount: "Twitter",
+        socialMediaPostIndex: 1,
+        status: SocialMediaPostStatus.pending,
+        accountType: "Twitter",
     },
 ];
 
@@ -313,6 +323,23 @@ describe("pages", () => {
             expect(deleteTemplateButton).toBeFalsy();
             expect(cancelButton).toBeFalsy();
 
+            unmount();
+        });
+
+        it("should render correctly with inputs and no errors when disruption has no consequences", () => {
+            const { queryByText, unmount } = render(
+                <ReviewDisruption
+                    disruption={{ ...previousDisruptionInformation, consequences: [] }}
+                    errors={[]}
+                    canPublish
+                    redirect=""
+                />,
+            );
+            const consequenceButton = queryByText("Add a consequence", {
+                selector: "a",
+            });
+
+            expect(consequenceButton).toBeTruthy();
             unmount();
         });
     });
