@@ -439,6 +439,18 @@ const columns: TableColumn<ContentTable>[] = [
     },
 ];
 
+const setInitialFilters = (
+    filter: Filter,
+    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
+    contents: TableContents[],
+) => {
+    if (filterIsEmpty(filter)) {
+        setContentsToDisplay(contents);
+    } else {
+        applyFiltersToContents(contents, setContentsToDisplay, filter);
+    }
+};
+
 const ViewAllContents = ({
     newContentId,
     adminAreaCodes,
@@ -458,6 +470,7 @@ const ViewAllContents = ({
         operators: [],
         status: filterStatus ? filterStatus : undefined,
     });
+
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
@@ -482,13 +495,13 @@ const ViewAllContents = ({
             setLoadPage(true);
 
             const data = await getDisruptionData(isTemplate);
-            setContentsToDisplay(data);
+            setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);
             setLoadPage(false);
         };
 
         fetchData().catch(() => {
-            setContentsToDisplay([]);
+            setInitialFilters(filter, setContentsToDisplay, []);
             setLoadPage(false);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -559,11 +572,7 @@ const ViewAllContents = ({
     }, [selectedOperators]);
 
     useEffect(() => {
-        if (filterIsEmpty(filter)) {
-            setContentsToDisplay(contents);
-        } else {
-            applyFiltersToContents(contents, setContentsToDisplay, filter);
-        } // eslint-disable-next-line react-hooks/exhaustive-deps
+        setInitialFilters(filter, setContentsToDisplay, contents); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
     useEffect(() => {

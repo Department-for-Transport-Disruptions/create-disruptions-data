@@ -39,7 +39,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        disruptionSummary="test summary 123"
+                        disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={previousCreateSocialMediaPostInformation}
@@ -74,7 +74,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        disruptionSummary="test summary 123"
+                        disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
                         inputs={{}}
@@ -88,7 +88,7 @@ describe("pages", () => {
         it("should only show message content input when twitter account selected", async () => {
             const { unmount, getByLabelText, queryAllByLabelText } = render(
                 <CreateSocialMediaPost
-                    disruptionSummary="test summary 123"
+                    disruptionDescription="test summary 123"
                     socialMediaPostIndex={0}
                     errors={[]}
                     inputs={previousCreateSocialMediaPostInformation}
@@ -135,7 +135,7 @@ describe("pages", () => {
         it("should show all fields when hootsuite account selected", async () => {
             const { unmount, getByLabelText, queryAllByLabelText } = render(
                 <CreateSocialMediaPost
-                    disruptionSummary="test summary 123"
+                    disruptionDescription="test summary 123"
                     socialMediaPostIndex={0}
                     errors={[]}
                     inputs={previousCreateSocialMediaPostInformation}

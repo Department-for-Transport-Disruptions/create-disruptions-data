@@ -49,7 +49,7 @@ export const generateSiriSxAndUploadToS3 = async (
     logger.info(`Scanning DynamoDB table...`);
 
     try {
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
         const orgIds = disruptions
             .map((disruption) => disruption.orgId)

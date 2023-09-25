@@ -1,7 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
-    QueryCommand,
     DeleteCommand,
     TransactWriteCommand,
     PutCommand,
@@ -10,6 +9,7 @@ import {
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { inspect } from "util";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
@@ -143,7 +143,7 @@ const collectDisruptionsData = (
 
     if (!parsedDisruption.success) {
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
-        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
+        logger.warn(inspect(parsedDisruption.error, false, null));
 
         return null;
     }
@@ -154,8 +154,8 @@ const collectDisruptionsData = (
 export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Set<string>> => {
     logger.info("Getting disruptions in pending status from DynamoDB table...");
 
-    const dbData = await ddbDocClient.send(
-        new QueryCommand({
+    const dbData = await recursiveQuery(
+        {
             TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             FilterExpression: "publishStatus = :2 or publishStatus = :3",
@@ -164,12 +164,13 @@ export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Se
                 ":2": PublishStatus.pendingApproval,
                 ":3": PublishStatus.editPendingApproval,
             },
-        }),
+        },
+        logger,
     );
 
     const disruptionIds = new Set<string>();
 
-    dbData.Items?.forEach((item) => {
+    dbData.forEach((item) => {
         if (item.disruptionId && !disruptionIds.has(item.disruptionId as string)) {
             disruptionIds.add(item.disruptionId as string);
         }
@@ -181,8 +182,8 @@ export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Se
 export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
-    const dbData = await ddbDocClient.send(
-        new QueryCommand({
+    const dbData = await recursiveQuery(
+        {
             TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             FilterExpression: "publishStatus = :2",
@@ -190,34 +191,36 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
                 ":1": id,
                 ":2": PublishStatus.published,
             },
-        }),
+        },
+        logger,
     );
 
-    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
-        (value, index, array) => array.indexOf(value) === index,
-    );
+    const disruptionIds = dbData
+        .map((item) => (item as Disruption).disruptionId)
+        .filter((value, index, array) => array.indexOf(value) === index);
 
-    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
 export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
-    const dbData = await ddbDocClient.send(
-        new QueryCommand({
+    const dbData = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
             },
-        }),
+        },
+        logger,
     );
 
-    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
-        (value, index, array) => array.indexOf(value) === index,
-    );
+    const disruptionIds = dbData
+        .map((item) => (item as Disruption).disruptionId)
+        .filter((value, index, array) => array.indexOf(value) === index);
 
-    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
@@ -517,9 +520,10 @@ export const upsertDisruptionInfo = async (
     );
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
     const isPending =
-        (isUserStaff || !isTemplate) &&
-        currentDisruption?.publishStatus &&
-        currentDisruption?.publishStatus === PublishStatus.published;
+        isUserStaff &&
+        !isTemplate &&
+        (currentDisruption?.publishStatus === PublishStatus.published ||
+            currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     await ddbDocClient.send(
@@ -549,6 +553,7 @@ export const upsertConsequence = async (
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id, isTemplate);
     const isPending =
         isUserStaff &&
+        !isTemplate &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
@@ -644,23 +649,24 @@ export const upsertOrganisation = async (orgId: string, organisation: Organisati
 export const removeOrganisation = async (orgId: string) => {
     logger.info(`Deleting organisation (${orgId}) in DynamoDB table...`);
 
-    const keys = await ddbDocClient.send(
-        new QueryCommand({
+    const keys = await recursiveQuery(
+        {
             TableName: organisationsTableName,
             KeyConditionExpression: "PK = :orgId",
             ExpressionAttributeValues: {
                 ":orgId": orgId,
             },
-        }),
+        },
+        logger,
     );
 
-    if (!keys.Items) {
+    if (!keys) {
         return;
     }
 
     await ddbDocClient.send(
         new TransactWriteCommand({
-            TransactItems: keys.Items.map((key) => ({
+            TransactItems: keys.map((key) => ({
                 Delete: {
                     TableName: organisationsTableName,
                     Key: {
@@ -706,18 +712,17 @@ export const getDisruptionById = async (
     isTemplate?: boolean,
 ): Promise<FullDisruption | null> => {
     logger.info(`Retrieving (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const disruptionItems = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
-
-    const { Items: disruptionItems } = dynamoDisruption;
 
     if (!disruptionItems) {
         return null;
@@ -906,25 +911,26 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (
     isTemplate?: boolean,
 ) => {
     logger.info(`Publishing edited disruption ${disruptionId} from DynamoDB table ${getTableName(!!isTemplate)}...`);
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    if (dynamoDisruption.Items) {
+    if (dynamoDisruption.length > 0) {
         const editedConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const editedDisruption: Record<string, unknown>[] = [];
         const editedSocialMediaPosts: Record<string, unknown>[] = [];
         const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items?.forEach((item) => {
+        dynamoDisruption?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#EDIT")
@@ -1030,25 +1036,26 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (
             !!isTemplate,
         )}...`,
     );
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    if (dynamoDisruption.Items) {
+    if (dynamoDisruption.length > 0) {
         const editedConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const editedDisruption: Record<string, unknown>[] = [];
         const editedSocialMediaPosts: Record<string, unknown>[] = [];
         const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items?.forEach((item) => {
+        dynamoDisruption?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#EDIT")
@@ -1154,25 +1161,26 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (
     logger.info(
         `Publishing pending disruption (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
     );
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    if (dynamoDisruption.Items) {
+    if (dynamoDisruption.length > 0) {
         const pendingConsequences: Record<string, unknown>[] = [];
         const deleteConsequences: Record<string, unknown>[] = [];
         const pendingDisruption: Record<string, unknown>[] = [];
         const pendingSocialMediaPosts: Record<string, unknown>[] = [];
         const deleteSocialMediaPosts: Record<string, unknown>[] = [];
 
-        dynamoDisruption.Items?.forEach((item) => {
+        dynamoDisruption?.forEach((item) => {
             if (
                 (item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 (item.SK as string).includes("#PENDING")
@@ -1270,26 +1278,27 @@ export const publishPendingConsequencesAndSocialMediaPosts = async (
 
 export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, isTemplate?: boolean) => {
     logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    if (dynamoDisruption.Items) {
-        const editedConsequences = dynamoDisruption.Items?.filter(
+    if (dynamoDisruption.length > 0) {
+        const editedConsequences = dynamoDisruption.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                     (item.SK as string).includes("#EDIT")) ??
                 false,
         );
 
-        const editedSocialMediaPosts = dynamoDisruption.Items?.filter(
+        const editedSocialMediaPosts = dynamoDisruption.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).includes("#EDIT")) ??
@@ -1349,27 +1358,30 @@ export const deleteDisruptionsInEdit = async (disruptionId: string, id: string, 
 };
 
 export const deleteDisruptionsInPending = async (disruptionId: string, id: string, isTemplate?: boolean) => {
-    logger.info(`Deleting edited disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`);
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    logger.info(
+        `Deleting pending disruptions (${disruptionId}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
+    );
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    if (dynamoDisruption.Items) {
-        const pendingConsequences = dynamoDisruption.Items?.filter(
+    if (dynamoDisruption.length > 0) {
+        const pendingConsequences = dynamoDisruption.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                     (item.SK as string).includes("#PENDING")) ??
                 false,
         );
 
-        const pendingSocialMediaPosts = dynamoDisruption.Items?.filter(
+        const pendingSocialMediaPosts = dynamoDisruption.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).includes("#PENDING")) ??
@@ -1434,18 +1446,19 @@ export const isDisruptionInEdit = async (disruptionId: string, id: string, isTem
             !!isTemplate,
         )})...`,
     );
-    const dynamoDisruption = await ddbDocClient.send(
-        new QueryCommand({
+    const dynamoDisruption = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
             ExpressionAttributeValues: {
                 ":1": id,
                 ":2": `${disruptionId}`,
             },
-        }),
+        },
+        logger,
     );
 
-    const isEdited = dynamoDisruption?.Items?.some((item) => (item.SK as string).includes("#EDIT"));
+    const isEdited = dynamoDisruption.some((item) => (item.SK as string).includes("#EDIT"));
 
     return isEdited || false;
 };
@@ -1485,18 +1498,19 @@ export const removeSocialAccountFromOrg = async (orgId: string, socialId: string
 };
 
 export const getOrgSocialAccounts = async (orgId: string) => {
-    const socialAccounts = await ddbDocClient.send(
-        new QueryCommand({
+    const socialAccounts = await recursiveQuery(
+        {
             TableName: organisationsTableName,
             KeyConditionExpression: "PK = :orgId and begins_with(SK, :social)",
             ExpressionAttributeValues: {
                 ":orgId": orgId,
                 ":social": "SOCIAL",
             },
-        }),
+        },
+        logger,
     );
 
-    const parsedSocialAccounts = makeFilteredArraySchema(dynamoSocialAccountSchema).safeParse(socialAccounts.Items);
+    const parsedSocialAccounts = makeFilteredArraySchema(dynamoSocialAccountSchema).safeParse(socialAccounts);
 
     if (!parsedSocialAccounts.success) {
         return [];

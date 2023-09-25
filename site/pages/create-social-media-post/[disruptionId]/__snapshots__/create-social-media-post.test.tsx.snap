@@ -126,7 +126,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                       className="govuk-hint"
                       id="message-content-hint"
                     >
-                      You can enter up to 200 characters
+                      You can enter up to 280 characters
                     </div>
                     <div
                       className=""
@@ -136,7 +136,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                         className="govuk-textarea w-3/4"
                         defaultValue="Test post 12345"
                         id="message-content-input"
-                        maxLength={200}
+                        maxLength={280}
                         name="messageContent"
                         onChange={[Function]}
                         rows={3}
@@ -478,7 +478,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                       className="govuk-hint"
                       id="message-content-hint"
                     >
-                      You can enter up to 200 characters
+                      You can enter up to 280 characters
                     </div>
                     <div
                       className=""
@@ -487,7 +487,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                         aria-describedby="message-content-hint"
                         className="govuk-textarea w-3/4"
                         id="message-content-input"
-                        maxLength={200}
+                        maxLength={280}
                         name="messageContent"
                         onChange={[Function]}
                         rows={3}
@@ -506,7 +506,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <br />

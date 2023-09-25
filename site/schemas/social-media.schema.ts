@@ -17,8 +17,8 @@ const socialMediaImageSchema = z.object({
 
 const baseSchema = {
     disruptionId: z.string().uuid(),
-    messageContent: z.string(setZodDefaultError("Enter a message content for this social media post")).min(1).max(200, {
-        message: "Message content must not exceed 200 characters",
+    messageContent: z.string(setZodDefaultError("Enter a message content for this social media post")).min(1).max(280, {
+        message: "Message content must not exceed 280 characters",
     }),
     display: z.string().optional(),
     socialAccount: z.string(setZodDefaultError("Select a social account")),

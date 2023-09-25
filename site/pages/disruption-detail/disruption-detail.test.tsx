@@ -105,7 +105,7 @@ const previousCreateSocialMediaPostsInformation: SocialMediaPost[] = [
 ];
 
 const previousDisruptionInformation: FullDisruption = {
-    publishStatus: PublishStatus.draft,
+    publishStatus: PublishStatus.published,
     disruptionType: "planned",
     disruptionId: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -243,6 +243,24 @@ describe("pages", () => {
                 .create(
                     <DisruptionDetail
                         disruption={{ ...previousDisruptionInformation, template: true }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors for an edited template", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            template: true,
+                            publishStatus: PublishStatus.editing,
+                        }}
                         redirect={"/dashboard"}
                         errors={[]}
                         canPublish

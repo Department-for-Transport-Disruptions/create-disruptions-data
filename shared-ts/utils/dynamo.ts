@@ -1,11 +1,27 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
-import * as logger from "lambda-log";
+import {
+    DynamoDBDocumentClient,
+    QueryCommand,
+    QueryCommandInput,
+    ScanCommand,
+    ScanCommandInput,
+} from "@aws-sdk/lib-dynamodb";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
-import { Organisations, organisationsSchema } from "../organisationTypes";
+import {
+    Organisations,
+    OrganisationsWithStats,
+    organisationsSchema,
+    organisationsSchemaWithStats,
+} from "../organisationTypes";
 import { notEmpty } from "./index";
+
+type Logger = {
+    info: (message: string) => void;
+    error: (message: string | Error) => void;
+    warn: (message: string) => void;
+};
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
@@ -14,6 +30,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
+    logger: Logger,
 ): Disruption | null => {
     const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
 
@@ -45,46 +62,153 @@ const collectDisruptionsData = (
 
     return parsedDisruption.data;
 };
-export const getPublishedDisruptionsDataFromDynamo = async (tableName: string): Promise<Disruption[]> => {
+
+export const recursiveScan = async (
+    scanCommandInput: ScanCommandInput,
+    logger: Logger,
+): Promise<Record<string, unknown>[]> => {
+    logger.info(`Scanning table ${scanCommandInput.TableName || ""}`);
+
+    const dbData = await ddbDocClient.send(new ScanCommand(scanCommandInput));
+
+    if (!dbData.Items) {
+        return [];
+    }
+
+    if (dbData.LastEvaluatedKey) {
+        return [
+            ...dbData.Items,
+            ...(await recursiveScan(
+                {
+                    ...scanCommandInput,
+                    ExclusiveStartKey: dbData.LastEvaluatedKey,
+                },
+                logger,
+            )),
+        ];
+    } else {
+        return dbData.Items;
+    }
+};
+
+export const recursiveQuery = async (
+    queryCommandInput: QueryCommandInput,
+    logger: Logger,
+): Promise<Record<string, unknown>[]> => {
+    logger.info(`Querying table ${queryCommandInput.TableName || ""}`);
+
+    const dbData = await ddbDocClient.send(new QueryCommand(queryCommandInput));
+
+    if (!dbData.Items) {
+        return [];
+    }
+
+    if (dbData.LastEvaluatedKey) {
+        return [
+            ...dbData.Items,
+            ...(await recursiveQuery(
+                {
+                    ...queryCommandInput,
+                    ExclusiveStartKey: dbData.LastEvaluatedKey,
+                },
+                logger,
+            )),
+        ];
+    } else {
+        return dbData.Items;
+    }
+};
+
+export const getPublishedDisruptionsDataFromDynamo = async (
+    tableName: string,
+    logger: Logger,
+): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
-    const dbData = await ddbDocClient.send(
-        new ScanCommand({
+    const disruptions = await recursiveScan(
+        {
             TableName: tableName,
             FilterExpression: "publishStatus = :1",
             ExpressionAttributeValues: {
                 ":1": PublishStatus.published,
             },
-        }),
+        },
+        logger,
     );
 
-    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
-        (value, index, array) => array.indexOf(value) === index,
-    );
+    const disruptionIds = disruptions
+        .map((item) => (item as Disruption).disruptionId)
+        .filter((value, index, array) => array.indexOf(value) === index);
 
-    return disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [];
+    return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];
 };
 
-export const getOrganisationsInfo = async (): Promise<Organisations | null> => {
+export const getOrganisationsInfo = async (logger: Logger): Promise<Organisations | null> => {
     logger.info(`Getting all organisations from DynamoDB table...`);
     try {
-        const dbData = await ddbDocClient.send(
-            new ScanCommand({
+        const dbData = await recursiveScan(
+            {
                 TableName: organisationsTableName,
                 FilterExpression: "SK = :info",
                 ExpressionAttributeValues: {
                     ":info": "INFO",
                 },
-            }),
+            },
+            logger,
         );
 
-        const parsedOrg = organisationsSchema.safeParse(dbData.Items);
+        const parsedOrg = organisationsSchema.safeParse(dbData);
 
         if (!parsedOrg.success) {
             return null;
         }
 
         return parsedOrg.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationsWithStats | null> => {
+    logger.info(`Getting all organisations with stats from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveScan(
+            {
+                TableName: organisationsTableName,
+                FilterExpression: "begins_with(SK, :info) OR begins_with(SK, :stat)",
+                ExpressionAttributeValues: {
+                    ":info": "INFO",
+                    ":stat": "STAT",
+                },
+            },
+            logger,
+        );
+
+        const orgIds = [...new Set(dbDataInfo.map((item) => item.PK))];
+
+        const collectedOrgsWithStats = orgIds.map((id) => {
+            const info = dbDataInfo.find((item) => item.SK === "INFO" && item.PK === id);
+            const stats = dbDataInfo.find((item) => item.SK === "STAT" && item.PK === id);
+
+            return {
+                ...info,
+                stats,
+            };
+        });
+
+        const parsedOrgsWithStats = organisationsSchemaWithStats.safeParse(collectedOrgsWithStats);
+
+        if (!parsedOrgsWithStats.success) {
+            return null;
+        }
+
+        return parsedOrgsWithStats.data;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

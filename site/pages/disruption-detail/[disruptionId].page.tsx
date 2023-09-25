@@ -94,7 +94,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "message-to-appear",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -129,7 +129,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "hootsuite-profile",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -150,7 +150,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "publish-date",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -171,7 +171,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "publish-time",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -192,7 +192,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "account-to-publish",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -213,7 +213,7 @@ const DisruptionDetail = ({
                             ? createChangeLink(
                                   "hootsuite-profile",
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption,
+                                  disruption.disruptionId,
                                   post.socialMediaPostIndex,
                                   true,
                                   true,
@@ -321,7 +321,7 @@ const DisruptionDetail = ({
                     createChangeLink(
                         `validity-period-${i + 1}`,
                         "/create-disruption",
-                        disruption,
+                        disruption.disruptionId,
                         undefined,
                         true,
                         true,
@@ -386,7 +386,7 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template && (
+                        {disruption.template && disruption.publishStatus === PublishStatus.published && (
                             <button
                                 key="create-disruption-from-template"
                                 className="govuk-button"
@@ -428,7 +428,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "type-of-disruption",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -450,7 +450,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "summary",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -469,7 +469,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "description",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -488,7 +488,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "associated-link",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -507,7 +507,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "disruption-reason",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -527,7 +527,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "publish-start-date",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -546,7 +546,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "publish-start-time",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -565,7 +565,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "publish-end-date",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -586,7 +586,7 @@ const DisruptionDetail = ({
                                             value: createChangeLink(
                                                 "publish-end-time",
                                                 "/create-disruption",
-                                                disruption,
+                                                disruption.disruptionId,
                                                 undefined,
                                                 true,
                                                 true,
@@ -646,7 +646,10 @@ const DisruptionDetail = ({
                         <Link
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: { return: DISRUPTION_DETAIL_PAGE_PATH },
+                                query: {
+                                    return: DISRUPTION_DETAIL_PAGE_PATH,
+                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                },
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10
@@ -743,6 +746,7 @@ const DisruptionDetail = ({
                         ) : null}
 
                         {!canPublish &&
+                        !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
@@ -750,10 +754,10 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
+                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    {disruption.template ? "Publish template" : "Publish disruption"}
+                                    {disruption.template ? "Save changes" : "Publish disruption"}
                                 </button>
                                 {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
@@ -761,7 +765,7 @@ const DisruptionDetail = ({
                                         data-module="govuk-button"
                                         formAction="/api/reject"
                                     >
-                                        {disruption.template ? "Reject template" : "Reject disruption"}
+                                        Reject disruption
                                     </button>
                                 ) : null}
                             </>

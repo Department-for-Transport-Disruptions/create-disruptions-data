@@ -263,15 +263,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -279,7 +281,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -786,7 +788,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption summary
+              Copy from disruption description
             </p>
           </button>
           <div
@@ -860,15 +862,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -876,7 +880,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""
@@ -1275,7 +1279,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1445,15 +1449,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             className="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              className="govuk-form-group "
               id="disruption-delay"
             >
-              <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-delay-input"
-              >
-                Delay (optional)
-              </label>
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
               <div
                 className="govuk-hint"
                 id="disruption-delay-hint"
@@ -1461,7 +1467,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 Enter time in minutes
               </div>
               <div
-                className=""
+                className="mt-auto"
               >
                 <div
                   className=""

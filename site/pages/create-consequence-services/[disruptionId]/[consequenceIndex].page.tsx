@@ -23,12 +23,14 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/ServicesMap";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
@@ -395,15 +397,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                     header: "Consequence type",
                                     cells: [
                                         "Services",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}
@@ -502,10 +505,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                    props.disruptionDescription
+                                        ? stateUpdater(props.disruptionDescription, "description")
+                                        : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 
@@ -673,7 +678,7 @@ export const getServerSideProps = async (
             initialStops: stops,
             consequenceIndex: index,
             sessionWithOrg: session,
-            disruptionSummary: disruption.description || "",
+            disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
         },
     };

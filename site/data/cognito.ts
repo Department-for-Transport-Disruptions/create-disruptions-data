@@ -27,6 +27,8 @@ import {
 
 import { createHmac } from "crypto";
 import { AddUserSchema } from "../schemas/add-user.schema";
+import { userManagementSchema } from "../schemas/user-management.schema";
+import { notEmpty } from "../utils";
 import logger from "../utils/logger";
 
 const {
@@ -187,6 +189,22 @@ export const updateUserPassword = async (newPassword: string, username: string):
     }
 };
 
+export const getAllUsersInGroup = async (groupName: string, nextToken?: string): Promise<UserType[]> => {
+    const users = await cognito.send(
+        new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: groupName, Limit: 60, NextToken: nextToken }),
+    );
+
+    if (!users.Users) {
+        return [];
+    }
+
+    if (users.NextToken) {
+        return [...users.Users, ...(await getAllUsersInGroup(groupName, users.NextToken))];
+    } else {
+        return users.Users;
+    }
+};
+
 export const listUsersWithGroups = async () => {
     logger.info("", {
         context: "data.cognito",
@@ -196,24 +214,25 @@ export const listUsersWithGroups = async () => {
     try {
         const groupList = await cognito.send(new ListGroupsCommand({ UserPoolId: userPoolId }));
 
-        const userList: (UserType & { GroupName: string | undefined })[] = [];
-
-        await Promise.all(
+        const userList = await Promise.all(
             groupList.Groups?.map(async (group) => {
-                const usersRequest = await cognito.send(
-                    new ListUsersInGroupCommand({ UserPoolId: userPoolId, GroupName: group.GroupName, Limit: 60 }),
-                );
+                if (!group.GroupName) {
+                    return null;
+                }
 
-                usersRequest.Users?.forEach((user) => {
-                    userList.push({
-                        ...user,
-                        GroupName: group.GroupName,
-                    });
-                });
+                const groupUsers = await getAllUsersInGroup(group.GroupName);
+
+                return groupUsers.map((user) => ({ ...user, GroupName: group.GroupName }));
             }) ?? [],
         );
 
-        return userList.flat();
+        const parsedUsers = userManagementSchema.safeParse(userList.filter(notEmpty).flat());
+
+        if (!parsedUsers.success) {
+            return [];
+        }
+
+        return parsedUsers.data;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to list cognito users: ${error.stack || ""}`);

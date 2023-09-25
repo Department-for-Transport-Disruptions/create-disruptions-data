@@ -25,7 +25,7 @@ const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
 export interface CreateSocialMediaPostPageProps extends PageState<Partial<HootsuitePost>> {
-    disruptionSummary: string;
+    disruptionDescription: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: SocialMediaAccount[];
@@ -35,7 +35,6 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Hootsu
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<HootsuitePost>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
-    const summary = props.disruptionSummary;
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -109,9 +108,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     <TextInput<SocialMediaPost>
                                         display="Message content"
                                         displaySize="l"
-                                        hint="You can enter up to 200 characters"
+                                        hint="You can enter up to 280 characters"
                                         inputName="messageContent"
-                                        maxLength={200}
+                                        maxLength={280}
                                         stateUpdater={stateUpdater}
                                         textArea
                                         widthClass="w-3/4"
@@ -131,10 +130,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     setErrorsMessageContent(
                                         errorsMessageContent.filter((e) => e.id !== "messageContent"),
                                     );
-                                    stateUpdater(summary, "messageContent");
+                                    stateUpdater(props.disruptionDescription?.slice(0, 280), "messageContent");
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
 
@@ -253,7 +252,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
-            disruptionSummary: disruption?.summary || "",
+            disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
             template: disruption?.template?.toString() || "",

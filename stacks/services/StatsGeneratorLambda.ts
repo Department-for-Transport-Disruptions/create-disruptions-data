@@ -20,7 +20,7 @@ export const createStatsGeneratorLambda = (stack: Stack, disruptionsTable: Table
         ],
         handler: "packages/siri-sx-stats-generator/index.main",
         timeout: 60,
-        memorySize: 256,
+        memorySize: 1536,
     });
 
     return siriStatsGenerator;

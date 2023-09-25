@@ -15,6 +15,7 @@ interface FormGroupWrapperProps {
     errorIds: string[];
     children: ReactElement;
     hideErrorBar?: boolean;
+    errorAlign?: boolean;
 }
 
 interface FormErrorBlockProps {
@@ -47,11 +48,16 @@ export const FormGroupWrapper = ({
     errorIds,
     children,
     hideErrorBar = false,
+    errorAlign = false,
 }: FormGroupWrapperProps): ReactElement => {
     const errorForElement = errors.find((err) => errorIds.includes(err.id.toString()));
 
     return (
-        <div className={`govuk-form-group${errorForElement && !hideErrorBar ? " govuk-form-group--error" : ""}`}>
+        <div
+            className={`govuk-form-group${errorForElement && !hideErrorBar ? " govuk-form-group--error" : ""}${
+                errorAlign ? " h-full" : ""
+            }`}
+        >
             {children}
         </div>
     );

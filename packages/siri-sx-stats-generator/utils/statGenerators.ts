@@ -1,20 +1,4 @@
-import { consequenceSchema, disruptionInfoSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { z } from "zod";
-
-export type Disruption = z.infer<typeof disruptionSchema>;
-export const disruptionSchema = disruptionInfoSchema.and(
-    z.object({
-        consequences: z
-            .array(consequenceSchema)
-            .max(10, {
-                message: "Only up to 10 consequences can be added",
-            })
-            .optional(),
-        publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
-        template: z.boolean().optional().default(false),
-    }),
-);
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 
 export interface SiriStats {
     servicesConsequencesCount: number;
@@ -95,7 +79,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
         const consequenceStats = generateConsequenceStats(key, disruption);
-        if (consequenceStats) {
+        if (consequenceStats?.[key]) {
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = {
                     disruptionReasonCount: {},

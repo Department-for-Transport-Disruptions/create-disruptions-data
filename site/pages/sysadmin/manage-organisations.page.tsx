@@ -7,6 +7,7 @@ import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 export interface ManageOrganisationsProps {
     orgList: Organisations;
@@ -29,7 +30,7 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
         orgList.forEach((organisation, index) => {
             rows.push({
-                cells: [organisation.name, organisation.adminAreaCodes.join(", "), createLink(index, organisation.PK)],
+                cells: [organisation.name, organisation.adminAreaCodes.join(", "), createLink(index, organisation.id)],
             });
         });
         return rows;
@@ -114,7 +115,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Access to system admins only");
     }
 
-    const orgList: Organisations = (await getOrganisationsInfo()) ?? [];
+    const orgList: Organisations = (await getOrganisationsInfo(logger)) ?? [];
 
     return {
         props: {

@@ -38,6 +38,7 @@ export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> 
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
 const arrayTimeFields = ["disruptionStartTime", "publishStartTime"];
+const arrayEndTimeFields = ["disruptionEndTime", "publishEndTime"];
 
 const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const initialValidity: Validity = {
@@ -65,6 +66,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const [dateColumnError, setDateColumnError] = useState(false);
     const [timeColumnError, setTimeColumnError] = useState(false);
+    const [endTimeColumnError, setEndTimeColumnError] = useState(false);
 
     const hasInitialised = useRef(false);
     useEffect(() => {
@@ -77,9 +79,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     useEffect(() => {
         const errorInDateColumn = pageState.errors.some((errors) => arrayDateFields.includes(errors.id));
         const errorInTimeColumn = pageState.errors.some((errors) => arrayTimeFields.includes(errors.id));
+        const errorInEndTimeColumn = pageState.errors.some((errors) => arrayEndTimeFields.includes(errors.id));
 
         setDateColumnError(errorInDateColumn);
         setTimeColumnError(errorInTimeColumn);
+        setEndTimeColumnError(errorInEndTimeColumn);
     }, [pageState.errors]);
 
     const addValidity = (e: SyntheticEvent) => {
@@ -338,7 +342,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 />
                             </Fragment>
                         ))}
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${
+                                dateColumnError || timeColumnError || endTimeColumnError ? "order-first" : "items-end"
+                            }`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-1"
@@ -359,6 +367,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -378,10 +387,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                                 : "w-[300px]"
                                             : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                         </div>
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${
+                                dateColumnError || timeColumnError || endTimeColumnError ? "order-first" : "items-end"
+                            }`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-2"
@@ -403,6 +417,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                             <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -414,6 +429,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     stateUpdater={validityStateUpdater}
                                     initialErrors={pageState.errors}
                                     reset={addValidityClicked}
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                         </div>
@@ -434,7 +450,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             reset={addValidityClicked}
                         />
 
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${
+                                dateColumnError || timeColumnError || endTimeColumnError ? "order-first" : "items-end"
+                            }`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-1"
@@ -460,6 +480,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -484,11 +505,16 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                                 : "w-[300px]"
                                             : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                         </div>
 
-                        <div className="flex pb-8 items-end">
+                        <div
+                            className={`flex pb-8 ${
+                                dateColumnError || timeColumnError || endTimeColumnError ? "order-first" : "items-end"
+                            }`}
+                        >
                             <div
                                 className={`${
                                     dateColumnError ? "w-[410px] pr-1 sm:w-[50%] @screen xs:w-[50%]" : "pr-2"
@@ -515,6 +541,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputDivWidth={
                                         dateColumnError ? "w-[400px] lg:w-[80%] sm:w-[100%] @screen xs:w-[100%]" : ""
                                     }
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                             <div className="pl-4 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
@@ -531,6 +558,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     inputName="publishEndTime"
                                     stateUpdater={stateUpdater}
                                     initialErrors={pageState.errors}
+                                    errorAlign={dateColumnError || timeColumnError || endTimeColumnError}
                                 />
                             </div>
                         </div>

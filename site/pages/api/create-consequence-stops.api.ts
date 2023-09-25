@@ -85,7 +85,9 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
-            !isFromTemplate && queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            (!isFromTemplate || template) &&
+            queryParam &&
+            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 

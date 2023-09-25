@@ -15,10 +15,12 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
@@ -112,15 +114,16 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                     header: "Consequence type",
                                     cells: [
                                         "Operator wide",
-                                        <Link
-                                            key={"consequence-type"}
-                                            className="govuk-link"
-                                            href={`${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                                                pageState.consequenceIndex ?? 0
-                                            }`}
-                                        >
-                                            Change
-                                        </Link>,
+                                        createChangeLink(
+                                            "consequence-type",
+                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            pageState.disruptionId || "",
+                                            pageState.consequenceIndex ?? 0,
+                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview ||
+                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!isTemplate,
+                                        ),
                                     ],
                                 },
                             ]}
@@ -203,10 +206,12 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 className="mt-3 govuk-link"
                                 data-module="govuk-button"
                                 onClick={() => {
-                                    props.disruptionSummary ? stateUpdater(props.disruptionSummary, "description") : "";
+                                    props.disruptionDescription
+                                        ? stateUpdater(props.disruptionDescription, "description")
+                                        : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption summary</p>
+                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
                         <Radios<OperatorConsequence>
@@ -350,7 +355,7 @@ export const getServerSideProps = async (
             ...pageState,
             consequenceIndex: index,
             operators: uniqueOperators,
-            disruptionSummary: disruption.description || "",
+            disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",
         },

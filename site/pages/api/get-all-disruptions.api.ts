@@ -1,17 +1,19 @@
-import { PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../constants";
 import { getDisruptionsDataFromDynamo } from "../../data/dynamo";
 import {
     SortedDisruption,
     getDisplayByValue,
+    getSortedDisruptionFinalEndDate,
     mapValidityPeriods,
     reduceStringWithEllipsis,
     sortDisruptionsByStartDate,
 } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../utils/dates";
-import { getDisruptionStatus, getWorstSeverity } from "../view-all-disruptions.page";
 
 export interface GetDisruptionsApiRequest extends NextApiRequest {
     body: {
@@ -19,6 +21,73 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
         start: number;
     };
 }
+
+export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+    if (disruption.publishStatus === PublishStatus.draft) {
+        return Progress.draft;
+    }
+
+    if (disruption.publishStatus === PublishStatus.rejected) {
+        return Progress.rejected;
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.draftPendingApproval;
+    }
+
+    if (
+        disruption.publishStatus === PublishStatus.editPendingApproval ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
+    ) {
+        return Progress.editPendingApproval;
+    }
+
+    if (!disruption.validity) {
+        return Progress.closed;
+    }
+
+    const today = getDate();
+    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
+
+    if (!!disruptionEndDate) {
+        return isClosingOrClosed(disruptionEndDate, today);
+    }
+
+    return Progress.open;
+};
+
+export const isClosingOrClosed = (endDate: Dayjs, today: Dayjs): Progress => {
+    if (endDate.isBefore(today)) {
+        return Progress.closed;
+    } else if (endDate.diff(today, "hour") < 24) {
+        return Progress.closing;
+    }
+
+    return Progress.open;
+};
+
+export const getWorstSeverity = (severitys: Severity[]): Severity => {
+    const severityScoringMap: { [key in Severity]: number } = {
+        unknown: 0,
+        verySlight: 1,
+        slight: 2,
+        normal: 3,
+        severe: 4,
+        verySevere: 5,
+    };
+
+    let worstSeverity: Severity = Severity.unknown;
+
+    severitys.forEach((severity) => {
+        if (!worstSeverity) {
+            worstSeverity = severity;
+        } else if (severityScoringMap[worstSeverity] < severityScoringMap[severity]) {
+            worstSeverity = severity;
+        }
+    });
+
+    return worstSeverity;
+};
 
 export const formatSortedDisruption = (disruption: SortedDisruption) => {
     const modes: string[] = [];
