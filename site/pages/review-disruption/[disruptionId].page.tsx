@@ -20,7 +20,6 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_REFERER,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -59,8 +58,6 @@ const ReviewDisruption = ({
     }>();
 
     const queryParams = useRouter().query;
-    const returnToTemplateOverview =
-        redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
