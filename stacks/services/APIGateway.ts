@@ -32,11 +32,12 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
             function: {
                 timeout: 20,
                 environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
-                permissions: ["dynamodb:Scan"],
+                permissions: ["dynamodb:Scan", "dynamodb:Query"],
             },
         },
         routes: {
-            "GET    /organisations": "packages/get-organisations/index.main",
+            "GET    /organisations": "packages/organisations-api/get-organisations/index.main",
+            "GET    /organisations/{id}": "packages/organisations-api/get-organisation/index.main",
         },
     });
 

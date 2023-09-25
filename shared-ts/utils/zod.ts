@@ -9,6 +9,8 @@ export const setZodDefaultError: (errorMessage: string) => { errorMap: ZodErrorM
     },
 });
 
+export const makeZodArray = <T extends ZodSchema>(schema: T) => z.array(schema);
+
 const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 const timeRegex = /^([0-1][0-9]|2[0-3])[0-5][0-9]$/;
 const minutesRegex = /^[0-9]{0,3}$/;
