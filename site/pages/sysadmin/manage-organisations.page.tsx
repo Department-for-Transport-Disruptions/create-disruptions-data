@@ -1,4 +1,4 @@
-import { Organisations } from "@create-disruptions-data/shared-ts/organisationTypes";
+import { Organisation } from "@create-disruptions-data/shared-ts/organisationTypes";
 import { getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
 export interface ManageOrganisationsProps {
-    orgList: Organisations;
+    orgList: Organisation[];
     csrfToken?: string;
 }
 
@@ -115,7 +115,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Access to system admins only");
     }
 
-    const orgList: Organisations = (await getOrganisationsInfo(logger)) ?? [];
+    const orgList: Organisation[] = (await getOrganisationsInfo(logger)) ?? [];
 
     return {
         props: {

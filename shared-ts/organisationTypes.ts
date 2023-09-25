@@ -12,8 +12,6 @@ export const organisationSchema = z
         adminAreaCodes: data.adminAreaCodes,
     }));
 
-export const organisationsSchema = z.array(organisationSchema);
-
 export const statisticSchema = z.object({
     disruptionReasonCount: z.record(z.string(), z.coerce.number().default(0)),
     networkWideConsequencesCount: z.coerce.number().default(0),
@@ -25,12 +23,7 @@ export const statisticSchema = z.object({
     totalConsequencesCount: z.coerce.number().default(0),
 });
 
-export const organisationsSchemaWithStats = z.array(organisationSchema.and(z.object({ stats: statisticSchema })));
-
 export const organisationSchemaWithStats = organisationSchema.and(z.object({ stats: statisticSchema }));
 
-export type Organisations = z.infer<typeof organisationsSchema>;
-
-export type OrganisationsWithStats = z.infer<typeof organisationsSchemaWithStats>;
-
-export type Statistic = z.infer<typeof statisticSchema>;
+export type Organisation = z.infer<typeof organisationSchema>;
+export type OrganisationWithStats = z.infer<typeof organisationSchemaWithStats>;
