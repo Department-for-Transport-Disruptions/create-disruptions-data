@@ -886,7 +886,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer,
+            redirect: referer || "",
             errors: errors,
             canPublish: canPublish(session),
         },

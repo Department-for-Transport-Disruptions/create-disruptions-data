@@ -25,7 +25,7 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-} from "../../constants/index";
+} from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
@@ -62,7 +62,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const queryParams = useRouter().query;
     const displayCancelChangesButton = showCancelButton(queryParams);
     const returnPath = (queryParams["return"] as string) || "";
-    const template = (queryParams["template"] as string) || "";
+    const isTemplate = (queryParams["template"] as string) || "";
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
@@ -251,7 +251,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
-                action={`/api/create-disruption${template == "true" ? "?template=true" : ""}`}
+                action={`/api/create-disruption${isTemplate == "true" ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -259,7 +259,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">
-                            {template == "true"
+                            {isTemplate === "true"
                                 ? "Create a new template"
                                 : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
                         </h1>
@@ -626,7 +626,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <Link
                             role="button"
                             href={
-                                returnToTemplateOverview
+                                returnToTemplateOverview || isTemplate === "true"
                                     ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}?template=true`
                                     : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
                             }
@@ -639,7 +639,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {!props.disruptionExists ? (
                         <Link
                             role="button"
-                            href={template == "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            href={isTemplate == "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel
@@ -650,7 +650,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
-                            isTemplate={template}
+                            isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
                     )}

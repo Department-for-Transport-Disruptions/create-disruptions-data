@@ -1,5 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -308,6 +308,8 @@ const ReviewDisruption = ({
                         disruption.disruptionId,
                         undefined,
                         true,
+                        false,
+                        disruption.template,
                     ),
                     false,
                     disruption.template,
@@ -718,7 +720,8 @@ const ReviewDisruption = ({
                             </Link>
                         )}
 
-                        {returnToTemplateOverview && (
+                        {disruption.publishStatus === PublishStatus.editing ||
+                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
@@ -726,7 +729,7 @@ const ReviewDisruption = ({
                             >
                                 Cancel all changes
                             </button>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>
