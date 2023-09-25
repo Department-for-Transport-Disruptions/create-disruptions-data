@@ -273,7 +273,7 @@ describe("pages", () => {
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
-            expect(cancelButton).toBeTruthy();
+            expect(cancelButton).toBeFalsy();
 
             unmount();
         });
@@ -311,7 +311,7 @@ describe("pages", () => {
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
             expect(deleteTemplateButton).toBeFalsy();
-            expect(cancelButton).toBeTruthy();
+            expect(cancelButton).toBeFalsy();
 
             unmount();
         });
