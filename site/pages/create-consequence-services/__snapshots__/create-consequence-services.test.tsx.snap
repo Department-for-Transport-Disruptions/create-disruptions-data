@@ -899,6 +899,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
           >
             Save as draft
           </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-services?addAnotherConsequence=true"
+          >
+            Add another consequence
+          </button>
         </div>
       </form>
     </main>
@@ -1924,6 +1931,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
           >
             Save as draft
           </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-services?addAnotherConsequence=true"
+          >
+            Add another consequence
+          </button>
         </div>
       </form>
     </main>
@@ -2879,6 +2893,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             formAction="/api/create-consequence-services?draft=true"
           >
             Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-services?addAnotherConsequence=true"
+          >
+            Add another consequence
           </button>
         </div>
       </form>
@@ -3914,6 +3935,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
             formAction="/api/create-consequence-services?draft=true"
           >
             Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-services?addAnotherConsequence=true"
+          >
+            Add another consequence
           </button>
         </div>
       </form>

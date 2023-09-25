@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceNetwork from "./create-consequence-network.api";
@@ -9,11 +10,19 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
+import { FullDisruption } from "../../schemas/disruption.schema";
+import {
+    DEFAULT_ORG_ID,
+    createDisruptionWithConsquences,
+    disruptionWithConsequences,
+    getMockRequestAndResponse,
+    mockSession,
+} from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 
@@ -29,6 +38,22 @@ const defaultNetworkData = {
     vehicleMode: VehicleMode.bus,
     consequenceType: "networkWide",
     consequenceIndex: defaultConsequenceIndex,
+    disruptionId: defaultDisruptionId,
+};
+
+const disruption: FullDisruption = createDisruptionWithConsquences([
+    { ...defaultNetworkData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+]);
+
+const networkToUpsert = {
+    description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    removeFromJourneyPlanners: "no",
+    disruptionDelay: "",
+    disruptionSeverity: Severity.slight,
+    vehicleMode: VehicleMode.bus,
+    consequenceType: "networkWide",
+    consequenceIndex: 0,
     disruptionId: defaultDisruptionId,
 };
 
@@ -67,6 +92,7 @@ describe("create-consequence-network API", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
+        upsertConsequenceSpy.mockResolvedValue(disruption);
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -76,17 +102,7 @@ describe("create-consequence-network API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: Severity.slight,
-                vehicleMode: VehicleMode.bus,
-                consequenceType: "networkWide",
-                consequenceIndex: 0,
-                disruptionId: defaultDisruptionId,
-            },
+            networkToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -108,17 +124,7 @@ describe("create-consequence-network API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: Severity.slight,
-                vehicleMode: VehicleMode.bus,
-                consequenceType: "networkWide",
-                consequenceIndex: 0,
-                disruptionId: defaultDisruptionId,
-            },
+            networkToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             true,
@@ -214,17 +220,7 @@ describe("create-consequence-network API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: Severity.slight,
-                vehicleMode: VehicleMode.bus,
-                consequenceType: "networkWide",
-                consequenceIndex: 0,
-                disruptionId: defaultDisruptionId,
-            },
+            networkToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -248,17 +244,7 @@ describe("create-consequence-network API", () => {
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "",
-                disruptionSeverity: Severity.slight,
-                vehicleMode: VehicleMode.bus,
-                consequenceType: "networkWide",
-                consequenceIndex: 0,
-                disruptionId: defaultDisruptionId,
-            },
+            networkToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -297,6 +283,72 @@ describe("create-consequence-network API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_CONSEQUENCE_NETWORK_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultNetworkData, consequenceIndex: "1" },
+            query: { addAnotherConsequence: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceNetwork(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            { ...networkToUpsert, consequenceIndex: 1 },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2`,
+        });
+    });
+    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true and a template", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultNetworkData },
+            query: { addAnotherConsequence: "true", template: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceNetwork(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            networkToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            true,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+        });
+    });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed, when another consequence is added and when the consequence index is not 0", async () => {
+        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultNetworkData, consequenceIndex: "2" },
+            query: { addAnotherConsequence: "true" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceNetwork(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            { ...networkToUpsert, consequenceIndex: 2 },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
         });
     });
 });

@@ -618,6 +618,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
                         />
+
+                        {(props.consequenceIndex || 0) <= 10 && (
+                            <button
+                                formAction={`/api/create-consequence-services${
+                                    isTemplate
+                                        ? "?template=true&addAnotherConsequence=true"
+                                        : "?addAnotherConsequence=true"
+                                }`}
+                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                                data-module="govuk-button"
+                            >
+                                Add another consequence
+                            </button>
+                        )}
                     </div>
                 </>
             </CsrfForm>
