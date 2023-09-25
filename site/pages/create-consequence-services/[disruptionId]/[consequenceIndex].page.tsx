@@ -33,7 +33,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
+import { fetchServiceRoutes, fetchServiceStops, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Routes } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
@@ -153,9 +153,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const isTemplate = (queryParams["template"] as string) || "";
 
-    const handleStopChange = (value: SingleValue<Stop>) => {
+    const handleStopChange = async (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
-            addStop(value);
+            await addStop(value);
         }
         setSelected(null);
     };
@@ -200,7 +200,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         return [];
     };
 
-    const addStop = (stopToAdd: SingleValue<Stop>) => {
+    const addStop = async (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
 
         if (!parsed.success) {
@@ -213,11 +213,21 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
+                const servicesForGivenStop = await fetchServicesByStops({
+                    atcoCodes: [stopToAdd.atcoCode],
+                    includeRoutes: true,
+                    dataSource: dataSource,
+                });
                 setPageState({
                     ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
+                        ...(pageState.inputs?.services
+                            ? {
+                                  services: filterServices([...pageState.inputs?.services, ...servicesForGivenStop]),
+                              }
+                            : { services: [...filterServices(servicesForGivenStop)] }),
                     },
                     errors: [
                         ...pageState.errors.filter(
