@@ -1,4 +1,4 @@
-import { Disruption, DisruptionInfo, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { DisruptionInfo, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     disruptionInfoSchema,
     operatorConsequenceSchema,
@@ -9,6 +9,7 @@ import { randomUUID } from "crypto";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
+import { FullDisruption } from "../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, disruptionInfoTest } from "../testData/mockData";
 import {
     getSortedDisruptionFinalEndDate,
@@ -84,7 +85,7 @@ describe("page state test", () => {
 });
 
 describe("sortDisruptionsByStartDate", () => {
-    const mixedUpDisruptions: Disruption[] = [
+    const mixedUpDisruptions: FullDisruption[] = [
         {
             ...disruptionInfoTest,
             publishStatus: PublishStatus.draft,
