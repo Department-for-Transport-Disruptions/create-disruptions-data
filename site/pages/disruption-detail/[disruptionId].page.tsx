@@ -331,8 +331,7 @@ const DisruptionDetail = ({
         });
     };
 
-    const nextIndex =
-        disruption.consequences && disruption.consequences.length > 0 ? getLargestConsequenceIndex(disruption) + 1 : 0;
+    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
 
     const nextIndexSocialMedia =
         disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
