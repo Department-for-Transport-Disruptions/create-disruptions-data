@@ -53,6 +53,7 @@ describe("page state test", () => {
             disruptionNoEndDateTime: "",
             displayId: "8fg3ha",
             orgId: DEFAULT_ORG_ID,
+            consequenceIndex: 0,
         };
 
         const parsedInput = getPageState("", disruptionInfoSchema, disruptionData.disruptionId, disruptionData);

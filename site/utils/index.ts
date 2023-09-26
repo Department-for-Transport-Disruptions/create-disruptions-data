@@ -25,6 +25,7 @@ export type SortedDisruption = Omit<
     | "disruptionEndDate"
     | "disruptionEndTime"
     | "disruptionNoEndDateTime"
+    | "consequenceIndex"
 >;
 
 export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | FullDisruption): Dayjs | null => {

@@ -330,6 +330,7 @@ export const disruptionInfoTest: DisruptionInfo = {
     disruptionNoEndDateTime: "true",
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    consequenceIndex: 0,
 };
 
 export const disruptionWithNoConsequences: FullDisruption = {
@@ -356,6 +357,7 @@ export const disruptionWithNoConsequences: FullDisruption = {
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
     template: false,
+    consequenceIndex: 0,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -1130,5 +1132,6 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         displayId: "8fg3ha",
         orgId: DEFAULT_ORG_ID,
         template: false,
+        consequenceIndex: 0,
     };
 };

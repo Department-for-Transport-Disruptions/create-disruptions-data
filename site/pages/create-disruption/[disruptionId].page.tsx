@@ -34,6 +34,7 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {
     disruptionExists?: boolean;
+    consequenceIndex?: number;
 }
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
@@ -632,6 +633,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
+                    <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
@@ -689,6 +691,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return {
             props: {
                 ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                consequenceIndex: 0,
             },
         };
     }
@@ -697,6 +700,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
+            consequenceIndex: disruption?.consequences ? disruption.consequences[0].consequenceIndex : 0,
         },
     };
 };
