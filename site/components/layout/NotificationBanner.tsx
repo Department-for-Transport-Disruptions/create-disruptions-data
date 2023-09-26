@@ -4,9 +4,10 @@ interface NotificationBannerProps {
     title?: string;
     content: string;
     link?: { text: string; afterLinkText?: string; href: string };
+    noMaxWidth?: boolean;
 }
 
-const NotificationBanner = ({ title = "Important", content, link }: NotificationBannerProps) => (
+const NotificationBanner = ({ title = "Important", content, link, noMaxWidth = false }: NotificationBannerProps) => (
     <div
         className="govuk-notification-banner"
         role="region"
@@ -19,7 +20,7 @@ const NotificationBanner = ({ title = "Important", content, link }: Notification
             </h2>
         </div>
         <div className="govuk-notification-banner__content">
-            <p className="govuk-notification-banner__heading">
+            <p className={`govuk-notification-banner__heading${noMaxWidth ? " max-w-none" : ""}`}>
                 {content}
                 {link && (
                     <>
