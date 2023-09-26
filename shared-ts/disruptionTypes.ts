@@ -13,7 +13,7 @@ import {
     validitySchema,
 } from "./disruptionTypes.zod";
 
-export type Disruption = z.input<typeof disruptionSchema>;
+export type Disruption = z.infer<typeof disruptionSchema>;
 export type DisruptionInfo = z.infer<typeof disruptionInfoSchema>;
 
 export type Validity = z.infer<typeof validitySchema>;
