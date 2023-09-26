@@ -325,7 +325,8 @@ const ReviewDisruption = ({
         });
     };
 
-    const nextIndex = getLargestConsequenceIndex(disruption) + 1;
+    const nextIndex =
+        disruption.consequences && disruption.consequences.length > 0 ? getLargestConsequenceIndex(disruption) + 1 : 0;
 
     const nextIndexSocialMedia =
         disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
@@ -341,7 +342,17 @@ const ReviewDisruption = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`/api/delete-disruption${disruption.template ? "?template=true" : ""}`}
+                    cancelActionHandler={cancelActionHandler}
+                    hintText="This action is permanent and cannot be undone"
+                    csrfToken={csrfToken}
+                    hiddenInputs={popUpState.hiddenInputs}
+                />
+            ) : null}
+            {popUpState?.name === "consequence" && csrfToken ? (
+                <DeleteConfirmationPopup
+                    entityName={`the consequence`}
+                    deleteUrl={`/api/delete-consequence${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
