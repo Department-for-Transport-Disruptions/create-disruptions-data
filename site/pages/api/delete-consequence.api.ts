@@ -51,7 +51,6 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
                 template === "true" ? ["template"] : [],
                 `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`,
             );
-            // redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
             return;
         } else {
             await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
