@@ -1,5 +1,6 @@
 import {
     Consequence,
+    Disruption,
     NetworkConsequence,
     OperatorConsequence,
     Service,
@@ -18,17 +19,29 @@ import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { FullDisruption } from "../schemas/disruption.schema";
 
-export type SortedDisruption = Omit<
-    FullDisruption,
-    | "disruptionStartDate"
-    | "disruptionStartTime"
-    | "disruptionEndDate"
-    | "disruptionEndTime"
-    | "disruptionNoEndDateTime"
-    | "consequenceIndex"
->;
+export type SortedDisruption =
+    | Omit<
+          FullDisruption,
+          | "disruptionStartDate"
+          | "disruptionStartTime"
+          | "disruptionEndDate"
+          | "disruptionEndTime"
+          | "disruptionNoEndDateTime"
+          | "consequenceIndex"
+      >
+    | Omit<
+          Disruption,
+          | "disruptionStartDate"
+          | "disruptionStartTime"
+          | "disruptionEndDate"
+          | "disruptionEndTime"
+          | "disruptionNoEndDateTime"
+          | "consequenceIndex"
+      >;
 
-export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | FullDisruption): Dayjs | null => {
+export const getSortedDisruptionFinalEndDate = (
+    disruption: SortedDisruption | FullDisruption | Disruption,
+): Dayjs | null => {
     let disruptionEndDate: Dayjs | null = null;
 
     if (!disruption.validity) {
@@ -59,7 +72,7 @@ export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | F
     return disruptionEndDate;
 };
 
-export const sortDisruptionsByStartDate = (disruptions: FullDisruption[]): SortedDisruption[] => {
+export const sortDisruptionsByStartDate = (disruptions: FullDisruption[] | Disruption[]): SortedDisruption[] => {
     const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
 
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
