@@ -19,7 +19,7 @@ import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../..
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-export type ConsequenceTypePageProps = PageState<Partial<ConsequenceType>>;
+export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {}
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
