@@ -519,10 +519,11 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
             } = val;
 
             if (
-                !val.disruptionStartDate ||
-                !val.disruptionStartTime ||
-                !val.disruptionEndDate ||
-                !val.disruptionEndTime
+                !val.disruptionNoEndDateTime &&
+                (!val.disruptionStartDate ||
+                    !val.disruptionStartTime ||
+                    !val.disruptionEndDate ||
+                    !val.disruptionEndTime)
             ) {
                 return true;
             }
