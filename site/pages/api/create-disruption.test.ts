@@ -468,6 +468,7 @@ describe("create-disruption API", () => {
         };
 
         const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
         await createDisruption(req, res);
 
         const inputs = formatCreateDisruptionBody(req.body);
