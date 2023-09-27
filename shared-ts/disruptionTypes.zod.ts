@@ -528,6 +528,10 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 return true;
             }
 
+            if (val.disruptionNoEndDateTime && (!val.disruptionStartDate || !val.disruptionStartTime)) {
+                return true;
+            }
+
             const combinedValidity: Validity[] = [
                 ...validity,
                 {
