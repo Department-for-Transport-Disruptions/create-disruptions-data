@@ -22,6 +22,7 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
+import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/ServicesMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
@@ -36,7 +37,6 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Routes } from "../../../schemas/consequence.schema";
-import { ModeType } from "../../../schemas/organisation.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -96,7 +96,10 @@ const fetchStops = async (
 
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
-        CreateConsequenceProps {}
+        CreateConsequenceProps {
+    consequenceDataSource: Datasource | null;
+    globalDataSource: Datasource | null;
+}
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(props);
@@ -108,7 +111,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
     const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
-    const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
+    const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
+    const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -238,7 +242,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id, pageState.inputs.vehicleMode, dataSource)
+            fetchStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -306,27 +310,35 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     };
 
     useEffect(() => {
-        const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
+        if (pageState.inputs.vehicleMode) {
+            const source =
+                props.inputs.vehicleMode === pageState.inputs.vehicleMode
+                    ? props.consequenceDataSource
+                    : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
-        if (source && pageState?.inputs?.vehicleMode) {
-            fetchData(source, pageState.inputs.vehicleMode)
-                .then(() => {
-                    if (dataSource !== source) {
-                        setDataSource(source);
-                        setPageState({
-                            ...pageState,
-                            inputs: {
-                                ...pageState.inputs,
-                                services: [],
-                                stops: [],
-                            },
-                        });
-                    }
-                })
-                .catch(() => setServicesRecords([]));
+            if (source) {
+                fetchData(source, pageState.inputs.vehicleMode)
+                    .then(() => {
+                        if (vehicleMode !== pageState.inputs.vehicleMode) {
+                            setDataSource(source);
+                            setPageState({
+                                ...pageState,
+                                inputs: {
+                                    ...pageState.inputs,
+                                    services: [],
+                                    stops: [],
+                                },
+                            });
+                        }
+
+                        setVehicleMode(pageState.inputs.vehicleMode || null);
+                    })
+                    .catch(() => setServicesRecords([]));
+            }
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageState?.inputs?.vehicleMode]);
+    }, [pageState.inputs.vehicleMode]);
 
     const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
         const selectedServiceIds = services.map((s) => s.id);
@@ -411,6 +423,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 },
                             ]}
                         />
+
+                        {!!props.consequenceDataSource &&
+                            !!props.globalDataSource &&
+                            props.consequenceDataSource !== props.globalDataSource &&
+                            props.inputs.vehicleMode === pageState.inputs.vehicleMode && (
+                                <NotificationBanner
+                                    content={`This consequence was created with ${props.consequenceDataSource.toUpperCase()} data and the data source for this impacted mode has since been switched to ${props.globalDataSource.toUpperCase()}. ${props.consequenceDataSource.toUpperCase()} will continue to be used for this consequence`}
+                                    noMaxWidth
+                                />
+                            )}
 
                         <Select<ServicesConsequence>
                             inputName="vehicleMode"
@@ -677,9 +699,16 @@ export const getServerSideProps = async (
 
     let stops: Stop[] = [];
 
-    if (pageState?.inputs?.services) {
+    let consequenceDataSource: Datasource | null = null;
+    let globalDataSource: Datasource | null = null;
+
+    if (consequence && pageState.inputs.services) {
+        globalDataSource = session.mode[consequence.vehicleMode];
+
+        consequenceDataSource = pageState.inputs.services[0].dataSource;
+
         const stopPromises = pageState.inputs.services.map((service) =>
-            fetchStops(service.id, pageState.inputs.vehicleMode),
+            fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
         );
         stops = (await Promise.all(stopPromises)).flat();
     }
@@ -694,6 +723,8 @@ export const getServerSideProps = async (
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
+            consequenceDataSource,
+            globalDataSource,
         },
     };
 };
