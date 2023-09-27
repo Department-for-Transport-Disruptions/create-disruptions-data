@@ -333,6 +333,9 @@ const ReviewDisruption = ({
                   .socialMediaPostIndex + 1
             : 0;
 
+    const deleteUrl = (popUpStateName: string) =>
+        popUpStateName === "consequence" ? "/api/delete-consequence" : "/api/delete-disruption";
+
     return (
         <BaseLayout title={title} description={description}>
             {queryParams["duplicate"] ? (
@@ -341,7 +344,7 @@ const ReviewDisruption = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
