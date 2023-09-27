@@ -62,8 +62,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const queryParams = useRouter().query;
     const displayCancelChangesButton = showCancelButton(queryParams);
-    const returnPath = (queryParams["return"] as string) || "";
-    const isTemplate = (queryParams["template"] as string) || "";
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+    const returnPath = queryParams["return"]?.toString() ?? "";
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
@@ -255,7 +255,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
-                action={`/api/create-disruption${isTemplate == "true" ? "?template=true" : ""}`}
+                action={`/api/create-disruption${isTemplate === "true" ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -649,8 +649,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             role="button"
                             href={
                                 returnToTemplateOverview || isTemplate === "true"
-                                    ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}?template=true`
-                                    : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
+                                    ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                                    : `${returnPath}/${pageState.disruptionId || ""}`
                             }
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
@@ -661,7 +661,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {!props.disruptionExists ? (
                         <Link
                             role="button"
-                            href={isTemplate == "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            href={isTemplate === "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel

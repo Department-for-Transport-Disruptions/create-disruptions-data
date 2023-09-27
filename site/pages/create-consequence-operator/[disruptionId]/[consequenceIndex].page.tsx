@@ -61,8 +61,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = (queryParams["template"] as string) || "";
-    const returnPath = (queryParams["return"] as string) || "";
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+    const returnPath = queryParams["return"]?.toString() ?? "";
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -120,9 +120,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview || !!returnPath,
                                             returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                                returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -265,10 +265,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? `${queryParams["return"] as string}/${
-                                              pageState.disruptionId || ""
-                                          }?template=true`
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
+                                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                                        : `${returnPath}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >

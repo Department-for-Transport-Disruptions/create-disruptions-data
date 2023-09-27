@@ -11,12 +11,12 @@ import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
-const getRedirectPath = (template: string, returnPath: string) => {
+const getRedirectPath = (template?: string, returnPath?: string) => {
     if (template) {
         return VIEW_ALL_TEMPLATES_PAGE_PATH;
     }
-    if (returnPath?.toString().includes(DISRUPTION_DETAIL_PAGE_PATH) && returnPath?.toString().includes("template")) {
-        return returnPath.toString();
+    if (returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH) && returnPath?.includes("template")) {
+        return returnPath;
     }
     return DASHBOARD_PAGE_PATH;
 };
@@ -49,7 +49,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         await deletePublishedDisruption(disruption, id, session.orgId, template === "true");
 
-        redirectTo(res, getRedirectPath(template as string, returnPath as string));
+        redirectTo(res, getRedirectPath(template?.toString(), returnPath?.toString()));
         return;
     } catch (e) {
         if (e instanceof Error) {
