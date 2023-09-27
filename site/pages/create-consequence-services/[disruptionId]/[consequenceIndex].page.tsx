@@ -45,6 +45,8 @@ import {
     getStateUpdater,
     getStopLabel,
     getStopValue,
+    isSelectedServiceInDropdown,
+    isSelectedStopInDropdown,
     returnTemplateOverview,
     showCancelButton,
     sortAndFilterStops,
@@ -430,7 +432,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={servicesRecords}
+                            options={servicesRecords.filter(
+                                (service) => !isSelectedServiceInDropdown(service, pageState.inputs.services ?? []),
+                            )}
                             handleChange={handleServiceChange}
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
@@ -459,7 +463,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             hint="Stops"
                             displaySize="l"
                             inputId="stops"
-                            options={stopOptions}
+                            options={stopOptions.filter(
+                                (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
+                            )}
                             inputValue={stopsSearchInput}
                             setSearchInput={setStopsSearchInput}
                         />
