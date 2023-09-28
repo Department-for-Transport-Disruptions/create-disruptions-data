@@ -1454,6 +1454,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
         >
           Save and continue
         </button>
+        <a
+          className="govuk-button ml-5 govuk-button--secondary"
+          href="/dashboard"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+        >
+          Cancel
+        </a>
       </form>
     </main>
     <div>
@@ -3017,6 +3027,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         >
           Save and continue
         </button>
+        <a
+          className="govuk-button ml-5 govuk-button--secondary"
+          href="/dashboard"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+        >
+          Cancel
+        </a>
       </form>
     </main>
     <div>
@@ -4655,6 +4675,16 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           role="button"
         >
           Cancel Changes
+        </a>
+        <a
+          className="govuk-button ml-5 govuk-button--secondary"
+          href="/dashboard"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+        >
+          Cancel
         </a>
       </form>
     </main>

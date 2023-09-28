@@ -36,8 +36,14 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
             },
         },
         routes: {
-            "GET    /organisations": "packages/organisations-api/get-organisations/index.main",
-            "GET    /organisations/{id}": "packages/organisations-api/get-organisation/index.main",
+            "GET    /organisations": {
+                function: "packages/organisations-api/get-organisations/index.main",
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /organisations/{id}": {
+                function: "packages/organisations-api/get-organisation/index.main",
+                cdk: { method: { apiKeyRequired: true } },
+            },
         },
     });
 

@@ -65,7 +65,7 @@ describe("deleteDisruption", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
 
-    it("should retrieve valid data from cookies, write to dynamo and redirect to view all templates", async () => {
+    it("should retrieve valid data from cookies, write to dynamo and redirect to view all templates if deleting a template", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -87,6 +87,32 @@ describe("deleteDisruption", () => {
             true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect to template overview if deleting a disruption created from a template", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                id: defaultDisruptionId,
+            },
+            query: {
+                return: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await deleteDisruption(req, res);
+
+        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts,
+            defaultDisruptionId,
+            DEFAULT_ORG_ID,
+            false,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,
+        });
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
