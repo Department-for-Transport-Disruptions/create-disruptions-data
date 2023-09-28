@@ -518,6 +518,20 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 disruptionRepeatsEndDate,
             } = val;
 
+            if (
+                !val.disruptionNoEndDateTime &&
+                (!val.disruptionStartDate ||
+                    !val.disruptionStartTime ||
+                    !val.disruptionEndDate ||
+                    !val.disruptionEndTime)
+            ) {
+                return true;
+            }
+
+            if (val.disruptionNoEndDateTime && (!val.disruptionStartDate || !val.disruptionStartTime)) {
+                return true;
+            }
+
             const combinedValidity: Validity[] = [
                 ...validity,
                 {
