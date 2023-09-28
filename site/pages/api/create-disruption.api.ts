@@ -78,7 +78,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
 
-        const consequenceIndex = body.consequenceIndex ?? 0;
+        const consequenceIndex = body.consequenceIndex || 0;
 
         if (!body.disruptionId) {
             throw new Error("No disruptionId found");
