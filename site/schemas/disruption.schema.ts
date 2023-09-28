@@ -29,8 +29,7 @@ export const fullDisruptionSchema = disruptionSchema.and(
     }),
 );
 
-export type FullDisruptionWithConsequenceIndex = z.infer<typeof fullDisruptionSchema>;
-export type FullDisruption = Omit<FullDisruptionWithConsequenceIndex, "consequenceIndex">;
+export type FullDisruption = z.infer<typeof fullDisruptionSchema>;
 
 export const exportFileSchema = z.object({
     exportType: z.union(

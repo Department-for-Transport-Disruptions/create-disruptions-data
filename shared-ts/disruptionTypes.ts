@@ -13,9 +13,8 @@ import {
     validitySchema,
 } from "./disruptionTypes.zod";
 
-type DisruptionWithConsequenceIndex = z.input<typeof disruptionSchema>;
-export type Disruption = Omit<DisruptionWithConsequenceIndex, "consequenceIndex">;
-export type DisruptionInfo = z.input<typeof disruptionInfoSchema>;
+export type Disruption = z.infer<typeof disruptionSchema>;
+export type DisruptionInfo = z.infer<typeof disruptionInfoSchema>;
 
 export type Validity = z.infer<typeof validitySchema>;
 

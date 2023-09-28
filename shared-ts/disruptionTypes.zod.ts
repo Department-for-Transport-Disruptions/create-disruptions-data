@@ -248,7 +248,6 @@ export const disruptionInfoSchema = z.object({
         .optional(),
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
-    consequenceIndex: z.coerce.number().default(0),
 });
 
 export const disruptionInfoSchemaRefined = disruptionInfoSchema

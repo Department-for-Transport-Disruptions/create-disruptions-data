@@ -76,7 +76,9 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const { draft } = req.query;
 
-        const body = req.body as DisruptionInfo;
+        const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
+
+        const consequenceIndex = body.consequenceIndex ?? 0;
 
         if (!body.disruptionId) {
             throw new Error("No disruptionId found");
@@ -139,7 +141,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   req,
                   res,
                   template ? ["template"] : [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
+                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
                   isFromTemplate ? [`${isFromTemplate}`] : [],
               );
 
