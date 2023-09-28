@@ -9,7 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertConsequence, upsertDisruptionInfo } from "../../data/dynamo";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -98,6 +98,14 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
                     await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                }),
+            );
+        }
+
+        if (draftDisruption.socialMediaPosts) {
+            await Promise.all(
+                draftDisruption.socialMediaPosts.map(async (socialMediaPost) => {
+                    await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff);
                 }),
             );
         }

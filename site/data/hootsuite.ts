@@ -17,7 +17,7 @@ import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { HootsuitePost, SocialMediaImage } from "../schemas/social-media.schema";
 import { notEmpty } from "../utils";
 import { delay, setCookieOnResponseObject } from "../utils/apiUtils";
-import { formatDate } from "../utils/dates";
+import { formatAndDefaultDateTime, formatDate } from "../utils/dates";
 import logger from "../utils/logger";
 
 let hootsuiteClientId: string | null = null;
@@ -318,7 +318,11 @@ export const publishToHootsuite = async (
             image = await processHootsuiteImage(socialMediaPost.image, accessToken);
         }
 
-        const formattedDate = formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime);
+        const formattedDate =
+            socialMediaPost.publishDate && socialMediaPost.publishTime
+                ? formatDate(socialMediaPost.publishDate, socialMediaPost.publishTime)
+                : formatAndDefaultDateTime();
+
         const createSocialPostResponse = await fetch(`${HOOTSUITE_URL}v1/messages`, {
             method: "POST",
             body: JSON.stringify({
