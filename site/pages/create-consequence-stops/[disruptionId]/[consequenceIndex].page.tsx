@@ -59,7 +59,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = (queryParams["template"] as string) || "";
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+    const returnPath = queryParams["return"]?.toString() ?? "";
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -204,9 +205,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!queryParams["return"],
+                                            returnToTemplateOverview || !!returnPath,
                                             returnToTemplateOverview ||
-                                                queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                                returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -348,10 +349,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 role="button"
                                 href={
                                     returnToTemplateOverview
-                                        ? (queryParams["return"] as string)
-                                        : `${queryParams["return"] as string}/${pageState.disruptionId}${
-                                              isTemplate ? "?template=true" : ""
-                                          }`
+                                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                                        : `${returnPath}/${pageState.disruptionId || ""}`
                                 }
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
@@ -372,6 +371,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
+                            returnPath={returnPath}
                         />
 
                         {(props.consequenceIndex || 0) <= 10 && (

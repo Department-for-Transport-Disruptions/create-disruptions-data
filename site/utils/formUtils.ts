@@ -116,11 +116,15 @@ export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], fil
 
 export const showCancelButton = (queryParams: ParsedUrlQuery) => {
     return (
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+        (queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) &&
+            !queryParams["return"]?.includes("template")) ||
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
     );
 };
 
 export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
-    return queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true");
+    return (
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true")) ||
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template"))
+    );
 };
