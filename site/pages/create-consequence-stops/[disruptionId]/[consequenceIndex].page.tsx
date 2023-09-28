@@ -37,6 +37,7 @@ import {
     getStateUpdater,
     getStopLabel,
     getStopValue,
+    isSelectedStopInDropdown,
     returnTemplateOverview,
     showCancelButton,
 } from "../../../utils/formUtils";
@@ -242,7 +243,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputValue={searchInput}
                             setSearchInput={setSearchInput}
                             isClearable
-                            options={stopOptions}
+                            options={stopOptions.filter(
+                                (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
+                            )}
                             onBlur={() => {
                                 setChangePlaceHolder(false);
                             }}
