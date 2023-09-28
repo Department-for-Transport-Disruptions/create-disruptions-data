@@ -707,6 +707,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return {
             props: {
                 ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                consequenceIndex: 0,
             },
         };
     }
@@ -715,7 +716,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
-            consequenceIndex: disruption.consequences?.[0].consequenceIndex ?? 0,
+            consequenceIndex: disruption.consequences?.[0]?.consequenceIndex ?? 0,
         },
     };
 };
