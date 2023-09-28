@@ -185,7 +185,10 @@ const DisruptionDetail = ({
                 header: "Account name",
                 cells: [
                     {
-                        value: post.socialAccount,
+                        value:
+                            post.display && post.accountType
+                                ? `${post.display} (${post.accountType})`
+                                : post.socialAccount,
                     },
                     {
                         value: isPendingOrRejected
