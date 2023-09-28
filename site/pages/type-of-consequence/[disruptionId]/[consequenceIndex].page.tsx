@@ -31,7 +31,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = (queryParams["template"] as string) || "";
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+    const returnPath = queryParams["return"]?.toString() ?? "";
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -68,10 +69,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                     role="button"
                                     href={
                                         returnToTemplateOverview
-                                            ? `${queryParams["return"] as string}/${pageState.disruptionId || ""}${
-                                                  isTemplate ? "?template=true" : ""
-                                              }`
-                                            : `${queryParams["return"] as string}/${pageState.disruptionId || ""}`
+                                            ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                                            : `${returnPath}/${pageState.disruptionId || ""}`
                                     }
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
                                 >
@@ -85,6 +84,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 disruptionId={props.disruptionId}
                                 csrfToken={props.csrfToken}
                                 isTemplate={isTemplate}
+                                returnPath={returnPath}
                             />
                         </div>
                     </div>

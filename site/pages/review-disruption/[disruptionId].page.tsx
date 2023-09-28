@@ -1,5 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -20,7 +20,6 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_REFERER,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -59,8 +58,6 @@ const ReviewDisruption = ({
     }>();
 
     const queryParams = useRouter().query;
-    const returnToTemplateOverview =
-        redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
@@ -316,6 +313,8 @@ const ReviewDisruption = ({
                         disruption.disruptionId,
                         undefined,
                         true,
+                        false,
+                        disruption.template,
                     ),
                     false,
                     disruption.template,
@@ -333,6 +332,9 @@ const ReviewDisruption = ({
                   .socialMediaPostIndex + 1
             : 0;
 
+    const deleteUrl = (popUpStateName: string) =>
+        popUpStateName === "consequence" ? "/api/delete-consequence" : "/api/delete-disruption";
+
     return (
         <BaseLayout title={title} description={description}>
             {queryParams["duplicate"] ? (
@@ -341,7 +343,7 @@ const ReviewDisruption = ({
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -726,7 +728,8 @@ const ReviewDisruption = ({
                             </Link>
                         )}
 
-                        {returnToTemplateOverview && (
+                        {disruption.publishStatus === PublishStatus.editing ||
+                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
@@ -734,7 +737,7 @@ const ReviewDisruption = ({
                             >
                                 Cancel all changes
                             </button>
-                        )}
+                        ) : null}
                     </div>
                 </>
             </CsrfForm>

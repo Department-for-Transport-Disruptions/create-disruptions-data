@@ -22,6 +22,8 @@ const blankInputs: CreateConsequenceServicesProps = {
         name: "Test User",
         mode: defaultModes,
     },
+    consequenceDataSource: null,
+    globalDataSource: null,
 };
 
 const withInputs: CreateConsequenceServicesProps = {
@@ -73,13 +75,14 @@ const withInputs: CreateConsequenceServicesProps = {
                 endDate: "2023-08-10",
             },
         ],
-
         description: "A truck broke down on a bridge",
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
         disruptionDirection: "inbound",
     },
+    consequenceDataSource: Datasource.bods,
+    globalDataSource: Datasource.bods,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -144,6 +147,8 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
+    consequenceDataSource: Datasource.bods,
+    globalDataSource: Datasource.bods,
 };
 
 describe("pages", () => {
@@ -188,6 +193,15 @@ describe("pages", () => {
             expect(saveAsDraftButton).toBeTruthy();
 
             unmount();
+        });
+
+        it("should render correctly when global datasource does not match consequence datasource", () => {
+            const inputs: CreateConsequenceServicesProps = {
+                ...withInputs,
+                consequenceDataSource: Datasource.tnds,
+            };
+            const tree = renderer.create(<CreateConsequenceServices {...inputs} />).toJSON();
+            expect(tree).toMatchSnapshot();
         });
     });
 });

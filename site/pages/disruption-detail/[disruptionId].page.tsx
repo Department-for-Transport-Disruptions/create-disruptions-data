@@ -325,6 +325,7 @@ const DisruptionDetail = ({
                         undefined,
                         true,
                         true,
+                        !!disruption.template,
                     ),
                 ],
             };
@@ -340,12 +341,15 @@ const DisruptionDetail = ({
             : 0;
     const queryParams = useRouter().query;
 
+    const deleteUrl = (popUpStateName: string) =>
+        popUpStateName === "consequence" ? "/api/delete-consequence" : "/api/delete-disruption";
+
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`/api/delete-${popUpState.name}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -891,7 +895,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer,
+            redirect: referer || "",
             errors: errors,
             canPublish: canPublish(session),
         },
