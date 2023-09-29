@@ -20,7 +20,12 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
-import { DISRUPTION_REASONS, COOKIES_DISRUPTION_ERRORS } from "../../constants/index";
+import {
+    DISRUPTION_REASONS,
+    COOKIES_DISRUPTION_ERRORS,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
+} from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
@@ -34,6 +39,7 @@ const description = "Create Disruptions page for the Create Transport Disruption
 
 export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {
     disruptionExists?: boolean;
+    consequenceIndex?: number;
 }
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
@@ -56,7 +62,9 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
+    const displayCancelChangesButton = showCancelButton(queryParams);
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+    const returnPath = queryParams["return"]?.toString() ?? "";
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
@@ -248,7 +256,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
-                action={`/api/create-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/create-disruption${isTemplate === "true" ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={props.csrfToken}
             >
@@ -256,7 +264,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">
-                            {queryParams["template"]?.includes("true")
+                            {isTemplate === "true"
                                 ? "Create a new template"
                                 : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
                         </h1>
@@ -632,20 +640,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
+                    <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
                     </button>
 
-                    {displayCancelButton && pageState.disruptionId ? (
+                    {displayCancelChangesButton && pageState.disruptionId ? (
                         <Link
                             role="button"
                             href={
-                                returnToTemplateOverview
-                                    ? (queryParams["return"] as string)
-                                    : `${queryParams["return"] as string}/${pageState.disruptionId}${
-                                          queryParams["template"] ? "?template=true" : ""
-                                      }`
+                                returnToTemplateOverview || isTemplate === "true"
+                                    ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                                    : `${returnPath}/${pageState.disruptionId || ""}`
                             }
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
@@ -653,11 +660,22 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         </Link>
                     ) : null}
 
+                    {!props.disruptionExists ? (
+                        <Link
+                            role="button"
+                            href={isTemplate === "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            className="govuk-button ml-5 govuk-button--secondary"
+                        >
+                            Cancel
+                        </Link>
+                    ) : null}
+
                     {props.disruptionExists && (
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
-                            isTemplate={queryParams["template"]?.toString()}
+                            isTemplate={isTemplate}
+                            returnPath={returnPath}
                         />
                     )}
                 </>
@@ -689,6 +707,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return {
             props: {
                 ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                consequenceIndex: 0,
             },
         };
     }
@@ -697,6 +716,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
+            consequenceIndex: disruption.consequences?.[0]?.consequenceIndex ?? 0,
         },
     };
 };

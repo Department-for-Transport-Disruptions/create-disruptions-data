@@ -102,7 +102,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        const returnPath = encodeURIComponent(
+        const returnPathForDisruptionCreatedFromTemplate = encodeURIComponent(
             `${DISRUPTION_DETAIL_PAGE_PATH}/${
                 templateId as string
             }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
@@ -110,7 +110,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
 
         createDisruptionFromTemplate
             ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-                  `return=${returnPath}`,
+                  `return=${returnPathForDisruptionCreatedFromTemplate}`,
               ])
             : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
                   "duplicate=true",

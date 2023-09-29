@@ -1,4 +1,4 @@
-import { ConsequenceOperators, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { ConsequenceOperators, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
@@ -116,11 +116,21 @@ export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], fil
 
 export const showCancelButton = (queryParams: ParsedUrlQuery) => {
     return (
-        queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) ||
-        queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH)
+        (queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) &&
+            !queryParams["return"]?.includes("template")) ||
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
     );
 };
 
 export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
-    return queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true");
+    return (
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true")) ||
+        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template"))
+    );
 };
+
+export const isSelectedStopInDropdown = (stop: Stop, selectedStops: Stop[]) =>
+    selectedStops.find((selectedStop) => selectedStop.atcoCode === stop.atcoCode);
+
+export const isSelectedServiceInDropdown = (service: Service, selectedService: Service[]) =>
+    selectedService.find((selectedService) => selectedService.id === service.id);
