@@ -212,7 +212,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                                queryParams["template"] ? "?template=true" : ""
+                            }`}
                             className="govuk-button  mt-8 ml-5 govuk-button--secondary"
                         >
                             Back
