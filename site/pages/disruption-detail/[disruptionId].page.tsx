@@ -393,16 +393,18 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template && disruption.publishStatus === PublishStatus.published && (
-                            <button
-                                key="create-disruption-from-template"
-                                className="govuk-button"
-                                data-module="govuk-button"
-                                formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
-                            >
-                                Create disruption
-                            </button>
-                        )}
+                        {disruption.template &&
+                            (disruption.publishStatus === PublishStatus.published ||
+                                disruption.publishStatus === PublishStatus.draft) && (
+                                <button
+                                    key="create-disruption-from-template"
+                                    className="govuk-button"
+                                    data-module="govuk-button"
+                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
+                                >
+                                    Create disruption
+                                </button>
+                            )}
                         {!disruption.template && (
                             <Link
                                 className="govuk-link"

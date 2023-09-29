@@ -270,10 +270,41 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs and create new disruption button for templates", () => {
+        it("should render correctly with inputs and create new disruption button for published templates", () => {
             const { queryByText, getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/view-all-templates"}
+                    errors={[]}
+                    canPublish={true}
+                />,
+            );
+
+            const createDisruptionButton = queryByText("Create disruption", {
+                selector: "button",
+            });
+
+            const closeButton = getAllByRole("button", { name: "Close and Return" });
+
+            const deleteTemplateButton = queryByText("Delete template", {
+                selector: "button",
+            });
+
+            expect(createDisruptionButton).toBeTruthy();
+            expect(closeButton).toBeTruthy();
+            expect(deleteTemplateButton).toBeTruthy();
+
+            unmount();
+        });
+
+        it("should render correctly with inputs and create new disruption button for draft templates", () => {
+            const { queryByText, getAllByRole, unmount } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        template: true,
+                        publishStatus: PublishStatus.draft,
+                    }}
                     redirect={"/view-all-templates"}
                     errors={[]}
                     canPublish={true}
