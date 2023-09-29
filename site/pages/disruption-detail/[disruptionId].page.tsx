@@ -368,17 +368,15 @@ const DisruptionDetail = ({
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
                 />
             ) : null}
-            {duplicateDisruptionPopUpState && csrfToken ? (
+            {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
                 <Popup
-                    action={`/api/duplicate-disruption${disruption.template ? "?template=true" : ""}`}
+                    action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
                     continueText="Yes, duplicate"
                     cancelText="No, return"
-                    questionText={`Are you sure you wish to duplicate the ${
-                        disruption.template ? "template" : "disruption"
-                    }?`}
+                    questionText="Are you sure you wish to duplicate the disruption?"
                 />
             ) : null}
             <CsrfForm

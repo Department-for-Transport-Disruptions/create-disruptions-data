@@ -3,7 +3,7 @@ import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/u
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError } from "../utils";
-import { defaultDateTime, isAtLeast5MinutesAfter } from "../utils/dates";
+import { isAtLeast5MinutesAfter } from "../utils/dates";
 
 const socialMediaImageSchema = z.object({
     filepath: z.string(),
