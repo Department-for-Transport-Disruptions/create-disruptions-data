@@ -220,8 +220,37 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     includeRoutes: true,
                     dataSource: dataSource,
                 });
+
+                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => {
+                    return {
+                        inbound: service.routes.inbound,
+                        outbound: service.routes.outbound,
+                        serviceId: service.id,
+                    };
+                });
+
+                const servicesRoutesForMap = [...searched, ...servicesRoutesForGivenStop].filter(
+                    (value, index, self) =>
+                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                );
+
+                const stopsForServicesRoutes = await Promise.all(
+                    servicesRoutesForMap.map(async (service) => {
+                        if (service) {
+                            return await fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                        }
+                        return [];
+                    }),
+                );
+
+                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes.flat()].filter(
+                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
+                );
+
+                setSearchedOptions(servicesRoutesForMap);
+                setStopOptions(stopsForMap);
+
                 setPageState({
-                    ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
@@ -408,7 +437,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                         createChangeLink(
                                             "consequence-type",
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                                            pageState.disruptionId || "",
+                                            queryParams["disruptionId"]?.toString() || "",
                                             pageState.consequenceIndex ?? 0,
                                             returnToTemplateOverview || !!queryParams["return"],
                                             returnToTemplateOverview ||
