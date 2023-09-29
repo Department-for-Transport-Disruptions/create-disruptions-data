@@ -95,6 +95,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
         }
 
+        // publishTime and publishDate set to blank to prevent error when creating a disruption (as templates prior had these populated)
         const socialMediaToUpsert =
             template === "true" || validatedBody.data.accountType === "Twitter"
                 ? {
