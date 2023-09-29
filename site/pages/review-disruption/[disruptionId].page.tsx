@@ -763,6 +763,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         !!ctx.query?.template,
     );
 
+    if (!disruption) {
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
+    }
+
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 
@@ -801,13 +808,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     let errors: ErrorInfo[] = [];
     if (errorCookie) {
         errors = JSON.parse(errorCookie) as ErrorInfo[];
-    }
-
-    if (!disruption) {
-        if (ctx.res) {
-            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
-        }
-        return;
     }
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
