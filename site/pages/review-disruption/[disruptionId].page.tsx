@@ -21,13 +21,14 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_REFERER,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
-import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, redirectTo, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -761,6 +762,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         session.orgId,
         !!ctx.query?.template,
     );
+
+    if (!disruption) {
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
+    }
+
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 

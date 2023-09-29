@@ -19,6 +19,7 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -26,7 +27,7 @@ import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
-import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, redirectTo, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -864,7 +865,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (!disruption) {
-        throw new Error("Disruption not found for disruption detail page");
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
     }
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
