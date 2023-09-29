@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { DASHBOARD_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../constants";
+import { DASHBOARD_PAGE_PATH } from "../constants";
 import { getSession } from "../utils/apiUtils/auth";
 
 const title = "Disruption Not Found - Create Transport Disruption Data Service";
@@ -34,7 +34,7 @@ const DisruptionNotFound = ({ isTemplate }: { isTemplate: boolean }): ReactEleme
     </TwoThirdsLayout>
 );
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: { isTemplate: boolean } } | void> => {
+export const getServerSideProps = (ctx: NextPageContext): { props: { isTemplate: boolean } } | void => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
