@@ -41,11 +41,6 @@ export const formatAndDefaultDateTime = (addMinutes = 6) => {
     return dayjs().add(addMinutes, "minutes").toISOString();
 };
 
-export const defaultDateTime = (addMinutes = 6) => {
-    const datetime = dayjs().tz("Europe/London").add(addMinutes, "minutes");
-    return { time: datetime.format("HHmm").toString(), date: datetime.format(CD_DATE_FORMAT).toString() };
-};
-
 export const getEndingOnDateText = (
     disruptionRepeats: string | undefined,
     disruptionRepeatsEndDate: string | undefined,

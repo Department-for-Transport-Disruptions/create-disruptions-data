@@ -28,8 +28,8 @@ const baseSchema = {
 const hootsuiteSchema = z.object({
     ...baseSchema,
     hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")),
-    publishDate: z.string().optional().default(defaultDateTime().date),
-    publishTime: z.string().optional().default(defaultDateTime().time),
+    publishDate: z.string().optional(),
+    publishTime: z.string().optional(),
     image: socialMediaImageSchema.optional(),
     accountType: z.literal("Hootsuite"),
 });

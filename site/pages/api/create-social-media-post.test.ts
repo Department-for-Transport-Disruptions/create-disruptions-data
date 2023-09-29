@@ -123,7 +123,7 @@ describe("create-social-media-post API", () => {
         });
 
         formParseSpy.mockResolvedValue({
-            fields: previousCreateSocialMediaPostInformation,
+            fields: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
             files: [],
         });
 
