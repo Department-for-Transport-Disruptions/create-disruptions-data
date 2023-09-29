@@ -273,6 +273,7 @@ export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
 export const SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH = "/sysadmin/manage-organisations";
 export const SYSADMIN_ADD_USERS_PAGE_PATH = "/sysadmin/users";
 export const SYSADMIN_ADD_ORG_PAGE_PATH = "/sysadmin/org";
+export const DISRUPTION_NOT_FOUND_ERROR_PAGE = "/disruption-not-found";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";

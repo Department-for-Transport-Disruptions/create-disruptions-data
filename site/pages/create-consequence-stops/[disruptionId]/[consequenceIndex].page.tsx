@@ -26,11 +26,12 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { flattenZodErrors, isStopsConsequence, redirectTo } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -420,7 +421,10 @@ export const getServerSideProps = async (
     );
 
     if (!disruption) {
-        throw new Error("No disruption found for operator consequence page");
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
     }
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
