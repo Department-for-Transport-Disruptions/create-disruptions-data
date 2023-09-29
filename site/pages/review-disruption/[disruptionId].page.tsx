@@ -123,7 +123,7 @@ const ReviewDisruption = ({
                 header: "Publish date",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishDate : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -144,7 +144,7 @@ const ReviewDisruption = ({
                 header: "Publish time",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishTime : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
                     },
                     {
                         value: isPendingOrRejected

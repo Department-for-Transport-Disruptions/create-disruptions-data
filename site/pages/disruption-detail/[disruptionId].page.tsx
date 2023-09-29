@@ -143,7 +143,7 @@ const DisruptionDetail = ({
                 header: "Publish date",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishDate : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -164,7 +164,7 @@ const DisruptionDetail = ({
                 header: "Publish time",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishTime : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -371,21 +371,19 @@ const DisruptionDetail = ({
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
                 />
             ) : null}
-            {duplicateDisruptionPopUpState && csrfToken ? (
+            {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
                 <Popup
-                    action={`/api/duplicate-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                    action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
                     continueText="Yes, duplicate"
                     cancelText="No, return"
-                    questionText={`Are you sure you wish to duplicate the ${
-                        queryParams["template"] ? "template" : "disruption"
-                    }?`}
+                    questionText="Are you sure you wish to duplicate the disruption?"
                 />
             ) : null}
             <CsrfForm
-                action={`/api/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/publish-edit${disruption.template ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >
