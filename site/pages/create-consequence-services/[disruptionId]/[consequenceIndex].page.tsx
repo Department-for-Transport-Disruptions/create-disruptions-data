@@ -433,7 +433,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             props.consequenceDataSource !== props.globalDataSource &&
                             props.inputs.vehicleMode === pageState.inputs.vehicleMode && (
                                 <NotificationBanner
-                                    content={`This consequence was created with ${props.consequenceDataSource.toUpperCase()} data and the data source for this impacted mode has since been switched to ${props.globalDataSource.toUpperCase()}. ${props.consequenceDataSource.toUpperCase()} will continue to be used for this consequence`}
+                                    content={`This consequence was created with ${props.consequenceDataSource.toUpperCase()} data and the data source for this impacted mode has since been switched to ${props.globalDataSource.toUpperCase()}. ${props.consequenceDataSource.toUpperCase()} data will continue to be used for this consequence`}
                                     noMaxWidth
                                 />
                             )}

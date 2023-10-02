@@ -126,7 +126,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <p
                 className="govuk-notification-banner__heading max-w-none"
               >
-                This consequence was created with TNDS data and the data source for this impacted mode has since been switched to BODS. TNDS will continue to be used for this consequence
+                This consequence was created with TNDS data and the data source for this impacted mode has since been switched to BODS. TNDS data will continue to be used for this consequence
               </p>
             </div>
           </div>
