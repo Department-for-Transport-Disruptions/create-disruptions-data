@@ -7,7 +7,7 @@ import {
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
 import { makeZodArray } from "./zod";
-import { Disruption } from "../disruptionTypes";
+import { Disruption, Stop } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
 import {
@@ -15,6 +15,7 @@ import {
     Organisation,
     organisationSchema,
     OrganisationWithStats,
+    organisationStops,
 } from "../organisationTypes";
 import { notEmpty } from "./index";
 
@@ -25,6 +26,7 @@ type Logger = {
 };
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
+const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -251,6 +253,50 @@ export const getOrganisationInfoAndStats = async (
         }
 
         return parsedOrgWithStats.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const getImpactedStopsInOrganisation = async (orgId: string, logger: Logger) => {
+    logger.info(`Getting organisation ${orgId} impacted stops from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveQuery(
+            {
+                TableName: disruptionsTableName,
+                KeyConditionExpression: "PK=:orgId",
+                FilterExpression: "consequenceType IN (:stops)",
+                ExpressionAttributeValues: {
+                    ":orgId": orgId,
+                    ":stops": "stops",
+                },
+                ProjectionExpression: "stops",
+            },
+            logger,
+        );
+
+        const parsedStops = makeZodArray(organisationStops).safeParse(dbDataInfo);
+
+        if (!parsedStops.success) {
+            return null;
+        }
+
+        const flattenedData: {
+            stops: Stop[][];
+        } = {
+            stops: parsedStops.data.reduce((accumulator, current) => {
+                accumulator.push(current.stops);
+                return accumulator;
+            }, [] as Stop[][]), // Initialize as an empty array of arrays
+        };
+
+        return flattenedData;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

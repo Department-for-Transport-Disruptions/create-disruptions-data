@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { stopSchema } from "./disruptionTypes.zod";
 
 export const organisationSchema = z
     .object({
@@ -24,6 +25,10 @@ export const statisticSchema = z.object({
 });
 
 export const organisationSchemaWithStats = organisationSchema.and(z.object({ stats: statisticSchema }));
+
+export const organisationStops = z.object({
+    stops: z.array(stopSchema),
+});
 
 export type Organisation = z.infer<typeof organisationSchema>;
 export type OrganisationWithStats = z.infer<typeof organisationSchemaWithStats>;
