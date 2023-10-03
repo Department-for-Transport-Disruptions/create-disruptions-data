@@ -303,6 +303,7 @@ export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
 export const COOKIES_TWITTER_CODE_VERIFIER = "cdd-twitter-code-verifier";
 export const COOKIES_TWITTER_STATE = "cdd-twitter-state";
 export const COOKIES_HOOTSUITE_STATE = "cdd-hootsuite-state";
+export const COOKIES_LOGIN_REDIRECT = "cdd-login-redirect";
 
 export const API_BASE_URL = process.env.API_BASE_URL || "";
 export const DOMAIN_NAME = process.env.DOMAIN_NAME || "http://localhost:3000";
