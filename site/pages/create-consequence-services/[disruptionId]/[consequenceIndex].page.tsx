@@ -326,6 +326,14 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             setStopOptions([]);
             setSearchedOptions([]);
             setSelectedService(null);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    stops: [],
+                },
+                errors: pageState.errors,
+            });
         }
     }, [pageState?.inputs?.services]);
 
@@ -383,15 +391,29 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
         const selectedServiceIds = services.map((s) => s.id);
+        return stop.serviceIds?.some((id) => selectedServiceIds.includes(id));
 
-        return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
+        // return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
     };
+    //
+    // console.log(pageState.inputs.stops);
 
     const removeService = (e: SyntheticEvent, serviceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
             const newServices = [...pageState.inputs.services].filter((service) => service.id !== serviceId);
+            const newServicesIds = newServices.map((service) => service.id);
+            const selectedStops = stopOptions.filter((stop) =>
+                stop.serviceIds?.filter((serviceId) => newServicesIds.includes(serviceId)),
+            );
+
+            const stops = pageState?.inputs?.stops?.filter((stop) =>
+                stop.serviceIds?.filter((serviceId) => newServicesIds.includes(serviceId)),
+            );
+
+            console.log(stops);
+            console.log(newServices);
 
             setPageState({
                 ...pageState,
@@ -399,7 +421,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     ...pageState.inputs,
                     ...(pageState.inputs.stops && {
                         stops: [...pageState.inputs.stops].filter((stop) =>
-                            findStopsNotToRemove(stop, serviceId, newServices),
+                            stop.serviceIds?.filter((serviceId) => newServicesIds.includes(serviceId)),
                         ),
                     }),
                     services: newServices,
@@ -407,7 +429,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
 
-            setStopOptions(stopOptions.filter((stop) => findStopsNotToRemove(stop, serviceId, newServices)));
+            setStopOptions(
+                stopOptions.filter((stop) =>
+                    stop.serviceIds?.filter((serviceId) => newServicesIds.includes(serviceId)),
+                ),
+            );
         }
 
         setSearchedOptions(searched.filter((route) => route?.serviceId !== serviceId) || []);
