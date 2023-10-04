@@ -42,14 +42,14 @@ export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
         return Progress.editPendingApproval;
     }
 
-    if (!disruption.validity) {
+    if (!disruption.validity && !disruption.template) {
         return Progress.closed;
     }
 
     const today = getDate();
     const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-    if (!!disruptionEndDate) {
+    if (!!disruptionEndDate && !disruption.template) {
         return isClosingOrClosed(disruptionEndDate, today);
     }
 
