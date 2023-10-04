@@ -1,7 +1,7 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
@@ -31,7 +31,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { isOperatorConsequence, redirectTo } from "../../../utils";
+import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -312,7 +312,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceOperatorProps } | void> => {
+): Promise<{ props: CreateConsequenceOperatorProps } | { redirect: Redirect } | void> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
 
@@ -333,10 +333,12 @@ export const getServerSideProps = async (
     );
 
     if (!disruption) {
-        if (ctx.res) {
-            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
-        }
-        return;
+        return {
+            redirect: {
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                statusCode: 302,
+            },
+        };
     }
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
