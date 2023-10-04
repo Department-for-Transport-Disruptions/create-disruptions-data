@@ -27,3 +27,10 @@ export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
+
+export const routesSchema = z.object({
+    inbound: z.array(stopSchema.partial()),
+    outbound: z.array(stopSchema.partial()),
+});
+
+export type Routes = z.infer<typeof routesSchema>;

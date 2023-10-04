@@ -14,6 +14,10 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
     const { organisationsTableV2: organisationsTable, disruptionsTable } = use(DynamoDBStack);
 
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         customDomain: {
             domainName: `${subDomain}.${hostedZone.zoneName}`,
@@ -34,6 +38,7 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
                 environment: {
                     ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
                     DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                    API_BASE_URL: apiUrl,
                 },
                 permissions: ["dynamodb:Scan", "dynamodb:Query"],
             },

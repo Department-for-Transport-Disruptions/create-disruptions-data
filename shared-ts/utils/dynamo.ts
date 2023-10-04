@@ -7,8 +7,8 @@ import {
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
 import { makeZodArray } from "./zod";
-import { Disruption, Stop } from "../disruptionTypes";
-import { disruptionSchema } from "../disruptionTypes.zod";
+import { Disruption, Service } from "../disruptionTypes";
+import { disruptionSchema, serviceSchema, stopSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
 import {
     organisationSchemaWithStats,
@@ -16,14 +16,9 @@ import {
     organisationSchema,
     OrganisationWithStats,
     organisationStops,
+    organisationServices,
 } from "../organisationTypes";
-import { notEmpty } from "./index";
-
-type Logger = {
-    info: (message: string) => void;
-    error: (message: string | Error) => void;
-    warn: (message: string) => void;
-};
+import { Logger, notEmpty } from "./index";
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
@@ -271,32 +266,83 @@ export const getImpactedStopsInOrganisation = async (orgId: string, logger: Logg
             {
                 TableName: disruptionsTableName,
                 KeyConditionExpression: "PK=:orgId",
-                FilterExpression: "consequenceType IN (:stops)",
+                FilterExpression: "consequenceType IN (:stops,:services)",
                 ExpressionAttributeValues: {
                     ":orgId": orgId,
                     ":stops": "stops",
+                    ":services": "services",
                 },
                 ProjectionExpression: "stops",
             },
             logger,
         );
 
-        const parsedStops = makeZodArray(organisationStops).safeParse(dbDataInfo);
+        const uniqueStopIds = new Set();
+        const mapDataStops: [number, number][] = [];
+        dbDataInfo.map((item) => {
+            try {
+                const stopsList = organisationStops.parse(item);
 
-        if (!parsedStops.success) {
-            return null;
+                stopsList.stops.map((stops) => {
+                    const stop = stopSchema.parse(stops);
+                    if (!uniqueStopIds.has(stop.atcoCode)) {
+                        uniqueStopIds.add(stop.atcoCode);
+                        mapDataStops.push([stop.latitude, stop.longitude]);
+                    }
+                });
+            } catch (error) {
+                return null; // Return null for objects that fail validation
+            }
+        });
+
+        return mapDataStops;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
         }
 
-        const flattenedData: {
-            stops: Stop[][];
-        } = {
-            stops: parsedStops.data.reduce((accumulator, current) => {
-                accumulator.push(current.stops);
-                return accumulator;
-            }, [] as Stop[][]), // Initialize as an empty array of arrays
-        };
+        throw e;
+    }
+};
 
-        return flattenedData;
+export const getImpactedServicesInOrganisation = async (orgId: string, logger: Logger) => {
+    logger.info(`Getting organisation ${orgId} impacted services from DynamoDB table...`);
+    try {
+        const dbDataInfo = await recursiveQuery(
+            {
+                TableName: disruptionsTableName,
+                KeyConditionExpression: "PK=:orgId",
+                FilterExpression: "consequenceType IN (:services)",
+                ExpressionAttributeValues: {
+                    ":orgId": orgId,
+                    ":services": "services",
+                },
+                ProjectionExpression: "services",
+            },
+            logger,
+        );
+
+        const uniqueServiceIds = new Set();
+        const servicesData: Service[] = [];
+        dbDataInfo.map((item) => {
+            try {
+                const servicesList = organisationServices.parse(item); // Attempt to parse each object
+                servicesList.services.map((service) => {
+                    const serviceRecord = serviceSchema.parse(service);
+
+                    if (!uniqueServiceIds.has(serviceRecord.lineId)) {
+                        uniqueServiceIds.add(serviceRecord.lineId);
+                        servicesData.push(serviceRecord);
+                    }
+                });
+            } catch (error) {
+                return null; // Return null for objects that fail validation
+            }
+        });
+
+        return servicesData;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

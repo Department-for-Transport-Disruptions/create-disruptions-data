@@ -6,6 +6,7 @@
         "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts"
     },
     "dependencies": {
-        "dayjs": "^1.11.7"
+        "dayjs": "^1.11.7",
+        "node-fetch": "^3.3.2"
     }
 }
