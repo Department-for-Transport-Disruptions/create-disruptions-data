@@ -291,7 +291,7 @@ export const getImpactedStopsInOrganisation = async (orgId: string, logger: Logg
                     }
                 });
             } catch (error) {
-                return null; // Return null for objects that fail validation
+                logger.debug(`Error while parsing stops record. One of more stops record will be ignored`);
             }
         });
 
@@ -338,7 +338,7 @@ export const getImpactedServicesInOrganisation = async (orgId: string, logger: L
                     }
                 });
             } catch (error) {
-                return null; // Return null for objects that fail validation
+                logger.debug(`Error while parsing service records. One of more services record will be ignored`);
             }
         });
 
