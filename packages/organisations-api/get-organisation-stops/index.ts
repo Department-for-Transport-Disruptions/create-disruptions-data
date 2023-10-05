@@ -102,8 +102,8 @@ const getOrganisationStops = async (orgId: string) => {
                     fetchRoute(routesData?.outbound ?? []),
                 ]);
 
-                routesForMaps.push(inboundRoute);
-                routesForMaps.push(outboundRoute);
+                if (inboundRoute && inboundRoute.length > 0) routesForMaps.push(inboundRoute);
+                if (outboundRoute && outboundRoute.length > 0) routesForMaps.push(outboundRoute);
             }),
         );
 
