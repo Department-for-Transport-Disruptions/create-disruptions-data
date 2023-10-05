@@ -53,7 +53,9 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             },
             {
                 header: "Account name",
-                cells: [post.socialAccount],
+                cells: [
+                    post.display && post.accountType ? `${post.display} (${post.accountType})` : post.socialAccount,
+                ],
             },
             {
                 header: "HootSuite profile",
