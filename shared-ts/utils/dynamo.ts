@@ -7,21 +7,18 @@ import {
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
 import { makeZodArray } from "./zod";
-import { Disruption, Service } from "../disruptionTypes";
-import { disruptionSchema, serviceSchema, stopSchema } from "../disruptionTypes.zod";
+import { Disruption } from "../disruptionTypes";
+import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
 import {
     organisationSchemaWithStats,
     Organisation,
     organisationSchema,
     OrganisationWithStats,
-    organisationStops,
-    organisationServices,
 } from "../organisationTypes";
 import { Logger, notEmpty } from "./index";
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
-const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -120,17 +117,27 @@ export const recursiveQuery = async (
 export const getPublishedDisruptionsDataFromDynamo = async (
     tableName: string,
     logger: Logger,
+    orgId?: string,
 ): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const disruptions = await recursiveScan(
-        {
-            TableName: tableName,
-            FilterExpression: "publishStatus = :1",
-            ExpressionAttributeValues: {
-                ":1": PublishStatus.published,
-            },
-        },
+        orgId
+            ? {
+                  TableName: tableName,
+                  FilterExpression: "publishStatus = :1 AND PK = :2",
+                  ExpressionAttributeValues: {
+                      ":1": PublishStatus.published,
+                      ":2": orgId,
+                  },
+              }
+            : {
+                  TableName: tableName,
+                  FilterExpression: "publishStatus = :1",
+                  ExpressionAttributeValues: {
+                      ":1": PublishStatus.published,
+                  },
+              },
         logger,
     );
 
@@ -248,101 +255,6 @@ export const getOrganisationInfoAndStats = async (
         }
 
         return parsedOrgWithStats.data;
-    } catch (e) {
-        if (e instanceof Error) {
-            logger.error(e);
-
-            throw e;
-        }
-
-        throw e;
-    }
-};
-
-export const getImpactedStopsInOrganisation = async (orgId: string, logger: Logger) => {
-    logger.info(`Getting organisation ${orgId} impacted stops from DynamoDB table...`);
-    try {
-        const dbDataInfo = await recursiveQuery(
-            {
-                TableName: disruptionsTableName,
-                KeyConditionExpression: "PK=:orgId",
-                FilterExpression: "consequenceType IN (:stops,:services)",
-                ExpressionAttributeValues: {
-                    ":orgId": orgId,
-                    ":stops": "stops",
-                    ":services": "services",
-                },
-                ProjectionExpression: "stops",
-            },
-            logger,
-        );
-
-        const uniqueStopIds = new Set();
-        const mapDataStops: [number, number][] = [];
-        dbDataInfo.map((item) => {
-            try {
-                const stopsList = organisationStops.parse(item);
-
-                stopsList.stops.map((stops) => {
-                    const stop = stopSchema.parse(stops);
-                    if (!uniqueStopIds.has(stop.atcoCode)) {
-                        uniqueStopIds.add(stop.atcoCode);
-                        mapDataStops.push([stop.latitude, stop.longitude]);
-                    }
-                });
-            } catch (error) {
-                logger.debug(`Error while parsing stops record. One of more stops record will be ignored`);
-            }
-        });
-
-        return mapDataStops;
-    } catch (e) {
-        if (e instanceof Error) {
-            logger.error(e);
-
-            throw e;
-        }
-
-        throw e;
-    }
-};
-
-export const getImpactedServicesInOrganisation = async (orgId: string, logger: Logger) => {
-    logger.info(`Getting organisation ${orgId} impacted services from DynamoDB table...`);
-    try {
-        const dbDataInfo = await recursiveQuery(
-            {
-                TableName: disruptionsTableName,
-                KeyConditionExpression: "PK=:orgId",
-                FilterExpression: "consequenceType IN (:services)",
-                ExpressionAttributeValues: {
-                    ":orgId": orgId,
-                    ":services": "services",
-                },
-                ProjectionExpression: "services",
-            },
-            logger,
-        );
-
-        const uniqueServiceIds = new Set();
-        const servicesData: Service[] = [];
-        dbDataInfo.map((item) => {
-            try {
-                const servicesList = organisationServices.parse(item); // Attempt to parse each object
-                servicesList.services.map((service) => {
-                    const serviceRecord = serviceSchema.parse(service);
-
-                    if (!uniqueServiceIds.has(serviceRecord.lineId)) {
-                        uniqueServiceIds.add(serviceRecord.lineId);
-                        servicesData.push(serviceRecord);
-                    }
-                });
-            } catch (error) {
-                logger.debug(`Error while parsing service records. One of more services record will be ignored`);
-            }
-        });
-
-        return servicesData;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

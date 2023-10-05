@@ -25,13 +25,5 @@ export const statisticSchema = z.object({
 
 export const organisationSchemaWithStats = organisationSchema.and(z.object({ stats: statisticSchema }));
 
-export const organisationStops = z.object({
-    stops: z.array(z.unknown()),
-});
-
-export const organisationServices = z.object({
-    services: z.array(z.unknown()),
-});
-
 export type Organisation = z.infer<typeof organisationSchema>;
 export type OrganisationWithStats = z.infer<typeof organisationSchemaWithStats>;
