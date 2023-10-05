@@ -9,7 +9,7 @@ import { randomUUID } from "crypto";
 
 const fetchRoute = (routesData: Partial<Stop>[]) => {
     const routes =
-        routesData.map((route) => (route.latitude && route.longitude ? [route.latitude, route.longitude] : [])) ?? [];
+        routesData.map((route) => (route.latitude && route.longitude ? [route.longitude, route.latitude] : [])) ?? [];
 
     return routes;
 };
@@ -19,7 +19,7 @@ const getMapData = (stops: Stop[], uniqueStopIds: Set<string>) => {
         .map((stop) => {
             if (!uniqueStopIds.has(stop.atcoCode)) {
                 uniqueStopIds.add(stop.atcoCode);
-                return [stop.latitude, stop.longitude];
+                return [stop.longitude, stop.latitude];
             } else {
                 return null;
             }
