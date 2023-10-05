@@ -20,7 +20,6 @@ import {
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formParse } from "../../utils/apiUtils/fileUpload";
-import { defaultDateTime } from "../../utils/dates";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
