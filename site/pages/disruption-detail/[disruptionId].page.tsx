@@ -19,6 +19,7 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -26,7 +27,7 @@ import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
-import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, redirectTo, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -143,7 +144,7 @@ const DisruptionDetail = ({
                 header: "Publish date",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishDate : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -164,7 +165,7 @@ const DisruptionDetail = ({
                 header: "Publish time",
                 cells: [
                     {
-                        value: post.accountType === "Hootsuite" ? post.publishTime : "N/A",
+                        value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
                     },
                     {
                         value: isPendingOrRejected
@@ -371,21 +372,19 @@ const DisruptionDetail = ({
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
                 />
             ) : null}
-            {duplicateDisruptionPopUpState && csrfToken ? (
+            {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
                 <Popup
-                    action={`/api/duplicate-disruption${queryParams["template"] ? "?template=true" : ""}`}
+                    action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
                     hiddenInputs={duplicateDisruptionPopUpState.hiddenInputs}
                     continueText="Yes, duplicate"
                     cancelText="No, return"
-                    questionText={`Are you sure you wish to duplicate the ${
-                        queryParams["template"] ? "template" : "disruption"
-                    }?`}
+                    questionText="Are you sure you wish to duplicate the disruption?"
                 />
             ) : null}
             <CsrfForm
-                action={`/api/publish-edit${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/publish-edit${disruption.template ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >
@@ -393,16 +392,18 @@ const DisruptionDetail = ({
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template && disruption.publishStatus === PublishStatus.published && (
-                            <button
-                                key="create-disruption-from-template"
-                                className="govuk-button"
-                                data-module="govuk-button"
-                                formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
-                            >
-                                Create disruption
-                            </button>
-                        )}
+                        {disruption.template &&
+                            (disruption.publishStatus === PublishStatus.published ||
+                                disruption.publishStatus === PublishStatus.draft) && (
+                                <button
+                                    key="create-disruption-from-template"
+                                    className="govuk-button"
+                                    data-module="govuk-button"
+                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
+                                >
+                                    Create disruption
+                                </button>
+                            )}
                         {!disruption.template && (
                             <Link
                                 className="govuk-link"
@@ -864,7 +865,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (!disruption) {
-        throw new Error("Disruption not found for disruption detail page");
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
     }
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];

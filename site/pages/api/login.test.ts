@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import login from "./login.api";
 import {
     COOKIES_LOGIN_ERRORS,
+    COOKIES_LOGIN_REDIRECT,
     DASHBOARD_PAGE_PATH,
     ERROR_PATH,
     LOGIN_PAGE_PATH,
@@ -91,7 +92,7 @@ describe("login", () => {
 
         await login(req, res);
 
-        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(2);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
@@ -204,5 +205,45 @@ describe("login", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: LOGIN_PAGE_PATH });
+    });
+
+    it("should redirect to correct page if login redirect cookie is set", async () => {
+        initiateAuthSpy.mockImplementation(() =>
+            Promise.resolve({
+                $metadata: {},
+                AuthenticationResult: {
+                    IdToken: "test",
+                    RefreshToken: "test",
+                },
+            }),
+        );
+
+        schemaSpy.mockImplementation(() => ({
+            username: "dummy-user",
+            email: "dummuser@gmail.com",
+            orgId: randomUUID(),
+            name: "dummy",
+            isSystemAdmin: false,
+            isOrgAdmin: false,
+            isOrgPublisher: true,
+            isOrgStaff: false,
+        }));
+
+        const redirectUrl = "https://test-redirect.example.com";
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                email: "dummyUser@gmail.com",
+                password: "dummyPassword",
+            },
+            cookieValues: {
+                [COOKIES_LOGIN_REDIRECT]: redirectUrl,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await login(req, res);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: redirectUrl });
     });
 });

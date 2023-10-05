@@ -170,7 +170,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         )}
                     </div>
 
-                    {accountType === "Hootsuite" && (
+                    {accountType === "Hootsuite" && !queryParams["template"] && (
                         <div className="govuk-form-group">
                             <h2 className="govuk-heading-l">Publish time and date</h2>
 
@@ -212,7 +212,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}`}
+                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                                queryParams["template"] ? "?template=true" : ""
+                            }`}
                             className="govuk-button  mt-8 ml-5 govuk-button--secondary"
                         >
                             Back

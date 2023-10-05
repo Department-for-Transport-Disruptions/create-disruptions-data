@@ -8,10 +8,15 @@ import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import { COOKIES_CONSEQUENCE_TYPE_ERRORS, CONSEQUENCE_TYPES } from "../../../constants/index";
+import {
+    COOKIES_CONSEQUENCE_TYPE_ERRORS,
+    CONSEQUENCE_TYPES,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
+} from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
+import { redirectTo } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
@@ -113,11 +118,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         session.orgId,
         !!ctx.query.template,
     );
-    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
     if (!disruption) {
-        throw new Error("Disruption not found for consequence type page");
+        if (ctx.res) {
+            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
+        }
+        return;
     }
+
+    const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_TYPE_ERRORS, ctx.res);
 

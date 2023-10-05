@@ -37,6 +37,10 @@ export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORM
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
 
+export const formatAndDefaultDateTime = (addMinutes = 6) => {
+    return dayjs().add(addMinutes, "minutes").toISOString();
+};
+
 export const getEndingOnDateText = (
     disruptionRepeats: string | undefined,
     disruptionRepeatsEndDate: string | undefined,

@@ -117,13 +117,13 @@ describe("create-social-media-post API", () => {
 
     it("should redirect to /review-disruption when all required inputs are passed and social media post is a template", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation },
+            body: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
             query: { template: "true" },
             mockWriteHeadFn: writeHeadMock,
         });
 
         formParseSpy.mockResolvedValue({
-            fields: previousCreateSocialMediaPostInformation,
+            fields: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
             files: [],
         });
 
@@ -134,6 +134,8 @@ describe("create-social-media-post API", () => {
         expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
             {
                 ...previousCreateSocialMediaPostInformation,
+                publishDate: "",
+                publishTime: "",
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,

@@ -1,6 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
-import { zodDate, zodTime } from "@create-disruptions-data/shared-ts/utils/zod";
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError } from "../utils";
@@ -29,8 +28,8 @@ const baseSchema = {
 const hootsuiteSchema = z.object({
     ...baseSchema,
     hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")),
-    publishDate: zodDate("Enter a publish date for the social media post"),
-    publishTime: zodTime("Enter a publish time for the social media post"),
+    publishDate: z.string().optional(),
+    publishTime: z.string().optional(),
     image: socialMediaImageSchema.optional(),
     accountType: z.literal("Hootsuite"),
 });
@@ -51,11 +50,11 @@ export const refineImageSchema = socialMediaPostSchema
         path: ["hootsuiteProfile"],
         message: "Select a Hootsuite profile",
     })
-    .refine((item) => (item.accountType === "Hootsuite" ? !!item.publishDate : true), {
+    .refine((item) => (item.accountType === "Hootsuite" && !!item.publishTime ? !!item.publishDate : true), {
         path: ["publishDate"],
         message: "Enter a publish date for the social media post",
     })
-    .refine((item) => (item.accountType === "Hootsuite" ? !!item.publishTime : true), {
+    .refine((item) => (item.accountType === "Hootsuite" && !!item.publishDate ? !!item.publishTime : true), {
         path: ["publishTime"],
         message: "Enter a publish time for the social media post",
     })
@@ -76,10 +75,8 @@ export const refineImageSchema = socialMediaPostSchema
     )
     .refine(
         (item) =>
-            item.accountType === "Hootsuite"
-                ? item.publishDate &&
-                  item.publishTime &&
-                  isAtLeast5MinutesAfter(getDatetimeFromDateAndTime(item.publishDate, item.publishTime))
+            item.accountType === "Hootsuite" && item.publishDate && item.publishTime
+                ? isAtLeast5MinutesAfter(getDatetimeFromDateAndTime(item.publishDate, item.publishTime))
                 : true,
         {
             path: ["publishDate"],

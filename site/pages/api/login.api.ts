@@ -1,9 +1,11 @@
 import { NotAuthorizedException, PasswordResetRequiredException } from "@aws-sdk/client-cognito-identity-provider";
 import { decodeJwt } from "jose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { parseCookies } from "nookies";
 import {
     COOKIES_ID_TOKEN,
     COOKIES_LOGIN_ERRORS,
+    COOKIES_LOGIN_REDIRECT,
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
@@ -63,7 +65,14 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH);
             return;
         }
-        redirectTo(res, DASHBOARD_PAGE_PATH);
+
+        const cookies = parseCookies({ req });
+
+        const loginRedirect = cookies[COOKIES_LOGIN_REDIRECT];
+
+        destroyCookieOnResponseObject(COOKIES_LOGIN_REDIRECT, res);
+
+        redirectTo(res, loginRedirect ?? DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof NotAuthorizedException) {

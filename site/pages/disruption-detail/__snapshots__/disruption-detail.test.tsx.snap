@@ -1879,7 +1879,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/api/publish-edit"
+        action="/api/publish-edit?template=true"
         method="post"
       >
         <input
@@ -3696,7 +3696,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <form
-        action="/api/publish-edit"
+        action="/api/publish-edit?template=true"
         method="post"
       >
         <input
