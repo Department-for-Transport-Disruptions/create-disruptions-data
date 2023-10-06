@@ -1,4 +1,10 @@
-import { Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    Disruption,
+    Service,
+    ServiceGeoJSON,
+    Stop,
+    Validity,
+} from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { fetchServiceRoutes } from "@create-disruptions-data/shared-ts/utils/refDataApi";
@@ -19,7 +25,17 @@ const getMapData = (stops: Stop[], uniqueStopIds: Set<string>) => {
         .map((stop) => {
             if (!uniqueStopIds.has(stop.atcoCode)) {
                 uniqueStopIds.add(stop.atcoCode);
-                return [stop.longitude, stop.latitude];
+                return {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [stop.longitude, stop.latitude],
+                    },
+                    properties: {
+                        atco_code: stop.atcoCode,
+                        common_name: stop.commonName,
+                    },
+                };
             } else {
                 return null;
             }
@@ -27,13 +43,78 @@ const getMapData = (stops: Stop[], uniqueStopIds: Set<string>) => {
         .filter((data) => data);
 };
 
+const getGeoJson = (coordinates: number[][], service: Service) => {
+    return {
+        type: "Feature",
+        geometry: {
+            type: "LineString",
+            coordinates: coordinates,
+        },
+        properties: {
+            service_line_id: service.lineId,
+            destination: service.destination,
+            origin: service.origin,
+            service_line_name: service.lineName,
+            service_noc_code: service.nocCode,
+            service_operator: service.operatorShortName,
+            service_code: service.serviceCode,
+        },
+    };
+};
+
+const getMaxEndDate = (validities: Validity[] | undefined) => {
+    let maxEndDate: Dayjs | undefined = undefined;
+
+    validities?.map((validity) => {
+        const endDate = validity.disruptionRepeatsEndDate
+            ? getFormattedDate(validity.disruptionRepeatsEndDate)
+            : validity.disruptionEndDate
+            ? getFormattedDate(validity.disruptionEndDate)
+            : undefined;
+
+        if (!maxEndDate) maxEndDate = endDate;
+
+        if (endDate && endDate.isAfter(maxEndDate)) {
+            maxEndDate = endDate;
+        }
+    });
+    return maxEndDate;
+};
+
+const getStopsFromDisruptions = (disruptions: Disruption[]) => {
+    const uniqueStopIds = new Set<string>();
+    return disruptions.flatMap((disruption) =>
+        (disruption.consequences || []).flatMap((consequence) =>
+            (consequence.consequenceType === "stops" && consequence.stops) ||
+            (consequence.consequenceType === "services" && consequence.stops)
+                ? getMapData(consequence.stops, uniqueStopIds)
+                : [],
+        ),
+    );
+};
+
+const getServicesFromDisruptions = (disruptions: Disruption[]) => {
+    const uniqueServiceIds = new Set<string>();
+
+    return disruptions.flatMap((disruption) =>
+        (disruption.consequences || []).flatMap((consequence) =>
+            consequence.consequenceType === "services"
+                ? consequence.services.filter((service) => {
+                      if (!uniqueServiceIds.has(service.lineId)) {
+                          uniqueServiceIds.add(service.lineId);
+                          return true;
+                      }
+                      return false;
+                  })
+                : [],
+        ),
+    );
+};
+
 const getOrganisationStops = async (orgId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
         const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger, orgId);
-
-        const uniqueStopIds = new Set<string>();
-        const uniqueServiceIds = new Set<string>();
 
         const activeAndPublishedDisruptions = disruptions.filter((disruption) => {
             const currentDate = getDate();
@@ -50,49 +131,17 @@ const getOrganisationStops = async (orgId: string) => {
                 disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
             });
 
-            let maxEndDate: Dayjs | undefined = undefined;
-
-            mergedValidities?.map((validity) => {
-                const endDate = validity.disruptionRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
-                    : validity.disruptionEndDate
-                    ? getFormattedDate(validity.disruptionEndDate)
-                    : undefined;
-
-                if (!maxEndDate) maxEndDate = endDate;
-
-                if (endDate && endDate.isAfter(maxEndDate)) {
-                    maxEndDate = endDate;
-                }
-            });
+            const maxEndDate = getMaxEndDate(mergedValidities);
 
             return startDate.isSameOrBefore(currentDate) && (maxEndDate ? currentDate.isBefore(maxEndDate) : true);
         });
 
-        const stops = activeAndPublishedDisruptions.flatMap((disruption) =>
-            (disruption.consequences || []).flatMap((consequence) =>
-                (consequence.consequenceType === "stops" && consequence.stops) ||
-                (consequence.consequenceType === "services" && consequence.stops)
-                    ? getMapData(consequence.stops, uniqueStopIds)
-                    : [],
-            ),
-        );
+        const [stops, services] = await Promise.all([
+            getStopsFromDisruptions(activeAndPublishedDisruptions),
+            getServicesFromDisruptions(activeAndPublishedDisruptions),
+        ]);
 
-        const services = activeAndPublishedDisruptions.flatMap((disruption) =>
-            (disruption.consequences || []).flatMap((consequence) =>
-                consequence.consequenceType === "services"
-                    ? consequence.services.filter((service) => {
-                          if (!uniqueServiceIds.has(service.lineId)) {
-                              uniqueServiceIds.add(service.lineId);
-                              return true;
-                          }
-                          return false;
-                      })
-                    : [],
-            ),
-        );
-
-        const routesForMaps: number[][][] = [];
+        const routesForMaps: ServiceGeoJSON[] = [];
         await Promise.all(
             services.map(async (service) => {
                 const routesData = await fetchServiceRoutes(service.id, logger);
@@ -102,8 +151,12 @@ const getOrganisationStops = async (orgId: string) => {
                     fetchRoute(routesData?.outbound ?? []),
                 ]);
 
-                if (inboundRoute && inboundRoute.length > 0) routesForMaps.push(inboundRoute);
-                if (outboundRoute && outboundRoute.length > 0) routesForMaps.push(outboundRoute);
+                const inboundGeoJSON: ServiceGeoJSON = getGeoJson(inboundRoute, service);
+
+                const outboundGeoJSON: ServiceGeoJSON = getGeoJson(outboundRoute, service);
+
+                if (inboundRoute && inboundRoute.length > 0) routesForMaps.push(inboundGeoJSON);
+                if (outboundRoute && outboundRoute.length > 0) routesForMaps.push(outboundGeoJSON);
             }),
         );
 
