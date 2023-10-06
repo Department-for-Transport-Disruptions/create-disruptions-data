@@ -312,6 +312,9 @@ export const publishToHootsuite = async (
     accessToken: string,
 ) => {
     try {
+        if (!accessToken) {
+            throw new Error("Not authenticated to Hootsuite");
+        }
         let image: HootsuiteMedia | null = null;
 
         if (socialMediaPost.image) {

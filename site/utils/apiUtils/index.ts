@@ -1,6 +1,7 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
+import { TwitterApi } from "twitter-api-v2";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
 import { notEmpty } from "..";
@@ -14,7 +15,7 @@ import {
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
 import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
-import { sendTweet } from "../../data/twitter";
+import { getAuthedTwitterClient, sendTweet } from "../../data/twitter";
 import { PageState } from "../../interfaces";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import logger from "../logger";
@@ -131,31 +132,46 @@ export const publishSocialMedia = async (
     isUserStaff: boolean,
     canPublish: boolean,
 ) => {
-    const socialMediaPostsById = socialMediaPosts.reduce(
-        (acc: Record<string, SocialMediaPost[]>, obj: SocialMediaPost) => {
-            const group = obj.socialAccount;
-            if (!acc[group]) {
-                acc[group] = [];
+    const accessTokensTwitter = {} as { [key: string]: TwitterApi | null };
+    const accessTokensHootsuite = {} as { [key: string]: string };
+    const uniqueTwitterSocialAccounts = new Set<string>();
+    const uniqueHootsuiteSocialAccounts = new Set<string>();
+
+    socialMediaPosts.forEach((post) => {
+        if (post.accountType === "Twitter") {
+            uniqueTwitterSocialAccounts.add(post.socialAccount);
+        } else {
+            uniqueHootsuiteSocialAccounts.add(post.socialAccount);
+        }
+    });
+
+    const accessTokenPromisesHootsuite = [...uniqueHootsuiteSocialAccounts].map(async (socialAccount) => {
+        if (!accessTokensHootsuite[socialAccount]) {
+            const accessToken = await getAccessToken(orgId, socialAccount);
+            accessTokensHootsuite[socialAccount] = accessToken;
+        }
+    });
+
+    const accessTokenPromisesTwitter = [...uniqueTwitterSocialAccounts].map(async (socialAccount) => {
+        if (!accessTokensHootsuite[socialAccount]) {
+            const accessToken = await getAuthedTwitterClient(orgId, socialAccount);
+            accessTokensTwitter[socialAccount] = accessToken;
+        }
+    });
+
+    await Promise.all(accessTokenPromisesHootsuite);
+    await Promise.all(accessTokenPromisesTwitter);
+
+    const socialMediaPromises = socialMediaPosts.map((post) => {
+        if (post.status === SocialMediaPostStatus.pending) {
+            if (post.accountType === "Twitter") {
+                return sendTweet(orgId, post, isUserStaff, canPublish, accessTokensTwitter[post.socialAccount]);
             }
-            acc[group].push(obj);
-            return acc;
-        },
-        {},
-    );
 
-    const socialMediaPromises = Object.values(socialMediaPostsById).map(async (posts) => {
-        const accessToken = await getAccessToken(orgId, posts[0].socialAccount);
-        posts.map((post) => {
-            if (post.status === SocialMediaPostStatus.pending) {
-                if (post.accountType === "Twitter") {
-                    return sendTweet(orgId, post, isUserStaff, canPublish);
-                }
+            return publishToHootsuite(post, orgId, isUserStaff, canPublish, accessTokensHootsuite[post.socialAccount]);
+        }
 
-                return publishToHootsuite(post, orgId, isUserStaff, canPublish, accessToken);
-            }
-
-            return null;
-        });
+        return null;
     });
 
     await Promise.all(socialMediaPromises);

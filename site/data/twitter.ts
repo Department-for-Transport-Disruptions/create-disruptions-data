@@ -115,10 +115,14 @@ export const getAuthedTwitterClient = async (orgId: string, socialId: string) =>
     }
 };
 
-export const sendTweet = async (orgId: string, post: TwitterPost, isUserStaff: boolean, canPublish: boolean) => {
+export const sendTweet = async (
+    orgId: string,
+    post: TwitterPost,
+    isUserStaff: boolean,
+    canPublish: boolean,
+    authedClient: TwitterApi | null,
+) => {
     try {
-        const authedClient = await getAuthedTwitterClient(orgId, post.socialAccount);
-
         if (!authedClient) {
             throw new Error("Not authenticated to twitter");
         }
