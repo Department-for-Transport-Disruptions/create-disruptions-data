@@ -5,7 +5,7 @@ import {
     stopSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
@@ -29,6 +29,7 @@ import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
@@ -725,7 +726,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceServicesProps } | void> => {
+): Promise<{ props: CreateConsequenceServicesProps } | { redirect: Redirect } | void> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
@@ -746,7 +747,12 @@ export const getServerSideProps = async (
     );
 
     if (!disruption) {
-        throw new Error("No disruption found for operator consequence page");
+        return {
+            redirect: {
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                statusCode: 302,
+            },
+        };
     }
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;

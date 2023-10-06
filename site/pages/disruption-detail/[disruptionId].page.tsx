@@ -1,7 +1,7 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
@@ -27,7 +27,7 @@ import { getItem } from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
-import { getLargestConsequenceIndex, redirectTo, splitCamelCaseToString } from "../../utils";
+import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
@@ -833,7 +833,9 @@ const DisruptionDetail = ({
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: DisruptionDetailProps } | void> => {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: DisruptionDetailProps } | { redirect: Redirect } | void> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
@@ -865,10 +867,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     if (!disruption) {
-        if (ctx.res) {
-            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
-        }
-        return;
+        return {
+            redirect: {
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                statusCode: 302,
+            },
+        };
     }
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
