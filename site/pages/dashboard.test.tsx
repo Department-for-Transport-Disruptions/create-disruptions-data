@@ -207,7 +207,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    
                 });
             });
 
@@ -237,7 +236,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    
                 });
             });
 
@@ -270,7 +268,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    
                 });
             });
 
@@ -311,7 +308,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    
                 });
             });
 
@@ -376,7 +372,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    
                 });
             });
         });

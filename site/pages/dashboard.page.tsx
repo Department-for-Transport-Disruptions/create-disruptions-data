@@ -100,7 +100,6 @@ const Dashboard = ({
     pendingApprovalCount,
     canPublish,
     orgName,
-    stage,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
