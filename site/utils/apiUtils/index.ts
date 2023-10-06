@@ -13,7 +13,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
-import { publishToHootsuite } from "../../data/hootsuite";
+import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
 import { sendTweet } from "../../data/twitter";
 import { PageState } from "../../interfaces";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
@@ -131,16 +131,31 @@ export const publishSocialMedia = async (
     isUserStaff: boolean,
     canPublish: boolean,
 ) => {
-    const socialMediaPromises = socialMediaPosts.map((post) => {
-        if (post.status === SocialMediaPostStatus.pending) {
-            if (post.accountType === "Twitter") {
-                return sendTweet(orgId, post, isUserStaff, canPublish);
+    const socialMediaPostsById = socialMediaPosts.reduce(
+        (acc: Record<string, SocialMediaPost[]>, obj: SocialMediaPost) => {
+            const group = obj.socialAccount;
+            if (!acc[group]) {
+                acc[group] = [];
+            }
+            acc[group].push(obj);
+            return acc;
+        },
+        {},
+    );
+
+    const socialMediaPromises = Object.values(socialMediaPostsById).map(async (posts) => {
+        const accessToken = await getAccessToken(orgId, posts[0].socialAccount);
+        posts.map((post) => {
+            if (post.status === SocialMediaPostStatus.pending) {
+                if (post.accountType === "Twitter") {
+                    return sendTweet(orgId, post, isUserStaff, canPublish);
+                }
+
+                return publishToHootsuite(post, orgId, isUserStaff, canPublish, accessToken);
             }
 
-            return publishToHootsuite(post, orgId, isUserStaff, canPublish);
-        }
-
-        return null;
+            return null;
+        });
     });
 
     await Promise.all(socialMediaPromises);

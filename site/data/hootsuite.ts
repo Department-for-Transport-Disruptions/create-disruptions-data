@@ -309,9 +309,9 @@ export const publishToHootsuite = async (
     orgId: string,
     isUserStaff: boolean,
     canPublish: boolean,
+    accessToken: string,
 ) => {
     try {
-        const accessToken = await getAccessToken(orgId, socialMediaPost.socialAccount);
         let image: HootsuiteMedia | null = null;
 
         if (socialMediaPost.image) {
