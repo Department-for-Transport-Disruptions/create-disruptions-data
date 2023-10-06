@@ -45,7 +45,7 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
                 socialMediaPostIndex: Number(id),
                 isDeleted: true,
             };
-            await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff, template === "true");
+            await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff, false, template === "true");
 
             redirectToWithQueryParams(
                 req,

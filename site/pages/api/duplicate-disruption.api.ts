@@ -13,6 +13,7 @@ import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocia
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
+import { defaultDateTime } from "../../utils/dates";
 
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -105,7 +106,19 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         if (draftDisruption.socialMediaPosts) {
             await Promise.all(
                 draftDisruption.socialMediaPosts.map(async (socialMediaPost) => {
-                    await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff);
+                    await upsertSocialMediaPost(
+                        {
+                            ...socialMediaPost,
+                            ...(socialMediaPost.accountType === "Hootsuite"
+                                ? { publishDate: socialMediaPost.publishDate || defaultDateTime().date }
+                                : {}),
+                            ...(socialMediaPost.accountType === "Hootsuite"
+                                ? { publishTime: socialMediaPost.publishTime || defaultDateTime().time }
+                                : {}),
+                        },
+                        session.orgId,
+                        session.isOrgStaff,
+                    );
                 }),
             );
         }

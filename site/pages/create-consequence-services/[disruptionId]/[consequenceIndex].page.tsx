@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { SingleValue, createFilter } from "react-select";
+import { createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -26,16 +26,16 @@ import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/ServicesMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
-    DISRUPTION_SEVERITIES,
-    VEHICLE_MODES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    DISRUPTION_SEVERITIES,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServiceStops, fetchServices } from "../../../data/refDataApi";
+import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Routes } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
@@ -161,9 +161,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
 
-    const handleStopChange = (value: SingleValue<Stop>) => {
+    const handleStopChange = async (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
-            addStop(value);
+            await addStop(value);
         }
         setSelected(null);
     };
@@ -208,7 +208,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         return [];
     };
 
-    const addStop = (stopToAdd: SingleValue<Stop>) => {
+    const addStop = async (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
 
         if (!parsed.success) {
@@ -221,11 +221,51 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
+                const servicesForGivenStop = await fetchServicesByStops({
+                    atcoCodes: [stopToAdd.atcoCode],
+                    includeRoutes: true,
+                    dataSource: dataSource,
+                });
+
+                stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
+
+                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => {
+                    return {
+                        inbound: service.routes.inbound,
+                        outbound: service.routes.outbound,
+                        serviceId: service.id,
+                    };
+                });
+
+                const servicesRoutesForMap = [...searched, ...servicesRoutesForGivenStop].filter(
+                    (value, index, self) =>
+                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                );
+
+                const stopsForServicesRoutes = (
+                    await Promise.all(
+                        servicesRoutesForMap.map(async (service) => {
+                            if (service) {
+                                return await fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                            }
+                            return [];
+                        }),
+                    )
+                ).flat();
+
+                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes].filter(
+                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
+                );
+
+                setSearchedOptions(servicesRoutesForMap);
+                setStopOptions(stopsForMap);
+
                 setPageState({
                     ...pageState,
                     inputs: {
                         ...pageState.inputs,
                         stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
+                        services: filterServices([...(pageState.inputs.services ?? []), ...servicesForGivenStop]),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -289,7 +329,16 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             setStopOptions([]);
             setSearchedOptions([]);
             setSelectedService(null);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    stops: [],
+                },
+                errors: pageState.errors,
+            });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
     const fetchData = async (source: Datasource, vehicleMode: string) => {
@@ -344,36 +393,44 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
-        const selectedServiceIds = services.map((s) => s.id);
-
-        return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
-    };
-
-    const removeService = (e: SyntheticEvent, serviceId: number) => {
+    const removeService = async (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
-            const newServices = [...pageState.inputs.services].filter((service) => service.id !== serviceId);
+            const updatedServicesArray = [...pageState.inputs.services].filter(
+                (service) => service.id !== removedServiceId,
+            );
+
+            const stopsWithServiceRemoved = pageState.inputs?.stops?.map((stop) => {
+                return stop.serviceIds?.includes(removedServiceId)
+                    ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
+                    : stop;
+            });
+
+            const filteredStops = stopsWithServiceRemoved?.filter((stop) => stop.serviceIds?.length !== 0);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    ...(pageState.inputs.stops && {
-                        stops: [...pageState.inputs.stops].filter((stop) =>
-                            findStopsNotToRemove(stop, serviceId, newServices),
-                        ),
-                    }),
-                    services: newServices,
+                    stops: filteredStops,
+                    services: updatedServicesArray,
                 },
                 errors: pageState.errors,
             });
 
-            setStopOptions(stopOptions.filter((stop) => findStopsNotToRemove(stop, serviceId, newServices)));
+            const updatedStopOptions = (
+                await Promise.all(
+                    updatedServicesArray.map(async (service) => {
+                        return await fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
+                    }),
+                )
+            ).flat();
+
+            setStopOptions(sortAndFilterStops(updatedStopOptions));
         }
 
-        setSearchedOptions(searched.filter((route) => route?.serviceId !== serviceId) || []);
+        setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
         setSelectedService(null);
     };
 
@@ -386,7 +443,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         id={`remove-service-${service.id}`}
                         key={`remove-service-${service.id}`}
                         className="govuk-link"
-                        onClick={(e) => removeService(e, service.id)}
+                        onClick={(e) => Promise.resolve(removeService(e, service.id))}
                     >
                         Remove
                     </button>,

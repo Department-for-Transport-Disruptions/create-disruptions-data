@@ -159,6 +159,9 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs", () => {
+            useRouter.mockImplementation(() => ({
+                query: { disruptionId: withInputs.disruptionId },
+            }));
             const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -170,7 +173,7 @@ describe("pages", () => {
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
-                query: { return: "/review-disruption" },
+                query: { return: "/review-disruption", disruptionId: withInputs.disruptionId },
             }));
             const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
@@ -196,6 +199,9 @@ describe("pages", () => {
         });
 
         it("should render correctly when global datasource does not match consequence datasource", () => {
+            useRouter.mockImplementation(() => ({
+                query: { disruptionId: withInputs.disruptionId },
+            }));
             const inputs: CreateConsequenceServicesProps = {
                 ...withInputs,
                 consequenceDataSource: Datasource.tnds,
