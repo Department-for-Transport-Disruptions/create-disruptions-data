@@ -109,7 +109,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -126,7 +125,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -143,7 +141,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -160,7 +157,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -177,7 +173,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
