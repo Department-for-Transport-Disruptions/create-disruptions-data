@@ -17,18 +17,16 @@
         "@types/node": "^20.5.6",
         "@types/xml2js": "^0.4.11",
         "aws-sdk-client-mock": "^2.1.0",
-        "dayjs": "^1.11.7",
-        "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.272.0",
+        "@aws-sdk/client-s3": "^3.425.0",
         "@create-disruptions-data/shared-ts": "file:../../shared-ts",
         "crypto-random-string": "^5.0.0",
+        "dayjs": "^1.11.7",
         "js2xmlparser": "^5.0.0",
         "lambda-log": "^3.1.0",
         "node-fetch": "^3.3.2",
-        "sst": "^2.0.18",
         "uuid": "^9.0.0",
         "xml-formatter": "^3.3.0"
     }

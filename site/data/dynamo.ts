@@ -725,7 +725,7 @@ export const getDisruptionById = async (
         logger,
     );
 
-    if (!disruptionItems) {
+    if (!disruptionItems || disruptionItems.length === 0) {
         return null;
     }
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
@@ -901,6 +901,7 @@ export const getDisruptionById = async (
     if (!parsedDisruption.success) {
         logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+
         return null;
     }
     return parsedDisruption.data;

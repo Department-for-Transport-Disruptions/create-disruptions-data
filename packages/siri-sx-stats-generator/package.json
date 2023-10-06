@@ -12,12 +12,10 @@
         "@types/aws-lambda": "^8.10.110",
         "@types/lambda-log": "^2.2.1",
         "@types/node": "^18.13.0",
-        "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
         "@create-disruptions-data/shared-ts": "file:../../shared-ts",
-        "lambda-log": "^3.1.0",
-        "sst": "^2.0.18"
+        "lambda-log": "^3.1.0"
     }
 }
