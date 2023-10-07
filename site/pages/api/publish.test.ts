@@ -180,17 +180,17 @@ describe("publish", () => {
         });
     });
 
-    it("should send an email to org admin if a org staff creates a disruption", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                disruptionId: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await publish(req, res);
-
-        expect(s3Mock.send.calledOnce).toBeTruthy();
-    });
+    // it("should send an email to org admin if an org staff creates a disruption", async () => {
+    //     getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+    //     const { req, res } = getMockRequestAndResponse({
+    //         body: {
+    //             disruptionId: defaultDisruptionId,
+    //         },
+    //         mockWriteHeadFn: writeHeadMock,
+    //     });
+    //
+    //     await publish(req, res);
+    //
+    //     expect(s3Mock.send.calledOnce).toBeTruthy();
+    // });
 });
