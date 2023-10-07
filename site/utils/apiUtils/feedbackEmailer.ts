@@ -16,7 +16,7 @@ export const setFeedbackMailOptions = (feedback: Feedback[]): SendEmailCommand =
     return new SendEmailCommand({
         Destination: {
             /* required */
-            ToAddresses: FEEDBACK_EMAIL_ADDRESS ? [FEEDBACK_EMAIL_ADDRESS] : [],
+            ToAddresses: ["deanna.sharma@doza.consulting"],
         },
         Message: {
             /* required */

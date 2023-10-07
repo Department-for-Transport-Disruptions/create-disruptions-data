@@ -1,4 +1,6 @@
+import { S3Client } from "@aws-sdk/client-s3";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { mockClient } from "aws-sdk-client-mock";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publish from "./publish.api";
@@ -22,6 +24,8 @@ const orgInfo: Organisation = {
     adminAreaCodes: ["001", "002"],
     mode: defaultModes,
 };
+
+const s3Mock = mockClient(S3Client);
 describe("publish", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
@@ -51,6 +55,7 @@ describe("publish", () => {
 
     beforeEach(() => {
         getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
+        s3Mock.reset();
     });
 
     afterEach(() => {
@@ -173,5 +178,19 @@ describe("publish", () => {
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
+    });
+
+    it("should send an email to org admin if a org staff creates a disruption", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publish(req, res);
+
+        expect(s3Mock.send.calledOnce).toBeTruthy();
     });
 });

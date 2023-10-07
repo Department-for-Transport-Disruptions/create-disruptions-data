@@ -1,3 +1,4 @@
+import { SESClient } from "@aws-sdk/client-ses";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -7,13 +8,14 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
+import { getAllUsersInGroup } from "../../data/cognito";
 import {
     getDisruptionById,
     getOrganisationInfoById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, notEmpty } from "../../utils";
 import {
     cleardownCookies,
     publishSocialMedia,
@@ -23,7 +25,10 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
+import { createDisruptionApprovalEmail } from "../../utils/apiUtils/disruptionApprovalEmailer";
 import logger from "../../utils/logger";
+
+const sesClient = new SESClient({ region: "eu-west-2" });
 
 const publish = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -102,6 +107,29 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         cleardownCookies(req, res);
+
+        if (session.isOrgStaff) {
+            const orgAdminsForAllOrgs = await getAllUsersInGroup("org-admins");
+
+            const orgAdminEmailsForStaffOrg = orgAdminsForAllOrgs
+                .map((user) => {
+                    if (user.Attributes?.some((attribute) => attribute.Value === session.orgId)) {
+                        const emailIndex = user.Attributes?.findIndex((attribute) => attribute.Name === "email");
+                        return user.Attributes[emailIndex].Value;
+                    }
+                    return;
+                })
+                .filter(notEmpty);
+
+            const disruptionApprovalEmail = createDisruptionApprovalEmail(
+                validatedDisruptionBody.data.summary,
+                validatedDisruptionBody.data.description,
+                session.name,
+                validatedDisruptionBody.data.disruptionId,
+                orgAdminEmailsForStaffOrg,
+            );
+            await sesClient.send(disruptionApprovalEmail);
+        }
 
         redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
         return;
