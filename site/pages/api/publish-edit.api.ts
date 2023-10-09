@@ -21,9 +21,10 @@ import {
     getOrganisationInfoById,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
-import { flattenZodErrors, notEmpty } from "../../utils";
+import { flattenZodErrors } from "../../utils";
 import {
     cleardownCookies,
+    getOrgAdminEmailsForStaffUserOrg,
     publishSocialMedia,
     redirectTo,
     redirectToError,
@@ -150,18 +151,16 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
 
         cleardownCookies(req, res);
 
-        if (session.isOrgStaff) {
+        if (session.isOrgStaff && !template) {
             const orgAdminsForAllOrgs = await getAllUsersInGroup("org-admins");
 
-            const orgAdminEmailsForStaffOrg = orgAdminsForAllOrgs
-                .map((user) => {
-                    if (user.Attributes?.some((attribute) => attribute.Value === session.orgId)) {
-                        const emailIndex = user.Attributes?.findIndex((attribute) => attribute.Name === "email");
-                        return user.Attributes[emailIndex].Value;
-                    }
-                    return;
-                })
-                .filter(notEmpty);
+            const orgAdminEmailsForStaffOrg = getOrgAdminEmailsForStaffUserOrg(orgAdminsForAllOrgs, session.orgId);
+
+            if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
+                logger.error(`No organisation admins found for Org Id ${session.orgId}`);
+                redirectTo(res, DASHBOARD_PAGE_PATH);
+                return;
+            }
 
             const disruptionApprovalEmail = createDisruptionApprovalEmail(
                 validatedDisruptionBody.data.summary,

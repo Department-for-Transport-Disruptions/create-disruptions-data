@@ -1,8 +1,11 @@
+import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { mockClient } from "aws-sdk-client-mock";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
+import { describe, it, expect, afterEach, vi, afterAll, beforeEach, beforeAll } from "vitest";
 import publishEdit from "./publish-edit.api";
-import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import * as cognito from "../../data/cognito";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -13,6 +16,7 @@ import {
     getMockRequestAndResponse,
     mockSession,
     disruptionWithConsequences,
+    mockOrgAdmins,
 } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
@@ -23,6 +27,8 @@ const orgInfo: Organisation = {
     adminAreaCodes: ["001", "002"],
     mode: defaultModes,
 };
+
+const sesMock = mockClient(SESClient);
 
 describe("publishEdit", () => {
     const writeHeadMock = vi.fn();
@@ -46,6 +52,10 @@ describe("publishEdit", () => {
         getOrganisationInfoById: vi.fn(),
     }));
 
+    vi.mock("../../data/cognito", () => ({
+        getAllUsersInGroup: vi.fn(),
+    }));
+
     vi.mock("crypto", () => ({
         randomUUID: () => "id",
     }));
@@ -56,6 +66,20 @@ describe("publishEdit", () => {
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
+    const getAllUsersInGroupSpy = vi.spyOn(cognito, "getAllUsersInGroup");
+    const getSessionSpy = vi.spyOn(session, "getSession");
+
+    beforeAll(() => {
+        process.env.ROOT_DOMAIN = "test.com";
+    });
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+        getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
+        sesMock.reset();
+    });
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -63,15 +87,6 @@ describe("publishEdit", () => {
 
     afterAll(() => {
         MockDate.reset();
-    });
-
-    const getSessionSpy = vi.spyOn(session, "getSession");
-
-    beforeEach(() => {
-        getSessionSpy.mockImplementation(() => {
-            return mockSession;
-        });
-        getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
@@ -302,4 +317,42 @@ describe("publishEdit", () => {
             expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
         },
     );
+
+    it("should send an email to org admin if an org staff creates a disruption", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
+        getAllUsersInGroupSpy.mockResolvedValue(mockOrgAdmins);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(sesMock.send.calledOnce).toBeTruthy();
+        expect(sesMock.commandCalls(SendEmailCommand)[0].args[0].input.Destination).toEqual({
+            ToAddresses: ["emailtoshow@test.com"],
+        });
+    });
+
+    it("should redirect to dashboard and log an error if an org staff creates a disruption an no org admins exists for staff member's org", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
+        getAllUsersInGroupSpy.mockResolvedValue([]);
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(sesMock.send.calledOnce).toBeFalsy();
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: DASHBOARD_PAGE_PATH,
+        });
+    });
 });
