@@ -113,7 +113,7 @@ describe("publishEdit", () => {
             undefined,
             false,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with social media", async () => {
@@ -158,6 +158,7 @@ describe("publishEdit", () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
+        getAllUsersInGroupSpy.mockResolvedValue(mockOrgAdmins);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -244,6 +245,7 @@ describe("publishEdit", () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOrgStaff: true, isSystemAdmin: false };
         });
+        getAllUsersInGroupSpy.mockResolvedValue(mockOrgAdmins);
 
         const { req, res } = getMockRequestAndResponse({
             body: {
