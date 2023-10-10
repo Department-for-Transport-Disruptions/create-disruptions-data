@@ -1,11 +1,8 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import { mockClient } from "aws-sdk-client-mock";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll, beforeEach, beforeAll } from "vitest";
+import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publish from "./publish.api";
-import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
-import * as cognito from "../../data/cognito";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -16,10 +13,10 @@ import {
     DEFAULT_ORG_ID,
     disruptionWithConsequences,
     mockSession,
-    mockOrgAdmins,
 } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
+import * as disruptionApprovalEmailer from "../../utils/apiUtils/disruptionApprovalEmailer";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -28,8 +25,6 @@ const orgInfo: Organisation = {
     adminAreaCodes: ["001", "002"],
     mode: defaultModes,
 };
-
-const sesMock = mockClient(SESClient);
 
 describe("publish", () => {
     const writeHeadMock = vi.fn();
@@ -47,8 +42,8 @@ describe("publish", () => {
         getOrganisationInfoById: vi.fn(),
     }));
 
-    vi.mock("../../data/cognito", () => ({
-        getAllUsersInGroup: vi.fn(),
+    vi.mock("../../utils/apiUtils/disruptionApprovalEmailer", () => ({
+        sendDisruptionApprovalEmail: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -61,16 +56,11 @@ describe("publish", () => {
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
-    const getAllUsersInGroupSpy = vi.spyOn(cognito, "getAllUsersInGroup");
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    beforeAll(() => {
-        process.env.ROOT_DOMAIN = "test.com";
-    });
+    const sendDisruptionApprovalEmailSpy = vi.spyOn(disruptionApprovalEmailer, "sendDisruptionApprovalEmail");
 
     beforeEach(() => {
         getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
-        sesMock.reset();
     });
 
     afterEach(() => {
@@ -195,10 +185,9 @@ describe("publish", () => {
         });
     });
 
-    it("should send an email to org admin if an org staff creates a disruption", async () => {
+    it("should call sendDisruptionApprovalEmail an org staff creates a disruption", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
-        getAllUsersInGroupSpy.mockResolvedValue(mockOrgAdmins);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 disruptionId: defaultDisruptionId,
@@ -208,26 +197,13 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(sesMock.send.calledOnce).toBeTruthy();
-        expect(sesMock.commandCalls(SendEmailCommand)[0].args[0].input.Destination).toEqual({
-            ToAddresses: ["emailtoshow@test.com"],
-        });
-    });
-
-    it("should redirect to dashboard and log an error if an org staff creates a disruption an no org admins exists for staff member's org", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
-        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
-        getAllUsersInGroupSpy.mockResolvedValue([]);
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                disruptionId: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await publish(req, res);
-
-        expect(sesMock.send.calledOnce).toBeFalsy();
+        expect(sendDisruptionApprovalEmailSpy).toBeCalledWith(
+            mockSession.orgId,
+            disruptionWithConsequences.summary,
+            disruptionWithConsequences.description,
+            mockSession.username,
+            disruptionWithConsequences.disruptionId,
+        );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: DASHBOARD_PAGE_PATH,
         });

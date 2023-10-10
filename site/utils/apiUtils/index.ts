@@ -1,4 +1,3 @@
-import { UserType } from "@aws-sdk/client-cognito-identity-provider";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
@@ -170,16 +169,4 @@ export const redirectToWithQueryParams = (
                 : ""
         }`,
     );
-};
-
-export const getOrgAdminEmailsForStaffUserOrg = (orgAdminsForAllOrgs: UserType[], staffOrgId: string) => {
-    return orgAdminsForAllOrgs
-        .map((user) => {
-            if (user.Attributes?.some((attribute) => attribute.Value === staffOrgId)) {
-                const emailIndex = user.Attributes?.findIndex((attribute) => attribute.Name === "email");
-                return user.Attributes[emailIndex].Value;
-            }
-            return;
-        })
-        .filter(notEmpty);
 };
