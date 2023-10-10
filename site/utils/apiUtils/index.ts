@@ -132,43 +132,37 @@ export const publishSocialMedia = async (
     isUserStaff: boolean,
     canPublish: boolean,
 ) => {
-    const accessTokensTwitter = {} as { [key: string]: TwitterApi | null };
-    const accessTokensHootsuite = {} as { [key: string]: string };
-    const uniqueTwitterSocialAccounts = new Set<string>();
-    const uniqueHootsuiteSocialAccounts = new Set<string>();
+    const authedTwitterClients: Record<string, TwitterApi> = {};
+    const hootsuiteAccessTokens: Record<string, string> = {};
 
-    socialMediaPosts.forEach((post) => {
-        if (post.accountType === "Twitter") {
-            uniqueTwitterSocialAccounts.add(post.socialAccount);
-        } else {
-            uniqueHootsuiteSocialAccounts.add(post.socialAccount);
+    const uniqueTwitterSocialAccounts = new Set(
+        socialMediaPosts.filter((post) => post.accountType === "Twitter").map((post) => post.socialAccount),
+    );
+
+    const uniqueHootsuiteSocialAccounts = new Set(
+        socialMediaPosts.filter((post) => post.accountType === "Hootsuite").map((post) => post.socialAccount),
+    );
+
+    for (const socialAccount of uniqueHootsuiteSocialAccounts) {
+        const accessToken = await getAccessToken(orgId, socialAccount);
+        hootsuiteAccessTokens[socialAccount] = accessToken;
+    }
+
+    for (const socialAccount of uniqueTwitterSocialAccounts) {
+        const authedClient = await getAuthedTwitterClient(orgId, socialAccount);
+
+        if (authedClient) {
+            authedTwitterClients[socialAccount] = authedClient;
         }
-    });
-
-    const accessTokenPromisesHootsuite = [...uniqueHootsuiteSocialAccounts].map(async (socialAccount) => {
-        if (!accessTokensHootsuite[socialAccount]) {
-            const accessToken = await getAccessToken(orgId, socialAccount);
-            accessTokensHootsuite[socialAccount] = accessToken;
-        }
-    });
-
-    const accessTokenPromisesTwitter = [...uniqueTwitterSocialAccounts].map(async (socialAccount) => {
-        if (!accessTokensHootsuite[socialAccount]) {
-            const accessToken = await getAuthedTwitterClient(orgId, socialAccount);
-            accessTokensTwitter[socialAccount] = accessToken;
-        }
-    });
-
-    await Promise.all(accessTokenPromisesHootsuite);
-    await Promise.all(accessTokenPromisesTwitter);
+    }
 
     const socialMediaPromises = socialMediaPosts.map((post) => {
         if (post.status === SocialMediaPostStatus.pending) {
             if (post.accountType === "Twitter") {
-                return sendTweet(orgId, post, isUserStaff, canPublish, accessTokensTwitter[post.socialAccount]);
+                return sendTweet(orgId, post, isUserStaff, canPublish, authedTwitterClients[post.socialAccount]);
             }
 
-            return publishToHootsuite(post, orgId, isUserStaff, canPublish, accessTokensHootsuite[post.socialAccount]);
+            return publishToHootsuite(post, orgId, isUserStaff, canPublish, hootsuiteAccessTokens[post.socialAccount]);
         }
 
         return null;

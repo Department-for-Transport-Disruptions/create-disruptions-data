@@ -6,7 +6,6 @@ import { getParameter, putParameter } from "./ssm";
 import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE } from "../constants";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
-import { notEmpty } from "../utils";
 import { setCookieOnResponseObject } from "../utils/apiUtils";
 import logger from "../utils/logger";
 
@@ -164,17 +163,11 @@ export const getTwitterAccountList = async (orgId: string): Promise<SocialMediaA
     const socialAccounts = await getOrgSocialAccounts(orgId);
 
     const twitterDetail = socialAccounts
-        .map((account): SocialMediaAccount | null => {
-            if (account.accountType !== "Twitter") {
-                return null;
-            }
-
-            return {
-                ...account,
-                expiresIn: "Never",
-            };
-        })
-        .filter(notEmpty);
+        .filter((account) => account.accountType === "Twitter")
+        .map((account) => ({
+            ...account,
+            expiresIn: "Never",
+        }));
 
     return twitterDetail;
 };
