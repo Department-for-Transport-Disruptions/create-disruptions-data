@@ -308,7 +308,7 @@ describe("publishEdit", () => {
         },
     );
 
-    it("should call sendDisruptionApprovalEmail an org staff creates a disruption", async () => {
+    it("should call sendDisruptionApprovalEmail method when an org staff creates a disruption", async () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
         getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
         const { req, res } = getMockRequestAndResponse({

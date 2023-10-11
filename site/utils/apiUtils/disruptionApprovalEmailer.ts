@@ -1,8 +1,8 @@
-import { UserType } from "@aws-sdk/client-cognito-identity-provider";
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { STAGE } from "../../constants";
 import { getAllUsersInGroup } from "../../data/cognito";
+import { userManagementSchema } from "../../schemas/user-management.schema";
 import { notEmpty } from "../index";
 import logger from "../logger";
 
@@ -93,18 +93,6 @@ export const createDisruptionApprovalEmail = (
     });
 };
 
-export const getOrgAdminEmailsForStaffUserOrg = (orgAdminsForAllOrgs: UserType[], staffOrgId: string) => {
-    return orgAdminsForAllOrgs
-        .map((user) => {
-            if (user.Attributes?.some((attribute) => attribute.Value === staffOrgId)) {
-                const emailIndex = user.Attributes?.findIndex((attribute) => attribute.Name === "email");
-                return user.Attributes[emailIndex].Value;
-            }
-            return;
-        })
-        .filter(notEmpty);
-};
-
 export const sendDisruptionApprovalEmail = async (
     staffUserOrgId: string,
     disruptionSummary: string,
@@ -113,9 +101,29 @@ export const sendDisruptionApprovalEmail = async (
     disruptionId: string,
 ) => {
     try {
-        const orgAdminsForAllOrgs = await getAllUsersInGroup("org-admins");
+        const orgAdminsForAllOrgs = (await getAllUsersInGroup("org-admins")).map((user) => ({
+            ...user,
+            GroupName: "org-admins",
+        }));
 
-        const orgAdminEmailsForStaffOrg = getOrgAdminEmailsForStaffUserOrg(orgAdminsForAllOrgs, staffUserOrgId);
+        const parsedOrgAdminsForAllOrgs = userManagementSchema.safeParse(orgAdminsForAllOrgs.filter(notEmpty).flat());
+
+        if (!parsedOrgAdminsForAllOrgs.success) {
+            logger.error(`Failed to parse organisation admin information for sending disruption approval email`);
+            return;
+        }
+
+        const orgAdminsForStaffOrg = parsedOrgAdminsForAllOrgs.data.filter(
+            (user) => user.organisation === staffUserOrgId,
+        );
+
+        const orgAdminEmailsForStaffOrg = orgAdminsForStaffOrg.map((user) => user.email);
+
+        if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
+            logger.error(`No organisation admins found for Org Id ${staffUserOrgId}`);
+            return;
+        }
+
         const disruptionApprovalEmail = createDisruptionApprovalEmail(
             disruptionSummary,
             disruptionDescription,
@@ -124,15 +132,10 @@ export const sendDisruptionApprovalEmail = async (
             orgAdminEmailsForStaffOrg,
         );
 
-        if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
-            logger.error(`No organisation admins found for Org Id ${staffUserOrgId}`);
-            return;
-        }
-
         await sesClient.send(disruptionApprovalEmail);
     } catch (e) {
         if (e instanceof Error) {
-            logger.error("There was a problem sending the disruption approval email.");
+            logger.error(`There was a problem sending the disruption approval email.`);
             return;
         }
     }
