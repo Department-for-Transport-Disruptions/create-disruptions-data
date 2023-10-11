@@ -11,7 +11,7 @@ const mockSendApprovalEmailInput = {
     staffUserOrgId: mockSession.orgId,
     disruptionSummary: "test summary",
     disruptionDescription: "test description",
-    staffUsername: mockSession.username,
+    staffUsername: mockSession.name,
     disruptionId: "123456",
 };
 

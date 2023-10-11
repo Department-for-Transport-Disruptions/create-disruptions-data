@@ -324,7 +324,7 @@ describe("publishEdit", () => {
             mockSession.orgId,
             disruptionWithConsequences.summary,
             disruptionWithConsequences.description,
-            mockSession.username,
+            mockSession.name,
             disruptionWithConsequences.disruptionId,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
