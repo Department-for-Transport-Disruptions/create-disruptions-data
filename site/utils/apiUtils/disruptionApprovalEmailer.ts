@@ -113,11 +113,11 @@ export const sendDisruptionApprovalEmail = async (
             return;
         }
 
-        const orgAdminsForStaffOrg = parsedOrgAdminsForAllOrgs.data.filter(
-            (user) => user.organisation === staffUserOrgId,
-        );
-
-        const orgAdminEmailsForStaffOrg = orgAdminsForStaffOrg.map((user) => user.email);
+        const orgAdminEmailsForStaffOrg = parsedOrgAdminsForAllOrgs.data
+            .map((user) => {
+                return user.organisation === staffUserOrgId ? user.email : null;
+            })
+            .filter(notEmpty);
 
         if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
             logger.error(`No organisation admins found for Org Id ${staffUserOrgId}`);

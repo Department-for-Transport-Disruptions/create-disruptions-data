@@ -109,7 +109,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 session.orgId,
                 validatedDisruptionBody.data.summary,
                 validatedDisruptionBody.data.description,
-                session.username,
+                session.name,
                 validatedDisruptionBody.data.disruptionId,
             );
         }
