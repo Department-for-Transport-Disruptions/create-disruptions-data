@@ -49,12 +49,12 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
             ? DISRUPTION_DETAIL_PAGE_PATH
             : REVIEW_DISRUPTION_PAGE_PATH;
 
-        const isEditing =
+    const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.description;
+    const displayCancelButton = isEditing || props.inputs.socialAccount;
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
@@ -229,7 +229,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
+                            href={`${returnPath}/${pageState.disruptionId}${
                                 queryParams["template"] ? "?template=true" : ""
                             }`}
                             className="govuk-button  mt-8 ml-5 govuk-button--secondary"

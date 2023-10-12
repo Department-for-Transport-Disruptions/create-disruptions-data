@@ -50,7 +50,7 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             redirectToWithQueryParams(
                 req,
                 res,
-               template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`,
             );
 
@@ -62,7 +62,7 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
         redirectToWithQueryParams(
             req,
             res,
-           template ? ["template"] : [],
+            template ? ["template"] : [],
             `${REVIEW_DISRUPTION_PAGE_PATH}/${disruptionId}`,
         );
         return;

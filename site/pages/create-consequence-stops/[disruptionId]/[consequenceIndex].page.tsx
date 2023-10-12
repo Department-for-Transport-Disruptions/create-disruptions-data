@@ -375,7 +375,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
-                            returnPath={returnPath}
                         />
 
                         {(props.consequenceIndex || 0) <= 10 && (

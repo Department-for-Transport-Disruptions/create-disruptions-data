@@ -189,7 +189,7 @@ describe("reject", () => {
         });
 
         if (disruption.socialMediaPosts) {
-            upsertSocialMediaPostSpy.mockResolvedValue();
+            upsertSocialMediaPostSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         }
         await reject(req, res);
 

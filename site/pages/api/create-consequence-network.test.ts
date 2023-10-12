@@ -41,8 +41,6 @@ const defaultNetworkData = {
     disruptionId: defaultDisruptionId,
 };
 
-
-
 const disruption: FullDisruption = {
     ...createDisruptionWithConsquences([
         { ...defaultNetworkData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,

@@ -77,7 +77,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             redirectToWithQueryParams(
                 req,
                 res,
-               template ? ["template"] : [],
+                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
                 }`,
@@ -129,7 +129,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
         redirectToWithQueryParams(
             req,
             res,
-           template ? ["template"] : [],
+            template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
         );
 

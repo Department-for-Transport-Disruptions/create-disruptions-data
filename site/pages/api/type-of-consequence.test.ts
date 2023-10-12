@@ -7,7 +7,6 @@ import {
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";

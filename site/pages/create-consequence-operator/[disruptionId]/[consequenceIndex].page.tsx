@@ -61,7 +61,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             ? DISRUPTION_DETAIL_PAGE_PATH
             : REVIEW_DISRUPTION_PAGE_PATH;
 
-        const isEditing =
+    const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;

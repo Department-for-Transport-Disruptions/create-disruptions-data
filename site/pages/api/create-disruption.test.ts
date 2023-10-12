@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
@@ -8,7 +9,6 @@ import {
     CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
@@ -16,7 +16,6 @@ import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../te
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
-import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
@@ -913,8 +912,8 @@ describe("create-disruption API", () => {
                     disruptionRepeatsEndDate: getFutureDateAsString(40),
                 },
             ],
-        } as Disruption
-        upsertDisruptionSpy.mockResolvedValue(returnedDisruption)
+        } as Disruption;
+        upsertDisruptionSpy.mockResolvedValue(returnedDisruption);
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             returnedDisruption,

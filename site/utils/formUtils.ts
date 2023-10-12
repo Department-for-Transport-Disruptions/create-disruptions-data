@@ -1,11 +1,7 @@
 import { ConsequenceOperators, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
-import { ParsedUrlQuery } from "querystring";
-import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
-import { getDisruptionById } from "../data/dynamo";
 import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";

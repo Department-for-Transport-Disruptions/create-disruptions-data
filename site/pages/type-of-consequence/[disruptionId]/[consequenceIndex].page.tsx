@@ -98,7 +98,6 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 disruptionId={props.disruptionId}
                                 csrfToken={props.csrfToken}
                                 isTemplate={isTemplate}
-                                returnPath={returnPath}
                             />
                         </div>
                     </div>

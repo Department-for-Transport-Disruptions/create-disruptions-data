@@ -149,14 +149,7 @@ describe("pages", () => {
         });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={previousDisruptionInformation}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
+                .create(<DisruptionDetail disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -169,7 +162,6 @@ describe("pages", () => {
                             ...previousDisruptionInformation,
                             publishStatus: PublishStatus.editing,
                         }}
-                        redirect={"/view-all-disruptions"}
                         errors={[]}
                         canPublish
                     />,
@@ -185,7 +177,6 @@ describe("pages", () => {
                         ...previousDisruptionInformation,
                         publishStatus: PublishStatus.editing,
                     }}
-                    redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish={false}
                 />,
@@ -204,7 +195,6 @@ describe("pages", () => {
                         ...previousDisruptionInformation,
                         publishStatus: PublishStatus.editing,
                     }}
-                    redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish
                 />,
@@ -223,7 +213,6 @@ describe("pages", () => {
                         ...previousDisruptionInformation,
                         publishStatus: PublishStatus.editing,
                     }}
-                    redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish={false}
                 />,
@@ -243,7 +232,6 @@ describe("pages", () => {
                 .create(
                     <DisruptionDetail
                         disruption={{ ...previousDisruptionInformation, template: true }}
-                        redirect={"/dashboard"}
                         errors={[]}
                         canPublish
                     />,
@@ -261,7 +249,6 @@ describe("pages", () => {
                             template: true,
                             publishStatus: PublishStatus.editing,
                         }}
-                        redirect={"/dashboard"}
                         errors={[]}
                         canPublish
                     />,
@@ -274,7 +261,6 @@ describe("pages", () => {
             const { queryByText, getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{ ...previousDisruptionInformation, template: true }}
-                    redirect={"/view-all-templates"}
                     errors={[]}
                     canPublish={true}
                 />,
@@ -305,7 +291,6 @@ describe("pages", () => {
                         template: true,
                         publishStatus: PublishStatus.draft,
                     }}
-                    redirect={"/view-all-templates"}
                     errors={[]}
                     canPublish={true}
                 />,
@@ -332,7 +317,6 @@ describe("pages", () => {
             const { queryByText, getAllByRole, unmount } = render(
                 <DisruptionDetail
                     disruption={{ ...previousDisruptionInformation, template: true }}
-                    redirect={"/view-all-templates"}
                     errors={[]}
                     canPublish={false}
                 />,
@@ -358,7 +342,6 @@ describe("pages", () => {
             const { queryByText, unmount } = render(
                 <DisruptionDetail
                     disruption={{ ...previousDisruptionInformation, consequences: [] }}
-                    redirect={"/view-all-disruptions"}
                     errors={[]}
                     canPublish={false}
                 />,
@@ -374,7 +357,6 @@ describe("pages", () => {
             const { queryByText, unmount } = render(
                 <DisruptionDetail
                     disruption={{ ...previousDisruptionInformation, template: true, consequences: [] }}
-                    redirect={"/view-all-templates"}
                     errors={[]}
                     canPublish={false}
                 />,

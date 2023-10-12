@@ -76,7 +76,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
                 template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                 isFromTemplate ? ["isFromTemplate=true"] : [],
+                isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -107,7 +107,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
                 template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
-                 isFromTemplate ? ["isFromTemplate=true"] : [],
+                isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -121,7 +121,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
-             isFromTemplate ? ["isFromTemplate=true"] : [],
+            isFromTemplate ? ["isFromTemplate=true"] : [],
         );
         return;
     } catch (e) {

@@ -72,7 +72,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
             ? DISRUPTION_DETAIL_PAGE_PATH
             : REVIEW_DISRUPTION_PAGE_PATH;
 
-        const isEditing =
+    const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
@@ -686,7 +686,6 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             isTemplate={isTemplate}
-                            returnPath={returnPath}
                         />
                     )}
                 </>
