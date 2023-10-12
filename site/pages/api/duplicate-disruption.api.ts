@@ -4,14 +4,13 @@ import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import {
+    COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectToError, redirectToWithQueryParams, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { defaultDateTime } from "../../utils/dates";
 
@@ -123,15 +122,9 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        const returnPathForDisruptionCreatedFromTemplate = encodeURIComponent(
-            `${DISRUPTION_DETAIL_PAGE_PATH}/${
-                templateId as string
-            }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-        );
-
         createDisruptionFromTemplate
             ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-                  `return=${returnPathForDisruptionCreatedFromTemplate}`,
+                  "isFromTemplate=true",
               ])
             : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
                   "duplicate=true",

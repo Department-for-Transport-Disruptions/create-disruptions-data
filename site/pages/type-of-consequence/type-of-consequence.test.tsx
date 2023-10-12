@@ -1,8 +1,9 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
-import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 
@@ -16,6 +17,7 @@ const withInputs: ConsequenceType = {
     disruptionId: "123",
     consequenceIndex: 0,
     consequenceType: "networkWide",
+    disruptionStatus: PublishStatus.published,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -54,7 +56,7 @@ describe("pages", () => {
         it("should render correctly with appropriate buttons", () => {
             useRouter.mockImplementation(() => ({
                 query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`,
                 },
             }));
             const { queryAllByText, unmount } = render(<TypeOfConsequence errors={noErrors} inputs={withInputs} />);

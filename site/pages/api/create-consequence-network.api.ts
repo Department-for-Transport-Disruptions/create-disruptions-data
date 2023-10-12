@@ -1,5 +1,6 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
@@ -13,7 +14,6 @@ import { upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -24,7 +24,6 @@ import { getSession } from "../../utils/apiUtils/auth";
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
         const { template, addAnotherConsequence } = req.query;
         const validatedBody = networkConsequenceSchema.safeParse(req.body);
@@ -57,7 +56,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
                 res,
                 template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -71,9 +70,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
-            (!isFromTemplate || template) &&
-            queryParam &&
-            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -90,7 +87,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
                 res,
                 template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
-                queryParam ? [queryParam] : [],
+                isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -105,7 +102,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
-            queryParam ? [queryParam] : [],
+            isFromTemplate ? ["isFromTemplate=true"] : [],
         );
         return;
     } catch (e) {

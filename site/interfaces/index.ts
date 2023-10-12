@@ -3,6 +3,7 @@ import { NextApiRequest } from "next";
 import { z } from "zod";
 import { ServerResponse } from "http";
 import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 
 export interface ErrorInfo {
     errorMessage: string;
@@ -66,6 +67,7 @@ export interface PageState<T> {
     consequenceIndex?: number;
     session?: Session | null;
     sessionWithOrg?: SessionWithOrgDetail | null;
+    disruptionStatus?: PublishStatus;
 }
 
 export interface CreateConsequenceProps {

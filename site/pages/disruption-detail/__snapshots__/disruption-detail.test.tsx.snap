@@ -631,7 +631,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=0"
                 >
                   Duplicate consequence
                 </button>
@@ -852,7 +852,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=1"
                 >
                   Duplicate consequence
                 </button>
@@ -1101,7 +1101,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=2"
                 >
                   Duplicate consequence
                 </button>
@@ -2452,7 +2452,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=0&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -2673,7 +2673,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=1&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -2922,7 +2922,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=2&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -4276,7 +4276,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=0&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -4497,7 +4497,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=1&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -4746,7 +4746,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail&template=true"
+                  formAction="/api/duplicate-consequence?consequenceId=2&template=true"
                 >
                   Duplicate consequence
                 </button>
@@ -5262,8 +5262,8 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             value="2"
           />
           <a
-            className="govuk-button mt-8 "
-            href="/dashboard"
+            className="govuk-button mt-8 govuk-button--secondary"
+            href="/view-all-templates"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -6103,7 +6103,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=0&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=0"
                 >
                   Duplicate consequence
                 </button>
@@ -6324,7 +6324,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=1&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=1"
                 >
                   Duplicate consequence
                 </button>
@@ -6573,7 +6573,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 <button
                   className="govuk-button govuk-button--secondary mt-4 ml-4"
                   data-module="govuk-button"
-                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail"
+                  formAction="/api/duplicate-consequence?consequenceId=2"
                 >
                   Duplicate consequence
                 </button>

@@ -1,9 +1,11 @@
 import { ConsequenceOperators, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
+import { getDisruptionById } from "../data/dynamo";
 import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
@@ -112,21 +114,6 @@ export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], fil
         }
     });
     return filteredServices;
-};
-
-export const showCancelButton = (queryParams: ParsedUrlQuery) => {
-    return (
-        (queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) &&
-            !queryParams["return"]?.includes("template")) ||
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
-    );
-};
-
-export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
-    return (
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true")) ||
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template"))
-    );
 };
 
 export const isSelectedStopInDropdown = (stop: Stop, selectedStops: Stop[]) =>

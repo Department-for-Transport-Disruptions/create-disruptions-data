@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
-import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants";
 import { defaultModes } from "../../schemas/organisation.schema";
 
 const blankInputs: CreateConsequenceServicesProps = {
@@ -182,7 +182,7 @@ describe("pages", () => {
         it("should render correctly with appropriate buttons", () => {
             useRouter.mockImplementation(() => ({
                 query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`,
                 },
             }));
             const { queryAllByText, unmount } = render(<CreateConsequenceServices {...withInputs} />);

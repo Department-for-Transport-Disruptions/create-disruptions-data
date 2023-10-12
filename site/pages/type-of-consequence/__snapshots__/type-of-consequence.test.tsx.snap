@@ -239,6 +239,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 >
                   Save and continue
                 </button>
+                <a
+                  className="govuk-button mt-8 ml-1 govuk-button--secondary"
+                  href="/review-disruption"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                >
+                  Cancel Changes
+                </a>
               </div>
             </div>
           </form>
@@ -627,6 +637,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 >
                   Save and continue
                 </button>
+                <a
+                  className="govuk-button mt-8 ml-1 govuk-button--secondary"
+                  href="/review-disruption"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                >
+                  Cancel Changes
+                </a>
               </div>
             </div>
           </form>

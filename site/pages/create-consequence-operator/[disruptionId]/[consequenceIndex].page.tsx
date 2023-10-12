@@ -1,6 +1,6 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,6 +23,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
@@ -34,12 +35,7 @@ import { ModeType } from "../../../schemas/organisation.schema";
 import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import {
-    getStateUpdater,
-    operatorStateUpdater,
-    returnTemplateOverview,
-    showCancelButton,
-} from "../../../utils/formUtils";
+import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -58,12 +54,19 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+        const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.description;
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -121,9 +124,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!returnPath,
-                                            returnToTemplateOverview ||
-                                                returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!returnPath,
+                                            returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -265,7 +267,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate
                                         ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
                                         : `${returnPath}/${pageState.disruptionId || ""}`
                                 }
@@ -288,7 +290,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
-                            returnPath={returnPath}
                         />
                         {(props.consequenceIndex || 0) <= 10 && (
                             <button
@@ -377,6 +378,7 @@ export const getServerSideProps = async (
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",
+            disruptionStatus: disruption.publishStatus,
         },
     };
 };

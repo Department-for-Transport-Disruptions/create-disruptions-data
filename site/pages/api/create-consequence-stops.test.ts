@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
 import {
@@ -58,9 +58,12 @@ const defaultStopsData = {
     disruptionId: defaultDisruptionId,
 };
 
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...defaultStopsData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
+const disruption: FullDisruption = {
+    ...createDisruptionWithConsquences([
+        { ...defaultStopsData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+    ]),
+    publishStatus: PublishStatus.draft,
+};
 
 const stopDataToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -114,12 +117,6 @@ describe("create-consequence-stops API", () => {
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     )}`;
-
-    const returnPath = encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -263,7 +260,7 @@ describe("create-consequence-stops API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -294,7 +291,7 @@ describe("create-consequence-stops API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_STOPS_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
         });
     });
 

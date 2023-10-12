@@ -11,7 +11,7 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
-import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";
@@ -256,7 +256,7 @@ describe("pages", () => {
                     disruption={previousDisruptionInformation}
                     errors={[]}
                     canPublish
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`}
                 />,
             );
 
@@ -294,7 +294,7 @@ describe("pages", () => {
                     disruption={previousDisruptionInformation}
                     errors={[]}
                     canPublish={false}
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`}
                 />,
             );
 

@@ -294,7 +294,6 @@ export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
 export const COOKIES_ID_TOKEN = "cdd-id-token";
 export const COOKIES_REFRESH_TOKEN = "cdd-refresh-token";
-export const COOKIES_DISRUPTION_DETAIL_REFERER = "cdd-disruption-detail-referer";
 export const COOKIES_REVIEW_DISRUPTION_REFERER = "cdd-review-disruption-referer";
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceNetwork from "./create-consequence-network.api";
 import {
@@ -41,9 +41,14 @@ const defaultNetworkData = {
     disruptionId: defaultDisruptionId,
 };
 
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...defaultNetworkData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
+
+
+const disruption: FullDisruption = {
+    ...createDisruptionWithConsquences([
+        { ...defaultNetworkData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+    ]),
+    publishStatus: PublishStatus.draft,
+};
 
 const networkToUpsert = {
     description:
@@ -81,12 +86,6 @@ describe("create-consequence-network API", () => {
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     )}`;
-
-    const returnPath = encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -251,7 +250,7 @@ describe("create-consequence-network API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -282,7 +281,7 @@ describe("create-consequence-network API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_NETWORK_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_NETWORK_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
         });
     });
 

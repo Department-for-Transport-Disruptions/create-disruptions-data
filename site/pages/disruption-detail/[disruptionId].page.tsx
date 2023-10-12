@@ -17,10 +17,12 @@ import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+    DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
@@ -36,19 +38,12 @@ const description = "Disruption Detail page for the Create Transport Disruptions
 
 interface DisruptionDetailProps {
     disruption: FullDisruption;
-    redirect: string;
     errors: ErrorInfo[];
     canPublish: boolean;
     csrfToken?: string;
 }
 
-const DisruptionDetail = ({
-    disruption,
-    redirect,
-    csrfToken,
-    errors,
-    canPublish,
-}: DisruptionDetailProps): ReactElement => {
+const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
         hiddenInputs: { name: string; value: string }[];
@@ -79,7 +74,6 @@ const DisruptionDetail = ({
         },
     ];
 
-    const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
@@ -740,11 +734,11 @@ const DisruptionDetail = ({
                         disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
                             <Link
                                 role="button"
-                                href={redirect}
+                                href={disruption.template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
-                                        : displaySendToReview
+                                        : disruption.template
                                         ? "govuk-button--secondary"
                                         : ""
                                 }`}
@@ -860,13 +854,8 @@ export const getServerSideProps = async (
         errors = JSON.parse(errorCookie) as ErrorInfo[];
     }
 
-    const referer = (ctx.query.return as string) || cookies[COOKIES_DISRUPTION_DETAIL_REFERER];
-
-    if (ctx.res && ctx.query.return) {
-        setCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, referer, ctx.res);
-    }
-
     if (!disruption) {
+        if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_REFERER, ctx.res);
         return {
             redirect: {
                 destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
@@ -906,7 +895,6 @@ export const getServerSideProps = async (
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer || "",
             errors: errors,
             canPublish: canPublish(session),
         },

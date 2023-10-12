@@ -308,9 +308,9 @@ const ReviewConsequenceTable = ({
                 key={`duplicate-${consequence.consequenceIndex}`}
                 className="govuk-button govuk-button--secondary mt-4 ml-4"
                 data-module="govuk-button"
-                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${
-                    isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH
-                }${isTemplate ? "&template=true" : ""}`}
+                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}${
+                    isTemplate ? "&template=true" : ""
+                }`}
             >
                 Duplicate consequence
             </button>

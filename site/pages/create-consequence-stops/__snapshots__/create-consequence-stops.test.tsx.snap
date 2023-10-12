@@ -129,7 +129,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0"
+                    href="/type-of-consequence//0?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -939,7 +939,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1416,6 +1416,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
           >
             Save and continue
           </button>
+          <a
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Cancel Changes
+          </a>
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
@@ -1717,7 +1727,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0"
+                    href="/type-of-consequence//0?return=%2Freview-disruption"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

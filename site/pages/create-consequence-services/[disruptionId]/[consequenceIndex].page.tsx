@@ -4,7 +4,7 @@ import {
     servicesConsequenceSchema,
     stopSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -31,6 +31,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
@@ -48,8 +49,6 @@ import {
     getStopValue,
     isSelectedServiceInDropdown,
     isSelectedStopInDropdown,
-    returnTemplateOverview,
-    showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
 
@@ -154,12 +153,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     }, [selectedService]);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
     const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+        const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.description;
 
     const handleStopChange = async (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -475,9 +482,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!returnPath,
-                                            returnToTemplateOverview ||
-                                                returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!returnPath,
+                                            returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -678,7 +684,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate
                                         ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
                                         : `${returnPath}/${pageState.disruptionId || ""}`
                                 }
@@ -701,7 +707,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
-                            returnPath={returnPath}
                         />
 
                         {(props.consequenceIndex || 0) <= 10 && (
@@ -794,6 +799,7 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             consequenceDataSource,
             globalDataSource,
+            disruptionStatus: disruption.publishStatus,
         },
     };
 };

@@ -11,7 +11,7 @@ import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
+    isDisruptionFromTemplate,
     redirectToError,
     redirectToWithQueryParams,
     setCookieOnResponseObject,
@@ -19,10 +19,8 @@ import {
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const queryParam = getReturnPage(req);
-
         const { template } = req.query;
-
+        const isFromTemplate = isDisruptionFromTemplate(req);
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {
@@ -45,7 +43,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
                 template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                [],
             );
             return;
         }
@@ -77,7 +75,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
-            queryParam ? [queryParam] : [],
+            isFromTemplate ? ["isFromTemplate=true"] : [],
         );
     } catch (e) {
         if (e instanceof Error) {

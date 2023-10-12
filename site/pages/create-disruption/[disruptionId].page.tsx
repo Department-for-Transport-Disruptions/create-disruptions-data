@@ -4,6 +4,7 @@ import {
     validitySchema,
     validitySchemaRefined,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -25,6 +26,8 @@ import {
     COOKIES_DISRUPTION_ERRORS,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
@@ -32,7 +35,7 @@ import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getEndingOnDateText } from "../../utils/dates";
-import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../utils/formUtils";
+import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Create Disruptions";
 const description = "Create Disruptions page for the Create Transport Disruptions Service";
@@ -62,11 +65,19 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelChangesButton = showCancelButton(queryParams);
     const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
 
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+        const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.description;
 
     const doesntRepeatRef = useRef<HTMLInputElement>(null);
     const dailyRef = useRef<HTMLInputElement>(null);
@@ -266,7 +277,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <h1 className="govuk-heading-xl">
                             {isTemplate === "true"
                                 ? "Create a new template"
-                                : `Create a new disruption${returnToTemplateOverview ? " from template" : ""}`}
+                                : `Create a new disruption${isTemplate ? " from template" : ""}`}
                         </h1>
 
                         <Radios<DisruptionInfo>
@@ -646,11 +657,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         Save and continue
                     </button>
 
-                    {displayCancelChangesButton && pageState.disruptionId ? (
+                    {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
                             href={
-                                returnToTemplateOverview || isTemplate === "true"
+                                isTemplate === "true"
                                     ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
                                     : `${returnPath}/${pageState.disruptionId || ""}`
                             }
@@ -717,6 +728,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
             disruptionExists: true,
             consequenceIndex: disruption.consequences?.[0]?.consequenceIndex ?? 0,
+            disruptionId: disruption.disruptionId,
+            disruptionStatus: disruption.publishStatus,
         },
     };
 };

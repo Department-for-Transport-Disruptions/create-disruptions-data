@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment  */
 import { Consequence, ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceOperator from "./create-consequence-operator.api";
 import {
@@ -49,9 +49,12 @@ const bodyData = {
     disruptionId: defaultDisruptionId,
 };
 
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
+const disruption: FullDisruption = {
+    ...createDisruptionWithConsquences([
+        { ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+    ]),
+    publishStatus: PublishStatus.draft,
+};
 
 const operatorToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -90,12 +93,6 @@ describe("create-consequence-operator API", () => {
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     )}`;
-
-    const returnPath = encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -262,7 +259,7 @@ describe("create-consequence-operator API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -299,7 +296,7 @@ describe("create-consequence-operator API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
         });
     });
 

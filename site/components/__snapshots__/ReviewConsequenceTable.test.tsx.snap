@@ -167,7 +167,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
   <button
     className="govuk-button govuk-button--secondary mt-4 ml-4"
     data-module="govuk-button"
-    formAction="/api/duplicate-consequence?consequenceId=0&return=/review-disruption"
+    formAction="/api/duplicate-consequence?consequenceId=0"
   >
     Duplicate consequence
   </button>,

@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,13 +13,15 @@ import {
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CONSEQUENCE_TYPES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
@@ -31,12 +34,19 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+    const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.consequenceType;
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -72,7 +82,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 <Link
                                     role="button"
                                     href={
-                                        returnToTemplateOverview
+                                        isTemplate
                                             ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
                                             : `${returnPath}/${pageState.disruptionId || ""}`
                                     }
@@ -142,6 +152,7 @@ export const getServerSideProps = async (
                 disruption?.consequences?.find((c) => c.consequenceIndex === index) ?? undefined,
             ),
             consequenceIndex: index,
+            disruptionStatus: disruption.publishStatus,
         },
     };
 };

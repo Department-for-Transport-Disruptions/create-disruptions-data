@@ -11,7 +11,12 @@ import {
 import * as dynamo from "../../data/dynamo";
 import * as s3 from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
-import { DEFAULT_ORG_ID, DEFAULT_IMAGE_BUCKET_NAME, getMockRequestAndResponse } from "../../testData/mockData";
+import {
+    DEFAULT_ORG_ID,
+    DEFAULT_IMAGE_BUCKET_NAME,
+    getMockRequestAndResponse,
+    disruptionWithConsequencesAndSocialMediaPosts,
+} from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as file from "../../utils/apiUtils/fileUpload";
 import { getFutureDateAsString } from "../../utils/dates";
@@ -50,6 +55,8 @@ describe("create-social-media-post API", () => {
             display: "Test Account",
             id: "12345",
         });
+
+        upsertSocialMediaPostSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
     });
 
     afterEach(() => {

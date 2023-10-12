@@ -6,13 +6,7 @@ import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
 import duplicateDisruption from "./duplicate-disruption.api";
-import {
-    CREATE_DISRUPTION_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    ERROR_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
-} from "../../constants";
+import { CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -95,12 +89,6 @@ describe("duplicate-disruption API", () => {
     const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
 
     const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
-
-    const returnPath = encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -213,7 +201,7 @@ describe("duplicate-disruption API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?return=${returnPath}`,
+            Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?isFromTemplate=true`,
         });
     });
 });

@@ -537,6 +537,8 @@ export const upsertDisruptionInfo = async (
             },
         }),
     );
+
+    return currentDisruption;
 };
 
 export const upsertConsequence = async (
@@ -607,6 +609,8 @@ export const upsertSocialMediaPost = async (
             },
         }),
     );
+
+    return currentDisruption;
 };
 
 export const removeConsequenceFromDisruption = async (

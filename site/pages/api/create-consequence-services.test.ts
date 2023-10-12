@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
 import {
@@ -55,9 +55,12 @@ const defaultServicesData = {
     disruptionId: defaultDisruptionId,
 };
 
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...defaultServicesData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
+const disruption: FullDisruption = {
+    ...createDisruptionWithConsquences([
+        { ...defaultServicesData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
+    ]),
+    publishStatus: PublishStatus.draft,
+};
 
 const servicesDataToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -112,12 +115,6 @@ describe("create-consequence-services API", () => {
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     )}`;
-
-    const returnPath = encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-    );
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -370,7 +367,7 @@ describe("create-consequence-services API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${returnPath}`,
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -401,7 +398,7 @@ describe("create-consequence-services API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_CONSEQUENCE_SERVICES_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}?${returnPath}`,
+            Location: `${CREATE_CONSEQUENCE_SERVICES_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
         });
     });
 

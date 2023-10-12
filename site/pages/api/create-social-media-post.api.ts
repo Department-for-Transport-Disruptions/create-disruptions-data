@@ -1,4 +1,4 @@
-import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
 import {
@@ -13,7 +13,6 @@ import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
     redirectToError,
     redirectToWithQueryParams,
     setCookieOnResponseObject,
@@ -23,8 +22,6 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
-
         const { template } = req.query;
 
         const session = getSession(req);
@@ -80,11 +77,10 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+               template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
                 }`,
-                queryParam ? [queryParam] : [],
             );
             return;
         }
@@ -115,19 +111,25 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                               : SocialMediaPostStatus.rejected,
                   };
 
-        await upsertSocialMediaPost(socialMediaToUpsert, session.orgId, session.isOrgStaff, false, template === "true");
+        const disruption = await upsertSocialMediaPost(
+            socialMediaToUpsert,
+            session.orgId,
+            session.isOrgStaff,
+            false,
+            template === "true",
+        );
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 
         const redirectPath =
-            queryParam && decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
         redirectToWithQueryParams(
             req,
             res,
-            template ? ["template"] : [],
+           template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
         );
 

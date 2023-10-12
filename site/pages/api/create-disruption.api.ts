@@ -1,18 +1,20 @@
 import { DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { upsertDisruptionInfo } from "../../data/dynamo";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -71,11 +73,9 @@ export const formatCreateDisruptionBody = (body: object) => {
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
 
         const { draft } = req.query;
-
         const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
 
         const consequenceIndex = body.consequenceIndex || 0;
@@ -114,7 +114,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
                 template ? ["template"] : [],
                 `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
-                queryParam ? [queryParam] : [],
             );
 
             return;
@@ -124,25 +123,36 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        await upsertDisruptionInfo(validatedBody.data, session.orgId, session.isOrgStaff, template === "true");
+        const currentDisruption = await upsertDisruptionInfo(
+            validatedBody.data,
+            session.orgId,
+            session.isOrgStaff,
+            template === "true",
+        );
 
         destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, res);
 
-        queryParam && (!isFromTemplate || template)
+        const redirectPath =
+            (!isFromTemplate || template) && currentDisruption?.publishStatus !== PublishStatus.draft
+                ? DISRUPTION_DETAIL_PAGE_PATH
+                : REVIEW_DISRUPTION_PAGE_PATH;
+
+        draft
+            ? redirectTo(res, DASHBOARD_PAGE_PATH)
+            : redirectPath && currentDisruption?.consequences
             ? redirectToWithQueryParams(
                   req,
                   res,
                   template ? ["template"] : [],
-                  `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
+                  `${redirectPath}/${validatedBody.data.disruptionId}`,
+                  isFromTemplate ? ["isFromTemplate=true"] : [],
               )
-            : draft
-            ? redirectTo(res, DASHBOARD_PAGE_PATH)
             : redirectToWithQueryParams(
                   req,
                   res,
                   template ? ["template"] : [],
                   `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
-                  isFromTemplate ? [`${isFromTemplate}`] : [],
+                  isFromTemplate ? ["isFromTemplate=true"] : [],
               );
 
         return;

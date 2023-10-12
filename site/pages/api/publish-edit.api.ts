@@ -71,7 +71,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+               template ? ["template"] : [],
                 `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`,
             );
             return;

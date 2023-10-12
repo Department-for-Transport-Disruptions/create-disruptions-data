@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import deleteDisruption from "./delete-disruption.api";
-import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
@@ -95,9 +95,6 @@ describe("deleteDisruption", () => {
             body: {
                 id: defaultDisruptionId,
             },
-            query: {
-                return: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,
-            },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -111,7 +108,7 @@ describe("deleteDisruption", () => {
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,
+            Location: DASHBOARD_PAGE_PATH,
         });
     });
 

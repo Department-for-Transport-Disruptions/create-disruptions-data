@@ -1,5 +1,6 @@
 import { ConsequenceOperators, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
@@ -13,7 +14,6 @@ import { upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -50,7 +50,6 @@ export const formatCreateConsequenceBody = (body: object) => {
 
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
         const { template, addAnotherConsequence } = req.query;
@@ -84,7 +83,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 res,
                 template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -98,9 +97,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =
-            (!isFromTemplate || template) &&
-            queryParam &&
-            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -117,7 +114,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 res,
                 template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
-                queryParam ? [queryParam] : [],
+                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -131,7 +128,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
-            queryParam ? [queryParam] : [],
+             isFromTemplate ? ["isFromTemplate=true"] : [],
         );
         return;
     } catch (e) {

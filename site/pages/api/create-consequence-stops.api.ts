@@ -1,5 +1,6 @@
 import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
@@ -13,7 +14,6 @@ import { upsertConsequence } from "../../data/dynamo";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    getReturnPage,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -39,7 +39,6 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
 
         const { template, addAnotherConsequence } = req.query;
@@ -77,7 +76,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
                 template ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                queryParam ? [queryParam] : [],
+                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -91,9 +90,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
-            (!isFromTemplate || template) &&
-            queryParam &&
-            decodeURIComponent(queryParam).includes(DISRUPTION_DETAIL_PAGE_PATH)
+            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -110,7 +107,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
                 res,
                 template ? ["template"] : [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
-                queryParam ? [queryParam] : [],
+                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
             return;
         }
@@ -124,7 +121,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             res,
             template ? ["template"] : [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
-            queryParam ? [queryParam] : [],
+             isFromTemplate ? ["isFromTemplate=true"] : [],
         );
         return;
     } catch (e) {

@@ -16,6 +16,7 @@ import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../te
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);
@@ -46,16 +47,8 @@ const defaultDisruptionData = {
 };
 
 const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-    `${DISRUPTION_DETAIL_PAGE_PATH}/${
-        defaultDisruptionId as string
-    }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+    `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId as string}?template=true`,
 )}`;
-
-const returnPath = encodeURIComponent(
-    `${DISRUPTION_DETAIL_PAGE_PATH}/${
-        defaultDisruptionId as string
-    }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
-);
 
 describe("create-disruption API", () => {
     const writeHeadMock = vi.fn();
@@ -881,48 +874,50 @@ describe("create-disruption API", () => {
 
         await createDisruption(req, res);
 
+        const returnedDisruption = {
+            disruptionId: defaultDisruptionId,
+            disruptionType: "unplanned",
+            orgId: DEFAULT_ORG_ID,
+            summary: "Lorem ipsum dolor sit amet",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            associatedLink: "",
+            disruptionReason: MiscellaneousReason.roadworks,
+            publishStartDate: defaultPublishStartDate,
+            publishStartTime: "0900",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            disruptionNoEndDateTime: "true",
+            displayId: "8fg3ha",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionStartTime: "1000",
+                    disruptionEndDate: defaultDisruptionStartDate,
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "daily",
+                    disruptionRepeatsEndDate: getFutureDateAsString(11),
+                },
+                {
+                    disruptionStartDate: getFutureDateAsString(11),
+                    disruptionStartTime: "0900",
+                    disruptionEndDate: getFutureDateAsString(13),
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "weekly",
+                    disruptionRepeatsEndDate: getFutureDateAsString(40),
+                },
+            ],
+        } as Disruption
+        upsertDisruptionSpy.mockResolvedValue(returnedDisruption)
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: defaultDisruptionId,
-                disruptionType: "unplanned",
-                orgId: DEFAULT_ORG_ID,
-                summary: "Lorem ipsum dolor sit amet",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                associatedLink: "",
-                disruptionReason: MiscellaneousReason.roadworks,
-                publishStartDate: defaultPublishStartDate,
-                publishStartTime: "0900",
-                publishEndDate: "",
-                publishEndTime: "",
-                disruptionStartDate: getFutureDateAsString(40),
-                disruptionStartTime: "1200",
-                disruptionEndDate: "",
-                disruptionEndTime: "",
-                disruptionNoEndDateTime: "true",
-                displayId: "8fg3ha",
-                validity: [
-                    {
-                        disruptionStartDate: defaultDisruptionStartDate,
-                        disruptionStartTime: "1000",
-                        disruptionEndDate: defaultDisruptionStartDate,
-                        disruptionEndTime: "1100",
-                        disruptionNoEndDateTime: "",
-                        disruptionRepeats: "daily",
-                        disruptionRepeatsEndDate: getFutureDateAsString(11),
-                    },
-                    {
-                        disruptionStartDate: getFutureDateAsString(11),
-                        disruptionStartTime: "0900",
-                        disruptionEndDate: getFutureDateAsString(13),
-                        disruptionEndTime: "1100",
-                        disruptionNoEndDateTime: "",
-                        disruptionRepeats: "weekly",
-                        disruptionRepeatsEndDate: getFutureDateAsString(40),
-                    },
-                ],
-            },
+            returnedDisruption,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
@@ -965,54 +960,56 @@ describe("create-disruption API", () => {
 
         await createDisruption(req, res);
 
+        const returnedDisruption = {
+            disruptionId: defaultDisruptionId,
+            disruptionType: "unplanned",
+            orgId: DEFAULT_ORG_ID,
+            summary: "Lorem ipsum dolor sit amet",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            associatedLink: "",
+            disruptionReason: MiscellaneousReason.roadworks,
+            publishStartDate: defaultPublishStartDate,
+            publishStartTime: "0900",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            disruptionNoEndDateTime: "true",
+            displayId: "8fg3ha",
+            validity: [
+                {
+                    disruptionStartDate: defaultDisruptionStartDate,
+                    disruptionStartTime: "1000",
+                    disruptionEndDate: defaultDisruptionStartDate,
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "daily",
+                    disruptionRepeatsEndDate: getFutureDateAsString(11),
+                },
+                {
+                    disruptionStartDate: getFutureDateAsString(11),
+                    disruptionStartTime: "0900",
+                    disruptionEndDate: getFutureDateAsString(13),
+                    disruptionEndTime: "1100",
+                    disruptionNoEndDateTime: "",
+                    disruptionRepeats: "weekly",
+                    disruptionRepeatsEndDate: getFutureDateAsString(40),
+                },
+            ],
+        };
+        upsertDisruptionSpy.mockResolvedValue(returnedDisruption as Disruption);
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: defaultDisruptionId,
-                disruptionType: "unplanned",
-                orgId: DEFAULT_ORG_ID,
-                summary: "Lorem ipsum dolor sit amet",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                associatedLink: "",
-                disruptionReason: MiscellaneousReason.roadworks,
-                publishStartDate: defaultPublishStartDate,
-                publishStartTime: "0900",
-                publishEndDate: "",
-                publishEndTime: "",
-                disruptionStartDate: getFutureDateAsString(40),
-                disruptionStartTime: "1200",
-                disruptionEndDate: "",
-                disruptionEndTime: "",
-                disruptionNoEndDateTime: "true",
-                displayId: "8fg3ha",
-                validity: [
-                    {
-                        disruptionStartDate: defaultDisruptionStartDate,
-                        disruptionStartTime: "1000",
-                        disruptionEndDate: defaultDisruptionStartDate,
-                        disruptionEndTime: "1100",
-                        disruptionNoEndDateTime: "",
-                        disruptionRepeats: "daily",
-                        disruptionRepeatsEndDate: getFutureDateAsString(11),
-                    },
-                    {
-                        disruptionStartDate: getFutureDateAsString(11),
-                        disruptionStartTime: "0900",
-                        disruptionEndDate: getFutureDateAsString(13),
-                        disruptionEndTime: "1100",
-                        disruptionNoEndDateTime: "",
-                        disruptionRepeats: "weekly",
-                        disruptionRepeatsEndDate: getFutureDateAsString(40),
-                    },
-                ],
-            },
+            returnedDisruption,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/type-of-consequence/${defaultDisruptionId}/0?${returnPath}`,
+            Location: `/type-of-consequence/${defaultDisruptionId}/0`,
         });
     });
 
@@ -1042,7 +1039,7 @@ describe("create-disruption API", () => {
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-disruption/${defaultDisruptionId}?${returnPath}`,
+            Location: `/create-disruption/${defaultDisruptionId}`,
         });
     });
 });

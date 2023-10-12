@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,7 +11,11 @@ import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
+import {
+    COOKIES_SOCIAL_MEDIA_ERRORS,
+    DISRUPTION_DETAIL_PAGE_PATH,
+    REVIEW_DISRUPTION_PAGE_PATH,
+} from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getTwitterAccountList } from "../../../data/twitter";
@@ -19,7 +24,7 @@ import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schem
 import { HootsuitePost, SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
+import { getStateUpdater } from "../../../utils/formUtils";
 
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
@@ -37,7 +42,19 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
+    const isTemplate = queryParams["template"]?.toString() ?? "";
+
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+        const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.description;
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
@@ -258,6 +275,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialMediaPostIndex: index,
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
             template: disruption?.template?.toString() || "",
+            disruptionStatus: disruption?.publishStatus,
         },
     };
 };

@@ -1,6 +1,6 @@
 import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,6 +27,7 @@ import {
     CREATE_CONSEQUENCE_STOPS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -34,14 +35,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import {
-    getStateUpdater,
-    getStopLabel,
-    getStopValue,
-    isSelectedStopInDropdown,
-    returnTemplateOverview,
-    showCancelButton,
-} from "../../../utils/formUtils";
+import { getStateUpdater, getStopLabel, getStopValue, isSelectedStopInDropdown } from "../../../utils/formUtils";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -57,12 +51,19 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
     const queryParams = useRouter().query;
-    const displayCancelButton = showCancelButton(queryParams);
-
-    const returnToTemplateOverview = returnTemplateOverview(queryParams);
-
     const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const returnPath =
+        isTemplate || props.disruptionStatus === PublishStatus.published
+            ? DISRUPTION_DETAIL_PAGE_PATH
+            : REVIEW_DISRUPTION_PAGE_PATH;
+
+    const isEditing =
+        props.disruptionStatus === PublishStatus.editing ||
+        props.disruptionStatus === PublishStatus.editPendingApproval ||
+        props.disruptionStatus === PublishStatus.pendingAndEditing;
+
+    const displayCancelButton = isEditing || props.inputs.description;
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -207,9 +208,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            returnToTemplateOverview || !!returnPath,
-                                            returnToTemplateOverview ||
-                                                returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
+                                            !!returnPath,
+                                            returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
@@ -352,7 +352,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             <Link
                                 role="button"
                                 href={
-                                    returnToTemplateOverview
+                                    isTemplate
                                         ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
                                         : `${returnPath}/${pageState.disruptionId || ""}`
                                 }
@@ -449,6 +449,7 @@ export const getServerSideProps = async (
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
+            disruptionStatus: disruption.publishStatus,
         },
     };
 };
