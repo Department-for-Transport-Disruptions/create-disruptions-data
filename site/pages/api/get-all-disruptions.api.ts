@@ -100,9 +100,7 @@ export const formatSortedDisruption = (disruption: SortedDisruption) => {
     let isNetworkWideCq = false;
     let stopsAffectedCount = 0;
 
-    const getEndDateTime = getSortedDisruptionFinalEndDate({
-        ...disruption,
-    });
+    const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
 
     const isLive = disruption.validity ? isLiveDisruption(disruption.validity, getEndDateTime) : false;
 
