@@ -1,4 +1,5 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
@@ -141,8 +142,76 @@ describe("getAllDisruptions", () => {
     describe("formatSortedDisruptions", () => {
         it("correctly formats disruptions", () => {
             const formatted = formatSortedDisruption(sortedDisruption);
-
             expect(formatted).toMatchSnapshot();
+        });
+
+        it("correctly formats disruptions to live", () => {
+            const formatted = formatSortedDisruption({
+                ...sortedDisruption,
+                validity: [
+                    {
+                        disruptionStartDate: "25/03/2022",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2021",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/12/2040",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/12/2040",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/03/2090",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2090",
+                        disruptionEndTime: "1123",
+                    },
+                ],
+            });
+
+            expect(formatted.isLive).toEqual(true);
+        });
+        it("correctly formats disruptions to upcoming", () => {
+            const formatted = formatSortedDisruption({
+                ...sortedDisruption,
+                validity: [
+                    {
+                        disruptionStartDate: "25/03/2090",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2090",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: "25/12/2090",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/12/2090",
+                        disruptionEndTime: "1123",
+                    },
+                ],
+            });
+            expect(formatted.isLive).toEqual(false);
+        });
+        it("correctly formats disruptions to recently closed", () => {
+            const formatted = formatSortedDisruption({
+                ...sortedDisruption,
+                validity: [
+                    {
+                        disruptionStartDate: "25/03/2021",
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: "30/03/2021",
+                        disruptionEndTime: "1123",
+                    },
+                    {
+                        disruptionStartDate: getDate().subtract(8, "day").format("DD/MM/YYYY"),
+                        disruptionStartTime: "1123",
+                        disruptionEndDate: getDate().subtract(7, "day").format("DD/MM/YYYY"),
+                        disruptionEndTime: "1123",
+                    },
+                ],
+            });
+
+            expect(formatted.isLive).toEqual(false);
         });
     });
 });
