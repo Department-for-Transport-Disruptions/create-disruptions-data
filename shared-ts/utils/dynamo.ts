@@ -6,6 +6,7 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
+import { getDate, getDatetimeFromDateAndTime } from "./dates";
 import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
@@ -142,6 +143,24 @@ export const getPublishedDisruptionsDataFromDynamo = async (
         .filter((value, index, array) => array.indexOf(value) === index);
 
     return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];
+};
+
+export const getCurrentAndFutureDisruptions = async (tableName: string, logger: Logger): Promise<Disruption[]> => {
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(tableName, logger);
+
+    const currentDatetime = getDate();
+
+    return disruptions.filter((disruption) => {
+        if (disruption.publishEndDate && disruption.publishEndTime) {
+            const endDatetime = getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime);
+
+            if (currentDatetime.isAfter(endDatetime)) {
+                return false;
+            }
+        }
+
+        return true;
+    });
 };
 
 export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation[] | null> => {

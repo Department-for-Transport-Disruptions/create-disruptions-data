@@ -12,7 +12,7 @@ import { DynamoDBStack } from "../DynamoDBStack";
 
 export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IHostedZone): void => {
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
-    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { organisationsTableV2: organisationsTable, disruptionsTable } = use(DynamoDBStack);
 
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         customDomain: {
@@ -31,17 +31,28 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         defaults: {
             function: {
                 timeout: 20,
-                environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
                 permissions: ["dynamodb:Scan", "dynamodb:Query"],
+                runtime: "nodejs18.x",
             },
         },
         routes: {
             "GET    /organisations": {
                 function: "packages/organisations-api/get-organisations/index.main",
+                environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
                 cdk: { method: { apiKeyRequired: true } },
             },
             "GET    /organisations/{id}": {
                 function: "packages/organisations-api/get-organisation/index.main",
+                environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /disruptions": {
+                function: {
+                    handler: "packages/disruptions-api/get-disruptions/index.main",
+                    environment: {
+                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                    },
+                },
                 cdk: { method: { apiKeyRequired: true } },
             },
         },
