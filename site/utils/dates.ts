@@ -37,8 +37,13 @@ export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORM
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
 
-export const formatAndDefaultDateTime = (addMinutes = 6) => {
+export const formatAndDefaultDateTime = (addMinutes = 10) => {
     return dayjs().add(addMinutes, "minutes").toISOString();
+};
+
+export const defaultDateTime = (addMinutes = 10) => {
+    const datetime = dayjs().tz("Europe/London").add(addMinutes, "minutes");
+    return { time: datetime.format("HHmm").toString(), date: datetime.format(CD_DATE_FORMAT).toString() };
 };
 
 export const getEndingOnDateText = (

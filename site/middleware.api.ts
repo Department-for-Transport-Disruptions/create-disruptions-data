@@ -16,6 +16,7 @@ import { z } from "zod";
 import { Buffer } from "buffer";
 import {
     COOKIES_ID_TOKEN,
+    COOKIES_LOGIN_REDIRECT,
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
@@ -181,6 +182,27 @@ export async function middleware(request: NextRequest) {
             }
 
             const newResponse = NextResponse.redirect(new URL(LOGIN_PAGE_PATH, request.url));
+
+            const { pathname, search } = request.nextUrl;
+
+            if (!request.headers.get("x-middleware-prefetch")) {
+                const refererHeader = request.headers.get("referer");
+                const referer = refererHeader ? new URL(refererHeader) : null;
+
+                const apiRedirect = referer
+                    ? `${referer.pathname}${referer.search}`
+                    : new URL(DASHBOARD_PAGE_PATH, request.url).toString();
+
+                newResponse.cookies.set(
+                    COOKIES_LOGIN_REDIRECT,
+                    pathname.includes("/api/") ? apiRedirect : `${pathname}${search}`,
+                    {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV !== "development",
+                        sameSite: "strict",
+                    },
+                );
+            }
 
             newResponse.cookies.delete(COOKIES_ID_TOKEN);
             newResponse.cookies.delete(COOKIES_REFRESH_TOKEN);
