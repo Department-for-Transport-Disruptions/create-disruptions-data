@@ -163,7 +163,7 @@ const getOrganisationStops = async (orgId: string) => {
         return { stops, services: routesForMaps };
     } catch (e) {
         if (e instanceof Error) {
-            logger.error(e);
+            logger.error(`Error occured while getting stops and services for an organisation: ${orgId} - error: `, e);
 
             throw e;
         }
@@ -180,7 +180,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
         logger.options.meta = {
             id: randomUUID(),
         };
-        logger.info("Starting get organisation stops data...");
+        logger.info("Starting get organisation stops data and routes for services data...");
 
         const { ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
 
@@ -196,7 +196,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
 
         const stopsAndServicesMapData = await getOrganisationStops(orgId);
 
-        logger.info("Successfully retrieved organisations DynamoDB...");
+        logger.info(`Successfully retrieved organisation: ${orgId}'s stops from DynamoDB...`);
 
         return {
             statusCode: 200,
