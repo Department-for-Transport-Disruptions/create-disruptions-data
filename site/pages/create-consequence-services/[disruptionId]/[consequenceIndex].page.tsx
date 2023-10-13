@@ -393,7 +393,14 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    const removeService = async (e: SyntheticEvent, removedServiceId: number) => {
+    
+    const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
+        const selectedServiceIds = services.map((s) => s.id);
+
+        return stop.serviceIds?.some((id) => (id === removedServiceId ? false : selectedServiceIds.includes(id)));
+    };
+
+    const removeService = (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
@@ -419,21 +426,15 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
 
-            const updatedStopOptions = (
-                await Promise.all(
-                    updatedServicesArray.map(async (service) => {
-                        return await fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
-                    }),
-                )
-            ).flat();
-
-            setStopOptions(sortAndFilterStops(updatedStopOptions));
+            setStopOptions(
+                stopOptions.filter((stop) => findStopsNotToRemove(stop, removedServiceId, updatedServicesArray)),
+            );
         }
 
         setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
+
         setSelectedService(null);
     };
-
     const getServiceRows = () => {
         if (pageState.inputs.services) {
             return pageState.inputs.services.map((service) => ({
