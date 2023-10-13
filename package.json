@@ -56,6 +56,6 @@
         "@aws-sdk/client-dynamodb": "^3.388.0",
         "@aws-sdk/lib-dynamodb": "^3.388.0",
         "@aws-sdk/util-dynamodb": "^3.388.0",
-        "zod": "^3.21.4"
+        "zod": "^3.22.3"
     }
 }
