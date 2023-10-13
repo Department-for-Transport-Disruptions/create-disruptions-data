@@ -393,7 +393,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    
     const findStopsNotToRemove = (stop: Stop, removedServiceId: number, services: Service[]) => {
         const selectedServiceIds = services.map((s) => s.id);
 
