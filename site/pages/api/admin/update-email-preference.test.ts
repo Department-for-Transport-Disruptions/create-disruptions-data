@@ -27,7 +27,8 @@ describe("update-email-preference", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 username: mockSession.username,
-                disruptionEmailPreference: "true",
+                attributeName: "custom:disruptionEmailPref",
+                attributeValue: "true",
             },
             mockWriteHeadFn: writeHeadMock,
         });

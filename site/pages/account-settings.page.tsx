@@ -84,7 +84,8 @@ const AccountSettings = ({
                 : { "Content-Type": "application/json" },
             body: JSON.stringify({
                 username: sessionWithOrg.username,
-                disruptionEmailPreference: emailPreference ? "true" : "false",
+                attributeName: "custom:disruptionEmailPref",
+                attributeValue: emailPreference ? "true" : "false",
             }),
         });
         if (!res.ok) {
@@ -169,7 +170,7 @@ const AccountSettings = ({
                             <FormElementWrapper
                                 errors={errors}
                                 errorId={"disruptionApprovalEmailPreferences"}
-                                errorClass="govuk-radios-email---error"
+                                errorClass="govuk-radios--disrption-approval-email-preferences--error"
                             >
                                 <div className="mb-12">
                                     <h2 className="govuk-heading-m">Email Notifications</h2>
@@ -179,8 +180,8 @@ const AccountSettings = ({
                                             <div className="govuk-radios__item">
                                                 <input
                                                     className="govuk-radios__input"
-                                                    id={`email-notification-on`}
-                                                    name={`email-notification-on`}
+                                                    id={`disruption-approval-email-notification-on`}
+                                                    name={`disruption-approval-email-notification-on`}
                                                     type="radio"
                                                     value="true"
                                                     checked={disruptionApprovalEmailPreference}
@@ -189,8 +190,8 @@ const AccountSettings = ({
                                                     }}
                                                 />
                                                 <label
-                                                    key={`email-notification-on`}
-                                                    htmlFor={`email-notification-on`}
+                                                    key={`disruption-approval-email-notification-on`}
+                                                    htmlFor={`disruption-approval-email-notification-on`}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     On
@@ -199,8 +200,8 @@ const AccountSettings = ({
                                             <div className="govuk-radios__item">
                                                 <input
                                                     className="govuk-radios__input"
-                                                    id={`email-notification-off`}
-                                                    name={`email-notification-off`}
+                                                    id={`disruption-approval-email-notification-off`}
+                                                    name={`disruption-approval-email-notification-off`}
                                                     type="radio"
                                                     value="false"
                                                     checked={!disruptionApprovalEmailPreference}
@@ -209,8 +210,8 @@ const AccountSettings = ({
                                                     }}
                                                 />
                                                 <label
-                                                    key={`email-notification-off`}
-                                                    htmlFor={`email-notification-offf`}
+                                                    key={`disruption-approval-email-notification-off`}
+                                                    htmlFor={`disruption-approval-email-notification-off`}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     Off
@@ -223,7 +224,11 @@ const AccountSettings = ({
                         </FormGroupWrapper>
                         <h2 className="govuk-heading-m">From which source shall we acquire your data</h2>
                         <FormGroupWrapper errorIds={["modes"]} errors={errors}>
-                            <FormElementWrapper errors={errors} errorId={"modes"} errorClass="govuk-radios--error">
+                            <FormElementWrapper
+                                errors={errors}
+                                errorId={"modes"}
+                                errorClass="govuk-radios-datasource--error"
+                            >
                                 <Table
                                     rows={Object.keys(mode).map((key) => ({
                                         header:
