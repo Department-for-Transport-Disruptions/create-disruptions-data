@@ -1132,3 +1132,36 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         template: false,
     };
 };
+
+export const mockOrgAdmins = [
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: DEFAULT_ORG_ID },
+            { Name: "given_name", Value: "Test" },
+            { Name: "family_name", Value: "Test" },
+            { Name: "email", Value: "emailtoshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: "CONFIRMED",
+        Username: "username",
+    },
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: "orgId To Be Omitted" },
+            { Name: "given_name", Value: "Laurence" },
+            { Name: "family_name", Value: "Jones" },
+            { Name: "email", Value: "emailthatshouldnotshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: "CONFIRMED",
+        Username: "username",
+    },
+];

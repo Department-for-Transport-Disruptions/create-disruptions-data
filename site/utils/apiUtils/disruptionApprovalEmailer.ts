@@ -1,7 +1,12 @@
-import { SendEmailCommand } from "@aws-sdk/client-ses";
+import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { STAGE } from "../../constants";
+import { getAllUsersInGroup } from "../../data/cognito";
+import { userManagementSchema } from "../../schemas/user-management.schema";
+import { notEmpty } from "../index";
+import logger from "../logger";
 
+const sesClient = new SESClient({ region: "eu-west-2" });
 const approvalEmailBody = (
     disruptionSummary: string,
     disruptionDescription: string,
@@ -86,4 +91,52 @@ export const createDisruptionApprovalEmail = (
         },
         Source: `no-reply@${getDomain(STAGE)}`,
     });
+};
+
+export const sendDisruptionApprovalEmail = async (
+    staffUserOrgId: string,
+    disruptionSummary: string,
+    disruptionDescription: string,
+    staffUsername: string,
+    disruptionId: string,
+) => {
+    try {
+        const orgAdminsForAllOrgs = (await getAllUsersInGroup("org-admins")).map((user) => ({
+            ...user,
+            GroupName: "org-admins",
+        }));
+
+        const parsedOrgAdminsForAllOrgs = userManagementSchema.safeParse(orgAdminsForAllOrgs.filter(notEmpty).flat());
+
+        if (!parsedOrgAdminsForAllOrgs.success) {
+            logger.error(`Failed to parse organisation admin information for sending disruption approval email`);
+            return;
+        }
+
+        const orgAdminEmailsForStaffOrg = parsedOrgAdminsForAllOrgs.data
+            .map((user) => {
+                return user.organisation === staffUserOrgId ? user.email : null;
+            })
+            .filter(notEmpty);
+
+        if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
+            logger.error(`No organisation admins found for Org Id ${staffUserOrgId}`);
+            return;
+        }
+
+        const disruptionApprovalEmail = createDisruptionApprovalEmail(
+            disruptionSummary,
+            disruptionDescription,
+            staffUsername,
+            disruptionId,
+            orgAdminEmailsForStaffOrg,
+        );
+
+        await sesClient.send(disruptionApprovalEmail);
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(`There was a problem sending the disruption approval email.`);
+            return;
+        }
+    }
 };
