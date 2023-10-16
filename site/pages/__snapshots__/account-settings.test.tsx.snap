@@ -191,15 +191,15 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                       >
                         <input
                           className="govuk-radios__input"
-                          id="email-notification-on"
-                          name="email-notification-on"
+                          id="disruption-approval-email-notification-on"
+                          name="disruption-approval-email-notification-on"
                           onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="email-notification-on"
+                          htmlFor="disruption-approval-email-notification-on"
                         >
                           On
                         </label>
@@ -210,15 +210,15 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                         <input
                           checked={true}
                           className="govuk-radios__input"
-                          id="email-notification-off"
-                          name="email-notification-off"
+                          id="disruption-approval-email-notification-off"
+                          name="disruption-approval-email-notification-off"
                           onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="email-notification-offf"
+                          htmlFor="disruption-approval-email-notification-off"
                         >
                           Off
                         </label>
