@@ -7,9 +7,11 @@ import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormEle
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
+import { getUser, getUserDetails } from "../data/cognito";
 import { ErrorInfo } from "../interfaces";
 import { ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
+import { user } from "../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Account settings - Create Transport Disruption Data Service";
@@ -76,12 +78,11 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                   }
                 : { "Content-Type": "application/json" },
             body: JSON.stringify({
-                userName: sessionWithOrg.username,
+                username: sessionWithOrg.username,
                 emailNotificationsPreference: emailPreference ? "true" : "false",
             }),
         });
-        if (res.ok) {
-            console.log("failed!");
+        if (!res.ok) {
             setEmailNotificationPreference(!emailPreference);
             setErrors([
                 {
@@ -292,6 +293,20 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
     if (!sessionWithOrg) {
         throw new Error("No session found");
+    }
+
+    const getDisruptionEmailPreference = async (username: string) => {
+        const userDetails = await getUserDetails(username);
+
+        const validatedBody = user.safeParse({ ...userDetails, group: "org-admin" });
+
+        if (!validatedBody.success) {
+            throw Error("Insufficient values provided to resend an invite");
+        }
+    };
+
+    if (sessionWithOrg.isOrgAdmin) {
+        const disruptionEmailPreference = await getDisruptionEmailPreference(sessionWithOrg.username);
     }
 
     return {

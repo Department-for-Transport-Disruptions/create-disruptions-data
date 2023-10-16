@@ -369,19 +369,19 @@ export const resetUserPassword = async (key: string, newPassword: string, email:
     }
 };
 
-export const updateUserCustomAttribute = async (userName: string, attributeName: string, attributeValue: string) => {
+export const updateUserCustomAttribute = async (username: string, attributeName: string, attributeValue: string) => {
     try {
         logger.info("", {
             context: "data.cognito",
-            message: `Updating attribute: ${attributeName} for user: ${userName}`,
+            message: `Updating attribute: ${attributeName} for user: ${username}`,
         });
         const input = {
-            UserPoolId: "eu-west-2_kGNuzRKhX",
-            Username: "a6421204-10e1-7014-7dfc-639dcbf657f0",
+            UserPoolId: userPoolId,
+            Username: username,
             UserAttributes: [
                 {
                     Name: "custom:disruptionEmailPref",
-                    Value: "hello",
+                    Value: attributeValue,
                 },
             ],
         };
