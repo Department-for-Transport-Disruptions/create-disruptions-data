@@ -6,10 +6,10 @@ import logger from "../../../utils/logger";
 
 export const updateEmailPreferenceSchema = z.object({
     username: z.string(),
-    emailNotificationsPreference: z.string(),
+    disruptionEmailPreference: z.string(),
 });
 
-const updateEmailPreferenceApi = async (req: NextApiRequest, res: NextApiResponse) => {
+const updateEmailPreference = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
 
@@ -25,7 +25,7 @@ const updateEmailPreferenceApi = async (req: NextApiRequest, res: NextApiRespons
             await updateUserCustomAttribute(
                 validatedBody.data.username,
                 "custom:disruptionEmailPref",
-                validatedBody.data.emailNotificationsPreference,
+                validatedBody.data.disruptionEmailPreference,
             );
             res.status(200).json({ success: true });
             return;
@@ -39,4 +39,4 @@ const updateEmailPreferenceApi = async (req: NextApiRequest, res: NextApiRespons
     }
 };
 
-export default updateEmailPreferenceApi;
+export default updateEmailPreference;

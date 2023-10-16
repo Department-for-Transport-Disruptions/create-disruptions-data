@@ -7,12 +7,11 @@ import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormEle
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
-import { getUser, getUserDetails } from "../data/cognito";
 import { ErrorInfo } from "../interfaces";
 import { ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
-import { user } from "../schemas/user-management.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
+import { getDisruptionEmailPreference } from "../utils/user";
 
 const title = "Account settings - Create Transport Disruption Data Service";
 const description = "Account settings page for the Create Transport Disruption Data Service";
@@ -20,12 +19,18 @@ const description = "Account settings page for the Create Transport Disruption D
 interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
     csrfToken?: string;
+    disruptionEmailPreference?: boolean;
 }
 
-const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): ReactElement => {
+const AccountSettings = ({
+    sessionWithOrg,
+    csrfToken,
+    disruptionEmailPreference,
+}: AccountSettingsProps): ReactElement => {
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
-    const [emailNotificationPreference, setEmailNotificationPreference] = useState(false);
+    const [disruptionApprovalEmailPreference, setDisruptionApprovalEmailPreference] =
+        useState(disruptionEmailPreference);
 
     const updateOrg = async (key: string, value: Datasource) => {
         const previousValue = mode[key as keyof ModeType];
@@ -65,8 +70,8 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
         }
     };
 
-    const updateEmailNotificationPreferences = async (emailPreference: boolean) => {
-        setEmailNotificationPreference(emailPreference);
+    const updateDisruptionApprovalEmailPreferences = async (emailPreference: boolean) => {
+        setDisruptionApprovalEmailPreference(emailPreference);
         const url = new URL("/api/admin/update-email-preference", window.location.origin);
         csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
         const res = await fetch(url.toString(), {
@@ -79,14 +84,14 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                 : { "Content-Type": "application/json" },
             body: JSON.stringify({
                 username: sessionWithOrg.username,
-                emailNotificationsPreference: emailPreference ? "true" : "false",
+                disruptionEmailPreference: emailPreference ? "true" : "false",
             }),
         });
         if (!res.ok) {
-            setEmailNotificationPreference(!emailPreference);
+            setDisruptionApprovalEmailPreference(!emailPreference);
             setErrors([
                 {
-                    id: "emailNotificationPreferences",
+                    id: "disruptionApprovalEmailPreferences",
                     errorMessage: "Retry changing email preferences later",
                 },
             ]);
@@ -160,10 +165,10 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                 />
                 {sessionWithOrg.isOrgAdmin ? (
                     <>
-                        <FormGroupWrapper errorIds={["emailNotificationPreferences"]} errors={errors}>
+                        <FormGroupWrapper errorIds={["disruptionApprovalEmailPreferences"]} errors={errors}>
                             <FormElementWrapper
                                 errors={errors}
-                                errorId={"emailNotificationPreferences"}
+                                errorId={"disruptionApprovalEmailPreferences"}
                                 errorClass="govuk-radios-email---error"
                             >
                                 <div className="mb-12">
@@ -178,9 +183,9 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                                                     name={`email-notification-on`}
                                                     type="radio"
                                                     value="true"
-                                                    checked={emailNotificationPreference}
+                                                    checked={disruptionApprovalEmailPreference}
                                                     onChange={async () => {
-                                                        await updateEmailNotificationPreferences(true);
+                                                        await updateDisruptionApprovalEmailPreferences(true);
                                                     }}
                                                 />
                                                 <label
@@ -198,9 +203,9 @@ const AccountSettings = ({ sessionWithOrg, csrfToken }: AccountSettingsProps): R
                                                     name={`email-notification-off`}
                                                     type="radio"
                                                     value="false"
-                                                    checked={!emailNotificationPreference}
+                                                    checked={!disruptionApprovalEmailPreference}
                                                     onChange={async () => {
-                                                        await updateEmailNotificationPreferences(false);
+                                                        await updateDisruptionApprovalEmailPreferences(false);
                                                     }}
                                                 />
                                                 <label
@@ -295,18 +300,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const getDisruptionEmailPreference = async (username: string) => {
-        const userDetails = await getUserDetails(username);
-
-        const validatedBody = user.safeParse({ ...userDetails, group: "org-admin" });
-
-        if (!validatedBody.success) {
-            throw Error("Insufficient values provided to resend an invite");
-        }
-    };
-
     if (sessionWithOrg.isOrgAdmin) {
         const disruptionEmailPreference = await getDisruptionEmailPreference(sessionWithOrg.username);
+        return {
+            props: {
+                sessionWithOrg,
+                disruptionEmailPreference,
+            },
+        };
     }
 
     return {

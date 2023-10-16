@@ -380,7 +380,7 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
             Username: username,
             UserAttributes: [
                 {
-                    Name: "custom:disruptionEmailPref",
+                    Name: attributeName,
                     Value: attributeValue,
                 },
             ],
