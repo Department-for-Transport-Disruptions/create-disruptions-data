@@ -1,11 +1,11 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
-import * as utils from "../../utils";
 import * as session from "../../utils/apiUtils/auth";
 
 describe("getAllDisruptions", () => {
@@ -16,7 +16,7 @@ describe("getAllDisruptions", () => {
     }));
 
     const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
-    const sortDisruptionsByStartDateSpy = vi.spyOn(utils, "sortDisruptionsByStartDate");
+    const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
     beforeEach(() => {

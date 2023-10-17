@@ -115,7 +115,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Access to system admins only");
     }
 
-    const orgList: Organisation[] = (await getOrganisationsInfo(logger)) ?? [];
+    const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
+
+    const orgList: Organisation[] = (await getOrganisationsInfo(organisationsTableName, logger)) ?? [];
 
     return {
         props: {

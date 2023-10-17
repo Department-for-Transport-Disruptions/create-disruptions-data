@@ -25,8 +25,6 @@ type Logger = {
     warn: (message: string) => void;
 };
 
-const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
-
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
 const collectDisruptionsData = (
@@ -163,7 +161,10 @@ export const getCurrentAndFutureDisruptions = async (tableName: string, logger: 
     });
 };
 
-export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation[] | null> => {
+export const getOrganisationsInfo = async (
+    organisationsTableName: string,
+    logger: Logger,
+): Promise<Organisation[] | null> => {
     logger.info(`Getting all organisations from DynamoDB table...`);
     try {
         const dbData = await recursiveScan(
@@ -195,7 +196,10 @@ export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation
     }
 };
 
-export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationWithStats[] | null> => {
+export const getAllOrganisationsInfoAndStats = async (
+    organisationsTableName: string,
+    logger: Logger,
+): Promise<OrganisationWithStats[] | null> => {
     logger.info(`Getting all organisations with stats from DynamoDB table...`);
     try {
         const dbDataInfo = await recursiveScan(
@@ -242,6 +246,7 @@ export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<O
 
 export const getOrganisationInfoAndStats = async (
     orgId: string,
+    organisationsTableName: string,
     logger: Logger,
 ): Promise<OrganisationWithStats | null> => {
     logger.info(`Getting organisation ${orgId} with stats from DynamoDB table...`);

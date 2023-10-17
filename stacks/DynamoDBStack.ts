@@ -1,5 +1,5 @@
 import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
-import { StackContext, Table } from "sst/constructs";
+import { Config, StackContext, Table } from "sst/constructs";
 
 export function DynamoDBStack({ stack }: StackContext) {
     const disruptionsTable = new Table(stack, "cdd-dynamodb-disruptions-table", {
@@ -72,10 +72,20 @@ export function DynamoDBStack({ stack }: StackContext) {
         },
     });
 
+    const disruptionsTableNameParam = new Config.Parameter(stack, "DISRUPTIONS_TABLE_NAME", {
+        value: disruptionsTable.tableName,
+    });
+
+    const orgTableNameParam = new Config.Parameter(stack, "ORGANISATIONS_TABLE_NAME", {
+        value: organisationsTableV2.tableName,
+    });
+
     return {
         disruptionsTable,
         organisationsTable,
         organisationsTableV2,
         templateDisruptionsTable,
+        disruptionsTableNameParam,
+        orgTableNameParam,
     };
 }

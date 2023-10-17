@@ -64,12 +64,14 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-export const getPtSituationElementFromSiteDisruption = (disruption: Disruption, orgName: string) => {
+export const getPtSituationElementFromSiteDisruption = (
+    disruption: Disruption & { organisation: { id: string; name: string } },
+) => {
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
 
-    const participantRef = orgName.replace(/\s+/g, "");
+    const participantRef = disruption.organisation.name.replace(/\s+/g, "");
 
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,

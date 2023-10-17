@@ -4,8 +4,7 @@ import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { NextjsSite, StackContext, use } from "sst/constructs";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { createBucket } from "./services/Buckets";
-import { getDomain, isSandbox } from "./utils";
+import { createBucket, getDomain, isSandbox } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);

@@ -5,6 +5,7 @@ import {
     getPublishedDisruptionsDataFromDynamo,
 } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
+import { Config } from "sst/node/config";
 import { randomUUID } from "crypto";
 import { generateSiriStats, SiriStats } from "./utils/statGenerators";
 
@@ -12,7 +13,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 
 const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
     try {
-        const orgList = await getOrganisationsInfo(logger);
+        const orgList = await getOrganisationsInfo(orgTableName, logger);
         if (!!orgList) {
             const orgPutRequest = orgList.map((org) => {
                 const orgId = org.id;
@@ -82,7 +83,7 @@ export const main = async (): Promise<void> => {
         };
         logger.info("Starting SIRI-SX stats generator...");
 
-        const { DISRUPTIONS_TABLE_NAME: disruptionsTableName, ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
+        const { DISRUPTIONS_TABLE_NAME: disruptionsTableName, ORGANISATIONS_TABLE_NAME: orgTableName } = Config;
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
