@@ -14,7 +14,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -450,7 +450,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -838,7 +838,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1226,7 +1226,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
