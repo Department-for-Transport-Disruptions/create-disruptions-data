@@ -255,7 +255,7 @@ const AccountSettings = ({
         </TwoThirdsLayout>
     );
 
-    function datasourceRadioButtons(name: string, inputValue: string) {
+    const dataSourceRadioButtons = (name: string, inputValue: string) => {
         return (
             <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
                 <div className="govuk-radios__item">
