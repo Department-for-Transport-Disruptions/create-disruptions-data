@@ -693,7 +693,7 @@ exports[`accountSettings > should render correctly for staff or publisher user 1
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
