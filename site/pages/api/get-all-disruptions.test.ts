@@ -1,5 +1,6 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
@@ -140,6 +141,8 @@ describe("getAllDisruptions", () => {
     });
 
     describe("formatSortedDisruptions", () => {
+        MockDate.set("2023-10-18");
+
         it("correctly formats disruptions", () => {
             const formatted = formatSortedDisruption(sortedDisruption);
             expect(formatted).toMatchSnapshot();
@@ -152,7 +155,7 @@ describe("getAllDisruptions", () => {
                     {
                         disruptionStartDate: "25/03/2022",
                         disruptionStartTime: "1123",
-                        disruptionEndDate: "30/03/2021",
+                        disruptionEndDate: "30/03/2022",
                         disruptionEndTime: "1123",
                     },
                     {
@@ -203,9 +206,9 @@ describe("getAllDisruptions", () => {
                         disruptionEndTime: "1123",
                     },
                     {
-                        disruptionStartDate: getDate().subtract(8, "day").format("DD/MM/YYYY"),
+                        disruptionStartDate: "10/10/2023",
                         disruptionStartTime: "1123",
-                        disruptionEndDate: getDate().subtract(7, "day").format("DD/MM/YYYY"),
+                        disruptionEndDate: "11/10/2023",
                         disruptionEndTime: "1123",
                     },
                 ],
