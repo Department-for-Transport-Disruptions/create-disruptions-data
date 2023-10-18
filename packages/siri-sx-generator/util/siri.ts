@@ -36,15 +36,10 @@ export const getValidityPeriod = (period: Validity): Period[] => {
 
         const endingOnDate = getFormattedDate(period.disruptionRepeatsEndDate).add(1, "day");
 
-        while (startDate.isBefore(endingOnDate)) {
+        while (endDate.isBefore(endingOnDate)) {
             siriValidityPeriods.push({
                 StartTime: startDate.toISOString(),
-                EndTime: endDate.isBefore(endingOnDate)
-                    ? endDate.toISOString()
-                    : getDatetimeFromDateAndTime(
-                          period.disruptionRepeatsEndDate,
-                          period.disruptionEndTime ? period.disruptionEndTime : "",
-                      ).toISOString(),
+                EndTime: endDate.toISOString(),
             });
 
             startDate = startDate.add(period.disruptionRepeats === "daily" ? 1 : 7, "day");
