@@ -44,8 +44,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    console.log(pageState.inputs);
-
     const operatorNocCodesList = pageState.operatorData ?? [];
 
     const handleOperatorChange = (value: SingleValue<OperatorData>) => {
