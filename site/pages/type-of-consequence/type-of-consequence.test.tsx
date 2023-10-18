@@ -3,7 +3,6 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
-import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
 
