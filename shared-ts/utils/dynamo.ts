@@ -16,13 +16,7 @@ import {
     organisationSchema,
     OrganisationWithStats,
 } from "../organisationTypes";
-import { notEmpty } from "./index";
-
-type Logger = {
-    info: (message: string) => void;
-    error: (message: string | Error) => void;
-    warn: (message: string) => void;
-};
+import { Logger, notEmpty } from "./index";
 
 const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
@@ -123,17 +117,27 @@ export const recursiveQuery = async (
 export const getPublishedDisruptionsDataFromDynamo = async (
     tableName: string,
     logger: Logger,
+    orgId?: string,
 ): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const disruptions = await recursiveScan(
-        {
-            TableName: tableName,
-            FilterExpression: "publishStatus = :1",
-            ExpressionAttributeValues: {
-                ":1": PublishStatus.published,
-            },
-        },
+        orgId
+            ? {
+                  TableName: tableName,
+                  FilterExpression: "publishStatus = :1 AND PK = :2",
+                  ExpressionAttributeValues: {
+                      ":1": PublishStatus.published,
+                      ":2": orgId,
+                  },
+              }
+            : {
+                  TableName: tableName,
+                  FilterExpression: "publishStatus = :1",
+                  ExpressionAttributeValues: {
+                      ":1": PublishStatus.published,
+                  },
+              },
         logger,
     );
 

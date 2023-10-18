@@ -1,4 +1,4 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { servicesConsequenceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { LoadingBox } from "@govuk-react/loading-box";
@@ -23,7 +23,6 @@ import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
-import { Routes } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
