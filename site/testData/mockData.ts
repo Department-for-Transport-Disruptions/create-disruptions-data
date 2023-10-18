@@ -1147,7 +1147,7 @@ export const mockOrgAdmins = [
         Enabled: true,
         UserCreateDate: new Date(),
         UserLastModifiedDate: new Date(),
-        UserStatus: "CONFIRMED",
+        UserStatus: UserStatusType.CONFIRMED,
         Username: "username",
     },
     {
@@ -1162,7 +1162,7 @@ export const mockOrgAdmins = [
         Enabled: true,
         UserCreateDate: new Date(),
         UserLastModifiedDate: new Date(),
-        UserStatus: "CONFIRMED",
+        UserStatus: UserStatusType.CONFIRMED,
         Username: "username",
     },
 ];
