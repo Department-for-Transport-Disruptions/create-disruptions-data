@@ -38,7 +38,6 @@ const defaultData: RandomTable[] = [
                 className="govuk-link"
                 href={{
                     pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
-                    query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
                 key="key-1"
             >
@@ -55,7 +54,6 @@ const defaultData: RandomTable[] = [
                 className="govuk-link"
                 href={{
                     pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
-                    query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
                 key="key-2"
             >
@@ -72,7 +70,6 @@ const defaultData: RandomTable[] = [
                 className="govuk-link"
                 href={{
                     pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
-                    query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
                 key="key-3"
             >
@@ -89,7 +86,6 @@ const defaultData: RandomTable[] = [
                 className="govuk-link"
                 href={{
                     pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
-                    query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
                 key="key-1"
             >

@@ -63,19 +63,12 @@ describe("pages", () => {
         });
 
         it("should render correctly with query params", () => {
-            useRouter.mockImplementation(() => ({
-                query: { return: REVIEW_DISRUPTION_PAGE_PATH },
-            }));
             const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate text when redirected from template overview", () => {
-            useRouter.mockImplementation(() => ({
-                query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`,
-                },
-            }));
+            
             const { queryAllByText, unmount } = render(<CreateDisruption {...withInputs} />);
 
             const heading = queryAllByText("Create a new disruption from template");

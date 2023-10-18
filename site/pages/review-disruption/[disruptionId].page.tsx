@@ -617,7 +617,6 @@ const ReviewDisruption = ({
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
                                 query: {
-                                    return: REVIEW_DISRUPTION_PAGE_PATH,
                                     ...(disruption.template ? { template: disruption.template?.toString() } : {}),
                                 },
                             }}
@@ -683,7 +682,6 @@ const ReviewDisruption = ({
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                 query: {
-                                    return: REVIEW_DISRUPTION_PAGE_PATH,
                                     ...(disruption.template ? { template: disruption.template?.toString() } : {}),
                                 },
                             }}

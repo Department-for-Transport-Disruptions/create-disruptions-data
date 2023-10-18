@@ -93,7 +93,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1197,7 +1197,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?return=%2Freview-disruption"
+                    href="/type-of-consequence//0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2261,7 +2261,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -3303,7 +3303,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?return=%2Freview-disruption"
+                    href="/type-of-consequence//0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -4266,7 +4266,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

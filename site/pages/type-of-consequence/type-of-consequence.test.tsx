@@ -46,19 +46,11 @@ describe("pages", () => {
         });
 
         it("should render correctly with query params", () => {
-            useRouter.mockImplementation(() => ({
-                query: { return: "/review-disruption" },
-            }));
             const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate buttons", () => {
-            useRouter.mockImplementation(() => ({
-                query: {
-                    return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`,
-                },
-            }));
             const { queryAllByText, unmount } = render(<TypeOfConsequence errors={noErrors} inputs={withInputs} />);
 
             const cancelButton = queryAllByText("Cancel Changes");

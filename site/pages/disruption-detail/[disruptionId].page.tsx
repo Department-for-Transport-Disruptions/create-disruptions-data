@@ -648,7 +648,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
                                 query: {
-                                    return: DISRUPTION_DETAIL_PAGE_PATH,
                                     ...(disruption.template ? { template: disruption.template?.toString() } : {}),
                                 },
                             }}
@@ -715,7 +714,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
                                 query: {
-                                    return: DISRUPTION_DETAIL_PAGE_PATH,
                                     ...(disruption.template ? { template: disruption.template?.toString() } : {}),
                                 },
                             }}

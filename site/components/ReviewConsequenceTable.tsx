@@ -33,8 +33,6 @@ export const createChangeLink = (
     href: string,
     disruptionId: string,
     index?: number,
-    includePreviousPage?: boolean,
-    isDisruptionDetail?: boolean,
     isTemplate?: boolean,
 ) => {
     return (
@@ -43,14 +41,7 @@ export const createChangeLink = (
             className="govuk-link"
             href={{
                 pathname: `${href}/${disruptionId}${index !== undefined ? `/${index}` : ""}`,
-                query: includePreviousPage
-                    ? {
-                          return: isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH,
-                          ...(isTemplate ? { template: isTemplate.toString() } : {}),
-                      }
-                    : isTemplate
-                    ? { template: isTemplate.toString() }
-                    : null,
+                query: isTemplate ? { template: isTemplate.toString() } : null,
             }}
         >
             Change

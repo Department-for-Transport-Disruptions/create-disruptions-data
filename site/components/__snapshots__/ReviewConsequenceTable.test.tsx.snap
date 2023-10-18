@@ -34,7 +34,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/2/0?return=%2Freview-disruption"
+            href="/type-of-consequence/2/0?template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -62,7 +62,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         >
           <a
             className="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+            href="/create-consequence-network/2/0?template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -90,7 +90,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         >
           <a
             className="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+            href="/create-consequence-network/2/0?template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -118,7 +118,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         >
           <a
             className="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+            href="/create-consequence-network/2/0?template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -146,7 +146,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         >
           <a
             className="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+            href="/create-consequence-network/2/0?template=true"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

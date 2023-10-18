@@ -74,7 +74,7 @@ const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
                     className="govuk-link"
                     href={{
                         pathname: `/disruption-detail/${disruption.id}`,
-                        query: { return: DASHBOARD_PAGE_PATH },
+                       
                     }}
                     key={disruption.id}
                 >

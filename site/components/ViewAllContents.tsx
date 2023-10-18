@@ -362,26 +362,17 @@ const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean):
                             ? content.consequenceLength && content.consequenceLength > 0
                                 ? {
                                       pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${content.id}`,
-                                      query: {
-                                          return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-                                      },
                                   }
                                 : {
                                       pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${content.id}/0`,
-                                      query: {
-                                          return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-                                      },
                                   }
                             : {
                                   pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${content.id}`,
                                   query: isTemplate
                                       ? {
-                                            return: VIEW_ALL_TEMPLATES_PAGE_PATH,
                                             template: "true",
                                         }
-                                      : {
-                                            return: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-                                        },
+                                      : {},
                               }
                     }
                     key={content.id}

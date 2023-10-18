@@ -1,4 +1,6 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
+import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
@@ -7,10 +9,6 @@ import { getSession } from "../../utils/apiUtils/auth";
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { consequenceId } = req.query;
-
-        if (!req.query.return) {
-            throw new Error("return path required");
-        }
 
         const { template } = req.query;
         const validatedBody = duplicateConsequenceSchema.safeParse(req.body);
@@ -67,7 +65,11 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             req,
             res,
             template === "true" ? ["template"] : [],
-            `${req.query.return as string}/${validatedBody.data.disruptionId}`,
+            `${
+                disruption.publishStatus === PublishStatus.draft
+                    ? REVIEW_DISRUPTION_PAGE_PATH
+                    : DISRUPTION_DETAIL_PAGE_PATH
+            }/${validatedBody.data.disruptionId}`,
         );
         return;
     } catch (e) {

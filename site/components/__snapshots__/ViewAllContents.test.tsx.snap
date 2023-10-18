@@ -153,7 +153,7 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -200,7 +200,7 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -247,7 +247,7 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -294,7 +294,7 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -640,7 +640,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -687,7 +687,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -734,7 +734,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -931,7 +931,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -978,7 +978,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1025,7 +1025,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1072,7 +1072,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1119,7 +1119,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1166,7 +1166,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1213,7 +1213,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1260,7 +1260,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db?return=%2Fview-all-disruptions"
+            href="/disruption-detail/e234615d-8301-49c2-8143-1fca9dc187db"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1307,7 +1307,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0?return=%2Fview-all-disruptions"
+            href="/type-of-consequence/dfd19560-99c1-4da6-8a73-de1220f37056/0"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1354,7 +1354,7 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24?return=%2Fview-all-disruptions"
+            href="/disruption-detail/c58ba826-ac18-41c5-8476-8172dfa6ea24"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

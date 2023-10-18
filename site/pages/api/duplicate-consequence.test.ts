@@ -80,11 +80,11 @@ describe("duplicate-consequence API", () => {
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
-            query: { consequenceId: defaultConsequenceIndex, return: REVIEW_DISRUPTION_PAGE_PATH },
+            query: { consequenceId: defaultConsequenceIndex },
             mockWriteHeadFn: writeHeadMock,
         });
 
-        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        getDisruptionByIdSpy.mockResolvedValue({ ...disruption, publishStatus: PublishStatus.draft });
         await duplicateConsequence(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
@@ -113,7 +113,7 @@ describe("duplicate-consequence API", () => {
     it("should redirect to /disruption-detail when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
-            query: { consequenceId: defaultConsequenceIndex, return: DISRUPTION_DETAIL_PAGE_PATH },
+            query: { consequenceId: defaultConsequenceIndex },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -146,7 +146,7 @@ describe("duplicate-consequence API", () => {
     it("should redirect to /500 when disruptionId is missing", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {},
-            query: { consequenceId: defaultConsequenceIndex, return: DISRUPTION_DETAIL_PAGE_PATH },
+            query: { consequenceId: defaultConsequenceIndex },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -163,24 +163,6 @@ describe("duplicate-consequence API", () => {
     it("should redirect to /500 when consequenceId is missing", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
-            query: { return: DISRUPTION_DETAIL_PAGE_PATH },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await duplicateConsequence(req, res);
-
-        expect(getDisruptionByIdSpy).not.toHaveBeenCalled();
-        expect(upsertConsequenceSpy).not.toHaveBeenCalled();
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: ERROR_PATH,
-        });
-    });
-
-    it("should redirect to /500 when return is missing", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { disruptionId: defaultDisruptionId },
-            query: { consequenceId: defaultConsequenceIndex },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -197,7 +179,7 @@ describe("duplicate-consequence API", () => {
     it("should redirect to /500 when getDisruptionById does not return a disruption", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
-            query: { consequenceId: defaultConsequenceIndex, return: DISRUPTION_DETAIL_PAGE_PATH },
+            query: { consequenceId: defaultConsequenceIndex },
             mockWriteHeadFn: writeHeadMock,
         });
 

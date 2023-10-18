@@ -81,7 +81,7 @@ exports[`SortableTable > should render correctly 1`] = `
       >
         <a
           className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          href="/disruption-detail/id"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
@@ -113,7 +113,7 @@ exports[`SortableTable > should render correctly 1`] = `
       >
         <a
           className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          href="/disruption-detail/id"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
@@ -145,7 +145,7 @@ exports[`SortableTable > should render correctly 1`] = `
       >
         <a
           className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          href="/disruption-detail/id"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
@@ -177,7 +177,7 @@ exports[`SortableTable > should render correctly 1`] = `
       >
         <a
           className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          href="/disruption-detail/id"
           onClick={[Function]}
           onMouseEnter={[Function]}
           onTouchStart={[Function]}
@@ -304,7 +304,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -336,7 +336,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -368,7 +368,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -400,7 +400,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -432,7 +432,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -464,7 +464,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -496,7 +496,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -528,7 +528,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -560,7 +560,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -592,7 +592,7 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -821,7 +821,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -853,7 +853,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -885,7 +885,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -917,7 +917,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -949,7 +949,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -981,7 +981,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1013,7 +1013,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1045,7 +1045,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1077,7 +1077,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -1109,7 +1109,7 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         >
           <a
             className="govuk-link"
-            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+            href="/disruption-detail/id"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

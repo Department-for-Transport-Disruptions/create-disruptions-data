@@ -129,7 +129,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?return=%2Freview-disruption"
+                    href="/type-of-consequence//0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -939,7 +939,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1727,7 +1727,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?return=%2Freview-disruption"
+                    href="/type-of-consequence//0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2462,7 +2462,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
