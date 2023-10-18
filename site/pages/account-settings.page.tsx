@@ -70,6 +70,45 @@ const AccountSettings = ({
         }
     };
 
+    const dataSourceRadioButtons = (name: string, inputValue: string) => {
+        return (
+            <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                <div className="govuk-radios__item">
+                    <input
+                        className="govuk-radios__input"
+                        id={`${name}-tnds`}
+                        name={`${name}-group`}
+                        type="radio"
+                        value="tnds"
+                        checked={inputValue === "tnds"}
+                        onChange={async () => {
+                            await updateOrg(name, Datasource.tnds);
+                        }}
+                    />
+                    <label key={`${name}-tnds`} htmlFor={`${name}-tnds`} className="govuk-label govuk-radios__label">
+                        TNDS
+                    </label>
+                </div>
+                <div className="govuk-radios__item">
+                    <input
+                        className="govuk-radios__input"
+                        id={`${name}-bods`}
+                        name={`${name}-group`}
+                        type="radio"
+                        value="bods"
+                        checked={inputValue === "bods"}
+                        onChange={async () => {
+                            await updateOrg(name, Datasource.bods);
+                        }}
+                    />
+                    <label key={`${name}-bods`} htmlFor={`${name}-bods`} className="govuk-label govuk-radios__label">
+                        BODS
+                    </label>
+                </div>
+            </div>
+        );
+    };
+
     const updateDisruptionApprovalEmailPreferences = async (emailPreference: boolean) => {
         setDisruptionApprovalEmailPreference(emailPreference);
         const url = new URL("/api/admin/update-email-preference", window.location.origin);
@@ -254,45 +293,6 @@ const AccountSettings = ({
             </div>
         </TwoThirdsLayout>
     );
-
-    const dataSourceRadioButtons = (name: string, inputValue: string) => {
-        return (
-            <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-                <div className="govuk-radios__item">
-                    <input
-                        className="govuk-radios__input"
-                        id={`${name}-tnds`}
-                        name={`${name}-group`}
-                        type="radio"
-                        value="tnds"
-                        checked={inputValue === "tnds"}
-                        onChange={async () => {
-                            await updateOrg(name, Datasource.tnds);
-                        }}
-                    />
-                    <label key={`${name}-tnds`} htmlFor={`${name}-tnds`} className="govuk-label govuk-radios__label">
-                        TNDS
-                    </label>
-                </div>
-                <div className="govuk-radios__item">
-                    <input
-                        className="govuk-radios__input"
-                        id={`${name}-bods`}
-                        name={`${name}-group`}
-                        type="radio"
-                        value="bods"
-                        checked={inputValue === "bods"}
-                        onChange={async () => {
-                            await updateOrg(name, Datasource.bods);
-                        }}
-                    />
-                    <label key={`${name}-bods`} htmlFor={`${name}-bods`} className="govuk-label govuk-radios__label">
-                        BODS
-                    </label>
-                </div>
-            </div>
-        );
-    }
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AccountSettingsProps }> => {
