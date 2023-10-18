@@ -28,6 +28,7 @@ describe("getAllDisruptions", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
+        MockDate.reset();
     });
 
     const disruptions: FullDisruption[] = [
