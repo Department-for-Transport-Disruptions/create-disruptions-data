@@ -201,17 +201,31 @@ export const getHootsuiteDetails = async (
 export const getHootsuiteAccountList = async (orgId: string): Promise<SocialMediaAccount[]> => {
     const socialAccounts = await getOrgSocialAccounts(orgId);
 
-    const hootsuiteDetail = await Promise.all(
-        socialAccounts.map(async (account) => {
-            if (account.accountType !== "Hootsuite") {
-                return null;
-            }
+    const hootsuiteAccounts = socialAccounts.filter((account) => account.accountType === "Hootsuite");
 
-            return getHootsuiteDetails(orgId, account.id, account.addedBy);
-        }),
+    const hootsuiteDetail = await Promise.all(
+        hootsuiteAccounts.map(async (account) => getHootsuiteDetails(orgId, account.id, account.addedBy)),
     );
 
-    return hootsuiteDetail.filter(notEmpty);
+    return hootsuiteAccounts
+        .map((account) => {
+            const detail = hootsuiteDetail.find((acc) => acc?.id === account.id);
+
+            if (detail) {
+                return detail;
+            }
+
+            const defaultAccount: SocialMediaAccount = {
+                accountType: "Hootsuite",
+                addedBy: account.addedBy,
+                display: account.display,
+                expiresIn: "N/A",
+                id: account.id,
+            };
+
+            return defaultAccount;
+        })
+        .filter(notEmpty);
 };
 
 export const getHootsuiteAuthUrl = async (ctx: NextPageContext) => {
@@ -309,9 +323,12 @@ export const publishToHootsuite = async (
     orgId: string,
     isUserStaff: boolean,
     canPublish: boolean,
+    accessToken: string,
 ) => {
     try {
-        const accessToken = await getAccessToken(orgId, socialMediaPost.socialAccount);
+        if (!accessToken) {
+            throw new Error("Not authenticated to Hootsuite");
+        }
         let image: HootsuiteMedia | null = null;
 
         if (socialMediaPost.image) {

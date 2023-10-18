@@ -1,6 +1,7 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
+import { TwitterApi } from "twitter-api-v2";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
 import { notEmpty } from "..";
@@ -13,8 +14,8 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
-import { publishToHootsuite } from "../../data/hootsuite";
-import { sendTweet } from "../../data/twitter";
+import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
+import { getAuthedTwitterClient, sendTweet } from "../../data/twitter";
 import { PageState } from "../../interfaces";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import logger from "../logger";
@@ -131,13 +132,37 @@ export const publishSocialMedia = async (
     isUserStaff: boolean,
     canPublish: boolean,
 ) => {
+    const authedTwitterClients: Record<string, TwitterApi> = {};
+    const hootsuiteAccessTokens: Record<string, string> = {};
+
+    const uniqueTwitterSocialAccounts = new Set(
+        socialMediaPosts.filter((post) => post.accountType === "Twitter").map((post) => post.socialAccount),
+    );
+
+    const uniqueHootsuiteSocialAccounts = new Set(
+        socialMediaPosts.filter((post) => post.accountType === "Hootsuite").map((post) => post.socialAccount),
+    );
+
+    for (const socialAccount of uniqueHootsuiteSocialAccounts) {
+        const accessToken = await getAccessToken(orgId, socialAccount);
+        hootsuiteAccessTokens[socialAccount] = accessToken;
+    }
+
+    for (const socialAccount of uniqueTwitterSocialAccounts) {
+        const authedClient = await getAuthedTwitterClient(orgId, socialAccount);
+
+        if (authedClient) {
+            authedTwitterClients[socialAccount] = authedClient;
+        }
+    }
+
     const socialMediaPromises = socialMediaPosts.map((post) => {
         if (post.status === SocialMediaPostStatus.pending) {
             if (post.accountType === "Twitter") {
-                return sendTweet(orgId, post, isUserStaff, canPublish);
+                return sendTweet(orgId, post, isUserStaff, canPublish, authedTwitterClients[post.socialAccount]);
             }
 
-            return publishToHootsuite(post, orgId, isUserStaff, canPublish);
+            return publishToHootsuite(post, orgId, isUserStaff, canPublish, hootsuiteAccessTokens[post.socialAccount]);
         }
 
         return null;

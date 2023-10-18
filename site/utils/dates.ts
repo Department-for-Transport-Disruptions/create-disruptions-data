@@ -37,8 +37,13 @@ export const getFutureDateAsString = (addDays: number, dateFormat = CD_DATE_FORM
     return dayjs().add(addDays, "day").format(dateFormat).toString();
 };
 
-export const formatAndDefaultDateTime = (addMinutes = 6) => {
+export const formatAndDefaultDateTime = (addMinutes = 10) => {
     return dayjs().add(addMinutes, "minutes").toISOString();
+};
+
+export const defaultDateTime = (addMinutes = 10) => {
+    const datetime = dayjs().tz("Europe/London").add(addMinutes, "minutes");
+    return { time: datetime.format("HHmm").toString(), date: datetime.format(CD_DATE_FORMAT).toString() };
 };
 
 export const getEndingOnDateText = (
@@ -98,26 +103,21 @@ export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate:
 
 export const getDaysInPast = (date: Dayjs | string) => getDate().diff(date, "days");
 
-export const isLiveDisruption = (validityPeriods: Validity[]) => {
+export const isLiveDisruption = (validityPeriods: Validity[], endDatetime: Dayjs | null) => {
     const today = getDate();
 
-    return validityPeriods.some((period) => {
-        const startTime = getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime);
+    const startTime = getDatetimeFromDateAndTime(
+        validityPeriods[0].disruptionStartDate,
+        validityPeriods[0].disruptionStartTime,
+    );
 
-        return (
-            startTime.isSameOrBefore(today) &&
-            (!period.disruptionEndDate ||
-                (!!period.disruptionEndDate &&
-                    !!period.disruptionEndTime &&
-                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isSameOrAfter(
-                        today,
-                    )))
-        );
-    });
+    return startTime.isSameOrBefore(today) && ((endDatetime && endDatetime.isSameOrAfter(today)) || !endDatetime);
 };
 
 export const isUpcomingDisruption = (validityPeriods: Validity[], today: Dayjs) => {
-    return validityPeriods.every((period) =>
-        getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).isAfter(today),
+    const startTime = getDatetimeFromDateAndTime(
+        validityPeriods[0].disruptionStartDate,
+        validityPeriods[0].disruptionStartTime,
     );
+    return startTime.isAfter(today);
 };

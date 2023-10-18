@@ -109,7 +109,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -126,7 +125,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -143,7 +141,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -160,7 +157,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -177,7 +173,6 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Nexus"
-                        stage="dev"
                     />,
                 )
                 .toJSON();
@@ -207,7 +202,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    stage: "dev",
                 });
             });
 
@@ -237,7 +231,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    stage: "dev",
                 });
             });
 
@@ -270,7 +263,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    stage: "dev",
                 });
             });
 
@@ -311,7 +303,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    stage: "dev",
                 });
             });
 
@@ -376,7 +367,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Nexus",
-                    stage: "dev",
                 });
             });
         });

@@ -1,6 +1,6 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
@@ -26,7 +26,7 @@ import {
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { isNetworkConsequence, redirectTo } from "../../../utils";
+import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
@@ -220,7 +220,9 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: object } | { redirect: Redirect } | void> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_NETWORK_ERRORS];
 
@@ -241,10 +243,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     );
 
     if (!disruption) {
-        if (ctx.res) {
-            redirectTo(ctx.res, `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`);
-        }
-        return;
+        return {
+            redirect: {
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                statusCode: 302,
+            },
+        };
     }
 
     const index = ctx.query.consequenceIndex ? Number(ctx.query.consequenceIndex) : 0;
