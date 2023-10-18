@@ -44,6 +44,8 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
+    console.log(pageState.inputs);
+
     const operatorNocCodesList = pageState.operatorData ?? [];
 
     const handleOperatorChange = (value: SingleValue<OperatorData>) => {
@@ -176,7 +178,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         <div className={"ml-[8%]"}>
                             <SearchSelect<OperatorData>
                                 selected={selectedOperator}
-                                inputName="nocCode"
+                                inputName="operatorNocInfo"
                                 initialErrors={pageState.errors}
                                 placeholder="Select operator NOC codes"
                                 getOptionLabel={(operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}

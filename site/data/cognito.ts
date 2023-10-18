@@ -285,35 +285,44 @@ export const createUser = async (userData: AddUserSchema) => {
         message: "Adding a new user",
     });
 
-    const nocCodes = userData.operatorNocInfo?.map((operatorInfo) => operatorInfo.nocCode);
+    const nocCodes = userData.operatorNocInfo?.map((operator) => operator.nocCode) ?? [];
+
+    const userAttributes = [
+        {
+            Name: "custom:orgId",
+            Value: userData.orgId,
+        },
+        {
+            Name: "given_name",
+            Value: userData.givenName,
+        },
+        {
+            Name: "family_name",
+            Value: userData.familyName,
+        },
+        {
+            Name: "email_verified",
+            Value: "true",
+        },
+        {
+            Name: "email",
+            Value: userData.email,
+        },
+    ];
+
+    const operatorUserAttributes = userAttributes.concat([
+        {
+            Name: "custom:nocCodes",
+            Value: nocCodes.toString(),
+        },
+    ]);
 
     const createUserResult = await cognito.send(
         new AdminCreateUserCommand({
             Username: userData.email,
             UserPoolId: userPoolId,
             TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
-            UserAttributes: [
-                {
-                    Name: "custom:orgId",
-                    Value: userData.orgId,
-                },
-                {
-                    Name: "given_name",
-                    Value: userData.givenName,
-                },
-                {
-                    Name: "family_name",
-                    Value: userData.familyName,
-                },
-                {
-                    Name: "email_verified",
-                    Value: "true",
-                },
-                {
-                    Name: "email",
-                    Value: userData.email,
-                },
-            ],
+            UserAttributes: userData.group === "operators" ? operatorUserAttributes : userAttributes,
         }),
     );
 

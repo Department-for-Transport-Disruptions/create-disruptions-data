@@ -2,7 +2,7 @@ import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provid
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchemaRefined } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined, OperatorData } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
@@ -12,6 +12,24 @@ import {
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
+export const formatAddUserBody = (body: object) => {
+    const operatorNocInfo = Object.entries(body)
+        .filter((item) => item.toString().startsWith("operatorNocInfo"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as OperatorData;
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("operatorNocInfo")),
+    );
+
+    return {
+        ...cleansedBody,
+        operatorNocInfo,
+    };
+};
+
 const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
@@ -20,7 +38,9 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchemaRefined.safeParse({ ...req.body, orgId: session.orgId });
+        const cleansedBody = formatAddUserBody(req.body as object);
+
+        const validatedBody = addUserSchemaRefined.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,

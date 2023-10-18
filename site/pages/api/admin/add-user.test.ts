@@ -28,7 +28,7 @@ describe("addUser", () => {
         vi.resetAllMocks();
     });
 
-    const defaultInput: AddUserSchema = {
+    const defaultInput: Omit<AddUserSchema, "operatorNocInfo"> = {
         givenName: "dummy",
         familyName: "user",
         email: "dummy.user@gmail.com",
@@ -90,7 +90,23 @@ describe("addUser", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
     });
 
-    it("should redirect to /add-user page with appropriate errors when emmail id that is already registered is passed", async () => {
+    it("should redirect to /user-management page when valid operator user inputs are passed", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...defaultInput,
+                operatorNocInfo: '{"id":203,"nocCode":"GEMS","operatorPublicName":"Gemsar Travel Limited"}',
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await addUser(req, res);
+
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
+    });
+
+    it("should redirect to /add-user page with appropriate errors when email id that is already registered is passed", async () => {
         createUserSpy.mockImplementation(() => {
             throw new UsernameExistsException({ message: "Username already exists", $metadata: {} });
         });
