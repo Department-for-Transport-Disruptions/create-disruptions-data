@@ -1,6 +1,6 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
 import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
@@ -28,6 +28,9 @@ describe("getAllDisruptions", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
+    });
+
+    afterAll(() => {
         MockDate.reset();
     });
 
