@@ -1,5 +1,4 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { randomUUID } from "crypto";
