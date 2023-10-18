@@ -2,7 +2,7 @@ import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provid
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchema } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
@@ -20,7 +20,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchema.safeParse({ ...req.body, orgId: session.orgId });
+        const validatedBody = addUserSchemaRefined.safeParse({ ...req.body, orgId: session.orgId });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
